@@ -1,0 +1,33 @@
+{
+  "name": "cutthecord",
+  "version": "1.0.0",
+  "description": "A way from the bondage cable",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.4.1",
+    "bower": "^1.4.1",
+    "gulp": "^3.9.0"
+  },
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-sass": "^2.0.3",
+    "jasmine-core": "^2.3.4",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nemesisesq/cutthecord.git"
+  },
+  "author": "Carl Lewis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nemesisesq/cutthecord/issues"
+  },
+  "homepage": "https://github.com/Nemesisesq/cutthecord"
+}

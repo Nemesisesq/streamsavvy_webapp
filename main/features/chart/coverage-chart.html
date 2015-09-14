@@ -1,0 +1,19 @@
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <th></th>
+        <th ng-repeat="provider in providers">{{ provider}}</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="show in shows">
+          <th> {{ show.title }} <button class="btn btn-danger" ng-click="removeShow(show)">remove</button></th>
+          <td ng-repeat="hasProvider in show.providerCellValues track by $index" ng-class="{green: hasProvider}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="tree" ng-show="shows.length">
+
+</div>

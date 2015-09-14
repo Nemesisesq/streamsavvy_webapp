@@ -1,0 +1,70 @@
+<!-- {% load staticfiles %} -->
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- specific meta tags from Bootstrap -->
+    <!-- these tags must come first in the head -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- SCROLLS -->
+    <!-- load bootstrap  -->
+    <link href="{% static 'bootstrap/dist/css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/main.css' %}" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700' rel="stylesheet" type='text/css'>
+
+    <!-- SPELLS -->
+    <!-- load angular and angular route via CDN -->
+    <script src="{% static 'jquery/dist/jquery.js' %}"></script>
+    <script src="{% static 'angular/angular.js' %}"></script>
+    <script src="{% static 'angular-mocks/angular-mocks.js' %}"></script>
+    <script src="{% static 'angular-resource/angular-resource.js' %}"></script>
+    <script src="{% static 'angular-ui-router/release/angular-ui-router.js' %}"></script>
+    <script src="{% static 'angular-cookies/angular-cookies.js' %}"></script>
+    <script src="{% static 'dist/all.js' %}"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
+    <script src="{% static 'lodash/lodash.js' %}"></script>
+    <script src="{% static 'prefixfree/prefixfree.min.js' %}"></script>
+
+
+    <title>Cut the Cord</title>
+
+</head>
+
+<base href="/">
+
+<body ng-app='myApp' class="container">
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '123769897967344',
+      xfbml      : true,
+      version    : 'v2.4'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- MAIN CONTENT AND INJECTED VIEWS -->
+<div ui-view></div>
+
+<a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
+{#{% url "socialauth_disconnect" %}#}
+<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
+</body>
+</html>

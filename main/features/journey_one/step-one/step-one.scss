@@ -1,0 +1,47 @@
+body {
+  margin-left: auto;
+  margin-right: auto;
+}
+input[type="text"]
+{
+    font-size:130%;
+}
+.show-input {
+  padding-top: 3%;
+  padding-bottom: 5%;
+}
+.form-control {
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  box-sizing: border-box;
+  border-radius: 0px;
+  height: 5em;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ul {
+  padding-left: 0px;
+}
+
+ul.btn-list-grid li {
+    display:inline ;
+    padding-right: 1.5%;
+}
+
+.btn-group {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-bottom: 2%;
+}
+
+@media(max-width: 540px){
+
+  .btn-group {
+    margin-left: 1%;
+    margin-right: 2%;
+  }
+}

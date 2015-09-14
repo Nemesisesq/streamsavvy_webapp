@@ -1,0 +1,30 @@
+<section>
+    <div class="container-fluid pill-container">
+        <div class="row">
+            <div class="col-sm-3 step-container">
+                <div id="step-one" class="center" ng-class="isActive(1)">
+                    <span ng-if="step.one.show" >{{ step.one.text }}</span>
+                    <span ng-if="stateStep > 1 ">1</span>
+                </div>
+            </div>
+            <div class="col-sm-3 step-container">
+                <div id="step-two" class="center" ng-class="isActive(2)">
+                    <span ng-if="step.two.show">{{ step.two.text }}</span>
+                    <span ng-if="stateStep > 2">2</span>
+                </div>
+            </div>
+            <div class="col-sm-3 step-container">
+                <div id="step-three" class="center" ng-class="isActive(3)">
+                    <span ng-if="step.three.show">{{ step.three.text }}</span>
+                    <span ng-if="stateStep > 3">3</span>
+                </div>
+            </div>
+            <div class="col-sm-3 step-container">
+                <div id="step-four" class="center" ng-class="isActive(4)">
+                    <span ng-if="step.four.show">{{ step.four.text }}</span>
+                    <span ng-if="stateStep > 4">4</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
