@@ -15,7 +15,7 @@ define([
 
 	// Support: IE<=11+
 	// Must access selectedIndex to make default options select
-	support.optSelected = opt.selectedShows;
+	support.optSelected = opt.selected;
 
 	// Support: Android<=2.3
 	// Options inside disabled selects are incorrectly marked as disabled

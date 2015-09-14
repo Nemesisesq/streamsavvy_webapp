@@ -160,7 +160,12 @@ DATABASES = {}
 
 import dj_database_url
 
-DATABASES['default'] = dj_database_url.config(default=DBurl(BASE_DIR).url['postgres_url'])
+if os.environ.get('HEROKU', None):
+    pass
+else:
+    DATABASE_URL = DBurl(BASE_DIR).url
+
+DATABASES['default'] = dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

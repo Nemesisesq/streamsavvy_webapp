@@ -1893,17 +1893,17 @@ Expr = Sizzle.selectors = {
 			// In CSS3, :checked should return both checked and selected elements
 			// http://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
 			var nodeName = elem.nodeName.toLowerCase();
-			return (nodeName === "input" && !!elem.checked) || (nodeName === "option" && !!elem.selectedShows);
+			return (nodeName === "input" && !!elem.checked) || (nodeName === "option" && !!elem.selected);
 		},
 
-		"selectedShows": function( elem ) {
+		"selected": function( elem ) {
 			// Accessing this property makes selected-by-default
 			// options in Safari work properly
 			if ( elem.parentNode ) {
 				elem.parentNode.selectedIndex;
 			}
 
-			return elem.selectedShows === true;
+			return elem.selected === true;
 		},
 
 		// Contents
@@ -6924,7 +6924,7 @@ jQuery.fn.delay = function( time, type ) {
 
 	// Support: IE<=11+
 	// Must access selectedIndex to make default options select
-	support.optSelected = opt.selectedShows;
+	support.optSelected = opt.selected;
 
 	// Support: Android<=2.3
 	// Options inside disabled selects are incorrectly marked as disabled
@@ -7135,7 +7135,7 @@ jQuery.extend({
 });
 
 if ( !support.optSelected ) {
-	jQuery.propHooks.selectedShows = {
+	jQuery.propHooks.selected = {
 		get: function( elem ) {
 			var parent = elem.parentNode;
 			if ( parent && parent.parentNode ) {
@@ -7410,7 +7410,7 @@ jQuery.extend({
 					option = options[ i ];
 
 					// IE6-9 doesn't update selected after form reset (#2551)
-					if ( ( option.selectedShows || i === index ) &&
+					if ( ( option.selected || i === index ) &&
 							// Don't return options that are disabled or in a disabled optgroup
 							( support.optDisabled ? !option.disabled : option.getAttribute( "disabled" ) === null ) &&
 							( !option.parentNode.disabled || !jQuery.nodeName( option.parentNode, "optgroup" ) ) ) {
@@ -7439,7 +7439,7 @@ jQuery.extend({
 
 				while ( i-- ) {
 					option = options[ i ];
-					if ( (option.selectedShows = jQuery.inArray( option.value, values ) >= 0) ) {
+					if ( (option.selected = jQuery.inArray( option.value, values ) >= 0) ) {
 						optionSet = true;
 					}
 				}

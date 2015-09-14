@@ -51,9 +51,9 @@ class DBurl(object):
         try:
 
             with open(os.path.join(BASE_DIR, 'db.yaml')) as file:
-                self.url = yaml.load(file)
+                self.url = yaml.load(file)['postgres_url']
 
-            result = urlparse(self.url['postgres_url'])
+            result = urlparse(self.url)
             u = result.username
             p = result.password
             d = result.path[1:]
@@ -67,4 +67,5 @@ class DBurl(object):
 
             return self.url
         except:
+            self.url = 'sqlite:///db.sqlite3'
             return 'sqlite:///db.sqlite3'
