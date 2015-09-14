@@ -1,0 +1,102 @@
+- fields: {channel_type: online, name: Hulu, payment_type: subscription, retail_cost: 7.99}
+  model: server.contentprovider
+  pk: 2
+- fields: {channel_type: television, name: Showtime, payment_type: subscription, retail_cost: 10.99}
+  model: server.contentprovider
+  pk: 10
+- fields: {channel_type: online, name: Acorn TV, payment_type: subscription, retail_cost: 4.99}
+  model: server.contentprovider
+  pk: 28
+- fields: {channel_type: online, name: Amazon, payment_type: purchase, retail_cost: 0.0}
+  model: server.contentprovider
+  pk: 106
+- fields: {channel_type: online, name: National Geographic Kids, payment_type: subscription,
+    retail_cost: 4.99}
+  model: server.contentprovider
+  pk: 210
+- fields: {channel_type: online, name: YouTube, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 925
+- fields: {channel_type: null, name: iTunes, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1638
+- fields: {channel_type: null, name: VUDU, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1639
+- fields: {channel_type: null, name: Xfinity, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1641
+- fields: {channel_type: null, name: Google Play, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1643
+- fields: {channel_type: null, name: Amazon Prime, payment_type: subscription, retail_cost: 8.25}
+  model: server.contentprovider
+  pk: 1647
+- fields: {channel_type: null, name: HBO NOW, payment_type: subscription, retail_cost: 15.0}
+  model: server.contentprovider
+  pk: 1650
+- fields: {channel_type: null, name: CBS All Access, payment_type: subscription, retail_cost: 5.99}
+  model: server.contentprovider
+  pk: 1653
+- fields: {channel_type: null, name: IndieFlix, payment_type: subscription, retail_cost: 5.0}
+  model: server.contentprovider
+  pk: 1695
+- fields: {channel_type: null, name: Sesame Street Go, payment_type: subscription,
+    retail_cost: 3.99}
+  model: server.contentprovider
+  pk: 1699
+- fields: {channel_type: null, name: Fandor, payment_type: subscription, retail_cost: null}
+  model: server.contentprovider
+  pk: 1710
+- fields: {channel_type: null, name: Feeln, payment_type: subscription, retail_cost: null}
+  model: server.contentprovider
+  pk: 1711
+- fields: {channel_type: null, name: FlixFling, payment_type: subscription, retail_cost: null}
+  model: server.contentprovider
+  pk: 1712
+- fields: {channel_type: null, name: MUBI, payment_type: subscription, retail_cost: null}
+  model: server.contentprovider
+  pk: 1713
+- fields: {channel_type: null, name: Shudder, payment_type: subscription, retail_cost: null}
+  model: server.contentprovider
+  pk: 1714
+- fields: {channel_type: null, name: SundanceNow Doc Club, payment_type: subscription,
+    retail_cost: null}
+  model: server.contentprovider
+  pk: 1715
+- fields: {channel_type: null, name: Warner Archive Instant, payment_type: subscription,
+    retail_cost: null}
+  model: server.contentprovider
+  pk: 1716
+- fields: {channel_type: null, name: CinemaNow, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1722
+- fields: {channel_type: null, name: Disney Movies Anywhere, payment_type: purchase,
+    retail_cost: null}
+  model: server.contentprovider
+  pk: 1723
+- fields: {channel_type: null, name: Distrify, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1724
+- fields: {channel_type: null, name: Flixster, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1725
+- fields: {channel_type: null, name: M-GO, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1726
+- fields: {channel_type: null, name: Paramount Movies, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1727
+- fields: {channel_type: null, name: Sony Entertainment Network, payment_type: purchase,
+    retail_cost: null}
+  model: server.contentprovider
+  pk: 1728
+- fields: {channel_type: null, name: SundanceNow, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1729
+- fields: {channel_type: null, name: Wolfe On Demand, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1730
+- fields: {channel_type: null, name: Xbox, payment_type: purchase, retail_cost: null}
+  model: server.contentprovider
+  pk: 1731

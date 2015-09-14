@@ -13,7 +13,7 @@ venv
 
 *.ipynb
 
-*.yaml
+.yaml
 #settings_vars.yaml
 db-2.json
 sheltered-beyond-9114
