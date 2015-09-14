@@ -9,22 +9,22 @@ var paths = {
     partials: './static/partials',
     images_dest: './static/img',
 
-    index: ['./main/index.html'],
+    index: ['./angular_app_frontend/index.html'],
     features_html: [
-        './main/features/footer/*.html',
-        './main/features/home/*.html',
-        './main/features/journey_one/**/*.html',
-        './main/features/nav/*.html',
-        './main/features/progress/*.html',
-        './main/features/search/*.html'
+        './angular_app_frontend/features/footer/*.html',
+        './angular_app_frontend/features/home/*.html',
+        './angular_app_frontend/features/journey_one/**/*.html',
+        './angular_app_frontend/features/nav/*.html',
+        './angular_app_frontend/features/progress/*.html',
+        './angular_app_frontend/features/search/*.html'
     ],
-    images: ['./main/img']
+    images: ['./angular_app_frontend/img']
 
 };
 gulp.task('bower', function () {
-    return gulp.src('./bower_components/**/*.js')
+    return gulp.src(['./bower_components/**/*.js', './bower_components/**/*.css'])
         .pipe(gulp.dest(paths.dist))
-})
+});
 
 gulp.task('index', function () {
     return gulp.src(paths.index)
@@ -37,14 +37,14 @@ gulp.task('partials', function () {
 });
 
 gulp.task('scripts', function () {
-    return gulp.src(['./main/**/*.js'])
+    return gulp.src(['./angular_app_frontend/**/*.js'])
         .pipe(concat('all.js'))
         .pipe(gulp.dest(paths.dist));
 });
 
 
 gulp.task('sass', function () {
-    return gulp.src('./main/**/main.scss')
+    return gulp.src('./angular_app_frontend/**/angular_app_frontend.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest(paths.dist));
 });
@@ -55,11 +55,11 @@ gulp.task('images', function () {
 });
 
 gulp.task('sass:watch', function () {
-    gulp.watch('./main/**/*.scss', ['sass']);
+    gulp.watch('./angular_app_frontend/**/*.scss', ['sass']);
 });
 
 gulp.task('script:watch', function () {
-    gulp.watch('./main/**/*.js', ['scripts']);
+    gulp.watch('./angular_app_frontend/**/*.js', ['scripts']);
 });
 gulp.task('html:watch', function () {
     gulp.watch(paths.features_html, ['partials']);
