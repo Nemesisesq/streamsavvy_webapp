@@ -281,7 +281,7 @@ app.factory('_', function($window){
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
-    $scope.shows = [];
+    $scope.rows = [];
     $scope.providerList = [
         {name: 'netflix'},
         {name: 'hulu'},
@@ -352,7 +352,7 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
         },
         loadContentRowObjects = function () {
 
-            $scope.shows = _.map($scope.package.content, function (content) {
+            $scope.rows = _.map($scope.package.content, function (content) {
                 var obj = {};
                 debugger;
                 obj.title = content.title;
@@ -389,14 +389,19 @@ app.controller('home', function ($scope, $http, http, PackageService, $rootScope
 
 });
 
-app.controller('JourneyOneController', function ($scope, $rootScope, http, _, $location, PackageService) {
+app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
-    $scope.contentList = {};
+    $scope.packageList = {};
+
+
+    $scope.providers = [];
+    $scope.rows = [];
 
     $rootScope.loadPackage = function () {
         http.getPackage()
             .then(function (data) {
-                $scope.contentList = data.content;
+                $scope.packageList = data.content;
+                return data
             });
     };
 
@@ -416,6 +421,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _, $l
                     .then(function () {
                         debugger;
                         $rootScope.loadPackage();
+                        $scope.apply()
                     })
             })
     };
@@ -424,38 +430,73 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _, $l
 
     $rootScope.loadPackage();
 
+    //$scope.removeShow = function (show) {
+    //    http.getRestPackage()
+    //        .then(function (package) {
+    //            _.remove(package.content, function (elem) {
+    //                debugger;
+    //                var elemArray = elem.split('/');
+    //                var elemId = elemArray[elemArray.length - 2];
+    //                return elemId == show.id;
+    //            });
+    //
+    //            debugger;
+    //            http.putPackage(package)
+    //                .then(function (result) {
+    //                    $rootScope.load()
+    //                    $scope.$apply()
+    //                })
+    //        })
+    //}
 
-});
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
-    $scope.logged_in = false;
+    //var loadPackage = function () {
+    //        return http
+    //            .getPackage()
+    //            .then(function (package) {
+    //                $scope.package = package;
+    //                return package;
+    //            })
+    //    },
 
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        debugger;
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
+    var loadProviders = function () {
+            $scope.providers = [];
+            _.forEach($scope.packageList.content, function (show) {
+                _.forEach(show.content_provider, function (provider) {
+                    if (!_.includes($scope.providers, provider.name)) {
+
+                        $scope.providers.push(provider.name)
+                    }
+                })
+
             })
+        },
+        loadProviderContentHash = function () {
+
+            $scope.rows = _.map($scope.providers, function (provider) {
+                var obj = {service: provider};
+                _.forEach($scope.packageList.content, function(content){
+                    _forEach(content.providers, funn )
+
+
+                })
+
+            })
+
+        };
+
+
+    $rootScope.load = function () {
+
+        $rootScope.loadPackage()
+        .then(loadProviders)
+        .then(loadProviderContentHash);
     };
 
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
+    $rootScope.load()
 
 });
+
 
 app.controller('ProgressController', function ($scope, $state, $rootScope) {
     var stateStep = $state.current.data.step;
@@ -521,6 +562,35 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
         $scope.step.four.show = true
 
     }
+});
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
+    $scope.logged_in = false;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        debugger;
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
 });
 /**
  * Created by Nem on 7/18/15.

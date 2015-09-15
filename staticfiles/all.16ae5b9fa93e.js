@@ -281,7 +281,7 @@ app.factory('_', function($window){
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
-    $scope.shows = [];
+    $scope.rows = [];
     $scope.providerList = [
         {name: 'netflix'},
         {name: 'hulu'},
@@ -352,7 +352,7 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
         },
         loadContentRowObjects = function () {
 
-            $scope.shows = _.map($scope.package.content, function (content) {
+            $scope.rows = _.map($scope.package.content, function (content) {
                 var obj = {};
                 debugger;
                 obj.title = content.title;
@@ -391,12 +391,12 @@ app.controller('home', function ($scope, $http, http, PackageService, $rootScope
 
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _, $location, PackageService) {
 
-    $scope.contentList = {};
+    $scope.packageList = {};
 
     $rootScope.loadPackage = function () {
         http.getPackage()
             .then(function (data) {
-                $scope.contentList = data.content;
+                $scope.packageList = data.content;
             });
     };
 
