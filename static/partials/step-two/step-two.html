@@ -1,12 +1,14 @@
 <section class="step-two">
     <div class="container-fluid">
-         <div class="row" ng-repeat="row in serviceShowsBundle">
+         <div class="row" ng-repeat="row in rows">
             <div class="col-sm-3 center service">
-                Service Logo
+                {{ row.service }}
             </div>
             <div class="col-sm-9">
-                <div class="col-sm-1">
-                    <button type="button" class="btn btn-md square show">ESPN</button>
+                <div class="col-sm-1" ng-repeat="show in row.content">
+                    <button type="button" class="btn btn-md square show" >
+                        {{ show.title }}
+                    </button>
                 </div>
             </div>
         </div>

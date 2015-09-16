@@ -3,6 +3,8 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
+var clean = require('gulp-clean');
+
 var paths = {
     dist: './static/dist/',
     templates: './templates',
@@ -21,8 +23,14 @@ var paths = {
     images: ['./angular_app_frontend/img']
 
 };
+
+gulp.task('clean', function() {
+ return gulp.src(paths.dist)
+ .pipe(clean());
+});
+
 gulp.task('bower', function () {
-    return gulp.src(['./bower_components/**/*.js', './bower_components/**/*.css'])
+    return gulp.src(['./bower_components/**/*.*', './bower_components/**/*.js', './bower_components/**/*.css'])
         .pipe(gulp.dest(paths.dist))
 });
 
@@ -44,7 +52,7 @@ gulp.task('scripts', function () {
 
 
 gulp.task('sass', function () {
-    return gulp.src('./angular_app_frontend/**/angular_app_frontend.scss')
+    return gulp.src('./angular_app_frontend/**/main.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest(paths.dist));
 });

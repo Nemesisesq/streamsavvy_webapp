@@ -32,8 +32,9 @@
     "jquery": "~2.1.4"
   },
   "devDependencies": {
+    "angular-cookies": "~1.4.5",
+    "angular-mocks": "~1.4.3",
     "angular-resource": "~1.4.3",
-    "lodash": "~3.10.0",
-    "angular-mocks": "~1.4.3"
+    "lodash": "~3.10.0"
   }
 }
