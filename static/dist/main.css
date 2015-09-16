@@ -491,6 +491,14 @@ ul.btn-list-grid li {
 .step-two .show {
   font-size: 100%; }
 
+.service_cost {
+  font-size: 2em;
+  color: #3b94e3; }
+
+.go_back {
+  font-size: 2em;
+  vertical-align: text-bottom; }
+
 .search-bar {
   position: relative; }
 

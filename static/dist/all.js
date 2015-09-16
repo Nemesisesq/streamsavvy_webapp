@@ -389,6 +389,35 @@ app.controller('home', function ($scope, $http, http, PackageService, $rootScope
 
 });
 
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
+    $scope.logged_in = false;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        debugger;
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
     $scope.packageList = {};
@@ -510,35 +539,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
 });
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
-    $scope.logged_in = false;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        debugger;
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
 
 app.controller('ProgressController', function ($scope, $state, $rootScope) {
     var stateStep = $state.current.data.step;
