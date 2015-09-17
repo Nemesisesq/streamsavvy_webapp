@@ -55,7 +55,7 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
         #           )
 
 
-class PackageDetailSerializer(serializers.ModelSerializer):
+class PackageDetailSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Package
         fields = (

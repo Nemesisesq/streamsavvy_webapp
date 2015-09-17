@@ -3,7 +3,7 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
     var stateStep = $state.current.data.step;
     $scope.stateStep = stateStep;
     $rootScope.currentStep = stateStep;
-
+debugger
     $scope.step = {
         one: {
             text: 'Step One',
@@ -30,21 +30,9 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
     $scope.isActive = function (step) {
         if (stateStep == step) {
             return 'make-active'
-
-        } else if (stateStep == step) {
-            return 'make-active'
-
-        } else if (stateStep == step) {
-            return 'make-active'
-
-
-        } else if (stateStep == step) {
-            return 'make-active'
         }
 
-        if (stateStep - 1 == step) {
-            return 'make-inactive'
-        }
+
 
         return 'inactive'
     }
