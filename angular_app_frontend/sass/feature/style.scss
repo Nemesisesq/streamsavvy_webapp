@@ -25,7 +25,12 @@
 
 }
 
-h1, h2, h3, h5, p {
+.container {
+  width: 80%;
+}
+
+
+h1, h2, h3, h5, p,div {
   font-family: 'Open Sans', sans-serif;
 }
 
