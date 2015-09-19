@@ -74,7 +74,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     };
     var loadProviderContentHash = function () {
 
-        $scope.step2rows = _.map($scope.providers, function (provider) {
+        $scope.rows = _.map($scope.providers, function (provider) {
 
             var prov = _.find($scope.providerObj, function (obj) {
                 return obj.name == provider;
