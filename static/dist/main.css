@@ -514,6 +514,9 @@ ul.btn-list-grid li {
   vertical-align: text-bottom;
   margin-bottom: 0; }
 
+.step-three img {
+  max-width: 100%; }
+
 .search-bar {
   position: relative; }
 

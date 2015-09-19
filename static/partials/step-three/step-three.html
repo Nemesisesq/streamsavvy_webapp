@@ -1,87 +1,33 @@
-<div ng-if="currentStep == 3">
-<section  class="show-input-form">
-    {{ currentStep }}
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-lg-12 show-input">
-				<input type="text" class="form-control" placeholder="Start typing">
-			</div>
-		</div>
-	</div>
+<section>
+    <div class="container-fluid step-three">
+
+        <div class="col-lg-6" ng-repeat="item in hardware track by $index">
+
+            <ss-image-block obj="item" category="hardware">
+            </ss-image-block>
+
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <ss-image-block ng-click="toggle">
+            hello world
+            <img src=https://image.roku.com/ww/images/partials/product-selector/roku-3.png class="img small">
+        </ss-image-block>
+
+    </div>
+
+    </div>
 </section>
 <section>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="btn-group">
-					<ul class="btn-list-grid">
-						<li>
-							<button type="button" class="btn btn-lg square show">ESPN</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Breaking Bad</button>
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Mr. Robot</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Game of Thrones</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Community</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Last Week Tonight with John Oliver</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Mad Men</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Cosmos</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Real Hotwives of Las Vegas</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">The Wire</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Fargo</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">True Detective</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Hannibal</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Transparent</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Orange is The New Black</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">Supernatural</button>      
-						</li>
-						<li>
-							<button type="button" class="btn btn-lg square show">New Girl</button>      
-						</li>
-
-						
-
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-primary btn-lg btn-green round find-out">Find out what you
+                    need
+                </button>
+            </div>
+        </div>
+    </div>
 </section>
-<section>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-lg-12">
-				<button type="button" class="btn btn-primary btn-lg btn-green round find-out">Find out what you need</button>
-			</div>
-		</div>
-	</div>
-</section>
-</div>
+

@@ -1,4 +1,5 @@
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
+    $scope.hardware = [];
     $scope.package = [];
     $scope.packageList = {};
     $scope.providerObj = [];
@@ -33,37 +34,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     };
 
 
-    //$rootScope.loadPackage();
-
-    //$scope.removeShow = function (show) {
-    //    http.getRestPackage()
-    //        .then(function (package) {
-    //            _.remove(package.content, function (elem) {
-    //                debugger;
-    //                var elemArray = elem.split('/');
-    //                var elemId = elemArray[elemArray.length - 2];
-    //                return elemId == show.id;
-    //            });
-    //
-    //            debugger;
-    //            http.putPackage(package)
-    //                .then(function (result) {
-    //                    $rootScope.load()
-    //                    $scope.$apply()
-    //                })
-    //        })
-    //}
-
-
-    //var loadPackage = function () {
-    //        return http
-    //            .getPackage()
-    //            .then(function (package) {
-    //                $scope.package = package;
-    //                return package;
-    //            })
-    //    },
-
     var loadProviders = function () {
         $scope.providers = [];
         _.forEach($scope.packageList, function (show) {
@@ -76,10 +46,35 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
             })
 
         })
-    }
+    };
+
+    var loadHardware = function() {
+        debugger;
+        http.getHardware()
+            .then(function(hware){
+
+                var userHardwareUrls = _.map($scope.package.hardware, function(item){
+                    return item.url
+
+                });
+
+                $scope.hardware = _.map(hware.results, function(item){
+                    if(_.includes(userHardwareUrls, item.url)){
+                        item.selected = "true";
+                        return item
+                    } else {
+                        item.selected = "false";
+                        return item
+                    }
+                })
+
+
+
+            })
+    };
     var loadProviderContentHash = function () {
 
-        $scope.rows = _.map($scope.providers, function (provider) {
+        $scope.step2rows = _.map($scope.providers, function (provider) {
 
             var prov = _.find($scope.providerObj, function (obj) {
                 return obj.name == provider;
@@ -154,6 +149,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
         $rootScope.loadPackage()
             .then(loadProviders)
+            .then(loadHardware)
             .then(loadProviderContentHash);
     };
 

@@ -1,6 +1,6 @@
 <section class="step-two">
     <div class="container-fluid">
-        <div class="row" ng-repeat="row in rows" ng-class="{selected: row.selected}">
+        <div class="row" ng-repeat="row in step2rows" ng-class="{selected: row.selected}">
             <div class="col-sm-3 center service" ng-click="toggleService(row)">
                 {{ row.service.name }}
             </div>
@@ -36,7 +36,7 @@
                     <div class="col-sm-12s">
                         <span class="go_back"> I want to add more shows</span>
                         <button type="button" class="btn btn-primary btn-lg btn-green round find-out"
-                                onclick="location.href='#/getting-started/step/2';">
+                                onclick="location.href='#/getting-started/step/3';">
                             Time to pick out the Hardware
                         </button>
                     </div>

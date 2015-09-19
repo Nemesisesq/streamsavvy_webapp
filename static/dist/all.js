@@ -102,10 +102,75 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
                     templateUrl: 'static/partials/footer.html'
                 }
             }
+        })
+        .state('journey-one.step-three', {
+            url: '/getting-started/step/3',
+            data :{
+                step :3
+            },
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'progress': {
+                    templateUrl: 'static/partials/progress.html',
+                    controller: 'ProgressController'
+                },
+                'step-two': {
+                    templateUrl: 'static/partials/step-three/step-three.html',
+                    controller: 'JourneyOneController'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            }
         });
 
     $urlRouterProvider.otherwise("/")
 });
+/**
+ * Created by Nem on 9/18/15.
+ */
+app.directive('ssImageBlock', function (http) {
+    return {
+        restrict: 'E',
+        replace: true,
+        transclude: true,
+        scope: {
+            category: '=',
+            obj: '=',
+            hello: '=',
+            templateUrl: '='
+
+
+
+        },
+        templateUrl: '/static/partials/step-three/image_block.html',
+
+        link: function (scope, element, attrs) {
+            scope.that = "hello world";
+            scope.toggleSelected = function () {
+                http.getRestPackage
+                    .then(function (p) {
+                        if(item.selected){
+                            _.remove(p.hardware,function(elem){
+                                elem == item.url
+                            })
+                        } else{
+                            p.hardware.push(item.url)
+                        }
+
+                        $rootScope.load()
+                    })
+
+            }
+
+
+        }
+
+    }
+})
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -196,6 +261,20 @@ app.factory('http', function ($http, $log, $q) {
                     $log.error(e, code)
                 });
             return deffered.promise;
+        },
+
+        getHardware: function(){
+            var deffered = $q.defer();
+            $http.get('/api/hardware')
+                .success(function(data){
+                    deffered.resolve(data)
+                })
+                .error(function(e){
+                    $log.error(e, code)
+                });
+            return deffered.promise;
+
+
         }
 
 
@@ -390,6 +469,7 @@ app.controller('home', function ($scope, $http, http, PackageService, $rootScope
 });
 
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
+    $scope.hardware = [];
     $scope.package = [];
     $scope.packageList = {};
     $scope.providerObj = [];
@@ -424,37 +504,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     };
 
 
-    //$rootScope.loadPackage();
-
-    //$scope.removeShow = function (show) {
-    //    http.getRestPackage()
-    //        .then(function (package) {
-    //            _.remove(package.content, function (elem) {
-    //                debugger;
-    //                var elemArray = elem.split('/');
-    //                var elemId = elemArray[elemArray.length - 2];
-    //                return elemId == show.id;
-    //            });
-    //
-    //            debugger;
-    //            http.putPackage(package)
-    //                .then(function (result) {
-    //                    $rootScope.load()
-    //                    $scope.$apply()
-    //                })
-    //        })
-    //}
-
-
-    //var loadPackage = function () {
-    //        return http
-    //            .getPackage()
-    //            .then(function (package) {
-    //                $scope.package = package;
-    //                return package;
-    //            })
-    //    },
-
     var loadProviders = function () {
         $scope.providers = [];
         _.forEach($scope.packageList, function (show) {
@@ -467,10 +516,35 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
             })
 
         })
-    }
+    };
+
+    var loadHardware = function() {
+        debugger;
+        http.getHardware()
+            .then(function(hware){
+
+                var userHardwareUrls = _.map($scope.package.hardware, function(item){
+                    return item.url
+
+                });
+
+                $scope.hardware = _.map(hware.results, function(item){
+                    if(_.includes(userHardwareUrls, item.url)){
+                        item.selected = "true";
+                        return item
+                    } else {
+                        item.selected = "false";
+                        return item
+                    }
+                })
+
+
+
+            })
+    };
     var loadProviderContentHash = function () {
 
-        $scope.rows = _.map($scope.providers, function (provider) {
+        $scope.step2rows = _.map($scope.providers, function (provider) {
 
             var prov = _.find($scope.providerObj, function (obj) {
                 return obj.name == provider;
@@ -545,6 +619,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
         $rootScope.loadPackage()
             .then(loadProviders)
+            .then(loadHardware)
             .then(loadProviderContentHash);
     };
 

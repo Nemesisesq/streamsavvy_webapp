@@ -88,6 +88,20 @@ app.factory('http', function ($http, $log, $q) {
                     $log.error(e, code)
                 });
             return deffered.promise;
+        },
+
+        getHardware: function(){
+            var deffered = $q.defer();
+            $http.get('/api/hardware')
+                .success(function(data){
+                    deffered.resolve(data)
+                })
+                .error(function(e){
+                    $log.error(e, code)
+                });
+            return deffered.promise;
+
+
         }
 
 

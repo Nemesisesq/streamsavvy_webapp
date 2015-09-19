@@ -102,6 +102,29 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
                     templateUrl: 'static/partials/footer.html'
                 }
             }
+        })
+        .state('journey-one.step-three', {
+            url: '/getting-started/step/3',
+            data :{
+                step :3
+            },
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'progress': {
+                    templateUrl: 'static/partials/progress.html',
+                    controller: 'ProgressController'
+                },
+                'step-two': {
+                    templateUrl: 'static/partials/step-three/step-three.html',
+                    controller: 'JourneyOneController'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            }
         });
 
     $urlRouterProvider.otherwise("/")
