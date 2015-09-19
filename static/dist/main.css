@@ -6,7 +6,6 @@
 
 .btn {
   display: inline-block;
-  padding: 6px 12px;
   margin-bottom: 0;
   font-size: 12px;
   font-weight: normal;
@@ -117,23 +116,21 @@
     
 }*/
 .show {
+  position: relative;
   display: inline !important;
   border-color: gray;
   border-style: solid;
   border-width: .5px;
   min-width: 10px;
   max-width: 500px;
-  white-space: normal;
-  /*weird little workaround that does word wrapping past max width*/
+  /*white-space: normal;weird little workaround that does word wrapping past max width*/
   font-size: 200%;
   font-weight: 900em;
   line-height: 1.5;
   background-color: white;
   -webkit-box-shadow: 0 0 5px 2px gray;
   -moz-box-shadow: 0 0 5px 2px gray;
-  box-shadow: 0 0 5px 2px gray;
-  margin-bottom: 2%;
-  margin-right: 1.5%; }
+  box-shadow: 0 0 5px 2px gray; }
 
 @media (max-width: 540px) {
   .show {
@@ -174,15 +171,6 @@
 h1, h2, h3, h5, p {
   font-family: 'Open Sans', sans-serif; }
 
-/*
-  0: color-white
-  1: color-R:229,G:229,B:230 name:#E5E5E6;
-  2: color-R:211,G:212,B:213 name:#D3D4D5;
-  3: color-white
-  4: color-R:229,G:229,B:230 name:#E5E5E6;
-  5: color-white;
-  6: 4: color-R:229,G:229,B:230 name:#E5E5E6;
-*/
 hr {
   max-width: 50px;
   border-width: 3px; }
@@ -453,17 +441,39 @@ input[type="text"] {
   -webkit-border-radius: 0px;
   box-sizing: border-box;
   border-radius: 0px;
-  height: 5em;
+  height: 55px;
   max-width: 80%;
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  padding-left: 24px; }
 
 ul {
   padding-left: 0px; }
 
+.glyph-background {
+  position: absolute;
+  border-radius: 100%;
+  color: #FF5750;
+  z-index: 2;
+  top: -7.5px;
+  right: 4.5px; }
+
+.inner {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border-radius: 100%;
+  background-color: white;
+  z-index: -1; }
+
 ul.btn-list-grid li {
-  display: inline;
-  padding-right: 1.5%; }
+  display: inline-flex;
+  padding-right: 1.5%;
+  position: relative;
+  margin-right: 1.25%;
+  margin-bottom: 1.75%; }
 
 .btn-group {
   margin-left: auto;

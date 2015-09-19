@@ -15,19 +15,45 @@ input[type="text"]
   -webkit-border-radius: 0px;
   box-sizing: border-box;
   border-radius: 0px;
-  height: 5em;
+  height: 55px;
   max-width: 80%;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 24px;
 }
 
 ul {
   padding-left: 0px;
 }
 
+
+.glyph-background {
+    position: absolute;
+    border-radius: 100%;
+    color: #FF5750;
+    z-index: 2;
+    top: -7.5px;
+    right: 4.5px;
+}
+
+.inner {
+    position:absolute;
+    top:2px;
+    left:2px;
+    right:2px;
+    bottom:2px;
+    border-radius:100%;
+    background-color:white;
+    z-index:-1;
+}
+
+
 ul.btn-list-grid li {
-    display:inline ;
+    display:inline-flex ;
     padding-right: 1.5%;
+    position: relative;
+    margin-right: 1.25%;
+    margin-bottom: 1.75%;
 }
 
 .btn-group {
