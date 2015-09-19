@@ -4,4 +4,15 @@
     max-width: 100%;
 
   }
+
+   .selected {
+    border: .25em solid;
+    border-color: #3b94e3;
+  }
+
+}
+
+.disabled{
+  background-color: #808080;
+
 }

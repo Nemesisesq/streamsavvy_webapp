@@ -1,11 +1,11 @@
 /**
  * Created by Nem on 9/18/15.
  */
-app.directive('ssImageBlock', function (http) {
+app.directive('ssImageBlock', function (http, $rootScope) {
     return {
         restrict: 'E',
-        replace: true,
-        transclude: true,
+        //replace: true,
+        //transclude: true,
         scope: {
             category: '=',
             obj: '=',
@@ -19,18 +19,32 @@ app.directive('ssImageBlock', function (http) {
 
         link: function (scope, element, attrs) {
             scope.that = "hello world";
-            scope.toggleSelected = function () {
-                http.getRestPackage
+
+            scope.toggleSelected = function (item) {
+                http.getRestPackage()
                     .then(function (p) {
+                        debugger;
                         if(item.selected){
-                            _.remove(p.hardware,function(elem){
-                                elem == item.url
+                            debugger;
+                            _.remove(p.hardware, function(elem){
+                                return elem == item.url
                             })
+
+                            debugger;
+
+                            console.log(p)
                         } else{
+                            debugger;
                             p.hardware.push(item.url)
                         }
 
-                        $rootScope.load()
+                        debugger;
+                        http.putPackage(p)
+                            .then(function(data){
+
+                                $rootScope.load()
+                            })
+
                     })
 
             }

@@ -3,7 +3,6 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
     var stateStep = $state.current.data.step;
     $scope.stateStep = stateStep;
     $rootScope.currentStep = stateStep;
-debugger
     $scope.step = {
         one: {
             text: 'Step One',

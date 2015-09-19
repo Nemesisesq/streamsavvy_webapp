@@ -39,7 +39,7 @@ app.factory('http', function ($http, $log, $q) {
             return deferred.promise;
         },
 
-        putPackage: function (newPackage) {
+           putPackage: function (newPackage) {
 
 
             var deferred = $q.defer();

@@ -49,9 +49,9 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     };
 
     var loadHardware = function() {
-        debugger;
         http.getHardware()
             .then(function(hware){
+                debugger;
 
                 var userHardwareUrls = _.map($scope.package.hardware, function(item){
                     return item.url
@@ -60,10 +60,10 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
                 $scope.hardware = _.map(hware.results, function(item){
                     if(_.includes(userHardwareUrls, item.url)){
-                        item.selected = "true";
+                        item.selected = true;
                         return item
                     } else {
-                        item.selected = "false";
+                        item.selected = false;
                         return item
                     }
                 })
@@ -75,11 +75,9 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     var loadProviderContentHash = function () {
 
         $scope.rows = _.map($scope.providers, function (provider) {
-
             var prov = _.find($scope.providerObj, function (obj) {
                 return obj.name == provider;
             });
-
             var obj = {
                 service: prov,
                 content: []
