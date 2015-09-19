@@ -390,44 +390,38 @@ app.controller('home', function ($scope, $http, http, PackageService, $rootScope
 });
 
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
-
+    $scope.package = [];
     $scope.packageList = {};
-
+    $scope.providerObj = [];
 
     $scope.providers = [];
     $scope.rows = [];
 
     $rootScope.loadPackage = function () {
-        debugger;
         return http.getPackage()
             .then(function (data) {
-                debugger
+                $scope.package = data;
                 $scope.packageList = data.content;
                 return data
             });
     };
 
     $scope.removeShow = function (show) {
-        debugger;
         http.getRestPackage()
             .then(function (p) {
                 _.remove(p.content, function (elem) {
-                    debugger;
-                    var elemArray = elem.split('/');
-                    var elemId = elemArray[elemArray.length - 2];
-                    return elemId == show.id;
+
+                    return elem == show.url;
                 });
 
 
                 http.putPackage(p)
                     .then(function () {
-                        debugger;
                         $rootScope.loadPackage();
-                        $scope.apply()
+
                     })
             })
     };
-
 
 
     //$rootScope.loadPackage();
@@ -462,48 +456,96 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     //    },
 
     var loadProviders = function () {
-            debugger;
-            $scope.providers = [];
-            _.forEach($scope.packageList, function (show) {
-                _.forEach(show.content_provider, function (provider) {
-                    if (!_.includes($scope.providers, provider.name)) {
+        $scope.providers = [];
+        _.forEach($scope.packageList, function (show) {
+            _.forEach(show.content_provider, function (provider) {
+                if (!_.includes($scope.providers, provider.name)) {
 
-                        $scope.providers.push(provider.name)
-                    }
-                })
-
+                    $scope.providers.push(provider.name);
+                    $scope.providerObj.push(provider);
+                }
             })
-        },
-        loadProviderContentHash = function () {
 
-            $scope.rows = _.map($scope.providers, function (provider) {
+        })
+    }
+    var loadProviderContentHash = function () {
+
+        $scope.rows = _.map($scope.providers, function (provider) {
+
+            var prov = _.find($scope.providerObj, function (obj) {
+                return obj.name == provider;
+            });
+
+            var obj = {
+                service: prov,
+                content: []
+            };
+
+
+            obj.content = _.filter($scope.packageList, function (c) {
+
+                var cProviders = _.map(c.content_provider, function (content_provider) {
+                    return content_provider.name
+                });
+
+
+                return _.includes(cProviders, provider)
+            });
+
+
+            var selectedProviders = _.map($scope.package.providers, function (pp) {
+                return pp.name
+
+            });
+
+            obj.selected = _.includes(selectedProviders, provider);
+
+
+            return obj
+
+        });
+
+        return $scope.rows
+
+    };
+
+    $scope.toggleService = function (row) {
+        http.getRestPackage()
+            .then(function (p) {
+
+
                 debugger;
-                var obj = {
-                    service: provider,
-                    content:[]
-                };
+                if (!row.selected) {
+                    p.providers.push(row.service.url);
 
-                obj.content = _.filter($scope.packageList, function(c){
-                    var cProviders = _.map(c.content_provider, function(content_provider){
-                        return content_provider.name
+                    http.putPackage(p)
+                        .then(function (d) {
+                            console.log(d);
+                            $rootScope.load()
+                        })
+
+                } else {
+                    _.remove(p.providers, function (elem) {
+                        return elem == row.service.url
                     })
 
-                    return _.includes(cProviders, provider)
-                })
+                    http.putPackage(p)
+                        .then(function (d) {
+                            console.log(d);
+                            $rootScope.load()
+                        })
 
-                return obj
+                }
+
 
             })
-
-        };
-
+    }
 
     $rootScope.load = function () {
-        debugger;
 
         $rootScope.loadPackage()
-        .then(loadProviders)
-        .then(loadProviderContentHash);
+            .then(loadProviders)
+            .then(loadProviderContentHash);
     };
 
     $rootScope.load()
@@ -538,6 +580,60 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location)
     }
 
 
+});
+
+app.controller('ProgressController', function ($scope, $state, $rootScope) {
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+debugger
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return 'make-active'
+        }
+
+
+
+        return 'inactive'
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
 });
 /**
  * Created by Nem on 7/18/15.
@@ -612,70 +708,4 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     });
 
 
-});
-
-app.controller('ProgressController', function ($scope, $state, $rootScope) {
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return 'make-active'
-
-        } else if (stateStep == step) {
-            return 'make-active'
-
-        } else if (stateStep == step) {
-            return 'make-active'
-
-
-        } else if (stateStep == step) {
-            return 'make-active'
-        }
-
-        if (stateStep - 1 == step) {
-            return 'make-inactive'
-        }
-
-        return 'inactive'
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
 });

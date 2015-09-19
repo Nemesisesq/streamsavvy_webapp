@@ -1,8 +1,8 @@
 <section class="step-two">
     <div class="container-fluid">
-        <div class="row" ng-repeat="row in rows">
-            <div class="col-sm-3 center service">
-                {{ row.service }}
+        <div class="row" ng-repeat="row in rows" ng-class="{selected: row.selected}">
+            <div class="col-sm-3 center service" ng-click="toggleService(row)">
+                {{ row.service.name }}
             </div>
             <div class="col-sm-9">
                 <div class="col-sm-1" ng-repeat="show in row.content">

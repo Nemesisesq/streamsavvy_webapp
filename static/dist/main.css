@@ -501,13 +501,18 @@ ul.btn-list-grid li {
 .step-two .show {
   font-size: 100%; }
 
+.step-two .selected {
+  border: .2em solid;
+  border-color: #3b94e3; }
+
 .service_cost {
   font-size: 2em;
   color: #3b94e3; }
 
 .go_back {
   font-size: 2em;
-  vertical-align: text-bottom; }
+  vertical-align: text-bottom;
+  margin-bottom: 0; }
 
 .search-bar {
   position: relative; }
