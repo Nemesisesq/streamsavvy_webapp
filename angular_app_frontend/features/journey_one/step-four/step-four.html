@@ -21,7 +21,7 @@
         <!-- Hardware -->
         <div class="row">
             <div>Streaming devices</div>
-            <div class="col-sm-2 hardware" ng-repeat="item in hardware track by $index | filter: {selected : true}">
+            <div class="col-sm-2 hardware" ng-repeat="item in hardware | filter: {selected : true}">
 
                 <ss-image-block  obj="item" category="hardware">
                 </ss-image-block>

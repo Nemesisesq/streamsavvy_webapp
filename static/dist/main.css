@@ -125,7 +125,6 @@
   max-width: 500px;
   white-space: normal;
   /*weird little workaround that does word wrapping past max width*/
-  font-size: 200%;
   font-weight: 700;
   line-height: 1.5;
   background-color: white;
@@ -520,7 +519,6 @@ ul.btn-list-grid li {
   text-align: center;
   vertical-align: middle;
   line-height: 4em;
-  font-size: 2em;
   font-weight: 700;
   height: 4em;
   width: 10em; }
@@ -536,7 +534,6 @@ ul.btn-list-grid li {
   margin-bottom: 1.5em; }
 
 .step-two .show {
-  font-size: 200%;
   display: inline-block !important; }
 
 .step-two .selected {
@@ -585,6 +582,40 @@ span.selected-cost {
 
 .step-four img {
   max-width: 90%; }
+
+.step-four .hardware {
+  height: 3em; }
+
+.step-four .row {
+  padding: .8em;
+  margin-bottom: .4em; }
+
+.step-four .service {
+  background-color: #808080;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 4em;
+  font-weight: 700;
+  height: 4em;
+  width: 10em; }
+
+.step-four .show-container-div {
+  padding: 0;
+  width: auto;
+  margin-right: 2%; }
+
+.step-four .service-show-list {
+  margin-top: 1.5em;
+  margin-left: 3em;
+  margin-bottom: 1.5em; }
+
+.step-four .show {
+  display: inline-block !important; }
+
+.step-four .selected {
+  border: .27em solid;
+  border-color: #3b94e3; }
 
 .search-bar {
   position: relative; }

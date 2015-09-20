@@ -3,9 +3,47 @@
     max-width: 90%;
 
   }
-  .hardware{
+  .hardware {
     height: 3em;
 
   }
 
+  .row {
+    padding: .8em;
+    margin-bottom: .4em;
+  }
+
+  .service {
+    background-color: #808080;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 4em;
+    font-weight: 700;
+    height: 4em;
+    width: 10em;
+  }
+
+  .show-container-div {
+    padding: 0;
+    width: auto;
+    margin-right: 2%;
+
+  }
+
+  .service-show-list {
+    margin-top: 1.5em;
+    margin-left: 3em;
+    margin-bottom: 1.5em;
+  }
+
+  .show {
+    //    font-size: 200%;
+    display: inline-block !important;
+  }
+
+  .selected {
+    border: .27em solid;
+    border-color: #3b94e3;
+  }
 }
