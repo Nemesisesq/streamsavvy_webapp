@@ -115,7 +115,7 @@
 .let-us-explain {
 
     float: right;
-    vertical-align: center;
+    vertical-align: middle;
     position: relative;
     right: 20%;
     clear: none;
@@ -138,7 +138,7 @@
   max-width: 500px;
   white-space: normal;/*weird little workaround that does word wrapping past max width*/
   font-size: 200%;
-  font-weight: 900em;
+  font-weight: 700;
   line-height: 1.5;
   background-color: white;
   -webkit-box-shadow: 0 0 5px 2px gray;
@@ -164,6 +164,10 @@
     border-radius:100%;
     background-color:white;
     z-index:-1;
+}
+
+.add-more-shows{
+
 }
 
 .show:hover .glyphicon-background {

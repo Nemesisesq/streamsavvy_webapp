@@ -103,7 +103,7 @@
 
 .let-us-explain {
   float: right;
-  vertical-align: center;
+  vertical-align: middle;
   position: relative;
   right: 20%;
   clear: none; }
@@ -126,7 +126,7 @@
   white-space: normal;
   /*weird little workaround that does word wrapping past max width*/
   font-size: 200%;
-  font-weight: 900em;
+  font-weight: 700;
   line-height: 1.5;
   background-color: white;
   -webkit-box-shadow: 0 0 5px 2px gray;
@@ -192,10 +192,18 @@
   font-size: 3em; }
 
 .container {
-  width: 80%; }
+  width: 100%; }
 
 h1, h2, h3, h5, p, div {
   font-family: 'Open Sans', sans-serif; }
+
+.journey-one-status {
+  width: 50%;
+  margin: 0 auto; }
+
+.journey-one {
+  margin: 0 auto;
+  width: 75%; }
 
 hr {
   max-width: 50px;
@@ -365,6 +373,10 @@ footer {
   margin-left: auto;
   margin-right: auto; }
 
+.foot {
+  padding-left: 15%;
+  padding-right: 15%; }
+
 @media (max-width: 480px) {
   .intro-message {
     padding-top: 3%;
@@ -473,6 +485,9 @@ input[type="text"] {
   margin-right: auto;
   padding-left: 24px; }
 
+.grid-section {
+  min-height: 300px; }
+
 ul {
   padding-left: 0px; }
 
@@ -496,7 +511,8 @@ ul.btn-list-grid li {
     margin-right: 2%; } }
 
 .step-two .row {
-  padding: .8em; }
+  padding: .8em;
+  margin-bottom: .4em; }
 
 .step-two .service {
   background-color: #808080;
@@ -520,10 +536,11 @@ ul.btn-list-grid li {
   margin-bottom: 1.5em; }
 
 .step-two .show {
-  font-size: 200%; }
+  font-size: 200%;
+  display: inline-block !important; }
 
 .step-two .selected {
-  border: .25em solid;
+  border: .27em solid;
   border-color: #3b94e3; }
 
 .service_cost {
@@ -547,6 +564,14 @@ p.step-two-explanation {
 
 span.selected-cost {
   font-weight: 300; }
+
+.button-row {
+  margin-top: 2%;
+  margin-bottom: 2%; }
+
+@media (max-width: 768px) {
+  .show-container-div {
+    margin-bottom: 2%; } }
 
 .step-three img {
   max-width: 100%; }
