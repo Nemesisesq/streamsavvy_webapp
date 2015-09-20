@@ -1,7 +1,11 @@
 .step-two{
+
+
   .row {
     padding: .8em;
+    margin-bottom: .4em;
   }
+
 
   .service {
     background-color: #808080;
@@ -19,6 +23,7 @@
     padding: 0;
     width: auto;
     margin-right:2%;
+
   }
 
   .service-show-list {
@@ -29,15 +34,18 @@
 
   .show {
     font-size: 200%;
+    display: inline-block !important;
   }
 
   .selected {
-    border: .25em solid;
+    border: .27em solid;
     border-color: #3b94e3;
   }
 
 
+
 }
+
 
 .service_cost  {
   font-size: 2em;
@@ -63,4 +71,16 @@ p.step-two-explanation {
 }
 span.selected-cost {
     font-weight: 300;
+}
+
+.button-row {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+@media (max-width: 768px) {
+  .show-container-div{
+    margin-bottom: 2%;
+  }
+
 }
