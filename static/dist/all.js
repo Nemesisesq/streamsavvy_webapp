@@ -371,6 +371,108 @@ app.service('PackageService', ['http','_', function (http, _) {
 app.factory('_', function($window){
     return $window._;
 })
+app.controller('chart', function ($scope, http, _, $rootScope) {
+    $scope.showArray = [];
+    $scope.providers = [];
+    $scope.rows = [];
+    $scope.providerList = [
+        {name: 'netflix'},
+        {name: 'hulu'},
+        {name: 'sling'},
+        {name: 'hbo'}
+
+    ];
+
+
+    $scope.mockShows = [
+        {name: 'Orange is the new black', showProviders: [true, false, true, false]},
+        {name: 'Airwolf', showProviders: [true, true, false, false]},
+        {name: 'Bleach', showProviders: [false, true, false, false]},
+        {name: 'Game of Thrones', showProviders: [false, false, true, false]},
+        {name: 'Spaceman', showProviders: [true, false, false, false]},
+        {name: 'Prison Break', showProviders: [true, true, true, false]},
+        //{name: 'Followers', showProviders: [true, false, true, false]}
+    ];
+
+    $scope.removeShow = function (show) {
+        http.getRestPackage()
+            .then(function (package) {
+                _.remove(package.content, function (elem) {
+                    debugger;
+                    var elemArray = elem.split('/');
+                    var elemId = elemArray[elemArray.length - 2];
+                    return elemId == show.id;
+                });
+
+                debugger;
+                http.putPackage(package)
+                    .then(function (result) {
+                        $rootScope.load()
+                        $scope.$apply()
+                    })
+            })
+    }
+
+
+    var loadPackage = function () {
+            return http
+                .getPackage()
+                .then(function (package) {
+                    $scope.package = package;
+                    return package;
+                })
+        },
+        loadContentHeaderObjects = function () {
+            $scope.providers = [];
+            _.forEach($scope.package.content, function (show) {
+                _.forEach(show.content_provider, function (provider) {
+                    if (!_.includes($scope.providers, provider.name)) {
+
+                        $scope.providers.push(provider.name)
+                    }
+                })
+
+            })
+
+            //TODO marked for Deletion
+            //$scope.package.content.content_provder.forEach(function (provider) {
+            //    deffered.resolve(
+            //        _.contains($scope.providers, provider) || $scope.providers.push(provider)
+            //    )
+            //})
+
+            //return deffered.promise
+        },
+        loadContentRowObjects = function () {
+
+            $scope.rows = _.map($scope.package.content, function (content) {
+                var obj = {};
+                debugger;
+                obj.title = content.title;
+                obj.id = content.id;
+                obj.providerCellValues = _.map($scope.providers, function (elem) {
+                    var providerObj = _.map(content.content_provider, function (prov) {
+                        return prov.name
+                    });
+
+                    return _.includes(providerObj, elem)
+                });
+
+                return obj;
+            })
+
+        };
+
+
+    $rootScope.load = function () {
+
+        loadPackage()
+        .then(loadContentHeaderObjects)
+        .then(loadContentRowObjects);
+    };
+
+    $rootScope.load()
+});
 /**
  * Created by chirag on 8/3/15.
  */
@@ -409,6 +511,59 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location)
 
 
 });
+
+app.controller('ProgressController', function ($scope, $state, $rootScope) {
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return 'make-active'
+        }
+
+
+
+        return 'inactive'
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+});
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.hardware = [];
     $scope.package = [];
@@ -418,12 +573,17 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.providers = [];
     $scope.rows = [];
 
+
+
     $rootScope.loadPackage = function () {
         return http.getPackage()
             .then(function (data) {
                 $scope.package = data;
                 $scope.packageList = data.content;
+                $rootScope.button_message = $scope.package.hardware.length ?  ' Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware'
+                debugger;
                 return data
+
             });
     };
 
@@ -566,161 +726,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
 });
 
-
-app.controller('ProgressController', function ($scope, $state, $rootScope) {
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return 'make-active'
-        }
-
-
-
-        return 'inactive'
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-});
-app.controller('chart', function ($scope, http, _, $rootScope) {
-    $scope.showArray = [];
-    $scope.providers = [];
-    $scope.rows = [];
-    $scope.providerList = [
-        {name: 'netflix'},
-        {name: 'hulu'},
-        {name: 'sling'},
-        {name: 'hbo'}
-
-    ];
-
-
-    $scope.mockShows = [
-        {name: 'Orange is the new black', showProviders: [true, false, true, false]},
-        {name: 'Airwolf', showProviders: [true, true, false, false]},
-        {name: 'Bleach', showProviders: [false, true, false, false]},
-        {name: 'Game of Thrones', showProviders: [false, false, true, false]},
-        {name: 'Spaceman', showProviders: [true, false, false, false]},
-        {name: 'Prison Break', showProviders: [true, true, true, false]},
-        //{name: 'Followers', showProviders: [true, false, true, false]}
-    ];
-
-    $scope.removeShow = function (show) {
-        http.getRestPackage()
-            .then(function (package) {
-                _.remove(package.content, function (elem) {
-                    debugger;
-                    var elemArray = elem.split('/');
-                    var elemId = elemArray[elemArray.length - 2];
-                    return elemId == show.id;
-                });
-
-                debugger;
-                http.putPackage(package)
-                    .then(function (result) {
-                        $rootScope.load()
-                        $scope.$apply()
-                    })
-            })
-    }
-
-
-    var loadPackage = function () {
-            return http
-                .getPackage()
-                .then(function (package) {
-                    $scope.package = package;
-                    return package;
-                })
-        },
-        loadContentHeaderObjects = function () {
-            $scope.providers = [];
-            _.forEach($scope.package.content, function (show) {
-                _.forEach(show.content_provider, function (provider) {
-                    if (!_.includes($scope.providers, provider.name)) {
-
-                        $scope.providers.push(provider.name)
-                    }
-                })
-
-            })
-
-            //TODO marked for Deletion
-            //$scope.package.content.content_provder.forEach(function (provider) {
-            //    deffered.resolve(
-            //        _.contains($scope.providers, provider) || $scope.providers.push(provider)
-            //    )
-            //})
-
-            //return deffered.promise
-        },
-        loadContentRowObjects = function () {
-
-            $scope.rows = _.map($scope.package.content, function (content) {
-                var obj = {};
-                debugger;
-                obj.title = content.title;
-                obj.id = content.id;
-                obj.providerCellValues = _.map($scope.providers, function (elem) {
-                    var providerObj = _.map(content.content_provider, function (prov) {
-                        return prov.name
-                    });
-
-                    return _.includes(providerObj, elem)
-                });
-
-                return obj;
-            })
-
-        };
-
-
-    $rootScope.load = function () {
-
-        loadPackage()
-        .then(loadContentHeaderObjects)
-        .then(loadContentRowObjects);
-    };
-
-    $rootScope.load()
-});
 /**
  * Created by Nem on 7/18/15.
  */

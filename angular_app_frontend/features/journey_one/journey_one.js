@@ -7,12 +7,17 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.providers = [];
     $scope.rows = [];
 
+
+
     $rootScope.loadPackage = function () {
         return http.getPackage()
             .then(function (data) {
                 $scope.package = data;
                 $scope.packageList = data.content;
+                $rootScope.button_message = $scope.package.hardware.length ?  ' Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware'
+                debugger;
                 return data
+
             });
     };
 
