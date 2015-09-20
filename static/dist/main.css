@@ -558,6 +558,9 @@ span.selected-cost {
 .disabled {
   background-color: #808080; }
 
+.step-four img {
+  max-width: 90%; }
+
 .search-bar {
   position: relative; }
 

@@ -125,6 +125,29 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
                     templateUrl: 'static/partials/footer.html'
                 }
             }
+        })
+        .state('journey-one.step-four', {
+            url: '/getting-started/step/4',
+            data :{
+                step :4
+            },
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'progress': {
+                    templateUrl: 'static/partials/progress.html',
+                    controller: 'ProgressController'
+                },
+                'step-two': {
+                    templateUrl: 'static/partials/step-four/step-four.html',
+                    controller: 'JourneyOneController'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            }
         });
 
     $urlRouterProvider.otherwise("/")
@@ -482,88 +505,6 @@ app.controller('home', function ($scope, $http, http, PackageService, $rootScope
 
 });
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
-    $scope.logged_in = false;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        debugger;
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
-
-app.controller('ProgressController', function ($scope, $state, $rootScope) {
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return 'make-active'
-        }
-
-
-
-        return 'inactive'
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-});
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.hardware = [];
     $scope.package = [];
@@ -726,6 +667,88 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
 });
 
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
+    $scope.logged_in = false;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        debugger;
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+
+app.controller('ProgressController', function ($scope, $state, $rootScope) {
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return 'make-active'
+        }
+
+
+
+        return 'inactive'
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+});
 /**
  * Created by Nem on 7/18/15.
  */
