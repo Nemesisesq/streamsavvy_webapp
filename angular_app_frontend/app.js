@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies"]);
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate"]);
 
 app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
     //$locationProvider.html5Mode({
@@ -135,6 +135,10 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
+                },
+                'modal': {
+                    templateUrl : '/static/partials/modal/modalContainer.html',
+                    controller : 'Step4ModalController'
                 },
                 'progress': {
                     templateUrl: 'static/partials/progress.html',

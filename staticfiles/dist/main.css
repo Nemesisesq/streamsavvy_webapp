@@ -6,7 +6,6 @@
 
 .btn {
   display: inline-block;
-  padding: 6px 12px;
   margin-bottom: 0;
   font-size: 12px;
   font-weight: normal;
@@ -104,7 +103,7 @@
 
 .let-us-explain {
   float: right;
-  vertical-align: center;
+  vertical-align: middle;
   position: relative;
   right: 20%;
   clear: none; }
@@ -117,6 +116,7 @@
     
 }*/
 .show {
+  position: relative;
   display: inline !important;
   border-color: gray;
   border-style: solid;
@@ -125,15 +125,34 @@
   max-width: 500px;
   white-space: normal;
   /*weird little workaround that does word wrapping past max width*/
-  font-size: 200%;
-  font-weight: 900em;
+  font-weight: 700;
   line-height: 1.5;
   background-color: white;
   -webkit-box-shadow: 0 0 5px 2px gray;
   -moz-box-shadow: 0 0 5px 2px gray;
-  box-shadow: 0 0 5px 2px gray;
-  margin-bottom: 2%;
-  margin-right: 1.5%; }
+  box-shadow: 0 0 5px 2px gray; }
+
+.glyphicon-background {
+  position: absolute;
+  border-radius: 100%;
+  color: #FF5750;
+  z-index: 2;
+  top: -12px;
+  right: -14.5px;
+  display: none; }
+
+.inner {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border-radius: 100%;
+  background-color: white;
+  z-index: -1; }
+
+.show:hover .glyphicon-background {
+  display: block; }
 
 @media (max-width: 540px) {
   .show {
@@ -171,18 +190,20 @@
   font-weight: bold;
   font-size: 3em; }
 
-h1, h2, h3, h5, p {
+.container {
+  width: 100%; }
+
+h1, h2, h3, h5, p, div {
   font-family: 'Open Sans', sans-serif; }
 
-/*
-  0: color-white
-  1: color-R:229,G:229,B:230 name:#E5E5E6;
-  2: color-R:211,G:212,B:213 name:#D3D4D5;
-  3: color-white
-  4: color-R:229,G:229,B:230 name:#E5E5E6;
-  5: color-white;
-  6: 4: color-R:229,G:229,B:230 name:#E5E5E6;
-*/
+.journey-one-status {
+  width: 50%;
+  margin: 0 auto; }
+
+.journey-one {
+  margin: 0 auto;
+  width: 75%; }
+
 hr {
   max-width: 50px;
   border-width: 3px; }
@@ -351,6 +372,10 @@ footer {
   margin-left: auto;
   margin-right: auto; }
 
+.foot {
+  padding-left: 15%;
+  padding-right: 15%; }
+
 @media (max-width: 480px) {
   .intro-message {
     padding-top: 3%;
@@ -453,17 +478,24 @@ input[type="text"] {
   -webkit-border-radius: 0px;
   box-sizing: border-box;
   border-radius: 0px;
-  height: 5em;
+  height: 55px;
   max-width: 80%;
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  padding-left: 24px; }
+
+.grid-section {
+  min-height: 300px; }
 
 ul {
   padding-left: 0px; }
 
 ul.btn-list-grid li {
-  display: inline;
-  padding-right: 1.5%; }
+  display: inline-flex;
+  padding-right: 1.5%;
+  position: relative;
+  margin-right: 1.25%;
+  margin-bottom: 1.75%; }
 
 .btn-group {
   margin-left: auto;
@@ -478,18 +510,112 @@ ul.btn-list-grid li {
     margin-right: 2%; } }
 
 .step-two .row {
-  padding: .8em; }
+  padding: .8em;
+  margin-bottom: .4em; }
 
 .step-two .service {
   background-color: #808080;
   color: white;
   text-align: center;
   vertical-align: middle;
-  line-height: 5em;
-  height: 5em; }
+  line-height: 4em;
+  font-weight: 700;
+  height: 4em;
+  width: 10em; }
+
+.step-two .show-container-div {
+  padding: 0;
+  width: auto;
+  margin-right: 2%; }
+
+.step-two .service-show-list {
+  margin-top: 1.5em;
+  margin-left: 3em;
+  margin-bottom: 1.5em; }
 
 .step-two .show {
-  font-size: 100%; }
+  display: inline-block !important; }
+
+.step-two .selected {
+  border: .27em solid;
+  border-color: #3b94e3; }
+
+.service_cost {
+  font-size: 2em;
+  color: #3b94e3; }
+
+.go_back {
+  font-size: 2em;
+  vertical-align: text-bottom;
+  margin-bottom: 0; }
+
+p.step-two-explanation {
+  text-align: center;
+  font-size: 1.3em;
+  margin-bottom: 3%; }
+
+.total-for-selected {
+  font-weight: 700;
+  font-size: 1.2em;
+  margin-top: 3%; }
+
+span.selected-cost {
+  font-weight: 300; }
+
+.button-row {
+  margin-top: 2%;
+  margin-bottom: 2%; }
+
+@media (max-width: 768px) {
+  .show-container-div {
+    margin-bottom: 2%; } }
+
+.step-three img {
+  max-width: 100%; }
+
+.step-three .selected {
+  border: .25em solid;
+  border-color: #3b94e3; }
+
+.disabled {
+  background-color: #808080; }
+
+.step-four img {
+  max-width: 90%; }
+
+.step-four .hardware {
+  height: 3em; }
+
+.step-four .row {
+  padding: .8em;
+  margin-bottom: .4em; }
+
+.step-four .service {
+  background-color: #808080;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 4em;
+  font-weight: 700;
+  height: 4em;
+  width: 10em; }
+
+.step-four .show-container-div {
+  padding: 0;
+  width: auto;
+  margin-right: 2%; }
+
+.step-four .service-show-list {
+  margin-top: 1.5em;
+  margin-left: 3em;
+  margin-bottom: 1.5em; }
+
+.step-four .show {
+  display: inline-block !important; }
+
+.step-four .selected {
+  border: .27em solid;
+  border-color: #3b94e3; }
 
 .search-bar {
   position: relative; }

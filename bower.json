@@ -7,11 +7,6 @@
   ],
   "description": "Get off cable",
   "main": "index.js",
-  "moduleType": [
-    "amd",
-    "globals",
-    "node"
-  ],
   "keywords": [
     "cut",
     "cord",
@@ -26,10 +21,8 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.0",
-    "angular-ui-router": "~0.2.15",
-    "bootstrap": "~3.3.4",
-    "jquery": "~2.1.4"
+    "angular-animate": "~1.4.6",
+    "angular-bootstrap": "~0.13.4"
   },
   "devDependencies": {
     "angular-cookies": "~1.4.5",

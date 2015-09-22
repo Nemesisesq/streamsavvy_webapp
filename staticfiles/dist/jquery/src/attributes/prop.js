@@ -65,7 +65,7 @@ jQuery.extend({
 });
 
 if ( !support.optSelected ) {
-	jQuery.propHooks.selectedShows = {
+	jQuery.propHooks.selected = {
 		get: function( elem ) {
 			var parent = elem.parentNode;
 			if ( parent && parent.parentNode ) {

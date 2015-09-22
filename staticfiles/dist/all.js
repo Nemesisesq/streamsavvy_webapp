@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies"]);
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate"]);
 
 app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
     //$locationProvider.html5Mode({
@@ -73,7 +73,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
                 },
                 'step-one': {
                     templateUrl: 'static/partials/step-one/step-one.html',
-                    controller: 'journeyOneController'
+                    controller: 'JourneyOneController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -102,10 +102,116 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
                     templateUrl: 'static/partials/footer.html'
                 }
             }
+        })
+        .state('journey-one.step-three', {
+            url: '/getting-started/step/3',
+            data :{
+                step :3
+            },
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'progress': {
+                    templateUrl: 'static/partials/progress.html',
+                    controller: 'ProgressController'
+                },
+                'step-two': {
+                    templateUrl: 'static/partials/step-three/step-three.html',
+                    controller: 'JourneyOneController'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            }
+        })
+        .state('journey-one.step-four', {
+            url: '/getting-started/step/4',
+            data :{
+                step :4
+            },
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'modal': {
+                    templateUrl : '/static/partials/modal/modalContainer.html',
+                    controller : 'Step4ModalController'
+                },
+                'progress': {
+                    templateUrl: 'static/partials/progress.html',
+                    controller: 'ProgressController'
+                },
+                'step-two': {
+                    templateUrl: 'static/partials/step-four/step-four.html',
+                    controller: 'JourneyOneController'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            }
         });
 
     $urlRouterProvider.otherwise("/")
 });
+/**
+ * Created by Nem on 9/18/15.
+ */
+app.directive('ssImageBlock', function (http, $rootScope) {
+    return {
+        restrict: 'E',
+        //replace: true,
+        //transclude: true,
+        scope: {
+            category: '=',
+            obj: '=',
+            hello: '=',
+            templateUrl: '='
+
+
+
+        },
+        templateUrl: '/static/partials/step-three/image_block.html',
+
+        link: function (scope, element, attrs) {
+            scope.that = "hello world";
+
+            scope.toggleSelected = function (item) {
+                http.getRestPackage()
+                    .then(function (p) {
+                        debugger;
+                        if(item.selected){
+                            debugger;
+                            _.remove(p.hardware, function(elem){
+                                return elem == item.url
+                            })
+
+                            debugger;
+
+                            console.log(p)
+                        } else{
+                            debugger;
+                            p.hardware.push(item.url)
+                        }
+
+                        debugger;
+                        http.putPackage(p)
+                            .then(function(data){
+
+                                $rootScope.load()
+                            })
+
+                    })
+
+            }
+
+
+        }
+
+    }
+})
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -147,7 +253,7 @@ app.factory('http', function ($http, $log, $q) {
             return deferred.promise;
         },
 
-        putPackage: function (newPackage) {
+           putPackage: function (newPackage) {
 
 
             var deferred = $q.defer();
@@ -196,6 +302,20 @@ app.factory('http', function ($http, $log, $q) {
                     $log.error(e, code)
                 });
             return deffered.promise;
+        },
+
+        getHardware: function(){
+            var deffered = $q.defer();
+            $http.get('/api/hardware')
+                .success(function(data){
+                    deffered.resolve(data)
+                })
+                .error(function(e){
+                    $log.error(e, code)
+                });
+            return deffered.promise;
+
+
         }
 
 
@@ -207,69 +327,69 @@ app.factory('http', function ($http, $log, $q) {
 app.service('PackageService', ['http','_', function (http, _) {
 
 
-    var pservice = this;
-    pservice.p = {};
-
-    pservice.content = [];
-    pservice.searchResults = [];
-
-    pservice.getPackage = function(){
-         var result = pservice.load();
-        console.log(result);
-        debugger;
-
-        return result;
-    }
-
-    pservice.load = function () {
-        http.getPackage()
-            .then(function (pkg) {
-                debugger;
-                pservice.p = pkg;
-                return pkg;
-            })
-
-    };
-
-    pservice.removeShow = function (show) {
-        http.getRestPackage()
-            .then(function (p) {
-                _.remove(p.content, function (elem) {
-                    debugger;
-                    var elemArray = elem.split('/');
-                    var elemId = elemArray[elemArray.length - 2];
-                    return elemId == show.id;
-                });
-
-
-                http.putPackage(p)
-                    .then(function () {
-                        p.load();
-                    })
-            })
-    };
-
-    pservice.addToSelectedShows = function (suggestion) {
-
-        var newPackage;
-
-        http.getRestPackage()
-            .then(function (pkg) {
-                newPackage = pkg;
-                newPackage.content.push(suggestion.url);
-
-                http.putPackage(newPackage)
-                    .then(function (result) {
-
-                        console.log(result);
-                        pservice.load()
-
-                    })
-            })
-    };
-
-    debugger;
-    pservice.load();
+    //var pservice = this;
+    //pservice.p = {};
+    //
+    //pservice.content = [];
+    //pservice.searchResults = [];
+    //
+    //pservice.getPackage = function(){
+    //     var result = pservice.load();
+    //    console.log(result);
+    //
+    //
+    //    return result;
+    //}
+    //
+    //pservice.load = function () {
+    //    http.getPackage()
+    //        .then(function (pkg) {
+    //
+    //            pservice.p = pkg;
+    //            return pkg;
+    //        })
+    //
+    //};
+    //
+    //pservice.removeShow = function (show) {
+    //    http.getRestPackage()
+    //        .then(function (p) {
+    //            _.remove(p.content, function (elem) {
+    //
+    //                var elemArray = elem.split('/');
+    //                var elemId = elemArray[elemArray.length - 2];
+    //                return elemId == show.id;
+    //            });
+    //
+    //
+    //            http.putPackage(p)
+    //                .then(function () {
+    //                    p.load();
+    //                })
+    //        })
+    //};
+    //
+    //pservice.addToSelectedShows = function (suggestion) {
+    //
+    //    var newPackage;
+    //
+    //    http.getRestPackage()
+    //        .then(function (pkg) {
+    //            newPackage = pkg;
+    //            newPackage.content.push(suggestion.url);
+    //
+    //            http.putPackage(newPackage)
+    //                .then(function (result) {
+    //
+    //                    console.log(result);
+    //                    pservice.load()
+    //
+    //                })
+    //        })
+    //};
+    //
+    //
+    //pservice.load();
 
 }]);
 
@@ -389,44 +509,6 @@ app.controller('home', function ($scope, $http, http, PackageService, $rootScope
 
 });
 
-app.controller('JourneyOneController', function ($scope, $rootScope, http, _, $location, PackageService) {
-
-    $scope.packageList = {};
-
-    $rootScope.loadPackage = function () {
-        http.getPackage()
-            .then(function (data) {
-                $scope.packageList = data.content;
-            });
-    };
-
-    $scope.removeShow = function (show) {
-        debugger;
-        http.getRestPackage()
-            .then(function (p) {
-                _.remove(p.content, function (elem) {
-                    debugger;
-                    var elemArray = elem.split('/');
-                    var elemId = elemArray[elemArray.length - 2];
-                    return elemId == show.id;
-                });
-
-
-                http.putPackage(p)
-                    .then(function () {
-                        debugger;
-                        $rootScope.loadPackage();
-                    })
-            })
-    };
-
-
-
-    $rootScope.loadPackage();
-
-
-});
-
 /**
  * Created by Nem on 6/28/15.
  */
@@ -456,12 +538,173 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location)
 
 
 });
+app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
+    $scope.hardware = [];
+    $scope.package = [];
+    $scope.packageList = {};
+    $scope.providerObj = [];
+
+    $scope.providers = [];
+    $scope.rows = [];
+
+
+
+    $rootScope.loadPackage = function () {
+        return http.getPackage()
+            .then(function (data) {
+                $scope.package = data;
+                $scope.packageList = data.content;
+                $rootScope.button_message = $scope.package.hardware.length ?  ' Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware'
+                debugger;
+                return data
+
+            });
+    };
+
+    $scope.removeShow = function (show) {
+        http.getRestPackage()
+            .then(function (p) {
+                _.remove(p.content, function (elem) {
+
+                    return elem == show.url;
+                });
+
+
+                http.putPackage(p)
+                    .then(function () {
+                        $rootScope.loadPackage();
+
+                    })
+            })
+    };
+
+
+    var loadProviders = function () {
+        $scope.providers = [];
+        _.forEach($scope.packageList, function (show) {
+            _.forEach(show.content_provider, function (provider) {
+                if (!_.includes($scope.providers, provider.name)) {
+
+                    $scope.providers.push(provider.name);
+                    $scope.providerObj.push(provider);
+                }
+            })
+
+        })
+    };
+
+    var loadHardware = function() {
+        http.getHardware()
+            .then(function(hware){
+                debugger;
+
+                var userHardwareUrls = _.map($scope.package.hardware, function(item){
+                    return item.url
+
+                });
+
+                $scope.hardware = _.map(hware.results, function(item){
+                    if(_.includes(userHardwareUrls, item.url)){
+                        item.selected = true;
+                        return item
+                    } else {
+                        item.selected = false;
+                        return item
+                    }
+                })
+
+
+
+            })
+    };
+    var loadProviderContentHash = function () {
+
+        $scope.rows = _.map($scope.providers, function (provider) {
+            var prov = _.find($scope.providerObj, function (obj) {
+                return obj.name == provider;
+            });
+            var obj = {
+                service: prov,
+                content: []
+            };
+
+
+            obj.content = _.filter($scope.packageList, function (c) {
+
+                var cProviders = _.map(c.content_provider, function (content_provider) {
+                    return content_provider.name
+                });
+
+
+                return _.includes(cProviders, provider)
+            });
+
+
+            var selectedProviders = _.map($scope.package.providers, function (pp) {
+                return pp.name
+
+            });
+
+            obj.selected = _.includes(selectedProviders, provider);
+
+
+            return obj
+
+        });
+
+        return $scope.rows
+
+    };
+
+    $scope.toggleService = function (row) {
+        http.getRestPackage()
+            .then(function (p) {
+
+
+                debugger;
+                if (!row.selected) {
+                    p.providers.push(row.service.url);
+
+                    http.putPackage(p)
+                        .then(function (d) {
+                            console.log(d);
+                            $rootScope.load()
+                        })
+
+                } else {
+                    _.remove(p.providers, function (elem) {
+                        return elem == row.service.url
+                    })
+
+                    http.putPackage(p)
+                        .then(function (d) {
+                            console.log(d);
+                            $rootScope.load()
+                        })
+
+                }
+
+
+            })
+    }
+
+    $rootScope.load = function () {
+
+        $rootScope.loadPackage()
+            .then(loadProviders)
+            .then(loadHardware)
+            .then(loadProviderContentHash);
+    };
+
+    $rootScope.load()
+
+});
+
 
 app.controller('ProgressController', function ($scope, $state, $rootScope) {
     var stateStep = $state.current.data.step;
     $scope.stateStep = stateStep;
     $rootScope.currentStep = stateStep;
-
     $scope.step = {
         one: {
             text: 'Step One',
@@ -488,21 +731,9 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
     $scope.isActive = function (step) {
         if (stateStep == step) {
             return 'make-active'
-
-        } else if (stateStep == step) {
-            return 'make-active'
-
-        } else if (stateStep == step) {
-            return 'make-active'
-
-
-        } else if (stateStep == step) {
-            return 'make-active'
         }
 
-        if (stateStep - 1 == step) {
-            return 'make-inactive'
-        }
+
 
         return 'inactive'
     }
@@ -596,3 +827,46 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
 
 
 });
+app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $scope.open = function () {
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal/modal.html',
+            controller: 'Step4ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selectedItem = selectedItem;
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+});
+
+app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items) {
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
+
+})

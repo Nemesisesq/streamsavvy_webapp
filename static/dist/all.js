@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies"]);
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate"]);
 
 app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
     //$locationProvider.html5Mode({
@@ -135,6 +135,10 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
+                },
+                'modal': {
+                    templateUrl : '/static/partials/modal/modalContainer.html',
+                    controller : 'Step4ModalController'
                 },
                 'progress': {
                     templateUrl: 'static/partials/progress.html',
@@ -505,6 +509,35 @@ app.controller('home', function ($scope, $http, http, PackageService, $rootScope
 
 });
 
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
+    $scope.logged_in = false;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        debugger;
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.hardware = [];
     $scope.package = [];
@@ -667,35 +700,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
 });
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
-    $scope.logged_in = false;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        debugger;
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
 
 app.controller('ProgressController', function ($scope, $state, $rootScope) {
     var stateStep = $state.current.data.step;
@@ -823,3 +827,46 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
 
 
 });
+app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $scope.open = function () {
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal/modal.html',
+            controller: 'Step4ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selectedItem = selectedItem;
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+});
+
+app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items) {
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
+
+})
