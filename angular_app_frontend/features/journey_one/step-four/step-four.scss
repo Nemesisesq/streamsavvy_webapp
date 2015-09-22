@@ -4,7 +4,7 @@
 
   }
   .hardware-row{
-    height: 200px;
+    height: 180px;
     margin-top:2%;
   }
   .hardware {
@@ -32,6 +32,7 @@
     padding: 0;
     width: auto;
     margin-right: 2%;
+    margin-bottom: 2%;
 
   }
 
@@ -51,7 +52,7 @@
     border-color: #3b94e3;
   }
   .black-hr {
-    border: 0;
+    border-width: 1px;
     height: 1px;
     max-width: none;
     border-color: black;

@@ -596,7 +596,7 @@ span.selected-cost {
   max-width: 90%; }
 
 .step-four .hardware-row {
-  height: 200px;
+  height: 180px;
   margin-top: 2%; }
 
 .step-four .hardware {
@@ -620,7 +620,8 @@ span.selected-cost {
 .step-four .show-container-div {
   padding: 0;
   width: auto;
-  margin-right: 2%; }
+  margin-right: 2%;
+  margin-bottom: 2%; }
 
 .step-four .service-show-list {
   margin-top: 1.5em;
@@ -635,7 +636,7 @@ span.selected-cost {
   border-color: #3b94e3; }
 
 .step-four .black-hr {
-  border: 0;
+  border-width: 1px;
   height: 1px;
   max-width: none;
   border-color: black; }
