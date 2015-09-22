@@ -8,9 +8,7 @@
   "description": "Get off cable",
   "main": "index.js",
   "keywords": [
-    "cut",
-    "cord",
-    "cable"
+    "streamsavvy"
   ],
   "license": "MIT",
   "ignore": [
@@ -21,8 +19,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular-animate": "~1.4.6",
-    "angular-bootstrap": "~0.13.4"
+    "angular-ui-router": "~0.2.15",
+    "bootstrap": "~3.3.4",
+    "prefixfree": "prefix-free#gh-pages"
   },
   "devDependencies": {
     "angular-cookies": "~1.4.5",

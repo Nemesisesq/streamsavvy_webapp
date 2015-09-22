@@ -500,15 +500,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
-/**
- * Created by chirag on 8/3/15.
- */
-app.controller('home', function ($scope, $http, http, PackageService, $rootScope) {
-
-
-
-});
-
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.hardware = [];
     $scope.package = [];
@@ -668,6 +659,15 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     };
 
     $rootScope.load()
+
+});
+
+/**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, PackageService, $rootScope) {
+
+
 
 });
 
