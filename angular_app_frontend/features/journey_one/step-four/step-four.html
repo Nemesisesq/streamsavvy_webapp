@@ -1,9 +1,13 @@
 <section xmlns="http://www.w3.org/1999/html">
     <div class="container-fluid step-four">
         <!-- Show  and services -->
-        <div class="row" ng-repeat="row in rows | filter : {selected: true} " ng-class="{selected: row.selected}">
 
-            <div class="col-sm-3 center service" ng-click="toggleService(row)">
+        <div class="row">
+            Streaming Services
+        </div>
+        <div class="row" ng-repeat="row in rows | filter : {selected: true} "<!--ng-class="{selected: row.selected}"-->>
+
+            <div class="col-sm-3 center service"<!--ng-click="toggleService(row)"-->>
                 {{ row.service.name }}
             </div>
             <div class="col-sm-9 service-show-list">
@@ -15,31 +19,31 @@
             </div>
         </div>
 
-        <hr>
+        <hr class="black-hr">
 
 
         <!-- Hardware -->
         <div class="row">
             <div>Streaming devices</div>
-            <div class="col-sm-2 hardware" ng-repeat="item in hardware | filter: {selected : true}">
+            <div class="hardware-row">
+                <div class="col-sm-2 hardware" ng-repeat="item in hardware | filter: {selected : true}">
 
                 <ss-image-block  obj="item" category="hardware">
                 </ss-image-block>
 
             </div>
+            </div>
         </div>
 
 
-        <hr>
-
-        <div class="row">
-            <div>Selected Services</div>
-            <div>Selected Devices</div>
-            <div>Tax</div>
-
+        <hr class="black-hr">
+            <div class="row">
+            <div>Selected Services: 3.50 </div>
+            <div>Selected Devices: $.$$</div>
+            <div>Tax: Death</div>
         </div>
 
-        <hr>
+        <hr class="black-hr">
 
         <div class="row">
             <div>Total Cost Today: 1,000,0000.00</div>

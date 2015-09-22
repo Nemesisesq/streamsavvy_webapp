@@ -3,9 +3,12 @@
     max-width: 90%;
 
   }
+  .hardware-row{
+    height: 200px;
+    margin-top:2%;
+  }
   .hardware {
     height: 3em;
-
   }
 
   .row {
@@ -22,6 +25,7 @@
     font-weight: 700;
     height: 4em;
     width: 10em;
+    margin-top: 1.05em;
   }
 
   .show-container-div {
@@ -45,5 +49,11 @@
   .selected {
     border: .27em solid;
     border-color: #3b94e3;
+  }
+  .black-hr {
+    border: 0;
+    height: 1px;
+    max-width: none;
+    border-color: black;
   }
 }

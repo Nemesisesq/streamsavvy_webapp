@@ -155,6 +155,16 @@
     display: none;
 }
 
+.blue-glyphicon {
+  display: inline;
+  color: #3b94e3;
+}
+span.glyphicon.glyphicon-ok-sign.glyphicon-background.blue-glyphicon.selected {
+    border: white;
+    top: -35%;
+    right: -900%;
+    font-size: 1.5em;
+}
 .inner {
     position:absolute;
     top:2px;
