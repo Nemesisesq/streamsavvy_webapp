@@ -663,3 +663,6 @@ span.selected-cost {
     list-style: none;
     font-size: 130%;
     color: #555555; }
+
+.modal-body .row {
+  padding: 3px; }

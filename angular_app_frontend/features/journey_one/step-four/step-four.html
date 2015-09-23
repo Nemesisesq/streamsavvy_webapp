@@ -5,9 +5,9 @@
         <div class="row">
             Streaming Services
         </div>
-        <div class="row" ng-repeat="row in rows | filter : {selected: true} "<!--ng-class="{selected: row.selected}"-->>
+        <div class="row" ng-repeat="row in rows | filter : {selected: true} ">
 
-            <div class="col-sm-3 center service"<!--ng-click="toggleService(row)"-->>
+            <div class="col-sm-3 center service">
                 {{ row.service.name }}
             </div>
             <div class="col-sm-9 service-show-list">
@@ -49,8 +49,6 @@
             <div>Total Cost Today: 1,000,0000.00</div>
             <div>Total Monthly Savings : 3 dollars!</div>
         </div>
-
-
     </div>
 
 </section>

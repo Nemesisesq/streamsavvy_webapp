@@ -500,6 +500,15 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
+/**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, PackageService, $rootScope) {
+
+
+
+});
+
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.hardware = [];
     $scope.package = [];
@@ -517,7 +526,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
                 $scope.package = data;
                 $scope.packageList = data.content;
                 $rootScope.button_message = $scope.package.hardware.length ?  ' Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware'
-                debugger;
                 return data
 
             });
@@ -558,7 +566,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     var loadHardware = function() {
         http.getHardware()
             .then(function(hware){
-                debugger;
 
                 var userHardwareUrls = _.map($scope.package.hardware, function(item){
                     return item.url
@@ -621,9 +628,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.toggleService = function (row) {
         http.getRestPackage()
             .then(function (p) {
-
-
-                debugger;
                 if (!row.selected) {
                     p.providers.push(row.service.url);
 
@@ -659,15 +663,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     };
 
     $rootScope.load()
-
-});
-
-/**
- * Created by chirag on 8/3/15.
- */
-app.controller('home', function ($scope, $http, http, PackageService, $rootScope) {
-
-
 
 });
 
