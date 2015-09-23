@@ -472,6 +472,9 @@ footer {
     width: 50px;
     background: #ffffff; } }
 
+.black-hr {
+  border-color: black; }
+
 body {
   margin-left: auto;
   margin-right: auto; }
@@ -520,8 +523,8 @@ ul.btn-list-grid li {
     margin-right: 2%; } }
 
 .step-two .row {
-  padding: .8em;
-  margin-bottom: .4em; }
+  /*padding: .8em;
+    margin-bottom: .4em;*/ }
 
 .step-two .service {
   background-color: #808080;
@@ -532,7 +535,7 @@ ul.btn-list-grid li {
   font-weight: 700;
   height: 4em;
   width: 10em;
-  margin-top: 1.05em; }
+  margin-top: 1.2%; }
 
 .step-two .show-container-div {
   padding: 0;
@@ -541,9 +544,9 @@ ul.btn-list-grid li {
   margin-bottom: 2%; }
 
 .step-two .service-show-list {
-  margin-top: 1.5em;
-  margin-left: 3em;
-  margin-bottom: 1.5em; }
+  margin-top: 1.6%;
+  margin-left: 3%;
+  margin-bottom: 1.6%; }
 
 .step-two .show {
   display: inline-block !important; }
@@ -583,7 +586,8 @@ span.selected-cost {
     margin-bottom: 2%; } }
 
 .step-three img {
-  max-width: 100%; }
+  max-width: 100%;
+  max-height: 250px; }
 
 .step-three .selected {
   border: .25em solid;
@@ -603,8 +607,8 @@ span.selected-cost {
   height: 3em; }
 
 .step-four .row {
-  padding: .8em;
-  margin-bottom: .4em; }
+  /*padding: .8em*/
+  margin-bottom: 2%; }
 
 .step-four .service {
   background-color: #808080;
