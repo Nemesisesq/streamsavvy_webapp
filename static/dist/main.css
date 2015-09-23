@@ -207,7 +207,7 @@ h1, h2, h3, h5, p, div {
   font-family: 'Open Sans', sans-serif; }
 
 .journey-one-status {
-  width: 50%;
+  width: 90%;
   margin: 0 auto; }
 
 .journey-one {
@@ -417,43 +417,49 @@ footer {
 .step-container {
   padding: 20px;
   text-align: center;
-  line-height: 50px; }
+  line-height: 40px; }
   .step-container .inactive {
     margin: auto;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-width: 2px;
     border-color: #7b7c7c;
     border-style: solid;
-    border-radius: 50px;
+    border-radius: 40px;
     text-align: center; }
   .step-container .active {
     margin: auto;
-    width: 150px;
-    height: 50px;
+    width: 120px;
+    height: 40px;
     background-color: #3bbc69;
-    border-radius: 50px; }
+    border-radius: 40px;
+    color: #ffffff;
+    font-size: 1.3em;
+    font-weight: 500; }
   .step-container .make-inactive {
     margin: auto;
-    width: 50px;
-    height: 50px;
-    border-width: 1px;
+    width: 40px;
+    height: 40px;
+    border-width: 2px;
     border-color: black;
     border-style: solid;
-    border-radius: 50px;
+    border-radius: 40px;
     animation: to-inactive 200ms linear; }
   .step-container .step_finished {
     color: #ffffff;
-    font-size: 1.4em;
+    font-size: 1.3em;
     font-weight: 700;
     border-color: #7b7c7c;
     background-color: #7b7c7c; }
   .step-container .make_active {
     margin: auto;
-    width: 150px;
-    height: 50px;
+    width: 120px;
+    height: 40px;
     background-color: #3bbc69;
-    border-radius: 50px;
+    border-radius: 40px;
+    color: #ffffff;
+    font-size: 1.3em;
+    font-weight: 500;
     animation: to-active 200ms linear; }
 
 .pill-container {
@@ -462,20 +468,20 @@ footer {
 
 @keyframes to-active {
   0% {
-    width: 50px;
+    width: 40px;
     background: #ffffff; }
   100% {
-    width: 150px;
+    width: 120px;
     background: #3bbc69;
     border-style: none; } }
 
 @keyframes to-inactive {
   0% {
-    width: 150px;
+    width: 120px;
     background: #3bbc69;
     border-style: none; }
   100% {
-    width: 50px;
+    width: 40px;
     background: #ffffff; } }
 
 .black-hr {
