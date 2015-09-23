@@ -23,6 +23,8 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
+
+    $scope.open()
 });
 
 app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items) {

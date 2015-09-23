@@ -28,7 +28,9 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
 
     $scope.isActive = function (step) {
         if (stateStep == step) {
-            return 'make-active'
+            return true
+        } else {
+            return false
         }
 
 

@@ -725,7 +725,9 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
 
     $scope.isActive = function (step) {
         if (stateStep == step) {
-            return 'make-active'
+            return true
+        } else {
+            return false
         }
 
 
@@ -847,6 +849,8 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
+
+    $scope.open()
 });
 
 app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items) {
