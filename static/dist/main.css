@@ -214,6 +214,10 @@ h1, h2, h3, h5, p, div {
   margin: 0 auto;
   width: 75%; }
 
+.main-page {
+  margin: 0 auto;
+  width: 70%; }
+
 hr {
   max-width: 50px;
   border-width: 3px; }
@@ -414,6 +418,10 @@ footer {
   .banner h1 {
     left: 5%; } }
 
+@media (min-width: 1024px) {
+  .journey-one {
+    width: 65%; } }
+
 .step-container {
   padding: 20px;
   text-align: center;
@@ -535,8 +543,8 @@ ul.btn-list-grid li {
     margin-right: 2%; } }
 
 .step-two .row {
-  /*padding: .8em;
-    margin-bottom: .4em;*/ }
+  padding: .8em;
+  /*margin-bottom: .4em;*/ }
 
 .step-two .service {
   background-color: #808080;

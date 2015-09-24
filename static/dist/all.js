@@ -695,61 +695,6 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location)
 
 
 });
-
-app.controller('ProgressController', function ($scope, $state, $rootScope) {
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-
-        return 'inactive'
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-});
 /**
  * Created by Nem on 7/18/15.
  */
@@ -823,6 +768,61 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     });
 
 
+});
+
+app.controller('ProgressController', function ($scope, $state, $rootScope) {
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
+
+
+
+        return 'inactive'
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
 });
 app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
 

@@ -43,6 +43,11 @@ h1, h2, h3, h5, p,div {
   width: 75%;
 }
 
+.main-page {
+  margin: 0 auto;
+  width: 70%;
+}
+
 hr {
     max-width: 50px;
     border-width: 3px;
@@ -309,8 +314,11 @@ footer {
     left: 5%;
   }
 
+}
 
-
-
+@media(min-width: 1024px) {
+  .journey-one{
+    width: 65%;
+  }
 }
 
