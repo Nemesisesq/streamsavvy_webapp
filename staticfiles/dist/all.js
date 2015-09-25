@@ -509,35 +509,6 @@ app.controller('home', function ($scope, $http, http, PackageService, $rootScope
 
 });
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
-    $scope.logged_in = false;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        debugger;
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.hardware = [];
     $scope.package = [];
@@ -555,7 +526,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
                 $scope.package = data;
                 $scope.packageList = data.content;
                 $rootScope.button_message = $scope.package.hardware.length ?  ' Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware'
-                debugger;
                 return data
 
             });
@@ -596,7 +566,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     var loadHardware = function() {
         http.getHardware()
             .then(function(hware){
-                debugger;
 
                 var userHardwareUrls = _.map($scope.package.hardware, function(item){
                     return item.url
@@ -619,7 +588,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     };
     var loadProviderContentHash = function () {
 
-        $scope.rows = _.map($scope.providers, function (provider) {
+        var rows = _.map($scope.providers, function (provider) {
             var prov = _.find($scope.providerObj, function (obj) {
                 return obj.name == provider;
             });
@@ -652,6 +621,10 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
         });
 
+        $scope.rows  = _.filter(rows, function (obj) {
+            return _.isEqual(obj.service.channel_type, "online")
+        });
+
         return $scope.rows
 
     };
@@ -659,9 +632,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.toggleService = function (row) {
         http.getRestPackage()
             .then(function (p) {
-
-
-                debugger;
                 if (!row.selected) {
                     p.providers.push(row.service.url);
 
@@ -700,6 +670,35 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
 });
 
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
+    $scope.logged_in = false;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        debugger;
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
 
 app.controller('ProgressController', function ($scope, $state, $rootScope) {
     var stateStep = $state.current.data.step;
@@ -730,7 +729,9 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
 
     $scope.isActive = function (step) {
         if (stateStep == step) {
-            return 'make-active'
+            return true
+        } else {
+            return false
         }
 
 
@@ -852,6 +853,8 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
             $log.info('Modal dismissed at: ' + new Date());
         });
     }
+
+    $scope.open()
 });
 
 app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items) {

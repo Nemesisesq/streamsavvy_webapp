@@ -663,6 +663,7 @@ span.selected-cost {
   border-width: 1px;
   height: 1px;
   max-width: none;
+  width: 100%;
   border-color: black; }
 
 .search-bar {
