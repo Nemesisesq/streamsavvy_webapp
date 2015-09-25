@@ -92,8 +92,9 @@ class GuideBox:
 
     def populate_content(self):
 
+        total_results = json.loads(self.get_content(0))['total_results']
         show_count = 0
-        for x in range(int(17588 / 250) + 1):
+        for x in range(int(total_results / 250) + 1):
 
             index = x * 250
 

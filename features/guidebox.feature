@@ -9,10 +9,10 @@ Feature: guidebox api feature
 #    When get_shows is called
 #    Then json is returned
 
-#  Scenario: Grabbing shows from guidebox in multiple calls
-#    Given repeat 3 times
-#    When populate_content is called
-#    Then there are 750 results
+  Scenario: Grabbing shows from guidebox in multiple calls
+    Given repeat 3 times
+    When populate_content is called
+    Then there are 750 results
 #
 #  Scenario: Getting a show's details from guidbox
 #    Given show id 2625 and name Homeland

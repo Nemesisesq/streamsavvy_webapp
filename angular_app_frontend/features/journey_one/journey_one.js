@@ -111,7 +111,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
         });
 
         $scope.rows  = _.filter(rows, function (obj) {
-            debugger;
             return _.isEqual(obj.service.channel_type, "online")
         });
 
