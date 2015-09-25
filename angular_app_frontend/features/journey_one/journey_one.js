@@ -77,7 +77,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     };
     var loadProviderContentHash = function () {
 
-        $scope.rows = _.map($scope.providers, function (provider) {
+        var rows = _.map($scope.providers, function (provider) {
             var prov = _.find($scope.providerObj, function (obj) {
                 return obj.name == provider;
             });
@@ -108,6 +108,11 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
             return obj
 
+        });
+
+        $scope.rows  = _.filter(rows, function (obj) {
+            debugger;
+            return _.isEqual(obj.service.channel_type, "online")
         });
 
         return $scope.rows
