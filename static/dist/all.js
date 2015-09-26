@@ -699,8 +699,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location)
 
 
 });
-
-app.controller('ProgressController', function ($scope, $state, $rootScope) {
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location) {
     var stateStep = $state.current.data.step;
     $scope.stateStep = stateStep;
     $rootScope.currentStep = stateStep;
@@ -735,8 +734,14 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
         }
 
 
-
         return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if($scope.stateStep > stateStep)
+        $location.path('/getting-started/step/' + stateStep)
+
     }
 
     if (stateStep == 1) {

@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User, UserManager
 from django.db import models
 from django.db.models import ManyToManyField
+from django.utils import timezone
+
 
 class AnonymousUser(User):
     session = models.CharField(max_length= 100)
@@ -39,6 +41,11 @@ class ContentProvider(models.Model):
     thumbnail_large = models.URLField(blank=True, null=True)
     thumbnail_x_large = models.URLField(blank=True, null=True)
     hardware = models.ManyToManyField(Hardware)
+    modified = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.modified = timezone.now()
+        return super(ContentProvider, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -67,6 +74,11 @@ class Content(models.Model):
     thumbnail_large = models.URLField(blank=True, null=True)
     thumbnail_x_large = models.URLField(blank=True, null=True)
     content_provider = models.ManyToManyField(ContentProvider)
+    modified = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.modified = timezone.now()
+        return super(Content, self).save(*args, **kwargs)
 
     def __str__(self):
         return "Show {0}".format(self.title)

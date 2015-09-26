@@ -542,9 +542,25 @@ ul.btn-list-grid li {
     margin-left: 1%;
     margin-right: 2%; } }
 
+.step-two .selected {
+  border: .27em solid;
+  border-color: #3b94e3;
+  border-radius: 1.5em;
+  border-top-right-radius: 0; }
+
 .step-two .row {
   padding: .8em;
-  /*margin-bottom: .4em;*/ }
+  position: relative; }
+  .step-two .row .checkmark {
+    background-color: #ffffff;
+    font-size: 2em;
+    position: absolute;
+    border-radius: 100%;
+    color: #3b94e3;
+    z-index: 2;
+    top: -12px;
+    right: -14.5px;
+    display: block; }
 
 .step-two .service {
   background-color: #808080;
@@ -570,10 +586,6 @@ ul.btn-list-grid li {
 
 .step-two .show {
   display: inline-block !important; }
-
-.step-two .selected {
-  border: .27em solid;
-  border-color: #3b94e3; }
 
 .service_cost {
   font-size: 2em;

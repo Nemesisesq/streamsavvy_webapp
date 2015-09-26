@@ -1,8 +1,29 @@
 .step-two {
 
+  .selected {
+    border: .27em solid;
+    border-color: #3b94e3;
+    border-radius: 1.5em;
+    border-top-right-radius: 0;
+
+  }
+
   .row {
     padding: .8em;
-    /*margin-bottom: .4em;*/
+    position: relative;
+
+    .checkmark {
+      background-color: #ffffff;
+      font-size: 2em;
+      position: absolute;
+      border-radius: 100%;
+      color: #3b94e3;
+      z-index: 2;
+      top: -12px;
+      right: -14.5px;
+      display: block;
+
+    }
   }
 
   .service {
@@ -34,11 +55,6 @@
   .show {
     //    font-size: 200%;
     display: inline-block !important;
-  }
-
-  .selected {
-    border: .27em solid;
-    border-color: #3b94e3;
   }
 
 }

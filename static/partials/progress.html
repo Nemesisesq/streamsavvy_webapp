@@ -4,7 +4,7 @@
             <div class="col-xs-3 step-container">
                 <div id="step-one" class="center"
                      ng-class="{make_active: stateStep == 1, inactive: stateStep != 1, step_finished : stateStep > 1  }"
-                     onclick="if(stateStep > 1){location.href='#/getting-started/step/1'};">
+                     ng-click="navigate(1)">
                     <span ng-if="step.one.show">{{ step.one.text }}</span>
                     <span ng-if="stateStep > 1 ">1</span>
                 </div>
@@ -12,7 +12,7 @@
             <div class="col-xs-3 step-container">
                 <div id="step-two" class="center"
                      ng-class="{make_active: stateStep == 2, inactive: stateStep != 2, step_finished : stateStep > 2  }"
-                        onclick="if(stateStep > 2){location.href='#/getting-started/step/2'};">
+                     ng-click="navigate(2)">
                     <span ng-if="step.two.show">{{ step.two.text }}</span>
                     <span ng-if="stateStep > 2">2</span>
                 </div>
@@ -20,7 +20,7 @@
             <div class="col-xs-3 step-container">
                 <div id="step-three" class="center"
                      ng-class="{make_active: stateStep == 3, inactive: stateStep != 3, step_finished : stateStep > 3  }"
-                        onclick="if(stateStep > 3){location.href='#/getting-started/step/3'};">
+                     ng-click="navigate(3)">
                     <span ng-if="step.three.show">{{ step.three.text }}</span>
                     <span ng-if="stateStep > 3">3</span>
                 </div>
@@ -28,7 +28,7 @@
             <div class="col-xs-3 step-container">
                 <div id="step-four" class="center"
                      ng-class="{make_active: stateStep == 4, inactive: stateStep != 4 , step_finished : stateStep > 4 }"
-                        onclick="if(stateStep > 4){location.href='#/getting-started/step/4'};">
+                     ng-click="navigate(4)">
                     <span ng-if="step.four.show">{{ step.four.text }}</span>
                     <span ng-if="stateStep > 4">4</span>
                 </div>

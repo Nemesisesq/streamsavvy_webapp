@@ -19,9 +19,9 @@ Feature: guidebox api feature
 #    When get_content_detail method is called
 #    Then json is returned with an object of show id 2625 and name Homeland
 
-#  Scenario: Testing Multi threading
-#    When show_detail_multithreading is called
-#    Then shows have a description
+  Scenario: Testing Multi threading
+    When show_detail_multithreading is called
+    Then shows have a description
 
   Scenario: Testing Additional Provider acq
     When show_detail_multithreading_extra is called

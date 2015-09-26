@@ -8,9 +8,9 @@ from queue import Queue
 import time
 
 from django.db.models import Q
-
 from django.db import IntegrityError
 from django.core import serializers
+from django.utils import timezone
 import yaml
 
 from server.models import Content, ContentProvider
@@ -131,54 +131,67 @@ class GuideBox:
 
         def save_show_detail(worker):
             time.sleep(1)
-            detail = json.loads(self.get_content_detail(worker.guidebox_id))
-            # time.sleep(1)
-            # provider_detail = json.loads(self.get_episode_details(worker.guidebox_id))
-            with db_lock:
+            tdays = 0
+
+            if worker.modified:
+                time_dif = timezone.now() - worker.modified
+                tdays = time_dif.days
+            else:
+                tdays = 11
+
+            if tdays > 10:
                 try:
-                    worker.description = detail['overview']
-                    print("saving {worker} on thread {thread} hello world".format(worker=worker,
-                                                                                  thread=threading.current_thread().name))
+                    detail = json.loads(self.get_content_detail(worker.guidebox_id))
+                    # time.sleep(1)
+                    # provider_detail = json.loads(self.get_episode_details(worker.guidebox_id))
+                    with db_lock:
+                        try:
+                            worker.description = detail['overview']
+                            print("saving {worker} on thread {thread} hello world".format(worker=worker,
+                                                                                          thread=threading.current_thread().name))
 
-                    for channel in detail['channels']:
+                            for channel in detail['channels']:
 
-                        provider = ContentProvider.objects.get_or_create(name=channel['name'])
+                                provider_tup = ContentProvider.objects.get_or_create(name=channel['name'])
 
-                        if isinstance(provider, tuple):
-                            provider = provider[0]
+                                if isinstance(provider_tup, tuple):
+                                    provider = provider_tup[0]
+                                provider.guidebox_id = int(channel['id'])
+                                provider.channel_type = channel['channel_type']
+                                provider.thumbnail_small = channel['artwork_208x117']
+                                provider.thumbnail_medium = channel['artwork_304x171']
+                                provider.thumbnail_large = channel['artwork_448x252']
+                                provider.thumbnail_x_large = channel['artwork_608x342']
 
-                        provider.guidebox_id = int(channel['id'])
-                        provider.channel_type = channel['channel_type']
-                        provider.thumbnail_small = channel['artwork_208x117']
-                        provider.thumbnail_medium = channel['artwork_304x171']
-                        provider.thumbnail_large = channel['artwork_448x252']
-                        provider.thumbnail_x_large = channel['artwork_608x342']
+                                # print(provider.to_dict())
+                                provider.save()
 
-                        # print(provider.to_dict())
-                        provider.save()
+                                worker.content_provider.add(provider)
 
-                        worker.content_provider.add(provider)
+                                worker.save()
 
-                        worker.save()
+                            # for provider in provider_detail['results']['web']['episodes']['all_sources']:
+                            #
+                            # p = ContentProvider.objects.get_or_create(name=provider['display_name'])
+                            #
+                            # if isinstance(p, tuple):
+                            # p = p[0]
+                            #
+                            # worker.content_provider.add(p)
 
-                    # for provider in provider_detail['results']['web']['episodes']['all_sources']:
-                    #
-                    # p = ContentProvider.objects.get_or_create(name=provider['display_name'])
-                    #
-                    # if isinstance(p, tuple):
-                    # p = p[0]
-                    #
-                    #     worker.content_provider.add(p)
-
-                    print("{worker} description saved".format(worker=worker))
+                            print("{worker} description saved".format(worker=worker))
 
 
+                        except Exception as e:
+                            print(e)
+                            pass
+
+                        finally:
+                            print("releasing lock")
                 except Exception as e:
-                    print(e)
+                    print("an Exceptioin {e} occured for Guidebox.Id {id} {worker}".format(e=e, id=worker.guidebox_id,
+                                                                                           worker=worker))
                     pass
-
-                finally:
-                    print("releasing lock")
 
 
         def threader():
@@ -225,7 +238,7 @@ class GuideBox:
                     # provider = ContentProvider.objects.get_or_create(name=channel['name'])
                     #
                     # if isinstance(provider, tuple):
-                    #         provider = provider[0]
+                    # provider = provider[0]
                     #
                     #     provider.guidebox_id = int(channel['id'])
                     #     provider.channel_type = channel['channel_type']
