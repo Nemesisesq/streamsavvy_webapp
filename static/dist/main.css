@@ -543,7 +543,7 @@ ul.btn-list-grid li {
     margin-right: 2%; } }
 
 .step-two .selected {
-  border: .27em solid;
+  border: .15em solid;
   border-color: #3b94e3;
   border-radius: 1.5em;
   border-top-right-radius: 0; }
@@ -555,7 +555,7 @@ ul.btn-list-grid li {
     background-color: #ffffff;
     font-size: 2em;
     position: absolute;
-    border-radius: 100%;
+    border-radius: 2em;
     color: #3b94e3;
     z-index: 2;
     top: -12px;
@@ -592,8 +592,9 @@ ul.btn-list-grid li {
   color: #3b94e3; }
 
 .go_back {
-  font-size: 2em;
+  font-size: 1.5em;
   vertical-align: text-bottom;
+  display: flex;
   margin-bottom: 0; }
 
 p.step-two-explanation {
@@ -622,11 +623,41 @@ span.selected-cost {
   max-height: 250px; }
 
 .step-three .selected {
-  border: .25em solid;
-  border-color: #3b94e3; }
+  border: .15em solid;
+  border-color: #3b94e3;
+  border-radius: 1.5em;
+  border-top-right-radius: 0;
+  padding: 7px; }
+  .step-three .selected .checkmark {
+    background-color: #ffffff;
+    font-size: 2em;
+    position: absolute;
+    border-radius: 100%;
+    color: #3b94e3;
+    z-index: 2;
+    top: -12px;
+    right: 5px;
+    display: block; }
 
 .disabled {
   background-color: #808080; }
+
+.go_back {
+  position: absolute;
+  bottom: 0;
+  right: 5%;
+  text-decoration: underline;
+  color: black; }
+
+.go_fwd {
+  position: absolute;
+  bottom: 0;
+  left: 5%; }
+
+.step-btn {
+  height: 50px;
+  position: relative;
+  padding-right: 5px; }
 
 .step-four img {
   max-width: 90%; }
