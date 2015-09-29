@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from server.shortcuts import SettingsVars,DBurl
+
+from server.shortcuts import SettingsVars, DBurl
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -86,7 +88,7 @@ WSGI_APPLICATION = 'cutthecord.wsgi.application'
 
 # DATABASES = {
 # 'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+# 'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
@@ -186,6 +188,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
+    'social.backends.instagram.InstagramOAuth2',
     'social.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -197,7 +200,27 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 credentials = SettingsVars(BASE_DIR)
 
+# TODO set up environment variables for the purposes of testing
+#############################
+#  FACEBOOK                 #
+#############################
 SOCIAL_AUTH_FACEBOOK_KEY = credentials.facebook['app_id']
 SOCIAL_AUTH_FACEBOOK_SECRET = credentials.facebook['secret']
 
-SOCIAL_AUTH_FACEBOOK_SCOPE=['email']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+#############################
+#  INSTAGRAM                #
+#############################
+SOCIAL_AUTH_INSTAGRAM_KEY = 'f0ac789e2ee5470aa5183e34e6ab614c'
+SOCIAL_AUTH_INSTAGRAM_SECRET = '9fc740b480d842d791f5ac1e46dcaa9f'
+
+SOCIAL_AUTH_INSTAGRAM_AUTH_EXTRA_ARGUMENTS = {}
+
+#############################
+#  TWITTER                  #
+#############################
+SOCIAL_AUTH_TWITTER_KEY = 'cLVR8wg1x7lEcKUyrCzq9sSyb'
+SOCIAL_AUTH_TWITTER_SECRET = 'iBBWHGbMcSty45cK9RQwEXNhdmgzbTonQkZ8cBqKJmYlhPUyFI'
+
+

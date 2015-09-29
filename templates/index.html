@@ -62,7 +62,10 @@
 <div ui-view></div>
 
 <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
+<a href="{% url 'social:begin' 'instagram' %}?next={{ request.path }}">login to instagram</a>
+<a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">login to twitter</a>
 {#{% url "socialauth_disconnect" %}#}
+
 <div
   class="fb-like"
   data-share="true"

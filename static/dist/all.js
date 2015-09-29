@@ -768,9 +768,10 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     $scope.selectedShows = PackageService.selectedShows;
     $scope.selectedIndex = -1;
 
-    $scope.search = function () {
-        if ($scope.searchText) {
-            $scope.suggestions = [];
+    $scope.search = _.debounce(function () {
+        debugger;
+        if ($scope.searchText.title) {
+            //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText.title)
                 .success(function (data) {
                     PackageService.searchResults = data.results;
@@ -782,7 +783,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
         } else {
             $scope.suggestions = [];
         }
-    };
+    }, 500);
 
     $scope.addToSelectedShows = function (suggestion) {
         var newPackage;
@@ -802,7 +803,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
             });
 
         $scope.searchText = '';
-        $scope.suggestions = [];
+        //$scope.suggestions = [];
 
 
     };
