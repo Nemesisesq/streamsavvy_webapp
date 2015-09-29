@@ -42,7 +42,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
             });
 
         $scope.searchText = '';
-        //$scope.suggestions = [];
+        $scope.suggestions = [];
 
 
     };
