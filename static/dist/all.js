@@ -863,7 +863,26 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
     $scope.open()
 });
 
-app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items) {
+app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items, $location) {
+
+    $scope.facebookAuth = function () {
+
+    $location.path($('#facebook_login').attr('href'));
+    }
+
+    $scope.instagramUrl = function () {
+
+    $location.path($('#instagram_login').attr('href'));
+    }
+
+    $scope.twitterUrl = function () {
+
+     $location.path($('#twitter_login').attr('href'));
+    }
+
+
+
+
     $scope.items = items;
 
     $scope.selected = {
