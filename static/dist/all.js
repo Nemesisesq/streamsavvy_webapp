@@ -3,11 +3,12 @@
  */
 var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate"]);
 
-app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
-    //$locationProvider.html5Mode({
-    //    enabled: false,
-    //    requireBase: false
-    //}).hashPrefix('');
+app.constant('CONFIG', {
+    'URL': location.origin
+})
+
+app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
+
 
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -82,8 +83,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
         })
         .state('journey-one.step-two', {
             url: '/getting-started/step/2',
-            data :{
-                step :2
+            data: {
+                step: 2
             },
             views: {
                 'navigation': {
@@ -105,8 +106,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
         })
         .state('journey-one.step-three', {
             url: '/getting-started/step/3',
-            data :{
-                step :3
+            data: {
+                step: 3
             },
             views: {
                 'navigation': {
@@ -128,8 +129,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
         })
         .state('journey-one.step-four', {
             url: '/getting-started/step/4',
-            data :{
-                step :4
+            data: {
+                step: 4
             },
             views: {
                 'navigation': {
@@ -137,8 +138,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
                     controller: 'navigation'
                 },
                 'modal': {
-                    templateUrl : '/static/partials/modal/modalContainer.html',
-                    controller : 'Step4ModalController'
+                    templateUrl: '/static/partials/modal/modalContainer.html',
+                    controller: 'Step4ModalController'
                 },
                 'progress': {
                     templateUrl: 'static/partials/progress.html',
@@ -863,21 +864,22 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
     $scope.open()
 });
 
-app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items, $location) {
+app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
 
     $scope.facebookAuth = function () {
+        debugger
 
-    $location.path($('#facebook_login').attr('href'));
+    window.location = CONFIG.URL + $('#facebook_login').attr('href');
     }
 
-    $scope.instagramUrl = function () {
+    $scope.instagramAuth = function () {
 
-    $location.path($('#instagram_login').attr('href'));
+    window.location = CONFIG.URL + $('#instagram_login').attr('href');
     }
 
-    $scope.twitterUrl = function () {
+    $scope.twitterAuth = function () {
 
-     $location.path($('#twitter_login').attr('href'));
+     window.location = CONFIG.URL + $('#twitter_login').attr('href');
     }
 
 

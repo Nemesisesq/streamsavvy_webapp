@@ -27,21 +27,22 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
     $scope.open()
 });
 
-app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items, $location) {
+app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
 
     $scope.facebookAuth = function () {
+        debugger
 
-    $location.path($('#facebook_login').attr('href'));
+    window.location = CONFIG.URL + $('#facebook_login').attr('href');
     }
 
-    $scope.instagramUrl = function () {
+    $scope.instagramAuth = function () {
 
-    $location.path($('#instagram_login').attr('href'));
+    window.location = CONFIG.URL + $('#instagram_login').attr('href');
     }
 
-    $scope.twitterUrl = function () {
+    $scope.twitterAuth = function () {
 
-     $location.path($('#twitter_login').attr('href'));
+     window.location = CONFIG.URL + $('#twitter_login').attr('href');
     }
 
 
