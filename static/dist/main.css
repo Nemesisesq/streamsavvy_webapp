@@ -303,16 +303,39 @@ hr {
   max-width: 250px;
   max-height: 50px; }
 
-.why-money {
+.why-money, .build-bundle, .build-service-list {
   text-align: center;
-  padding: 5%; }
+  padding-top: 5%;
+  padding-bottom: 5%; }
 
-.why-money-title {
+.why-money-title, .build-bundle-title, .build-service-list-title, .build-show-list-title {
   font-size: 2.5em;
   font-weight: bold; }
 
-.stacks {
+.build-show-list-title {
+  padding-left: 19.5%;
+  padding-top: 7%; }
+
+.build-show-list-description {
+  padding-left: 4%; }
+
+.build-show-list-hr {
+  margin-right: 72%; }
+
+.stacks, .build-service-list-pic {
   width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 2%; }
+
+.build-service-list-pic {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 2%; }
+
+.build-bundle-pic {
+  width: 52%;
   margin-left: auto;
   margin-right: auto;
   padding-top: 2%; }
@@ -421,6 +444,12 @@ footer {
 @media (min-width: 1024px) {
   .journey-one {
     width: 65%; } }
+
+.build-bundle, .build-show-list, .step-one-explanation {
+  background-color: #E3E3E5; }
+
+.left-column {
+  padding-left: 10%; }
 
 .step-container {
   padding: 20px;
