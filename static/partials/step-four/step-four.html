@@ -38,16 +38,16 @@
 
         <hr class="black-hr">
             <div class="row">
-            <div>Selected Services: 3.50 </div>
-            <div>Selected Devices: $.$$</div>
+            <div>Selected Services: {{ cost.services }} / month </div>
+            <div>Selected Devices: {{ cost.hardware }} </div>
             <div>Tax: Death</div>
         </div>
 
         <hr class="black-hr">
 
         <div class="row">
-            <div>Total Cost Today: 1,000,0000.00</div>
-            <div>Total Monthly Savings : 3 dollars!</div>
+            <!-- <div>Total Cost Today: 1,000,0000.00</div> -->
+            <div>Total Monthly Savings :{{ savings.toFixed(2) }}</div>
         </div>
     </div>
 

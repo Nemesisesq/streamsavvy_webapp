@@ -7,6 +7,15 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.providers = [];
     $scope.rows = [];
 
+    $scope.cost = {
+        services: 0,
+        hardware: 0
+    }
+
+    $scope.cableCost = 75.00
+
+    $scope.savings = $scope.cableCost - $scope.cost.services;
+
 
 
     $rootScope.loadPackage = function () {
@@ -118,6 +127,18 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
     };
 
+    var calculateTotalCost = function() {
+        $scope.cost.services =0;
+        debugger;
+        _.each($scope.package.providers, function (p) {
+            $scope.cost.services += p.retail_cost;
+        });
+
+        $scope.savings = $scope.cableCost - $scope.cost.services;
+
+
+    }
+
     $scope.toggleService = function (row) {
         http.getRestPackage()
             .then(function (p) {
@@ -152,7 +173,8 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
         $rootScope.loadPackage()
             .then(loadProviders)
             .then(loadHardware)
-            .then(loadProviderContentHash);
+            .then(loadProviderContentHash)
+            .then(calculateTotalCost);
     };
 
     $rootScope.load()
