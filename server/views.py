@@ -37,11 +37,36 @@ class ContentProviderViewSet(viewsets.ModelViewSet):
 
 
 class ContentSearchViewSet(viewsets.ModelViewSet):
+    params = None
     # queryset = content_search()
     serializer_class = ContentSerializer
 
+    def filter_by_content_provider(self, x):
+        f = x.content_provider.filter(self.params)
+        if len(f) > 0:
+           return False
+        else:
+          return True
+
+    def filter_query(self, filtered_ids, entries):
+
+        for i in filtered_ids:
+            q = Q(pk=i)
+
+            if self.params:
+                self.params = self.params | q
+
+            else:
+                self.params = q
+
+        return list(filter(self.filter_by_content_provider, entries))
+
+
     def get_queryset(self):
-        return content_search(self.request)
+        search_results = content_search(self.request)
+        filter_results = self.filter_query([88, 379, 858], search_results)
+
+        return filter_results
 
 
 class ContentViewSet(viewsets.ModelViewSet):
@@ -144,7 +169,14 @@ def content_search(request):
 
         entry_query = get_query(query_string, ['title'])
 
+
+
         found_entries = Content.objects.filter(entry_query)
+
+
+
+        for entry in found_entries:
+            pass
 
         # data = []
         # for i in found_entries:
@@ -157,3 +189,6 @@ def content_search(request):
 
         # return JsonResponse(data, safe=False)
         return found_entries
+
+
+
