@@ -184,7 +184,8 @@ span.glyphicon.glyphicon-ok-sign.glyphicon-background.blue-glyphicon.selected {
   text-align: center;
   color: #f8f8f8;
   background: white;
-  background-size: cover; }
+  background-size: cover;
+  /*background-image: url('/static/img/dark-splash-background.png');*/ }
 
 .intro-message {
   position: relative;
