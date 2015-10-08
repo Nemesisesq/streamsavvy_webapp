@@ -764,3 +764,6 @@ span.selected-cost {
 
 .modal-body .row {
   padding: 3px; }
+
+.btn-login:hover {
+  color: #000088; }

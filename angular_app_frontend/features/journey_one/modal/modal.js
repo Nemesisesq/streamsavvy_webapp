@@ -1,4 +1,6 @@
-app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+
+    $scope.login = 'Click Here to Login'
 
     $scope.items = ['item1', 'item2', 'item3'];
 
@@ -6,7 +8,7 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',
-            controller: 'Step4ModalInstanceController',
+            controller: 'ModalInstanceController',
             size: 'sm',
             resolve: {
                 items: function () {
@@ -24,10 +26,12 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
         });
     }
 
-    $scope.open()
+    if ($rootScope.currentStep == 4) {
+        $scope.open()
+    }
 });
 
-app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
+app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
 
     $scope.facebookAuth = function () {
         debugger
