@@ -182,7 +182,10 @@ redis_url = urlparse(os.environ.get('REDISCLOUD_URL'))
 CACHES = {
     'default' : {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION' :  [redis_url.netloc,],
+        'LOCATION' :  [
+            redis_url.netloc,
+            '{0}:{1}'.format(redis_url.hostname, redis_url.port)
+                       ],
         'OPTIONS' : {
             'PASSWORD': redis_url.password,
             'DB': 0,
