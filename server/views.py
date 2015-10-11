@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group
 from rest_framework import viewsets
 from django.db.models import Q
 from rest_framework.permissions import IsAdminUser
+from django.core.cache import cache
 
 from server.permissions import IsAdminOrReadOnly
 from server.models import *
@@ -167,11 +168,16 @@ def content_search(request):
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
 
+        if cache.get(query_string):
+            return cache.get(query_string)
+
         entry_query = get_query(query_string, ['title'])
 
 
 
         found_entries = Content.objects.filter(entry_query)
+
+        cache.set(query_string, found_entries)
 
 
 

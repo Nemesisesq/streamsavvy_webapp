@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from urllib.parse import urlparse
 
 from server.shortcuts import SettingsVars, DBurl
-
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -50,6 +50,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'cutthecord.urls'
@@ -169,6 +171,25 @@ else:
 
 DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
 
+#############################
+#  CACHES                   #
+#############################
+x = urlparse(os.environ.get('REDISCLOUD_URL'))
+y = x.path
+z = x.netloc
+redis_url = urlparse(os.environ.get('REDISCLOUD_URL'))
+
+CACHES = {
+    'default' : {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION' :  [redis_url.netloc,],
+        'OPTIONS' : {
+            'PASSWORD': redis_url.password,
+            'DB': 0,
+        }
+    }
+}
+
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -222,5 +243,3 @@ SOCIAL_AUTH_INSTAGRAM_AUTH_EXTRA_ARGUMENTS = {}
 #############################
 SOCIAL_AUTH_TWITTER_KEY = 'cLVR8wg1x7lEcKUyrCzq9sSyb'
 SOCIAL_AUTH_TWITTER_SECRET = 'iBBWHGbMcSty45cK9RQwEXNhdmgzbTonQkZ8cBqKJmYlhPUyFI'
-
-
