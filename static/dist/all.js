@@ -526,12 +526,11 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.cost = {
         services: 0,
         hardware: 0
-    }
+    };
 
-    $scope.cableCost = 75.00
+    $scope.cableCost = 75.00;
 
     $scope.savings = $scope.cableCost - $scope.cost.services;
-
 
 
     $rootScope.loadPackage = function () {
@@ -539,8 +538,8 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
             .then(function (data) {
                 $scope.package = data;
                 $scope.packageList = data.content;
-                $rootScope.step3ButtonMessage = $scope.package.hardware.length ?  'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
-                $rootScope.step2ButtonMessage = $scope.package.providers.length ?  'Time to pick out the Hardware' : 'You still need to select a service' ;
+                $rootScope.step3ButtonMessage = $scope.package.hardware.length ? 'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
+                $rootScope.step2ButtonMessage = $scope.package.providers.length ? 'Time to pick out the Hardware' : 'You still need to select a service';
                 return data
             });
     };
@@ -577,17 +576,17 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
         })
     };
 
-    var loadHardware = function() {
+    var loadHardware = function () {
         http.getHardware()
-            .then(function(hware){
+            .then(function (hware) {
 
-                var userHardwareUrls = _.map($scope.package.hardware, function(item){
+                var userHardwareUrls = _.map($scope.package.hardware, function (item) {
                     return item.url
 
                 });
 
-                $scope.hardware = _.map(hware.results, function(item){
-                    if(_.includes(userHardwareUrls, item.url)){
+                $scope.hardware = _.map(hware.results, function (item) {
+                    if (_.includes(userHardwareUrls, item.url)) {
                         item.selected = true;
                         return item
                     } else {
@@ -595,7 +594,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
                         return item
                     }
                 })
-
 
 
             })
@@ -635,17 +633,42 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
         });
 
-        $scope.rows  = _.filter(rows, function (obj) {
+        debugger;
+        $scope.rows = _.filter(rows, function (obj) {
             return _.isEqual(obj.service.channel_type, "online")
         });
+
+        var selectedShows = _.flatten(
+            _.map(rows, function (row) {
+                if (row.selected) {
+                    return row.content
+                } else {
+                    return []
+                }
+            })
+        );
+
+
+        $scope.rows = _.map($scope.rows, function (row) {
+            if (!row.selected) {
+                row.content = _.filter(row.content, function (show) {
+                    return !_.includes(selectedShows, show)
+                });
+            }
+
+            return row;
+        });
+
+        $scope.rows = _.sortByAll($scope.rows, ['selected', 'content'], _.values).reverse();
+
 
         return $scope.rows
 
     };
 
-    var calculateTotalCost = function() {
-        $scope.cost.services =0;
-        debugger;
+
+    var calculateTotalCost = function () {
+        $scope.cost.services = 0;
         _.each($scope.package.providers, function (p) {
             $scope.cost.services += p.retail_cost;
         });
