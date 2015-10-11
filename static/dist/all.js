@@ -810,7 +810,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
         } else {
             $scope.suggestions = [];
         }
-    }, 100);
+    }, 300);
 
     $scope.addToSelectedShows = function (suggestion) {
         var newPackage;

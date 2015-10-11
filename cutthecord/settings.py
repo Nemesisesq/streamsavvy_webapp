@@ -183,7 +183,6 @@ CACHES = {
     'default' : {
         'BACKEND': 'redis_cache.RedisCache',
         'LOCATION' :  [
-            redis_url.netloc,
             '{0}:{1}'.format(redis_url.hostname, redis_url.port)
                        ],
         'OPTIONS' : {
