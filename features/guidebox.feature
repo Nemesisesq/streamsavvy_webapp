@@ -27,3 +27,7 @@ Feature: guidebox api feature
     When show_detail_multithreading_extra is called
     Then we just pass True here
 
+
+  Scenario: Adding Netflixable shows
+    When I call netflixable
+    Then I get shows

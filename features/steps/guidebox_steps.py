@@ -1,6 +1,8 @@
+import json
 from behave import given, when, then
 from server.populate_data import *
 # import json
+from server.populate_data.netflixable import Netflixable
 
 __author__ = 'Nem'
 
@@ -30,6 +32,11 @@ def set_show_id(context, show_id, show_name):
 ## WHEN
 ############################
 
+@when(u'I call netflixable')
+def test_call_netflixable(content):
+    n = Netflixable('http://usa.netflixable.com/2015/10/complete-alphabetical-list-tue-oct-13.html')
+    n.process_shows()
+
 @when(u'get_content is called')
 def test_get_content(context):
     context.the_json = context.guidebox.get_content(context.index)
@@ -55,6 +62,10 @@ def test_multithreaded(context):
 ############################
 ## THEN
 ############################
+
+@then(u'I get shows')
+def check_for_shows(context):
+    assert True
 
 @then(u'json is returned')
 def check_json(context):

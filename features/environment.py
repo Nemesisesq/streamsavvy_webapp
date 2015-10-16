@@ -1,7 +1,7 @@
 import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'cutthecord.settings'
 
-from server.populate_data import GuideBox
+from server.populate_data.guidebox import GuideBox
 
 def before_all(context):
     # Even though the environment variable is set, this still may be
