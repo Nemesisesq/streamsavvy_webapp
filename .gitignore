@@ -21,3 +21,5 @@ sheltered-beyond-9114
 StreamSavvy-Server/db.yaml
 #angular_app_frontend
 bower_components
+*.log
+

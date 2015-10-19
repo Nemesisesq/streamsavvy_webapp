@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import urllib
 import urllib.error
@@ -18,7 +19,7 @@ from server.models import Content, ContentProvider
 from cutthecord.settings import BASE_DIR
 
 
-class GuideBox:
+class GuideBox(object):
     API_URL = 'api-public.guidebox.com'
     VERSION = 'v1.43'
     REGION = 'US'
@@ -37,8 +38,6 @@ class GuideBox:
         try:
             with urllib.request.urlopen(exact_url) as exact_response:
                 the_json = json.loads(exact_response.read().decode('utf-8'))
-
-
 
                 if the_json['total_results'] == 0:
                     with urllib.request.urlopen(fuzzy_url) as fuzzy_response:
@@ -107,8 +106,14 @@ class GuideBox:
             c.save()
 
     # Call the guidebox api and get
-    def get_content(self, index):
-        url = "{BASE_URL}/shows/all/{index}/250/all/all".format(BASE_URL=self.BASE_URL, index=index)
+    def get_content(self, index, **kwargs):
+
+        source = kwargs['source'] if kwargs['source'] else 'all'
+        platform = kwargs['platform'] if kwargs['platform'] else 'all'
+        url = "{BASE_URL}/shows/all/{index}/250/{source}/{platform}".format(BASE_URL=self.BASE_URL,
+                                                                            index=index,
+                                                                            source=source,
+                                                                            platform=platform)
         try:
             with urllib.request.urlopen(url) as response:
                 the_json = response.read().decode('utf-8')
@@ -309,6 +314,8 @@ class GuideBox:
 class Providers(object):
     def get_sources_info(self):
 
+        logger = logging.getLogger('cutthecord')
+
         start_time = time.time()
         sources = json.loads(GuideBox().get_sources())
         print(sources)
@@ -318,14 +325,20 @@ class Providers(object):
 
             if isinstance(cp, tuple):
                 cp = cp[0]
+            try:
 
-            cp.source = source['source']
-            cp.payment_type = source['type']
-            cp.home_url = source['info']
-            cp.apple_app = source['ios_app']
-            cp.android_app = source['android_app']
+                cp.guidebox_id = source['id']
+                cp.source = source['source']
+                cp.payment_type = source['type']
+                cp.home_url = source['info']
+                cp.apple_app = source['ios_app']
+                cp.android_app = source['android_app']
 
-            cp.save()
+                cp.save()
+
+            except Exception as e:
+
+                logger.debug(e)
 
         print("entire job too {time}".format(time=time.time() - start_time))
 
@@ -354,3 +367,60 @@ class Providers(object):
             if cp.retail_cost is None:
                 cp.retail_cost = i['fields']['retail_cost']
                 cp.save()
+
+
+def get_shows_by_source():
+    provider_class = Providers()
+    guidebox_class = GuideBox()
+
+    logger = logging.getLogger('cutthecord')
+
+    provider_class.get_sources_info()
+
+    content_providers = ContentProvider.objects.all()
+
+    for cp in content_providers:
+
+        if cp.guidebox_id and cp.source:
+
+            count = 0
+            loop = True
+            while loop:
+                try:
+                    index = count * 250
+                    results = json.loads(guidebox_class.get_content(index, source=cp.source, platform='all'))
+
+                    if results['total_returned']:
+
+                        for i in results['results']:
+                            content = Content.objects.get_or_create(guidebox_id=i['id'])
+
+                            if content[1]:
+                                logger.debug("new show added {} ".format(content[0]))
+
+                            content = content[0]
+
+                            t = timezone.now() - content.modified
+
+                            if t.total_seconds() > 60000:
+                                content.title = i['title']
+                                content.guidebox_id = i['id']
+                                content.thumbnail_small = i['artwork_208x117']
+                                content.thumbnail_medium = i['artwork_304x171']
+                                content.thumbnail_large = i['artwork_448x252']
+                                content.thumbnail_x_large = i['artwork_608x342']
+
+                            content.content_provider.add(cp)
+
+                            content.save()
+
+                    else:
+                        loop = False
+
+                except Exception as e:
+                    logger.debug(e)
+
+                finally:
+                    count += 1
+                    logger.info("{} finished".format(cp))
+                    print("{} finished".format(cp))

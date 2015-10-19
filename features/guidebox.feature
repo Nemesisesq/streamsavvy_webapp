@@ -31,3 +31,8 @@ Feature: guidebox api feature
   Scenario: Adding Netflixable shows
     When I call netflixable
     Then I get shows
+
+
+  Scenario: Searching for shows based on service provider
+    When I search by service provider
+    Then I get shows by service provider

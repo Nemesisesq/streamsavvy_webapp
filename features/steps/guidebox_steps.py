@@ -1,6 +1,6 @@
 import json
 from behave import given, when, then
-from server.populate_data import *
+from server.populate_data.guidebox import *
 # import json
 from server.populate_data.netflixable import Netflixable
 
@@ -31,9 +31,13 @@ def set_show_id(context, show_id, show_name):
 ############################
 ## WHEN
 ############################
+@when(u'I search by service provider')
+def search_by_provider(context):
+    get_shows_by_source()
+
 
 @when(u'I call netflixable')
-def test_call_netflixable(content):
+def test_call_netflixable(context):
     n = Netflixable('http://usa.netflixable.com/2015/10/complete-alphabetical-list-tue-oct-13.html')
     n.process_shows()
 
@@ -43,7 +47,7 @@ def test_get_content(context):
 
 @when(u'populate_content is called')
 def test_populate_shows(context):
-    context.show_count = context.guidebox.populate_content()
+    context.show_count = context.guidebox.populate_content(context)
 
 @when(u'get_content_detail method is called')
 def test_content_detail(context):
@@ -51,11 +55,11 @@ def test_content_detail(context):
 
 @when(u'show_detail_multithreading is called')
 def test_multithreaded(context):
-    context.guidebox.populate_content_detail_multithreaded()
+    context.guidebox.populate_content_detail_multithreaded(context)
 
 @when(u'show_detail_multithreading_extra is called')
 def test_multithreaded(context):
-    context.guidebox.populate_content_detail_multithreaded_extra()
+    context.guidebox.populate_content_detail_multithreaded_extra(context)
 
 
 
@@ -86,9 +90,13 @@ def test_detail_result(context, show_id, show_name):
     assert context.the_json['title'] == show_name
 
 @then(u'shows have a description')
-def test_show_descriptions():
+def test_show_descriptions(context):
     assert True
 
 @then(u'we just pass True here')
-def passing_true():
+def passing_true(context):
+    assert True
+
+@then(u'I get shows by service provider')
+def get_by_provider(context):
     assert True
