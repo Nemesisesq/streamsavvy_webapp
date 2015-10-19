@@ -2,7 +2,7 @@
     padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
     text-align: center;
     color: #f8f8f8;
-    background: white;
+    background: transparent;
     background-size: cover;
     /*background-image: url('/static/img/dark-splash-background.png');*/
 
@@ -23,7 +23,10 @@
 .intro-question {
   font-weight: bold;
   font-size: 3em;
-
+  color: white;
+}
+.intro-sub-question{
+  color: #f8f8f8;
 }
 
 .container {
@@ -57,10 +60,56 @@ hr {
 .black-hr {
   border-color: black;
 }
+.nav-hero{
+    background-image: url('../img/dark-splash-background.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
 .navbar-default .navbar-toggle .icon-bar {
-    background-color: white;
+    background-color: black;
+}
+.navbar-inverse .navbar-toggle .icon-bar {
+    background-color: black;
+}
+.navbar, .navbar-inverse {
+  border-radius: 0;
+  border: none;
+  margin-bottom: 0;
+  border-color: transparent;
+  min-height: 80px;
+  background: transparent;
 }
 
+.nav li {
+  display: inline;
+  color: red;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #ED1B24;
+  font-family: Lato;
+  font-size: 1.7em;
+  font-weight: 300;
+  padding: 30px 25px 33px 25px;
+}
+
+.navbar-inverse .navbar-nav li a:hover,li a:active,li a:visited  {
+
+  transition: 0.7s all linear;
+  color: #ED1B24;
+  height: 100%;
+}
+.navbar-inverse .navbar-toggle {
+    border-color: transparent;
+}
+
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: transparent;
+}
 
 .usr-path-left, .usr-path-right {
   width: 50%;
@@ -102,40 +151,10 @@ hr {
 
 
 .img-thumbnail {
-	background-color: transparent;
-	height: 45px;
-}
-.navbar{
   background-color: transparent;
-  border: none;
+  height: 45px;
 }
-.navbar-header {
-  padding-top: 2%;
-  padding-left: 2%;
-  float: none;
-}
-.navbar-toggle {
-  display: block;
 
-}
-.navbar-collapse {
-  border-top: 1px solid transparent;
-  box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
-}
-.navbar-collapse.collapse {
-  display: none!important;
-}
-.navbar-nav {
-  float: none!important;
-  margin: 7.5px -15px;
-}
-.navbar-nav>li {
-  float: none;
-}
-.navbar-nav>li>a {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
 
 
 .burger {
@@ -151,8 +170,16 @@ hr {
     width: auto;
     max-width: 250px;
     max-height: 50px;
+  margin-top:7%;
+}
+.logo-and-text{
+    display: none !important;
 }
 
+.just-logo{
+  display:inline-block;
+  margin-top: 2%;
+}
 .why-money, .build-bundle, .build-service-list {
   text-align:center;
   padding-top: 5%;
@@ -277,6 +304,78 @@ hr {
 }
 
 
+.related-articles{
+  background-color: #F4F6F5;
+}
+
+.articles {
+  text-align:center;
+  padding: 2%;
+
+}
+
+.articles-title {
+  font-size: 2.0em;/*20px for mobile*/
+  font-weight: bold;
+}
+
+.poster {
+    position: relative;
+      display: inline-block !important;
+      border-color: #d7d9d9;
+      border-style: solid;
+      border-width: 1px;
+      background-color: white;
+      box-shadow: 0 0 1px 1px #d7d9d9;
+      white-space: normal !important;/*weird little workaround that does word wrapping past max width*/
+
+      height: 400px;
+      width: 300px;
+      font-weight: 900;
+      padding-left: 15px;
+      padding-right: 15px;
+      margin: 1.75%;
+
+  /*DO NOT REMOVE:the following two lines help fix alignment issues with the article posters*/
+      overflow: hidden;
+      text-overflow: ellipsis;
+}
+
+.poster-logo {
+    padding-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tart {
+    padding-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 24px;
+    font-weight: 800;
+    color: black;
+}
+.link-spanner{
+      position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left: 0;
+  z-index: 1;
+}
+
+.article-link {
+    position: absolute;
+    bottom: 0;
+    left: 32%;
+    padding-bottom: 50px;
+}
+
+.green-link {
+    color:#42aa67;
+}
+
+
 footer {
     padding: 25px 0;
     background-color:white;
@@ -351,4 +450,22 @@ footer {
 
 .left-column{
   padding-left: 10%;
+}
+@media (min-width: 768px) and (max-width: 1000px) {
+   .collapse {
+       display: none !important;
+
+   }
+}
+
+@media(min-width: 1199px){
+     .just-logo {
+        display: none !important;
+        margin-top: 32.5%;
+    }
+        .logo-and-text{
+        display: inline !important;
+    }
+
+
 }
