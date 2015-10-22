@@ -65,7 +65,7 @@ class ContentProvider(models.Model):
 
 
 class Content(models.Model):
-    title = models.CharField(max_length=250, blank=True, null=True)
+    title = models.CharField(max_length=250, blank=False, null=False)
     guidebox_id = models.IntegerField(blank=True,null=True, unique=True)
     description = models.TextField(blank=True, null=True)
     home_url = models.URLField(blank=True, null=True)
@@ -75,6 +75,15 @@ class Content(models.Model):
     thumbnail_x_large = models.URLField(blank=True, null=True)
     content_provider = models.ManyToManyField(ContentProvider)
     modified = models.DateTimeField(null=True, blank=True)
+    tvrage_id = models.IntegerField(blank=True, null=True)
+    themoviedb_id = models.IntegerField(blank=True, null=True)
+    tvdb_id = models.IntegerField(blank=True, null=True)
+    freebase_id = models.CharField(max_length= 50, blank=True, null=True)
+    imdb_id = models.CharField(max_length= 50, blank=True, null=True)
+    wikepedia_id = models.IntegerField(blank=True, null=True)
+
+
+
 
     def save(self, *args, **kwargs):
         self.modified = timezone.now()

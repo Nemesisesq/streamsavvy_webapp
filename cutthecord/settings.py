@@ -59,7 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    #'django.middleware.cache.FetchFromCacheMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'cutthecord.urls'
@@ -180,12 +180,12 @@ z = x.netloc
 redis_url = urlparse(os.environ.get('REDISCLOUD_URL'))
 
 CACHES = {
-    'default' : {
+    'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION' :  [
+        'LOCATION': [
             '{0}:{1}'.format(redis_url.hostname, redis_url.port)
-                       ],
-        'OPTIONS' : {
+        ],
+        'OPTIONS': {
             'PASSWORD': redis_url.password,
             'DB': 0,
         }
@@ -256,8 +256,8 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%d/%b/%Y %H:%M:%S"
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
@@ -270,12 +270,18 @@ LOGGING = {
             'filename': 'mysite.log',
             'formatter': 'verbose'
         },
+        'dbfile': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'dbtransaction.log',
+            'formatter': 'verbose'
+        },
     },
     'loggers': {
         'django': {
-            'handlers':['file'],
+            'handlers': ['dbfile'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
         'cutthecord': {
             'handlers': ['file'],

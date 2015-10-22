@@ -49,55 +49,54 @@ class Netflixable():
 
         shows = self.get_shows_from_soup()
 
-        p = ContentProvider.objects.get_or_create(name='Netflix')[0]
+        p = ContentProvider.objects.get_or_create(name='Netflix', channel_type='online', source='netflix')[0]
 
         for show in shows:
+            print("{} is the current show".format(show))
             try:
-                c_tuple = Content.objects.get_or_create(title__iexact=show)
 
-                c = c_tuple[0]
-
-                c.title = show
+                show = show.replace(',', '').replace('The', '')
 
                 show_detail = self.g.get_show_by_title(show)
 
+                print(show_detail)
+
                 if show_detail['total_results'] != 0:
 
-                    show_dict = show_detail['results'][0]
-
-                    if c_tuple[1]:
+                    for i in show_detail['results']:
 
                         self.logger.debug('new show {}'.format(show))
 
                         try:
+                            c_tuple = Content.objects.get_or_create(guidebox_id=i['id'])
 
+                            content = c_tuple[0]
 
+                            content.title = i['title']
+                            content.guidebox_id = i['id']
+                            content.imdb_id = i['imdb_id']
+                            content.freebase_id = i['freebase']
+                            content.tvdb_id = i['tvdb']
+                            content.tvrage_id = i['tvrage']['tvrage_id']
+                            content.wikepedia_id = i['wikipedia_id']
+                            content.themoviedb_id = i['themoviedb']
+                            content.thumbnail_small = i['artwork_208x117']
+                            content.thumbnail_medium = i['artwork_304x171']
+                            content.thumbnail_large = i['artwork_448x252']
+                            content.thumbnail_x_large = i['artwork_608x342']
+                            content.content_provider.add(p)
 
-                            c.content_provider.add(p)
-                            c.guidebox_id = show_dict['id']
-                            c.thumbnail_small = show_dict['artwork_208x117']
-                            c.thumbnail_medium = show_dict['artwork_304x171']
-                            c.thumbnail_large = show_dict['artwork_448x252']
-                            c.thumbnail_x_large = show_dict['artwork_608x342']
+                            if not content.title:
+                                self.logger.debug('blank show?')
 
-                            c.save()
+                            content.save()
+                            self.logger()
 
                         except ValueError as e:
                             self.logger.debug(e)
 
+                else:
+                    content.delete()
 
-
-
-                    else:
-                        c = c_tuple[0]
-                        if c.guidebox_id == show_dict['id']:
-                            self.logger.debug('show {} was updated'.format(show))
-                            c.content_provider.add(p)
-                            c.thumbnail_small = show_dict['artwork_208x117']
-                            c.thumbnail_medium = show_dict['artwork_304x171']
-                            c.thumbnail_large = show_dict['artwork_448x252']
-                            c.thumbnail_x_large = show_dict['artwork_608x342']
-
-                            c.save()
             except:
                 pass

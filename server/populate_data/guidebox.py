@@ -1,3 +1,4 @@
+from datetime import timedelta
 import json
 import logging
 import os
@@ -29,6 +30,7 @@ class GuideBox(object):
     # def __init__(self):
 
     def get_show_by_title(self, title):
+        time.sleep(1)
         cleaned_title = title.replace("  ", " ")
         encoded_show = cleaned_title.strip().replace(" ", '%25252B')
 
@@ -114,6 +116,7 @@ class GuideBox(object):
                                                                             index=index,
                                                                             source=source,
                                                                             platform=platform)
+        time.sleep(1.0)
         try:
             with urllib.request.urlopen(url) as response:
                 the_json = response.read().decode('utf-8')
@@ -123,40 +126,56 @@ class GuideBox(object):
             print(e)
             return False
 
-    # def populate_content(self):
-    #
-    #     total_results = json.loads(self.get_content(0))['total_results']
-    #     show_count = 0
-    #     for x in range(int(total_results / 250) + 1):
-    #
-    #         index = x * 250
-    #
-    #         shows = self.get_content(index)
-    #         if shows:
-    #             shows_dict = json.loads(shows)
-    #
-    #             for i in shows_dict['results']:
-    #                 show_count += 1
-    #                 # TODO iterate through the list of results and add them to the database.
-    #                 c = Content.objects.get_or_create(guidebox_id=i['id'])
-    #
-    #                 if isinstance(c, tuple):
-    #                     c = c[0]
-    #
-    #                 c.title = i['title']
-    #                 # c.guidebox_id = i['id']
-    #                 c.thumbnail_small = i['artwork_208x117']
-    #                 c.thumbnail_medium = i['artwork_304x171']
-    #                 c.thumbnail_large = i['artwork_448x252']
-    #                 c.thumbnail_x_large = i['artwork_608x342']
-    #
-    #                 try:
-    #                     c.save()
-    #                     print("{0} was saved".format(c))
-    #                 except IntegrityError as e:
-    #                     print(e)
-    #
-    #     return show_count
+    def populate_content(self):
+
+        total_results = json.loads(self.get_content(0))['total_results']
+        show_count = 0
+        loop = True
+
+        count = 0
+        while loop:
+
+            index = count * 250
+
+            results = json.loads(self.get_content(index))
+            if results['total_returned']:
+                shows_dict = results['results']
+
+                for i in shows_dict:
+                    show_count += 1
+                    # TODO iterate through the list of results and add them to the database.
+                    c = Content.objects.get_or_create(guidebox_id=i['id'])
+
+                    if isinstance(c, tuple):
+                        content = c[0]
+
+                    content.title = i['title']
+                    content.guidebox_id = i['id']
+                    content.imdb_id = i['imdb_id']
+                    content.freebase_id = i['freebase']
+                    content.tvdb_id = i['tvdb']
+                    content.tvrage_id = i['tvrage']['tvrage_id']
+                    content.wikepedia_id = i['wikepedia_id']
+                    content.themoviedb_id = i['themoviedb']
+
+                    content.thumbnail_small = i['artwork_208x117']
+                    content.thumbnail_medium = i['artwork_304x171']
+                    content.thumbnail_large = i['artwork_448x252']
+                    content.thumbnail_x_large = i['artwork_608x342']
+                    content.home_url = i['url']
+
+                    try:
+                        content.save()
+                        print("{0} was saved".format(c))
+                    except Exception as e:
+                        print(e)
+
+
+                count += 1
+            else:
+                loop = False
+
+        return show_count
 
     # gets detail for content in a multi threaded fashion but is limtied becaue of the guide box API
     def populate_content_detail_multithreaded(self):
@@ -379,48 +398,62 @@ def get_shows_by_source():
 
     content_providers = ContentProvider.objects.all()
 
-    for cp in content_providers:
+    for cp in content_providers.order_by('-modified'):
 
         if cp.guidebox_id and cp.source:
 
             count = 0
             loop = True
             while loop:
-                try:
-                    index = count * 250
-                    results = json.loads(guidebox_class.get_content(index, source=cp.source, platform='all'))
 
-                    if results['total_returned']:
+                index = count * 250
+                results = json.loads(guidebox_class.get_content(index, source=cp.source, platform='all'))
 
-                        for i in results['results']:
-                            content = Content.objects.get_or_create(guidebox_id=i['id'])
+                if results['total_returned']:
 
-                            if content[1]:
-                                logger.debug("new show added {} ".format(content[0]))
+                    for i in results['results']:
+                        content_tup = Content.objects.get_or_create(guidebox_id=i['id'])
+                        try:
 
-                            content = content[0]
+                            if content_tup[1]:
+                                logger.debug("new show added {} ".format(content_tup[0]))
 
-                            t = timezone.now() - content.modified
+                            content = content_tup[0]
+                            if content.modified and not content_tup[1]:
+                                t = timezone.now() - content.modified
+                            else:
+                                t = timedelta.max
 
-                            if t.total_seconds() > 60000:
+                            if t.total_seconds() > 0:
                                 content.title = i['title']
                                 content.guidebox_id = i['id']
+                                content.imdb_id = i['imdb_id']
+                                content.freebase_id = i['freebase']
+                                content.tvdb_id = i['tvdb']
+                                content.tvrage_id = i['tvrage']['tvrage_id']
+                                content.wikepedia_id = i['wikipedia_id']
+                                content.themoviedb_id = i['themoviedb']
                                 content.thumbnail_small = i['artwork_208x117']
                                 content.thumbnail_medium = i['artwork_304x171']
                                 content.thumbnail_large = i['artwork_448x252']
                                 content.thumbnail_x_large = i['artwork_608x342']
 
+
                             content.content_provider.add(cp)
 
                             content.save()
 
-                    else:
-                        loop = False
+                            logger.debug('saving {}'.format(content))
 
-                except Exception as e:
-                    logger.debug(e)
+                        except Exception as e:
+                            logger.debug(e.with_traceback())
 
-                finally:
-                    count += 1
-                    logger.info("{} finished".format(cp))
-                    print("{} finished".format(cp))
+                        finally:
+                            count += 1
+                            logger.info("{} finished".format(cp))
+                            print("{} finished".format(cp))
+                else:
+                    loop = False
+
+
+
