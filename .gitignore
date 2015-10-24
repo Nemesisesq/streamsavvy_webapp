@@ -23,4 +23,3 @@ StreamSavvy-Server/db.yaml
 bower_components
 *.log
 
-/scripts/testfile.py
