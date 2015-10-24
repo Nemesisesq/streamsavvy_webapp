@@ -15,7 +15,7 @@ def count():
         print(i)
 
 def writetest():
-    with open('mytextfile.txt', 'wb+') as f:
+    with open('mytextfile.txt', 'w+') as f:
         time.sleep(100)
         f.write('hello world')
         f.close()
