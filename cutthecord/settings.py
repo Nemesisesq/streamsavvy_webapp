@@ -47,6 +47,8 @@ INSTALLED_APPS = (
     'markdown',
     'django_filters',
     'social.apps.django_app.default',
+
+
 )
 
 MIDDLEWARE_CLASSES = (
