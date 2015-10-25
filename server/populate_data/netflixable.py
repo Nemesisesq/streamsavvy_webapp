@@ -46,9 +46,9 @@ class Netflixable():
 
         return list(result)
 
-    def process_shows(self):
+    def process_shows(self, shows):
 
-        shows = self.get_shows_from_soup()
+        # shows = self.get_shows_from_soup()
 
         p = ContentProvider.objects.get_or_create(name='Netflix', channel_type='online', source='netflix')[0]
 
