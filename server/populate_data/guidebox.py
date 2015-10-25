@@ -10,7 +10,6 @@ from queue import Queue
 import time
 
 from django.db.models import Q
-
 from django.core import serializers
 
 from django.utils import timezone
@@ -143,33 +142,34 @@ class GuideBox(object):
 
                 for i in shows_dict:
                     show_count += 1
+
+                    self.save_content(i)
                     # TODO iterate through the list of results and add them to the database.
-                    c = Content.objects.get_or_create(guidebox_id=i['id'])
-
-                    if isinstance(c, tuple):
-                        content = c[0]
-
-                    content.title = i['title']
-                    content.guidebox_id = i['id']
-                    content.imdb_id = i['imdb_id']
-                    content.freebase_id = i['freebase']
-                    content.tvdb_id = i['tvdb']
-                    content.tvrage_id = i['tvrage']['tvrage_id']
-                    content.wikepedia_id = i['wikepedia_id']
-                    content.themoviedb_id = i['themoviedb']
-
-                    content.thumbnail_small = i['artwork_208x117']
-                    content.thumbnail_medium = i['artwork_304x171']
-                    content.thumbnail_large = i['artwork_448x252']
-                    content.thumbnail_x_large = i['artwork_608x342']
-                    content.home_url = i['url']
-
-                    try:
-                        content.save()
-                        print("{0} was saved".format(c))
-                    except Exception as e:
-                        print(e)
-
+                    # c = Content.objects.get_or_create(guidebox_id=i['id'])
+                    #
+                    # if isinstance(c, tuple):
+                    #     content = c[0]
+                    #
+                    # content.title = i['title']
+                    # content.guidebox_id = i['id']
+                    # content.imdb_id = i['imdb_id']
+                    # content.freebase_id = i['freebase']
+                    # content.tvdb_id = i['tvdb']
+                    # content.tvrage_id = i['tvrage']['tvrage_id']
+                    # content.wikepedia_id = i['wikepedia_id']
+                    # content.themoviedb_id = i['themoviedb']
+                    #
+                    # content.thumbnail_small = i['artwork_208x117']
+                    # content.thumbnail_medium = i['artwork_304x171']
+                    # content.thumbnail_large = i['artwork_448x252']
+                    # content.thumbnail_x_large = i['artwork_608x342']
+                    # content.home_url = i['url']
+                    #
+                    # try:
+                    #     content.save()
+                    #     print("{0} was saved".format(c))
+                    # except Exception as e:
+                    #     print(e)
 
                 count += 1
             else:
@@ -328,6 +328,44 @@ class GuideBox(object):
             print(e)
             return False
 
+    def save_content(self, i):
+
+        c = Content.objects.get_or_create(guidebox_id=i['id'])
+
+        content = c[0]
+
+        content.title = i['title']
+
+        content.guidebox_id = i['id']
+        if 'imdb_id' in i :
+            content.imdb_id = i['imdb_id']
+        if 'freebase' in i:
+            content.freebase_id = i['freebase']
+        if 'tvdb' in i:
+            content.tvdb_id = i['tvdb']
+        if 'tvrage' in i and 'tvrage_id' in i['tvrage']:
+            content.tvrage_id = i['tvrage']['tvrage_id']
+        if 'wikipedia_id' in i:
+            content.wikepedia_id = i['wikipedia_id']
+        if 'themoviedb' in i:
+            content.themoviedb_id = i['themoviedb']
+
+        content.thumbnail_small = i['artwork_208x117']
+        content.thumbnail_medium = i['artwork_304x171']
+        content.thumbnail_large = i['artwork_448x252']
+        content.thumbnail_x_large = i['artwork_608x342']
+
+        if 'url' in i:
+            content.home_url = i['url']
+
+        try:
+            content.save()
+            print("{0} was saved".format(c))
+        except Exception as e:
+            print(e)
+
+        return content
+
 
 # This Class is meant to flesh out provider details
 class Providers(object):
@@ -425,19 +463,20 @@ def get_shows_by_source():
                                 t = timedelta.max
 
                             if t.total_seconds() > 0:
-                                content.title = i['title']
-                                content.guidebox_id = i['id']
-                                content.imdb_id = i['imdb_id']
-                                content.freebase_id = i['freebase']
-                                content.tvdb_id = i['tvdb']
-                                content.tvrage_id = i['tvrage']['tvrage_id']
-                                content.wikepedia_id = i['wikipedia_id']
-                                content.themoviedb_id = i['themoviedb']
-                                content.thumbnail_small = i['artwork_208x117']
-                                content.thumbnail_medium = i['artwork_304x171']
-                                content.thumbnail_large = i['artwork_448x252']
-                                content.thumbnail_x_large = i['artwork_608x342']
 
+                                content = guidebox_class.save_content(i)
+                                # content.title = i['title']
+                                # content.guidebox_id = i['id']
+                                # content.imdb_id = i['imdb_id']
+                                # content.freebase_id = i['freebase']
+                                # content.tvdb_id = i['tvdb']
+                                # content.tvrage_id = i['tvrage']['tvrage_id']
+                                # content.wikepedia_id = i['wikipedia_id']
+                                # content.themoviedb_id = i['themoviedb']
+                                # content.thumbnail_small = i['artwork_208x117']
+                                # content.thumbnail_medium = i['artwork_304x171']
+                                # content.thumbnail_large = i['artwork_448x252']
+                                # content.thumbnail_x_large = i['artwork_608x342']
 
                             content.content_provider.add(cp)
 
@@ -454,6 +493,3 @@ def get_shows_by_source():
                             print("{} finished".format(cp))
                 else:
                     loop = False
-
-
-

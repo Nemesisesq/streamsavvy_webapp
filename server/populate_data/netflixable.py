@@ -1,6 +1,7 @@
 import urllib.request
 import urllib.error
 import logging
+import re
 
 from bs4 import BeautifulSoup
 
@@ -57,6 +58,8 @@ class Netflixable():
 
                 show = show.replace(',', '').replace('The', '')
 
+                show = re.sub(r"\([^)]*\)", '', show).strip()
+
                 show_detail = self.g.get_show_by_title(show)
 
                 print(show_detail)
@@ -72,31 +75,30 @@ class Netflixable():
 
                             content = c_tuple[0]
 
-                            content.title = i['title']
-                            content.guidebox_id = i['id']
-                            content.imdb_id = i['imdb_id']
-                            content.freebase_id = i['freebase']
-                            content.tvdb_id = i['tvdb']
-                            content.tvrage_id = i['tvrage']['tvrage_id']
-                            content.wikepedia_id = i['wikipedia_id']
-                            content.themoviedb_id = i['themoviedb']
-                            content.thumbnail_small = i['artwork_208x117']
-                            content.thumbnail_medium = i['artwork_304x171']
-                            content.thumbnail_large = i['artwork_448x252']
-                            content.thumbnail_x_large = i['artwork_608x342']
+                            content = self.g.save_content(i)
+
+                            # content.title = i['title']
+                            # content.guidebox_id = i['id']
+                            # content.imdb_id = i['imdb_id']
+                            # content.freebase_id = i['freebase']
+                            # content.tvdb_id = i['tvdb']
+                            # content.tvrage_id = i['tvrage']['tvrage_id']
+                            # content.wikepedia_id = i['wikipedia_id']
+                            # content.themoviedb_id = i['themoviedb']
+                            # content.thumbnail_small = i['artwork_208x117']
+                            # content.thumbnail_medium = i['artwork_304x171']
+                            # content.thumbnail_large = i['artwork_448x252']
+                            # content.thumbnail_x_large = i['artwork_608x342']
                             content.content_provider.add(p)
 
                             if not content.title:
                                 self.logger.debug('blank show?')
 
                             content.save()
-                            self.logger()
+                            # self.logger()
 
                         except ValueError as e:
                             self.logger.debug(e)
-
-                else:
-                    content.delete()
 
             except:
                 pass

@@ -3,6 +3,7 @@ from behave import given, when, then
 from server.populate_data.guidebox import *
 # import json
 from server.populate_data.netflixable import Netflixable
+from scripts import get_netflixable_shows
 
 __author__ = 'Nem'
 
@@ -38,8 +39,10 @@ def search_by_provider(context):
 
 @when(u'I call netflixable')
 def test_call_netflixable(context):
-    n = Netflixable('http://usa.netflixable.com/2015/10/complete-alphabetical-list-tue-oct-13.html')
-    n.process_shows()
+    # n = Netflixable('http://usa.netflixable.com/2015/10/complete-alphabetical-list-tue-oct-13.html')
+    # n.process_shows()
+
+    get_netflixable_shows.run()
 
 @when(u'get_content is called')
 def test_get_content(context):
