@@ -47,7 +47,7 @@ INSTALLED_APPS = (
     'markdown',
     'django_filters',
     'social.apps.django_app.default',
-
+    'django_rq',
 
 )
 
@@ -289,5 +289,22 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
         },
+    }
+}
+
+RQ_QUEUES = {
+    'default': {
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'),
+        'DB': 0,
+        'DEFAULT_TIMEOUT': 360,
+    },
+    'high': {
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'),  # If you're on Heroku
+        'DB': 0,
+        'DEFAULT_TIMEOUT': 500,
+    },
+    'low': {
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'),
+        'DB': 0,
     }
 }

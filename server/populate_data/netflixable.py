@@ -42,7 +42,7 @@ class Netflixable():
 
         shows = filter(f, anchor_tags)
 
-        result = map(lambda x: x.string, shows)
+        result = map(lambda x: str(x.string), shows)
 
         return list(result)
 

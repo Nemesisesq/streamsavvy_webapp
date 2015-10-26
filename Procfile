@@ -1,2 +1,2 @@
 web: gunicorn cutthecord.wsgi --log-file -
-worker: python worker.py
+worker: python ./manage.py rworker high default low

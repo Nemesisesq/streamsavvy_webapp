@@ -1,29 +1,34 @@
-import re
-
 __author__ = 'Nem'
 
 import urllib.request
+
+
 import django
+import django_rq
 
 from server.populate_data.netflixable import *
-
-from rq import Queue
-
-from worker import conn
+from server.models import Content
 
 try:
     django.setup()
 except:
     pass
 
+
+
+
 def chunks(l, n):
     for i in range(0, len(l), n):
-        yield l[i:i+n]
+        yield l[i:i + n]
+
+
+def get_shows(x):
+    print(x)
 
 
 def run(*args, **kwargs):
     # create instance of netflixable
-    if len(args) == 0:
+    if len(args) >= 0:
         host = 'http://usa.netflixable.com'
 
         with urllib.request.urlopen(host) as response:
@@ -41,17 +46,19 @@ def run(*args, **kwargs):
     else:
         url = args[0]
 
-    q = Queue(connection=conn)
+    q = django_rq.get_queue('high')
 
     n = Netflixable(url)
 
-    shows = n.get_shows_from_soup()
+    shows = chunks(n.get_shows_from_soup(), 20)
 
-    list = chunks(shows, 100)
+    # shows = Content.objects.all()
 
-
-    for i in list:
-        q.enqueue_call(func=n.process_shows(i), timeout=6000)
+    for i in shows:
+        q.enqueue(n.process_shows, i)
 
     return 'all jobs started!!!'
 
+#
+# if __name__ == "__main__":
+#     run()
