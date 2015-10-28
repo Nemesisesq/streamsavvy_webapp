@@ -241,7 +241,11 @@ hr {
   -o-background-size: cover; }
 
 .navbar-default .navbar-toggle .icon-bar {
-  background-color: white; }
+  background-color: white;
+  height: 5px !important; }
+
+.navbar-toggle .icon-bar {
+  height: 4px !important; }
 
 .navbar, .navbar-inverse {
   border-radius: 0;
@@ -317,7 +321,8 @@ hr {
   width: auto;
   max-width: 250px;
   max-height: 50px;
-  margin-top: 7%; }
+  margin-top: 18px;
+  margin-left: 15px; }
 
 .logo-and-text {
   display: none !important; }
@@ -538,18 +543,14 @@ footer {
 @media (max-width: 767px) {
   .just-logo {
     padding-left: 3%;
-    margin-top: 2%; }
+    margin-top: 18px;
+    /*magic number gotten from bootstrap*/ }
   .navbar-toggle {
-    margin-top: 2%; } }
+    margin-top: 18px; } }
 
 @media (min-width: 768px) and (max-width: 1215px) {
   .just-logo {
-    margin-top: 33%; }
-  /*
-   .collapse {
-       display: none !important;
-   }
-   */ }
+    margin-top: 33%; } }
 
 @media (min-width: 1216px) {
   .just-logo {
@@ -557,7 +558,7 @@ footer {
   .logo-and-text {
     display: inline !important; } }
 
-@media (min-width: 768px) and (max-width: 931px) {
+@media (min-width: 768px) and (max-width: 841px) {
   .collapse {
     display: block !important; } }
 
