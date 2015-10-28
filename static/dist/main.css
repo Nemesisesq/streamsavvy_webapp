@@ -206,7 +206,8 @@ span.glyphicon.glyphicon-ok-sign.glyphicon-background.blue-glyphicon.selected {
   color: #f8f8f8; }
 
 .container {
-  width: 100%; }
+  width: 100%;
+  padding: 0; }
 
 h1, h2, h3, h5, p, div {
   font-family: 'Open Sans', sans-serif; }
@@ -240,10 +241,7 @@ hr {
   -o-background-size: cover; }
 
 .navbar-default .navbar-toggle .icon-bar {
-  background-color: black; }
-
-.navbar-inverse .navbar-toggle .icon-bar {
-  background-color: black; }
+  background-color: white; }
 
 .navbar, .navbar-inverse {
   border-radius: 0;
@@ -325,8 +323,7 @@ hr {
   display: none !important; }
 
 .just-logo {
-  display: inline-block;
-  margin-top: 2%; }
+  display: inline-block; }
 
 .why-money, .build-bundle, .build-service-list {
   text-align: center;
@@ -538,16 +535,31 @@ footer {
 .left-column {
   padding-left: 10%; }
 
-@media (min-width: 768px) and (max-width: 1000px) {
-  .collapse {
-    display: none !important; } }
-
-@media (min-width: 1199px) {
+@media (max-width: 767px) {
   .just-logo {
-    display: none !important;
-    margin-top: 32.5%; }
+    padding-left: 3%;
+    margin-top: 2%; }
+  .navbar-toggle {
+    margin-top: 2%; } }
+
+@media (min-width: 768px) and (max-width: 1215px) {
+  .just-logo {
+    margin-top: 33%; }
+  /*
+   .collapse {
+       display: none !important;
+   }
+   */ }
+
+@media (min-width: 1216px) {
+  .just-logo {
+    margin-top: 5%; }
   .logo-and-text {
     display: inline !important; } }
+
+@media (min-width: 768px) and (max-width: 931px) {
+  .collapse {
+    display: block !important; } }
 
 .step-container {
   padding: 20px;
