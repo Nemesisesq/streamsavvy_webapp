@@ -44,11 +44,16 @@ ul {
     //float : left;
     overflow: auto;
     height : 100%;
+    background-color : darkgrey;
+    display: flex;
   }
 
   .show-title {
 
     height: 100%;
+    background-color: grey;
+    display: flex;
+
   }
   .panel-heading {
     height: 50px;
