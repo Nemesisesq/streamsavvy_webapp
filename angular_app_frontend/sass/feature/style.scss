@@ -400,6 +400,10 @@ footer {
   }
 }
 
+.container-fluid{
+  clear: both;
+}
+
 @media(max-width: 768px){
 
     .usr-path-left, .usr-path-right {
@@ -486,3 +490,4 @@ footer {
        display: block !important;
    }
 }
+

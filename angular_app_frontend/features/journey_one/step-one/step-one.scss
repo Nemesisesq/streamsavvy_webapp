@@ -2,14 +2,16 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
-input[type="text"]
-{
-    font-size:130%;
+
+input[type="text"] {
+  font-size: 130%;
 }
+
 .show-input {
   padding-top: 3%;
   padding-bottom: 5%;
 }
+
 .form-control {
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
@@ -22,7 +24,7 @@ input[type="text"]
   padding-left: 24px;
 }
 
-.grid-section{
+.grid-section {
   min-height: 300px;
 }
 
@@ -30,15 +32,36 @@ ul {
   padding-left: 0px;
 }
 
+.step-one {
 
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 
+  height: 50px;
+
+  .show-toggle {
+    //float : left;
+    overflow: auto;
+    height : 100%;
+  }
+
+  .show-title {
+
+    height: 100%;
+  }
+  .panel-heading {
+    height: 50px;
+  }
+
+}
 
 ul.btn-list-grid li {
-    display:inline-flex ;
-    padding-right: 1.5%;
-    position: relative;
-    margin-right: 1.25%;
-    margin-bottom: 1.75%;
+  display: inline-flex;
+  padding-right: 1.5%;
+  position: relative;
+  margin-right: 1.25%;
+  margin-bottom: 1.75%;
 }
 
 .btn-group {
@@ -49,10 +72,17 @@ ul.btn-list-grid li {
   margin-bottom: 2%;
 }
 
-@media(max-width: 540px){
+@media(max-width: 540px) {
 
   .btn-group {
     margin-left: 1%;
     margin-right: 2%;
   }
 }
+
+.accordion {
+
+  color: red;
+
+}
+

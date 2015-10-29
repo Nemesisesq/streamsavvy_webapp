@@ -27,6 +27,7 @@
     "angular-cookies": "~1.4.5",
     "angular-mocks": "~1.4.3",
     "angular-resource": "~1.4.3",
-    "lodash": "~3.10.0"
+    "lodash": "~3.10.0",
+    "angular-bootstrap": "~0.14.3"
   }
 }

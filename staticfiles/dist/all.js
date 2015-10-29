@@ -3,11 +3,12 @@
  */
 var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate"]);
 
-app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
-    //$locationProvider.html5Mode({
-    //    enabled: false,
-    //    requireBase: false
-    //}).hashPrefix('');
+app.constant('CONFIG', {
+    'URL': location.origin
+})
+
+app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
+
 
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -82,8 +83,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
         })
         .state('journey-one.step-two', {
             url: '/getting-started/step/2',
-            data :{
-                step :2
+            data: {
+                step: 2
             },
             views: {
                 'navigation': {
@@ -105,8 +106,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
         })
         .state('journey-one.step-three', {
             url: '/getting-started/step/3',
-            data :{
-                step :3
+            data: {
+                step: 3
             },
             views: {
                 'navigation': {
@@ -128,8 +129,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
         })
         .state('journey-one.step-four', {
             url: '/getting-started/step/4',
-            data :{
-                step :4
+            data: {
+                step: 4
             },
             views: {
                 'navigation': {
@@ -137,8 +138,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $locatio
                     controller: 'navigation'
                 },
                 'modal': {
-                    templateUrl : '/static/partials/modal/modalContainer.html',
-                    controller : 'Step4ModalController'
+                    templateUrl: '/static/partials/modal/modalContainer.html',
+                    controller: 'ModalController'
                 },
                 'progress': {
                     templateUrl: 'static/partials/progress.html',
@@ -501,10 +502,35 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
     $rootScope.load()
 });
 /**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
  * Created by chirag on 8/3/15.
  */
-app.controller('home', function ($scope, $http, http, PackageService, $rootScope) {
+app.controller('home', function ($scope, $http, http, $cookies, $location) {
+    $scope.logged_in = false;
 
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        debugger;
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
 
 
 });
@@ -518,6 +544,14 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     $scope.providers = [];
     $scope.rows = [];
 
+    $scope.cost = {
+        services: 0,
+        hardware: 0
+    };
+
+    $scope.cableCost = 75.00;
+
+    $scope.savings = $scope.cableCost - $scope.cost.services;
 
 
     $rootScope.loadPackage = function () {
@@ -525,9 +559,9 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
             .then(function (data) {
                 $scope.package = data;
                 $scope.packageList = data.content;
-                $rootScope.button_message = $scope.package.hardware.length ?  ' Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware'
+                $rootScope.step3ButtonMessage = $scope.package.hardware.length ? 'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
+                $rootScope.step2ButtonMessage = $scope.package.providers.length ? 'Time to pick out the Hardware' : 'You still need to select a service';
                 return data
-
             });
     };
 
@@ -563,17 +597,17 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
         })
     };
 
-    var loadHardware = function() {
+    var loadHardware = function () {
         http.getHardware()
-            .then(function(hware){
+            .then(function (hware) {
 
-                var userHardwareUrls = _.map($scope.package.hardware, function(item){
+                var userHardwareUrls = _.map($scope.package.hardware, function (item) {
                     return item.url
 
                 });
 
-                $scope.hardware = _.map(hware.results, function(item){
-                    if(_.includes(userHardwareUrls, item.url)){
+                $scope.hardware = _.map(hware.results, function (item) {
+                    if (_.includes(userHardwareUrls, item.url)) {
                         item.selected = true;
                         return item
                     } else {
@@ -581,7 +615,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
                         return item
                     }
                 })
-
 
 
             })
@@ -621,13 +654,50 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
         });
 
-        $scope.rows  = _.filter(rows, function (obj) {
+        debugger;
+        $scope.rows = _.filter(rows, function (obj) {
             return _.isEqual(obj.service.channel_type, "online")
         });
+
+        var selectedShows = _.flatten(
+            _.map(rows, function (row) {
+                if (row.selected) {
+                    return row.content
+                } else {
+                    return []
+                }
+            })
+        );
+
+
+        $scope.rows = _.map($scope.rows, function (row) {
+            if (!row.selected) {
+                row.content = _.filter(row.content, function (show) {
+                    return !_.includes(selectedShows, show)
+                });
+            }
+
+            return row;
+        });
+
+        $scope.rows = _.sortByAll($scope.rows, ['selected', 'content'], _.values).reverse();
+
 
         return $scope.rows
 
     };
+
+
+    var calculateTotalCost = function () {
+        $scope.cost.services = 0;
+        _.each($scope.package.providers, function (p) {
+            $scope.cost.services += p.retail_cost;
+        });
+
+        $scope.savings = $scope.cableCost - $scope.cost.services;
+
+
+    }
 
     $scope.toggleService = function (row) {
         http.getRestPackage()
@@ -663,7 +733,8 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
         $rootScope.loadPackage()
             .then(loadProviders)
             .then(loadHardware)
-            .then(loadProviderContentHash);
+            .then(loadProviderContentHash)
+            .then(calculateTotalCost);
     };
 
     $rootScope.load()
@@ -699,8 +770,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location)
 
 
 });
-
-app.controller('ProgressController', function ($scope, $state, $rootScope) {
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location) {
     var stateStep = $state.current.data.step;
     $scope.stateStep = stateStep;
     $rootScope.currentStep = stateStep;
@@ -735,8 +805,14 @@ app.controller('ProgressController', function ($scope, $state, $rootScope) {
         }
 
 
-
         return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if($scope.stateStep > stateStep)
+        $location.path('/getting-started/step/' + stateStep)
+
     }
 
     if (stateStep == 1) {
@@ -763,10 +839,11 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     $scope.selectedShows = PackageService.selectedShows;
     $scope.selectedIndex = -1;
 
-    $scope.search = function () {
+    $scope.search = _.debounce(function () {
+        debugger;
         if ($scope.searchText) {
-            $scope.suggestions = [];
-            $http.get('/api/search?q=' + $scope.searchText.title)
+            //$scope.suggestions = [];
+            $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
                     PackageService.searchResults = data.results;
 
@@ -777,7 +854,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
         } else {
             $scope.suggestions = [];
         }
-    };
+    }, 300);
 
     $scope.addToSelectedShows = function (suggestion) {
         var newPackage;
@@ -822,13 +899,15 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
 
     $scope.$watch('selectedIndex', function (val) {
         if (val !== -1) {
-            $scope.searchText = $scope.suggestions[$scope.selectedIndex]
+            $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
         }
     });
 
 
 });
-app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+
+    $scope.login = 'Click Here to Login'
 
     $scope.items = ['item1', 'item2', 'item3'];
 
@@ -836,7 +915,7 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',
-            controller: 'Step4ModalInstanceController',
+            controller: 'ModalInstanceController',
             size: 'sm',
             resolve: {
                 items: function () {
@@ -854,10 +933,32 @@ app.controller('Step4ModalController', function ($scope, http, $modal, $log) {
         });
     }
 
-    $scope.open()
+    if ($rootScope.currentStep == 4) {
+        $scope.open()
+    }
 });
 
-app.controller('Step4ModalInstanceController', function ($scope, $modalInstance, items) {
+app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
+
+    $scope.facebookAuth = function () {
+        debugger
+
+    window.location = CONFIG.URL + $('#facebook_login').attr('href');
+    }
+
+    $scope.instagramAuth = function () {
+
+    window.location = CONFIG.URL + $('#instagram_login').attr('href');
+    }
+
+    $scope.twitterAuth = function () {
+
+     window.location = CONFIG.URL + $('#twitter_login').attr('href');
+    }
+
+
+
+
     $scope.items = items;
 
     $scope.selected = {
@@ -873,3 +974,33 @@ app.controller('Step4ModalInstanceController', function ($scope, $modalInstance,
     }
 
 })
+/**
+ * Created by Nem on 10/27/15.
+ */
+
+app.controller('AccordionController', function ($scope) {
+  $scope.oneAtATime = true;
+
+  $scope.groups = [
+    {
+      title: 'Dynamic Group Header - 1',
+      content: 'Dynamic Group Body - 1'
+    },
+    {
+      title: 'Dynamic Group Header - 2',
+      content: 'Dynamic Group Body - 2'
+    }
+  ];
+
+  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+  $scope.addItem = function() {
+    var newItemNo = $scope.items.length + 1;
+    $scope.items.push('Item ' + newItemNo);
+  };
+
+  $scope.status = {
+    isFirstOpen: true,
+    isFirstDisabled: false
+  };
+});

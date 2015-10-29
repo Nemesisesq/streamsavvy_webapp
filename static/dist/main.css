@@ -507,6 +507,9 @@ footer {
     padding-top: 3%;
     padding-bottom: 5%; } }
 
+.container-fluid {
+  clear: both; }
+
 @media (max-width: 768px) {
   .usr-path-left, .usr-path-right {
     width: 100%; }
@@ -663,6 +666,19 @@ input[type="text"] {
 ul {
   padding-left: 0px; }
 
+.step-one {
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 50px; }
+  .step-one .show-toggle {
+    overflow: auto;
+    height: 100%; }
+  .step-one .show-title {
+    height: 100%; }
+  .step-one .panel-heading {
+    height: 50px; }
+
 ul.btn-list-grid li {
   display: inline-flex;
   padding-right: 1.5%;
@@ -681,6 +697,9 @@ ul.btn-list-grid li {
   .btn-group {
     margin-left: 1%;
     margin-right: 2%; } }
+
+.accordion {
+  color: red; }
 
 .step-two .selected {
   border: .15em solid;

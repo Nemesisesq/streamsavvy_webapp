@@ -139,7 +139,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 },
                 'modal': {
                     templateUrl: '/static/partials/modal/modalContainer.html',
-                    controller: ' ModalController'
+                    controller: 'ModalController'
                 },
                 'progress': {
                     templateUrl: 'static/partials/progress.html',
