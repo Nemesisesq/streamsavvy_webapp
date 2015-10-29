@@ -394,6 +394,9 @@ hr {
   color: #fff;
   background-color: #55595C; }
 
+h4 {
+  line-height: normal; }
+
 .banner {
   padding: 2%;
   color: #fff;
@@ -565,6 +568,10 @@ footer {
   .collapse {
     display: block !important; } }
 
+@media (min-width: 1400px) {
+  .container {
+    width: 89%; } }
+
 .step-container {
   padding: 20px;
   text-align: center;
@@ -678,6 +685,12 @@ ul {
     height: 100%; }
   .step-one .panel-heading {
     height: 50px; }
+  .step-one .panel-default > .panel-heading {
+    color: white;
+    background-color: #45a7e5;
+    border-color: #ddd; }
+  .step-one .row.content-name.ng-binding.ng-scope {
+    padding-left: 2%; }
 
 ul.btn-list-grid li {
   display: inline-flex;
@@ -699,7 +712,7 @@ ul.btn-list-grid li {
     margin-right: 2%; } }
 
 .accordion {
-  color: red; }
+  color: black; }
 
 .step-two .selected {
   border: .15em solid;

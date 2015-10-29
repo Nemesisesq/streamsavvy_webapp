@@ -48,6 +48,8 @@ h1, h2, h3, h5, p,div {
   /*width: 75%;*/
 }
 
+
+
 .main-page {
   margin: 0 auto;
   /*width: 70%;*/
@@ -258,9 +260,8 @@ hr {
     background-color: #55595C;
 }
 
-.confused-h1 {
-
-
+h4{
+  line-height: normal;
 }
 
 
@@ -489,5 +490,11 @@ footer {
    .collapse {
        display: block !important;
    }
+}
+
+@media (min-width: 1400px){
+  .container{
+    width:89%;
+  }
 }
 
