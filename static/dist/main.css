@@ -262,9 +262,9 @@ hr {
 
 .navbar-inverse .navbar-nav > li > a {
   color: #ED1B24;
-  font-family: Lato;
+  font-family: inheriti;
   font-size: 1.7em;
-  font-weight: 300;
+  font-weight: 500;
   padding: 30px 25px 33px 25px; }
 
 .navbar-inverse .navbar-nav li a:hover, li a:active, li a:visited {
@@ -394,6 +394,9 @@ hr {
 .confused-banner {
   color: #fff;
   background-color: #55595C; }
+
+h4 {
+  line-height: normal; }
 
 .banner {
   padding: 2%;
@@ -566,6 +569,10 @@ footer {
   .collapse {
     display: block !important; } }
 
+@media (min-width: 1400px) {
+  .container {
+    width: 89%; } }
+
 .step-container {
   padding: 20px;
   text-align: center;
@@ -683,6 +690,12 @@ ul {
     display: flex; }
   .step-one .panel-heading {
     height: 50px; }
+  .step-one .panel-default > .panel-heading {
+    color: white;
+    background-color: #45a7e5;
+    border-color: #ddd; }
+  .step-one .row.content-name.ng-binding.ng-scope {
+    padding-left: 2%; }
 
 ul.btn-list-grid li {
   display: inline-flex;
@@ -704,7 +717,7 @@ ul.btn-list-grid li {
     margin-right: 2%; } }
 
 .accordion {
-  color: red; }
+  color: black; }
 
 .step-two .selected {
   border: .15em solid;

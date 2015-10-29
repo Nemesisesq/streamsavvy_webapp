@@ -58,8 +58,18 @@ ul {
   .panel-heading {
     height: 50px;
   }
+  .panel-default > .panel-heading {
+    color: white;
+    background-color: #45a7e5;
+    border-color: #ddd;
+  }
+  .row.content-name.ng-binding.ng-scope {
+    padding-left: 2%;
+  }
 
 }
+
+
 
 ul.btn-list-grid li {
   display: inline-flex;
@@ -87,7 +97,7 @@ ul.btn-list-grid li {
 
 .accordion {
 
-  color: red;
+  color: black;
 
 }
 

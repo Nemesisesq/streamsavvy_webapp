@@ -50,6 +50,8 @@ h1, h2, h3, h5, p, div {
   /*width: 75%;*/
 }
 
+
+
 .main-page {
   margin: 0 auto;
   /*width: 70%;*/
@@ -100,9 +102,9 @@ hr {
 
 .navbar-inverse .navbar-nav > li > a {
   color: #ED1B24;
-  font-family: Lato;
+  font-family: inheriti;
   font-size: 1.7em;
-  font-weight: 300;
+  font-weight: 500;
   padding: 30px 25px 33px 25px;
 }
 
@@ -264,8 +266,8 @@ hr {
   background-color: #55595C;
 }
 
-.confused-h1 {
-
+h4{
+  line-height: normal;
 }
 
 .banner {
@@ -494,6 +496,12 @@ footer {
 @media (min-width: 768px) and (max-width: 841px) {
   .collapse {
     display: block !important;
+  }
+}
+
+@media (min-width: 1400px){
+  .container{
+    width:89%;
   }
 }
 
