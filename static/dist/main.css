@@ -261,9 +261,9 @@ hr {
 
 .navbar-inverse .navbar-nav > li > a {
   color: #ED1B24;
-  font-family: Lato;
+  font-family: inheriti;
   font-size: 1.7em;
-  font-weight: 300;
+  font-weight: 500;
   padding: 30px 25px 33px 25px; }
 
 .navbar-inverse .navbar-nav li a:hover, li a:active, li a:visited {
