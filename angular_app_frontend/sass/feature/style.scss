@@ -102,7 +102,7 @@ hr {
 
 .navbar-inverse .navbar-nav > li > a {
   color: #ED1B24;
-  font-family: inheriti;
+  font-family: inherit;
   font-size: 1.7em;
   font-weight: 500;
   padding: 30px 25px 33px 25px;
@@ -136,7 +136,7 @@ hr {
 }
 
 .usr-path-left {
-  background-color: #E5E5E6;
+  background-color: #13171A;
   float: left;
 }
 
@@ -149,7 +149,9 @@ hr {
   /*font-size: 2em*/
 
 }
-
+.usr-path-left > .usr-path-header{
+  color: white;
+}
 .usr-path-header h1 {
   font-size: 2.5em;
   font-weight: bold;
