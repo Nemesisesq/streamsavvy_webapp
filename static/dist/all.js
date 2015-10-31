@@ -823,6 +823,17 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
  */
 app.controller('search', function ($scope, $http, http, PackageService, $rootScope) {
 
+    function checkNextLetter(){
+        var s = $scope.searchText,
+            r =  $scope.searchResult;
+
+        if (s && r) {
+            //debugger;
+            if (_.last(s) !== r[s.length - 1]) {
+                $scope.searchResult = ''
+            }
+        }
+    }
 
     $scope.suggestions = [];
     $scope.selectedShows = PackageService.selectedShows;
@@ -853,6 +864,10 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
 
     }
 
+    $scope.checkMatched = function(){
+        return $scope.searchResult[$scope.searchText-1] === _.last($scope.searchText)
+    }
+
     $scope.search = _.debounce(function () {
         if ($scope.searchText) {
             //$scope.suggestions = [];
@@ -860,14 +875,18 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
                 .success(function (data) {
                     PackageService.searchResults = data.results;
 
-                    debugger;
 
                     var res = _.min(data.results, function (elem) {
                         return elem.title.length
 
                     })
 
-                    $scope.searchResult = matchCase($scope.searchText, res.title);
+                    var searchResult = matchCase($scope.searchText, res.title);
+
+                    if(_.includes(searchResult, $scope.searchText)){
+                        $scope.searchResult = searchResult;
+
+                    }
 
                     //$scope.suggestions = data.results;
 
@@ -902,6 +921,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     };
 
     $scope.checkKeyDown = function (event) {
+
         if (event.keyCode === 40) {
             event.preventDefault();
             if ($scope.selectedIndex + 1 !== $scope.suggestions.length) {
@@ -926,6 +946,14 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
             $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
         }
     });
+
+    $scope.$watch('searchText', function (val) {
+        debugger;
+        if (val !== -1 ){
+            checkNextLetter();
+
+        }
+    })
 
 
 });
