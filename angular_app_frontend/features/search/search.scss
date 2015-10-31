@@ -1,5 +1,16 @@
 .search-bar {
   position: relative;
+
+  .stacked-input-1 {
+    position: absolute;
+    background: transparent;
+  }
+
+  .stacked-input-2 {
+    position: relative;
+    z-index: -99999;
+    color: red;
+  }
 }
 
 

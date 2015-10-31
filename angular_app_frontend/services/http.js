@@ -49,7 +49,6 @@ app.factory('http', function ($http, $log, $q) {
                     deferred.resolve(data)
                 })
                 .error(function (e, code) {
-                    debugger;
                     deferred.reject(e);
                     $log.error(e, code)
                 });

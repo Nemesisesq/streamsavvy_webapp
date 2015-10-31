@@ -34,7 +34,6 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
 
     $scope.facebookAuth = function () {
-        debugger
 
     window.location = CONFIG.URL + $('#facebook_login').attr('href');
     }

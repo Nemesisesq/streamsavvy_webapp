@@ -23,22 +23,17 @@ app.directive('ssImageBlock', function (http, $rootScope) {
             scope.toggleSelected = function (item) {
                 http.getRestPackage()
                     .then(function (p) {
-                        debugger;
                         if(item.selected){
-                            debugger;
                             _.remove(p.hardware, function(elem){
                                 return elem == item.url
                             })
 
-                            debugger;
 
                             console.log(p)
                         } else{
-                            debugger;
                             p.hardware.push(item.url)
                         }
 
-                        debugger;
                         http.putPackage(p)
                             .then(function(data){
 

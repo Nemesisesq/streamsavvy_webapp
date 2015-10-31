@@ -3,19 +3,53 @@
  */
 app.controller('search', function ($scope, $http, http, PackageService, $rootScope) {
 
+
     $scope.suggestions = [];
     $scope.selectedShows = PackageService.selectedShows;
     $scope.selectedIndex = -1;
 
+
+    var switchCase = function(char){
+        if (char == char.toUpperCase()) {
+            return char.toLowerCase();
+        } else {
+            return char.toUpperCase();
+        }
+    }
+
+
+    var matchCase = function (search, result) {
+
+        var resultArray = result.split('');
+
+        for (var i = 0; i < search.length; i++) {
+            if(search[i] !== resultArray[i]){
+                resultArray[i] = switchCase(resultArray[i])
+            }
+        }
+
+        return resultArray.join('')
+
+
+    }
+
     $scope.search = _.debounce(function () {
-        debugger;
         if ($scope.searchText) {
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
                     PackageService.searchResults = data.results;
 
-                    $scope.suggestions = data.results;
+                    debugger;
+
+                    var res = _.min(data.results, function (elem) {
+                        return elem.title.length
+
+                    })
+
+                    $scope.searchResult = matchCase($scope.searchText, res.title);
+
+                    //$scope.suggestions = data.results;
 
                     $scope.selectedIndex = -1
                 });

@@ -6,7 +6,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
-        debugger;
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
         http.login(credentials)

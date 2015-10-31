@@ -25,13 +25,11 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
         http.getRestPackage()
             .then(function (package) {
                 _.remove(package.content, function (elem) {
-                    debugger;
                     var elemArray = elem.split('/');
                     var elemId = elemArray[elemArray.length - 2];
                     return elemId == show.id;
                 });
 
-                debugger;
                 http.putPackage(package)
                     .then(function (result) {
                         $rootScope.load()
@@ -74,7 +72,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
             $scope.rows = _.map($scope.package.content, function (content) {
                 var obj = {};
-                debugger;
                 obj.title = content.title;
                 obj.id = content.id;
                 obj.providerCellValues = _.map($scope.providers, function (elem) {

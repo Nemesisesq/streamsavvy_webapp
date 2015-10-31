@@ -63,6 +63,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         return list(filter(self.filter_by_content_provider, entries))
 
 
+
     def get_queryset(self):
         search_results = content_search(self.request)
         filter_results = self.filter_query([88, 379, 858], search_results)

@@ -182,22 +182,17 @@ app.directive('ssImageBlock', function (http, $rootScope) {
             scope.toggleSelected = function (item) {
                 http.getRestPackage()
                     .then(function (p) {
-                        debugger;
                         if(item.selected){
-                            debugger;
                             _.remove(p.hardware, function(elem){
                                 return elem == item.url
                             })
 
-                            debugger;
 
                             console.log(p)
                         } else{
-                            debugger;
                             p.hardware.push(item.url)
                         }
 
-                        debugger;
                         http.putPackage(p)
                             .then(function(data){
 
@@ -264,7 +259,6 @@ app.factory('http', function ($http, $log, $q) {
                     deferred.resolve(data)
                 })
                 .error(function (e, code) {
-                    debugger;
                     deferred.reject(e);
                     $log.error(e, code)
                 });
@@ -426,13 +420,11 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
         http.getRestPackage()
             .then(function (package) {
                 _.remove(package.content, function (elem) {
-                    debugger;
                     var elemArray = elem.split('/');
                     var elemId = elemArray[elemArray.length - 2];
                     return elemId == show.id;
                 });
 
-                debugger;
                 http.putPackage(package)
                     .then(function (result) {
                         $rootScope.load()
@@ -475,7 +467,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
             $scope.rows = _.map($scope.package.content, function (content) {
                 var obj = {};
-                debugger;
                 obj.title = content.title;
                 obj.id = content.id;
                 obj.providerCellValues = _.map($scope.providers, function (elem) {
@@ -513,7 +504,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
-        debugger;
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
         http.login(credentials)
@@ -654,7 +644,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
         });
 
-        debugger;
         $scope.rows = _.filter(rows, function (obj) {
             return _.isEqual(obj.service.channel_type, "online")
         });
@@ -749,7 +738,6 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location)
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
-        debugger;
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
         http.login(credentials)
@@ -835,19 +823,53 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
  */
 app.controller('search', function ($scope, $http, http, PackageService, $rootScope) {
 
+
     $scope.suggestions = [];
     $scope.selectedShows = PackageService.selectedShows;
     $scope.selectedIndex = -1;
 
+
+    var switchCase = function(char){
+        if (char == char.toUpperCase()) {
+            return char.toLowerCase();
+        } else {
+            return char.toUpperCase();
+        }
+    }
+
+
+    var matchCase = function (search, result) {
+
+        var resultArray = result.split('');
+
+        for (var i = 0; i < search.length; i++) {
+            if(search[i] !== resultArray[i]){
+                resultArray[i] = switchCase(resultArray[i])
+            }
+        }
+
+        return resultArray.join('')
+
+
+    }
+
     $scope.search = _.debounce(function () {
-        debugger;
         if ($scope.searchText) {
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
                     PackageService.searchResults = data.results;
 
-                    $scope.suggestions = data.results;
+                    debugger;
+
+                    var res = _.min(data.results, function (elem) {
+                        return elem.title.length
+
+                    })
+
+                    $scope.searchResult = matchCase($scope.searchText, res.title);
+
+                    //$scope.suggestions = data.results;
 
                     $scope.selectedIndex = -1
                 });
@@ -941,7 +963,6 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
 
     $scope.facebookAuth = function () {
-        debugger
 
     window.location = CONFIG.URL + $('#facebook_login').attr('href');
     }
