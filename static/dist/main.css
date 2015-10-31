@@ -87,6 +87,9 @@
 .show-me-btn {
   background: #3FA1FF; }
 
+.find-show-btn {
+  background-color: #ED1C24; }
+
 .find-show-btn, .show-me-btn, .find-out {
   margin: 0 auto;
   text-align: center;
@@ -260,7 +263,7 @@ hr {
   color: red; }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #ED1B24;
+  color: #ED1C24;
   font-family: inherit;
   font-size: 1.7em;
   font-weight: 500;
@@ -268,7 +271,7 @@ hr {
 
 .navbar-inverse .navbar-nav li a:hover, li a:active, li a:visited {
   transition: 0.7s all linear;
-  color: #ED1B24;
+  color: #ED1C24;
   height: 100%; }
 
 .navbar-inverse .navbar-toggle {
