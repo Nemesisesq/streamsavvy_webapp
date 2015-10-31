@@ -914,6 +914,8 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
             }
         } else if (event.keyCode === 13) {
             $scope.addToSelectedShows($scope.suggestions[$scope.selectedIndex]);
+        } else if (event.keyCode === 8) {
+            $scope.searchResult = '';
         }
 
     };

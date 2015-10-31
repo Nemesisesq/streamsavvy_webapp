@@ -5,7 +5,8 @@
             <div class="row show-input search-bar">
                 <input type="text" placeholder="Start typing" id="searchInput" ng-keydown="checkKeyDown($event)"
                        class="form-control stacked-input-1" ng-model="searchText" ng-change="search()"/>
-                <input type="text" id="searchInput" class="form-control stacked-input-2" ng-model="searchResult"/>
+                <input type="text" id="searchInput" class="form-control stacked-input-2" ng-keydown="checkKeyDown($event)"
+                       ng-model="searchResult"/>
 
                 <div class="row suggestions">
 
