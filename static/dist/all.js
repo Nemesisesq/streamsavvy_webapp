@@ -888,14 +888,14 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
 
                     }
 
-                    //$scope.suggestions = data.results;
+                    $scope.suggestions = data.results;
 
                     $scope.selectedIndex = -1
                 });
         } else {
             $scope.suggestions = [];
         }
-    }, 300);
+    }, 100);
 
     $scope.addToSelectedShows = function (suggestion) {
         var newPackage;
