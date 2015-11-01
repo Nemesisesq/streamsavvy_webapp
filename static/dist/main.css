@@ -574,32 +574,56 @@ footer {
   .collapse {
     display: block !important; } }
 
+.step-row {
+  background-color: #f4f4f4;
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 1%;
+  padding-top: 0;
+  padding-bottom: 0; }
+  .step-row .progress {
+    margin-bottom: 28px; }
+  .step-row .transition-bar {
+    height: 10px;
+    width: 100px;
+    padding: 3px;
+    display: inline-block;
+    margin-left: -4%;
+    margin-right: -4%;
+    position: relative; }
+
 .step-container {
-  padding: 20px;
+  padding-bottom: 10px;
+  margin: auto;
+  width: 100px;
   text-align: center;
-  line-height: 40px; }
-  .step-container .inactive {
+  line-height: 25px;
+  display: inline-block;
+  white-space: nowrap; }
+  .step-container .step-element {
     margin: auto;
-    width: 40px;
-    height: 40px;
-    border-width: 2px;
-    border-color: #7b7c7c;
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+    border-color: #c9c9c9;
     border-style: solid;
     border-radius: 40px;
     text-align: center; }
+    .step-container .step-element span {
+      color: #757575;
+      font-size: .7em; }
   .step-container .active {
     margin: auto;
-    width: 120px;
-    height: 40px;
-    background-color: #3bbc69;
+    width: 30px;
+    height: 30px;
     border-radius: 40px;
     color: #ffffff;
     font-size: 1.3em;
     font-weight: 500; }
   .step-container .make-inactive {
     margin: auto;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-width: 2px;
     border-color: black;
     border-style: solid;
@@ -613,36 +637,23 @@ footer {
     background-color: #7b7c7c; }
   .step-container .make_active {
     margin: auto;
-    width: 120px;
-    height: 40px;
-    background-color: #3bbc69;
+    height: 30px;
     border-radius: 40px;
-    color: #ffffff;
     font-size: 1.3em;
-    font-weight: 500;
     animation: to-active 200ms linear; }
 
 .pill-container {
   padding-left: 10%;
-  padding-right: 10%; }
+  padding-right: 10%;
+  max-width: 1000px; }
 
 @keyframes to-active {
-  0% {
-    width: 40px;
-    background: #ffffff; }
-  100% {
-    width: 120px;
-    background: #3bbc69;
-    border-style: none; } }
+  0% { }
+  100% { } }
 
 @keyframes to-inactive {
-  0% {
-    width: 120px;
-    background: #3bbc69;
-    border-style: none; }
-  100% {
-    width: 40px;
-    background: #ffffff; } }
+  0% { }
+  100% { } }
 
 .black-hr {
   border-color: black; }

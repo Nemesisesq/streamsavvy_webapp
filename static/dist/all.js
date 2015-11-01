@@ -948,7 +948,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     });
 
     $scope.$watch('searchText', function (val) {
-        debugger;
+        //debugger;
         if (val !== -1 ){
             checkNextLetter();
 

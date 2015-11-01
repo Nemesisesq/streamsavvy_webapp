@@ -1,37 +1,43 @@
 <section>
     <div class="container-fluid pill-container">
-        <div class="row">
-            <div class="col-xs-3 step-container">
-                <div id="step-one" class="center"
-                     ng-class="{make_active: stateStep == 1, inactive: stateStep != 1, step_finished : stateStep > 1  }"
+        <div class=" step-row">
+            <div class=" step-container ">
+                <div id="step-one" class="center step-element"
+                     ng-class="{make_active: stateStep == 1,  step_finished : stateStep > 1  }"
                      ng-click="navigate(1)">
-                    <span ng-if="step.one.show">{{ step.one.text }}</span>
-                    <span ng-if="stateStep > 1 ">1</span>
+                    <span>1</span>
                 </div>
+                <span class="text-to-overflow">Select Shows</span>
             </div>
-            <div class="col-xs-3 step-container">
-                <div id="step-two" class="center"
-                     ng-class="{make_active: stateStep == 2, inactive: stateStep != 2, step_finished : stateStep > 2  }"
+            <uib-progressbar class="transition-bar" value="100"></uib-progressbar>
+            <div class="step-container">
+                <div id="step-two" class="center step-element"
+                     ng-class="{make_active: stateStep == 2, step_finished : stateStep > 2  }"
                      ng-click="navigate(2)">
-                    <span ng-if="step.two.show">{{ step.two.text }}</span>
-                    <span ng-if="stateStep > 2">2</span>
+                    <span>2</span>
+
                 </div>
+                <span class="text-to-overflow">Select Hardware</span>
             </div>
-            <div class="col-xs-3 step-container">
-                <div id="step-three" class="center"
-                     ng-class="{make_active: stateStep == 3, inactive: stateStep != 3, step_finished : stateStep > 3  }"
+            <uib-progressbar class="transition-bar" value="100"></uib-progressbar>
+            <div class="step-container">
+                <div id="step-three" class="center step-element"
+                     ng-class="{make_active: stateStep == 3,  step_finished : stateStep > 3  }"
                      ng-click="navigate(3)">
-                    <span ng-if="step.three.show">{{ step.three.text }}</span>
-                    <span ng-if="stateStep > 3">3</span>
+                    <span>3</span>
                 </div>
+
+                <span class="text-to-overflow">Bundle It</span>
             </div>
-            <div class="col-xs-3 step-container">
-                <div id="step-four" class="center"
-                     ng-class="{make_active: stateStep == 4, inactive: stateStep != 4 , step_finished : stateStep > 4 }"
+            <uib-progressbar class="transition-bar" value="100"></uib-progressbar>
+            <div class="step-container">
+                <div id="step-four" class="center step-element"
+                     ng-class="{make_active: stateStep == 4,  step_finished : stateStep > 4 }"
                      ng-click="navigate(4)">
-                    <span ng-if="step.four.show">{{ step.four.text }}</span>
-                    <span ng-if="stateStep > 4">4</span>
+                    <span>4</span>
                 </div>
+
+                <span class="text-to-overflow">Confirmation</span>
             </div>
         </div>
     </div>
