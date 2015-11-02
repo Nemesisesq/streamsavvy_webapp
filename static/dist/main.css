@@ -603,6 +603,9 @@ footer {
   .collapse {
     display: block !important; } }
 
+.navbarhome {
+  margin-bottom: -100px; }
+
 .step-row {
   background-color: #f4f4f4;
   margin: 0 auto;

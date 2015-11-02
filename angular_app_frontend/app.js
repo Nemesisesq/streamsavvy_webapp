@@ -23,6 +23,9 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('nav.home', {
 
             url: '/',
+            data: {
+                isHomePage: true
+            },
             views: {
                 'home': {
                     templateUrl: 'static/partials/home.html'

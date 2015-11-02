@@ -1,23 +1,28 @@
-{# TODO put navigation html in here#}
-
-<!--<nav class="navbar navbar-inverse">
 
 
+    <nav class="navbar navbar-inverse navbar-static-top"  ng-class="{navbarhome: isHomePage}" role="navigation">
+        <div class="container-fluid">
 
-    <a class="navbar-brand" href="/">Cut The Cord</a>
+            <div class="navbar-header">
+                <a href="/#/"><img class="img-responsive nav-logo logo just-logo" src="/static/img/SS_Mark_red.png"/></a>
+                <a href="/#/"><img class="img-responsive nav-logo logo logo-and-text" src="/static/img/SS_Wordmark_White.png"/></a>
 
-
-    <ul class="nav navbar-nav navbar-right">
-        <li><input ng-model="credentials.username" placeholder="username"/></li>
-        <li><input ng-model="credentials.password" placeholder="password"/></li>
-        <li><a href="#" ng-click="logout()" > Logout</a></li>
-        <li><a href="#" ng-click="login(credentials)" ng-hide="logged_in">Login</a></li>
-        <li><a href="#" ng-hide="logged_in">Register</a></li>
-        <li><a href="#about"><i class="fa fa-shield"></i> About</a></li>
-        <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
-    </ul>
-
-</nav>-->
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="" class="contact-us-link">Contact Us</a></li>
+                    </ul>
+            </div>
+        </div>
+    </nav>
 
 
 <!--
