@@ -3,22 +3,28 @@
   margin: 0 auto;
   max-width: 600px;
   padding: 1%;
-  padding-top:0;
+  padding-top: 0;
   padding-bottom: 0;
 
+  .progress-bar {
+    background-color: #4FB0E8;
+  }
+
   .progress {
-    margin-bottom: 28px;
+    margin-bottom: 35px;
+    background-color: #E9E9E9;
   }
 
   .transition-bar {
-    height: 10px;
+    height: 5px;
     width: 100px;
-    padding: 3px;
+    //padding: px;
     display: inline-block;
     margin-left: -4%;
     margin-right: -4%;
     //margin-top: -1%;
     position: relative;
+    background-color: #E9E9E9;
 
   }
 }
@@ -28,79 +34,70 @@
   margin: auto;
   width: 100px;
   text-align: center;
-  line-height: 25px;
+  line-height: 30px;
   display: inline-block;
   white-space: nowrap;
-  //
-  //.text-to-overflow{
-  //  margin-left: -30%;
-  //  //margin-right: -100%;
-  //  text-align: center;
-  //}
+
+  .step-title {
+    color: #808080;
+  }
 
   .step-element {
+    position: relative;
     margin: auto;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
 
     border-width: 3px;
     border-color: #c9c9c9;
     border-style: solid;
-    border-radius: 40px;
+    border-radius: 35px;
     text-align: center;
 
     span {
-      color: #757575;
-      font-size: .7em;
+      position: absolute;
+      color: #808080;
+      font-size: 14px;
+      font-weight: bold;
+      left: 10px;
     }
 
   }
 
   .active {
-    margin: auto;
-    width: 30px;
-    height: 30px;
-    //background-color: #3bbc69;
-    border-radius: 40px;
-    color: #ffffff;
-    font-size: 1.3em;
-    font-weight: 500;
+    border-color: #4fb0e8;
+    animation: to-active 500ms linear;
+    color: #4fb0e8;
+
+    span {
+      color: #4fb0e8;
+      animation: to-active 500ms linear;
+    }
+
+
 
   }
 
-  .make-inactive {
-    margin: auto;
-    width: 30px;
-    height: 30px;
-
-    border-width: 2px;
-    border-color: black;
-    border-style: solid;
-    border-radius: 40px;
-
-    animation: to-inactive 200ms linear;
-
-  }
 
   .step_finished {
-    color: #ffffff;
-    font-size: 1.3em;
-    font-weight: 700;
-    border-color: #7b7c7c;
-    background-color: #7b7c7c;
-  }
 
-  .make_active {
-    margin: auto;
-    //width: 120px;
-    height: 30px;
-    //background-color: #3bbc69;
-    border-radius: 40px;
-    //color: #ffffff;
-    font-size: 1.3em;
-    //font-weight: 500;
 
-    animation: to-active 200ms linear;
+    border-color: #31CE82;
+    background-color: #31CE82;
+
+    span {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      font-size: 17px;
+      color: white;
+    }
+
+
+    & + span {
+      background-color: transparent;
+      color: #31CE82;
+    }
   }
 
 }
@@ -113,15 +110,15 @@
 
 @keyframes to-active {
   0% {
-    //width: 40px;
-    //background: #ffffff;
+    border-color: #c9c9c9;
+    color: #808080;
 
   }
 
   100% {
-    //width: 120px;
-    //background: #3bbc69;
-    //border-style: none;
+    border-color: #4fb0e8;
+    color: #4fb0e8;
+
   }
 }
 

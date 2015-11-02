@@ -182,7 +182,7 @@ span.glyphicon.glyphicon-ok-sign.glyphicon-background.blue-glyphicon.selected {
 .intro-header {
   padding-top: 50px;
   /* If you're making other pages, make sure there is 50px of padding to make sure the navbar
-   doesn't overlap content! */
+    doesn't overlap content! */
   text-align: center;
   color: #f8f8f8;
   background: transparent;
@@ -553,9 +553,8 @@ footer {
   .banner h1 {
     left: 5%; } }
 
-@media (min-width: 1024px) {
-  .journey-one {
-    width: 65%; } }
+.journey-one {
+  width: 65%; }
 
 .build-bundle, .build-show-list, .step-one-explanation {
   background-color: #E3E3E5; }
@@ -592,66 +591,65 @@ footer {
   padding: 1%;
   padding-top: 0;
   padding-bottom: 0; }
+  .step-row .progress-bar {
+    background-color: #4FB0E8; }
   .step-row .progress {
-    margin-bottom: 28px; }
+    margin-bottom: 35px;
+    background-color: #E9E9E9; }
   .step-row .transition-bar {
-    height: 10px;
+    height: 5px;
     width: 100px;
-    padding: 3px;
     display: inline-block;
     margin-left: -4%;
     margin-right: -4%;
-    position: relative; }
+    position: relative;
+    background-color: #E9E9E9; }
 
 .step-container {
   padding-bottom: 10px;
   margin: auto;
   width: 100px;
   text-align: center;
-  line-height: 25px;
+  line-height: 30px;
   display: inline-block;
   white-space: nowrap; }
+  .step-container .step-title {
+    color: #808080; }
   .step-container .step-element {
+    position: relative;
     margin: auto;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-width: 3px;
     border-color: #c9c9c9;
     border-style: solid;
-    border-radius: 40px;
+    border-radius: 35px;
     text-align: center; }
     .step-container .step-element span {
-      color: #757575;
-      font-size: .7em; }
+      position: absolute;
+      color: #808080;
+      font-size: 14px;
+      font-weight: bold;
+      left: 10px; }
   .step-container .active {
-    margin: auto;
-    width: 30px;
-    height: 30px;
-    border-radius: 40px;
-    color: #ffffff;
-    font-size: 1.3em;
-    font-weight: 500; }
-  .step-container .make-inactive {
-    margin: auto;
-    width: 30px;
-    height: 30px;
-    border-width: 2px;
-    border-color: black;
-    border-style: solid;
-    border-radius: 40px;
-    animation: to-inactive 200ms linear; }
+    border-color: #4fb0e8;
+    animation: to-active 500ms linear;
+    color: #4fb0e8; }
+    .step-container .active span {
+      color: #4fb0e8;
+      animation: to-active 500ms linear; }
   .step-container .step_finished {
-    color: #ffffff;
-    font-size: 1.3em;
-    font-weight: 700;
-    border-color: #7b7c7c;
-    background-color: #7b7c7c; }
-  .step-container .make_active {
-    margin: auto;
-    height: 30px;
-    border-radius: 40px;
-    font-size: 1.3em;
-    animation: to-active 200ms linear; }
+    border-color: #31CE82;
+    background-color: #31CE82; }
+    .step-container .step_finished span {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      font-size: 17px;
+      color: white; }
+    .step-container .step_finished + span {
+      background-color: transparent;
+      color: #31CE82; }
 
 .pill-container {
   padding-left: 10%;
@@ -659,8 +657,12 @@ footer {
   max-width: 1000px; }
 
 @keyframes to-active {
-  0% { }
-  100% { } }
+  0% {
+    border-color: #c9c9c9;
+    color: #808080; }
+  100% {
+    border-color: #4fb0e8;
+    color: #4fb0e8; } }
 
 @keyframes to-inactive {
   0% { }

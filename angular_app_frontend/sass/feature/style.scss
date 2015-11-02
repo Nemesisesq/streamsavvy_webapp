@@ -1,6 +1,7 @@
 .intro-header {
-  padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar
-   doesn't overlap content! */
+  padding-top: 50px;
+  /* If you're making other pages, make sure there is 50px of padding to make sure the navbar
+    doesn't overlap content! */
   text-align: center;
   color: #f8f8f8;
   background: transparent;
@@ -49,8 +50,6 @@ h1, h2, h3, h5, p, div {
   margin: 0 auto;
   /*width: 75%;*/
 }
-
-
 
 .main-page {
   margin: 0 auto;
@@ -149,9 +148,11 @@ hr {
   /*font-size: 2em*/
 
 }
-.usr-path-left > .usr-path-header{
+
+.usr-path-left > .usr-path-header {
   color: white;
 }
+
 .usr-path-header h1 {
   font-size: 2.5em;
   font-weight: bold;
@@ -202,13 +203,13 @@ hr {
   font-weight: bold;
 }
 
-.confused{
+.confused {
   background-color: #13171A;
-  .still-explain{
+  .still-explain {
     text-align: center;
     margin-top: 3%;
     margin-bottom: 3%;
-    h1{
+    h1 {
       color: white;
       font-size: 2.0em;
       font-weight: bold;
@@ -216,9 +217,7 @@ hr {
       margin-right: 4%;
     }
 
-
   }
-
 
 }
 
@@ -288,7 +287,7 @@ hr {
   background-color: #55595C;
 }
 
-h4{
+h4 {
   line-height: normal;
 }
 
@@ -474,10 +473,8 @@ footer {
 
 }
 
-@media(min-width: 1024px) {
-  .journey-one {
-    width: 65%;
-  }
+.journey-one {
+  width: 65%;
 }
 
 .build-bundle, .build-show-list, .step-one-explanation {
@@ -521,8 +518,8 @@ footer {
   }
 }
 
-@media (min-width: 1400px){
-  .container{
+@media (min-width: 1400px) {
+  .container {
     //width:89%;
   }
 }
