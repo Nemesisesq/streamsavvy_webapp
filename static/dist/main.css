@@ -512,15 +512,25 @@ h4 {
 
 footer {
   padding: 25px 0;
-  background-color: white;
-  position: relative;
-  max-width: 35%;
-  margin-left: auto;
-  margin-right: auto; }
-
-.foot {
-  padding-left: 15%;
-  padding-right: 15%; }
+  background-color: #ED1B24;
+  max-height: 250px; }
+  footer .foot-pic {
+    display: inline-block;
+    max-height: 35px; }
+  footer .foot-logo {
+    padding-left: 5%; }
+  footer .foot-name {
+    max-height: 15px;
+    margin-left: 10px; }
+  footer .foot-icons {
+    float: right;
+    margin-right: 5%;
+    padding-right: 2px; }
+  footer .icon-2x {
+    color: white;
+    font-size: 24px; }
+  footer .icon-facebook-official {
+    padding-right: 22px; }
 
 @media (max-width: 480px) {
   .intro-message {
