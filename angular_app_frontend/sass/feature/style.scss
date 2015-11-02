@@ -1,7 +1,6 @@
 .intro-header {
-  padding-top: 50px;
-  /* If you're making other pages, make sure there is 50px of padding to make sure the navbar
-    doesn't overlap content! */
+  padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar
+   doesn't overlap content! */
   text-align: center;
   color: #f8f8f8;
   background: transparent;
@@ -29,7 +28,7 @@
 }
 
 .intro-sub-question {
-  color: #f8f8f8;
+  color: #aeb6bb;
 }
 
 .container {
@@ -50,6 +49,8 @@ h1, h2, h3, h5, p, div {
   margin: 0 auto;
   /*width: 75%;*/
 }
+
+
 
 .main-page {
   margin: 0 auto;
@@ -148,11 +149,9 @@ hr {
   /*font-size: 2em*/
 
 }
-
-.usr-path-left > .usr-path-header {
+.usr-path-left > .usr-path-header{
   color: white;
 }
-
 .usr-path-header h1 {
   font-size: 2.5em;
   font-weight: bold;
@@ -160,8 +159,8 @@ hr {
 
 .usr-path-header h3 {
   font-size: 1.15em;
+  color: #aeb6bb;
 }
-
 .img-thumbnail {
   background-color: transparent;
   height: 45px;
@@ -203,13 +202,17 @@ hr {
   font-weight: bold;
 }
 
-.confused {
+.why-money h5{
+  color: #aeb6bb;
+}
+
+.confused{
   background-color: #13171A;
-  .still-explain {
+  .still-explain{
     text-align: center;
     margin-top: 3%;
     margin-bottom: 3%;
-    h1 {
+    h1{
       color: white;
       font-size: 2.0em;
       font-weight: bold;
@@ -217,7 +220,9 @@ hr {
       margin-right: 4%;
     }
 
+
   }
+
 
 }
 
@@ -260,7 +265,7 @@ hr {
   width: 50%;
   display: inline;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.6em;
 }
 
 .money-reasons-left {
@@ -280,6 +285,7 @@ hr {
   padding-left: 15%;
   padding-right: 15%;
   padding-bottom: 5%;
+  color: #aeb6bb;
 }
 
 .confused-banner {
@@ -287,7 +293,7 @@ hr {
   background-color: #55595C;
 }
 
-h4 {
+h4{
   line-height: normal;
 }
 
@@ -346,6 +352,9 @@ h4 {
 .articles-title {
   font-size: 2.0em; /*20px for mobile*/
   font-weight: bold;
+}
+.articles h5{
+  color: #aeb6bb;
 }
 
 .poster {
@@ -407,17 +416,34 @@ h4 {
 
 footer {
   padding: 25px 0;
-  background-color: white;
-  position: relative;
-  max-width: 35%;
-  margin-left: auto;
-  margin-right: auto;
+  background-color: #ED1B24;
+  max-height: 250px;
+  .foot-pic{
+    display: inline-block;
+    max-height: 35px;
+  }
+  .foot-logo{
+    padding-left: 5%;
+  }
+  .foot-name{
+    max-height: 15px;
+    margin-left: 10px;
+  }
+  .foot-icons {
+    float: right;
+    margin-right: 5%;
+    padding-right: 2px;
 }
 
-.foot {
-  padding-left: 15%;
-  padding-right: 15%;
+  .icon-2x {
+      color: white;
+      font-size: 24px;
+  }
+  .icon-facebook-official {
+    padding-right: 22px;
+  }
 }
+
 
 @media(max-width: 480px) {
   .intro-message {
@@ -473,8 +499,10 @@ footer {
 
 }
 
-.journey-one {
-  width: 65%;
+@media(min-width: 1024px) {
+  .journey-one {
+    width: 65%;
+  }
 }
 
 .build-bundle, .build-show-list, .step-one-explanation {
@@ -518,8 +546,8 @@ footer {
   }
 }
 
-@media (min-width: 1400px) {
-  .container {
+@media (min-width: 1400px){
+  .container{
     //width:89%;
   }
 }
