@@ -28,7 +28,7 @@
 }
 
 .intro-sub-question {
-  color: #f8f8f8;
+  color: #aeb6bb;
 }
 
 .container {
@@ -159,8 +159,8 @@ hr {
 
 .usr-path-header h3 {
   font-size: 1.15em;
+  color: #aeb6bb;
 }
-
 .img-thumbnail {
   background-color: transparent;
   height: 45px;
@@ -200,6 +200,10 @@ hr {
 .why-money-title, .build-bundle-title, .build-service-list-title, .build-show-list-title {
   font-size: 2.5em;
   font-weight: bold;
+}
+
+.why-money h5{
+  color: #aeb6bb;
 }
 
 .confused{
@@ -261,7 +265,7 @@ hr {
   width: 50%;
   display: inline;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.6em;
 }
 
 .money-reasons-left {
@@ -281,6 +285,7 @@ hr {
   padding-left: 15%;
   padding-right: 15%;
   padding-bottom: 5%;
+  color: #aeb6bb;
 }
 
 .confused-banner {
@@ -347,6 +352,9 @@ h4{
 .articles-title {
   font-size: 2.0em; /*20px for mobile*/
   font-weight: bold;
+}
+.articles h5{
+  color: #aeb6bb;
 }
 
 .poster {
