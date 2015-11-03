@@ -57,6 +57,8 @@ ul {
     font-size: 1.2em;
     font-weight: 700;
     padding-top: 10px;
+    padding-left: 75px;
+    position: absolute;
 
   }
   .panel-heading {
@@ -80,6 +82,7 @@ ul {
     border-bottom-left-radius: 3px;
     border-top-left-radius: 3px;
     top: -1px;
+    position: absolute;
   }
   .row.content-name.ng-binding.ng-scope {
     padding-left: 2%;

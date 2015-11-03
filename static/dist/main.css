@@ -738,7 +738,9 @@ ul {
     display: flex;
     font-size: 1.2em;
     font-weight: 700;
-    padding-top: 10px; }
+    padding-top: 10px;
+    padding-left: 75px;
+    position: absolute; }
   .step-one .panel-heading {
     height: 50px; }
   .step-one .panel-default > .panel-heading {
@@ -757,7 +759,8 @@ ul {
     padding-right: 13px;
     border-bottom-left-radius: 3px;
     border-top-left-radius: 3px;
-    top: -1px; }
+    top: -1px;
+    position: absolute; }
   .step-one .row.content-name.ng-binding.ng-scope {
     padding-left: 2%; }
   .step-one .col-sm-1.ng-scope {
