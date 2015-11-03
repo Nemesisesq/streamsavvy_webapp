@@ -236,7 +236,7 @@ hr {
   border-color: black; }
 
 .nav-hero {
-  background-image: url("/static/img/dark-splash-background.png");
+  background-image: url("/static/img/ss_background.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
@@ -328,12 +328,13 @@ hr {
   height: auto;
   width: auto;
   max-width: 250px;
-  max-height: 50px;
+  max-height: 34px;
   margin-top: 18px;
   margin-left: 15px; }
 
 .logo-and-text {
-  display: none !important; }
+  display: none !important;
+  max-height: 18px; }
 
 .just-logo {
   display: inline-block; }
@@ -605,9 +606,6 @@ footer {
 @media (min-width: 768px) and (max-width: 841px) {
   .collapse {
     display: block !important; } }
-
-.navbarhome {
-  margin-bottom: -100px; }
 
 .step-row {
   background-color: #f4f4f4;
@@ -998,3 +996,50 @@ span.selected-cost {
 
 .btn-login:hover {
   color: #000088; }
+
+.navbarhome {
+  margin-bottom: -100px;
+  border-top: #ED1C24 solid 3px; }
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #ED1C24;
+  font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 200;
+  padding: 30px 25px 33px 25px; }
+
+.nav li {
+  margin-left: -12px; }
+
+.navbar-right {
+  margin-top: 2px; }
+
+div .navbar-header {
+  margin-top: 7px; }
+
+.burger {
+  max-width: 30px;
+  max-height: 30px;
+  display: block;
+  float: right;
+  padding-top: 5px; }
+
+.logo {
+  height: auto;
+  width: auto;
+  max-width: 250px;
+  max-height: 34px;
+  margin-top: 18px;
+  margin-left: 0px; }
+
+.logo-and-text {
+  max-height: 18px;
+  margin-left: 9px; }
+
+.just-logo {
+  display: inline-block;
+  margin-left: 85px; }
+
+@media (max-width: 1000px) {
+  .navbar-inverse .navbar-nav > li > a {
+    font-size: small; } }

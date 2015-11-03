@@ -27,7 +27,7 @@ var paths = {
         './angular_app_frontend/features/progress/*.html',
         './angular_app_frontend/features/search/*.html'
     ],
-    images: ['./angular_app_frontend/img']
+    images: ['./angular_app_frontend/img/*']
 
 };
 

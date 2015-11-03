@@ -23,6 +23,9 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('nav.home', {
 
             url: '/',
+            data: {
+                isHomePage: true
+            },
             views: {
                 'home': {
                     templateUrl: 'static/partials/home.html'
@@ -182,22 +185,17 @@ app.directive('ssImageBlock', function (http, $rootScope) {
             scope.toggleSelected = function (item) {
                 http.getRestPackage()
                     .then(function (p) {
-                        debugger;
                         if(item.selected){
-                            debugger;
                             _.remove(p.hardware, function(elem){
                                 return elem == item.url
                             })
 
-                            debugger;
 
                             console.log(p)
                         } else{
-                            debugger;
                             p.hardware.push(item.url)
                         }
 
-                        debugger;
                         http.putPackage(p)
                             .then(function(data){
 
@@ -264,7 +262,6 @@ app.factory('http', function ($http, $log, $q) {
                     deferred.resolve(data)
                 })
                 .error(function (e, code) {
-                    debugger;
                     deferred.reject(e);
                     $log.error(e, code)
                 });
@@ -426,13 +423,11 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
         http.getRestPackage()
             .then(function (package) {
                 _.remove(package.content, function (elem) {
-                    debugger;
                     var elemArray = elem.split('/');
                     var elemId = elemArray[elemArray.length - 2];
                     return elemId == show.id;
                 });
 
-                debugger;
                 http.putPackage(package)
                     .then(function (result) {
                         $rootScope.load()
@@ -475,7 +470,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
             $scope.rows = _.map($scope.package.content, function (content) {
                 var obj = {};
-                debugger;
                 obj.title = content.title;
                 obj.id = content.id;
                 obj.providerCellValues = _.map($scope.providers, function (elem) {
@@ -513,7 +507,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
-        debugger;
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
         http.login(credentials)
@@ -654,7 +647,6 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
         });
 
-        debugger;
         $scope.rows = _.filter(rows, function (obj) {
             return _.isEqual(obj.service.channel_type, "online")
         });
@@ -744,12 +736,12 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
+    $scope.isHomePage = $state.current.data.isHomePage;
     $scope.logged_in = false;
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
-        debugger;
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
         http.login(credentials)
@@ -835,17 +827,70 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
  */
 app.controller('search', function ($scope, $http, http, PackageService, $rootScope) {
 
+    function checkNextLetter(){
+        var s = $scope.searchText,
+            r =  $scope.searchResult;
+
+        if (s && r) {
+            //debugger;
+            if (_.last(s) !== r[s.length - 1]) {
+                $scope.searchResult = ''
+            }
+        }
+    }
+
     $scope.suggestions = [];
     $scope.selectedShows = PackageService.selectedShows;
     $scope.selectedIndex = -1;
 
+
+    var switchCase = function(char){
+        if (char == char.toUpperCase()) {
+            return char.toLowerCase();
+        } else {
+            return char.toUpperCase();
+        }
+    }
+
+
+    var matchCase = function (search, result) {
+
+        var resultArray = result.split('');
+
+        for (var i = 0; i < search.length; i++) {
+            if(search[i] !== resultArray[i]){
+                resultArray[i] = switchCase(resultArray[i])
+            }
+        }
+
+        return resultArray.join('')
+
+
+    }
+
+    $scope.checkMatched = function(){
+        return $scope.searchResult[$scope.searchText-1] === _.last($scope.searchText)
+    }
+
     $scope.search = _.debounce(function () {
-        debugger;
         if ($scope.searchText) {
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
                     PackageService.searchResults = data.results;
+
+
+                    var res = _.min(data.results, function (elem) {
+                        return elem.title.length
+
+                    })
+
+                    var searchResult = matchCase($scope.searchText, res.title);
+
+                    if(_.includes(searchResult, $scope.searchText)){
+                        $scope.searchResult = searchResult;
+
+                    }
 
                     $scope.suggestions = data.results;
 
@@ -854,7 +899,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
         } else {
             $scope.suggestions = [];
         }
-    }, 300);
+    }, 100);
 
     $scope.addToSelectedShows = function (suggestion) {
         var newPackage;
@@ -880,6 +925,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     };
 
     $scope.checkKeyDown = function (event) {
+
         if (event.keyCode === 40) {
             event.preventDefault();
             if ($scope.selectedIndex + 1 !== $scope.suggestions.length) {
@@ -892,6 +938,8 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
             }
         } else if (event.keyCode === 13) {
             $scope.addToSelectedShows($scope.suggestions[$scope.selectedIndex]);
+        } else if (event.keyCode === 8) {
+            $scope.searchResult = '';
         }
 
     };
@@ -902,6 +950,14 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
             $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
         }
     });
+
+    $scope.$watch('searchText', function (val) {
+        //debugger;
+        if (val !== -1 ){
+            checkNextLetter();
+
+        }
+    })
 
 
 });
@@ -941,7 +997,6 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
 
     $scope.facebookAuth = function () {
-        debugger
 
     window.location = CONFIG.URL + $('#facebook_login').attr('href');
     }

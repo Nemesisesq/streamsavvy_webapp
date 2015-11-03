@@ -67,7 +67,7 @@ hr {
 }
 
 .nav-hero {
-  background-image: url('/static/img/dark-splash-background.png');
+  background-image: url('/static/img/ss_background.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
@@ -178,13 +178,14 @@ hr {
   height: auto;
   width: auto;
   max-width: 250px;
-  max-height: 50px;
+  max-height: 34px;
   margin-top: 18px;
   margin-left: 15px;
 }
 
 .logo-and-text {
   display: none !important;
+  max-height: 18px;
 }
 
 .just-logo {
