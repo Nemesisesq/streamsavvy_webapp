@@ -962,6 +962,14 @@ span.selected-cost {
     z-index: -99999;
     color: red; }
 
+.just-type {
+  margin: 0 auto;
+  text-align: center; }
+  .just-type h1 {
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 10px; }
+
 .suggestions-list {
   left: 0;
   right: 0;
