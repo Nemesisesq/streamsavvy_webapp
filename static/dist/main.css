@@ -87,13 +87,16 @@
 .show-me-btn {
   background: #3FA1FF; }
 
-.find-show-btn {
+.btn-red {
   background-color: #ED1C24; }
 
 .find-show-btn, .show-me-btn, .find-out {
   margin: 0 auto;
   text-align: center;
   display: block; }
+
+.find-out {
+  margin-bottom: 4%; }
 
 .btn-green:hover,
 .btn-green:focus,
@@ -695,7 +698,8 @@ footer {
 
 body {
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  height: 100%; }
 
 input[type="text"] {
   font-size: 130%; }
@@ -730,12 +734,14 @@ ul {
     display: flex; }
   .step-one .show-title {
     height: 100%;
-    display: flex; }
+    display: flex;
+    font-size: 1.2em;
+    font-weight: 700; }
   .step-one .panel-heading {
     height: 50px; }
   .step-one .panel-default > .panel-heading {
-    color: white;
-    background-color: #45a7e5;
+    color: black;
+    background-color: white;
     border-color: #ddd; }
   .step-one .row.content-name.ng-binding.ng-scope {
     padding-left: 2%; }

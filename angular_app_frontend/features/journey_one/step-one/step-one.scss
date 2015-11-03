@@ -1,6 +1,7 @@
 body {
   margin-left: auto;
   margin-right: auto;
+  height: 100%;
 }
 
 input[type="text"] {
@@ -51,16 +52,17 @@ ul {
   .show-title {
 
     height: 100%;
-    //background-color: grey;
     display: flex;
+    font-size: 1.2em;
+    font-weight: 700;
 
   }
   .panel-heading {
     height: 50px;
   }
   .panel-default > .panel-heading {
-    color: white;
-    background-color: #45a7e5;
+    color: black;
+    background-color: white;
     border-color: #ddd;
   }
   .row.content-name.ng-binding.ng-scope {
