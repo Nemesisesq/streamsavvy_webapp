@@ -731,20 +731,37 @@ ul {
     float: left;
     overflow: auto;
     height: 100%;
-    display: flex; }
+    display: flex;
+    padding: 0; }
   .step-one .show-title {
     height: 100%;
     display: flex;
     font-size: 1.2em;
-    font-weight: 700; }
+    font-weight: 700;
+    padding-top: 10px; }
   .step-one .panel-heading {
     height: 50px; }
   .step-one .panel-default > .panel-heading {
     color: black;
     background-color: white;
-    border-color: #ddd; }
+    border-color: #ddd;
+    padding: 0; }
+  .step-one i.glyphicon.glyphicon-plus.ng-scope {
+    font-size: 1.6em;
+    background-color: #45a7e5;
+    color: white;
+    background-size: 20px 20px;
+    padding-left: 15px;
+    padding-top: 12px;
+    padding-bottom: 15px;
+    padding-right: 13px;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+    top: -1px; }
   .step-one .row.content-name.ng-binding.ng-scope {
     padding-left: 2%; }
+  .step-one .col-sm-1.ng-scope {
+    padding: 0; }
 
 ul.btn-list-grid li {
   display: inline-flex;
