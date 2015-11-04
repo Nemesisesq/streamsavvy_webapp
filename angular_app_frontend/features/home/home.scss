@@ -1,0 +1,80 @@
+.usr-paths {
+  //display: table;
+}
+
+.usr-path-left{
+  //display:table-cell;
+}
+
+.usr-path-right {
+  display: block;
+  position: relative;
+  height: 566px;
+  min-height: 100%;
+  overflow: hidden;
+  //padding-bottom: 7%;
+
+  div {
+    //min-height: 100%;
+
+    height : auto;
+    //margin-bottom: 4.05%;
+
+    img {
+      position: absolute;
+      height: 10%;
+    }
+
+    #watch {
+      top: 10px;
+      position: relative;
+      height: 216px;
+
+      margin-left: auto;
+      margin-right: auto;
+
+    }
+
+    #hbo {
+      top: 250px;
+      right: -30px;
+    }
+
+    #netflix {
+
+      top: 250px;
+      left: 0px;
+      right: 0px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #hulu {
+      top: 250px;
+      left: -30px;
+    }
+  }
+
+  button {
+    //position: absolute;
+    //margin-bottom:
+
+  }
+}
+
+@media(max-width:1198px){
+
+  .usr-path-right {
+    height: 8%;
+
+    div{
+
+
+    #watch{
+      height : 207px;
+    }
+    }
+
+
+  }
+}

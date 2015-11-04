@@ -1043,3 +1043,39 @@ div .navbar-header {
 @media (max-width: 1000px) {
   .navbar-inverse .navbar-nav > li > a {
     font-size: small; } }
+
+.usr-path-right {
+  display: block;
+  position: relative;
+  height: 566px;
+  min-height: 100%;
+  overflow: hidden; }
+  .usr-path-right div {
+    height: auto; }
+    .usr-path-right div img {
+      position: absolute;
+      height: 10%; }
+    .usr-path-right div #watch {
+      top: 10px;
+      position: relative;
+      height: 216px;
+      margin-left: auto;
+      margin-right: auto; }
+    .usr-path-right div #hbo {
+      top: 250px;
+      right: -30px; }
+    .usr-path-right div #netflix {
+      top: 250px;
+      left: 0px;
+      right: 0px;
+      margin-left: auto;
+      margin-right: auto; }
+    .usr-path-right div #hulu {
+      top: 250px;
+      left: -30px; }
+
+@media (max-width: 1198px) {
+  .usr-path-right {
+    height: 8%; }
+    .usr-path-right div #watch {
+      height: 207px; } }
