@@ -1079,3 +1079,6 @@ div .navbar-header {
     height: 8%; }
     .usr-path-right div #watch {
       height: 207px; } }
+
+.blog-one h1 {
+  font-weight: 700; }
