@@ -36,6 +36,28 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
             }
 
         })
+        .state('blog', {
+            abstract: true,
+            templateUrl: "static/partials/blog.html"
+        })
+        .state('blog.blog-one', {
+            url: '/blog/blog-one/1',
+            data: {
+                blog: 1
+            },
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'blog-one': {
+                    templateUrl: 'static/partials/blog/blog-one.html'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            }
+        })
         .state('nav.index', {
             url: '/search',
             views: {
@@ -396,6 +418,7 @@ app.service('PackageService', ['http','_', function (http, _) {
 app.factory('_', function($window){
     return $window._;
 })
+
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
