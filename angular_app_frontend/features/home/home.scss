@@ -2,23 +2,27 @@
   //display: table;
 }
 
+.usr-path-header{
+  height: auto;
+}
+
 .usr-path-left{
   //display:table-cell;
 }
 
 .usr-path-right {
   display: block;
-  position: relative;
-  height: 566px;
-  min-height: 100%;
+  //position: relative;
+  //height: 566px;
+  //min-height: 100%;
   overflow: hidden;
-  //padding-bottom: 7%;
+  padding-bottom: 7%;
 
   div {
     //min-height: 100%;
 
-    height : auto;
-    //margin-bottom: 4.05%;
+    //height : auto;
+    margin-bottom: 3.6%;
 
     img {
       position: absolute;
@@ -26,10 +30,10 @@
     }
 
     #watch {
-      top: 10px;
+      //top: 10px;
       position: relative;
-      height: 216px;
-
+      //height: 216px;
+      //
       margin-left: auto;
       margin-right: auto;
 
@@ -51,7 +55,7 @@
 
     #hulu {
       top: 250px;
-      left: -30px;
+      left: -50px;
     }
   }
 
@@ -70,9 +74,9 @@
     div{
 
 
-    #watch{
-      height : 207px;
-    }
+    //#watch{
+    //  height : 207px;
+    //}
     }
 
 

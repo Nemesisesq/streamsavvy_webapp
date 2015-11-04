@@ -1044,21 +1044,20 @@ div .navbar-header {
   .navbar-inverse .navbar-nav > li > a {
     font-size: small; } }
 
+.usr-path-header {
+  height: auto; }
+
 .usr-path-right {
   display: block;
-  position: relative;
-  height: 566px;
-  min-height: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+  padding-bottom: 7%; }
   .usr-path-right div {
-    height: auto; }
+    margin-bottom: 3.6%; }
     .usr-path-right div img {
       position: absolute;
       height: 10%; }
     .usr-path-right div #watch {
-      top: 10px;
       position: relative;
-      height: 216px;
       margin-left: auto;
       margin-right: auto; }
     .usr-path-right div #hbo {
@@ -1072,13 +1071,11 @@ div .navbar-header {
       margin-right: auto; }
     .usr-path-right div #hulu {
       top: 250px;
-      left: -30px; }
+      left: -50px; }
 
 @media (max-width: 1198px) {
   .usr-path-right {
-    height: 8%; }
-    .usr-path-right div #watch {
-      height: 207px; } }
+    height: 8%; } }
 
 .blog-one h1 {
   font-weight: 700; }
