@@ -1,5 +1,21 @@
 .blog-one{
+  margin-bottom: 5%;
   h1{
     font-weight: 700;
+  }
+  p{
+    color: #aeb6bb;
+  }
+  h3{
+    font-weight: 600;
+  }
+  ::-moz-selection {
+    background-color: #14B23E;
+    color: #ffffff;
+  }
+
+::selection {
+    background-color: #14B23E;
+    color: #ffffff;
   }
 }

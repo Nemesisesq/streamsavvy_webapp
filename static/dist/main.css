@@ -287,7 +287,7 @@ hr {
   padding-bottom: 7%; }
 
 .usr-path-right {
-  background-color: #D3D4D5;
+  background-color: #F4F6F6;
   float: right; }
 
 .usr-path-left {
@@ -296,7 +296,8 @@ hr {
 
 .usr-path-header {
   padding-top: 7%;
-  height: 150px;
+  padding-bottom: 3%;
+  height: 170px !important;
   vertical-align: middle;
   position: relative;
   text-align: center;
@@ -316,6 +317,9 @@ hr {
 .img-thumbnail {
   background-color: transparent;
   height: 45px; }
+
+.usr-paths .img-responsive {
+  height: 283px; }
 
 .burger {
   max-width: 30px;
@@ -1051,31 +1055,41 @@ div .navbar-header {
   display: block;
   overflow: hidden;
   padding-bottom: 7%; }
-  .usr-path-right div {
-    margin-bottom: 3.6%; }
-    .usr-path-right div img {
-      position: absolute;
-      height: 10%; }
-    .usr-path-right div #watch {
-      position: relative;
-      margin-left: auto;
-      margin-right: auto; }
-    .usr-path-right div #hbo {
-      top: 250px;
-      right: -30px; }
-    .usr-path-right div #netflix {
-      top: 250px;
-      left: 0px;
-      right: 0px;
-      margin-left: auto;
-      margin-right: auto; }
-    .usr-path-right div #hulu {
-      top: 250px;
-      left: -50px; }
+  .usr-path-right div img {
+    position: absolute;
+    height: 10%; }
+  .usr-path-right div #watch {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto; }
+  .usr-path-right div #hbo {
+    top: 250px;
+    right: -30px; }
+  .usr-path-right div #netflix {
+    top: 250px;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto; }
+  .usr-path-right div #hulu {
+    top: 250px;
+    left: -50px; }
 
 @media (max-width: 1198px) {
   .usr-path-right {
     height: 8%; } }
 
-.blog-one h1 {
-  font-weight: 700; }
+.blog-one {
+  margin-bottom: 5%; }
+  .blog-one h1 {
+    font-weight: 700; }
+  .blog-one p {
+    color: #aeb6bb; }
+  .blog-one h3 {
+    font-weight: 600; }
+  .blog-one ::-moz-selection {
+    background-color: #14B23E;
+    color: #ffffff; }
+  .blog-one ::selection {
+    background-color: #14B23E;
+    color: #ffffff; }

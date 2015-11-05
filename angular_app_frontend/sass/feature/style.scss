@@ -130,7 +130,7 @@ hr {
 }
 
 .usr-path-right {
-  background-color: #D3D4D5;
+  background-color: #F4F6F6;
   float: right;
 
 }
@@ -142,7 +142,8 @@ hr {
 
 .usr-path-header {
   padding-top: 7%;
-  height: 150px;
+  padding-bottom: 3%;
+  height: 170px !important;
   vertical-align: middle;
   position: relative;
   text-align: center;
@@ -164,6 +165,11 @@ hr {
 .img-thumbnail {
   background-color: transparent;
   height: 45px;
+}
+.usr-paths{
+  .img-responsive{
+    height:283px;
+  }
 }
 
 .burger {
