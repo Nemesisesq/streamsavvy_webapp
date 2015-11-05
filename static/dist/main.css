@@ -319,7 +319,7 @@ hr {
   height: 45px; }
 
 .usr-paths .img-responsive {
-  height: 283px; }
+  min-height: 283px; }
 
 .burger {
   max-width: 30px;
@@ -1047,6 +1047,10 @@ div .navbar-header {
 @media (max-width: 1000px) {
   .navbar-inverse .navbar-nav > li > a {
     font-size: small; } }
+
+@media (max-width: 768px) {
+  .just-logo {
+    margin-left: 5%; } }
 
 .usr-path-header {
   height: auto; }
