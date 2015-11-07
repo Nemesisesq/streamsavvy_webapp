@@ -611,6 +611,10 @@ footer {
   .collapse {
     display: block !important; } }
 
+@media (min-width: 1366px) {
+  .container {
+    width: 89%; } }
+
 .prog_section {
   background-color: #f4f4f4;
   padding-top: 30px;
