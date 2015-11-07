@@ -129,6 +129,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
+
         .state('journey-one.step-three', {
             url: '/getting-started/step/3',
             data: {
