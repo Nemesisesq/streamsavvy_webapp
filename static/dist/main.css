@@ -937,6 +937,11 @@ span.selected-cost {
 .step-four .row {
   /*padding: .8em*/
   margin-bottom: 2%; }
+  .step-four .row .lets-wrap {
+    font-weight: 700;
+    margin-bottom: 2%;
+    width: 100%;
+    text-align: center; }
 
 .step-four .service {
   background-color: #808080;
@@ -973,6 +978,9 @@ span.selected-cost {
   max-width: none;
   width: 100%;
   border-color: black; }
+
+.step-four .summary-bottom {
+  margin-bottom: 5%; }
 
 .search-bar {
   position: relative; }

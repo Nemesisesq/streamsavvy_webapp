@@ -3,7 +3,9 @@
         <!-- Show  and services -->
 
         <div class="row">
-            Streaming Services
+            <h1 class="lets-wrap">
+               Let's Wrap This Up
+            </h1>
         </div>
         <div class="row" ng-repeat="row in rows | filter : {selected: true} ">
 
@@ -56,7 +58,7 @@
 <section>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 summary-bottom">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="col-sm-6 step-btn">
@@ -65,11 +67,11 @@
                             </a>
                         </div>
                         <div class="col-sm-6 step-btn">
-                            <button type="button" class="btn btn-primary btn-lg btn-green round find-out go_fwd"
+                            <button type="button" class="btn btn-primary btn-lg btn-red find-out go_fwd"
                                     onclick="location.href='#/getting-started/step/4';"
                                     ng-class="{disabled: package.hardware.length < 1}"
                                     ng-disabled='package.hardware.length < 1 '>
-                                Right on! Let's finalize this!
+                                Finish & Set Up Services
                             </button>
                         </div>
                     </div>
