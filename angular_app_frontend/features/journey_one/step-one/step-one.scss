@@ -52,7 +52,7 @@ ul {
 
   .show-title {
 
-    height: 100%;
+    //height: 100%;
     display: flex;
     font-size: 1.2em;
     font-weight: 700;
@@ -121,6 +121,19 @@ ul.btn-list-grid li {
 .accordion {
 
   color: black;
+
+}
+
+#viewingWindows {
+
+  .selected {
+    background : #32D495;
+
+  }
+
+  .row {
+    height: 63px;
+  }
 
 }
 

@@ -5,8 +5,8 @@
 
                 <div class="row accordion" ng-repeat="content in packageList">
                     <uib-accordion close-others="true">
-                        <uib-accordion-group>
-                            <uib-accordion-heading is-open="status.open">
+                        <uib-accordion-group is-open="true">
+                            <uib-accordion-heading>
                                 <div class=" col-sm-1">
                                     <i class="glyphicon glyphicon-plus" ng-if="!isOpen"></i>
                                     <i class="glyphicon glyphicon-minus" ng-if="isOpen"></i>
@@ -15,15 +15,88 @@
                                     {{ content.title }}
                                 </div>
                             </uib-accordion-heading>
-                            <div class="row content-name" ng-repeat="provider in content.content_provider">
-                                {{ provider.name }}
+
+                            <div class="viewWindowIntro">
+                                Please Select how you would like to watch this show.
                             </div>
+                            <!-- Viewing windows -->
+                            <div id="viewingWindows">
+                                <div class="row" ng-class="{selected: content.viewingWindows.live }">
+                                    <input id="live" type="checkbox" ng-model="content.viewingWindows.live">
+                                    <label for="live">
+                                        I want to watch this show <strong>Live Over the Air.</strong>
+                                    </label>
+                                </div>
+
+                                <div class="row" ng-mouseenter="content.isCollapsed = false"
+                                     ng-mouseleave="content.isCollapsed= true"
+                                     ng-class="{selected: content.viewingWindows.onDemand}">
+
+                                    <input id="ondemand" type="checkbox" ng-model="content.viewingWindows.onDemand">
+                                    <label for="ondemand">
+                                        I want to wath this show with an <strong> On Demand Subscription. </strong>
+                                    <span class="parens">
+                                        (day/+ after live airing).
+                                    </span>
+                                    </label>
+
+                                    <div uib-collapse="content.isCollapsed">
+
+                                        <div class="row content-name" ng-repeat="provider in content.content_provider">
+                                            {{ provider.name }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-class="{selected: content.viewingWindows.fullseason}">
+                                    <input id="fullseason" type="checkbox" ng-model="content.viewingWindows.fullseason">
+                                    <label for="fullseason">
+                                        I want to watch this show using a <strong>Full Season Subscription.</strong>
+                                        <span class="parens">(season behind).</span>
+                                    </label>
+
+                                </div>
+
+                                <div class="row" ng-class="{selected:content.viewingWindows.alacarte}">
+                                    <input id="alacarte" type="checkbox" ng-model="content.viewingWindows.alacarte">
+                                    <label for="alacarte">
+                                        I want to <strong>Pay Per Episode</strong> to watch this show.
+                                        <span class="parens">(day/+ after live airing).</span>
+                                    </label>
+                                </div>
+
+                                <div class=" row confirmation">
+                                    Show Total: $8.99
+                                    Your Monthly Total: $24.99
+
+                                    <button type="button">Sounds Great</button>
+                                </div>
+                            </div>
+
+
                         </uib-accordion-group>
                     </uib-accordion>
+
+                    <div class="row">
+                        Popular Show Searches
+
+                        + Add Selected Show
+
+                    </div>
+
+                    <div class="row">
+
+                        <button class="coll-md-3"> Show</button>
+                        <button class="coll-md-3"> Show</button>
+                        <button class="coll-md-3"> Show</button>
+                        <button class="coll-md-3"> Show</button>
+                        <button class="coll-md-3"> Show</button>
+                        <button class="coll-md-3"> Show</button>
+
+                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
 </section>
 <section>
     <div class="container-fluid">

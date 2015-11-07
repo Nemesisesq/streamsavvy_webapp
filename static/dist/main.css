@@ -741,7 +741,6 @@ ul {
     display: flex;
     padding: 0; }
   .step-one .show-title {
-    height: 100%;
     display: flex;
     font-size: 1.2em;
     font-weight: 700;
@@ -794,6 +793,12 @@ ul.btn-list-grid li {
 
 .accordion {
   color: black; }
+
+#viewingWindows .selected {
+  background: #32D495; }
+
+#viewingWindows .row {
+  height: 63px; }
 
 .step-two .selected {
   border: .15em solid;
