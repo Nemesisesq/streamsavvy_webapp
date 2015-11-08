@@ -717,8 +717,7 @@ input[type="text"] {
 .show-input {
   padding-top: 3%;
   padding-bottom: 5%;
-  margin-left: 15px;
-  margin-right: 15px; }
+  margin-left: 10px; }
 
 .form-control {
   -moz-border-radius: 0px;
@@ -776,38 +775,42 @@ ul {
     padding-left: 2%; }
   .step-one .col-sm-1.ng-scope {
     padding: 0; }
-
-ul.btn-list-grid li {
-  display: inline-flex;
-  padding-right: 1.5%;
-  position: relative;
-  margin-right: 1.25%;
-  margin-bottom: 1.75%; }
-
-.btn-group {
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 10%;
-  padding-right: 10%;
-  margin-bottom: 2%; }
-
-@media (max-width: 540px) {
-  .btn-group {
-    margin-left: 1%;
-    margin-right: 2%; } }
-
-.accordion {
-  color: black; }
-
-#viewingWindows .selected {
-  background: #32D495; }
-
-#viewingWindows .row {
-  height: 63px; }
-
-#viewingWindows .parens {
-  font-size: 10px;
-  color: #A8A8A8; }
+  .step-one ul.btn-list-grid li {
+    display: inline-flex;
+    padding-right: 1.5%;
+    position: relative;
+    margin-right: 1.25%;
+    margin-bottom: 1.75%; }
+  .step-one .btn-group {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-bottom: 2%; }
+  @media (max-width: 540px) {
+    .step-one .btn-group {
+      margin-left: 1%;
+      margin-right: 2%; } }
+  .step-one .accordion {
+    color: black; }
+  .step-one .viewWindowIntro {
+    background-color: #E6E6E6;
+    margin: -15px -15px 0 -15px;
+    padding: 10px;
+    color: #B3B3B3;
+    font-size: 11px;
+    font-weight: bold; }
+  .step-one #viewingWindows .selected {
+    background: #32D495; }
+  .step-one #viewingWindows .row {
+    height: 63px;
+    padding-top: 20px; }
+    .step-one #viewingWindows .row button {
+      height: 30px;
+      background-color: #FFFFFF; }
+  .step-one #viewingWindows .parens {
+    font-size: 10px;
+    color: #A8A8A8; }
 
 .step-two .selected {
   border: .15em solid;
@@ -985,7 +988,9 @@ span.selected-cost {
   margin-bottom: 5%; }
 
 .search-bar {
-  position: relative; }
+  position: relative;
+  margin-left: 50px;
+  margin-right: 50px; }
   .search-bar .stacked-input-1 {
     position: absolute;
     background: transparent; }
