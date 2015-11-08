@@ -582,10 +582,6 @@ footer {
   .banner h1 {
     left: 5%; } }
 
-@media (min-width: 1024px) {
-  .journey-one {
-    width: 65%; } }
-
 .build-bundle, .build-show-list, .step-one-explanation {
   background-color: #E3E3E5; }
 
@@ -720,7 +716,9 @@ input[type="text"] {
 
 .show-input {
   padding-top: 3%;
-  padding-bottom: 5%; }
+  padding-bottom: 5%;
+  margin-left: 15px;
+  margin-right: 15px; }
 
 .form-control {
   -moz-border-radius: 0px;
@@ -806,6 +804,10 @@ ul.btn-list-grid li {
 
 #viewingWindows .row {
   height: 63px; }
+
+#viewingWindows .parens {
+  font-size: 10px;
+  color: #A8A8A8; }
 
 .step-two .selected {
   border: .15em solid;

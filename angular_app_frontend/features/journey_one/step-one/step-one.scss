@@ -11,6 +11,8 @@ input[type="text"] {
 .show-input {
   padding-top: 3%;
   padding-bottom: 5%;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .form-control {
@@ -133,6 +135,12 @@ ul.btn-list-grid li {
 
   .row {
     height: 63px;
+  }
+
+  .parens{
+    font-size : 10px;
+    color: #A8A8A8;
+
   }
 
 }
