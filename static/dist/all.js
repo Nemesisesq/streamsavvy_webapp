@@ -419,6 +419,7 @@ app.service('PackageService', ['http','_', function (http, _) {
 app.factory('_', function($window){
     return $window._;
 })
+
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -518,7 +519,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
-
 /**
  * Created by Nem on 10/7/15.
  */
@@ -1058,28 +1058,38 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
  */
 
 app.controller('AccordionController', function ($scope) {
-  $scope.oneAtATime = true;
 
-  $scope.groups = [
-    {
-      title: 'Dynamic Group Header - 1',
-      content: 'Dynamic Group Body - 1'
-    },
-    {
-      title: 'Dynamic Group Header - 2',
-      content: 'Dynamic Group Body - 2'
-    }
-  ];
 
-  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-  $scope.addItem = function() {
-    var newItemNo = $scope.items.length + 1;
-    $scope.items.push('Item ' + newItemNo);
-  };
-
-  $scope.status = {
-    isFirstOpen: true,
-    isFirstDisabled: false
-  };
+    $scope.viewingWindows = [
+        {
+            viewType: "onDemand",
+            description: "I want to watch this show with and <strong> On Demand Subscription. </strong>",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: true,
+        },
+        {
+            viewType: "live",
+            description: "I want to watch this show <strong>Live Over the Air.</strong>",
+            parenthetical: "",
+            dropdown: false,
+        },
+        {
+            viewType: "fullseason",
+            description: " I want to watch this show using a <strong>Full Season Subscription.</strong>",
+            parenthetical: "(season behind).",
+            dropdown: true,
+        },
+        {
+            viewType: "I want to <strong>Pay Per Episode</strong> to watch this show.",
+            description: "",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: false,
+        },
+        //{
+        //    viewType: "",
+        //    description: "",
+        //    parenthetical: "",
+        //    dropdown: false,
+        //}
+    ]
 });

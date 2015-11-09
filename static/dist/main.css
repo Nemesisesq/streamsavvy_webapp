@@ -800,14 +800,32 @@ ul {
     color: #B3B3B3;
     font-size: 11px;
     font-weight: bold; }
-  .step-one #viewingWindows .selected {
-    background: #32D495; }
+  .step-one #viewingWindows .row .btn-confirm {
+    background-color: #4FB0E8;
+    height: 55px;
+    width: 229px; }
   .step-one #viewingWindows .row {
     height: 63px;
-    padding-top: 20px; }
+    padding-top: 20px;
+    vertical-align: middle; }
     .step-one #viewingWindows .row button {
-      height: 30px;
-      background-color: #FFFFFF; }
+      height: 38px;
+      width: 179px;
+      background-color: #FFFFFF;
+      border: none;
+      margin-top: -10px; }
+      .step-one #viewingWindows .row button + ul {
+        position: absolute;
+        left: 14.5px;
+        width: 179.5px;
+        top: 27px;
+        border-radius: 0;
+        border-top: none;
+        border-color: #4FB0E8; }
+  .step-one #viewingWindows .selected {
+    background: #32D495; }
+    .step-one #viewingWindows .selected .open button {
+      border: 1px solid #4FB0E8; }
   .step-one #viewingWindows .parens {
     font-size: 10px;
     color: #A8A8A8; }
@@ -1132,3 +1150,10 @@ div .navbar-header {
   .blog-one ::selection {
     background-color: #14B23E;
     color: #ffffff; }
+
+html,
+button,
+input,
+div,
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif; }
