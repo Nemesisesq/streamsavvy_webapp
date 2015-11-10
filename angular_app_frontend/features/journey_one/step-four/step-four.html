@@ -1,4 +1,4 @@
-<section xmlns="http://www.w3.org/1999/html">
+<section>
     <div class="container-fluid step-four">
         <!-- Show  and services -->
 
@@ -7,52 +7,30 @@
                Let's Wrap This Up
             </h1>
         </div>
-        <div class="row" ng-repeat="row in rows | filter : {selected: true} ">
-
-            <div class="col-sm-3 center service">
+        <div class="row">
+        <div class="col-md-7 summary-list"><h3 class="services-header">Services</h1></div>
+        <div class="col-md-5 price-list">
+	    <div><h3 class="total-header">Total</h3></div>
+        </div>
+        <span class="total">Hardware Total: {{cost.hardware}}</span>
+        <span class="total">Your Monthly Total: {{cost.services}}</span>
+        <div class="col-md-7 click-on"><p>Click on the service and you'll be redirected to the appropriate site.</p></div>
+        <div class="row service-rows" ng-repeat="row in rows | filter : {selected: true} ">
+            <div class="col-md-7 summary-service">
                 {{ row.service.name }}
             </div>
-            <div class="col-sm-9 service-show-list">
-                <div class="col-sm-1 show-container-div" ng-repeat="show in row.content">
-                    <button type="button" class="btn btn-md square show">
-                        {{ show.title }}
-                    </button>
-                </div>
+        </div>
+        <div class="col-md-7 hardware-list"><h3 class="hardware-header">Hardware</h1></div>
+        <div class="col-md-7 click-on"><p>Click on the Hardware and you'll be redirected to the appropriate site.</p></div>
+        <div class="row hardware-rows" ng-repeat="item in hardware | filter : {selected: true} ">
+            <div class="col-md-7 summary-service">
+                {{ item.name }}
             </div>
         </div>
 
-        <hr class="black-hr">
-
-
-        <!-- Hardware -->
-        <div class="row">
-            <div>Streaming devices</div>
-            <div class="hardware-row">
-                <div class="col-sm-2 hardware" ng-repeat="item in hardware | filter: {selected : true}">
-
-                <ss-image-block  obj="item" category="hardware">
-                </ss-image-block>
-
-            </div>
-            </div>
         </div>
 
-
-        <hr class="black-hr">
-            <div class="row">
-            <div>Selected Services: {{ cost.services }} / month </div>
-            <div>Selected Devices: {{ cost.hardware }} </div>
-            <div>Tax: Death</div>
-        </div>
-
-        <hr class="black-hr">
-
-        <div class="row">
-            <!-- <div>Total Cost Today: 1,000,0000.00</div> -->
-            <div>Total Monthly Savings :{{ savings.toFixed(2) }}</div>
-        </div>
     </div>
-
 </section>
 
 <section>
