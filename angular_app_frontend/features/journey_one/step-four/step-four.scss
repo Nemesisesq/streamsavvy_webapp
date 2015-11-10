@@ -15,7 +15,7 @@
     margin-bottom: 2%;
 
     .lets-wrap{
-      font-weight: 700;
+      font-weight: 900;
       margin-bottom: 2%;
       width: 100%;
       text-align: center;
@@ -46,6 +46,51 @@
     margin-top: 1.5em;
     margin-left: 3em;
     margin-bottom: 1.5em;
+  }
+
+
+  h3{
+    padding-top:25px;
+    padding-bottom:25px;
+    padding-left: 25px;
+
+    border-bottom: solid 2px #dedede;
+    border-top: solid 2px #dedede;
+
+    font-weight: 900;
+    margin-bottom: 0;
+
+  }
+  .services-header{
+      border-right: solid 2px #dedede;
+      color: #3BBC69;
+    }
+
+  .summary-list,.price-list{
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .summary-service{
+    font-size: 1.32em;
+    padding-left:25px;
+    text-decoration: underline;
+
+    border-bottom: solid 2px #dedede;
+    border-right: solid 2px #dedede;
+    padding-bottom: 10px;
+  }
+  .click-on{
+    background-color: #E6E6E6;
+    border-right: solid 2px #dedede;
+    color: black;
+    margin-top:0;
+
+  }
+  .service-rows{
+    margin-right:0;
+    margin-left:0;
+    margin-bottom: 0;
   }
 
   .show {
