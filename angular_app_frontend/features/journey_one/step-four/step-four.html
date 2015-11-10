@@ -20,6 +20,13 @@
                 {{ row.service.name }}
             </div>
         </div>
+        <div class="col-md-7 hardware-list"><h3 class="hardware-header">Hardware</h1></div>
+        <div class="col-md-7 click-on"><p>Click on the Hardware and you'll be redirected to the appropriate site.</p></div>
+        <div class="row hardware-rows" ng-repeat="item in hardware | filter : {selected: true} ">
+            <div class="col-md-7 summary-service">
+                {{ item.name }}
+            </div>
+        </div>
 
         </div>
 

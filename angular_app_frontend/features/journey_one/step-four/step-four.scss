@@ -1,4 +1,5 @@
 .step-four {
+  margin-bottom:5%;
   img {
     max-width: 90%;
   }
@@ -50,9 +51,9 @@
 
 
   h3{
-    padding-top:25px;
-    padding-bottom:25px;
-    padding-left: 25px;
+    padding-top:22px;
+    padding-bottom:22px;
+    padding-left: 22px;
 
     border-bottom: solid 2px #dedede;
     border-top: solid 2px #dedede;
@@ -65,8 +66,14 @@
       border-right: solid 2px #dedede;
       color: #3BBC69;
     }
+  .hardware-header{
+    border-right: solid 2px #dedede;
+    color: #45a7e5;
+    margin-top:0;
+    border-top: 0;
+  }
 
-  .summary-list,.price-list{
+  .summary-list,.price-list,.hardware-list{
     padding-right: 0;
     padding-left: 0;
   }
@@ -85,9 +92,11 @@
     border-right: solid 2px #dedede;
     color: black;
     margin-top:0;
+    font-size: 12px;
+    margin-bottom: 0;
 
   }
-  .service-rows{
+  .service-rows,.hardware-rows{
     margin-right:0;
     margin-left:0;
     margin-bottom: 0;
