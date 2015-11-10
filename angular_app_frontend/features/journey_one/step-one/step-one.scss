@@ -15,6 +15,12 @@ input[type="text"] {
 
 }
 
+div {
+  .row .confirmation {
+    height: 90px
+  }
+}
+
 .form-control {
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
@@ -36,6 +42,10 @@ ul {
 }
 
 .step-one {
+
+  .panel {
+    border-color : #45a7e5;
+  }
 
   //max-width: 80%;
   margin-left: auto;
@@ -132,16 +142,7 @@ ul {
 
   #viewingWindows {
 
-    .row .btn-confirm {
-      background-color: #4FB0E8;
-      height: 55px;
-      width: 229px;
-
-    }
-
-
-
-    .row {
+    .ss-vw-row {
       height: 63px;
       padding-top: 20px;
       //line-height: 63px;
@@ -156,8 +157,6 @@ ul {
 
         margin-top: -10px;
 
-
-
         + ul {
           position: absolute;
           left: 14.5px;
@@ -168,7 +167,56 @@ ul {
           border-color: #4FB0E8;
 
         }
+        .confirmation {
+          height: 90px;
+
+          .total {
+            height: 50%;
+          }
+        }
       }
+
+      .accord-show-total {
+
+        color: #31CE82;
+        font-size: 20px;
+
+        padding: 0;
+
+        span {
+          font-weight: bolder;
+        }
+
+      }
+
+      .accord-monthly-total {
+
+        font-size: 20px;
+
+        padding: 0;
+
+        span {
+          font-weight: bolder;
+        }
+
+      }
+
+      .btn-confirm {
+        background-color: #4FB0E8;
+        height: 55px;
+        width: 229px;
+        color: #FFFFFF;
+        position: absolute;
+
+
+        left: 21px;
+
+      }
+
+    }
+
+    .row .confirmation {
+      height: 90px
     }
 
     .selected {
@@ -188,4 +236,3 @@ ul {
 
   }
 }
-

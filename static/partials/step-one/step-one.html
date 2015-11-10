@@ -20,7 +20,7 @@
                             </div>
                             <!-- Viewing windows -->
                             <div id="viewingWindows">
-                                <div class="row" ng-class="{selected: content.viewingWindows.live }">
+                                <div class="ss-vw-row" ng-class="{selected: content.viewingWindows.live }">
                                     <div class=col-xs-1>
                                         <input id="live" type="checkbox"
                                                ng-model="content.viewingWindows.live">
@@ -30,7 +30,7 @@
                                     </label></div>
                                 </div>
 
-                                <div class="row" ng-class="{selected: content.viewingWindows.onDemand}">
+                                <div class="ss-vw-row" ng-class="{selected: content.viewingWindows.onDemand}">
 
                                     <div class="col-xs-1">
                                         <input id="ondemand" type="checkbox" ng-model="content.viewingWindows.onDemand">
@@ -48,7 +48,7 @@
                                          ng-if="content.viewingWindows.onDemand">
                                         <button id="simple-btn-keyboard-nav" type="button" class=""
                                                 uib-dropdown-toggle>
-                                            Choose a Provider   <span class="glyphicon glyphicon-menu-down"></span>
+                                            Choose a Provider <span class="glyphicon glyphicon-menu-down"></span>
                                         </button>
                                         <ul class="uib-dropdown-menu" role="menu"
                                             aria-labelledby="simple-btn-keyboard-nav">
@@ -58,7 +58,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row" ng-class="{selected: content.viewingWindows.fullseason}">
+                                <div class="ss-vw-row" ng-class="{selected: content.viewingWindows.fullseason}">
                                     <div class="col-xs-1">
                                         <input id="fullseason" type="checkbox"
                                                ng-model="content.viewingWindows.fullseason">
@@ -70,7 +70,7 @@
                                         </label>
                                     </div>
 
-                                    <div class="col-xs-2 " uib-dropdown uib-keyboard-nav
+                                    <div class="col-xs-2" uib-dropdown uib-keyboard-nav
                                          ng-if="content.viewingWindows.fullseason">
                                         <button id="simple-btn-keyboard-nav" type="button" class=""
                                                 uib-dropdown-toggle>
@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row" ng-class="{selected:content.viewingWindows.alacarte}">
+                                <div class="ss-vw-row" ng-class="{selected:content.viewingWindows.alacarte}">
                                     <div class="col-xs-1"><input id="alacarte" type="checkbox"
                                                                  ng-model="content.viewingWindows.alacarte"></div>
                                     <div class="col-xs-11"><label for="alacarte">
@@ -94,15 +94,20 @@
                                     </label></div>
                                 </div>
 
-                                <div class=" row confirmation">
+                                <div class="ss-vw-row confirmation">
 
 
-                                    <button type="button" class="btn btn-lg btn-confirm">
-                                        Sounds Great
-                                    </button>
+                                    <div class="col-xs-4 total">
+                                        <button type="button" class="btn btn-lg btn-confirm">
+                                            Sounds Great
+                                        </button>
+                                    </div>
 
-                                    Show Total: $8.99
-                                    Your Monthly Total: $24.99
+                                    <div class="col-xs-4 col-xs-offset-4 total">
+                                        <div class="row accord-show-total">Show Total: <span>$8.99</span></div>
+                                        <div class="row accord-monthly-total">Your Monthly Total: <span>$24.99</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </uib-accordion-group>

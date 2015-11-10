@@ -719,6 +719,9 @@ input[type="text"] {
   padding-bottom: 5%;
   margin-left: 10px; }
 
+div .row .confirmation {
+  height: 90px; }
+
 .form-control {
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
@@ -738,6 +741,8 @@ ul {
 .step-one {
   margin-left: auto;
   margin-right: auto; }
+  .step-one .panel {
+    border-color: #45a7e5; }
   .step-one .show-toggle {
     float: left;
     overflow: auto;
@@ -800,21 +805,17 @@ ul {
     color: #B3B3B3;
     font-size: 11px;
     font-weight: bold; }
-  .step-one #viewingWindows .row .btn-confirm {
-    background-color: #4FB0E8;
-    height: 55px;
-    width: 229px; }
-  .step-one #viewingWindows .row {
+  .step-one #viewingWindows .ss-vw-row {
     height: 63px;
     padding-top: 20px;
     vertical-align: middle; }
-    .step-one #viewingWindows .row button {
+    .step-one #viewingWindows .ss-vw-row button {
       height: 38px;
       width: 179px;
       background-color: #FFFFFF;
       border: none;
       margin-top: -10px; }
-      .step-one #viewingWindows .row button + ul {
+      .step-one #viewingWindows .ss-vw-row button + ul {
         position: absolute;
         left: 14.5px;
         width: 179.5px;
@@ -822,6 +823,30 @@ ul {
         border-radius: 0;
         border-top: none;
         border-color: #4FB0E8; }
+      .step-one #viewingWindows .ss-vw-row button .confirmation {
+        height: 90px; }
+        .step-one #viewingWindows .ss-vw-row button .confirmation .total {
+          height: 50%; }
+    .step-one #viewingWindows .ss-vw-row .accord-show-total {
+      color: #31CE82;
+      font-size: 20px;
+      padding: 0; }
+      .step-one #viewingWindows .ss-vw-row .accord-show-total span {
+        font-weight: bolder; }
+    .step-one #viewingWindows .ss-vw-row .accord-monthly-total {
+      font-size: 20px;
+      padding: 0; }
+      .step-one #viewingWindows .ss-vw-row .accord-monthly-total span {
+        font-weight: bolder; }
+    .step-one #viewingWindows .ss-vw-row .btn-confirm {
+      background-color: #4FB0E8;
+      height: 55px;
+      width: 229px;
+      color: #FFFFFF;
+      position: absolute;
+      left: 21px; }
+  .step-one #viewingWindows .row .confirmation {
+    height: 90px; }
   .step-one #viewingWindows .selected {
     background: #32D495; }
     .step-one #viewingWindows .selected .open button {
