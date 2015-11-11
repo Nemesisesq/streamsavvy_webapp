@@ -973,7 +973,8 @@ span.selected-cost {
   padding-right: 5px; }
 
 .step-four {
-  margin-bottom: 5%; }
+  margin-bottom: 5%;
+  width: 75%; }
   .step-four img {
     max-width: 90%; }
   .step-four .hardware-row {
@@ -1029,22 +1030,46 @@ span.selected-cost {
     padding-left: 0; }
   .step-four .summary-service {
     font-size: 1.32em;
-    padding-left: 25px;
     text-decoration: underline;
     border-bottom: solid 2px #dedede;
     border-right: solid 2px #dedede;
-    padding-bottom: 10px; }
+    padding-left: 25px;
+    padding-bottom: 10px;
+    padding-top: 10px; }
   .step-four .click-on {
     background-color: #E6E6E6;
     border-right: solid 2px #dedede;
+    border-bottom: solid 2px #dedede;
     color: black;
     margin-top: 0;
     font-size: 12px;
     margin-bottom: 0; }
+    .step-four .click-on p {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 7px;
+      margin-bottom: 0; }
   .step-four .service-rows, .step-four .hardware-rows {
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 0; }
+  .step-four .price-list .total-cost {
+    float: right; }
+  .step-four .totals {
+    margin-top: 7%;
+    text-align: center; }
+  .step-four .hardware-total {
+    color: #45a7e5;
+    font-size: 1.6em; }
+    .step-four .hardware-total .hardware-cost {
+      font-weight: 700;
+      float: right; }
+  .step-four .services-total {
+    color: #3BBC69;
+    font-size: 1.6em; }
+    .step-four .services-total .services-cost {
+      font-weight: 700;
+      float: right; }
   .step-four .show {
     display: inline-block !important; }
   .step-four .selected {

@@ -1,4 +1,4 @@
-<section>
+<section >
     <div class="container-fluid step-four">
         <!-- Show  and services -->
 
@@ -8,26 +8,27 @@
             </h1>
         </div>
         <div class="row">
-        <div class="col-md-7 summary-list"><h3 class="services-header">Services</h1></div>
-        <div class="col-md-5 price-list">
-	    <div><h3 class="total-header">Total</h3></div>
-        </div>
-        <span class="total">Hardware Total: {{cost.hardware}}</span>
-        <span class="total">Your Monthly Total: {{cost.services}}</span>
-        <div class="col-md-7 click-on"><p>Click on the service and you'll be redirected to the appropriate site.</p></div>
+        <div class="col-md-9 summary-list"><h3 class="services-header">Services</h1>
+                <div class="click-on"><p>Click on the service and you'll be redirected to the appropriate site.</p></div>
         <div class="row service-rows" ng-repeat="row in rows | filter : {selected: true} ">
-            <div class="col-md-7 summary-service">
+            <div class=" summary-service">
                 {{ row.service.name }}
             </div>
         </div>
-        <div class="col-md-7 hardware-list"><h3 class="hardware-header">Hardware</h1></div>
-        <div class="col-md-7 click-on"><p>Click on the Hardware and you'll be redirected to the appropriate site.</p></div>
+        <div class="hardware-list"><h3 class="hardware-header">Hardware</h1></div>
+        <div class="click-on"><p>Click on the Hardware and you'll be redirected to the appropriate site.</p></div>
         <div class="row hardware-rows" ng-repeat="item in hardware | filter : {selected: true} ">
-            <div class="col-md-7 summary-service">
+            <div class="summary-service">
                 {{ item.name }}
             </div>
-        </div>
-
+        </div></div>
+            <div class="col-md-3 price-list">
+                <div><h3 class="total-header">Total:<span class="total-cost">$696.9</span></h3></div>
+                <div class="totals">
+                    <div class="hardware-total">Hardware Total: <span class="hardware-cost">${{cost.hardware}}</span></div>
+                    <div class="services-total">Your Monthly Total: <span class="services-cost">${{cost.services}}</span></div>
+                </div>
+            </div>
         </div>
 
     </div>
