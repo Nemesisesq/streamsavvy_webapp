@@ -758,6 +758,8 @@ ul {
     position: absolute; }
   .step-one .panel-heading {
     height: 50px; }
+  .step-one .panel-body {
+    padding: 0; }
   .step-one .panel-default > .panel-heading {
     color: black;
     background-color: white;
@@ -800,15 +802,16 @@ ul {
     color: black; }
   .step-one .viewWindowIntro {
     background-color: #E6E6E6;
-    margin: -15px -15px 0 -15px;
     padding: 10px;
     color: #B3B3B3;
     font-size: 11px;
     font-weight: bold; }
   .step-one #viewingWindows .ss-vw-row {
     height: 63px;
-    padding-top: 20px;
-    vertical-align: middle; }
+    vertical-align: middle;
+    border-bottom: solid 2px #dedede; }
+    .step-one #viewingWindows .ss-vw-row .check-your-want {
+      padding-top: 20px; }
     .step-one #viewingWindows .ss-vw-row button {
       height: 38px;
       width: 179px;
@@ -823,10 +826,6 @@ ul {
         border-radius: 0;
         border-top: none;
         border-color: #4FB0E8; }
-      .step-one #viewingWindows .ss-vw-row button .confirmation {
-        height: 90px; }
-        .step-one #viewingWindows .ss-vw-row button .confirmation .total {
-          height: 50%; }
     .step-one #viewingWindows .ss-vw-row .accord-show-total {
       color: #31CE82;
       font-size: 20px;
@@ -847,6 +846,10 @@ ul {
       left: 21px; }
   .step-one #viewingWindows .row .confirmation {
     height: 90px; }
+  .step-one #viewingWindows .confirmation {
+    height: 90px; }
+    .step-one #viewingWindows .confirmation .great-price {
+      padding-top: 20px; }
   .step-one #viewingWindows .selected {
     background: #32D495; }
     .step-one #viewingWindows .selected .open button {

@@ -21,18 +21,21 @@
                             <!-- Viewing windows -->
                             <div id="viewingWindows">
                                 <div class="ss-vw-row" ng-class="{selected: content.viewingWindows.live }">
-                                    <div class=col-xs-1>
+                                    <div class="check-your-want">
+                                                                            <div class=col-xs-1>
                                         <input id="live" type="checkbox"
                                                ng-model="content.viewingWindows.live">
                                     </div>
                                     <div class="col-xs-11"><label for="live">
                                         I want to watch this show <strong>Live Over the Air.</strong>
                                     </label></div>
+                                    </div>
+
                                 </div>
 
                                 <div class="ss-vw-row" ng-class="{selected: content.viewingWindows.onDemand}">
-
-                                    <div class="col-xs-1">
+                                    <div class="check-your-want">
+                                                                            <div class="col-xs-1">
                                         <input id="ondemand" type="checkbox" ng-model="content.viewingWindows.onDemand">
                                     </div>
                                     <div class="col-xs-8">
@@ -57,9 +60,12 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    </div>
+
                                 </div>
                                 <div class="ss-vw-row" ng-class="{selected: content.viewingWindows.fullseason}">
-                                    <div class="col-xs-1">
+                                    <div class="check-your-want">
+                                                                            <div class="col-xs-1">
                                         <input id="fullseason" type="checkbox"
                                                ng-model="content.viewingWindows.fullseason">
                                     </div>
@@ -83,20 +89,25 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="ss-vw-row" ng-class="{selected:content.viewingWindows.alacarte}">
-                                    <div class="col-xs-1"><input id="alacarte" type="checkbox"
+                                    <div class="check-your-want">
+                                     <div class="col-xs-1"><input id="alacarte" type="checkbox"
                                                                  ng-model="content.viewingWindows.alacarte"></div>
                                     <div class="col-xs-11"><label for="alacarte">
                                         I want to <strong>Pay Per Episode</strong> to watch this show.
                                         <span class="parens">(day/+ after live airing).</span>
                                     </label></div>
+                                    </div>
+
                                 </div>
 
                                 <div class="ss-vw-row confirmation">
 
-
+                                    <div class="great-price">
                                     <div class="col-xs-4 total">
                                         <button type="button" class="btn btn-lg btn-confirm">
                                             Sounds Great
@@ -108,6 +119,8 @@
                                         <div class="row accord-monthly-total">Your Monthly Total: <span>$24.99</span>
                                         </div>
                                     </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </uib-accordion-group>

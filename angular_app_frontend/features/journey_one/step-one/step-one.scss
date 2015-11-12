@@ -74,6 +74,9 @@ ul {
   .panel-heading {
     height: 50px;
   }
+  .panel-body{
+    padding: 0;
+  }
   .panel-default > .panel-heading {
     color: black;
     background-color: white;
@@ -133,7 +136,6 @@ ul {
 
   .viewWindowIntro {
     background-color: #E6E6E6;
-    margin: -15px -15px 0 -15px;
     padding: 10px;
     color: #B3B3B3;
     font-size: 11px;
@@ -144,10 +146,13 @@ ul {
 
     .ss-vw-row {
       height: 63px;
-      padding-top: 20px;
+
       //line-height: 63px;
       vertical-align: middle;
-
+      border-bottom: solid 2px #dedede;
+      .check-your-want{
+        padding-top: 20px;
+      }
       button {
         height: 38px;
         width: 179px;
@@ -167,13 +172,7 @@ ul {
           border-color: #4FB0E8;
 
         }
-        .confirmation {
-          height: 90px;
 
-          .total {
-            height: 50%;
-          }
-        }
       }
 
       .accord-show-total {
@@ -216,7 +215,14 @@ ul {
     }
 
     .row .confirmation {
-      height: 90px
+      height: 90px;
+    }
+
+    .confirmation{
+      height: 90px;
+      .great-price{
+        padding-top:20px;
+      }
     }
 
     .selected {
