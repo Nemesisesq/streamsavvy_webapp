@@ -610,10 +610,6 @@ footer {
   .collapse {
     display: block !important; } }
 
-@media (min-width: 1366px) {
-  .container {
-    width: 89%; } }
-
 .prog_section {
   background-color: #f4f4f4;
   padding-top: 30px;
@@ -857,6 +853,9 @@ ul {
   .step-one #viewingWindows .parens {
     font-size: 10px;
     color: #A8A8A8; }
+
+slick img {
+  margin: 0 auto; }
 
 .step-two .selected {
   border: .15em solid;

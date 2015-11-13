@@ -17,23 +17,10 @@
     <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link href="{% static 'angular-bootstrap/ui-bootstrap-csp.css' %}">
     <link href="{% static 'dist/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.css"/>
 
     <!-- SPELLS -->
     <!-- load angular and angular route via CDN -->
-    <script src="{% static 'jquery/dist/jquery.js' %}"></script>
-    <script src="{% static 'angular/angular.js' %}"></script>
-    <script src="{% static 'angular-mocks/angular-mocks.js' %}"></script>
-    <script src="{% static 'angular-resource/angular-resource.js' %}"></script>
-    <script src="{% static 'angular-ui-router/release/angular-ui-router.js' %}"></script>
-    <script src="{% static 'angular-cookies/angular-cookies.js' %}"></script>
-    <script src="{% static 'dist/all.js' %}"></script>
-    <script src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
-    <script src="{% static 'lodash/lodash.js' %}"></script>
-    <script src="{% static 'angular-bootstrap/ui-bootstrap-tpls.min.js' %}"></script>
-    <script src="{% static 'angular-animate/angular-animate.js' %}"></script>
-    <script src="{% static 'prefixfree/prefixfree.min.js' %}"></script>
-    <script src="https://use.fonticons.com/b92fc55f.js"></script>
-
 
 
     <title>Cut the Cord</title>
@@ -45,21 +32,24 @@
 <body ng-app='myApp' class="container">
 
 <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '123769897967344',
-      xfbml      : true,
-      version    : 'v2.4'
-    });
-  };
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '123769897967344',
+            xfbml: true,
+            version: 'v2.4'
+        });
+    };
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 </script>
 
 <!-- MAIN CONTENT AND INJECTED VIEWS -->
@@ -71,10 +61,26 @@
 {#{% url "socialauth_disconnect" %}#}
 
 <div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
+        class="fb-like"
+        data-share="true"
+        data-width="450"
+        data-show-faces="true">
 </div>
+
+<script src="{% static 'jquery/dist/jquery.js' %}"></script>
+<script src="{% static 'angular/angular.js' %}"></script>
+<script src="{% static 'angular-mocks/angular-mocks.js' %}"></script>
+<script src="{% static 'angular-resource/angular-resource.js' %}"></script>
+<script src="{% static 'angular-ui-router/release/angular-ui-router.js' %}"></script>
+<script src="{% static 'angular-cookies/angular-cookies.js' %}"></script>
+<script src="{% static 'slick-carousel/slick/slick.js' %}"></script>
+<script src="{% static 'angular-slick/dist/slick.js' %}"></script>
+<script src="{% static 'dist/all.js' %}"></script>
+<script src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
+<script src="{% static 'lodash/lodash.js' %}"></script>
+<script src="{% static 'angular-bootstrap/ui-bootstrap-tpls.min.js' %}"></script>
+<script src="{% static 'angular-animate/angular-animate.js' %}"></script>
+<script src="{% static 'prefixfree/prefixfree.min.js' %}"></script>
+<script src="https://use.fonticons.com/b92fc55f.js"></script>
 </body>
 </html>

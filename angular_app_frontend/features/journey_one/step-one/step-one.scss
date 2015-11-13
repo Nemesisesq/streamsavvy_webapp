@@ -44,7 +44,7 @@ ul {
 .step-one {
 
   .panel {
-    border-color : #45a7e5;
+    border-color: #45a7e5;
   }
 
   //max-width: 80%;
@@ -74,7 +74,7 @@ ul {
   .panel-heading {
     height: 50px;
   }
-  .panel-body{
+  .panel-body {
     padding: 0;
   }
   .panel-default > .panel-heading {
@@ -150,7 +150,7 @@ ul {
       //line-height: 63px;
       vertical-align: middle;
       border-bottom: solid 2px #dedede;
-      .check-your-want{
+      .check-your-want {
         padding-top: 20px;
       }
       button {
@@ -207,7 +207,6 @@ ul {
         color: #FFFFFF;
         position: absolute;
 
-
         left: 21px;
 
       }
@@ -218,10 +217,10 @@ ul {
       height: 90px;
     }
 
-    .confirmation{
+    .confirmation {
       height: 90px;
-      .great-price{
-        padding-top:20px;
+      .great-price {
+        padding-top: 20px;
       }
     }
 
@@ -241,4 +240,10 @@ ul {
     }
 
   }
+
 }
+  slick {
+    img {
+      margin: 0 auto;
+    }
+  }

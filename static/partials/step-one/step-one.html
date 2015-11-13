@@ -4,7 +4,7 @@
             <div class="col-lg-12">
                 <div class="row accordion">
                     <uib-accordion close-others="true">
-                        <uib-accordion-group is-open="true" ng-repeat="content in packageList">
+                        <uib-accordion-group ng-repeat="content in packageList">
                             <uib-accordion-heading>
                                 <div class=" col-sm-1">
                                     <i class="glyphicon glyphicon-plus" ng-if="!isOpen"></i>
@@ -22,85 +22,88 @@
                             <div id="viewingWindows">
                                 <div class="ss-vw-row" ng-class="{selected: content.viewingWindows.live }">
                                     <div class="check-your-want">
-                                                                            <div class=col-xs-1>
-                                        <input id="live" type="checkbox"
-                                               ng-model="content.viewingWindows.live">
-                                    </div>
-                                    <div class="col-xs-11"><label for="live">
-                                        I want to watch this show <strong>Live Over the Air.</strong>
-                                    </label></div>
+                                        <div class=col-xs-1>
+                                            <input id="live" type="checkbox"
+                                                   ng-model="content.viewingWindows.live">
+                                        </div>
+                                        <div class="col-xs-11"><label for="live">
+                                            I want to watch this show <strong>Live Over the Air.</strong>
+                                        </label></div>
                                     </div>
 
                                 </div>
 
                                 <div class="ss-vw-row" ng-class="{selected: content.viewingWindows.onDemand}">
                                     <div class="check-your-want">
-                                                                            <div class="col-xs-1">
-                                        <input id="ondemand" type="checkbox" ng-model="content.viewingWindows.onDemand">
-                                    </div>
-                                    <div class="col-xs-8">
-                                        <label for="ondemand">
-                                            I want to wath this show with an <strong> On Demand Subscription. </strong>
+                                        <div class="col-xs-1">
+                                            <input id="ondemand" type="checkbox"
+                                                   ng-model="content.viewingWindows.onDemand">
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <label for="ondemand">
+                                                I want to wath this show with an <strong> On Demand
+                                                Subscription. </strong>
                                             <span class="parens">
                                                 (day/+ after live airing).
                                             </span>
-                                        </label>
-                                    </div>
+                                            </label>
+                                        </div>
 
-                                    <div class="col-xs-2" uib-dropdown uib-keyboard-nav
-                                         ng-if="content.viewingWindows.onDemand">
-                                        <button id="simple-btn-keyboard-nav" type="button" class=""
-                                                uib-dropdown-toggle>
-                                            Choose a Provider <span class="glyphicon glyphicon-menu-down"></span>
-                                        </button>
-                                        <ul class="uib-dropdown-menu" role="menu"
-                                            aria-labelledby="simple-btn-keyboard-nav">
-                                            <li role="menuitem" ng-repeat="provider in content.content_provider">
-                                                <a href="#">{{ provider.name }}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <div class="col-xs-2" uib-dropdown uib-keyboard-nav
+                                             ng-if="content.viewingWindows.onDemand">
+                                            <button id="simple-btn-keyboard-nav" type="button" class=""
+                                                    uib-dropdown-toggle>
+                                                Choose a Provider <span class="glyphicon glyphicon-menu-down"></span>
+                                            </button>
+                                            <ul class="uib-dropdown-menu" role="menu"
+                                                aria-labelledby="simple-btn-keyboard-nav">
+                                                <li role="menuitem" ng-repeat="provider in content.content_provider">
+                                                    <a href="#">{{ provider.name }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
 
                                 </div>
                                 <div class="ss-vw-row" ng-class="{selected: content.viewingWindows.fullseason}">
                                     <div class="check-your-want">
-                                                                            <div class="col-xs-1">
-                                        <input id="fullseason" type="checkbox"
-                                               ng-model="content.viewingWindows.fullseason">
-                                    </div>
-                                    <div class="col-xs-8">
-                                        <label for="fullseason">
-                                            I want to watch this show using a <strong>Full Season Subscription.</strong>
-                                            <span class="parens">(season behind).</span>
-                                        </label>
-                                    </div>
+                                        <div class="col-xs-1">
+                                            <input id="fullseason" type="checkbox"
+                                                   ng-model="content.viewingWindows.fullseason">
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <label for="fullseason">
+                                                I want to watch this show using a <strong>Full Season
+                                                Subscription.</strong>
+                                                <span class="parens">(season behind).</span>
+                                            </label>
+                                        </div>
 
-                                    <div class="col-xs-2" uib-dropdown uib-keyboard-nav
-                                         ng-if="content.viewingWindows.fullseason">
-                                        <button id="simple-btn-keyboard-nav" type="button" class=""
-                                                uib-dropdown-toggle>
-                                            Choose a Provider <span class="caret"></span>
-                                        </button>
-                                        <ul class="uib-dropdown-menu" role="menu"
-                                            aria-labelledby="simple-btn-keyboard-nav">
-                                            <li role="menuitem" ng-repeat="provider in content.content_provider">
-                                                <a href="#">{{ provider.name }}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <div class="col-xs-2" uib-dropdown uib-keyboard-nav
+                                             ng-if="content.viewingWindows.fullseason">
+                                            <button id="simple-btn-keyboard-nav" type="button" class=""
+                                                    uib-dropdown-toggle>
+                                                Choose a Provider <span class="caret"></span>
+                                            </button>
+                                            <ul class="uib-dropdown-menu" role="menu"
+                                                aria-labelledby="simple-btn-keyboard-nav">
+                                                <li role="menuitem" ng-repeat="provider in content.content_provider">
+                                                    <a href="#">{{ provider.name }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
 
                                 </div>
 
                                 <div class="ss-vw-row" ng-class="{selected:content.viewingWindows.alacarte}">
                                     <div class="check-your-want">
-                                     <div class="col-xs-1"><input id="alacarte" type="checkbox"
-                                                                 ng-model="content.viewingWindows.alacarte"></div>
-                                    <div class="col-xs-11"><label for="alacarte">
-                                        I want to <strong>Pay Per Episode</strong> to watch this show.
-                                        <span class="parens">(day/+ after live airing).</span>
-                                    </label></div>
+                                        <div class="col-xs-1"><input id="alacarte" type="checkbox"
+                                                                     ng-model="content.viewingWindows.alacarte"></div>
+                                        <div class="col-xs-11"><label for="alacarte">
+                                            I want to <strong>Pay Per Episode</strong> to watch this show.
+                                            <span class="parens">(day/+ after live airing).</span>
+                                        </label></div>
                                     </div>
 
                                 </div>
@@ -108,47 +111,49 @@
                                 <div class="ss-vw-row confirmation">
 
                                     <div class="great-price">
-                                    <div class="col-xs-4 total">
-                                        <button type="button" class="btn btn-lg btn-confirm">
-                                            Sounds Great
-                                        </button>
-                                    </div>
-
-                                    <div class="col-xs-4 col-xs-offset-4 total">
-                                        <div class="row accord-show-total">Show Total: <span>$8.99</span></div>
-                                        <div class="row accord-monthly-total">Your Monthly Total: <span>$24.99</span>
+                                        <div class="col-xs-4 total">
+                                            <button type="button" class="btn btn-lg btn-confirm">
+                                                Sounds Great
+                                            </button>
                                         </div>
-                                    </div>
+
+                                        <div class="col-xs-4 col-xs-offset-4 total">
+                                            <div class="row accord-show-total">Show Total: <span>$8.99</span></div>
+                                            <div class="row accord-monthly-total">Your Monthly Total:
+                                                <span>$24.99</span>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
                             </div>
                         </uib-accordion-group>
                     </uib-accordion>
-
-                    <div class="row">
-                        Popular Show Searches
-
-                        + Add Selected Show
-
-                    </div>
-
-                    <div class="row">
-
-                        <button class="coll-md-3"> Show</button>
-                        <button class="coll-md-3"> Show</button>
-                        <button class="coll-md-3"> Show</button>
-                        <button class="coll-md-3"> Show</button>
-                        <button class="coll-md-3"> Show</button>
-                        <button class="coll-md-3"> Show</button>
-
-                    </div>
-
                 </div>
+
             </div>
         </div>
     </div>
 </section>
+
+<div class="row">
+    Popular Show Searches
+
+    + Add Selected Show
+
+</div>
+
+<div class="row" ng-controller="StepOneController as ctrl">
+    <slick  infinite=true  slides-to-show="3" init-onload=true data = "ctrl.popularShows" ng-if="ctrl.popularShows.length">
+        <div ng-repeat="show in ctrl.popularShows">
+            <img ng-src="{{ show.thumbnail_medium }} "/>
+        </div>
+    </slick>
+
+
+    Hello world
+
+</div>
 <section>
     <div class="container-fluid">
         <div class="row">

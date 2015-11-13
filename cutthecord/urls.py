@@ -33,6 +33,7 @@ router.register(r'content', ContentViewSet)
 router.register(r'search', ContentSearchViewSet, 'search')
 router.register(r'packageobj', PackageDetailViewSet, 'packageobj')
 router.register(r'package', PackagesViewSet, 'package')
+router.register(r'popular-shows', PopularShowsViewSet, 'popular_shows')
 
 
 urlpatterns = [
