@@ -1,3 +1,6 @@
+@import "../../../sass/font-awesome-sass/assets/stylesheets/font-awesome/variables";
+
+
 body {
   margin-left: auto;
   margin-right: auto;
@@ -245,5 +248,23 @@ ul {
   slick {
     img {
       margin: 0 auto;
+    }
+
+    button {
+      //height: 0;
+      //width:10;
+      //content: "";
+      font-size: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      border: 0;
+      padding: 0;
+      background-color: transparent;
+
+    &.slick-prev:before {
+      content: $fa-var-chevron-left;
+      font-size: 12px;
+
+    }
     }
   }
