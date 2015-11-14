@@ -144,8 +144,8 @@
 </div>
 
 <div class="row" ng-controller="StepOneController as ctrl">
-    <slick  infinite=true  slides-to-show="3" init-onload=true data = "ctrl.popularShows" ng-if="ctrl.popularShows.length">
-        <div ng-repeat="show in ctrl.popularShows">
+    <slick  infinite=true  arrows=true slides-to-show="3" init-onload=true data = "ctrl.popularShows" ng-if="ctrl.popularShows.length">
+        <div ng-repeat="show in ctrl.popularShows" ng-click="alert('hello')">
             <img ng-src="{{ show.thumbnail_medium }} "/>
         </div>
     </slick>

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .green {
   background-color: lawngreen; }
 
@@ -610,6 +611,10 @@ footer {
   .collapse {
     display: block !important; } }
 
+@media (min-width: 1200px) {
+  .container {
+    width: 1366px; } }
+
 .prog_section {
   background-color: #f4f4f4;
   padding-top: 30px;
@@ -856,6 +861,17 @@ ul {
 
 slick img {
   margin: 0 auto; }
+
+slick button {
+  font-size: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  background-color: transparent; }
+  slick button.slick-prev:before {
+    content: "";
+    font-size: 12px; }
 
 .step-two .selected {
   border: .15em solid;
