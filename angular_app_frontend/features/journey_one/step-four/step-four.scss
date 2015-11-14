@@ -1,6 +1,5 @@
 .step-four {
   margin-bottom:5%;
-  width: 75%;
   img {
     max-width: 90%;
   }
@@ -154,6 +153,10 @@
   }
   .summary-bottom{
     margin-bottom: 5%;
+    a.go_back.pull-right {
+    padding-right: 10%;
+    top: -15px;
+    }
   }
 
 

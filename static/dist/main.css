@@ -975,8 +975,7 @@ span.selected-cost {
   padding-right: 5px; }
 
 .step-four {
-  margin-bottom: 5%;
-  width: 75%; }
+  margin-bottom: 5%; }
   .step-four img {
     max-width: 90%; }
   .step-four .hardware-row {
@@ -1085,6 +1084,9 @@ span.selected-cost {
     border-color: black; }
   .step-four .summary-bottom {
     margin-bottom: 5%; }
+    .step-four .summary-bottom a.go_back.pull-right {
+      padding-right: 10%;
+      top: -15px; }
 
 .search-bar {
   position: relative;
