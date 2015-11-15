@@ -91,14 +91,10 @@
 .btn-red {
   background-color: #ED1C24; }
 
-.find-show-btn, .show-me-btn, .find-out {
+.find-show-btn, .show-me-btn {
   margin: 0 auto;
   text-align: center;
   display: block; }
-
-.find-out {
-  margin-bottom: 4%;
-  margin-top: 4%; }
 
 .btn-green:hover,
 .btn-green:focus,
@@ -2962,7 +2958,10 @@ slick button {
 
 .go_back {
   font-size: 1.5em;
-  vertical-align: text-bottom;
+  margin-right: 7%;
+  text-decoration: underline;
+  color: black;
+  vertical-align: middle;
   display: flex;
   margin-bottom: 0; }
 
@@ -2987,46 +2986,51 @@ span.selected-cost {
   .show-container-div {
     margin-bottom: 2%; } }
 
-.step-three img {
-  max-width: 100%;
-  max-height: 250px; }
+.device-grid {
+  border-bottom: solid 2px #dedede; }
+  .device-grid .step-three {
+    margin-top: 5%;
+    margin-bottom: 5%; }
+    .device-grid .step-three img {
+      max-width: 100%;
+      max-height: 250px; }
+    .device-grid .step-three .selected {
+      border: .15em solid;
+      border-color: #3b94e3;
+      border-radius: 1.5em;
+      border-top-right-radius: 0;
+      padding: 7px; }
+      .device-grid .step-three .selected .checkmark {
+        background-color: #ffffff;
+        font-size: 2em;
+        position: absolute;
+        border-radius: 100%;
+        color: #3b94e3;
+        z-index: 2;
+        top: -12px;
+        right: 5px;
+        display: block; }
 
-.step-three .selected {
-  border: .15em solid;
-  border-color: #3b94e3;
-  border-radius: 1.5em;
-  border-top-right-radius: 0;
-  padding: 7px; }
-  .step-three .selected .checkmark {
-    background-color: #ffffff;
-    font-size: 2em;
+.btn-row {
+  margin-top: 5%;
+  margin-bottom: 5%; }
+  .btn-row .disabled {
+    background-color: #808080; }
+  .btn-row .go_back {
+    position: relative;
+    margin-bottom: 5%;
+    margin-right: 7%;
+    text-decoration: underline;
+    color: black;
+    vertical-align: middle; }
+  .btn-row .go_fwd {
     position: absolute;
-    border-radius: 100%;
-    color: #3b94e3;
-    z-index: 2;
-    top: -12px;
-    right: 5px;
-    display: block; }
-
-.disabled {
-  background-color: #808080; }
-
-.go_back {
-  position: absolute;
-  bottom: 0;
-  right: 5%;
-  text-decoration: underline;
-  color: black; }
-
-.go_fwd {
-  position: absolute;
-  bottom: 0;
-  left: 5%; }
-
-.step-btn {
-  height: 50px;
-  position: relative;
-  padding-right: 5px; }
+    bottom: 0;
+    left: 5%; }
+  .btn-row .step-btn {
+    height: 50px;
+    position: relative;
+    padding-right: 5px; }
 
 .step-four {
   margin-bottom: 5%; }
@@ -3136,11 +3140,11 @@ span.selected-cost {
     max-width: none;
     width: 100%;
     border-color: black; }
-  .step-four .summary-bottom {
-    margin-bottom: 5%; }
-    .step-four .summary-bottom a.go_back.pull-right {
-      padding-right: 10%;
-      top: -15px; }
+
+.summary-bottom {
+  margin-bottom: 5%; }
+  .summary-bottom a.go_back.pull-right {
+    padding-top: 2%; }
 
 .search-bar {
   position: relative;
