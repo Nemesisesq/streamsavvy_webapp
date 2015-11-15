@@ -77,7 +77,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('journey-one', {
             abstract: true,
-            templateUrl: "/static/partials/journey-one.html"
+            templateUrl: "/static/partials/journey-one.html",
+            data: {hmdcActive: true}
         })
         .state('journey-one.step-one', {
             url: '/getting-started/step/1',

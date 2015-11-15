@@ -77,7 +77,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('journey-one', {
             abstract: true,
-            templateUrl: "/static/partials/journey-one.html"
+            templateUrl: "/static/partials/journey-one.html",
+            data: {hmdcActive: true}
         })
         .state('journey-one.step-one', {
             url: '/getting-started/step/1',
@@ -763,6 +764,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
     $scope.isHomePage = $state.current.data.isHomePage;
     $scope.logged_in = false;
+    $scope.hmdc = $state.current.data.hmdcActive;
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";

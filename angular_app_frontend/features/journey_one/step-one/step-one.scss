@@ -73,7 +73,7 @@ ul {
 
   }
   .panel-heading {
-    height: 50px;
+    height: 57px;
   }
   .panel-body {
     padding: 0;
@@ -83,6 +83,8 @@ ul {
     background-color: white;
     border-color: #ddd;
     padding: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
   }
   i.glyphicon.glyphicon-plus.ng-scope {
     font-size: 1.6em;
@@ -93,10 +95,11 @@ ul {
     padding-top: 12px;
     padding-bottom: 14px;
     padding-right: 13px;
-    border-bottom-left-radius: 3px;
-    border-top-left-radius: 3px;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
     top: -1px;
     position: absolute;
+    height: 59px;
   }
   .row.content-name.ng-binding.ng-scope {
     padding-left: 2%;
@@ -130,6 +133,9 @@ ul {
   }
 
   .accordion {
+    max-width: 808px;
+
+    margin: 0 auto;
 
     color: black;
 

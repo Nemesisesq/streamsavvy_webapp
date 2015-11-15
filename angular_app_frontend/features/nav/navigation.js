@@ -4,6 +4,7 @@
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
     $scope.isHomePage = $state.current.data.isHomePage;
     $scope.logged_in = false;
+    $scope.hmdc = $state.current.data.hmdcActive;
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
