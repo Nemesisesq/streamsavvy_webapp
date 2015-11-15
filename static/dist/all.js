@@ -77,7 +77,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('journey-one', {
             abstract: true,
-            templateUrl: "/static/partials/journey-one.html"
+            templateUrl: "/static/partials/journey-one.html",
+            data: {hmdcActive: true}
         })
         .state('journey-one.step-one', {
             url: '/getting-started/step/1',
@@ -419,6 +420,7 @@ app.service('PackageService', ['http','_', function (http, _) {
 app.factory('_', function($window){
     return $window._;
 })
+
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -518,7 +520,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
-
 /**
  * Created by Nem on 10/7/15.
  */
@@ -767,6 +768,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
     $scope.isHomePage = $state.current.data.isHomePage;
     $scope.logged_in = false;
+    $scope.hmdc = $state.current.data.hmdcActive;
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";

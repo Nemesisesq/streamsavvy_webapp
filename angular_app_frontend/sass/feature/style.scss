@@ -47,7 +47,7 @@ h1, h2, h3, h5, p, div {
 
 .journey-one {
   margin: 0 auto;
-  /*width: 75%;*/
+  max-width: 1024px;
 }
 
 
@@ -557,7 +557,7 @@ footer {
 
 @media (min-width: 1200px){
   .container{
-    width:1366px;
+    width:1364px;
   }
 }
 
