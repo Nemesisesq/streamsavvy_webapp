@@ -206,7 +206,8 @@ span.glyphicon.glyphicon-ok-sign.glyphicon-background.blue-glyphicon.selected {
   color: white; }
 
 .intro-sub-question {
-  color: #aeb6bb; }
+  color: #aeb6bb;
+  padding-top: 10px; }
 
 .container {
   padding: 0; }
