@@ -223,7 +223,7 @@ h1, h2, h3, h5, p, div {
 
 .journey-one {
   margin: 0 auto;
-  /*width: 75%;*/ }
+  max-width: 1024px; }
 
 .main-page {
   margin: 0 auto;
@@ -613,7 +613,7 @@ footer {
 
 @media (min-width: 1200px) {
   .container {
-    width: 1366px; } }
+    width: 1364px; } }
 
 /*!
  *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
@@ -3188,14 +3188,13 @@ span.selected-cost {
   color: #ED1C24;
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
-  font-weight: 200;
-  padding: 30px 25px 33px 25px; }
-
-.nav li {
-  margin-left: -12px; }
+  font-weight: 300;
+  margin-left: 13px;
+  margin-right: 13px; }
 
 .navbar-right {
-  margin-top: 2px; }
+  margin-right: 36px;
+  min-width: 594px; }
 
 div .navbar-header {
   margin-top: 7px; }
@@ -3222,6 +3221,17 @@ div .navbar-header {
 .just-logo {
   display: inline-block;
   margin-left: 85px; }
+
+a.navbarLink {
+  margin: 0; }
+
+.ss_pipe {
+  margin-top: 25px;
+  margin-left: 23px;
+  margin-right: 23px;
+  width: 1px;
+  height: 30px;
+  border-left: 1px solid #ED1C24; }
 
 @media (max-width: 1000px) {
   .navbar-inverse .navbar-nav > li > a {
@@ -3286,3 +3296,6 @@ input,
 div,
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif; }
+
+div ui-view {
+  max-width: 1024px; }

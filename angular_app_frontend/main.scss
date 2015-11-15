@@ -30,4 +30,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
 }
 
+div ui-view {
+  max-width: 1024px;
+}
+
 
