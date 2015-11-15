@@ -1,6 +1,12 @@
+@mixin fa($icon) {
+  @extend .fa;
+  @extend .fa-#{$icon}:before;
+}
+
 @import 'sass/feature/chart';
 @import 'sass/feature/btn';
 @import 'sass/feature/style';
+@import "sass/font-awesome/scss/font-awesome";
 @import 'features/progress/progress';
 @import 'features/journey_one/step-one/step-one';
 @import 'features/journey_one/step-two/step-two';
@@ -15,5 +21,17 @@
 @import 'features/blog/blog-two/blog-two';
 @import 'features/blog/blog-three/blog-three';
 
+
+html,
+button,
+input,
+div,
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+}
+
+div ui-view {
+  max-width: 1024px;
+}
 
 

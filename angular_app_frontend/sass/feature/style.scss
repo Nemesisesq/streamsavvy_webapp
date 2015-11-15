@@ -47,7 +47,7 @@ h1, h2, h3, h5, p, div {
 
 .journey-one {
   margin: 0 auto;
-  /*width: 75%;*/
+  max-width: 1024px;
 }
 
 
@@ -105,14 +105,16 @@ hr {
   font-family: inherit;
   font-size: 1.7em;
   font-weight: 500;
-  padding: 30px 25px 33px 25px;
+  padding: 30px 0 33px 0;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .navbar-inverse .navbar-nav li a:hover, li a:active, li a:visited {
-
-  transition: 0.7s all linear;
+  border-bottom: #ED1C24 solid 3px;
   color: #ED1C24;
   height: 100%;
+  padding-bottom: 30px;
 }
 
 .navbar-inverse .navbar-toggle {
@@ -506,11 +508,11 @@ footer {
 
 }
 
-@media(min-width: 1024px) {
-  .journey-one {
-    width: 65%;
-  }
-}
+//@media(min-width: 1024px) {
+//  .journey-one {
+//    width: 65%;
+//  }
+//}
 
 .build-bundle, .build-show-list, .step-one-explanation {
   background-color: #E3E3E5;
@@ -553,9 +555,9 @@ footer {
   }
 }
 
-@media (min-width: 1400px){
+@media (min-width: 1200px){
   .container{
-    //width:89%;
+    width:1364px;
   }
 }
 

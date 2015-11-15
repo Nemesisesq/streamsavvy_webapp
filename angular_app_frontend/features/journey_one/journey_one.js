@@ -22,7 +22,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
             .then(function (data) {
                 $scope.package = data;
                 $scope.packageList = data.content;
-                $rootScope.step3ButtonMessage = $scope.package.hardware.length ? 'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
+                //$rootScope.step3ButtonMessage = $scope.package.hardware.length ? 'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
                 $rootScope.step2ButtonMessage = $scope.package.providers.length ? 'Time to pick out the Hardware' : 'You still need to select a service';
                 return data
             });

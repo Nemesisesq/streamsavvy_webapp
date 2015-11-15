@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate"]);
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick']);
 
 app.constant('CONFIG', {
     'URL': location.origin
@@ -77,7 +77,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('journey-one', {
             abstract: true,
-            templateUrl: "/static/partials/journey-one.html"
+            templateUrl: "/static/partials/journey-one.html",
+            data: {hmdcActive: true}
         })
         .state('journey-one.step-one', {
             url: '/getting-started/step/1',
@@ -129,6 +130,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
+
         .state('journey-one.step-three', {
             url: '/getting-started/step/3',
             data: {
@@ -575,7 +577,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
             .then(function (data) {
                 $scope.package = data;
                 $scope.packageList = data.content;
-                $rootScope.step3ButtonMessage = $scope.package.hardware.length ? 'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
+                //$rootScope.step3ButtonMessage = $scope.package.hardware.length ? 'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
                 $rootScope.step2ButtonMessage = $scope.package.providers.length ? 'Time to pick out the Hardware' : 'You still need to select a service';
                 return data
             });
@@ -762,6 +764,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
     $scope.isHomePage = $state.current.data.isHomePage;
     $scope.logged_in = false;
+    $scope.hmdc = $state.current.data.hmdcActive;
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
@@ -1057,28 +1060,83 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
  */
 
 app.controller('AccordionController', function ($scope) {
-  $scope.oneAtATime = true;
 
-  $scope.groups = [
-    {
-      title: 'Dynamic Group Header - 1',
-      content: 'Dynamic Group Body - 1'
-    },
-    {
-      title: 'Dynamic Group Header - 2',
-      content: 'Dynamic Group Body - 2'
-    }
-  ];
 
-  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+    $scope.viewingWindows = [
+        {
+            viewType: "onDemand",
+            description: "I want to watch this show with and <strong> On Demand Subscription. </strong>",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: true,
+        },
+        {
+            viewType: "live",
+            description: "I want to watch this show <strong>Live Over the Air.</strong>",
+            parenthetical: "",
+            dropdown: false,
+        },
+        {
+            viewType: "fullseason",
+            description: " I want to watch this show using a <strong>Full Season Subscription.</strong>",
+            parenthetical: "(season behind).",
+            dropdown: true,
+        },
+        {
+            viewType: "I want to <strong>Pay Per Episode</strong> to watch this show.",
+            description: "",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: false,
+        },
+        //{
+        //    viewType: "",
+        //    description: "",
+        //    parenthetical: "",
+        //    dropdown: false,
+        //}
+    ]
+});
 
-  $scope.addItem = function() {
-    var newItemNo = $scope.items.length + 1;
-    $scope.items.push('Item ' + newItemNo);
-  };
+app.controller('StepOneController', function ($scope, $http, $timeout) {
 
-  $scope.status = {
-    isFirstOpen: true,
-    isFirstDisabled: false
-  };
+    step = this
+
+    $scope.popularShows = null;
+
+    $http.get('api/popular-shows')
+        .success(function (data) {
+            step.popularShows = data.results;
+            return data
+        })
+        .then(function () {
+            //debugger;
+            //$('.popular-shows').slick();
+        })
+
+
+    //$scope.$watch(
+    //    function watchPopularShows() {
+    //        return ($('#popular-shows').find('div').length)
+    //
+    //
+    //    },
+    //    function makeCarousel() {
+    //
+    //
+    //        if ($('#popular-shows').find('div').length > 0) {
+    //
+    //            $('#popular-shows').slick({
+    //                //adaptiveHeight: true,
+    //                autoplay: true,
+    //                infinite: true,
+    //                slidesToShow : 3,
+    //                slidesToScroll: 3,
+    //                dots: true,
+    //                //slide: 'img'
+    //            })
+    //        }
+    //
+    //    }
+    //)
+
+
 });

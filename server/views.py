@@ -2,13 +2,13 @@ import re
 import time
 
 from django.contrib.auth.models import Group
-from rest_framework import viewsets
-from django.db.models import Q
-from rest_framework.permissions import IsAdminUser
 from django.core.cache import cache
+from django.db.models import Q
+from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser
 
-from server.permissions import IsAdminOrReadOnly
 from server.models import *
+from server.permissions import IsAdminOrReadOnly
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ContentProviderSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer
 
@@ -45,9 +45,9 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
     def filter_by_content_provider(self, x):
         f = x.content_provider.filter(self.params)
         if len(f) > 0:
-           return False
+            return False
         else:
-          return True
+            return True
 
     def filter_query(self, filtered_ids, entries):
 
@@ -62,8 +62,6 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         return list(filter(self.filter_by_content_provider, entries))
 
-
-
     def get_queryset(self):
         search_results = content_search(self.request)
         filter_results = self.filter_query([88, 379, 858], search_results)
@@ -76,8 +74,41 @@ class ContentViewSet(viewsets.ModelViewSet):
     serializer_class = ContentSerializer
 
 
+class PopularShowsViewSet(viewsets.ModelViewSet):
+    # queryset = get_popular_shows()
+    serializer_class = ContentSerializer
+
+    def get_popular_shows(self):
+        shows = ["Community",
+                 "Comedians in Cars Getting Coffee",
+                 "Transparent", "Happy Valley",
+                 "House of Cards",
+                 "Deadbeat",
+                 "Bosch",
+                 "The Mindy Project",
+                 "Orange is the New Black"]
+        q = None
+
+        for show in shows:
+
+            query = Q(title__iexact=show)
+
+            if q is None:
+                q = query
+
+            else:
+                q = q | query
+
+        return q
+
+    def get_queryset(self):
+        return Content.objects.filter(self.get_popular_shows())
+
+
+
 class PackageDetailViewSet(viewsets.ModelViewSet):
     serializer_class = PackageDetailSerializer
+
     # permission_classes = (IsOwner,)
 
     def get_queryset(self):
@@ -104,6 +135,7 @@ def get_user(self):
 
     return user
 
+
 def get_packages(user):
     package = Package.objects.filter(owner=user)
 
@@ -116,6 +148,7 @@ def get_packages(user):
 
 class PackagesViewSet(viewsets.ModelViewSet):
     serializer_class = PackagesSerializer
+
     # permission_classes = (IsOwner,)
 
     def get_queryset(self):
@@ -174,13 +207,9 @@ def content_search(request):
 
         entry_query = get_query(query_string, ['title'])
 
-
-
         found_entries = Content.objects.filter(entry_query)
 
         cache.set(query_string, found_entries)
-
-
 
         for entry in found_entries:
             pass
@@ -196,6 +225,3 @@ def content_search(request):
 
         # return JsonResponse(data, safe=False)
         return found_entries
-
-
-

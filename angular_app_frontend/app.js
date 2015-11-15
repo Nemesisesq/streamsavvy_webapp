@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate"]);
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick']);
 
 app.constant('CONFIG', {
     'URL': location.origin
@@ -77,7 +77,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('journey-one', {
             abstract: true,
-            templateUrl: "/static/partials/journey-one.html"
+            templateUrl: "/static/partials/journey-one.html",
+            data: {hmdcActive: true}
         })
         .state('journey-one.step-one', {
             url: '/getting-started/step/1',
@@ -129,6 +130,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
+
         .state('journey-one.step-three', {
             url: '/getting-started/step/3',
             data: {
