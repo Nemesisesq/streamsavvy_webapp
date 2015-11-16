@@ -2995,9 +2995,11 @@ span.selected-cost {
   .device-grid .step-three {
     margin-top: 5%;
     margin-bottom: 5%; }
+    .device-grid .step-three .hardware-img {
+      border: solid 2px #dedede; }
     .device-grid .step-three img {
       max-width: 100%;
-      max-height: 250px; }
+      height: 120px; }
     .device-grid .step-three .selected {
       border: .15em solid;
       border-color: #3b94e3;

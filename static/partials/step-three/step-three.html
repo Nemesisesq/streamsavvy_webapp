@@ -1,7 +1,7 @@
 <section class="device-grid">
     <div class="container-fluid step-three">
         <div class="row">
-            <div class="col-sm-2" ng-repeat="item in hardware track by $index">
+            <div class="col-sm-2 hardware-img" ng-repeat="item in hardware|limitTo:7 track by $index" ng-show="!$first">
                 <ss-image-block obj="item" category="hardware">
                 </ss-image-block>
             </div>
