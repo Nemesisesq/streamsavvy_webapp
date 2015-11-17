@@ -302,6 +302,7 @@ ul {
 slick {
   img {
     margin: 0 auto;
+    margin-top: 10px;
   }
 
   button {
@@ -344,6 +345,7 @@ slick {
   }
 }
 
+
 .step-one div.panel-heading {
   //border:  1px solid #4fb0e8;
 
@@ -366,4 +368,15 @@ slick {
   .panel-heading {
     border-bottom: 1px solid #45a7e5;
   }
+}
+
+.shows-bottom{
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+
+.pop-show-header {
+  color: #848484;
+  margin: 23px;
 }

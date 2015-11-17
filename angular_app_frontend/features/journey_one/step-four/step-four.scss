@@ -1,6 +1,5 @@
 .step-four {
   margin-bottom:5%;
-  width: 75%;
   img {
     max-width: 90%;
   }
@@ -152,9 +151,13 @@
     width: 100%;
     border-color: black;
   }
-  .summary-bottom{
-    margin-bottom: 5%;
-  }
+
 
 
 }
+  .summary-bottom{
+    margin-bottom: 5%;
+    a.go_back.pull-right {
+    padding-top: 2%;
+    }
+  }

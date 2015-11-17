@@ -22,13 +22,14 @@
 }
 
 .intro-question {
-  font-weight: bold;
+  font-weight: 900;
   font-size: 3em;
   color: white;
 }
 
 .intro-sub-question {
   color: #aeb6bb;
+  padding-top:10px;
 }
 
 .container {
@@ -157,7 +158,7 @@ hr {
 }
 .usr-path-header h1 {
   font-size: 2.5em;
-  font-weight: bold;
+  font-weight: 900;
 }
 
 .usr-path-header h3 {
@@ -208,7 +209,7 @@ hr {
 
 .why-money-title, .build-bundle-title, .build-service-list-title, .build-show-list-title {
   font-size: 2.5em;
-  font-weight: bold;
+  font-weight: 900;
 }
 
 .why-money h5{
@@ -224,7 +225,7 @@ hr {
     h1{
       color: white;
       font-size: 2.0em;
-      font-weight: bold;
+      font-weight: 900;
       display: inline-block;
       margin-right: 4%;
     }
@@ -249,7 +250,6 @@ hr {
 }
 
 .stacks, .build-service-list-pic {
-  width: 80%;
   margin-left: auto;
   margin-right: auto;
   padding-top: 2%;
@@ -279,12 +279,12 @@ hr {
 
 .money-reasons-left {
   float: left;
-  padding-left: 10%;
+  padding-left: 22%;
 }
 
 .money-reasons-right {
   float: right;
-  padding-right: 10%;
+  padding-right: 22%;
 }
 
 .about-money {
@@ -360,7 +360,7 @@ h4{
 
 .articles-title {
   font-size: 2.0em; /*20px for mobile*/
-  font-weight: bold;
+  font-weight: 900;
 }
 .articles h5{
   color: #aeb6bb;
