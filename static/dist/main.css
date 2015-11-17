@@ -2739,7 +2739,7 @@ input[type="text"] {
   padding-bottom: 5%;
   margin-left: 10px; }
 
-div .row .confirmation {
+div .row .confirmation, div .step-one #viewingWindows .ss-vw-row .confirmation, .step-one #viewingWindows div .ss-vw-row .confirmation {
   height: 90px; }
 
 .form-control {
@@ -2761,6 +2761,8 @@ ul {
 .step-one {
   margin-left: auto;
   margin-right: auto; }
+  .step-one .panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-top: none; }
   .step-one .panel-group .panel {
     border-bottom-right-radius: 0; }
   .step-one .show-toggle {
@@ -2770,14 +2772,15 @@ ul {
     display: flex;
     padding: 0; }
   .step-one .show-title {
+    height: 59px;
+    line-height: 59px;
     display: flex;
     font-size: 1.2em;
     font-weight: 700;
-    padding-top: 10px;
     padding-left: 75px;
     position: absolute; }
   .step-one .panel-heading {
-    height: 57px; }
+    height: 59px; }
   .step-one .panel-body {
     padding: 0; }
   .step-one .panel-default > .panel-heading {
@@ -2786,20 +2789,17 @@ ul {
     padding: 0;
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px; }
-  .step-one .accordion i.glyphicon.ng-scope {
+  .step-one .glyph {
     font-size: 1.6em;
     color: white;
     background-size: 20px 20px;
-    padding-left: 15px;
-    padding-top: 12px;
-    padding-bottom: 14px;
-    padding-right: 13px;
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
     top: -1px;
     position: absolute;
-    height: 57px; }
-  .step-one .row.content-name.ng-binding.ng-scope {
+    height: 59px;
+    line-height: 59px; }
+  .step-one .row.content-name.ng-binding.ng-scope, .step-one #viewingWindows .content-name.ng-binding.ng-scope.ss-vw-row {
     padding-left: 2%; }
   .step-one .col-sm-1.ng-scope {
     padding: 0; }
@@ -2825,18 +2825,22 @@ ul {
     color: black; }
   .step-one .viewWindowIntro {
     background-color: #E6E6E6;
-    padding: 10px;
-    color: #B3B3B3;
-    font-size: 11px;
-    font-weight: bold; }
+    padding-left: 11px;
+    color: #969696;
+    font-size: 10px;
+    font-weight: 400;
+    border-bottom: 1px solid #c9c9c9;
+    height: 29px;
+    line-height: 29px; }
   .step-one #viewingWindows .ss-vw-row {
-    height: 63px;
-    vertical-align: middle; }
+    height: 62px;
+    border-bottom: 1px solid #c9c9c9; }
+    .step-one #viewingWindows .ss-vw-row .col-xs-1, .step-one #viewingWindows .ss-vw-row .col-xs-8, .step-one #viewingWindows .ss-vw-row .col-xs-11 {
+      line-height: 62px;
+      height: 100%; }
     .step-one #viewingWindows .ss-vw-row .total {
       text-align: right;
       padding-right: 41px; }
-    .step-one #viewingWindows .ss-vw-row .check-your-want {
-      padding-top: 20px; }
     .step-one #viewingWindows .ss-vw-row button {
       height: 38px;
       width: 179px;
@@ -2862,13 +2866,13 @@ ul {
       .step-one #viewingWindows .ss-vw-row .accord-monthly-total span {
         font-weight: bolder; }
     .step-one #viewingWindows .ss-vw-row .btn-confirm {
-      background-color: #4FB0E8;
+      background-color: #45a7e5;
       height: 55px;
       width: 229px;
       color: #FFFFFF;
       position: absolute;
       left: 21px; }
-  .step-one #viewingWindows .row .confirmation {
+  .step-one #viewingWindows .row .confirmation, .step-one #viewingWindows .ss-vw-row .confirmation {
     height: 90px; }
   .step-one #viewingWindows .confirmation {
     height: 90px; }
@@ -2877,7 +2881,7 @@ ul {
   .step-one #viewingWindows .selected {
     background: #32D495; }
     .step-one #viewingWindows .selected .open button {
-      border: 1px solid #4FB0E8; }
+      border: 1px solid #45a7e5; }
   .step-one #viewingWindows .parens {
     font-size: 10px;
     color: #A8A8A8; }
@@ -2892,7 +2896,7 @@ slick button {
   border: 0;
   padding: 0;
   background-color: transparent;
-  color: #4FB0E8;
+  color: #45a7e5;
   position: absolute;
   top: 50%; }
   slick button.slick-prev {
@@ -2906,12 +2910,19 @@ slick button {
   slick button.slick-next:after {
     font-size: 30px; }
 
-.step-one .col-sm-1.ng-scope {
-  height: 57px;
+.step-one .heading .col-xs-1 {
+  height: 59px;
+  width: 59px;
   background-color: #45a7e5; }
 
-.accordion_active .panel-group .panel {
-  border-color: #45a7e5; }
+.panel-default {
+  border-color: #c9c9c9; }
+
+.panel.panel-open {
+  border-color: #45a7e5;
+  border-bottom-left-radius: 0; }
+  .panel.panel-open .panel-heading {
+    border-bottom: 1px solid #45a7e5; }
 
 .step-two .selected {
   border: .15em solid;
@@ -2919,10 +2930,10 @@ slick button {
   border-radius: 1.5em;
   border-top-right-radius: 0; }
 
-.step-two .row {
+.step-two .row, .step-two .step-one #viewingWindows .ss-vw-row, .step-one #viewingWindows .step-two .ss-vw-row {
   padding: .8em;
   position: relative; }
-  .step-two .row .checkmark {
+  .step-two .row .checkmark, .step-two .step-one #viewingWindows .ss-vw-row .checkmark, .step-one #viewingWindows .step-two .ss-vw-row .checkmark {
     background-color: #ffffff;
     font-size: 2em;
     position: absolute;
@@ -3040,10 +3051,10 @@ span.selected-cost {
     margin-top: 2%; }
   .step-four .hardware {
     height: 3em; }
-  .step-four .row {
+  .step-four .row, .step-four .step-one #viewingWindows .ss-vw-row, .step-one #viewingWindows .step-four .ss-vw-row {
     /*padding: .8em*/
     margin-bottom: 2%; }
-    .step-four .row .lets-wrap {
+    .step-four .row .lets-wrap, .step-four .step-one #viewingWindows .ss-vw-row .lets-wrap, .step-one #viewingWindows .step-four .ss-vw-row .lets-wrap {
       font-weight: 900;
       margin-bottom: 2%;
       width: 100%;
@@ -3185,7 +3196,7 @@ span.selected-cost {
     font-size: 130%;
     color: #555555; }
 
-.modal-body .row {
+.modal-body .row, .modal-body .step-one #viewingWindows .ss-vw-row, .step-one #viewingWindows .modal-body .ss-vw-row {
   padding: 3px; }
 
 .btn-login:hover {

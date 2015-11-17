@@ -420,7 +420,6 @@ app.service('PackageService', ['http','_', function (http, _) {
 app.factory('_', function($window){
     return $window._;
 })
-
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -523,6 +522,7 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 /**
  * Created by Nem on 10/7/15.
  */
+
 
 /**
  * Created by chirag on 8/3/15.
