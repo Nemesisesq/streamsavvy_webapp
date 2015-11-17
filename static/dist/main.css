@@ -2791,6 +2791,7 @@ ul {
     border-top-left-radius: 4px; }
   .step-one .glyph {
     font-size: 1.6em;
+    font-weight: 100;
     color: white;
     background-size: 20px 20px;
     border-bottom-left-radius: 4px;
@@ -2838,6 +2839,8 @@ ul {
     .step-one #viewingWindows .ss-vw-row .col-xs-1, .step-one #viewingWindows .ss-vw-row .col-xs-8, .step-one #viewingWindows .ss-vw-row .col-xs-11 {
       line-height: 62px;
       height: 100%; }
+    .step-one #viewingWindows .ss-vw-row .col-xs-1 {
+      z-index: 99; }
     .step-one #viewingWindows .ss-vw-row .total {
       text-align: right;
       padding-right: 41px; }
@@ -2845,8 +2848,7 @@ ul {
       height: 38px;
       width: 179px;
       background-color: #FFFFFF;
-      border: none;
-      margin-top: -10px; }
+      border: none; }
       .step-one #viewingWindows .ss-vw-row button + ul {
         position: absolute;
         left: 14.5px;
@@ -2855,25 +2857,40 @@ ul {
         border-radius: 0;
         border-top: none; }
     .step-one #viewingWindows .ss-vw-row .accord-show-total {
+      letter-spacing: .6px;
+      margin-top: 14px;
+      margin-left: 12px;
       color: #31CE82;
-      font-size: 20px;
+      font-size: 18px;
       padding: 0; }
-      .step-one #viewingWindows .ss-vw-row .accord-show-total span {
-        font-weight: bolder; }
+      .step-one #viewingWindows .ss-vw-row .accord-show-total span.pull-left {
+        font-weight: 300; }
+      .step-one #viewingWindows .ss-vw-row .accord-show-total span.pull-right {
+        margin-right: 4px;
+        font-weight: 900; }
     .step-one #viewingWindows .ss-vw-row .accord-monthly-total {
-      font-size: 20px;
+      margin-top: 3px;
+      letter-spacing: .4px;
+      font-size: 18px;
       padding: 0; }
-      .step-one #viewingWindows .ss-vw-row .accord-monthly-total span {
-        font-weight: bolder; }
+      .step-one #viewingWindows .ss-vw-row .accord-monthly-total span.pull-left {
+        margin-left: -8px;
+        font-weight: 300; }
+      .step-one #viewingWindows .ss-vw-row .accord-monthly-total span.pull-right {
+        margin-right: 4px;
+        font-weight: 900; }
     .step-one #viewingWindows .ss-vw-row .btn-confirm {
       background-color: #45a7e5;
       height: 55px;
-      width: 229px;
+      width: 200px;
       color: #FFFFFF;
-      position: absolute;
-      left: 21px; }
+      margin-top: 17px;
+      margin-left: 5px;
+      padding-left: 0px;
+      padding-right: 0px;
+      min-width: 228px; }
   .step-one #viewingWindows .row .confirmation, .step-one #viewingWindows .ss-vw-row .confirmation {
-    height: 90px; }
+    height: 91px; }
   .step-one #viewingWindows .confirmation {
     height: 90px; }
     .step-one #viewingWindows .confirmation .great-price {

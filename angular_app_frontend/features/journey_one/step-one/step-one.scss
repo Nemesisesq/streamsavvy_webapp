@@ -1,5 +1,6 @@
 
 body {
+
   margin-left: auto;
   margin-right: auto;
   height: 100%;
@@ -47,7 +48,7 @@ ul {
     border-top: none;
   }
 
-  .panel-group .panel{
+  .panel-group .panel {
     //border-color: #45a7e5;
     border-bottom-right-radius: 0;
   }
@@ -93,6 +94,7 @@ ul {
   }
   .glyph {
     font-size: 1.6em;
+    font-weight: 100;
     //background-color: #45a7e5;
     color: white;
     background-size: 20px 20px;
@@ -151,7 +153,7 @@ ul {
     font-size: 10px;
     font-weight: 400;
     border-bottom: 1px solid #c9c9c9;
-    height : 29px;
+    height: 29px;
     line-height: 29px;
   }
 
@@ -169,14 +171,16 @@ ul {
         height: 100%;
       }
 
-      .total {
-
-        text-align : right;
-        padding-right : 41px;
-
+      .col-xs-1 {
+        z-index: 99;
       }
 
+      .total {
 
+        text-align: right;
+        padding-right: 41px;
+
+      }
 
       button {
         height: 38px;
@@ -185,7 +189,7 @@ ul {
         background-color: #FFFFFF;
         border: none;
 
-        margin-top: -10px;
+        //margin-top: -10px;
 
         + ul {
           position: absolute;
@@ -201,26 +205,43 @@ ul {
       }
 
       .accord-show-total {
+        letter-spacing: .6px;
+        margin-top: 14px;
+        margin-left: 12px;
 
         color: #31CE82;
-        font-size: 20px;
+        font-size: 18px;
+
+        //float: left;
 
         padding: 0;
 
-        span {
-          font-weight: bolder;
+        span.pull-left {
+          font-weight: 300;
+        }
+        span.pull-right {
+           margin-right: 4px;
+          font-weight: 900;
         }
 
       }
 
       .accord-monthly-total {
+        margin-top: 3px;
+        letter-spacing: .4px;
 
-        font-size: 20px;
+        font-size: 18px;
 
         padding: 0;
 
-        span {
-          font-weight: bolder;
+        span.pull-left {
+
+          margin-left: -8px;
+          font-weight: 300;
+        }
+        span.pull-right {
+          margin-right: 4px;
+          font-weight: 900;
         }
 
       }
@@ -228,18 +249,24 @@ ul {
       .btn-confirm {
         background-color: #45a7e5;
         height: 55px;
-        width: 229px;
+        width: 200px;
         color: #FFFFFF;
-        position: absolute;
+        margin-top: 17px;
+        margin-left: 5px;
 
-        left: 21px;
+        padding-left: 0px;
+        padding-right: 0px;
+        min-width: 228px;
+        //position: absolute;
+        //top : 17px;
+        //left: 21px;
 
       }
 
     }
 
     .row .confirmation {
-      height: 90px;
+      height: 91px;
     }
 
     .confirmation {
@@ -293,7 +320,7 @@ slick {
 
     top: 50%;
 
-    &.slick-prev{
+    &.slick-prev {
       float: left;
       left: 0;
     }
@@ -303,46 +330,40 @@ slick {
       right: 0;
     }
 
-
-
-
     &.slick-prev:before {
       @include fa(chevron-left);
 
-
       font-size: 30px
-
 
     }
 
-    &.slick-next:after{
+    &.slick-next:after {
       @include fa(chevron-right);
       font-size: 30px;
     }
   }
 }
 
-
 .step-one div.panel-heading {
   //border:  1px solid #4fb0e8;
 
 }
 
-.step-one .heading .col-xs-1{
+.step-one .heading .col-xs-1 {
   height: 59px;
   width: 59px;
   background-color: #45a7e5;
 }
 
 .panel-default {
-  border-color : #c9c9c9;
+  border-color: #c9c9c9;
 }
 
 .panel.panel-open {
   border-color: #45a7e5;
   border-bottom-left-radius: 0;
 
-  .panel-heading{
+  .panel-heading {
     border-bottom: 1px solid #45a7e5;
   }
 }
