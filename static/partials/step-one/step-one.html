@@ -67,21 +67,22 @@
                                         </label>
                                     </div>
 
-                                    <div class="dropdown" uib-dropdown uib-keyboard-nav
+                                    <div class="col-xs-3 dropdown"><div  uib-dropdown uib-keyboard-nav
                                          ng-if="content.viewingWindows.onDemand">
                                         <button id="simple-btn-keyboard-nav" type="button" class=""
                                                 uib-dropdown-toggle>
-                                            Choose a Provider <span
+                                            {{ content.providers.onDemand || "Choose a Provider" }} <span
                                                 class="glyphicon glyphicon-menu-down"></span>
                                         </button>
                                         <ul class="uib-dropdown-menu" role="menu"
                                             aria-labelledby="simple-btn-keyboard-nav">
                                             <li role="menuitem"
-                                                ng-repeat="provider in content.content_provider" >
-                                                <a href="#">{{ provider.name }}</a>
+                                                ng-repeat="provider in content.content_provider | onDemand">
+                                                <div class="dropdown-item"
+                                                     ng-click="content.providers.onDemand = provider.name">{{ provider.name }}</div>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div></div>
 
                                 </div>
                                 <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.fullseason}">
@@ -97,20 +98,22 @@
                                         </label>
                                     </div>
 
-                                    <div class="col-xs-2" uib-dropdown uib-keyboard-nav
+                                    <div class="col-xs-3 dropdown"><div  uib-dropdown uib-keyboard-nav
                                          ng-if="content.viewingWindows.fullseason">
                                         <button id="simple-btn-keyboard-nav" type="button" class=""
                                                 uib-dropdown-toggle>
-                                            Choose a Provider <span class="caret"></span>
+                                            {{ content.providers.fullSeason || "Choose a Provider" }} <span
+                                                class="glyphicon glyphicon-menu-down"></span>
                                         </button>
                                         <ul class="uib-dropdown-menu" role="menu"
                                             aria-labelledby="simple-btn-keyboard-nav">
                                             <li role="menuitem"
-                                                ng-repeat="provider in content.content_provider">
-                                                <a href="#">{{ provider.name }}</a>
+                                                ng-repeat="provider in content.content_provider | fullSeason">
+                                                <div class="dropdown-item"
+                                                     ng-click="content.providers.fullSeason = provider.name">{{ provider.name }}</div>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div></div>
                                 </div>
 
                                 <div class="row ss-vw-row" ng-class="{selected:content.viewingWindows.alacarte}">

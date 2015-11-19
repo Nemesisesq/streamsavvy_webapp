@@ -672,7 +672,7 @@ footer {
     left: -1.85714em; }
 
 .fa-border {
-  padding: .2em .25em .15em;
+  padding: 0.2em 0.25em 0.15em;
   border: solid 0.08em #eee;
   border-radius: .1em; }
 
@@ -689,7 +689,7 @@ footer {
   margin-left: .3em; }
 
 /* Deprecated as of 4.4.0 */
-.pull-right {
+.pull-right, .step-one #viewingWindows .ss-vw-row .dropdown button span {
   float: right; }
 
 .pull-left {
@@ -698,7 +698,7 @@ footer {
 .fa.pull-left, slick button.pull-left.slick-prev:before, slick button.pull-left.slick-next:after {
   margin-right: .3em; }
 
-.fa.pull-right, slick button.pull-right.slick-prev:before, slick button.pull-right.slick-next:after {
+.fa.pull-right, .step-one #viewingWindows .ss-vw-row .dropdown button span.fa, slick button.pull-right.slick-prev:before, slick button.pull-right.slick-next:after {
   margin-left: .3em; }
 
 .fa-spin {
@@ -2758,6 +2758,8 @@ ul {
 .step-one {
   margin-left: auto;
   margin-right: auto; }
+  .step-one .dropdown .dropdown.open button, .step-one .dropdown .dropdown.open ul {
+    border: 1px solid #45a7e5; }
   .step-one .panel-default > .panel-heading + .panel-collapse > .panel-body {
     border-top: none; }
   .step-one .panel-group .panel {
@@ -2841,16 +2843,23 @@ ul {
     .step-one #viewingWindows .ss-vw-row .total {
       text-align: right;
       padding-right: 41px; }
+    .step-one #viewingWindows .ss-vw-row .glyphicon-menu-down {
+      color: #8b8b8b;
+      font-size: 10px; }
+    .step-one #viewingWindows .ss-vw-row .dropdown button span {
+      margin-right: 11px; }
     .step-one #viewingWindows .ss-vw-row button {
-      height: 38px;
+      color: #137819;
+      text-align: left;
+      height: 37px;
       width: 179px;
       background-color: #FFFFFF;
-      border: none; }
+      border: none;
+      margin-top: 13px; }
       .step-one #viewingWindows .ss-vw-row button + ul {
-        position: absolute;
-        left: 14.5px;
-        width: 179.5px;
-        top: 27px;
+        color: #137819;
+        width: 178.5px;
+        top: 40px;
         border-radius: 0;
         border-top: none; }
     .step-one #viewingWindows .ss-vw-row .accord-show-total {
@@ -2862,7 +2871,7 @@ ul {
       padding: 0; }
       .step-one #viewingWindows .ss-vw-row .accord-show-total span.pull-left {
         font-weight: 300; }
-      .step-one #viewingWindows .ss-vw-row .accord-show-total span.pull-right {
+      .step-one #viewingWindows .ss-vw-row .accord-show-total span.pull-right, .step-one #viewingWindows .ss-vw-row .accord-show-total .dropdown button span, .step-one #viewingWindows .ss-vw-row .dropdown button .accord-show-total span {
         margin-right: 4px;
         font-weight: 900; }
     .step-one #viewingWindows .ss-vw-row .accord-monthly-total {
@@ -2873,7 +2882,7 @@ ul {
       .step-one #viewingWindows .ss-vw-row .accord-monthly-total span.pull-left {
         margin-left: -8px;
         font-weight: 300; }
-      .step-one #viewingWindows .ss-vw-row .accord-monthly-total span.pull-right {
+      .step-one #viewingWindows .ss-vw-row .accord-monthly-total span.pull-right, .step-one #viewingWindows .ss-vw-row .accord-monthly-total .dropdown button span, .step-one #viewingWindows .ss-vw-row .dropdown button .accord-monthly-total span {
         margin-right: 4px;
         font-weight: 900; }
     .step-one #viewingWindows .ss-vw-row .btn-confirm {
