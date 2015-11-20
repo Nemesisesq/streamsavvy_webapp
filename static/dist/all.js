@@ -473,35 +473,6 @@ app.factory('_', function($window){
     return $window._;
 })
 
-/**
- * Created by chirag on 8/3/15.
- */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
-    $scope.logged_in = false;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
-
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -601,6 +572,39 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
+/**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, $cookies, $location) {
+    $scope.logged_in = false;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+
 app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
     $scope.hardware = [];
     $scope.package = [];
@@ -805,7 +809,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _, Pa
     $rootScope.load()
 
     $scope.$watch('package', function(){
-        //debugger;
+        debugger;
        PackageFactory.setPackage($scope.package);
     });
 
@@ -841,10 +845,6 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
 
 });
-/**
- * Created by Nem on 10/7/15.
- */
-
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -919,13 +919,14 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
     $scope.progressBar = function (step) {
         package = PackageFactory.getPackage();
         var barValue = 0;
-        debugger;
+        //debugger;
 
-        if (!_.isEmpty(package) && step == $scope.stateStep) {
-            barValue = package.hardware.length/3 *100;
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+            debugger;
+            barValue = package.hardware.length/3 *100 || 0;
         }
 
-        if(!_.isEmpty(package) && step == $scope.stateStep) {
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
             barValue = package.content.length/5 * 100 || 0;
         }
 

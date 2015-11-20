@@ -1,7 +1,7 @@
 <section class="device-grid">
     <div class="container-fluid step-three">
         <div class="row">
-            <div class="col-sm-2 hardware-img" ng-repeat="item in hardware|limitTo:7 track by $index" ng-show="!$first">
+            <div class="col-sm-2 hardware-img" ng-repeat="item in hardware| limitTo:7 track by $index" ng-show="!$first">
                 <ss-image-block obj="item" category="hardware">
                 </ss-image-block>
             </div>
@@ -16,13 +16,13 @@
         <div class="row">
             <div class="col-sm-12 btn-row">
                 <div class="col-sm-6 step-btn">
-                    <a class="go_back pull-right" onClick="location.href='#/getting-started/step/2'">
+                    <a class="go_back pull-right" onClick="location.href='#/getting-started/step/1'">
                         I Don't Need Hardware
                     </a>
                 </div>
                 <div class="col-sm-6 step-btn">
                     <button type="button" class="btn btn-primary btn-lg find-out go_fwd"
-                            onclick="location.href='#/getting-started/step/4';"
+                            onclick="location.href='#/getting-started/step/3';"
                             ng-class="{disabled: package.hardware.length < 1}"
                             ng-disabled='package.hardware.length < 1 '>
                         Review My Show Selections
