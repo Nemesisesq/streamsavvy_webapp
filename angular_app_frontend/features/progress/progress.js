@@ -1,4 +1,15 @@
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location) {
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //    debugger;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
     var stateStep = $state.current.data.step;
     $scope.stateStep = stateStep;
     $rootScope.currentStep = stateStep;
@@ -38,8 +49,8 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 
     $scope.navigate = function (stateStep) {
 
-        if($scope.stateStep > stateStep)
-        $location.path('/getting-started/step/' + stateStep)
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
 
     }
 
@@ -57,4 +68,22 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
         $scope.step.four.show = true
 
     }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+        debugger;
+
+        if (!_.isEmpty(package) && step == $scope.stateStep) {
+            barValue = package.hardware.length/3 *100;
+        }
+
+        if(!_.isEmpty(package) && step == $scope.stateStep) {
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
 });
+

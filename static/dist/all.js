@@ -107,34 +107,34 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        //.state('journey-one.step-two', {
+        //    url: '/getting-started/step/2',
+        //    data: {
+        //        step: 2
+        //    },
+        //    views: {
+        //        'navigation': {
+        //            templateUrl: "/static/partials/navigation.html",
+        //            controller: 'navigation'
+        //        },
+        //        'progress': {
+        //            templateUrl: 'static/partials/progress.html',
+        //            controller: 'ProgressController'
+        //        },
+        //        'step-two': {
+        //            templateUrl: 'static/partials/step-two/step-two.html',
+        //            controller: 'JourneyOneController'
+        //        },
+        //        'footer': {
+        //            templateUrl: 'static/partials/footer.html'
+        //        }
+        //    }
+        //})
+
         .state('journey-one.step-two', {
             url: '/getting-started/step/2',
             data: {
                 step: 2
-            },
-            views: {
-                'navigation': {
-                    templateUrl: "/static/partials/navigation.html",
-                    controller: 'navigation'
-                },
-                'progress': {
-                    templateUrl: 'static/partials/progress.html',
-                    controller: 'ProgressController'
-                },
-                'step-two': {
-                    templateUrl: 'static/partials/step-two/step-two.html',
-                    controller: 'JourneyOneController'
-                },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
-            }
-        })
-
-        .state('journey-one.step-three', {
-            url: '/getting-started/step/3',
-            data: {
-                step: 3
             },
             views: {
                 'navigation': {
@@ -154,10 +154,10 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('journey-one.step-four', {
-            url: '/getting-started/step/4',
+        .state('journey-one.step-three', {
+            url: '/getting-started/step/3',
             data: {
-                step: 4
+                step: 3
             },
             views: {
                 'navigation': {
@@ -374,7 +374,7 @@ app.factory('http', function ($http, $log, $q) {
 /**
  * Created by Nem on 6/27/15.
  */
-app.service('PackageService', ['http','_', function (http, _) {
+app.service('PackageService', ['http', '_', function (http, _) {
 
 
     //var pservice = this;
@@ -444,10 +444,63 @@ app.service('PackageService', ['http','_', function (http, _) {
 }]);
 
 
+app.factory('PackageFactory', [function () {
+    //debugger;
 
+    var _package = [];
+
+    var _test = 1;
+
+
+    return {
+        setPackage: function (package) {
+            //debugger;
+            _package = package
+        },
+
+        getPackage: function () {
+            return _package;
+        },
+
+        getSSTest: function () {
+            //debugger;
+            return _test;
+        }
+    }
+
+}]);
 app.factory('_', function($window){
     return $window._;
 })
+
+/**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, $cookies, $location) {
+    $scope.logged_in = false;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
 
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
@@ -548,40 +601,7 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
-/**
- * Created by Nem on 10/7/15.
- */
-
-/**
- * Created by chirag on 8/3/15.
- */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
-    $scope.logged_in = false;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
-
-app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
+app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
     $scope.hardware = [];
     $scope.package = [];
     $scope.packageList = {};
@@ -784,6 +804,11 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
 
     $rootScope.load()
 
+    $scope.$watch('package', function(){
+        //debugger;
+       PackageFactory.setPackage($scope.package);
+    });
+
 });
 
 /**
@@ -816,7 +841,22 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
 
 });
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location) {
+/**
+ * Created by Nem on 10/7/15.
+ */
+
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //    debugger;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
     var stateStep = $state.current.data.step;
     $scope.stateStep = stateStep;
     $rootScope.currentStep = stateStep;
@@ -856,8 +896,8 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 
     $scope.navigate = function (stateStep) {
 
-        if($scope.stateStep > stateStep)
-        $location.path('/getting-started/step/' + stateStep)
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
 
     }
 
@@ -875,7 +915,26 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
         $scope.step.four.show = true
 
     }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+        debugger;
+
+        if (!_.isEmpty(package) && step == $scope.stateStep) {
+            barValue = package.hardware.length/3 *100;
+        }
+
+        if(!_.isEmpty(package) && step == $scope.stateStep) {
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
 });
+
+
 /**
  * Created by Nem on 7/18/15.
  */

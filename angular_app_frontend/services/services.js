@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/27/15.
  */
-app.service('PackageService', ['http','_', function (http, _) {
+app.service('PackageService', ['http', '_', function (http, _) {
 
 
     //var pservice = this;
@@ -71,3 +71,28 @@ app.service('PackageService', ['http','_', function (http, _) {
 }]);
 
 
+app.factory('PackageFactory', [function () {
+    //debugger;
+
+    var _package = [];
+
+    var _test = 1;
+
+
+    return {
+        setPackage: function (package) {
+            //debugger;
+            _package = package
+        },
+
+        getPackage: function () {
+            return _package;
+        },
+
+        getSSTest: function () {
+            //debugger;
+            return _test;
+        }
+    }
+
+}]);

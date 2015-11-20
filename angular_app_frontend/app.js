@@ -107,34 +107,34 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        //.state('journey-one.step-two', {
+        //    url: '/getting-started/step/2',
+        //    data: {
+        //        step: 2
+        //    },
+        //    views: {
+        //        'navigation': {
+        //            templateUrl: "/static/partials/navigation.html",
+        //            controller: 'navigation'
+        //        },
+        //        'progress': {
+        //            templateUrl: 'static/partials/progress.html',
+        //            controller: 'ProgressController'
+        //        },
+        //        'step-two': {
+        //            templateUrl: 'static/partials/step-two/step-two.html',
+        //            controller: 'JourneyOneController'
+        //        },
+        //        'footer': {
+        //            templateUrl: 'static/partials/footer.html'
+        //        }
+        //    }
+        //})
+
         .state('journey-one.step-two', {
             url: '/getting-started/step/2',
             data: {
                 step: 2
-            },
-            views: {
-                'navigation': {
-                    templateUrl: "/static/partials/navigation.html",
-                    controller: 'navigation'
-                },
-                'progress': {
-                    templateUrl: 'static/partials/progress.html',
-                    controller: 'ProgressController'
-                },
-                'step-two': {
-                    templateUrl: 'static/partials/step-two/step-two.html',
-                    controller: 'JourneyOneController'
-                },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
-            }
-        })
-
-        .state('journey-one.step-three', {
-            url: '/getting-started/step/3',
-            data: {
-                step: 3
             },
             views: {
                 'navigation': {
@@ -154,10 +154,10 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('journey-one.step-four', {
-            url: '/getting-started/step/4',
+        .state('journey-one.step-three', {
+            url: '/getting-started/step/3',
             data: {
-                step: 4
+                step: 3
             },
             views: {
                 'navigation': {

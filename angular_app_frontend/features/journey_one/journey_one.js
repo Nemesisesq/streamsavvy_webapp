@@ -1,4 +1,4 @@
-app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
+app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
     $scope.hardware = [];
     $scope.package = [];
     $scope.packageList = {};
@@ -200,5 +200,10 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _) {
     };
 
     $rootScope.load()
+
+    $scope.$watch('package', function(){
+        //debugger;
+       PackageFactory.setPackage($scope.package);
+    });
 
 });
