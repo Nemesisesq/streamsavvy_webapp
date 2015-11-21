@@ -58,6 +58,28 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        .state('explain',{
+            abstract:true,
+            templateUrl: "static/partials/explain.html"
+        })
+        .state('explain.still-confused',{
+            url: '/explain/still-confused/1',
+            data: {
+                explain: 1
+        },
+        views: {
+            'navigation': {
+                templateUrl: "/static/partials/navigation.html",
+                controller: 'navigation'
+            },
+            'still-confused': {
+                templateUrl: 'static/partials/explain/still-confused.html'
+            },
+            'footer': {
+                templateUrl: 'static/partials/footer.html'
+            }
+        }
+        })
         .state('nav.index', {
             url: '/search',
             views: {
