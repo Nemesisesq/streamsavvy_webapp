@@ -109,3 +109,10 @@ class Package(models.Model):
 
     def __str__(self):
         return "Package Configuration {0} for {1}".format(self.pk, self.owner.username)
+
+class JsonPackage(models.Model):
+    json = models.TextField()
+    owner = models.OneToOneField (User)
+
+    def __str__(self):
+        return "JSON package for {self.owner}"
