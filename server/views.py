@@ -4,7 +4,8 @@ import time
 from django.contrib.auth.models import Group
 from django.core.cache import cache
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.http import HttpResponseNotAllowed, JsonResponse
+from django.views.generic import View
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 
@@ -13,25 +14,42 @@ from server.permissions import IsAdminOrReadOnly
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ContentProviderSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer
 
-def json_package(request):
-    if request.method == 'POST':
-        user_json_tuple = JsonPackage.objects.get_or_create(owner=request.user)
 
+class JsonPackageView(View):
+    def get(self, request):
+
+        pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
+
+        return JsonResponse(pkg)
+
+    def post(self, request):
+        user_json_tuple = JsonPackage.objects.get_or_create(owner=request.user)
         user_json_package = user_json_tuple[0]
 
         try:
 
             user_json_package.json = str(request.body, encoding='utf-8')
-
             user_json_package.save()
-
             return JsonResponse({'hello': 'world'})
 
         except:
             pass
-    else:
-        return HttpResponseNotAllowed(['POST'])
 
+
+# def json_package(request):
+#     if request.method == 'POST':
+#         user_json_tuple = JsonPackage.objects.get_or_create(owner=request.user)
+#         user_json_package = user_json_tuple[0]
+#
+#         try:
+#             user_json_package.json = str(request.body, encoding='utf-8')
+#             user_json_package.save()
+#             return JsonResponse({'hello': 'world'})
+#
+#         except:
+#             pass
+#     else:
+#         return HttpResponseNotAllowed(['POST'])
 
 
 class AdminPermMixin(object):
@@ -124,7 +142,6 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Content.objects.filter(self.get_popular_shows())
-
 
 
 class PackageDetailViewSet(viewsets.ModelViewSet):
