@@ -374,7 +374,7 @@ app.factory('http', function ($http, $log, $q) {
 /**
  * Created by Nem on 6/27/15.
  */
-app.service('PackageService', ['http', '_', function (http, _) {
+app.service('PackageService', ['http','_', function (http, _) {
 
 
     //var pservice = this;
@@ -444,10 +444,10 @@ app.service('PackageService', ['http', '_', function (http, _) {
 }]);
 
 
-app.factory('PackageFactory', [function () {
+app.factory('PackageFactory', ['$http', function ($http) {
     //debugger;
 
-    var _package = [];
+    var _package = {};
 
     var _test = 1;
 
@@ -456,6 +456,8 @@ app.factory('PackageFactory', [function () {
         setPackage: function (package) {
             //debugger;
             _package = package
+
+            $http.post('/json-package/', package);
         },
 
         getPackage: function () {
@@ -468,7 +470,16 @@ app.factory('PackageFactory', [function () {
         }
     }
 
+
+
 }]);
+
+app.run(function(PackageFactory, $http){
+    $http.get('/json-package/')
+        .then(function(data){
+            PackageFactory.setPackage(data)
+        })
+});
 app.factory('_', function($window){
     return $window._;
 })
@@ -926,7 +937,10 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
             barValue = package.hardware.length/3 *100 || 0;
         }
 
+        debugger;
+
         if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+            debugger;
             barValue = package.content.length/5 * 100 || 0;
         }
 

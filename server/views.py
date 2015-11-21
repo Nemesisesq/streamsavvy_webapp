@@ -20,7 +20,7 @@ class JsonPackageView(View):
 
         pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
 
-        return JsonResponse(pkg)
+        return JsonResponse(pkg, safe=False)
 
     def post(self, request):
         user_json_tuple = JsonPackage.objects.get_or_create(owner=request.user)
@@ -30,7 +30,7 @@ class JsonPackageView(View):
 
             user_json_package.json = str(request.body, encoding='utf-8')
             user_json_package.save()
-            return JsonResponse({'hello': 'world'})
+            return JsonResponse({'hello': 'world'}, safe=False)
 
         except:
             pass

@@ -12,7 +12,7 @@
                     Select Shows
                 </span>
             </div>
-            <uib-progressbar class="transition-bar" ng-class="{ green : stateStep > 1}" ></uib-progressbar>
+            <uib-progressbar class="transition-bar" ng-class="{ green : stateStep > 1}" value="progressBar(1)"></uib-progressbar>
             <div class="step-container">
                 <div id="step-two" class="center step-element"
                      ng-class="{active: stateStep == 2, step_finished : stateStep > 2  }"

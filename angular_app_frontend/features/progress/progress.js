@@ -79,7 +79,10 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
             barValue = package.hardware.length/3 *100 || 0;
         }
 
+        debugger;
+
         if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+            debugger;
             barValue = package.content.length/5 * 100 || 0;
         }
 
