@@ -180,6 +180,9 @@ span.glyphicon.glyphicon-ok-sign.glyphicon-background.blue-glyphicon.selected {
   .let-us-explain {
     right: 7%; } }
 
+body {
+  background-color: #EDEDED; }
+
 .intro-header {
   padding-top: 50px;
   /* If you're making other pages, make sure there is 50px of padding to make sure the navbar
@@ -260,14 +263,16 @@ hr {
 
 .nav li {
   display: inline;
-  color: red; }
+  color: red;
+  height: 77px; }
 
 .navbar-inverse .navbar-nav > li > a {
   color: #ED1C24;
   font-family: inherit;
-  font-size: 1.7em;
+  font-size: 13px;
+  line-height: 77px;
   font-weight: 500;
-  padding: 30px 0 33px 0;
+  padding: 0;
   margin-left: 10px;
   margin-right: 10px; }
 
@@ -275,7 +280,7 @@ hr {
   border-bottom: #ED1C24 solid 3px;
   color: #ED1C24;
   height: 100%;
-  padding-bottom: 30px; }
+  margin-bottom: 3px; }
 
 .navbar-inverse .navbar-toggle {
   border-color: transparent; }
@@ -2634,7 +2639,9 @@ footer {
 .prog_section {
   background-color: #f4f4f4;
   padding-top: 30px;
-  padding-bottom: 10px; }
+  padding-bottom: 10px;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6; }
 
 .step-row {
   background-color: #f4f4f4;
@@ -2843,7 +2850,7 @@ ul {
       line-height: 62px;
       height: 100%; }
     .step-one #viewingWindows .ss-vw-row .col-xs-1 {
-      z-index: 99; }
+      z-index: 2; }
     .step-one #viewingWindows .ss-vw-row .total {
       text-align: right;
       padding-right: 41px; }
@@ -3206,7 +3213,8 @@ span.selected-cost {
 .search-bar {
   position: relative;
   margin: 0 auto;
-  max-width: 808px; }
+  max-width: 808px;
+  z-index: 3; }
   .search-bar input {
     height: 61px; }
     .search-bar input.form-control {
@@ -3251,6 +3259,17 @@ span.selected-cost {
 
 .btn-login:hover {
   color: #000088; }
+
+.j-one-container {
+  padding-top: 77px;
+  border-right: 1px solid #e6e6e6;
+  border-left: 1px solid #e6e6e6;
+  background-color: white; }
+  .j-one-container .navbar-fixed-top {
+    background-color: white;
+    height: 77px;
+    max-width: 1362px;
+    margin: 0 auto; }
 
 .navbar, .navbar-inverse {
   border-top: #ED1C24 solid 3px; }

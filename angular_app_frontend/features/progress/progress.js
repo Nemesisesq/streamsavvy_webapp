@@ -3,7 +3,7 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
     var package = PackageFactory.getPackage();
 
     //$interval(function(){
-    //    debugger;
+    //     ;
     //    //package = PackageFactory.getPackage();
     //    //$scope.package  = package;
     //}, 500);
@@ -72,17 +72,17 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
     $scope.progressBar = function (step) {
         package = PackageFactory.getPackage();
         var barValue = 0;
-        //debugger;
+        // ;
 
         if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-            debugger;
+             ;
             barValue = package.hardware.length/3 *100 || 0;
         }
 
-        debugger;
+         ;
 
         if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-            debugger;
+             ;
             barValue = package.content.length/5 * 100 || 0;
         }
 

@@ -72,7 +72,7 @@ app.service('PackageService', ['http','_', function (http, _) {
 
 
 app.factory('PackageFactory', ['$http', function ($http) {
-    //debugger;
+    // ;
 
     var _package = {};
 
@@ -80,11 +80,11 @@ app.factory('PackageFactory', ['$http', function ($http) {
 
 
     return {
-        setPackage: function (package) {
-            //debugger;
-            _package = package
+        setPackage: function (ssPackage) {
+            // ;
+            _package = ssPackage;
 
-            $http.post('/json-package/', package);
+            $http.post('/json-package/', ssPackage);
         },
 
         getPackage: function () {
@@ -92,7 +92,7 @@ app.factory('PackageFactory', ['$http', function ($http) {
         },
 
         getSSTest: function () {
-            //debugger;
+            // ;
             return _test;
         }
     }

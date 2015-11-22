@@ -8,7 +8,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
             r =  $scope.searchResult;
 
         if (s && r) {
-            //debugger;
+            // ;
             if (_.last(s) !== r[s.length - 1]) {
                 $scope.searchResult = ''
             }
@@ -128,7 +128,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     });
 
     $scope.$watch('searchText', function (val) {
-        //debugger;
+        // ;
         if (val !== -1 ){
             checkNextLetter();
 

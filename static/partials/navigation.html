@@ -1,33 +1,36 @@
+<nav class="navbar navbar-inverse navbar-static-top"
+     ng-class="{navbarhome: isHomePage}" role="navigation">
+    <div class="container-fluid">
 
+        <div class="navbar-header">
+            <a href="/#/"><img class="img-responsive nav-logo logo just-logo" src="/static/img/SS_Mark_red.png"/></a>
+            <a href="/#/"><img class="img-responsive nav-logo logo logo-and-text" ng-hide="currentStep >=1"
+                               src="/static/img/SS_Wordmark_White.png"/></a>
 
-    <nav class="navbar navbar-inverse navbar-static-top"  ng-class="{navbarhome: isHomePage}" role="navigation">
-        <div class="container-fluid">
-
-            <div class="navbar-header">
-                <a href="/#/"><img class="img-responsive nav-logo logo just-logo" src="/static/img/SS_Mark_red.png"/></a>
-                <a href="/#/"><img class="img-responsive nav-logo logo logo-and-text" ng-hide="currentStep>=1" src="/static/img/SS_Wordmark_White.png" /></a>
-
-                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right navbar-links">
-                        <li><a class="navbarLink" ng-class="{active: hmdc }" href="#">Help Me Ditch Cable</a> </li>
-                        <li><a class="navbarLink" href="#">Find Your Shows</a> </li>
-                        <li><a class="navbarLink" href="#/blog/blog-one/1">Blog</a></li>
-                        <li><div class="ss_pipe"></div></li>
-                        <li><a class="navbarLink" href="#">Sign Up</a> </li>
-                        <li><a class="navbarLink" href="#">Login</a> </li>
-                        <!-- <li><a class="navbarLink" href="#">About Us</a></li>
-                        <li><a href="" class="contact-us-link navbarLink">Contact Us</a></li> -->
-                    </ul>
-            </div>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
-    </nav>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right navbar-links">
+                <li><a class="navbarLink" ng-class="{active: hmdc }" href="#">Help Me Ditch Cable</a></li>
+                <li><a class="navbarLink" href="#">Find Your Shows</a></li>
+                <li><a class="navbarLink" href="#/blog/blog-one/1">Blog</a></li>
+                <li>
+                    <div class="ss_pipe"></div>
+                </li>
+                <li><a class="navbarLink" href="#">Sign Up</a></li>
+                <li><a class="navbarLink" href="#">Login</a></li>
+                <!-- <li><a class="navbarLink" href="#">About Us</a></li>
+                <li><a href="" class="contact-us-link navbarLink">Contact Us</a></li> -->
+            </ul>
+        </div>
+    </div>
+</nav>
 
 
 <!--

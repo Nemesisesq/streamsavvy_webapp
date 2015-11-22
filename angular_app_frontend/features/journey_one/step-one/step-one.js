@@ -10,7 +10,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout) {
             return data
         })
         .then(function () {
-            //debugger;
+            // ;
             //$('.popular-shows').slick();
         })
 

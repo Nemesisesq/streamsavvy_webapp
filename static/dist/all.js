@@ -445,7 +445,7 @@ app.service('PackageService', ['http','_', function (http, _) {
 
 
 app.factory('PackageFactory', ['$http', function ($http) {
-    //debugger;
+    // ;
 
     var _package = {};
 
@@ -453,11 +453,11 @@ app.factory('PackageFactory', ['$http', function ($http) {
 
 
     return {
-        setPackage: function (package) {
-            //debugger;
-            _package = package
+        setPackage: function (ssPackage) {
+            // ;
+            _package = ssPackage;
 
-            $http.post('/json-package/', package);
+            $http.post('/json-package/', ssPackage);
         },
 
         getPackage: function () {
@@ -465,7 +465,7 @@ app.factory('PackageFactory', ['$http', function ($http) {
         },
 
         getSSTest: function () {
-            //debugger;
+            // ;
             return _test;
         }
     }
@@ -820,7 +820,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _, Pa
     $rootScope.load()
 
     $scope.$watch('package', function(){
-        debugger;
+         ;
        PackageFactory.setPackage($scope.package);
     });
 
@@ -861,7 +861,7 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
     var package = PackageFactory.getPackage();
 
     //$interval(function(){
-    //    debugger;
+    //     ;
     //    //package = PackageFactory.getPackage();
     //    //$scope.package  = package;
     //}, 500);
@@ -930,17 +930,17 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
     $scope.progressBar = function (step) {
         package = PackageFactory.getPackage();
         var barValue = 0;
-        //debugger;
+        // ;
 
         if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-            debugger;
+             ;
             barValue = package.hardware.length/3 *100 || 0;
         }
 
-        debugger;
+         ;
 
         if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-            debugger;
+             ;
             barValue = package.content.length/5 * 100 || 0;
         }
 
@@ -960,7 +960,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
             r =  $scope.searchResult;
 
         if (s && r) {
-            //debugger;
+            // ;
             if (_.last(s) !== r[s.length - 1]) {
                 $scope.searchResult = ''
             }
@@ -1080,7 +1080,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     });
 
     $scope.$watch('searchText', function (val) {
-        //debugger;
+        // ;
         if (val !== -1 ){
             checkNextLetter();
 
@@ -1210,7 +1210,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout) {
             return data
         })
         .then(function () {
-            //debugger;
+            // ;
             //$('.popular-shows').slick();
         })
 

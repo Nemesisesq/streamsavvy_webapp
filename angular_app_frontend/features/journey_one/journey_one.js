@@ -202,7 +202,7 @@ app.controller('JourneyOneController', function ($scope, $rootScope, http, _, Pa
     $rootScope.load()
 
     $scope.$watch('package', function(){
-        debugger;
+         ;
        PackageFactory.setPackage($scope.package);
     });
 
