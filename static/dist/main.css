@@ -2771,6 +2771,11 @@ ul {
   margin-right: auto; }
   .step-one input[type='checkbox'] {
     font-size: 17px; }
+  .step-one label {
+    font-size: 18px;
+    font-weight: 400; }
+    .step-one label strong {
+      font-weight: 900; }
   .step-one label:after {
     color: #aeb6bb; }
   .step-one .selected input {
@@ -2867,7 +2872,11 @@ ul {
       line-height: 62px;
       height: 100%; }
     .step-one #viewingWindows .ss-vw-row .col-xs-1 {
-      z-index: 2; }
+      z-index: 2;
+      padding-right: 0;
+      margin-right: -16px; }
+    .step-one #viewingWindows .ss-vw-row .col-xs-8, .step-one #viewingWindows .ss-vw-row .col-xs-11 {
+      padding-left: 0; }
     .step-one #viewingWindows .ss-vw-row .total {
       text-align: right;
       padding-right: 41px; }

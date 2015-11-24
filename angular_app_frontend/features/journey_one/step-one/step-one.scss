@@ -47,6 +47,16 @@ ul {
   input[type='checkbox'] {
     font-size: 17px;
 
+
+  }
+
+  label{
+    font-size: 18px;
+    font-weight: 400;
+
+    strong {
+      font-weight: 900;
+    }
   }
 
   label:after {
@@ -232,6 +242,12 @@ ul.btn-list-grid li {
 
     .col-xs-1 {
       z-index: 2;
+      padding-right: 0;
+      margin-right: -16px;
+    }
+
+    .col-xs-8, .col-xs-11{
+      padding-left: 0;
     }
 
     .total {
