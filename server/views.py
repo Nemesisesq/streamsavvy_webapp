@@ -4,13 +4,14 @@ import time
 from django.contrib.auth.models import Group
 from django.core.cache import cache
 from django.db.models import Q
-from django.http import HttpResponseNotAllowed, JsonResponse
+from django.http import JsonResponse
 from django.views.generic import View
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 
 from server.models import *
 from server.permissions import IsAdminOrReadOnly
+from server.populate_data.guidebox import GuideBox
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ContentProviderSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer
 
@@ -104,6 +105,26 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         search_results = content_search(self.request)
         filter_results = self.filter_query([88, 379, 858], search_results)
+
+        if len(filter_results) == 0:
+            g = GuideBox()
+
+
+            if ('q' in self.request.GET) and self.request.GET['q'].strip():
+                query_string = self.request.GET['q']
+                result = g.get_show_by_title(query_string)
+
+                result = result['results']
+
+                result_list = []
+
+                for show in result:
+                    result_list.append(g.save_content(show))
+
+
+                filter_results = self.filter_query([88, 379, 858], result_list)
+
+
 
         return filter_results
 

@@ -33,11 +33,11 @@ class GuideBox(object):
         cleaned_title = title.replace("  ", " ")
         encoded_show = cleaned_title.strip().replace(" ", '%25252B')
 
-        exact_url = "{BASE_URL}/search/title/{TRIPLE_URL}/exact".format(BASE_URL=self.BASE_URL, TRIPLE_URL=encoded_show)
+        # exact_url = "{BASE_URL}/search/title/{TRIPLE_URL}/exact".format(BASE_URL=self.BASE_URL, TRIPLE_URL=encoded_show)
         fuzzy_url = "{BASE_URL}/search/title/{TRIPLE_URL}/fuzzy".format(BASE_URL=self.BASE_URL, TRIPLE_URL=encoded_show)
 
         try:
-            with urllib.request.urlopen(exact_url) as exact_response:
+            with urllib.request.urlopen(fuzzy_url) as exact_response:
                 the_json = json.loads(exact_response.read().decode('utf-8'))
 
                 if the_json['total_results'] == 0:
