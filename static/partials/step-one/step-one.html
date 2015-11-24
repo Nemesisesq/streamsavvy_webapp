@@ -1,3 +1,5 @@
+<title>Step 1</title>
+<meta name="Step 1 - Shows, Services, and Viewing windows">
 <script type="text/ng-template" id="group-template.html">
     <div class="panel {{ panelClass || 'panel-default'}}" ng-class="{ accordionActive : isOpen}">
         <div class="panel-heading">
@@ -173,7 +175,7 @@
     <slick infinite=true arrows=true slides-to-show="3" init-onload=true data="ctrl.popularShows"
            ng-if="ctrl.popularShows.length">
         <div ng-repeat="show in ctrl.popularShows" ng-click="alert('hello')">
-            <img ng-src="{{ show.thumbnail_medium }} "/>
+            <img ng-src="{{ show.thumbnail_medium }} " alt=""/>
         </div>
     </slick>
 
