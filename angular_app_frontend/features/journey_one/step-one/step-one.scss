@@ -49,6 +49,13 @@ ul {
 
   }
 
+  label:after {
+
+    @include fa(info-circle);
+    color: #aeb6bb;
+
+  }
+
   .selected {
     input {
       opacity : 0;
