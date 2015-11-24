@@ -313,8 +313,8 @@ hr {
 .usr-path-left > .usr-path-header {
   color: white; }
 
-.usr-path-header h1 {
-  font-size: 2.5em;
+.usr-path-header h2 {
+  font-size: 36px;
   font-weight: 900; }
 
 .usr-path-header h3 {
@@ -368,7 +368,7 @@ hr {
     text-align: center;
     margin-top: 3%;
     margin-bottom: 3%; }
-    .confused .still-explain h1 {
+    .confused .still-explain h2 {
       color: white;
       font-size: 2.0em;
       font-weight: 900;
@@ -630,7 +630,7 @@ footer {
   font-weight: normal;
   font-style: normal; }
 
-.fa, slick button.slick-prev:before, slick button.slick-next:after {
+.fa, .step-one .selected label:before, slick button.slick-prev:before, slick button.slick-next:after {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -687,10 +687,10 @@ footer {
 .fa-pull-right {
   float: right; }
 
-.fa.fa-pull-left, slick button.fa-pull-left.slick-prev:before, slick button.fa-pull-left.slick-next:after {
+.fa.fa-pull-left, .step-one .selected label.fa-pull-left:before, slick button.fa-pull-left.slick-prev:before, slick button.fa-pull-left.slick-next:after {
   margin-right: .3em; }
 
-.fa.fa-pull-right, slick button.fa-pull-right.slick-prev:before, slick button.fa-pull-right.slick-next:after {
+.fa.fa-pull-right, .step-one .selected label.fa-pull-right:before, slick button.fa-pull-right.slick-prev:before, slick button.fa-pull-right.slick-next:after {
   margin-left: .3em; }
 
 /* Deprecated as of 4.4.0 */
@@ -700,10 +700,10 @@ footer {
 .pull-left {
   float: left; }
 
-.fa.pull-left, slick button.pull-left.slick-prev:before, slick button.pull-left.slick-next:after {
+.fa.pull-left, .step-one .selected label.pull-left:before, slick button.pull-left.slick-prev:before, slick button.pull-left.slick-next:after {
   margin-right: .3em; }
 
-.fa.pull-right, .step-one #viewingWindows .ss-vw-row .dropdown button span.fa, slick button.pull-right.slick-prev:before, slick button.pull-right.slick-next:after {
+.fa.pull-right, .step-one .selected label.pull-right:before, .step-one #viewingWindows .ss-vw-row .dropdown button span.fa, slick button.pull-right.slick-prev:before, slick button.pull-right.slick-next:after {
   margin-left: .3em; }
 
 .fa-spin {
@@ -828,7 +828,7 @@ footer {
 .fa-th-list:before {
   content: ""; }
 
-.fa-check:before {
+.fa-check:before, .step-one .selected label:before {
   content: ""; }
 
 .fa-remove:before,
@@ -2769,6 +2769,21 @@ ul {
 .step-one {
   margin-left: auto;
   margin-right: auto; }
+  .step-one input[type='checkbox'] {
+    font-size: 17px; }
+  .step-one .selected input {
+    opacity: 0; }
+  .step-one .selected label {
+    position: relative;
+    left: -17.75px; }
+  .step-one .selected label:before {
+    font-size: 15px;
+    position: relative;
+    right: 40px;
+    color: white; }
+  @media (min-width: 992px) {
+    .step-one .selected label:before {
+      right: 50px; } }
   .step-one .dropdown .dropdown.open button, .step-one .dropdown .dropdown.open ul {
     border: 1px solid #45a7e5; }
   .step-one .panel-default > .panel-heading + .panel-collapse > .panel-body {
