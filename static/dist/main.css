@@ -313,8 +313,8 @@ hr {
 .usr-path-left > .usr-path-header {
   color: white; }
 
-.usr-path-header h1 {
-  font-size: 2.5em;
+.usr-path-header h2 {
+  font-size: 36px;
   font-weight: 900; }
 
 .usr-path-header h3 {
@@ -368,7 +368,7 @@ hr {
     text-align: center;
     margin-top: 3%;
     margin-bottom: 3%; }
-    .confused .still-explain h1 {
+    .confused .still-explain h2 {
       color: white;
       font-size: 2.0em;
       font-weight: 900;
@@ -3389,6 +3389,9 @@ a.navbarLink {
 
 .usr-path-header {
   height: auto; }
+
+.money {
+  background: white; }
 
 .usr-path-right {
   display: block;
