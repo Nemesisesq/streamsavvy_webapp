@@ -257,34 +257,6 @@ app.directive('ssImageBlock', function (http, $rootScope) {
 
     }
 })
-/**
- * Created by Nem on 11/17/15.
- */
-app.filter('onDemand', function () {
-    return function (input) {
-
-        var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix'
-        })
-
-        return list
-    }
-
-});
-
-app.filter('fullSeason', function () {
-
-    return function (input) {
-
-
-        var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix'
-        })
-
-        return list
-    }
-
-});
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -505,6 +477,34 @@ app.run(function(PackageFactory, $http){
 app.factory('_', function($window){
     return $window._;
 })
+/**
+ * Created by Nem on 11/17/15.
+ */
+app.filter('onDemand', function () {
+    return function (input) {
+
+        var list = _.filter(input, function (elem) {
+            return elem.name != 'Netflix'
+        })
+
+        return list
+    }
+
+});
+
+app.filter('fullSeason', function () {
+
+    return function (input) {
+
+
+        var list = _.filter(input, function (elem) {
+            return elem.name == 'Netflix'
+        })
+
+        return list
+    }
+
+});
 
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];

@@ -3407,6 +3407,9 @@ a.navbarLink {
 .usr-path-header {
   height: auto; }
 
+.money {
+  background: white; }
+
 .usr-path-right {
   display: block;
   overflow: hidden;
