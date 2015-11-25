@@ -1,34 +1,65 @@
 .modal-dialog{
-  text-align: center;
-  width: 560px;
-  border-top: solid 5px red;
-  .btn-row {
-    padding: 3px;
+    text-align: center;
+    width: 560px;
+    border-top: solid 5px red;
+    .modal-body{
+        padding-top:0;
+        .btn-row {
+        padding: 3px;
 
-    .btn{
-      width: 100%;
+        .btn{
+          width: 100%;
+        }
+
+        .twitter{
+          background-color:#00aced;
+        }
+        .facebook{
+          background-color:#3b5998;
+        }
+
+        .instagram{
+          background-color:#517fa4;
+        }
+      }
     }
 
-    .twitter{
-      background-color:#00aced;
+    .modal-header{
+      margin: 0 auto;
+      .please-social{
+        font-size:15px;
+      }
     }
-    .facebook{
-      background-color:#3b5998;
+    .wait-minute{
+      color: black;
+      float: left;
+      font-size: 1.5em;
+      text-decoration: underline;
+      padding-left: 7%;
+      padding-top: 1.6%;
     }
-
-    .instagram{
-      background-color:#517fa4;
-    }
+  .lets-cut{
+    color:white;
+    border-radius: 5px;
+    margin-right:8%;
   }
-  .modal-header{
-    margin: 0 auto;
-  }
-  a{
-    color: black;
+  .form-group{
+    padding-left:15px;
+    padding-right:15px;
+    padding-top:10px;
+    margin:0;
+    .email-label{
     float: left;
-    font-size: 2em;
-    text-decoration: underline;
+    font-size: 15px;
+    font-weight: normal;
+    }
+    .div-for-an-or {
+    margin-top: 3%;
+    font-size: 15px;
+    }
   }
+
+
 }
 
 .btn-login:hover {
@@ -37,4 +68,8 @@
 .thick-modal-header{
   font-size: 3em;
   font-weight: 900;
+}
+.modal-content {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
