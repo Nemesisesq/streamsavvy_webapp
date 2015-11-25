@@ -1,10 +1,40 @@
-.modal-body{
-  .row {
+.modal-dialog{
+  text-align: center;
+  width: 560px;
+  border-top: solid 5px red;
+  .btn-row {
     padding: 3px;
 
+    .btn{
+      width: 100%;
+    }
+
+    .twitter{
+      background-color:#00aced;
+    }
+    .facebook{
+      background-color:#3b5998;
+    }
+
+    .instagram{
+      background-color:#517fa4;
+    }
+  }
+  .modal-header{
+    margin: 0 auto;
+  }
+  a{
+    color: black;
+    float: left;
+    font-size: 2em;
+    text-decoration: underline;
   }
 }
 
 .btn-login:hover {
   color : #000088;
+}
+.thick-modal-header{
+  font-size: 3em;
+  font-weight: 900;
 }
