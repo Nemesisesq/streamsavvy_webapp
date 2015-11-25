@@ -3331,11 +3331,34 @@ span.selected-cost {
     font-size: 130%;
     color: #555555; }
 
-.modal-body .row, .modal-body .step-one #viewingWindows .ss-vw-row, .step-one #viewingWindows .modal-body .ss-vw-row {
-  padding: 3px; }
+.modal-dialog {
+  text-align: center;
+  width: 560px;
+  border-top: solid 5px red; }
+  .modal-dialog .btn-row {
+    padding: 3px; }
+    .modal-dialog .btn-row .btn {
+      width: 100%; }
+    .modal-dialog .btn-row .twitter {
+      background-color: #00aced; }
+    .modal-dialog .btn-row .facebook {
+      background-color: #3b5998; }
+    .modal-dialog .btn-row .instagram {
+      background-color: #517fa4; }
+  .modal-dialog .modal-header {
+    margin: 0 auto; }
+  .modal-dialog a {
+    color: black;
+    float: left;
+    font-size: 2em;
+    text-decoration: underline; }
 
 .btn-login:hover {
   color: #000088; }
+
+.thick-modal-header {
+  font-size: 3em;
+  font-weight: 900; }
 
 .j-one-container {
   padding-top: 77px;
