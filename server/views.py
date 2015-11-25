@@ -127,10 +127,10 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
 
         return filter_results
-
+ 
 
 class ContentViewSet(viewsets.ModelViewSet):
-    queryset = Content.objects.all()
+    queryset = Content.objects.all( )
     serializer_class = ContentSerializer
 
 
@@ -242,7 +242,7 @@ def get_query(query_string, search_fields):
     for term in terms:
         or_query = None  # Query to search for a given term in each field
         for field_name in search_fields:
-            q = Q(**{"%s__istartswith" % field_name: term})
+            q = Q(**{"%s__icontains" % field_name: term})
             if or_query is None:
                 or_query = q
             else:
@@ -257,7 +257,6 @@ def get_query(query_string, search_fields):
 def content_search(request):
     query_string = ''
     found_entries = None
-
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
 
