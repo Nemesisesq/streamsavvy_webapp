@@ -6,6 +6,9 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     $scope.package = PackageFactory.getPackage();
     var hardwareColl = $scope.package.hardware;
 
+    $scope.hardwareTotal = 40.99;
+    $scope.monthlyTotal = 5.99;
+
     http.getHardware()
         .then(function (data) {
             $scope.hardware = data.results;
