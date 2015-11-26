@@ -22,3 +22,7 @@ class HardwareAdmin(admin.ModelAdmin):
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(JsonPackage)
+class JsonPackage(admin.ModelAdmin):
+    pass

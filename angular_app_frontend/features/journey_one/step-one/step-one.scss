@@ -73,7 +73,7 @@ ul {
 
     label {
       position: relative;
-      left : -17.75px
+      left : -18px
 
     }
 
@@ -83,13 +83,13 @@ ul {
       //content :" ";
       font-size: 15px;
       position: relative;
-      right: 40px;
+      left: -18px;
       color: white;
   }
     
     @media(min-width: 992px){
       label:before {
-        right: 50px;
+        //right: 50px;
       }
     }
 

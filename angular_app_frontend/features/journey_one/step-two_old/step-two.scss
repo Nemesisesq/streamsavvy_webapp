@@ -1,0 +1,103 @@
+.step-two {
+
+  .selected {
+    border: .15em solid;
+    border-color: #3b94e3;
+    border-radius: 1.5em;
+    border-top-right-radius: 0;
+
+  }
+
+    .row {
+    padding: .8em;
+    position: relative;
+
+    .checkmark {
+      background-color: #ffffff;
+      font-size: 2em;
+      position: absolute;
+      border-radius: 2em;
+      color: #3b94e3;
+      z-index: 2;
+      top: -12px;
+      right: -14.5px;
+      display: block;
+
+    }
+  }
+
+  .service {
+    background-color: #808080;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 4em;
+    font-weight: 700;
+    height: 4em;
+    width: 10em;
+    margin-top: 1.2%;
+  }
+
+  .show-container-div {
+    padding: 0;
+    width: auto;
+    margin-right: 2%;
+    margin-bottom: 2%;
+
+  }
+
+  .service-show-list {
+    margin-top: 1.6%;
+    margin-left: 3%;
+    margin-bottom: 1.6%;
+  }
+
+  .show {
+    //    font-size: 200%;
+    display: inline-block !important;
+  }
+
+}
+
+.service_cost {
+  font-size: 2em;
+  color: #3b94e3;
+}
+
+.go_back {
+  font-size: 1.5em;
+  margin-right: 7%;
+  text-decoration: underline;
+  color: black;
+  vertical-align: middle;
+  display: flex;
+  margin-bottom: 0;
+}
+
+p.step-two-explanation {
+  text-align: center;
+  font-size: 1.3em;
+  margin-bottom: 3%;
+}
+
+.total-for-selected {
+  font-weight: 700;
+  font-size: 1.2em;
+  margin-top: 3%;
+}
+
+span.selected-cost {
+  font-weight: 300;
+}
+
+.button-row {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+@media (max-width: 768px) {
+  .show-container-div {
+    margin-bottom: 2%;
+  }
+
+}

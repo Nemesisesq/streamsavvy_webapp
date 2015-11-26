@@ -1,3 +1,4 @@
+import json
 import re
 import time
 
@@ -20,7 +21,7 @@ class JsonPackageView(View):
     def get(self, request):
 
         pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
-
+        if pkg != '': pkg = json.loads(pkg, encoding='utf-8')
         return JsonResponse(pkg, safe=False)
 
     def post(self, request):
@@ -29,7 +30,7 @@ class JsonPackageView(View):
 
         try:
 
-            user_json_package.json = str(request.body, encoding='utf-8')
+            user_json_package.json = request.body
             user_json_package.save()
             return JsonResponse({'hello': 'world'}, safe=False)
 

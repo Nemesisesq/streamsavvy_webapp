@@ -3,6 +3,14 @@
   @extend .fa-#{$icon}:before;
 }
 
+@mixin vertical-align($position: relative) {
+  position: $position;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 @import 'sass/feature/chart';
 @import 'sass/feature/btn';
 @import 'sass/feature/style';
@@ -11,8 +19,8 @@
 @import 'features/journey_one/step-one/step-one';
 @import 'features/explain/still-confused/still-confused';
 @import 'features/journey_one/step-two/step-two';
+@import 'features/journey_one/step-two/step-two';
 @import 'features/journey_one/step-three/step-three';
-@import 'features/journey_one/step-four/step-four';
 @import "features/search/search";
 @import "features/journey_one/modal/modal";
 @import 'features/nav/navigation';

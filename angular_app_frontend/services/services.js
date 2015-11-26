@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/27/15.
  */
-app.service('PackageService', ['http','_', function (http, _) {
+app.service('PackageService', ['http', '_', function (http, _) {
 
 
     //var pservice = this;
@@ -84,6 +84,15 @@ app.factory('PackageFactory', ['$http', function ($http) {
             // ;
             _package = ssPackage;
 
+            if( ! _.isEmpty(ssPackage)){
+                this.postPackage(ssPackage)
+            }
+
+        },
+
+        postPackage: function (ssPackage) {
+
+
             $http.post('/json-package/', ssPackage);
         },
 
@@ -98,12 +107,19 @@ app.factory('PackageFactory', ['$http', function ($http) {
     }
 
 
-
 }]);
 
-app.run(function(PackageFactory, $http){
+app.run(function (PackageFactory, $http, http) {
     $http.get('/json-package/')
-        .then(function(data){
-            PackageFactory.setPackage(data)
+        .then(function (data) {
+
+            if (data.data == "") {
+                http.getPackage()
+                    .then(function (data) {
+                        PackageFactory.setPackage(data)
+                    })
+            } else {
+                PackageFactory.setPackage(data.data)
+            }
         })
 });

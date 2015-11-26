@@ -104,7 +104,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('journey-one.step-three', {
+        .state('journey-one.step-two', {
             url: '/getting-started/step/3',
             data: {
                 step: 3
@@ -119,7 +119,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'ProgressController'
                 },
                 'step-two': {
-                    templateUrl: 'static/partials/step-three/step-three.html',
+                    templateUrl: 'static/partials/step-two/step-two.html',
                     controller: 'JourneyOneController'
                 },
                 'footer': {
@@ -127,7 +127,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('journey-one.step-four', {
+        .state('journey-one.step-three', {
             url: '/getting-started/step/4',
             data: {
                 step: 4
@@ -146,7 +146,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'ProgressController'
                 },
                 'step-two': {
-                    templateUrl: 'static/partials/step-four/step-four.html',
+                    templateUrl: 'static/partials/step-three/step-two.html',
                     controller: 'JourneyOneController'
                 },
                 'footer': {

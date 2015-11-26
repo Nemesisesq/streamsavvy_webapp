@@ -78,21 +78,27 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     }, 100);
 
     $scope.addToSelectedShows = function (suggestion) {
-        var newPackage;
+        var package = PackageService.getPackage();
 
-        http.getRestPackage()
-            .then(function (pkg) {
-                newPackage = pkg;
-                newPackage.content.push(suggestion.url);
+        package.content.push(suggestion);
 
-                http.putPackage(newPackage)
-                    .then(function (result) {
+        PackageService.setPackage(package);
 
-                        console.log(result);
-                        $rootScope.loadPackage()
 
-                    })
-            });
+        //TODO clean this up after the Package Service implementation is working
+        // http.getRestPackage()
+        //    .then(function (pkg) {
+        //        newPackage = pkg;
+        //        newPackage.content.push(suggestion.url);
+        //
+        //        http.putPackage(newPackage)
+        //            .then(function (result) {
+        //
+        //                console.log(result);
+        //                $rootScope.loadPackage()
+        //
+        //            })
+        //    });
 
         $scope.searchText = '';
         $scope.suggestions = [];

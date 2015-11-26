@@ -122,7 +122,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 },
                 'step-one': {
                     templateUrl: 'static/partials/step-one/step-one.html',
-                    controller: 'JourneyOneController'
+                    controller: 'StepOneController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -168,8 +168,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'ProgressController'
                 },
                 'step-two': {
-                    templateUrl: 'static/partials/step-three/step-three.html',
-                    controller: 'JourneyOneController'
+                    templateUrl: 'static/partials/step-two/step-two.html',
+                    controller: 'StepTwoController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -194,9 +194,9 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     templateUrl: 'static/partials/progress.html',
                     controller: 'ProgressController'
                 },
-                'step-two': {
-                    templateUrl: 'static/partials/step-four/step-four.html',
-                    controller: 'JourneyOneController'
+                'step-three': {
+                    templateUrl: 'static/partials/step-three/step-three.html',
+                    //controller: 'StepThreeController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'

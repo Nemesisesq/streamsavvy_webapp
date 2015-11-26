@@ -122,7 +122,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 },
                 'step-one': {
                     templateUrl: 'static/partials/step-one/step-one.html',
-                    controller: 'JourneyOneController'
+                    controller: 'StepOneController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -168,8 +168,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'ProgressController'
                 },
                 'step-two': {
-                    templateUrl: 'static/partials/step-three/step-three.html',
-                    controller: 'JourneyOneController'
+                    templateUrl: 'static/partials/step-two/step-two.html',
+                    controller: 'StepTwoController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -194,9 +194,9 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     templateUrl: 'static/partials/progress.html',
                     controller: 'ProgressController'
                 },
-                'step-two': {
-                    templateUrl: 'static/partials/step-four/step-four.html',
-                    controller: 'JourneyOneController'
+                'step-three': {
+                    templateUrl: 'static/partials/step-three/step-three.html',
+                    //controller: 'StepThreeController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -396,7 +396,7 @@ app.factory('http', function ($http, $log, $q) {
 /**
  * Created by Nem on 6/27/15.
  */
-app.service('PackageService', ['http','_', function (http, _) {
+app.service('PackageService', ['http', '_', function (http, _) {
 
 
     //var pservice = this;
@@ -479,6 +479,15 @@ app.factory('PackageFactory', ['$http', function ($http) {
             // ;
             _package = ssPackage;
 
+            if( ! _.isEmpty(ssPackage)){
+                this.postPackage(ssPackage)
+            }
+
+        },
+
+        postPackage: function (ssPackage) {
+
+
             $http.post('/json-package/', ssPackage);
         },
 
@@ -493,13 +502,20 @@ app.factory('PackageFactory', ['$http', function ($http) {
     }
 
 
-
 }]);
 
-app.run(function(PackageFactory, $http){
+app.run(function (PackageFactory, $http, http) {
     $http.get('/json-package/')
-        .then(function(data){
-            PackageFactory.setPackage(data)
+        .then(function (data) {
+
+            if (data.data == "") {
+                http.getPackage()
+                    .then(function (data) {
+                        PackageFactory.setPackage(data)
+                    })
+            } else {
+                PackageFactory.setPackage(data.data)
+            }
         })
 });
 app.factory('_', function($window){
@@ -638,215 +654,229 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
-app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
-    $scope.hardware = [];
-    $scope.package = [];
-    $scope.packageList = {};
-    $scope.providerObj = [];
-
-    $scope.providers = [];
-    $scope.rows = [];
-
-    $scope.cost = {
-        services: 0,
-        hardware: 0
-    };
-
-    $scope.cableCost = 75.00;
-
-    $scope.savings = $scope.cableCost - $scope.cost.services;
-
-
-    $rootScope.loadPackage = function () {
-        return http.getPackage()
-            .then(function (data) {
-                $scope.package = data;
-                $scope.packageList = data.content;
-                //$rootScope.step3ButtonMessage = $scope.package.hardware.length ? 'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
-                $rootScope.step2ButtonMessage = $scope.package.providers.length ? 'Time to pick out the Hardware' : 'You still need to select a service';
-                return data
-            });
-    };
-
-    $scope.removeShow = function (show) {
-        http.getRestPackage()
-            .then(function (p) {
-                _.remove(p.content, function (elem) {
-
-                    return elem == show.url;
-                });
-
-
-                http.putPackage(p)
-                    .then(function () {
-                        $rootScope.loadPackage();
-
-                    })
-            })
-    };
-
-
-    var loadProviders = function () {
-        $scope.providers = [];
-        _.forEach($scope.packageList, function (show) {
-            _.forEach(show.content_provider, function (provider) {
-                if (!_.includes($scope.providers, provider.name)) {
-
-                    $scope.providers.push(provider.name);
-                    $scope.providerObj.push(provider);
-                }
-            })
-
-        })
-    };
-
-    var loadHardware = function () {
-        http.getHardware()
-            .then(function (hware) {
-
-                var userHardwareUrls = _.map($scope.package.hardware, function (item) {
-                    return item.url
-
-                });
-
-                $scope.hardware = _.map(hware.results, function (item) {
-                    if (_.includes(userHardwareUrls, item.url)) {
-                        item.selected = true;
-                        return item
-                    } else {
-                        item.selected = false;
-                        return item
-                    }
-                })
-
-
-            })
-    };
-    var loadProviderContentHash = function () {
-
-        var rows = _.map($scope.providers, function (provider) {
-            var prov = _.find($scope.providerObj, function (obj) {
-                return obj.name == provider;
-            });
-            var obj = {
-                service: prov,
-                content: []
-            };
-
-
-            obj.content = _.filter($scope.packageList, function (c) {
-
-                var cProviders = _.map(c.content_provider, function (content_provider) {
-                    return content_provider.name
-                });
-
-
-                return _.includes(cProviders, provider)
-            });
-
-
-            var selectedProviders = _.map($scope.package.providers, function (pp) {
-                return pp.name
-
-            });
-
-            obj.selected = _.includes(selectedProviders, provider);
-
-
-            return obj
-
-        });
-
-        $scope.rows = _.filter(rows, function (obj) {
-            return _.isEqual(obj.service.channel_type, "online")
-        });
-
-        var selectedShows = _.flatten(
-            _.map(rows, function (row) {
-                if (row.selected) {
-                    return row.content
-                } else {
-                    return []
-                }
-            })
-        );
-
-
-        $scope.rows = _.map($scope.rows, function (row) {
-            if (!row.selected) {
-                row.content = _.filter(row.content, function (show) {
-                    return !_.includes(selectedShows, show)
-                });
-            }
-
-            return row;
-        });
-
-        $scope.rows = _.sortByAll($scope.rows, ['selected', 'content'], _.values).reverse();
-
-
-        return $scope.rows
-
-    };
-
-
-    var calculateTotalCost = function () {
-        $scope.cost.services = 0;
-        _.each($scope.package.providers, function (p) {
-            $scope.cost.services += p.retail_cost;
-        });
-
-        $scope.savings = $scope.cableCost - $scope.cost.services;
-
-
-    }
-
-    $scope.toggleService = function (row) {
-        http.getRestPackage()
-            .then(function (p) {
-                if (!row.selected) {
-                    p.providers.push(row.service.url);
-
-                    http.putPackage(p)
-                        .then(function (d) {
-                            console.log(d);
-                            $rootScope.load()
-                        })
-
-                } else {
-                    _.remove(p.providers, function (elem) {
-                        return elem == row.service.url
-                    })
-
-                    http.putPackage(p)
-                        .then(function (d) {
-                            console.log(d);
-                            $rootScope.load()
-                        })
-
-                }
-
-
-            })
-    }
-
-    $rootScope.load = function () {
-
-        $rootScope.loadPackage()
-            .then(loadProviders)
-            .then(loadHardware)
-            .then(loadProviderContentHash)
-            .then(calculateTotalCost);
-    };
-
-    $rootScope.load()
-
-    $scope.$watch('package', function(){
-         ;
-       PackageFactory.setPackage($scope.package);
-    });
-
-});
+//app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
+//    $scope.hardware = [];
+//    debugger;
+//    $scope.package = PackageFactory.getPackage();
+//    $scope.packageList = {};
+//    $scope.providerObj = [];
+//
+//    $scope.providers = [];
+//    $scope.rows = [];
+//
+//    $scope.cost = {
+//        services: 0,
+//        hardware: 0
+//    };
+//
+//    $scope.cableCost = 75.00;
+//
+//    $scope.savings = $scope.cableCost - $scope.cost.services;
+//
+//
+//    $rootScope.loadPackage = function () {
+//        if ($scope.package == "") {
+//            return http.getPackage()
+//                .then(function (data) {
+//                    $scope.package = data;
+//                    $scope.packageList = data.content;
+//                    return data
+//                });
+//        }
+//        $rootScope.step3ButtonMessage = $scope.package.hardware.length ? 'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
+//        $rootScope.step2ButtonMessage = $scope.package.providers.length ? 'Time to pick out the Hardware' : 'You still need to select a service';
+//    };
+//
+//    $scope.removeShow = function (show) {
+//        http.getRestPackage()
+//            .then(function (p) {
+//                _.remove(p.content, function (elem) {
+//
+//                    return elem == show.url;
+//                });
+//
+//
+//                http.putPackage(p)
+//                    .then(function () {
+//                        $rootScope.loadPackage();
+//
+//                    })
+//            })
+//    };
+//
+//
+//    var loadProviders = function () {
+//        $scope.providers = [];
+//        _.forEach($scope.packageList, function (show) {
+//            _.forEach(show.content_provider, function (provider) {
+//                if (!_.includes($scope.providers, provider.name)) {
+//
+//                    $scope.providers.push(provider.name);
+//                    $scope.providerObj.push(provider);
+//                }
+//            })
+//
+//        })
+//    };
+//
+//    var loadHardware = function () {
+//        http.getHardware()
+//            .then(function (hware) {
+//
+//                var userHardwareUrls = _.map($scope.package.hardware, function (item) {
+//                    return item.url
+//
+//                });
+//
+//                $scope.hardware = _.map(hware.results, function (item) {
+//                    if (_.includes(userHardwareUrls, item.url)) {
+//                        item.selected = true;
+//                        return item
+//                    } else {
+//                        item.selected = false;
+//                        return item
+//                    }
+//                })
+//
+//
+//            })
+//    };
+//    var loadProviderContentHash = function () {
+//
+//        var rows = _.map($scope.providers, function (provider) {
+//            var prov = _.find($scope.providerObj, function (obj) {
+//                return obj.name == provider;
+//            });
+//            var obj = {
+//                service: prov,
+//                content: []
+//            };
+//
+//
+//            obj.content = _.filter($scope.packageList, function (c) {
+//
+//                var cProviders = _.map(c.content_provider, function (content_provider) {
+//                    return content_provider.name
+//                });
+//
+//
+//                return _.includes(cProviders, provider)
+//            });
+//
+//
+//            var selectedProviders = _.map($scope.package.providers, function (pp) {
+//                return pp.name
+//
+//            });
+//
+//            obj.selected = _.includes(selectedProviders, provider);
+//
+//
+//            return obj
+//
+//        });
+//
+//        $scope.rows = _.filter(rows, function (obj) {
+//            return _.isEqual(obj.service.channel_type, "online")
+//        });
+//
+//        var selectedShows = _.flatten(
+//            _.map(rows, function (row) {
+//                if (row.selected) {
+//                    return row.content
+//                } else {
+//                    return []
+//                }
+//            })
+//        );
+//
+//
+//        $scope.rows = _.map($scope.rows, function (row) {
+//            if (!row.selected) {
+//                row.content = _.filter(row.content, function (show) {
+//                    return !_.includes(selectedShows, show)
+//                });
+//            }
+//
+//            return row;
+//        });
+//
+//        $scope.rows = _.sortByAll($scope.rows, ['selected', 'content'], _.values).reverse();
+//
+//
+//        return $scope.rows
+//
+//    };
+//
+//
+//    var calculateTotalCost = function () {
+//        $scope.cost.services = 0;
+//        _.each($scope.package.providers, function (p) {
+//            $scope.cost.services += p.retail_cost;
+//        });
+//
+//        $scope.savings = $scope.cableCost - $scope.cost.services;
+//
+//
+//    }
+//
+//    $scope.toggleService = function (row) {
+//        http.getRestPackage()
+//            .then(function (p) {
+//                if (!row.selected) {
+//                    p.providers.push(row.service.url);
+//
+//                    http.putPackage(p)
+//                        .then(function (d) {
+//                            console.log(d);
+//                            $rootScope.load()
+//                        })
+//
+//                } else {
+//                    _.remove(p.providers, function (elem) {
+//                        return elem == row.service.url
+//                    })
+//
+//                    http.putPackage(p)
+//                        .then(function (d) {
+//                            console.log(d);
+//                            $rootScope.load()
+//                        })
+//
+//                }
+//
+//
+//            })
+//    }
+//
+//    $rootScope.load = function () {
+//
+//        $rootScope.loadPackage()
+//            .then(loadProviders)
+//            .then(loadHardware)
+//            .then(loadProviderContentHash)
+//            .then(calculateTotalCost);
+//    };
+//
+//    //$rootScope.load();
+//
+//    $scope.toggleHardwareSelection = function (item) {
+//        var collection = $scope.package.hardware;
+//        _.includes(collection, item) ? _.remove(collection, item) : collection.push(item);
+//
+//        PackageFactory.setPackage($scope.package)
+//
+//
+//    }
+//
+//    $scope.$watch('package', function () {
+//
+//        PackageFactory.setPackage($scope.package);
+//            $rootScope.load();
+//
+//    });
+//
+//});
 
 /**
  * Created by Nem on 6/28/15.
@@ -1052,21 +1082,27 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     }, 100);
 
     $scope.addToSelectedShows = function (suggestion) {
-        var newPackage;
+        var package = PackageService.getPackage();
 
-        http.getRestPackage()
-            .then(function (pkg) {
-                newPackage = pkg;
-                newPackage.content.push(suggestion.url);
+        package.content.push(suggestion);
 
-                http.putPackage(newPackage)
-                    .then(function (result) {
+        PackageService.setPackage(package);
 
-                        console.log(result);
-                        $rootScope.loadPackage()
 
-                    })
-            });
+        //TODO clean this up after the Package Service implementation is working
+        // http.getRestPackage()
+        //    .then(function (pkg) {
+        //        newPackage = pkg;
+        //        newPackage.content.push(suggestion.url);
+        //
+        //        http.putPackage(newPackage)
+        //            .then(function (result) {
+        //
+        //                console.log(result);
+        //                $rootScope.loadPackage()
+        //
+        //            })
+        //    });
 
         $scope.searchText = '';
         $scope.suggestions = [];
@@ -1220,47 +1256,75 @@ app.controller('AccordionController', function ($scope) {
     ]
 });
 
-app.controller('StepOneController', function ($scope, $http, $timeout) {
+app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
 
-    step = this
+
 
     $scope.popularShows = null;
 
     $http.get('api/popular-shows')
         .success(function (data) {
-            step.popularShows = data.results;
+            $scope.popularShows = data.results;
             return data
         })
         .then(function () {
             // ;
             //$('.popular-shows').slick();
-        })
+        });
 
 
-    //$scope.$watch(
-    //    function watchPopularShows() {
-    //        return ($('#popular-shows').find('div').length)
-    //
-    //
-    //    },
-    //    function makeCarousel() {
-    //
-    //
-    //        if ($('#popular-shows').find('div').length > 0) {
-    //
-    //            $('#popular-shows').slick({
-    //                //adaptiveHeight: true,
-    //                autoplay: true,
-    //                infinite: true,
-    //                slidesToShow : 3,
-    //                slidesToScroll: 3,
-    //                dots: true,
-    //                //slide: 'img'
-    //            })
-    //        }
-    //
-    //    }
-    //)
+    $scope.package = PackageFactory.getPackage();
 
+    $scope.$watch(function () {return PackageFactory.getPackage()}, function(){
+        $scope.package = PackageFactory.getPackage();
+    })
+
+
+});
+
+/**
+ * Created by Nem on 11/25/15.
+ */
+app.controller('StepTwoController', function ($scope, http, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    var hardwareColl = $scope.package.hardware;
+
+    http.getHardware()
+        .then(function (data) {
+            $scope.hardware = data.results;
+        });
+
+    $scope.itemSelected = function (item) {
+        var hardwareColl = $scope.package.hardware;
+
+        return _.includes(hardwareColl, item)
+
+    }
+
+    $scope.addRemoveHardware = function (item) {
+
+        var hardwareColl = $scope.package.hardware;
+
+
+        if (_.includes(hardwareColl, item)) {
+            _.remove(hardwareColl, item);
+
+            item.selected = false;
+
+        } else {
+            item.selected = true;
+            hardwareColl.push(item);
+        }
+
+        PackageFactory.setPackage($scope.package)
+
+    };
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    })
 
 });
