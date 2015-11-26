@@ -3073,8 +3073,12 @@ slick button {
 .btn-row {
   margin-top: 3%;
   margin-bottom: 3%; }
+  .btn-row .go_fwd {
+    background-color: #45a7e5;
+    font-weight: 3 00; }
   .btn-row .disabled {
-    background-color: #a1d3f2; }
+    background-color: #a1d3f2;
+    opacity: 1; }
   .btn-row .go_back {
     position: relative;
     padding-top: 1.5%;
@@ -3123,8 +3127,12 @@ slick button {
 .btn-row {
   margin-top: 3%;
   margin-bottom: 3%; }
+  .btn-row .go_fwd {
+    background-color: #45a7e5;
+    font-weight: 3 00; }
   .btn-row .disabled {
-    background-color: #a1d3f2; }
+    background-color: #a1d3f2;
+    opacity: 1; }
   .btn-row .go_back {
     position: relative;
     padding-top: 1.5%;
