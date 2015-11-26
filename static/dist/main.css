@@ -3312,23 +3312,45 @@ slick button {
   text-align: center;
   width: 560px;
   border-top: solid 5px red; }
-  .modal-dialog .btn-row {
-    padding: 3px; }
-    .modal-dialog .btn-row .btn {
-      width: 100%; }
-    .modal-dialog .btn-row .twitter {
-      background-color: #00aced; }
-    .modal-dialog .btn-row .facebook {
-      background-color: #3b5998; }
-    .modal-dialog .btn-row .instagram {
-      background-color: #517fa4; }
+  .modal-dialog .modal-body {
+    padding-top: 0; }
+    .modal-dialog .modal-body .btn-row {
+      padding: 3px; }
+      .modal-dialog .modal-body .btn-row .btn {
+        width: 100%; }
+      .modal-dialog .modal-body .btn-row .twitter {
+        background-color: #00aced; }
+      .modal-dialog .modal-body .btn-row .facebook {
+        background-color: #3b5998; }
+      .modal-dialog .modal-body .btn-row .instagram {
+        background-color: #517fa4; }
   .modal-dialog .modal-header {
     margin: 0 auto; }
-  .modal-dialog a {
+    .modal-dialog .modal-header .please-social {
+      font-size: 15px; }
+  .modal-dialog .wait-minute {
     color: black;
     float: left;
-    font-size: 2em;
-    text-decoration: underline; }
+    font-size: 1.5em;
+    text-decoration: underline;
+    padding-left: 7%;
+    padding-top: 1.6%; }
+  .modal-dialog .lets-cut {
+    color: white;
+    border-radius: 5px;
+    margin-right: 8%; }
+  .modal-dialog .form-group {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    margin: 0; }
+    .modal-dialog .form-group .email-label {
+      float: left;
+      font-size: 15px;
+      font-weight: normal; }
+    .modal-dialog .form-group .div-for-an-or {
+      margin-top: 3%;
+      font-size: 15px; }
 
 .btn-login:hover {
   color: #000088; }
@@ -3336,6 +3358,10 @@ slick button {
 .thick-modal-header {
   font-size: 3em;
   font-weight: 900; }
+
+.modal-content {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px; }
 
 .j-one-container {
   padding-top: 77px;
