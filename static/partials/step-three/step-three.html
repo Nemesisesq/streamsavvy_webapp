@@ -10,16 +10,17 @@
             </h1>
         </div>
         <div class="row">
+
         <div class="col-md-9 summary-list"><h3 class="services-header">Services</h3>
                 <div class="click-on"><p>Click on the service and you'll be redirected to the appropriate site.</p></div>
-        <div class="row service-rows" ng-repeat="row in rows | filter : {selected: true} ">
+        <div class="row service-rows" ng-repeat="provider in package.providers  ">
             <div class=" summary-service">
-                {{ row.service.name }}
+                {{ provider.name}}
             </div>
         </div>
         <div class="hardware-list"><h3 class="hardware-header">Hardware</h3></div>
         <div class="click-on"><p>Click on the Hardware and you'll be redirected to the appropriate site.</p></div>
-        <div class="row hardware-rows" ng-repeat="item in hardware | filter : {selected: true} ">
+        <div class="row hardware-rows" ng-repeat="item in package.hardware ">
             <div class="summary-service">
                 {{ item.name }}
             </div>

@@ -196,7 +196,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 },
                 'step-three': {
                     templateUrl: 'static/partials/step-three/step-three.html',
-                    //controller: 'StepThreeController'
+                    controller: 'StepThreeController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -1284,6 +1284,17 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 });
 
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    })
+    
+})
 /**
  * Created by Nem on 11/25/15.
  */

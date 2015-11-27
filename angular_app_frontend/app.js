@@ -196,7 +196,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 },
                 'step-three': {
                     templateUrl: 'static/partials/step-three/step-three.html',
-                    //controller: 'StepThreeController'
+                    controller: 'StepThreeController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
