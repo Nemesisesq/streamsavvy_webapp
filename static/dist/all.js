@@ -625,6 +625,35 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
  * Created by Nem on 10/7/15.
  */
 
+/**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, $cookies, $location) {
+    $scope.logged_in = false;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
 //    debugger;
@@ -850,35 +879,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 //});
 
 /**
- * Created by chirag on 8/3/15.
- */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
-    $scope.logged_in = false;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
-
-/**
  * Created by Nem on 6/28/15.
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
@@ -982,17 +982,19 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
     $scope.progressBar = function (step) {
         package = PackageFactory.getPackage();
         var barValue = 0;
+
+        //debugger
         // ;
 
         if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-             ;
+
             barValue = package.hardware.length/3 *100 || 0;
         }
 
          ;
 
         if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-             ;
+
             barValue = package.content.length/5 * 100 || 0;
         }
 
@@ -1147,73 +1149,6 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
 
 
 });
-/**
- * Created by Nem on 10/27/15.
- */
-
-app.controller('AccordionController', function ($scope) {
-
-
-    $scope.viewingWindows = [
-        {
-            viewType: "onDemand",
-            description: "I want to watch this show with and <strong> On Demand Subscription. </strong>",
-            parenthetical: "(day/+ after live airing).",
-            dropdown: true,
-        },
-        {
-            viewType: "live",
-            description: "I want to watch this show <strong>Live Over the Air.</strong>",
-            parenthetical: "",
-            dropdown: false,
-        },
-        {
-            viewType: "fullseason",
-            description: " I want to watch this show using a <strong>Full Season Subscription.</strong>",
-            parenthetical: "(season behind).",
-            dropdown: true,
-        },
-        {
-            viewType: "I want to <strong>Pay Per Episode</strong> to watch this show.",
-            description: "",
-            parenthetical: "(day/+ after live airing).",
-            dropdown: false,
-        },
-        //{
-        //    viewType: "",
-        //    description: "",
-        //    parenthetical: "",
-        //    dropdown: false,
-        //}
-    ]
-});
-
-app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
-
-
-
-    $scope.popularShows = null;
-
-    $http.get('api/popular-shows')
-        .success(function (data) {
-            $scope.popularShows = data.results;
-            return data
-        })
-        .then(function () {
-            // ;
-            //$('.popular-shows').slick();
-        });
-
-
-    $scope.package = PackageFactory.getPackage();
-
-    $scope.$watch(function () {return PackageFactory.getPackage()}, function(){
-        $scope.package = PackageFactory.getPackage();
-    })
-
-
-});
-
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
     $scope.login = 'Click Here to Login'
@@ -1283,6 +1218,73 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
 
 })
 /**
+ * Created by Nem on 10/27/15.
+ */
+
+app.controller('AccordionController', function ($scope) {
+
+
+    $scope.viewingWindows = [
+        {
+            viewType: "onDemand",
+            description: "I want to watch this show with and <strong> On Demand Subscription. </strong>",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: true,
+        },
+        {
+            viewType: "live",
+            description: "I want to watch this show <strong>Live Over the Air.</strong>",
+            parenthetical: "",
+            dropdown: false,
+        },
+        {
+            viewType: "fullseason",
+            description: " I want to watch this show using a <strong>Full Season Subscription.</strong>",
+            parenthetical: "(season behind).",
+            dropdown: true,
+        },
+        {
+            viewType: "I want to <strong>Pay Per Episode</strong> to watch this show.",
+            description: "",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: false,
+        },
+        //{
+        //    viewType: "",
+        //    description: "",
+        //    parenthetical: "",
+        //    dropdown: false,
+        //}
+    ]
+});
+
+app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
+
+
+
+    $scope.popularShows = null;
+
+    $http.get('api/popular-shows')
+        .success(function (data) {
+            $scope.popularShows = data.results;
+            return data
+        })
+        .then(function () {
+            // ;
+            //$('.popular-shows').slick();
+        });
+
+
+    $scope.package = PackageFactory.getPackage();
+
+    $scope.$watch(function () {return PackageFactory.getPackage()}, function(){
+        $scope.package = PackageFactory.getPackage();
+    })
+
+
+});
+
+/**
  * Created by Nem on 11/25/15.
  */
 app.controller('StepTwoController', function ($scope, http, PackageFactory) {
@@ -1301,22 +1303,29 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     $scope.itemSelected = function (item) {
         var hardwareColl = $scope.package.hardware;
 
-        return _.includes(hardwareColl, item)
+        debugger;
+
+        var x = _.some(hardwareColl, 'url', item.url);
+
+        return x
 
     }
 
     $scope.addRemoveHardware = function (item) {
+        if(item.hasOwnProperty('selected')){
+            delete item['selected']
+        }
+
+        debugger;
+
 
         var hardwareColl = $scope.package.hardware;
-
-
         if (_.includes(hardwareColl, item)) {
+
             _.remove(hardwareColl, item);
 
-            item.selected = false;
-
         } else {
-            item.selected = true;
+            //item.selected = true;
             hardwareColl.push(item);
         }
 

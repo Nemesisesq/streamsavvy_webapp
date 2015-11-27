@@ -17,22 +17,29 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     $scope.itemSelected = function (item) {
         var hardwareColl = $scope.package.hardware;
 
-        return _.includes(hardwareColl, item)
+        debugger;
+
+        var x = _.some(hardwareColl, 'url', item.url);
+
+        return x
 
     }
 
     $scope.addRemoveHardware = function (item) {
+        if(item.hasOwnProperty('selected')){
+            delete item['selected']
+        }
+
+        debugger;
+
 
         var hardwareColl = $scope.package.hardware;
-
-
         if (_.includes(hardwareColl, item)) {
+
             _.remove(hardwareColl, item);
 
-            item.selected = false;
-
         } else {
-            item.selected = true;
+            //item.selected = true;
             hardwareColl.push(item);
         }
 
