@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageService, $rootScope) {
+app.controller('search', function ($scope, $http, http, PackageService, PackageFactory, $rootScope) {
 
     function checkNextLetter(){
         var s = $scope.searchText,
@@ -30,6 +30,7 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
 
 
     var matchCase = function (search, result) {
+        debugger;
 
         var resultArray = result.split('');
 
@@ -78,11 +79,12 @@ app.controller('search', function ($scope, $http, http, PackageService, $rootSco
     }, 100);
 
     $scope.addToSelectedShows = function (suggestion) {
-        var package = PackageService.getPackage();
+        debugger;
+        var package = PackageFactory.getPackage();
 
         package.content.push(suggestion);
 
-        PackageService.setPackage(package);
+        PackageFactory.setPackage(package);
 
 
         //TODO clean this up after the Package Service implementation is working
