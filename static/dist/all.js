@@ -1320,7 +1320,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
 
 
         var hardwareColl = $scope.package.hardware;
-        if (_.includes(hardwareColl, item)) {
+        if (_.some(hardwareColl, 'url', item.url)) {
 
             _.remove(hardwareColl, item);
 
