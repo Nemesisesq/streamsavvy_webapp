@@ -3027,13 +3027,6 @@ slick button {
 .still-confused .you-ready {
   text-align: center; }
 
-.still-confused .thick-header {
-  font-size: 3em;
-  font-weight: 900;
-  margin-top: 12%;
-  margin-bottom: 3%;
-  letter-spacing: 3px; }
-
 .still-confused .gray-center-para {
   margin-bottom: 7%;
   font-size: 16px;
@@ -3041,6 +3034,27 @@ slick button {
 
 .still-confused .action-blue {
   color: #45a7e5; }
+
+.thick-header {
+  font-size: 3em;
+  font-weight: 900;
+  margin-top: 12%;
+  margin-bottom: 3%;
+  letter-spacing: 3px; }
+
+.action-blue {
+  color: #45a7e5; }
+
+.coming-soon {
+  background-color: #1F2325;
+  height: 960px; }
+  .coming-soon .coming-soon-body .row, .coming-soon .coming-soon-body .step-one #viewingWindows .ss-vw-row, .step-one #viewingWindows .coming-soon .coming-soon-body .ss-vw-row {
+    text-align: center; }
+    .coming-soon .coming-soon-body .row .soon-header, .coming-soon .coming-soon-body .step-one #viewingWindows .ss-vw-row .soon-header, .step-one #viewingWindows .coming-soon .coming-soon-body .ss-vw-row .soon-header {
+      color: white; }
+    .coming-soon .coming-soon-body .row .soon-paragraph, .coming-soon .coming-soon-body .step-one #viewingWindows .ss-vw-row .soon-paragraph, .step-one #viewingWindows .coming-soon .coming-soon-body .ss-vw-row .soon-paragraph {
+      color: white;
+      letter-spacing: 2px; }
 
 .row-centered {
   text-align: center; }

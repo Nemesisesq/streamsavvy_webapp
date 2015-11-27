@@ -80,6 +80,20 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
             }
         }
         })
+        .state('error',{
+            abstract:true,
+            templateUrl: "static/partials/error.html"
+        })
+        .state('error.coming-soon',{
+            url: '/error/coming-soon',
+            data: {
+                error: 1
+        },
+        views: {
+            'coming-soon': {
+                templateUrl: 'static/partials/error/coming-soon.html'
+            }}
+        })
         .state('nav.index', {
             url: '/search',
             views: {
