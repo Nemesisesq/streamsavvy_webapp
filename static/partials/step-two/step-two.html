@@ -2,11 +2,11 @@
 <meta name="Step 2 - Select Hardware" content="">
 
 <section class="device-grid">
-    <div class="container-fluid step-three">
+    <div class="container-fluid step-two">
 
 
-        <div class="row">
-            <div class="col-sm-2" ng-repeat="item in hardware | limitTo:6  track by $index" ng-show="!$first">
+        <div class="row row-centered">
+            <div class="col-sm-2 col-centered " ng-repeat="item in hardware | limitTo:6  track by $index" ng-show="!$first">
                 <div class="hardware-img" ng-click="addRemoveHardware(item)"
                      ng-class="{selected: itemSelected(item) }">
                     <img ng-src="{{ item.image_url }}"/>
@@ -17,15 +17,15 @@
             </div>
         </div>
 
-        <div class="row totals">
+        <div class="row totals ">
             <div class="col-xs-5 col-xs-offset-7">
                 <div class="  pull-right h-total"> Hardware Total:
-                    <span class="price"> {{ hardwareTotal }}</span>
+                    <span class="price"> ${{ hardwareTotal }}</span>
                 </div>
             </div>
             <div class="col-xs-5 col-xs-offset-7">
                 <div class=" pull-right m-total"> Your Monthly Total:
-                    <span class="price"> {{ monthlyTotal }}</span>
+                    <span class="price"> ${{ monthlyTotal }}</span>
                 </div>
             </div>
         </div>
