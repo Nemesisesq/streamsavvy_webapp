@@ -2992,15 +2992,17 @@ slick button {
   margin: 23px; }
 
 .still-confused .make-sure {
-  background-color: white;
+  background: white;
   color: black;
   text-align: center;
   line-height: 3;
-  height: 300px;
-  margin-bottom: 10%; }
+  height: 420px;
+  padding-bottom: 10%; }
 
 .still-confused .you-ready {
-  margin-bottom: 10%; }
+  padding-bottom: 10%;
+  background: white;
+  height: 420px; }
 
 .still-confused .show-and-tell {
   padding-top: 15%;
@@ -3025,22 +3027,36 @@ slick button {
   background-color: #13171A; }
 
 .still-confused .you-ready {
-  text-align: center; }
+  text-align: center;
+  padding: 0; }
 
-.still-confused .thick-header {
+.still-confused .action-blue {
+  color: #45a7e5; }
+
+.thick-header {
   font-size: 3em;
   font-weight: 900;
-  margin-top: 12%;
+  padding-top: 12%;
+  margin-top: 0;
   margin-bottom: 3%;
   letter-spacing: 3px; }
 
-.still-confused .gray-center-para {
+.action-blue {
+  color: #45a7e5; }
+
+.gray-center-para {
   margin-bottom: 7%;
   font-size: 16px;
   color: #13171A; }
 
-.still-confused .action-blue {
-  color: #45a7e5; }
+.coming-soon {
+  background-color: #1F2325;
+  height: 960px; }
+  .coming-soon .coming-soon-body .row, .coming-soon .coming-soon-body .step-one #viewingWindows .ss-vw-row, .step-one #viewingWindows .coming-soon .coming-soon-body .ss-vw-row {
+    text-align: center;
+    color: white; }
+    .coming-soon .coming-soon-body .row .soon-paragraph, .coming-soon .coming-soon-body .step-one #viewingWindows .ss-vw-row .soon-paragraph, .step-one #viewingWindows .coming-soon .coming-soon-body .ss-vw-row .soon-paragraph {
+      letter-spacing: 2px; }
 
 .row-centered {
   text-align: center; }

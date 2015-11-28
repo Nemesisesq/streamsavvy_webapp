@@ -1,15 +1,18 @@
 .still-confused {
 
   .make-sure {
-    background-color: white;
+    background: white;
     color: black;
     text-align: center;
     line-height: 3;
-    height: 300px;
-    margin-bottom: 10%;
+    height: 420px;
+    padding-bottom: 10%;
   }
   .you-ready{
-    margin-bottom: 10%;
+    padding-bottom: 10%;
+    background: white;
+    height: 420px;
+
   }
   .show-and-tell {
     padding-top: 15%;
@@ -40,20 +43,25 @@
   }
   .you-ready{
     text-align: center;
-  }
-  .thick-header{
-    font-size: 3em;
-    font-weight: 900;
-    margin-top: 12%;
-    margin-bottom: 3%;
-    letter-spacing: 3px;
-  }
-  .gray-center-para{
-    margin-bottom: 7%;
-    font-size: 16px;
-    color: #13171A;
+    padding:0 ;
   }
   .action-blue{
     color:#45a7e5;
   }
+}
+.thick-header{
+    font-size: 3em;
+    font-weight: 900;
+    padding-top: 12%;
+    margin-top: 0;
+    margin-bottom: 3%;
+    letter-spacing: 3px;
+  }
+.action-blue{
+    color:#45a7e5;
+  }
+.gray-center-para{
+  margin-bottom: 7%;
+  font-size: 16px;
+  color: #13171A;
 }
