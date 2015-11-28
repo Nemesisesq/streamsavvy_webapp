@@ -3298,12 +3298,8 @@ slick button {
     .search-bar input.form-control {
       border-color: #c9c9c9; }
   .search-bar .stacked-input-1 {
-    position: absolute;
-    background: transparent; }
-  .search-bar .stacked-input-2 {
     position: relative;
-    z-index: -99999;
-    color: red; }
+    background: transparent; }
 
 .just-type {
   margin: 0 auto;

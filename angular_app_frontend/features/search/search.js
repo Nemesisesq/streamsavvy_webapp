@@ -1,11 +1,14 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageService, PackageFactory, $rootScope) {
+app.controller('search', function ($scope, $http, http, PackageFactory, $rootScope) {
 
-    function checkNextLetter(){
+
+    var searchTerms = [];
+
+    function checkNextLetter() {
         var s = $scope.searchText,
-            r =  $scope.searchResult;
+            r = $scope.searchResult;
 
         if (s && r) {
             // ;
@@ -16,11 +19,10 @@ app.controller('search', function ($scope, $http, http, PackageService, PackageF
     }
 
     $scope.suggestions = [];
-    $scope.selectedShows = PackageService.selectedShows;
     $scope.selectedIndex = -1;
 
 
-    var switchCase = function(char){
+    var switchCase = function (char) {
         if (char == char.toUpperCase()) {
             return char.toLowerCase();
         } else {
@@ -35,7 +37,7 @@ app.controller('search', function ($scope, $http, http, PackageService, PackageF
         var resultArray = result.split('');
 
         for (var i = 0; i < search.length; i++) {
-            if(search[i] !== resultArray[i]){
+            if (search[i] !== resultArray[i]) {
                 resultArray[i] = switchCase(resultArray[i])
             }
         }
@@ -45,16 +47,20 @@ app.controller('search', function ($scope, $http, http, PackageService, PackageF
 
     }
 
-    $scope.checkMatched = function(){
-        return $scope.searchResult[$scope.searchText-1] === _.last($scope.searchText)
+    $scope.checkMatched = function () {
+        return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
     }
 
     $scope.search = _.debounce(function () {
         if ($scope.searchText) {
+
+
+
+
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
-                    PackageService.searchResults = data.results;
+                    debugger;
 
 
                     var res = _.min(data.results, function (elem) {
@@ -64,27 +70,29 @@ app.controller('search', function ($scope, $http, http, PackageService, PackageF
 
                     var searchResult = matchCase($scope.searchText, res.title);
 
-                    if(_.includes(searchResult, $scope.searchText)){
+                    if (_.includes(searchResult, $scope.searchText)) {
                         $scope.searchResult = searchResult;
 
                     }
 
-                    $scope.suggestions = data.results;
+                    if (data.search_text == $scope.searchText) {
+                        $scope.suggestions = data.results;
+                    }
 
                     $scope.selectedIndex = -1
                 });
         } else {
             $scope.suggestions = [];
         }
-    }, 100);
+    }, 250, {'maxWait': 1000});
 
     $scope.addToSelectedShows = function (suggestion) {
         debugger;
-        var package = PackageFactory.getPackage();
+        var ssPackage = PackageFactory.getPackage();
 
-        package.content.push(suggestion);
+        ssPackage.content.push(suggestion);
 
-        PackageFactory.setPackage(package);
+        PackageFactory.setPackage(ssPackage);
 
 
         //TODO clean this up after the Package Service implementation is working
@@ -137,7 +145,7 @@ app.controller('search', function ($scope, $http, http, PackageService, PackageF
 
     $scope.$watch('searchText', function (val) {
         // ;
-        if (val !== -1 ){
+        if (val !== -1) {
             checkNextLetter();
 
         }

@@ -17,15 +17,15 @@
   }
 
   .stacked-input-1 {
-    position: absolute;
+    position: relative;
     background: transparent;
   }
-
-  .stacked-input-2 {
-    position: relative;
-    z-index: -99999;
-    color: red;
-  }
+  //
+  //.stacked-input-2 {
+  //  position: relative;
+  //  z-index: -99999;
+  //  color: red;
+  //}
 }
 
 .just-type {

@@ -103,6 +103,13 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         return list(filter(self.filter_by_content_provider, entries))
 
+    def list(self, request, *args, **kwargs):
+        response = super(ContentSearchViewSet, self).list(request, args, kwargs)
+
+        response.data['search_text'] = request.GET['q']
+
+        return response
+
     def get_queryset(self):
         search_results = content_search(self.request)
         filter_results = self.filter_query([88, 379, 858], search_results)
@@ -124,6 +131,9 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
 
                 filter_results = self.filter_query([88, 379, 858], result_list)
+
+
+        # filter_results['search_term'] = self
 
 
 
