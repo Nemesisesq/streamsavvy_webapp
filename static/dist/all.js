@@ -221,34 +221,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/")
 });
 /**
- * Created by Nem on 11/17/15.
- */
-app.filter('onDemand', function () {
-    return function (input) {
-
-        var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix'
-        })
-
-        return list
-    }
-
-});
-
-app.filter('fullSeason', function () {
-
-    return function (input) {
-
-
-        var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix'
-        })
-
-        return list
-    }
-
-});
-/**
  * Created by Nem on 9/18/15.
  */
 app.directive('ssImageBlock', function (http, $rootScope) {
@@ -299,6 +271,34 @@ app.directive('ssImageBlock', function (http, $rootScope) {
 
     }
 })
+/**
+ * Created by Nem on 11/17/15.
+ */
+app.filter('onDemand', function () {
+    return function (input) {
+
+        var list = _.filter(input, function (elem) {
+            return elem.name != 'Netflix'
+        })
+
+        return list
+    }
+
+});
+
+app.filter('fullSeason', function () {
+
+    return function (input) {
+
+
+        var list = _.filter(input, function (elem) {
+            return elem.name == 'Netflix'
+        })
+
+        return list
+    }
+
+});
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -1028,7 +1028,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
 
                     }
 
-                    if (data.search_text == $scope.searchText) {
+                    if (data.searchText == $scope.searchText) {
                         $scope.suggestions = data.results;
                     }
 
@@ -1241,17 +1241,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 });
 
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    })
-    
-})
 /**
  * Created by Nem on 11/25/15.
  */
@@ -1308,3 +1297,14 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     })
 
 });
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    })
+    
+})

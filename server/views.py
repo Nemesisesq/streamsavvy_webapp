@@ -106,7 +106,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         response = super(ContentSearchViewSet, self).list(request, args, kwargs)
 
-        response.data['search_text'] = request.GET['q']
+        response.data['searchText'] = request.GET['q']
 
         return response
 

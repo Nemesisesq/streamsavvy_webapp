@@ -3079,8 +3079,13 @@ slick button {
       color: #45a7e5; }
     .device-grid .step-two .totals .m-total {
       color: #31CE82; }
+  .device-grid .step-two .col-sm-2 {
+    margin-right: 10px;
+    margin-left: 10px; }
   .device-grid .step-two .hardware-img {
     border: 1px solid #c9c9c9;
+    height: 10.55vw;
+    width: 9.25vw;
     padding: 10px; }
     .device-grid .step-two .hardware-img + div {
       font-size: 17px;
@@ -3145,8 +3150,13 @@ slick button {
       color: #45a7e5; }
     .device-grid .step-two .totals .m-total {
       color: #31CE82; }
+  .device-grid .step-two .col-sm-2 {
+    margin-right: 10px;
+    margin-left: 10px; }
   .device-grid .step-two .hardware-img {
     border: 1px solid #c9c9c9;
+    height: 10.55vw;
+    width: 9.25vw;
     padding: 10px; }
     .device-grid .step-two .hardware-img + div {
       font-size: 17px;

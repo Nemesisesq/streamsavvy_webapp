@@ -75,7 +75,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
 
                     }
 
-                    if (data.search_text == $scope.searchText) {
+                    if (data.searchText == $scope.searchText) {
                         $scope.suggestions = data.results;
                     }
 
