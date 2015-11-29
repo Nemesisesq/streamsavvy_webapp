@@ -46,7 +46,7 @@
                                 <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.live }">
                                     <div class=col-xs-1>
                                         <input id="live" type="checkbox"
-                                               ng-model="content.viewingWindows.live">
+                                               ng-model="content.viewingWindows.live" ng-change="save()">
 
                                     </div>
                                     <div class="col-xs-11">
@@ -58,9 +58,10 @@
                                 </div>
 
                                 <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.onDemand}">
+
                                     <div class="col-xs-1">
                                         <input id="ondemand" type="checkbox"
-                                               ng-model="content.viewingWindows.onDemand">
+                                               ng-model="content.viewingWindows.onDemand" ng-change="save()">
                                     </div>
                                     <div class="col-xs-8">
                                         <label for="ondemand">
@@ -73,15 +74,17 @@
                                              ng-if="content.viewingWindows.onDemand">
                                             <button id="simple-btn-keyboard-nav" type="button" class=""
                                                     uib-dropdown-toggle>
-                                                {{ content.providers.onDemand || "Choose a Provider" }} <span
+                                                {{ content.onDemand.name || "Choose a Provider" }} <span
                                                     class="glyphicon glyphicon-menu-down"></span>
                                             </button>
                                             <ul class="uib-dropdown-menu" role="menu"
                                                 aria-labelledby="simple-btn-keyboard-nav">
                                                 <li role="menuitem"
-                                                    ng-repeat="provider in content.content_provider | onDemand">
-                                                    <div class="dropdown-item"
-                                                         ng-click="content.providers.onDemand = provider.name">{{ provider.name }}</div>
+                                                    ng-repeat="provider in content.content_provider | onDemand"
+                                                         ng-click="saveWindowProvider(content, 'onDemand', provider)">
+                                                    <div class="dropdown-item">
+                                                        {{ provider.name }}
+                                                    </div>
                                                 </li>
                                             </ul>
                                         </div>
@@ -91,7 +94,7 @@
                                 <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.fullseason}">
                                     <div class="col-xs-1">
                                         <input id="fullseason" type="checkbox"
-                                               ng-model="content.viewingWindows.fullseason">
+                                               ng-model="content.viewingWindows.fullseason" ng-change="save()">
                                     </div>
                                     <div class="col-xs-8">
                                         <label for="fullseason">
@@ -105,7 +108,7 @@
                                              ng-if="content.viewingWindows.fullseason">
                                             <button id="simple-btn-keyboard-nav" type="button" class=""
                                                     uib-dropdown-toggle>
-                                                {{ content.providers.fullSeason || "Choose a Provider" }} <span
+                                                {{ content.fullSeason.name || "Choose a Provider" }} <span
                                                     class="glyphicon glyphicon-menu-down"></span>
                                             </button>
                                             <ul class="uib-dropdown-menu" role="menu"
@@ -113,7 +116,7 @@
                                                 <li role="menuitem"
                                                     ng-repeat="provider in content.content_provider | fullSeason">
                                                     <div class="dropdown-item"
-                                                         ng-click="content.providers.fullSeason = provider.name">{{ provider.name }}</div>
+                                                         ng-click="saveWindowProvider(content, 'fullSeason', provider)">{{ provider.name }}</div>
                                                 </li>
                                             </ul>
                                         </div>
@@ -121,11 +124,12 @@
                                 </div>
 
                                 <div class="row ss-vw-row" ng-class="{selected:content.viewingWindows.alacarte}">
-                                    <div class="col-xs-1"><input id="alacarte" type="checkbox"
-                                                                 ng-model="content.viewingWindows.alacarte">
+                                    <div class="col-xs-1">
+                                        <input id="alacarte" type="checkbox"
+                                               ng-model="content.viewingWindows.alacarte" ng-change="save()">
                                     </div>
                                     <div class="col-xs-11"><label for="alacarte">
-                                         I want to <strong>Pay Per Episode</strong> to watch this show.
+                                        I want to <strong>Pay Per Episode</strong> to watch this show.
                                     </label></div>
 
                                 </div>
@@ -172,7 +176,7 @@
 
 </div>
 
-<div class="row" >
+<div class="row">
     <slick infinite=true arrows=true slides-to-show="3" init-onload=true data="popularShows"
            ng-if="popularShows.length">
         <div ng-repeat="show in popularShows" ng-click="alert('hello')">

@@ -1234,13 +1234,49 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     $scope.package = PackageFactory.getPackage();
 
+
+
+
+    $scope.saveWindowProvider = function(obj, prop, value) {
+        debugger;
+
+        obj[prop] = value;
+
+        $scope.save()
+
+    }
+
     $scope.$watch(function () {return PackageFactory.getPackage()}, function(){
         $scope.package = PackageFactory.getPackage();
     })
 
 
+
+    $scope.save = function() {
+        debugger;
+        PackageFactory.setPackage($scope.package)
+    }
+
+    $scope.$watchCollection('package.content',function () {
+        debugger;
+
+        PackageFactory.setPackage($scope.package)
+    })
+
+
 });
 
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    })
+    
+})
 /**
  * Created by Nem on 11/25/15.
  */
@@ -1297,14 +1333,3 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     })
 
 });
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    })
-    
-})
