@@ -36,9 +36,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                        <button class=" pull-right" style="z-index: 20" ng-click="delete(content)">
-                                            delete
-                                        </button>
+                                <button class=" pull-right" style="z-index: 20" ng-click="delete(content)">
+                                    delete
+                                </button>
                             </uib-accordion-heading>
 
                             <div class="viewWindowIntro">
@@ -60,7 +60,8 @@
 
                                 </div>
 
-                                <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.onDemand}">
+                                <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.onDemand}"
+                                     >
 
                                     <div class="col-xs-1">
                                         <input id="ondemand" type="checkbox"
@@ -83,9 +84,9 @@
                                             <ul class="uib-dropdown-menu" role="menu"
                                                 aria-labelledby="simple-btn-keyboard-nav">
                                                 <li role="menuitem"
-                                                    ng-repeat="provider in content.content_provider | onDemand"
+                                                    ng-repeat="provider in content.content_provider | onDemand">
+                                                    <div class="dropdown-item"
                                                          ng-click="saveWindowProvider(content, 'onDemand', provider)">
-                                                    <div class="dropdown-item">
                                                         {{ provider.name }}
                                                     </div>
                                                 </li>

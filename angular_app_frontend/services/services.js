@@ -51,7 +51,7 @@ app.run(function (PackageFactory, $http, http) {
             if (data.data == "") {
                 http.getPackage()
                     .then(function (data) {
-                        debugger;
+                        //debugger;
                         PackageFactory.setPackage(data)
                     })
             } else {

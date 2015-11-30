@@ -278,7 +278,7 @@ app.filter('onDemand', function () {
     return function (input) {
 
         var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix'
+            return elem.name != 'Netflix';
         })
 
         return list
@@ -292,7 +292,7 @@ app.filter('fullSeason', function () {
 
 
         var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix'
+            return elem.name == 'Netflix';
         })
 
         return list
@@ -460,7 +460,7 @@ app.run(function (PackageFactory, $http, http) {
             if (data.data == "") {
                 http.getPackage()
                     .then(function (data) {
-                        debugger;
+                        //debugger;
                         PackageFactory.setPackage(data)
                     })
             } else {
@@ -1239,6 +1239,15 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     $scope.package = PackageFactory.getPackage();
 
+    $scope.onDemandLength = function (c) {
+        debugger;
+
+        return _.filter(c, function(n){
+            return n.name == 'Netflix'
+        }).length > 0
+
+    }
+
     $scope.delete = function (content) {
         debugger;
 
@@ -1252,7 +1261,11 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         //debugger;
 
-        var array = _.intersection($scope.package.providers, content.content_provider);
+        //var array = _.intersection($scope.package.providers, content.content_provider);
+
+        var array = _.filter(content.content_provider, function(prov){
+            return _.includes(_.map($scope.package.providers, function(elem){ return elem.name}), prov.name)
+        })
 
         if(prop == 'onDemand'){
 
@@ -1263,11 +1276,12 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         } else if (prop == 'fullSeason') {
 
             _.remove(array, function(n){
-                return n.name != 'Netflix' || !_.contains(n.name.toLower, 'amazon');
+                return n.name != 'Netflix';
             })
         }
 
-        
+        return _.isEmpty(array) ? false : _.first(array).name;
+
     }
 
 
@@ -1303,37 +1317,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 });
 
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = getHardwareTotal();
-    $scope.servicesTotal = 9.99;
-    $scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-    function getHardwareTotal() {
-        var hardTotal = 0;
-        for(var i= 0; i<$scope.package.hardware.length;i++)
-        {
-            hardTotal += ($scope.package.hardware[i].retail_cost);
-        }
-        hardTotal = parseFloat(hardTotal.toFixed(2));
-        return hardTotal;
-    }
-
-    function getPackageTotal() {
-        var packTotal = 0;
-        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
-        packTotal = parseFloat(packTotal.toFixed(2));
-
-        return packTotal;
-    }
-
-
-})
 /**
  * Created by Nem on 11/25/15.
  */
@@ -1390,3 +1373,34 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     })
 
 });
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = getHardwareTotal();
+    $scope.servicesTotal = 9.99;
+    $scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+    function getHardwareTotal() {
+        var hardTotal = 0;
+        for(var i= 0; i<$scope.package.hardware.length;i++)
+        {
+            hardTotal += ($scope.package.hardware[i].retail_cost);
+        }
+        hardTotal = parseFloat(hardTotal.toFixed(2));
+        return hardTotal;
+    }
+
+    function getPackageTotal() {
+        var packTotal = 0;
+        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
+        packTotal = parseFloat(packTotal.toFixed(2));
+
+        return packTotal;
+    }
+
+
+})

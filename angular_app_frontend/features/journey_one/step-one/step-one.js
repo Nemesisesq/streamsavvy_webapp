@@ -19,6 +19,15 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     $scope.package = PackageFactory.getPackage();
 
+    $scope.onDemandLength = function (c) {
+        debugger;
+
+        return _.filter(c, function(n){
+            return n.name == 'Netflix'
+        }).length > 0
+
+    }
+
     $scope.delete = function (content) {
         debugger;
 
@@ -32,7 +41,11 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         //debugger;
 
-        var array = _.intersection($scope.package.providers, content.content_provider);
+        //var array = _.intersection($scope.package.providers, content.content_provider);
+
+        var array = _.filter(content.content_provider, function(prov){
+            return _.includes(_.map($scope.package.providers, function(elem){ return elem.name}), prov.name)
+        })
 
         if(prop == 'onDemand'){
 
@@ -43,11 +56,12 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         } else if (prop == 'fullSeason') {
 
             _.remove(array, function(n){
-                return n.name != 'Netflix' || !_.contains(n.name.toLower, 'amazon');
+                return n.name != 'Netflix';
             })
         }
 
-        
+        return _.isEmpty(array) ? false : _.first(array).name;
+
     }
 
 

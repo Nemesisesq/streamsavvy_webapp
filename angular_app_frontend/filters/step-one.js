@@ -5,7 +5,7 @@ app.filter('onDemand', function () {
     return function (input) {
 
         var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix'
+            return elem.name != 'Netflix';
         })
 
         return list
@@ -19,7 +19,7 @@ app.filter('fullSeason', function () {
 
 
         var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix'
+            return elem.name == 'Netflix';
         })
 
         return list
