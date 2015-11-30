@@ -455,9 +455,12 @@ app.run(function (PackageFactory, $http, http) {
     $http.get('/json-package/')
         .then(function (data) {
 
+            console.log(data);
+
             if (data.data == "") {
                 http.getPackage()
                     .then(function (data) {
+                        debugger;
                         PackageFactory.setPackage(data)
                     })
             } else {
@@ -1217,6 +1220,8 @@ app.controller('AccordionController', function ($scope) {
 
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
 
+    
+    
 
 
     $scope.popularShows = null;
@@ -1235,7 +1240,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     $scope.package = PackageFactory.getPackage();
 
     $scope.delete = function (content) {
-        debugger;
+        //debugger;
 
         _.remove($scope.package.content, content);
 
@@ -1243,15 +1248,38 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     }
 
+    $scope.prePopulateWindowProvider = function (content, prop) {
 
+        //debugger;
+
+        var array = _.intersection($scope.package.providers, content.content_provider);
+
+        if(prop == 'onDemand'){
+
+            _.remove(array, function(n){
+                return n.name == 'Netflix';
+
+            })
+        } else if (prop == 'fullSeason') {
+
+            _.remove(array, function(n){
+                return n.name != 'Netflix' || !_.contains(n.name.toLower, 'amazon');
+            })
+        }
+
+        
+    }
 
 
     $scope.saveWindowProvider = function(obj, prop, value) {
-        debugger;
+        //debugger;
 
         obj[prop] = value;
 
+        if(!_.includes($scope.package.providers, value)) {$scope.package.providers.push(value)}
+        
         $scope.save()
+
 
     }
 
@@ -1262,12 +1290,12 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 
     $scope.save = function() {
-        debugger;
+        //debugger;
         PackageFactory.setPackage($scope.package)
     }
 
     $scope.$watchCollection('package.content',function () {
-        debugger;
+        //debugger;
 
         PackageFactory.setPackage($scope.package)
     })

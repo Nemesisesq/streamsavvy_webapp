@@ -77,7 +77,7 @@
                                              ng-if="content.viewingWindows.onDemand">
                                             <button id="simple-btn-keyboard-nav" type="button" class=""
                                                     uib-dropdown-toggle>
-                                                {{ content.onDemand.name || "Choose a Provider" }} <span
+                                                {{ prePopulateWindowProvider(content, 'onDemand') || "Choose a Provider" }} <span
                                                     class="glyphicon glyphicon-menu-down"></span>
                                             </button>
                                             <ul class="uib-dropdown-menu" role="menu"
@@ -111,7 +111,7 @@
                                              ng-if="content.viewingWindows.fullseason">
                                             <button id="simple-btn-keyboard-nav" type="button" class=""
                                                     uib-dropdown-toggle>
-                                                {{ content.fullSeason.name || "Choose a Provider" }} <span
+                                                {{ prePopulateWindowProvider(content, 'fullSeason') || "Choose a Provider" }} <span
                                                     class="glyphicon glyphicon-menu-down"></span>
                                             </button>
                                             <ul class="uib-dropdown-menu" role="menu"

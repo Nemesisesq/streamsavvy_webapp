@@ -46,9 +46,12 @@ app.run(function (PackageFactory, $http, http) {
     $http.get('/json-package/')
         .then(function (data) {
 
+            console.log(data);
+
             if (data.data == "") {
                 http.getPackage()
                     .then(function (data) {
+                        debugger;
                         PackageFactory.setPackage(data)
                     })
             } else {
