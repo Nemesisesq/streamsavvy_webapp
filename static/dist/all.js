@@ -572,10 +572,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
     $rootScope.load()
 });
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -603,6 +599,40 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 
 });
+
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
+    $scope.isHomePage = $state.current.data.isHomePage;
+    $scope.logged_in = false;
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+/**
+ * Created by Nem on 10/7/15.
+ */
 
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
@@ -829,132 +859,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 //});
 
 /**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
-    $scope.isHomePage = $state.current.data.isHomePage;
-    $scope.logged_in = false;
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        //debugger
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
-});
-
-
-/**
  * Created by Nem on 7/18/15.
  */
 app.controller('search', function ($scope, $http, http, PackageFactory, $rootScope) {
@@ -1109,74 +1013,102 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
 
 
 });
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
-    $scope.login = 'Click Here to Login'
+    var package = PackageFactory.getPackage();
 
-    $scope.items = ['item1', 'item2', 'item3'];
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
 
-    $scope.open = function () {
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: '/static/partials/modal/modal.html',
-            controller: 'ModalInstanceController',
-            size: 'sm',
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
+    $scope.package = package;
 
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selectedItem = selectedItem;
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
 
 
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
+        return 'inactive'
     }
 
-    if ($rootScope.currentStep == 4) {
-        $scope.open()
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        //debugger
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
     }
 });
 
-app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
 
-    $scope.facebookAuth = function () {
-
-    window.location = CONFIG.URL + $('#facebook_login').attr('href');
-    }
-
-    $scope.instagramAuth = function () {
-
-    window.location = CONFIG.URL + $('#instagram_login').attr('href');
-    }
-
-    $scope.twitterAuth = function () {
-
-     window.location = CONFIG.URL + $('#twitter_login').attr('href');
-    }
-
-
-
-
-    $scope.items = items;
-
-    $scope.selected = {
-        item: $scope.items[0]
-    }
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-    }
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel')
-    }
-
-})
 /**
  * Created by Nem on 10/27/15.
  */
@@ -1332,6 +1264,74 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
         return packTotal;
     }
 
+
+})
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+
+    $scope.login = 'Click Here to Login'
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $scope.open = function () {
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal/modal.html',
+            controller: 'ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selectedItem = selectedItem;
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+
+    if ($rootScope.currentStep == 4) {
+        $scope.open()
+    }
+});
+
+app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
+
+    $scope.facebookAuth = function () {
+
+    window.location = CONFIG.URL + $('#facebook_login').attr('href');
+    }
+
+    $scope.instagramAuth = function () {
+
+    window.location = CONFIG.URL + $('#instagram_login').attr('href');
+    }
+
+    $scope.twitterAuth = function () {
+
+     window.location = CONFIG.URL + $('#twitter_login').attr('href');
+    }
+
+
+
+
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
 
 })
 /**
