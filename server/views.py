@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 import time
 
@@ -20,6 +21,8 @@ from server.serializers import UserSerializer, GroupSerializer, HardwareSerializ
 class JsonPackageView(View):
     def get(self, request):
 
+        self.logger = logging.getLogger('cutthecord')
+
         pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
         if pkg != '': pkg = json.loads(pkg, encoding='utf-8')
         return JsonResponse(pkg, safe=False)
@@ -34,8 +37,8 @@ class JsonPackageView(View):
             user_json_package.save()
             return JsonResponse({'hello': 'world'}, safe=False)
 
-        except:
-            pass
+        except Exception as e:
+            self.logger.debug(e)
 
 
 # def json_package(request):
@@ -179,11 +182,18 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
 class PackageDetailViewSet(viewsets.ModelViewSet):
     serializer_class = PackageDetailSerializer
 
+    logger  = logging.getLogger('cuthecord')
+
     # permission_classes = (IsOwner,)
 
     def get_queryset(self):
-        user = get_user(self)
-        return get_packages(user)
+        try:
+            user = get_user(self)
+            return get_packages(user)
+
+        except Exception as e:
+            self.logger.debug(e)
+
 
 
 def get_user(self):
