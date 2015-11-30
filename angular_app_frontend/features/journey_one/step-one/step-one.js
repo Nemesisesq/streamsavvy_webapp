@@ -20,7 +20,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     $scope.package = PackageFactory.getPackage();
 
     $scope.delete = function (content) {
-        //debugger;
+        debugger;
 
         _.remove($scope.package.content, content);
 
