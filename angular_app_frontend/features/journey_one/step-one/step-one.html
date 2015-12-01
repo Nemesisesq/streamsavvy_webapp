@@ -174,22 +174,6 @@
         </div>
     </div>
 </section>
-
-<div class="row">
-    <span class="pop-show-header">Popular Show Searches</span>
-
-</div>
-
-<div class="row">
-    <slick infinite=true arrows=true slides-to-show="3" init-onload=true data="popularShows"
-           ng-if="popularShows.length">
-        <div ng-repeat="show in popularShows" ng-click="alert('hello')">
-            <img ng-src="{{ show.thumbnail_medium }} " alt=""/>
-        </div>
-    </slick>
-
-
-</div>
 <section>
     <div class="container-fluid">
         <div class="row">
@@ -205,5 +189,23 @@
             </div>
         </div>
     </div>
+</section>
+
+<section class="pop-show-section">
+<div class="row">
+    <span class="pop-show-header">Popular Show Searches</span>
+
+</div>
+
+<div class="row">
+    <slick infinite=true arrows=true slides-to-show="3" init-onload=true data="popularShows"
+           ng-if="popularShows.length">
+        <div ng-repeat="show in popularShows" ng-click="alert('hello')">
+            <img ng-src="{{ show.thumbnail_medium }} " alt=""/>
+        </div>
+    </slick>
+
+
+</div>
 </section>
 
