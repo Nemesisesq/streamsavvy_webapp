@@ -1,0 +1,226 @@
+{
+  "results": {
+    "web": {
+      "episodes": {
+        "free": 1,
+        "tv_everywhere": 57,
+        "paid": 49,
+        "subscription": 57,
+        "total": 59,
+        "all_sources": [
+          {
+            "id": 134,
+            "source": "showtime",
+            "display_name": "Showtime Anytime",
+            "type": "tv_everywhere"
+          },
+          {
+            "id": 145,
+            "source": "itunes",
+            "display_name": "iTunes",
+            "type": "purchase"
+          },
+          {
+            "id": 147,
+            "source": "vudu",
+            "display_name": "VUDU",
+            "type": "purchase"
+          },
+          {
+            "id": 146,
+            "source": "amazon_buy",
+            "display_name": "Amazon",
+            "type": "purchase"
+          },
+          {
+            "id": 148,
+            "source": "google_play",
+            "display_name": "Google Play",
+            "type": "purchase"
+          },
+          {
+            "id": 157,
+            "source": "youtube_purchase",
+            "display_name": "YouTube",
+            "type": "purchase"
+          },
+          {
+            "id": 267,
+            "source": "showtime_subscription",
+            "display_name": "Showtime",
+            "type": "subscription"
+          },
+          {
+            "id": 26,
+            "source": "xfinity_tveverywhere",
+            "display_name": "Xfinity",
+            "type": "tv_everywhere"
+          },
+          {
+            "id": 281,
+            "source": "hulu_with_showtime",
+            "display_name": "Hulu with Showtime",
+            "type": "subscription"
+          },
+          {
+            "id": 141,
+            "source": "showtime_free",
+            "display_name": "Showtime FREEview",
+            "type": "free"
+          },
+          {
+            "id": 1,
+            "source": "hulu_free",
+            "display_name": "Hulu",
+            "type": "free"
+          }
+        ]
+      },
+      "clips": {
+        "free": 253,
+        "tv_everywhere": 0,
+        "paid": 0,
+        "subscription": 0,
+        "total": 253,
+        "all_sources": [
+          {
+            "id": 22,
+            "source": "youtube",
+            "display_name": "YouTube",
+            "type": "free"
+          }
+        ]
+      },
+      "segments": {
+        "free": 0,
+        "tv_everywhere": 0,
+        "paid": 0,
+        "subscription": 0,
+        "total": 0,
+        "all_sources": []
+      }
+    },
+    "ios": {
+      "episodes": {
+        "free": 0,
+        "tv_everywhere": 57,
+        "paid": 49,
+        "subscription": 57,
+        "total": 59,
+        "all_sources": [
+          {
+            "id": 134,
+            "source": "showtime",
+            "display_name": "Showtime Anytime",
+            "type": "tv_everywhere"
+          },
+          {
+            "id": 145,
+            "source": "itunes",
+            "display_name": "iTunes",
+            "type": "purchase"
+          },
+          {
+            "id": 147,
+            "source": "vudu",
+            "display_name": "VUDU",
+            "type": "purchase"
+          },
+          {
+            "id": 281,
+            "source": "hulu_with_showtime",
+            "display_name": "Hulu with Showtime",
+            "type": "subscription"
+          },
+          {
+            "id": 267,
+            "source": "showtime_subscription",
+            "display_name": "Showtime",
+            "type": "subscription"
+          }
+        ]
+      },
+      "clips": {
+        "free": 253,
+        "tv_everywhere": 0,
+        "paid": 0,
+        "subscription": 0,
+        "total": 253,
+        "all_sources": [
+          {
+            "id": 22,
+            "source": "youtube",
+            "display_name": "YouTube",
+            "type": "free"
+          }
+        ]
+      },
+      "segments": {
+        "free": 0,
+        "tv_everywhere": 0,
+        "paid": 0,
+        "subscription": 0,
+        "total": 0,
+        "all_sources": []
+      }
+    },
+    "android": {
+      "episodes": {
+        "free": 0,
+        "tv_everywhere": 57,
+        "paid": 49,
+        "subscription": 56,
+        "total": 59,
+        "all_sources": [
+          {
+            "id": 134,
+            "source": "showtime",
+            "display_name": "Showtime Anytime",
+            "type": "tv_everywhere"
+          },
+          {
+            "id": 147,
+            "source": "vudu",
+            "display_name": "VUDU",
+            "type": "purchase"
+          },
+          {
+            "id": 148,
+            "source": "google_play",
+            "display_name": "Google Play",
+            "type": "purchase"
+          },
+          {
+            "id": 281,
+            "source": "hulu_with_showtime",
+            "display_name": "Hulu with Showtime",
+            "type": "subscription"
+          }
+        ]
+      },
+      "clips": {
+        "free": 253,
+        "tv_everywhere": 0,
+        "paid": 0,
+        "subscription": 0,
+        "total": 253,
+        "all_sources": [
+          {
+            "id": 22,
+            "source": "youtube",
+            "display_name": "YouTube",
+            "type": "free"
+          }
+        ]
+      },
+      "segments": {
+        "free": 0,
+        "tv_everywhere": 0,
+        "paid": 0,
+        "subscription": 0,
+        "total": 0,
+        "all_sources": []
+      }
+    }
+  }
+}

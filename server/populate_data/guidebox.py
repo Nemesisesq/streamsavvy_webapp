@@ -105,8 +105,69 @@ class GuideBox(object):
                 print(e)
 
             c.save()
+    def single_content_detail(self, c):
+
+                # get content details and parse the json
+                detail = json.loads(self.get_content_detail(c.guidebox_id))
+
+                c.description = detail['overview']
+
+                try:
+                    for channel in detail['channels']:
+
+                        provider = ContentProvider.objects.get_or_create(name=channel['name'])
+
+                        if isinstance(provider, tuple):
+                            provider = provider[0]
+
+                        provider.guidebox_id = int(channel['id'])
+                        provider.channel_type = channel['channel_type']
+                        provider.thumbnail_small = channel['artwork_208x117']
+                        provider.thumbnail_medium = channel['artwork_304x171']
+                        provider.thumbnail_large = channel['artwork_448x252']
+                        provider.thumbnail_x_large = channel['artwork_608x342']
+
+                        print(provider.to_dict())
+                        provider.save()
+
+                        c.content_provider.add(provider)
+                except Exception as e:
+                    print(e)
+
+                c.save()
 
     # Call the guidebox api and get
+
+    def single_populate_additional_shows(self, c ):
+            # time.sleep(1)
+            # detail = json.loads(self.get_content_detail(worker.guidebox_id))
+            time.sleep(1)
+            provider_detail = json.loads(self.get_episode_details(c.guidebox_id))
+
+            try:
+
+
+                for provider in provider_detail['results']['web']['episodes']['all_sources']:
+
+                    p = ContentProvider.objects.get_or_create(name=provider['display_name'])
+
+                    if isinstance(p, tuple):
+                        p = p[0]
+
+                    c.content_provider.add(p)
+
+                    c.save()
+
+            #         print("{worker} description saved {p}".format(worker=worker, p=p))
+            #
+            #
+            # except Exception as e:
+            #     print(e)
+            #     pass
+            #
+            # finally:
+            #     print("releasing lock")
+
     def get_content(self, index, **kwargs):
 
         source = kwargs['source'] if kwargs['source'] else 'all'

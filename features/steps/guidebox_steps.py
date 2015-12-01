@@ -64,6 +64,11 @@ def test_multithreaded(context):
 def test_multithreaded(context):
     context.guidebox.populate_content_detail_multithreaded_extra(context)
 
+@when(u'single detail population is called')
+def test_single_population(context):
+    c = Content.objects.get(guidebox_id=14461)
+    context.guidebox.single_content_detail(c)
+
 
 
 ############################
@@ -102,4 +107,8 @@ def passing_true(context):
 
 @then(u'I get shows by service provider')
 def get_by_provider(context):
+    assert True
+
+@then(u'True')
+def true(context):
     assert True

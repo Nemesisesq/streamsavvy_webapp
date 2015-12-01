@@ -14,10 +14,14 @@ Feature: guidebox api feature
     When populate_content is called
     Then there are 750 results
 #
-#  Scenario: Getting a show's details from guidbox
-#    Given show id 2625 and name Homeland
-#    When get_content_detail method is called
-#    Then json is returned with an object of show id 2625 and name Homeland
+  Scenario: Getting a show's details from guidbox
+    Given show id 2625 and name Homeland
+    When get_content_detail method is called
+    Then json is returned with an object of show id 2625 and name Homeland
+
+  Scenario: Test detail population single show
+    When single detail population is called
+    Then True
 
   Scenario: Testing Multi threading
     When show_detail_multithreading is called
