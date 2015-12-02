@@ -161,12 +161,12 @@ class GuideBox(object):
             #         print("{worker} description saved {p}".format(worker=worker, p=p))
             #
             #
-            # except Exception as e:
-            #     print(e)
-            #     pass
+            except Exception as e:
+               print(e)
+               pass
             #
-            # finally:
-            #     print("releasing lock")
+            finally:
+               print("releasing lock")
 
     def get_content(self, index, **kwargs):
 
