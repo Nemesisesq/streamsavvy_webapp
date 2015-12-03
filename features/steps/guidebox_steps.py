@@ -69,6 +69,11 @@ def test_single_population(context):
     c = Content.objects.get(guidebox_id=14461)
     context.guidebox.single_content_detail(c)
 
+@when(u'I call to populate extra provider information')
+def test_extra_provider_population(context):
+    c = Content.objects.get(guidebox_id=14461)
+    context.guidebox.single_populate_additional_sources(c)
+
 
 
 ############################

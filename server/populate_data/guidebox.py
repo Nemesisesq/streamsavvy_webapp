@@ -59,6 +59,17 @@ class GuideBox(object):
             print(e)
         return False
 
+    def get_channels(self, content_id):
+        url = "{BASE_URL}/show/{id}/available_content".format(BASE_URL=self.BASE_URL, id=content_id)
+        try:
+            with urllib.request.urlopen(url) as response:
+                the_json = response.read().decode('utf-8')
+            return the_json
+        except urllib.error.URLError as e:
+            print(e)
+            return False
+
+
     def get_content_detail(self, content_id):
         url = "{BASE_URL}/show/{id}".format(BASE_URL=self.BASE_URL, id=content_id)
         try:
@@ -110,7 +121,8 @@ class GuideBox(object):
                 # get content details and parse the json
                 detail = json.loads(self.get_content_detail(c.guidebox_id))
 
-                c.description = detail['overview']
+                if 'overview' in detail:
+                    c.description = detail['overview']
 
                 try:
                     for channel in detail['channels']:
@@ -138,7 +150,7 @@ class GuideBox(object):
 
     # Call the guidebox api and get
 
-    def single_populate_additional_shows(self, c ):
+    def single_populate_additional_sources(self, c):
             # time.sleep(1)
             # detail = json.loads(self.get_content_detail(worker.guidebox_id))
             time.sleep(1)
@@ -151,6 +163,8 @@ class GuideBox(object):
 
                     p = ContentProvider.objects.get_or_create(name=provider['display_name'])
 
+
+
                     if isinstance(p, tuple):
                         p = p[0]
 
@@ -161,12 +175,12 @@ class GuideBox(object):
             #         print("{worker} description saved {p}".format(worker=worker, p=p))
             #
             #
-            # except Exception as e:
-            #     print(e)
-            #     pass
-            #
-            # finally:
-            #     print("releasing lock")
+            except Exception as e:
+                print(e)
+                pass
+
+            finally:
+                print("releasing lock")
 
     def get_content(self, index, **kwargs):
 

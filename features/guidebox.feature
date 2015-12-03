@@ -23,6 +23,10 @@ Feature: guidebox api feature
     When single detail population is called
     Then True
 
+  Scenario: Test the population of additional details for a show
+    When I call to populate extra provider information
+    Then True
+
   Scenario: Testing Multi threading
     When show_detail_multithreading is called
     Then shows have a description

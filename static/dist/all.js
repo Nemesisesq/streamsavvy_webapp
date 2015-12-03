@@ -278,7 +278,7 @@ app.filter('onDemand', function () {
     return function (input) {
 
         var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix'
+            return elem.name != 'Netflix';
         })
 
         return list
@@ -292,7 +292,7 @@ app.filter('fullSeason', function () {
 
 
         var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix'
+            return elem.name == 'Netflix';
         })
 
         return list
@@ -460,7 +460,7 @@ app.run(function (PackageFactory, $http, http) {
             if (data.data == "") {
                 http.getPackage()
                     .then(function (data) {
-                        debugger;
+                        //debugger;
                         PackageFactory.setPackage(data)
                     })
             } else {
@@ -572,6 +572,10 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
     $rootScope.load()
 });
 /**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -630,10 +634,6 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
 
 });
-/**
- * Created by Nem on 10/7/15.
- */
-
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
 //    debugger;
@@ -858,161 +858,6 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 //
 //});
 
-/**
- * Created by Nem on 7/18/15.
- */
-app.controller('search', function ($scope, $http, http, PackageFactory, $rootScope) {
-
-
-    var searchTerms = [];
-
-    function checkNextLetter() {
-        var s = $scope.searchText,
-            r = $scope.searchResult;
-
-        if (s && r) {
-            // ;
-            if (_.last(s) !== r[s.length - 1]) {
-                $scope.searchResult = ''
-            }
-        }
-    }
-
-    $scope.suggestions = [];
-    $scope.selectedIndex = -1;
-
-
-    var switchCase = function (char) {
-        if (char == char.toUpperCase()) {
-            return char.toLowerCase();
-        } else {
-            return char.toUpperCase();
-        }
-    }
-
-
-    var matchCase = function (search, result) {
-        debugger;
-
-        var resultArray = result.split('');
-
-        for (var i = 0; i < search.length; i++) {
-            if (search[i] !== resultArray[i]) {
-                resultArray[i] = switchCase(resultArray[i])
-            }
-        }
-
-        return resultArray.join('')
-
-
-    }
-
-    $scope.checkMatched = function () {
-        return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
-    }
-
-    $scope.search = _.debounce(function () {
-        if ($scope.searchText) {
-
-
-
-
-            //$scope.suggestions = [];
-            $http.get('/api/search?q=' + $scope.searchText)
-                .success(function (data) {
-                    debugger;
-
-
-                    var res = _.min(data.results, function (elem) {
-                        return elem.title.length
-
-                    })
-
-                    var searchResult = matchCase($scope.searchText, res.title);
-
-                    if (_.includes(searchResult, $scope.searchText)) {
-                        $scope.searchResult = searchResult;
-
-                    }
-
-                    if (data.searchText == $scope.searchText) {
-                        $scope.suggestions = data.results;
-                    }
-
-                    $scope.selectedIndex = -1
-                });
-        } else {
-            $scope.suggestions = [];
-        }
-    }, 250, {'maxWait': 1000});
-
-    $scope.addToSelectedShows = function (suggestion) {
-        debugger;
-        var ssPackage = PackageFactory.getPackage();
-
-        ssPackage.content.push(suggestion);
-
-        PackageFactory.setPackage(ssPackage);
-
-
-        //TODO clean this up after the Package Service implementation is working
-        // http.getRestPackage()
-        //    .then(function (pkg) {
-        //        newPackage = pkg;
-        //        newPackage.content.push(suggestion.url);
-        //
-        //        http.putPackage(newPackage)
-        //            .then(function (result) {
-        //
-        //                console.log(result);
-        //                $rootScope.loadPackage()
-        //
-        //            })
-        //    });
-
-        $scope.searchText = '';
-        $scope.suggestions = [];
-
-
-    };
-
-    $scope.checkKeyDown = function (event) {
-
-        if (event.keyCode === 40) {
-            event.preventDefault();
-            if ($scope.selectedIndex + 1 !== $scope.suggestions.length) {
-                $scope.selectedIndex++;
-            }
-        } else if (event.keyCode === 38) {
-            event.preventDefault();
-            if ($scope.selectedIndex - 1 !== -1) {
-                $scope.selectedIndex--
-            }
-        } else if (event.keyCode === 13) {
-            $scope.addToSelectedShows($scope.suggestions[$scope.selectedIndex]);
-        } else if (event.keyCode === 8) {
-            $scope.searchResult = '';
-        }
-
-    };
-
-
-    $scope.$watch('selectedIndex', function (val) {
-        if (val !== -1) {
-            $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
-        }
-    });
-
-    $scope.$watch('searchText', function (val) {
-        // ;
-        if (val !== -1) {
-            checkNextLetter();
-
-        }
-    })
-
-
-});
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -1110,162 +955,164 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 
 
 /**
- * Created by Nem on 10/27/15.
+ * Created by Nem on 7/18/15.
  */
-
-app.controller('AccordionController', function ($scope) {
-
-
-    $scope.viewingWindows = [
-        {
-            viewType: "onDemand",
-            description: "I want to watch this show with and <strong> On Demand Subscription. </strong>",
-            parenthetical: "(day/+ after live airing).",
-            dropdown: true,
-        },
-        {
-            viewType: "live",
-            description: "I want to watch this show <strong>Live Over the Air.</strong>",
-            parenthetical: "",
-            dropdown: false,
-        },
-        {
-            viewType: "fullseason",
-            description: " I want to watch this show using a <strong>Full Season Subscription.</strong>",
-            parenthetical: "(season behind).",
-            dropdown: true,
-        },
-        {
-            viewType: "I want to <strong>Pay Per Episode</strong> to watch this show.",
-            description: "",
-            parenthetical: "(day/+ after live airing).",
-            dropdown: false,
-        },
-        //{
-        //    viewType: "",
-        //    description: "",
-        //    parenthetical: "",
-        //    dropdown: false,
-        //}
-    ]
-});
-
-app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
-
-    
-    
+app.controller('search', function ($scope, $http, http, PackageFactory, $rootScope) {
 
 
-    $scope.popularShows = null;
+    var searchTerms = [];
 
-    $http.get('api/popular-shows')
-        .success(function (data) {
-            $scope.popularShows = data.results;
-            return data
-        })
-        .then(function () {
+    function checkNextLetter() {
+        var s = $scope.searchText,
+            r = $scope.searchResult;
+
+        if (s && r) {
             // ;
-            //$('.popular-shows').slick();
-        });
+            if (_.last(s) !== r[s.length - 1]) {
+                $scope.searchResult = ''
+            }
+        }
+    }
+
+    $scope.suggestions = [];
+    $scope.selectedIndex = -1;
 
 
-    $scope.package = PackageFactory.getPackage();
+    var switchCase = function (char) {
+        if (char == char.toUpperCase()) {
+            return char.toLowerCase();
+        } else {
+            return char.toUpperCase();
+        }
+    }
 
-    $scope.delete = function (content) {
+
+    var matchCase = function (search, result) {
         debugger;
 
-        _.remove($scope.package.content, content);
+        var resultArray = result.split('');
 
-        $scope.save()
-
-    }
-
-    $scope.prePopulateWindowProvider = function (content, prop) {
-
-        //debugger;
-
-        var array = _.intersection($scope.package.providers, content.content_provider);
-
-        if(prop == 'onDemand'){
-
-            _.remove(array, function(n){
-                return n.name == 'Netflix';
-
-            })
-        } else if (prop == 'fullSeason') {
-
-            _.remove(array, function(n){
-                return n.name != 'Netflix' || !_.contains(n.name.toLower, 'amazon');
-            })
+        for (var i = 0; i < search.length; i++) {
+            if (search[i] !== resultArray[i]) {
+                resultArray[i] = switchCase(resultArray[i])
+            }
         }
 
-        
-    }
-
-
-    $scope.saveWindowProvider = function(obj, prop, value) {
-        //debugger;
-
-        obj[prop] = value;
-
-        if(!_.includes($scope.package.providers, value)) {$scope.package.providers.push(value)}
-        
-        $scope.save()
+        return resultArray.join('')
 
 
     }
 
-    $scope.$watch(function () {return PackageFactory.getPackage()}, function(){
-        $scope.package = PackageFactory.getPackage();
-    })
-
-
-
-    $scope.save = function() {
-        //debugger;
-        PackageFactory.setPackage($scope.package)
+    $scope.checkMatched = function () {
+        return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
     }
 
-    $scope.$watchCollection('package.content',function () {
-        //debugger;
+    $scope.search = _.debounce(function () {
+        if ($scope.searchText) {
 
-        PackageFactory.setPackage($scope.package)
+
+
+
+            //$scope.suggestions = [];
+            $http.get('/api/search?q=' + $scope.searchText)
+                .success(function (data) {
+                    debugger;
+
+
+                    var res = _.min(data.results, function (elem) {
+                        return elem.title.length
+
+                    })
+
+                    var searchResult = matchCase($scope.searchText, res.title);
+
+                    if (_.includes(searchResult, $scope.searchText)) {
+                        $scope.searchResult = searchResult;
+
+                    }
+
+                    if (data.searchText == $scope.searchText) {
+                        $scope.suggestions = data.results;
+                    }
+
+                    $scope.selectedIndex = -1
+                });
+        } else {
+            $scope.suggestions = [];
+        }
+    }, 250, {'maxWait': 1000});
+
+    $scope.addToSelectedShows = function (suggestion) {
+        debugger;
+        var ssPackage = PackageFactory.getPackage();
+
+        $http.get('/channels/' + suggestion.guidebox_id)
+            .then(function (data) {
+                debugger;
+                suggestion.channels = data.data.results;
+                ssPackage.content.push(suggestion);
+                PackageFactory.setPackage(ssPackage);
+            })
+
+
+        //TODO clean this up after the Package Service implementation is working
+        // http.getRestPackage()
+        //    .then(function (pkg) {
+        //        newPackage = pkg;
+        //        newPackage.content.push(suggestion.url);
+        //
+        //        http.putPackage(newPackage)
+        //            .then(function (result) {
+        //
+        //                console.log(result);
+        //                $rootScope.loadPackage()
+        //
+        //            })
+        //    });
+
+        $scope.searchText = '';
+        $scope.suggestions = [];
+
+
+    };
+
+    $scope.checkKeyDown = function (event) {
+
+        if (event.keyCode === 40) {
+            event.preventDefault();
+            if ($scope.selectedIndex + 1 !== $scope.suggestions.length) {
+                $scope.selectedIndex++;
+            }
+        } else if (event.keyCode === 38) {
+            event.preventDefault();
+            if ($scope.selectedIndex - 1 !== -1) {
+                $scope.selectedIndex--
+            }
+        } else if (event.keyCode === 13) {
+            $scope.addToSelectedShows($scope.suggestions[$scope.selectedIndex]);
+        } else if (event.keyCode === 8) {
+            $scope.searchResult = '';
+        }
+
+    };
+
+
+    $scope.$watch('selectedIndex', function (val) {
+        if (val !== -1) {
+            $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
+        }
+    });
+
+    $scope.$watch('searchText', function (val) {
+        // ;
+        if (val !== -1) {
+            checkNextLetter();
+
+        }
     })
 
 
 });
-
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = getHardwareTotal();
-    $scope.servicesTotal = 9.99;
-    $scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-    function getHardwareTotal() {
-        var hardTotal = 0;
-        for(var i= 0; i<$scope.package.hardware.length;i++)
-        {
-            hardTotal += ($scope.package.hardware[i].retail_cost);
-        }
-        hardTotal = parseFloat(hardTotal.toFixed(2));
-        return hardTotal;
-    }
-
-    function getPackageTotal() {
-        var packTotal = 0;
-        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
-        packTotal = parseFloat(packTotal.toFixed(2));
-
-        return packTotal;
-    }
-
-
-})
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
     $scope.login = 'Click Here to Login'
@@ -1332,6 +1179,177 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel')
     }
+
+})
+/**
+ * Created by Nem on 10/27/15.
+ */
+
+app.controller('AccordionController', function ($scope) {
+
+
+    $scope.viewingWindows = [
+        {
+            viewType: "onDemand",
+            description: "I want to watch this show with and <strong> On Demand Subscription. </strong>",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: true,
+        },
+        {
+            viewType: "live",
+            description: "I want to watch this show <strong>Live Over the Air.</strong>",
+            parenthetical: "",
+            dropdown: false,
+        },
+        {
+            viewType: "fullseason",
+            description: " I want to watch this show using a <strong>Full Season Subscription.</strong>",
+            parenthetical: "(season behind).",
+            dropdown: true,
+        },
+        {
+            viewType: "I want to <strong>Pay Per Episode</strong> to watch this show.",
+            description: "",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: false,
+        },
+        //{
+        //    viewType: "",
+        //    description: "",
+        //    parenthetical: "",
+        //    dropdown: false,
+        //}
+    ]
+});
+
+app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
+
+    
+    
+
+
+    $scope.popularShows = null;
+
+    $http.get('api/popular-shows')
+        .success(function (data) {
+            $scope.popularShows = data.results;
+            return data
+        })
+        .then(function () {
+            // ;
+            //$('.popular-shows').slick();
+        });
+
+
+    $scope.package = PackageFactory.getPackage();
+
+    $scope.onDemandLength = function (c) {
+        debugger;
+
+        return _.filter(c, function(n){
+            return n.name == 'Netflix'
+        }).length > 0
+
+    }
+
+    $scope.delete = function (content) {
+        debugger;
+
+        _.remove($scope.package.content, content);
+
+        $scope.save()
+
+    }
+
+    $scope.prePopulateWindowProvider = function (content, prop) {
+
+        //debugger;
+
+        //var array = _.intersection($scope.package.providers, content.content_provider);
+
+        var array = _.filter(content.content_provider, function(prov){
+            return _.includes(_.map($scope.package.providers, function(elem){ return elem.name}), prov.name)
+        })
+
+        if(prop == 'onDemand'){
+
+            _.remove(array, function(n){
+                return n.name == 'Netflix';
+
+            })
+        } else if (prop == 'fullSeason') {
+
+            _.remove(array, function(n){
+                return n.name != 'Netflix';
+            })
+        }
+
+        return _.isEmpty(array) ? false : _.first(array).name;
+
+    }
+
+
+    $scope.saveWindowProvider = function(obj, prop, value) {
+        //debugger;
+
+        obj[prop] = value;
+
+        if(!_.includes($scope.package.providers, value)) {$scope.package.providers.push(value)}
+        
+        $scope.save()
+
+
+    }
+
+    $scope.$watch(function () {return PackageFactory.getPackage()}, function(){
+        $scope.package = PackageFactory.getPackage();
+    })
+
+
+
+    $scope.save = function() {
+        //debugger;
+        PackageFactory.setPackage($scope.package)
+    }
+
+    $scope.$watchCollection('package.content',function () {
+        //debugger;
+
+        PackageFactory.setPackage($scope.package)
+    })
+
+
+});
+
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = getHardwareTotal();
+    $scope.servicesTotal = 9.99;
+    $scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+    function getHardwareTotal() {
+        var hardTotal = 0;
+        for(var i= 0; i<$scope.package.hardware.length;i++)
+        {
+            hardTotal += ($scope.package.hardware[i].retail_cost);
+        }
+        hardTotal = parseFloat(hardTotal.toFixed(2));
+        return hardTotal;
+    }
+
+    function getPackageTotal() {
+        var packTotal = 0;
+        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
+        packTotal = parseFloat(packTotal.toFixed(2));
+
+        return packTotal;
+    }
+
 
 })
 /**

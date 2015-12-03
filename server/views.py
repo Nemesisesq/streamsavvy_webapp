@@ -18,6 +18,22 @@ from server.serializers import UserSerializer, GroupSerializer, HardwareSerializ
     ContentSerializer, PackagesSerializer, PackageDetailSerializer
 
 
+class ShowChannelsView(View):
+    def get(self, request, show_id):
+        channel_key = "channel_set_{}".format(show_id)
+        if cache.get(channel_key):
+            channel_set = json.loads(cache.get(channel_key))
+            return JsonResponse(channel_set, safe=False)
+
+        g = GuideBox()
+
+        channel_set = json.loads(g.get_channels(show_id))
+
+        cache.set(channel_key, channel_set)
+
+        return JsonResponse(channel_set, safe=False)
+
+
 class JsonPackageView(View):
     def get(self, request):
 
@@ -120,7 +136,6 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         if len(filter_results) == 0:
             g = GuideBox()
 
-
             if ('q' in self.request.GET) and self.request.GET['q'].strip():
                 query_string = self.request.GET['q']
                 result = g.get_show_by_title(query_string)
@@ -132,19 +147,17 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
                 for show in result:
                     result_list.append(g.save_content(show))
 
-
                 filter_results = self.filter_query([88, 379, 858], result_list)
-
 
         # filter_results['search_term'] = self
 
 
 
         return filter_results
- 
+
 
 class ContentViewSet(viewsets.ModelViewSet):
-    queryset = Content.objects.all( )
+    queryset = Content.objects.all()
     serializer_class = ContentSerializer
 
 
@@ -182,7 +195,7 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
 class PackageDetailViewSet(viewsets.ModelViewSet):
     serializer_class = PackageDetailSerializer
 
-    logger  = logging.getLogger('cuthecord')
+    logger = logging.getLogger('cuthecord')
 
     # permission_classes = (IsOwner,)
 
@@ -193,7 +206,6 @@ class PackageDetailViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             self.logger.debug(e)
-
 
 
 def get_user(self):

@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^login/', login_view, name='server.auth.login'),
     # url(r'^search/', content_search, name='search'),
     url(r'^register/', register_user, name='register'),
+    url(r'^channels/([0-9]{1,10})', ShowChannelsView.as_view(), name='show_channels'),
     url(r'^django_auth/', include('django.contrib.auth.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^social', include('social.apps.django_app.urls', namespace='social')),

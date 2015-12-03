@@ -90,9 +90,13 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
         debugger;
         var ssPackage = PackageFactory.getPackage();
 
-        ssPackage.content.push(suggestion);
-
-        PackageFactory.setPackage(ssPackage);
+        $http.get('/channels/' + suggestion.guidebox_id)
+            .then(function (data) {
+                debugger;
+                suggestion.channels = data.data.results;
+                ssPackage.content.push(suggestion);
+                PackageFactory.setPackage(ssPackage);
+            })
 
 
         //TODO clean this up after the Package Service implementation is working
