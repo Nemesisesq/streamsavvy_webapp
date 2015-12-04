@@ -6,6 +6,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
 
 
+
     $rootScope.openLogInModal = function () {
         debugger;
         var modalInstance = $modal.open({
@@ -35,6 +36,9 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 });
 
 app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
+
+    $scope.socialLogin = true;
+
 
     $scope.facebookAuth = function () {
 

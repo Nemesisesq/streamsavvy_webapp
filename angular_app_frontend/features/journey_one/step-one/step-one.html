@@ -56,12 +56,14 @@
                                         <label for="live">
                                             <strong>Live Over the Air.</strong>
                                         </label>
+                                        <button class="vw-info" uib-popover="{{ popoverText.Live }}" popover-placement="right"
+                                                popover-trigger="mouseenter"></button>
                                     </div>
 
                                 </div>
 
                                 <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.onDemand}"
-                                     >
+                                >
 
                                     <div class="col-xs-1">
                                         <input id="ondemand" type="checkbox"
@@ -70,7 +72,7 @@
                                     <div class="col-xs-8">
                                         <label for="ondemand">
                                             <strong> On Demand
-                                            Subscription. </strong> </label>
+                                                Subscription. </strong> </label>
                                     </div>
 
                                     <div class="col-xs-3 dropdown">
@@ -191,20 +193,20 @@
 </section>
 
 <section class="pop-show-section">
-<div class="row">
-    <span class="pop-show-header">Popular Show Searches</span>
+    <div class="row">
+        <span class="pop-show-header">Popular Show Searches</span>
 
-</div>
+    </div>
 
-<div class="row">
-    <slick infinite=true arrows=true slides-to-show="3" init-onload=true data="popularShows"
-           ng-if="popularShows.length">
-        <div ng-repeat="show in popularShows" ng-click="alert('hello')">
-            <img ng-src="{{ show.thumbnail_medium }} " alt=""/>
-        </div>
-    </slick>
+    <div class="row">
+        <slick infinite=true arrows=true slides-to-show="3" init-onload=true data="popularShows"
+               ng-if="popularShows.length">
+            <div ng-repeat="show in popularShows" ng-click="alert('hello')">
+                <img ng-src="{{ show.thumbnail_medium }} " alt=""/>
+            </div>
+        </slick>
 
 
-</div>
+    </div>
 </section>
 
