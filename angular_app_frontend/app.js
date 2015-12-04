@@ -27,6 +27,10 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 isHomePage: true
             },
             views: {
+                'modal': {
+                    templateUrl : 'static/partials/modal/modal.html',
+                    controller: 'ModalController'
+                },
                 'home': {
                     templateUrl: 'static/partials/home.html'
                 },
