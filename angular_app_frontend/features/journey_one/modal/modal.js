@@ -4,6 +4,8 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
     $scope.items = ['item1', 'item2', 'item3'];
 
+
+
     $rootScope.openLogInModal = function () {
         debugger;
         var modalInstance = $modal.open({
@@ -27,8 +29,8 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
         });
     }
 
-    if ($rootScope.currentStep == 4) {
-        $scope.open()
+    if ($rootScope.currentStep == 3) {
+        $rootScope.openLogInModal()
     }
 });
 

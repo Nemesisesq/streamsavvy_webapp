@@ -25,7 +25,7 @@
                     <div class="ss_pipe"></div>
                 </li>
                 <li><a class="navbarLink" href="#/error/coming-soon" rel="nofollow">Sign Up</a></li>
-                <li><a class="navbarLink" href="#" ng-click="openLogInModal()" rel="nofollow">Login</a></li>
+                <li><a class="navbarLink" href="" ng-click="openLogInModal()" rel="nofollow">Login {{ hello }}</a></li>
                 <!-- <li><a class="navbarLink" href="#">About Us</a></li>
                 <li><a href="" class="contact-us-link navbarLink">Contact Us</a></li> -->
             </ul>
@@ -43,6 +43,8 @@
 
 <!--  home page-->
 <div ui-view="home" class="main-page"></div>
+
+<div ui-view="modal"></div>
 <!--  blog-->
 <div ui-view="blog" class=""></div>
 

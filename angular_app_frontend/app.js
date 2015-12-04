@@ -28,7 +28,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
             },
             views: {
                 'modal': {
-                    templateUrl : 'static/partials/modal/modal.html',
+                    templateUrl : 'static/partials/modal/modalContainer.html',
                     controller: 'ModalController'
                 },
                 'home': {

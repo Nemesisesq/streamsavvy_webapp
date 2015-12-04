@@ -54,9 +54,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
     $scope.search = _.debounce(function () {
         if ($scope.searchText) {
 
-
-
-
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
