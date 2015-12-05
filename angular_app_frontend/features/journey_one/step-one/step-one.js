@@ -2,7 +2,35 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     
     
+    $scope.directiveVW = [
 
+        {
+            type: 'live',
+            headerText : 'Live Over the Air.',
+
+
+        },
+        {
+            type: 'onDemand',
+            headerText : 'On Demand Subscription.',
+
+
+        },
+        {
+            type: 'fullseason',
+            headerText : 'Binge Watch Full Seasons',
+
+
+        },
+        {
+            type: 'alacarte',
+            headerText : 'Watch Current Season or Episodes for a fee',
+
+
+        },
+
+
+    ]
 
     $scope.popularShows = null;
 
@@ -83,8 +111,8 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 
 
-    $scope.save = function() {
-        //debugger;
+    $scope.savePackage = function() {
+        debugger;
         PackageFactory.setPackage($scope.package)
     }
 

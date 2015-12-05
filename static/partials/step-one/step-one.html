@@ -23,7 +23,7 @@
                     <uib-accordion close-others="true">
 
                         <uib-accordion-group template-url="group-template.html"
-                                             ng-repeat="content in package.content ">
+                                             ng-repeat="content in package.content " is-open="true">
                             <uib-accordion-heading>
                                 <div class="container-fluid">
                                     <div class="row heading">
@@ -46,98 +46,7 @@
                             </div>
 
                             <div id="viewingWindows" class="container-fluid ">
-                                <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.live }">
-                                    <div class=col-xs-1>
-                                        <input id="live" type="checkbox"
-                                               ng-model="content.viewingWindows.live" ng-change="save()">
-
-                                    </div>
-                                    <div class="col-xs-11">
-                                        <label for="live">
-                                            <strong>Live Over the Air.</strong>
-                                        </label>
-                                        <button class="vw-info" uib-popover="{{ popoverText.Live }}" popover-placement="right"
-                                                popover-trigger="mouseenter"></button>
-                                    </div>
-
-                                </div>
-
-                                <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.onDemand}"
-                                >
-
-                                    <div class="col-xs-1">
-                                        <input id="ondemand" type="checkbox"
-                                               ng-model="content.viewingWindows.onDemand" ng-change="save()">
-                                    </div>
-                                    <div class="col-xs-8">
-                                        <label for="ondemand">
-                                            <strong> On Demand
-                                                Subscription. </strong> </label>
-                                    </div>
-
-                                    <div class="col-xs-3 dropdown">
-                                        <div uib-dropdown uib-keyboard-nav
-                                             ng-if="content.viewingWindows.onDemand">
-                                            <button id="simple-btn-keyboard-nav" type="button" class=""
-                                                    uib-dropdown-toggle>
-                                                {{ prePopulateWindowProvider(content, 'onDemand') || "Choose a Provider" }} <span
-                                                    class="glyphicon glyphicon-menu-down"></span>
-                                            </button>
-                                            <ul class="uib-dropdown-menu" role="menu"
-                                                aria-labelledby="simple-btn-keyboard-nav">
-                                                <li role="menuitem"
-                                                    ng-repeat="provider in content.content_provider | onDemand">
-                                                    <div class="dropdown-item"
-                                                         ng-click="saveWindowProvider(content, 'onDemand', provider)">
-                                                        {{ provider.name }}
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.fullseason}">
-                                    <div class="col-xs-1">
-                                        <input id="fullseason" type="checkbox"
-                                               ng-model="content.viewingWindows.fullseason" ng-change="save()">
-                                    </div>
-                                    <div class="col-xs-8">
-                                        <label for="fullseason">
-                                            <strong>Binge Watch Full Seasons</strong>
-                                        </label>
-                                    </div>
-
-                                    <div class="col-xs-3 dropdown">
-                                        <div uib-dropdown uib-keyboard-nav
-                                             ng-if="content.viewingWindows.fullseason">
-                                            <button id="simple-btn-keyboard-nav" type="button" class=""
-                                                    uib-dropdown-toggle>
-                                                {{ prePopulateWindowProvider(content, 'fullSeason') || "Choose a Provider" }} <span
-                                                    class="glyphicon glyphicon-menu-down"></span>
-                                            </button>
-                                            <ul class="uib-dropdown-menu" role="menu"
-                                                aria-labelledby="simple-btn-keyboard-nav">
-                                                <li role="menuitem"
-                                                    ng-repeat="provider in content.content_provider | fullSeason">
-                                                    <div class="dropdown-item"
-                                                         ng-click="saveWindowProvider(content, 'fullSeason', provider)">{{ provider.name }}</div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row ss-vw-row" ng-class="{selected:content.viewingWindows.alacarte}">
-                                    <div class="col-xs-1">
-                                        <input id="alacarte" type="checkbox"
-                                               ng-model="content.viewingWindows.alacarte" ng-change="save()">
-                                    </div>
-                                    <div class="col-xs-11"><label for="alacarte">
-                                        <strong>Watch Current Season or Episodes for a fee</strong>
-                                    </label></div>
-
-                                </div>
+                                <view-window ng-repeat="i in directiveVW" w="i" content="content" package="package"></view-window>
 
                                 <div class="row ss-vw-row confirmation">
 
