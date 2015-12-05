@@ -361,6 +361,15 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 /**
  * Created by Nem on 11/17/15.
  */
+
+app.filter('channel', function (type) {
+    var list = _.filter(input, function (elem) {
+            return elem.name != 'Netflix';
+        })
+
+        return list
+})
+
 app.filter('onDemand', function () {
     return function (input) {
 
@@ -1376,7 +1385,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         _.remove($scope.package.content, content);
 
-        $scope.save()
+        $scope.savePackage()
 
     }
 
@@ -1415,7 +1424,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         if(!_.includes($scope.package.providers, value)) {$scope.package.providers.push(value)}
         
-        $scope.save()
+        $scope.savePackage()
 
 
     }

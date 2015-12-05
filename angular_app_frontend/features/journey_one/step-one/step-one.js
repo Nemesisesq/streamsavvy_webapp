@@ -61,7 +61,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         _.remove($scope.package.content, content);
 
-        $scope.save()
+        $scope.savePackage()
 
     }
 
@@ -100,7 +100,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         if(!_.includes($scope.package.providers, value)) {$scope.package.providers.push(value)}
         
-        $scope.save()
+        $scope.savePackage()
 
 
     }

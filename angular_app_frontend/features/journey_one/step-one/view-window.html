@@ -1,9 +1,9 @@
 
-<div class="row ss-vw-row" ng-class="{selected: content.viewingWindows[w.type]}">
+<div class="row ss-vw-row" ng-class="{selected: content.viewingWindows[w.type].selected}">
 
     <div class="col-xs-1">
         <input id="{{ id }}" type="checkbox"
-               ng-model="content.viewingWindows[w.type]" ng-change="savePackage()">
+               ng-model="content.viewingWindows[w.type].selected" ng-change="savePackage()">
     </div>
     <div class="col-xs-8">
         <label for="{{ id }}">
@@ -12,10 +12,10 @@
 
     <div class="col-xs-3 dropdown">
         <div uib-dropdown uib-keyboard-nav
-             ng-if="content.viewingWindows[id]">
+             ng-if="content.viewingWindows[id].selected">
             <button id="simple-btn-keyboard-nav" type="button" class=""
                     uib-dropdown-toggle>
-                {{ prePopulateWindowProvider(content, id) || "Choose a Provider" }} <span
+                {{ content.viewingWindows[w.type] || "Choose a Provider" }} <span
                     class="glyphicon glyphicon-menu-down"></span>
             </button>
             <ul class="uib-dropdown-menu" role="menu"

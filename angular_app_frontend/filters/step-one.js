@@ -1,6 +1,15 @@
 /**
  * Created by Nem on 11/17/15.
  */
+
+app.filter('channel', function (type) {
+    var list = _.filter(input, function (elem) {
+            return elem.name != 'Netflix';
+        })
+
+        return list
+})
+
 app.filter('onDemand', function () {
     return function (input) {
 
