@@ -301,7 +301,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
             scope.that = "hello world";
 
             scope.savePackage = function () {
-                debugger;
+                //debugger;
                 PackageFactory.setPackage(scope.package)
             }
 
@@ -313,7 +313,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
             scope.prePopulateWindowProvider = function (content, prop) {
 
-                debugger;
+                //debugger;
 
                 //var array = _.intersection($scope.package.providers, content.content_provider);
 
@@ -340,13 +340,13 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
             }
 
-            scope.saveWindowProvider = function (obj, prop, value) {
+            scope.saveWindowProvider = function (channel) {
                 debugger;
 
-                obj[prop] = value;
+                scope.content.viewingWindows[scope.id].channel = channel;
 
-                if (!_.includes(scope.package.providers, value)) {
-                    scope.package.providers.push(value)
+                if (!_.includes(scope.package.providers, channel)) {
+                    scope.package.providers.push(channel)
                 }
 
                 scope.savePackage()
@@ -362,12 +362,31 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
  * Created by Nem on 11/17/15.
  */
 
-app.filter('channel', function (type) {
-    var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix';
+app.filter('channel', function () {
+    return function (input, type) {
+
+
+        var list = _.filter(input, function (elem) {
+            debugger
+            if(type == 'live'){
+                return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele')
+            }
+            if(type == 'onDemand'){
+                debugger
+                return _.includes(elem.type, 'sub')
+            }
+            if(type == 'fullseason'){
+                debugger
+                return _.includes(elem.type, 'sub')
+            }
+            if(type == 'alacarte'){
+                debugger
+                return _.includes(elem.type, 'purchase')
+            }
         })
 
         return list
+    }
 })
 
 app.filter('onDemand', function () {

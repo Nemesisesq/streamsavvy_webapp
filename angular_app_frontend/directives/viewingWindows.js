@@ -24,7 +24,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
             scope.that = "hello world";
 
             scope.savePackage = function () {
-                debugger;
+                //debugger;
                 PackageFactory.setPackage(scope.package)
             }
 
@@ -36,7 +36,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
             scope.prePopulateWindowProvider = function (content, prop) {
 
-                debugger;
+                //debugger;
 
                 //var array = _.intersection($scope.package.providers, content.content_provider);
 
@@ -63,13 +63,13 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
             }
 
-            scope.saveWindowProvider = function (obj, prop, value) {
+            scope.saveWindowProvider = function (channel) {
                 debugger;
 
-                obj[prop] = value;
+                scope.content.viewingWindows[scope.id].channel = channel;
 
-                if (!_.includes(scope.package.providers, value)) {
-                    scope.package.providers.push(value)
+                if (!_.includes(scope.package.providers, channel)) {
+                    scope.package.providers.push(channel)
                 }
 
                 scope.savePackage()
