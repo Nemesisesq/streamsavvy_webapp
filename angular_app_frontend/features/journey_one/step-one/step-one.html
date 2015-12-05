@@ -47,23 +47,7 @@
 
                             <div id="viewingWindows" class="container-fluid ">
                                 <view-window ng-repeat="i in directiveVW" w="i" content="content" package="package"></view-window>
-
-                                <div class="row ss-vw-row" ng-class="{selected: content.viewingWindows.live }">
-                                    <div class=col-xs-1>
-                                        <input id="live" type="checkbox"
-                                               ng-model="content.viewingWindows.live" ng-change="savePackage()">
-
-                                    </div>
-                                    <div class="col-xs-11">
-                                        <label for="live">
-                                            <strong>Live Over the Air.</strong>
-                                        </label>
-                                        <button class="vw-info" uib-popover="{{ popoverText.Live }}" popover-placement="right"
-                                                popover-trigger="mouseenter"></button>
-                                    </div>
-
-                                </div>
-
+                               
 
                                 <div class="row ss-vw-row confirmation">
 

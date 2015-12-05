@@ -25,7 +25,7 @@
                 <li role="menuitem"
                     ng-repeat="channel in content.channels.web.episodes.all_sources  ">
                     <div class="dropdown-item"
-                         ng-click="content.viewingWindows[id].">
+                         ng-click="content.viewingWindows[id].channel= channel">
                         {{ channel.display_name }}
                     </div>
                 </li>
