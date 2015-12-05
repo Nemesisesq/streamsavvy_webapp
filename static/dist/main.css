@@ -2811,6 +2811,7 @@ ul {
   .step-one .panel-body {
     padding: 0; }
   .step-one .panel-default > .panel-heading {
+    position: relative;
     color: black;
     background-color: white;
     padding: 0;

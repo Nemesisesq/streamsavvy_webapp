@@ -17,7 +17,7 @@
              ng-if="content.viewingWindows[id].selected">
             <button id="simple-btn-keyboard-nav" type="button" class=""
                     uib-dropdown-toggle>
-                {{ content.viewingWindows[w.type].channel || "Choose a Provider" }} <span
+                {{ content.viewingWindows[w.type].channel.display_name || "Choose a Provider" }} <span
                     class="glyphicon glyphicon-menu-down"></span>
             </button>
             <ul class="uib-dropdown-menu" role="menu"
