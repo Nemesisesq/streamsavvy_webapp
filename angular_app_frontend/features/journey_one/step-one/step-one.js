@@ -7,24 +7,28 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         {
             type: 'live',
             headerText : 'Live Over the Air.',
+            toolTip: 'get your content as soon as it dropped.'
 
 
         },
         {
             type: 'onDemand',
             headerText : 'On Demand Subscription.',
+            toolTip: 'day/+ after live airing.'
 
 
         },
         {
             type: 'fullseason',
             headerText : 'Binge Watch Full Seasons',
+            toolTip: 'season behind.'
 
 
         },
         {
             type: 'alacarte',
             headerText : 'Watch Current Season or Episodes for a fee',
+            toolTip: 'day/+ after live airing with no committment'
 
 
         },

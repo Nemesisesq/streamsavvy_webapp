@@ -53,6 +53,27 @@ ul {
     font-size: 18px;
     font-weight: 400;
 
+    .vw-info {
+      //content :"";
+      position: relative;
+      top: 50%;
+      display: inline-block;
+      height: 17px;
+      width: 17px;
+
+    }
+
+    .vw-info:after {
+
+      @include fa(info-circle);
+
+      position: absolute;
+      height: 1px;
+      width: 1px;
+      color: #aeb6bb;
+
+    }
+
     strong {
       font-weight: 900;
     }
@@ -65,7 +86,7 @@ ul {
 
     label {
       position: relative;
-      left: -18px
+      left: -18px;
 
     }
 
@@ -139,7 +160,7 @@ ul {
   }
 
   .panel-default > .panel-heading {
-    position:relative;
+    position: relative;
     color: black;
     background-color: white;
     //border-color: #ddd;
@@ -460,12 +481,11 @@ slick {
   margin-bottom: 3%;
 }
 
-.step-one #viewingWindows .ss-vw-row button.vw-info {
+.vw-tooltip {
+  min-width: 200px;
+  max-width: 400px;
 
-  @include fa(info-circle);
-
-  color: #aeb6bb;
-
-  background-color: transparent;
-
+  .tooltip-inner {
+    min-width: 200px;
+  }
 }

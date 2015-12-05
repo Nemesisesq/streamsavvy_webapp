@@ -630,7 +630,7 @@ footer {
   font-weight: normal;
   font-style: normal; }
 
-.fa, .step-one .selected label:before, slick button.slick-prev:before, slick button.slick-next:after, .step-one #viewingWindows .ss-vw-row button.vw-info {
+.fa, .step-one label .vw-info:after, .step-one .selected label:before, slick button.slick-prev:before, slick button.slick-next:after {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -687,10 +687,10 @@ footer {
 .fa-pull-right {
   float: right; }
 
-.fa.fa-pull-left, .step-one .selected label.fa-pull-left:before, slick button.fa-pull-left.slick-prev:before, slick button.fa-pull-left.slick-next:after, .step-one #viewingWindows .ss-vw-row button.fa-pull-left.vw-info {
+.fa.fa-pull-left, .step-one label .fa-pull-left.vw-info:after, .step-one .selected label.fa-pull-left:before, slick button.fa-pull-left.slick-prev:before, slick button.fa-pull-left.slick-next:after {
   margin-right: .3em; }
 
-.fa.fa-pull-right, .step-one .selected label.fa-pull-right:before, slick button.fa-pull-right.slick-prev:before, slick button.fa-pull-right.slick-next:after, .step-one #viewingWindows .ss-vw-row button.fa-pull-right.vw-info {
+.fa.fa-pull-right, .step-one label .fa-pull-right.vw-info:after, .step-one .selected label.fa-pull-right:before, slick button.fa-pull-right.slick-prev:before, slick button.fa-pull-right.slick-next:after {
   margin-left: .3em; }
 
 /* Deprecated as of 4.4.0 */
@@ -700,10 +700,10 @@ footer {
 .pull-left {
   float: left; }
 
-.fa.pull-left, .step-one .selected label.pull-left:before, slick button.pull-left.slick-prev:before, slick button.pull-left.slick-next:after, .step-one #viewingWindows .ss-vw-row button.pull-left.vw-info {
+.fa.pull-left, .step-one label .pull-left.vw-info:after, .step-one .selected label.pull-left:before, slick button.pull-left.slick-prev:before, slick button.pull-left.slick-next:after {
   margin-right: .3em; }
 
-.fa.pull-right, .step-one .selected label.pull-right:before, .step-one #viewingWindows .ss-vw-row .dropdown button span.fa, slick button.pull-right.slick-prev:before, slick button.pull-right.slick-next:after, .step-one #viewingWindows .ss-vw-row button.pull-right.vw-info {
+.fa.pull-right, .step-one label .pull-right.vw-info:after, .step-one label #viewingWindows .ss-vw-row .dropdown button span.vw-info:after, .step-one #viewingWindows .ss-vw-row .dropdown button label span.vw-info:after, .step-one .selected label.pull-right:before, .step-one #viewingWindows .ss-vw-row .dropdown button span.fa, slick button.pull-right.slick-prev:before, slick button.pull-right.slick-next:after {
   margin-left: .3em; }
 
 .fa-spin {
@@ -1055,7 +1055,7 @@ footer {
 .fa-question-circle:before {
   content: ""; }
 
-.fa-info-circle:before, .step-one #viewingWindows .ss-vw-row button.vw-info {
+.fa-info-circle:before, .step-one label .vw-info:after {
   content: ""; }
 
 .fa-crosshairs:before {
@@ -2774,6 +2774,17 @@ ul {
   .step-one label {
     font-size: 18px;
     font-weight: 400; }
+    .step-one label .vw-info {
+      position: relative;
+      top: 50%;
+      display: inline-block;
+      height: 17px;
+      width: 17px; }
+    .step-one label .vw-info:after {
+      position: absolute;
+      height: 1px;
+      width: 1px;
+      color: #aeb6bb; }
     .step-one label strong {
       font-weight: 900; }
   .step-one .selected input {
@@ -2992,9 +3003,11 @@ slick button {
     color: #848484;
     margin: 23px; }
 
-.step-one #viewingWindows .ss-vw-row button.vw-info {
-  color: #aeb6bb;
-  background-color: transparent; }
+.vw-tooltip {
+  min-width: 200px;
+  max-width: 400px; }
+  .vw-tooltip .tooltip-inner {
+    min-width: 200px; }
 
 .still-confused .make-sure {
   background: white;
