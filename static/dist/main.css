@@ -3301,11 +3301,14 @@ slick button {
   .step-four .price-list .total-cost {
     float: right; }
   .step-four .totals {
-    margin-top: 7%;
+    margin-top: 3%;
     text-align: center; }
   .step-four .hardware-total {
     color: #45a7e5;
     font-size: 1.6em; }
+    .step-four .hardware-total label {
+      float: left;
+      padding-left: 22px; }
     .step-four .hardware-total .hardware-cost {
       font-weight: 700;
       float: right; }

@@ -11,7 +11,7 @@
         </div>
         <div class="row">
 
-        <div class="col-md-9 summary-list"><h3 class="services-header">Services</h3>
+        <div class="col-md-8 summary-list"><h3 class="services-header">Services</h3>
                 <div class="click-on"><p>Click on the service and you'll be redirected to the appropriate site.</p></div>
         <div class="row service-rows" ng-repeat="provider in package.providers  ">
             <div class=" summary-service">
@@ -25,11 +25,10 @@
                 {{ item.name }}
             </div>
         </div></div>
-            <div class="col-md-3 price-list">
-                <div><h3 class="total-header">Total:<span class="total-cost">${{packageTotal}}</span></h3></div>
+            <div class="col-md-4 price-list">
+                <div><h3 class="total-header">Monthly Total:<span class="total-cost">${{servicesTotal}}</span></h3></div>
                 <div class="totals">
-                    <div class="hardware-total">Hardware Total: <span class="hardware-cost">${{hardwareTotal}}</span></div>
-                    <div class="services-total">Your Monthly Total: <span class="services-cost">${{servicesTotal}}</span></div>
+                    <div class="hardware-total"><label>Hardware Total:</label> <span class="hardware-cost">${{hardwareTotal}}</span></div>
                 </div>
             </div>
         </div>
