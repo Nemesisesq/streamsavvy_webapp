@@ -115,12 +115,17 @@
     }
   }
   .totals{
-    margin-top: 7%;
+    margin-top: 3%;
     text-align: center;
   }
   .hardware-total{
     color:#45a7e5;
     font-size:1.6em;
+    label{
+      float:left;
+      padding-left: 22px;
+
+    }
     .hardware-cost{
       font-weight: 700;
       float: right;

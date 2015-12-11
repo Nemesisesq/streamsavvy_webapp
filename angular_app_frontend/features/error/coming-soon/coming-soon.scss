@@ -1,6 +1,10 @@
 .coming-soon{
   background-color:#1F2325;
   height: 960px;
+  .close-cross{
+    min-width: 0;
+    margin-right: 85px;
+  }
   .coming-soon-body{
     .row{
       text-align: center;
