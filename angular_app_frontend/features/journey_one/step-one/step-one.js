@@ -52,7 +52,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     $scope.package = PackageFactory.getPackage();
 
     $scope.onDemandLength = function (c) {
-        debugger;
+        //debugger;
 
         return _.filter(c, function(n){
             return n.name == 'Netflix'
@@ -61,7 +61,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
     $scope.delete = function (content) {
-        debugger;
+        //debugger;
 
         _.remove($scope.package.content, content);
 
@@ -116,7 +116,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 
     $scope.savePackage = function() {
-        debugger;
+        //debugger;
         PackageFactory.setPackage($scope.package)
     }
 

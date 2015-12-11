@@ -296,7 +296,9 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
         link: function (scope, element, attrs) {
             scope.id = scope.w.type;
 
-            scope.channels = scope.content.channels.web.episodes.all_sources
+            scope.channels = scope.content.channels.web.episodes.all_sources;
+
+            scope.sources = _.union(scope.channels, scope.content.content_provider)
 
             scope.that = "hello world";
 
@@ -341,7 +343,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
             }
 
             scope.saveWindowProvider = function (channel) {
-                debugger;
+                //debugger;
 
                 scope.content.viewingWindows[scope.id].channel = channel;
 
@@ -357,6 +359,10 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
         }
 
     }
+
+    angular.element('div').click(function () {
+        console.log('hello world')
+    })
 })
 /**
  * Created by Nem on 11/17/15.
@@ -367,20 +373,20 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            debugger
+            //debugger
             if(type == 'live'){
                 return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele')
             }
             if(type == 'onDemand'){
-                debugger
-                return _.includes(elem.type, 'sub')
+                //debugger
+                return _.includes(elem.type, 'sub') || elem.type == 'free';
             }
             if(type == 'fullseason'){
-                debugger
+                //debugger
                 return _.includes(elem.type, 'sub')
             }
             if(type == 'alacarte'){
-                debugger
+                //debugger
                 return _.includes(elem.type, 'purchase')
             }
         })
@@ -1103,7 +1109,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
 
 
     var matchCase = function (search, result) {
-        debugger;
+        //debugger;
 
         var resultArray = result.split('');
 
@@ -1128,7 +1134,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
-                    debugger;
+                    //debugger;
 
 
                     var res = _.min(data.results, function (elem) {
@@ -1155,12 +1161,12 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
     }, 250, {'maxWait': 1000});
 
     $scope.addToSelectedShows = function (suggestion) {
-        debugger;
+        //debugger;
         var ssPackage = PackageFactory.getPackage();
 
         $http.get('/channels/' + suggestion.guidebox_id)
             .then(function (data) {
-                debugger;
+                //debugger;
                 suggestion.channels = data.data.results;
                 ssPackage.content.push(suggestion);
                 PackageFactory.setPackage(ssPackage);
@@ -1225,17 +1231,18 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
 
 
 });
+
+
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+
 
     $scope.login = 'Click Here to Login'
 
+
     $scope.items = ['item1', 'item2', 'item3'];
 
-
-
-
     $rootScope.openLogInModal = function () {
-        debugger;
+        //debugger;
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',
@@ -1298,6 +1305,37 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel')
     }
+
+})
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = getHardwareTotal();
+    $scope.servicesTotal = 9.99;
+    $scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+    function getHardwareTotal() {
+        var hardTotal = 0;
+        for(var i= 0; i<$scope.package.hardware.length;i++)
+        {
+            hardTotal += ($scope.package.hardware[i].retail_cost);
+        }
+        hardTotal = parseFloat(hardTotal.toFixed(2));
+        return hardTotal;
+    }
+
+    function getPackageTotal() {
+        var packTotal = 0;
+        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
+        packTotal = parseFloat(packTotal.toFixed(2));
+
+        return packTotal;
+    }
+
 
 })
 /**
@@ -1395,7 +1433,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     $scope.package = PackageFactory.getPackage();
 
     $scope.onDemandLength = function (c) {
-        debugger;
+        //debugger;
 
         return _.filter(c, function(n){
             return n.name == 'Netflix'
@@ -1404,7 +1442,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
     $scope.delete = function (content) {
-        debugger;
+        //debugger;
 
         _.remove($scope.package.content, content);
 
@@ -1459,7 +1497,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 
     $scope.savePackage = function() {
-        debugger;
+        //debugger;
         PackageFactory.setPackage($scope.package)
     }
 
@@ -1472,37 +1510,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 });
 
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = getHardwareTotal();
-    $scope.servicesTotal = 9.99;
-    $scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-    function getHardwareTotal() {
-        var hardTotal = 0;
-        for(var i= 0; i<$scope.package.hardware.length;i++)
-        {
-            hardTotal += ($scope.package.hardware[i].retail_cost);
-        }
-        hardTotal = parseFloat(hardTotal.toFixed(2));
-        return hardTotal;
-    }
-
-    function getPackageTotal() {
-        var packTotal = 0;
-        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
-        packTotal = parseFloat(packTotal.toFixed(2));
-
-        return packTotal;
-    }
-
-
-})
 /**
  * Created by Nem on 11/25/15.
  */

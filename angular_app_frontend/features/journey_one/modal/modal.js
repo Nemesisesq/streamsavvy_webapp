@@ -1,14 +1,15 @@
+
+
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+
 
     $scope.login = 'Click Here to Login'
 
+
     $scope.items = ['item1', 'item2', 'item3'];
 
-
-
-
     $rootScope.openLogInModal = function () {
-        debugger;
+        //debugger;
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',

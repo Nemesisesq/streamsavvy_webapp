@@ -7,20 +7,20 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            debugger
+            //debugger
             if(type == 'live'){
                 return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele')
             }
             if(type == 'onDemand'){
-                debugger
-                return _.includes(elem.type, 'sub')
+                //debugger
+                return _.includes(elem.type, 'sub') || elem.type == 'free';
             }
             if(type == 'fullseason'){
-                debugger
+                //debugger
                 return _.includes(elem.type, 'sub')
             }
             if(type == 'alacarte'){
-                debugger
+                //debugger
                 return _.includes(elem.type, 'purchase')
             }
         })

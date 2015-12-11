@@ -19,7 +19,9 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
         link: function (scope, element, attrs) {
             scope.id = scope.w.type;
 
-            scope.channels = scope.content.channels.web.episodes.all_sources
+            scope.channels = scope.content.channels.web.episodes.all_sources;
+
+            scope.sources = _.union(scope.channels, scope.content.content_provider)
 
             scope.that = "hello world";
 
@@ -64,7 +66,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
             }
 
             scope.saveWindowProvider = function (channel) {
-                debugger;
+                //debugger;
 
                 scope.content.viewingWindows[scope.id].channel = channel;
 
@@ -80,4 +82,8 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
         }
 
     }
+
+    angular.element('div').click(function () {
+        console.log('hello world')
+    })
 })

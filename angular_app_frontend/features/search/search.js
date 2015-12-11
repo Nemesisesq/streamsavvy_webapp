@@ -32,7 +32,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
 
 
     var matchCase = function (search, result) {
-        debugger;
+        //debugger;
 
         var resultArray = result.split('');
 
@@ -57,7 +57,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
-                    debugger;
+                    //debugger;
 
 
                     var res = _.min(data.results, function (elem) {
@@ -84,12 +84,12 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
     }, 250, {'maxWait': 1000});
 
     $scope.addToSelectedShows = function (suggestion) {
-        debugger;
+        //debugger;
         var ssPackage = PackageFactory.getPackage();
 
         $http.get('/channels/' + suggestion.guidebox_id)
             .then(function (data) {
-                debugger;
+                //debugger;
                 suggestion.channels = data.data.results;
                 ssPackage.content.push(suggestion);
                 PackageFactory.setPackage(ssPackage);

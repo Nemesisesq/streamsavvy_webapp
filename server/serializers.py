@@ -47,6 +47,7 @@ class ContentProviderSerializer(serializers.HyperlinkedModelSerializer):
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Content
+        depth=3
         # fields = ('url',
         # 'title',
         # 'description',
