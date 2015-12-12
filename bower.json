@@ -29,6 +29,7 @@
     "angular-resource": "~1.4.3",
     "lodash": "~3.10.0",
     "angular-bootstrap": "~0.14.3",
-    "angular-slick": "~0.2.1"
+    "angular-slick": "~0.2.1",
+    "fuse.js": "fuse#~1.3.1"
   }
 }

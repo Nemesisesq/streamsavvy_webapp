@@ -593,6 +593,10 @@ app.factory('_', function($window){
     return $window._;
 })
 
+app.factory('Fuse', function ($window) {
+    return $window.Fuse
+})
+
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -693,6 +697,10 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
     $rootScope.load()
 });
 /**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -720,10 +728,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 
 });
-
-/**
- * Created by Nem on 10/7/15.
- */
 
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
@@ -1078,10 +1082,29 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, $rootScope) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse) {
 
+    var nShows = [];
 
-    var searchTerms = [];
+    var nChannel = {
+        display_name: "Netflix",
+        id: 0000,
+        source: "netflix",
+        type: "subscription"
+    }
+
+    $http.get('netflixable/')
+        .then(function (data) {
+
+            nShows = new Fuse(data.data, {threshold:.2});
+        })
+
+    function isOnNetFlix(show) {
+        debugger;
+        if (nShows.search(show.title)){
+            return true;
+        }
+    }
 
     function checkNextLetter() {
         var s = $scope.searchText,
@@ -1168,25 +1191,15 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
             .then(function (data) {
                 //debugger;
                 suggestion.channels = data.data.results;
+                debugger;
+                if (isOnNetFlix(suggestion)) {
+                    suggestion.channels.web.episodes.all_sources.push(nChannel)
+                }
                 ssPackage.content.push(suggestion);
+
+
                 PackageFactory.setPackage(ssPackage);
             })
-
-
-        //TODO clean this up after the Package Service implementation is working
-        // http.getRestPackage()
-        //    .then(function (pkg) {
-        //        newPackage = pkg;
-        //        newPackage.content.push(suggestion.url);
-        //
-        //        http.putPackage(newPackage)
-        //            .then(function (result) {
-        //
-        //                console.log(result);
-        //                $rootScope.loadPackage()
-        //
-        //            })
-        //    });
 
         $scope.searchText = '';
         $scope.suggestions = [];
@@ -1305,37 +1318,6 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel')
     }
-
-})
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = getHardwareTotal();
-    $scope.servicesTotal = 9.99;
-    $scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-    function getHardwareTotal() {
-        var hardTotal = 0;
-        for(var i= 0; i<$scope.package.hardware.length;i++)
-        {
-            hardTotal += ($scope.package.hardware[i].retail_cost);
-        }
-        hardTotal = parseFloat(hardTotal.toFixed(2));
-        return hardTotal;
-    }
-
-    function getPackageTotal() {
-        var packTotal = 0;
-        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
-        packTotal = parseFloat(packTotal.toFixed(2));
-
-        return packTotal;
-    }
-
 
 })
 /**
@@ -1510,6 +1492,37 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 });
 
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = getHardwareTotal();
+    $scope.servicesTotal = 9.99;
+    $scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+    function getHardwareTotal() {
+        var hardTotal = 0;
+        for(var i= 0; i<$scope.package.hardware.length;i++)
+        {
+            hardTotal += ($scope.package.hardware[i].retail_cost);
+        }
+        hardTotal = parseFloat(hardTotal.toFixed(2));
+        return hardTotal;
+    }
+
+    function getPackageTotal() {
+        var packTotal = 0;
+        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
+        packTotal = parseFloat(packTotal.toFixed(2));
+
+        return packTotal;
+    }
+
+
+})
 /**
  * Created by Nem on 11/25/15.
  */

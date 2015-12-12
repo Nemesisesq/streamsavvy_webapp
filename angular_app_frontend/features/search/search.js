@@ -1,10 +1,29 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, $rootScope) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse) {
 
+    var nShows = [];
 
-    var searchTerms = [];
+    var nChannel = {
+        display_name: "Netflix",
+        id: 0000,
+        source: "netflix",
+        type: "subscription"
+    }
+
+    $http.get('netflixable/')
+        .then(function (data) {
+
+            nShows = new Fuse(data.data, {threshold:.2});
+        })
+
+    function isOnNetFlix(show) {
+        debugger;
+        if (nShows.search(show.title)){
+            return true;
+        }
+    }
 
     function checkNextLetter() {
         var s = $scope.searchText,
@@ -91,25 +110,15 @@ app.controller('search', function ($scope, $http, http, PackageFactory, $rootSco
             .then(function (data) {
                 //debugger;
                 suggestion.channels = data.data.results;
+                debugger;
+                if (isOnNetFlix(suggestion)) {
+                    suggestion.channels.web.episodes.all_sources.push(nChannel)
+                }
                 ssPackage.content.push(suggestion);
+
+
                 PackageFactory.setPackage(ssPackage);
             })
-
-
-        //TODO clean this up after the Package Service implementation is working
-        // http.getRestPackage()
-        //    .then(function (pkg) {
-        //        newPackage = pkg;
-        //        newPackage.content.push(suggestion.url);
-        //
-        //        http.putPackage(newPackage)
-        //            .then(function (result) {
-        //
-        //                console.log(result);
-        //                $rootScope.loadPackage()
-        //
-        //            })
-        //    });
 
         $scope.searchText = '';
         $scope.suggestions = [];

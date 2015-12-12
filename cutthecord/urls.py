@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^social', include('social.apps.django_app.urls', namespace='social')),
     url(r'^django-rq', include('django_rq.urls')),
     url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
+    url(r'^netflixable/', NetFlixListView.as_view(), name='netflixable'),
     # url(r'^script/netflixable', get_netflixable_shows )
     # url(r'^package/$', package_list),
     # url(r'^package/(?P<pk>[0-9]+)/$', package_detail),

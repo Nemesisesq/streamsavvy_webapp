@@ -1,8 +1,11 @@
+import itertools
 import json
 import logging
 import re
 import time
+import urllib
 
+from bs4 import BeautifulSoup
 from django.contrib.auth.models import Group
 from django.core.cache import cache
 from django.db.models import Q
@@ -14,15 +17,54 @@ from rest_framework.permissions import IsAdminUser
 from server.models import *
 from server.permissions import IsAdminOrReadOnly
 from server.populate_data.guidebox import GuideBox
+from server.populate_data.netflixable import Netflixable
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ContentProviderSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer
+
+def flatten(l):
+  out = []
+  for item in l:
+    if isinstance(item, (list, tuple)):
+      out.extend(flatten(item))
+    else:
+      out.append(item)
+  return out
+
+class NetFlixListView(View):
+    def get(self, request):
+
+        n_show_list = cache.get('netflix_show_list')
+        if n_show_list:
+            return JsonResponse(n_show_list, safe=False)
+        else:
+            host = 'http://usa.netflixable.com'
+
+            with urllib.request.urlopen(host) as response:
+                soup = BeautifulSoup(response, 'html.parser')
+
+            def alpha_list(href):
+                return href and re.compile("alphabetical-list").search(href)
+
+            ref_list = soup.find_all(href=alpha_list)
+
+            url = host + ref_list[0].get('href')
+
+            n = Netflixable(url)
+
+            n_show_list = n.get_shows_from_soup()
+
+            n_show_list = flatten(n_show_list)
+
+            cache.set('netflix_show_list', n_show_list, timeout=24 * 60 * 60)
+
+            return JsonResponse(n_show_list, safe=False)
 
 
 class ShowChannelsView(View):
     def get(self, request, show_id):
         channel_key = "channel_set_{}".format(show_id)
         if cache.get(channel_key):
-            channel_set = json.loads(cache.get(channel_key))
+            channel_set = cache.get(channel_key)
             return JsonResponse(channel_set, safe=False)
 
         g = GuideBox()
