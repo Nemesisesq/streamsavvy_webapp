@@ -1,9 +1,10 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS) {
 
     var nShows = [];
+
 
     var nChannel = {
         display_name: "Netflix",
@@ -15,12 +16,12 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse)
     $http.get('netflixable/')
         .then(function (data) {
 
-            nShows = new Fuse(data.data, {threshold:.2});
+            nShows = new Fuse(data.data, {threshold: .2});
         })
 
     function isOnNetFlix(show) {
         debugger;
-        if (nShows.search(show.title)){
+        if (nShows.search(show.title)) {
             return true;
         }
     }
@@ -51,7 +52,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse)
 
 
     var matchCase = function (search, result) {
-        //debugger;
+
 
         var resultArray = result.split('');
 
@@ -76,7 +77,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse)
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
-                    //debugger;
+
 
 
                     var res = _.min(data.results, function (elem) {
@@ -108,15 +109,24 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse)
 
         $http.get('/channels/' + suggestion.guidebox_id)
             .then(function (data) {
-                //debugger;
-                suggestion.channels = data.data.results;
-                debugger;
+                suggestion.channels = data.data.results
+
+                var allSources = suggestion.channels.web.episodes.all_sources;
                 if (isOnNetFlix(suggestion)) {
-                    suggestion.channels.web.episodes.all_sources.push(nChannel)
+                    allSources.push(nChannel)
                 }
+                     var b = _.map(BANNED_CHANNELS, function (elem) {
+                         return elem.toLowerCase().replace(' ', '')
+                     })
+                _.remove(allSources, function (elem) {
+
+
+                    var e = elem.display_name.toLowerCase().replace(' ','');
+                    debugger;
+                    return _.includes(b, e)
+                });
+
                 ssPackage.content.push(suggestion);
-
-
                 PackageFactory.setPackage(ssPackage);
             })
 

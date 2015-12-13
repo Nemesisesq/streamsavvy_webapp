@@ -1,4 +1,3 @@
-import itertools
 import json
 import logging
 import re
@@ -21,14 +20,16 @@ from server.populate_data.netflixable import Netflixable
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ContentProviderSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer
 
+
 def flatten(l):
-  out = []
-  for item in l:
-    if isinstance(item, (list, tuple)):
-      out.extend(flatten(item))
-    else:
-      out.append(item)
-  return out
+    out = []
+    for item in l:
+        if isinstance(item, (list, tuple)):
+            out.extend(flatten(item))
+        else:
+            out.append(item)
+    return out
+
 
 class NetFlixListView(View):
     def get(self, request):
@@ -61,15 +62,20 @@ class NetFlixListView(View):
 
 
 class ShowChannelsView(View):
+
     def get(self, request, show_id):
         channel_key = "channel_set_{}".format(show_id)
         if cache.get(channel_key):
             channel_set = cache.get(channel_key)
+
+
             return JsonResponse(channel_set, safe=False)
 
         g = GuideBox()
 
         channel_set = json.loads(g.get_channels(show_id))
+
+
 
         cache.set(channel_key, channel_set)
 

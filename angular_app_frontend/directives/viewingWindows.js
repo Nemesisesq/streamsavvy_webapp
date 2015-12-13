@@ -42,7 +42,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
                 //var array = _.intersection($scope.package.providers, content.content_provider);
 
-                var array = _.filter(scope.channels , function (prov) {
+                var array = _.filter(scope.channels, function (prov) {
                     return _.includes(_.map(scope.package.providers, function (elem) {
                         return elem.name
                     }), prov.name)
@@ -83,7 +83,4 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
     }
 
-    angular.element('div').click(function () {
-        console.log('hello world')
-    })
 })

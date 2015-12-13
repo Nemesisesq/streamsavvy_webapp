@@ -1,11 +1,20 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick']);
-
-app.constant('CONFIG', {
-    'URL': location.origin
-})
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick'])
+    .constant('CONFIG', {
+        'URL': location.origin
+    })
+    .constant('BANNED_CHANNELS', ['HBO Go',
+        'Xfinity',
+        'FX',
+        'AMC',
+        'TBS',
+        'TNT',
+        'ABC',
+        'Showtime Anytime',
+        'USA',
+        'STARZ Play']);
 
 app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
@@ -28,7 +37,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
             },
             views: {
                 'modal': {
-                    templateUrl : 'static/partials/modal/modalContainer.html',
+                    templateUrl: 'static/partials/modal/modalContainer.html',
                     controller: 'ModalController'
                 },
                 'home': {
@@ -62,41 +71,42 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('explain',{
-            abstract:true,
+        .state('explain', {
+            abstract: true,
             templateUrl: "static/partials/explain.html"
         })
-        .state('explain.still-confused',{
+        .state('explain.still-confused', {
             url: '/explain/still-confused/1',
             data: {
                 explain: 1
-        },
-        views: {
-            'navigation': {
-                templateUrl: "/static/partials/navigation.html",
-                controller: 'navigation'
             },
-            'still-confused': {
-                templateUrl: 'static/partials/explain/still-confused.html'
-            },
-            'footer': {
-                templateUrl: 'static/partials/footer.html'
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'still-confused': {
+                    templateUrl: 'static/partials/explain/still-confused.html'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
             }
-        }
         })
-        .state('error',{
-            abstract:true,
+        .state('error', {
+            abstract: true,
             templateUrl: "static/partials/error.html"
         })
-        .state('error.coming-soon',{
+        .state('error.coming-soon', {
             url: '/error/coming-soon',
             data: {
                 error: 1
-        },
-        views: {
-            'coming-soon': {
-                templateUrl: 'static/partials/error/coming-soon.html'
-            }}
+            },
+            views: {
+                'coming-soon': {
+                    templateUrl: 'static/partials/error/coming-soon.html'
+                }
+            }
         })
         .state('nav.index', {
             url: '/search',
