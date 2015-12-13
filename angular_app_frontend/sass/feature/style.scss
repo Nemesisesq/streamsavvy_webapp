@@ -154,7 +154,6 @@ hr {
 .usr-path-header {
   padding-top: 7%;
   padding-bottom: 3%;
-  height: 170px !important;
   vertical-align: middle;
   position: relative;
   text-align: center;
@@ -179,7 +178,6 @@ hr {
 }
 .usr-paths{
   .img-responsive{
-    min-height:283px;
   }
 }
 
@@ -427,8 +425,8 @@ h4{
   padding-bottom: 50px;
 }
 
-.green-link {
-  color: #42aa67;
+.red-link {
+  color: #c21a1f;
 }
 
 footer {

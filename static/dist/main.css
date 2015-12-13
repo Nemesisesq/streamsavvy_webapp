@@ -304,7 +304,6 @@ hr {
 .usr-path-header {
   padding-top: 7%;
   padding-bottom: 3%;
-  height: 170px !important;
   vertical-align: middle;
   position: relative;
   text-align: center;
@@ -324,9 +323,6 @@ hr {
 .img-thumbnail {
   background-color: transparent;
   height: 45px; }
-
-.usr-paths .img-responsive {
-  min-height: 283px; }
 
 .burger {
   max-width: 30px;
@@ -529,8 +525,8 @@ h4 {
   left: 32%;
   padding-bottom: 50px; }
 
-.green-link {
-  color: #42aa67; }
+.red-link {
+  color: #c21a1f; }
 
 footer {
   padding: 25px 0;
