@@ -77,23 +77,31 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
+                    debugger;
 
 
 
-                    var res = _.min(data.results, function (elem) {
+                    //var res = _.min(data.results, function (elem) {
+                    //    return elem.title.length
+                    //
+                    //})
+
+                    //var searchResult = matchCase($scope.searchText, res.title);
+
+                    //if (_.includes(searchResult, $scope.searchText)) {
+                    //    $scope.searchResult = searchResult;
+                    //
+                    //}
+
+                    var sorted = _.sortBy(data.results, function (elem) {
+                        debugger
+
                         return elem.title.length
 
                     })
 
-                    var searchResult = matchCase($scope.searchText, res.title);
-
-                    if (_.includes(searchResult, $scope.searchText)) {
-                        $scope.searchResult = searchResult;
-
-                    }
-
                     if (data.searchText == $scope.searchText) {
-                        $scope.suggestions = data.results;
+                        $scope.suggestions = sorted;
                     }
 
                     $scope.selectedIndex = -1
@@ -173,3 +181,4 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
 
 });
+

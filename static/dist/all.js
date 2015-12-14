@@ -603,7 +603,6 @@ app.factory('_', function($window){
 app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
-
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -703,6 +702,7 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
+
 /**
  * Created by Nem on 10/7/15.
  */
@@ -1165,23 +1165,31 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
+                    debugger;
 
 
 
-                    var res = _.min(data.results, function (elem) {
+                    //var res = _.min(data.results, function (elem) {
+                    //    return elem.title.length
+                    //
+                    //})
+
+                    //var searchResult = matchCase($scope.searchText, res.title);
+
+                    //if (_.includes(searchResult, $scope.searchText)) {
+                    //    $scope.searchResult = searchResult;
+                    //
+                    //}
+
+                    var sorted = _.sortBy(data.results, function (elem) {
+                        debugger
+
                         return elem.title.length
 
                     })
 
-                    var searchResult = matchCase($scope.searchText, res.title);
-
-                    if (_.includes(searchResult, $scope.searchText)) {
-                        $scope.searchResult = searchResult;
-
-                    }
-
                     if (data.searchText == $scope.searchText) {
-                        $scope.suggestions = data.results;
+                        $scope.suggestions = sorted;
                     }
 
                     $scope.selectedIndex = -1
@@ -1261,6 +1269,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
 
 });
+
+
 
 
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {

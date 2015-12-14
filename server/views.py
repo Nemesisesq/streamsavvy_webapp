@@ -162,6 +162,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         for i in filtered_ids:
             q = Q(pk=i)
 
+
             if self.params:
                 self.params = self.params | q
 

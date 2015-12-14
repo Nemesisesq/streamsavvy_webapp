@@ -157,7 +157,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication'
 
     ),
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 20
 }
 
 TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'
