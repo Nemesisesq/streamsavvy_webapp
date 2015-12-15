@@ -63,6 +63,9 @@ class ContentProvider(models.Model):
                 data[f.name] = f.value_from_object(instance)
         return data
 
+# class Channel(models.Model):
+
+
 
 class Content(models.Model):
     title = models.CharField(max_length=250, blank=False, null=False)

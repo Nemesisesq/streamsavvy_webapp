@@ -9,7 +9,7 @@ app.filter('channel', function () {
         var list = _.filter(input, function (elem) {
             //debugger
             if(type == 'live'){
-                return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele')
+                return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' )
             }
             if(type == 'onDemand'){
                 //debugger

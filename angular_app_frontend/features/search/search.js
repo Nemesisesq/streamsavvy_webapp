@@ -80,7 +80,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     debugger;
 
 
-
                     //var res = _.min(data.results, function (elem) {
                     //    return elem.title.length
                     //
@@ -94,7 +93,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     //}
 
                     var sorted = _.sortBy(data.results, function (elem) {
-                        debugger
+
 
                         return elem.title.length
 
@@ -117,19 +116,33 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
         $http.get('/channels/' + suggestion.guidebox_id)
             .then(function (data) {
-                suggestion.channels = data.data.results
+
+                var slingObj = {
+                    display_name: "SlingTV",
+                    id: 147,
+                    source: "sling_tv",
+                    type: "live_online_tv"
+                }
+
+                suggestion.channels = data.data.results;
+
+
+                if (_.some(suggestion.content_provider, 'name', 'SlingTV')) {
+                    suggestion.channels.push(slingObj)
+                }
+
 
                 var allSources = suggestion.channels.web.episodes.all_sources;
                 if (isOnNetFlix(suggestion)) {
                     allSources.push(nChannel)
                 }
-                     var b = _.map(BANNED_CHANNELS, function (elem) {
-                         return elem.toLowerCase().replace(' ', '')
-                     })
+                var b = _.map(BANNED_CHANNELS, function (elem) {
+                    return elem.toLowerCase().replace(' ', '')
+                })
                 _.remove(allSources, function (elem) {
 
 
-                    var e = elem.display_name.toLowerCase().replace(' ','');
+                    var e = elem.display_name.toLowerCase().replace(' ', '');
                     debugger;
                     return _.includes(b, e)
                 });
