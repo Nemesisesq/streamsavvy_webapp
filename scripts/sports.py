@@ -46,5 +46,5 @@ def run():
 
 import os
 
-if os.environ['DEBUG']:
+if 'DEBUG' in os.environ:
     run()
