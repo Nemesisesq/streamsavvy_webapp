@@ -304,6 +304,8 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
         templateUrl: '/static/partials/step-one/view-window.html',
 
         link: function (scope, element, attrs) {
+
+
             scope.id = scope.w.type;
 
             scope.channels = scope.content.channels.web.episodes.all_sources;
@@ -1098,7 +1100,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         display_name: "Netflix",
         id: 0000,
         source: "netflix",
-        type: "subscription"
+        type: "online_live_tv"
     }
 
     $http.get('netflixable/')
@@ -1108,7 +1110,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         })
 
     function isOnNetFlix(show) {
-        debugger;
+        //debugger;
         if (nShows.search(show.title)) {
             return true;
         }
@@ -1139,21 +1141,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
     }
 
 
-    var matchCase = function (search, result) {
 
-
-        var resultArray = result.split('');
-
-        for (var i = 0; i < search.length; i++) {
-            if (search[i] !== resultArray[i]) {
-                resultArray[i] = switchCase(resultArray[i])
-            }
-        }
-
-        return resultArray.join('')
-
-
-    }
 
     $scope.checkMatched = function () {
         return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
@@ -1165,7 +1153,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
-                    debugger;
+                    //debugger;
 
 
                     //var res = _.min(data.results, function (elem) {
@@ -1202,42 +1190,62 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         //debugger;
         var ssPackage = PackageFactory.getPackage();
 
-        $http.get('/channels/' + suggestion.guidebox_id)
-            .then(function (data) {
+        function addSling() {
+            var slingObj = {
+                display_name: "Sling TV",
+                id: 147,
+                source: "sling_tv",
+                type: "live_online_tv"
+            }
 
-                var slingObj = {
-                    display_name: "SlingTV",
-                    id: 147,
-                    source: "sling_tv",
-                    type: "live_online_tv"
-                }
-
-                suggestion.channels = data.data.results;
+            debugger;
 
 
-                if (_.some(suggestion.content_provider, 'name', 'SlingTV')) {
-                    suggestion.channels.push(slingObj)
-                }
+            if (_.some(suggestion.content_provider, 'name', 'SlingTv')) {
+                suggestion.channels.web.episodes.all_sources.push(slingObj)
+            }
+        }
 
 
-                var allSources = suggestion.channels.web.episodes.all_sources;
-                if (isOnNetFlix(suggestion)) {
-                    allSources.push(nChannel)
-                }
-                var b = _.map(BANNED_CHANNELS, function (elem) {
-                    return elem.toLowerCase().replace(' ', '')
+
+        if (typeof suggestion.guidebox_id === 'number') {
+            $http.get('/channels/' + suggestion.guidebox_id)
+                .then(function (data) {
+
+
+                    suggestion.channels = data.data.results;
+
+                    addSling();
+
+
+                    var allSources = suggestion.channels.web.episodes.all_sources;
+                    if (isOnNetFlix(suggestion)) {
+                        allSources.push(nChannel)
+                    }
+                    var b = _.map(BANNED_CHANNELS, function (elem) {
+                        return elem.toLowerCase().replace(' ', '')
+                    })
+                    _.remove(allSources, function (elem) {
+
+
+                        var e = elem.display_name.toLowerCase().replace(' ', '');
+
+                        return _.includes(b, e)
+                    });
+
+                    ssPackage.content.push(suggestion);
+                    PackageFactory.setPackage(ssPackage);
                 })
-                _.remove(allSources, function (elem) {
+        } else {
+            if(suggestion.channels === undefined){
+                suggestion.channels = {web:{episodes:{all_sources: []}}}
+            }
 
+            addSling();
 
-                    var e = elem.display_name.toLowerCase().replace(' ', '');
-                    debugger;
-                    return _.includes(b, e)
-                });
-
-                ssPackage.content.push(suggestion);
-                PackageFactory.setPackage(ssPackage);
-            })
+            ssPackage.content.push(suggestion);
+            PackageFactory.setPackage(ssPackage);
+        }
 
         $scope.searchText = '';
         $scope.suggestions = [];

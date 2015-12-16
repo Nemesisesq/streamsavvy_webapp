@@ -17,6 +17,8 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
         templateUrl: '/static/partials/step-one/view-window.html',
 
         link: function (scope, element, attrs) {
+
+
             scope.id = scope.w.type;
 
             scope.channels = scope.content.channels.web.episodes.all_sources;
