@@ -32,16 +32,13 @@ sports = [
 ]
 
 
-def create_sport(s):
-    c = Content.objects.get_or_create(**s)[0]
-    c.content_provider.add(sling).save()
-
 
 def run():
-    q = django_rq.get_queue('low')
 
     for s in sports:
-       create_sport(s)
+        c = Content.objects.get_or_create(**s)[0]
+        c.content_provider.add(sling)
+        c.save()
 
 
 import os
