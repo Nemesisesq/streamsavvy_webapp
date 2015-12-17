@@ -1111,7 +1111,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
     function isOnNetFlix(show) {
         //debugger;
-        if (nShows.search(show.title)) {
+        if (nShows.search(show.title).length > 0) {
             return true;
         }
     }
