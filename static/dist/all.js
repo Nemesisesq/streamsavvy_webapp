@@ -377,18 +377,39 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
  * Created by Nem on 11/17/15.
  */
 
+function isLive(elem){
+    if (elem.source != 'hulu_free') {
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free';
+    }
+
+
+}
+
+function isOnDemand(elem) {
+
+    if(elem.source == 'netflix'){
+        return false
+    }
+
+    if(elem.source == 'hulu_free'){
+        return false 
+    }
+
+    return  _.includes(elem.type, 'sub')
+}
+
 app.filter('channel', function () {
     return function (input, type) {
 
 
         var list = _.filter(input, function (elem) {
-            //debugger
+            debugger
             if(type == 'live'){
-                return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' )
+                return isLive(elem);
             }
             if(type == 'onDemand'){
                 //debugger
-                return _.includes(elem.type, 'sub') || elem.type == 'free';
+                return isOnDemand(elem)
             }
             if(type == 'fullseason'){
                 //debugger
@@ -1100,7 +1121,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         display_name: "Netflix",
         id: 0000,
         source: "netflix",
-        type: "online_live_tv"
+        type: "subcription"
     }
 
     $http.get('netflixable/')

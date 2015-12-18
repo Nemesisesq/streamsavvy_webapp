@@ -10,7 +10,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         display_name: "Netflix",
         id: 0000,
         source: "netflix",
-        type: "online_live_tv"
+        type: "subcription"
     }
 
     $http.get('netflixable/')
