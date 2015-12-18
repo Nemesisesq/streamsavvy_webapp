@@ -160,7 +160,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
     def filter_query(self, filtered_ids, entries):
 
         for i in filtered_ids:
-            q = Q(pk=i)
+            q = Q(guidebox_id=i)
 
 
             if self.params:
@@ -180,7 +180,9 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         search_results = content_search(self.request)
-        filter_results = self.filter_query([88, 379, 858, 1977], search_results)
+        # TODO this is bad and very deangers this needs to be replaced.
+
+        filter_results = self.filter_query([157, 165], search_results)
 
         if len(filter_results) == 0:
             g = GuideBox()
@@ -196,7 +198,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
                 for show in result:
                     result_list.append(g.save_content(show))
 
-                filter_results = self.filter_query([88, 379, 858], result_list)
+                filter_results = self.filter_query([157,165], result_list)
 
         # filter_results['search_term'] = self
 
