@@ -17,7 +17,7 @@ function isOnDemand(elem) {
     }
 
     if(elem.source == 'hulu_free'){
-        return false 
+        return false
     }
 
     return  _.includes(elem.type, 'sub')

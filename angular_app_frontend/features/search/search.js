@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS) {
 
     var nShows = [];
 
@@ -12,6 +12,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         source: "netflix",
         type: "subcription"
     }
+
+
 
     $http.get('netflixable/')
         .then(function (data) {
@@ -116,6 +118,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             }
         }
 
+        var slingShows =  new Fuse(SLING_CHANNELS);
 
 
         if (typeof suggestion.guidebox_id === 'number') {
@@ -132,6 +135,14 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     if (isOnNetFlix(suggestion)) {
                         allSources.push(nChannel)
                     }
+
+                    _.forEach(allSources, function(elem){
+                      if(slingShows.search(elem.display_name).length > 0 ){
+                          debugger;
+                          elem.display_name = 'Sling TV (' + elem.display_name + ')'
+                      }
+                    })
+
                     var b = _.map(BANNED_CHANNELS, function (elem) {
                         return elem.toLowerCase().replace(' ', '')
                     })

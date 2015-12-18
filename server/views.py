@@ -180,7 +180,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         search_results = content_search(self.request)
-        filter_results = self.filter_query([88, 379, 858], search_results)
+        filter_results = self.filter_query([88, 379, 858, 1977], search_results)
 
         if len(filter_results) == 0:
             g = GuideBox()

@@ -7,233 +7,251 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
     })
     .constant('BANNED_CHANNELS', ['HBO Go',
         'Xfinity',
-        'FX',
-        'AMC',
-        'TBS',
-        'TNT',
-        'ABC',
         'Showtime Anytime',
-        'USA',
-        'STARZ Play']);
+        'STARZ Play'])
 
-app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
+    .constant('SLING_CHANNELS', ['ESPN',
+        'ESPN2',
+        'AMC',
+        'Food Network',
+        'A & E',
+        'History',
+        'TNT',
+        'El Rey',
+        'HGTV',
+        'IFC',
+        'Disney Channel',
+        'Polaris +',
+        'Maker',
+        'TBS',
+        'Travel Channel',
+        'Adult Swim',
+        'CNN',
+        'H2',
+        'Cartoon Network',
+        'ABC Family',
+        'Lifetime',
+        'Galavision',
+        'Bloomberg Television']);
+
+        app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
 
-    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+            $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+            $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
-    $stateProvider
-        .state('nav', {
-            abstract: true,//abstract means unless navigation's child is rendered, navigation itself can't be rendered
-            templateUrl: "/static/partials/navigation.html",
-            controller: 'navigation'
-
-        })
-        .state('nav.home', {
-
-            url: '/',
-            data: {
-                isHomePage: true
-            },
-            views: {
-                'modal': {
-                    templateUrl: 'static/partials/modal/modalContainer.html',
-                    controller: 'ModalController'
-                },
-                'home': {
-                    templateUrl: 'static/partials/home.html'
-                },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
-            }
-
-        })
-        .state('blog', {
-            abstract: true,
-            templateUrl: "static/partials/blog.html"
-        })
-        .state('blog.blog-one', {
-            url: '/blog/blog-one/1',
-            data: {
-                blog: 1
-            },
-            views: {
-                'navigation': {
+            $stateProvider
+                .state('nav', {
+                    abstract: true,//abstract means unless navigation's child is rendered, navigation itself can't be rendered
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
-                },
-                'blog-one': {
-                    templateUrl: 'static/partials/blog/blog-one.html'
-                },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
-            }
-        })
-        .state('explain', {
-            abstract: true,
-            templateUrl: "static/partials/explain.html"
-        })
-        .state('explain.still-confused', {
-            url: '/explain/still-confused/1',
-            data: {
-                explain: 1
-            },
-            views: {
-                'navigation': {
-                    templateUrl: "/static/partials/navigation.html",
-                    controller: 'navigation'
-                },
-                'still-confused': {
-                    templateUrl: 'static/partials/explain/still-confused.html'
-                },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
-            }
-        })
-        .state('error', {
-            abstract: true,
-            templateUrl: "static/partials/error.html"
-        })
-        .state('error.coming-soon', {
-            url: '/error/coming-soon',
-            data: {
-                error: 1
-            },
-            views: {
-                'coming-soon': {
-                    templateUrl: 'static/partials/error/coming-soon.html'
-                }
-            }
-        })
-        .state('nav.index', {
-            url: '/search',
-            views: {
-                //'test' :{
-                //    templateUrl : 'static/partials/test-dashboard.html',
-                //    controller : 'testController'
-                //},
-                'search': {
-                    templateUrl: 'static/partials/search.html',
-                    controller: 'search'
-                },
-                'chart': {
-                    templateUrl: 'static/partials/coverage-chart.html',
-                    controller: 'chart'
-                }
-            }
-        })
-        .state('journey-one', {
-            abstract: true,
-            templateUrl: "/static/partials/journey-one.html",
-            data: {hmdcActive: true}
-        })
-        .state('journey-one.step-one', {
-            url: '/getting-started/step/1',
-            data: {
-                step: 1
-            },
-            views: {
-                'navigation': {
-                    templateUrl: "/static/partials/navigation.html",
-                    controller: 'navigation'
-                },
-                'progress': {
-                    templateUrl: 'static/partials/progress.html',
-                    controller: 'ProgressController'
-                },
-                'search': {
-                    templateUrl: 'static/partials/search.html',
-                    controller: 'search'
-                },
-                'step-one': {
-                    templateUrl: 'static/partials/step-one/step-one.html',
-                    controller: 'StepOneController'
-                },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
-            }
-        })
-        //.state('journey-one.step-two', {
-        //    url: '/getting-started/step/2',
-        //    data: {
-        //        step: 2
-        //    },
-        //    views: {
-        //        'navigation': {
-        //            templateUrl: "/static/partials/navigation.html",
-        //            controller: 'navigation'
-        //        },
-        //        'progress': {
-        //            templateUrl: 'static/partials/progress.html',
-        //            controller: 'ProgressController'
-        //        },
-        //        'step-two': {
-        //            templateUrl: 'static/partials/step-two/step-two.html',
-        //            controller: 'JourneyOneController'
-        //        },
-        //        'footer': {
-        //            templateUrl: 'static/partials/footer.html'
-        //        }
-        //    }
-        //})
 
-        .state('journey-one.step-two', {
-            url: '/getting-started/step/2',
-            data: {
-                step: 2
-            },
-            views: {
-                'navigation': {
-                    templateUrl: "/static/partials/navigation.html",
-                    controller: 'navigation'
-                },
-                'progress': {
-                    templateUrl: 'static/partials/progress.html',
-                    controller: 'ProgressController'
-                },
-                'step-two': {
-                    templateUrl: 'static/partials/step-two/step-two.html',
-                    controller: 'StepTwoController'
-                },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
-            }
-        })
-        .state('journey-one.step-three', {
-            url: '/getting-started/step/3',
-            data: {
-                step: 3
-            },
-            views: {
-                'navigation': {
-                    templateUrl: "/static/partials/navigation.html",
-                    controller: 'navigation'
-                },
-                'modal': {
-                    templateUrl: '/static/partials/modal/modalContainer.html',
-                    controller: 'ModalController'
-                },
-                'progress': {
-                    templateUrl: 'static/partials/progress.html',
-                    controller: 'ProgressController'
-                },
-                'step-three': {
-                    templateUrl: 'static/partials/step-three/step-three.html',
-                    controller: 'StepThreeController'
-                },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
-            }
+                })
+                .state('nav.home', {
+
+                    url: '/',
+                    data: {
+                        isHomePage: true
+                    },
+                    views: {
+                        'modal': {
+                            templateUrl: 'static/partials/modal/modalContainer.html',
+                            controller: 'ModalController'
+                        },
+                        'home': {
+                            templateUrl: 'static/partials/home.html'
+                        },
+                        'footer': {
+                            templateUrl: 'static/partials/footer.html'
+                        }
+                    }
+
+                })
+                .state('blog', {
+                    abstract: true,
+                    templateUrl: "static/partials/blog.html"
+                })
+                .state('blog.blog-one', {
+                    url: '/blog/blog-one/1',
+                    data: {
+                        blog: 1
+                    },
+                    views: {
+                        'navigation': {
+                            templateUrl: "/static/partials/navigation.html",
+                            controller: 'navigation'
+                        },
+                        'blog-one': {
+                            templateUrl: 'static/partials/blog/blog-one.html'
+                        },
+                        'footer': {
+                            templateUrl: 'static/partials/footer.html'
+                        }
+                    }
+                })
+                .state('explain', {
+                    abstract: true,
+                    templateUrl: "static/partials/explain.html"
+                })
+                .state('explain.still-confused', {
+                    url: '/explain/still-confused/1',
+                    data: {
+                        explain: 1
+                    },
+                    views: {
+                        'navigation': {
+                            templateUrl: "/static/partials/navigation.html",
+                            controller: 'navigation'
+                        },
+                        'still-confused': {
+                            templateUrl: 'static/partials/explain/still-confused.html'
+                        },
+                        'footer': {
+                            templateUrl: 'static/partials/footer.html'
+                        }
+                    }
+                })
+                .state('error', {
+                    abstract: true,
+                    templateUrl: "static/partials/error.html"
+                })
+                .state('error.coming-soon', {
+                    url: '/error/coming-soon',
+                    data: {
+                        error: 1
+                    },
+                    views: {
+                        'coming-soon': {
+                            templateUrl: 'static/partials/error/coming-soon.html'
+                        }
+                    }
+                })
+                .state('nav.index', {
+                    url: '/search',
+                    views: {
+                        //'test' :{
+                        //    templateUrl : 'static/partials/test-dashboard.html',
+                        //    controller : 'testController'
+                        //},
+                        'search': {
+                            templateUrl: 'static/partials/search.html',
+                            controller: 'search'
+                        },
+                        'chart': {
+                            templateUrl: 'static/partials/coverage-chart.html',
+                            controller: 'chart'
+                        }
+                    }
+                })
+                .state('journey-one', {
+                    abstract: true,
+                    templateUrl: "/static/partials/journey-one.html",
+                    data: {hmdcActive: true}
+                })
+                .state('journey-one.step-one', {
+                    url: '/getting-started/step/1',
+                    data: {
+                        step: 1
+                    },
+                    views: {
+                        'navigation': {
+                            templateUrl: "/static/partials/navigation.html",
+                            controller: 'navigation'
+                        },
+                        'progress': {
+                            templateUrl: 'static/partials/progress.html',
+                            controller: 'ProgressController'
+                        },
+                        'search': {
+                            templateUrl: 'static/partials/search.html',
+                            controller: 'search'
+                        },
+                        'step-one': {
+                            templateUrl: 'static/partials/step-one/step-one.html',
+                            controller: 'StepOneController'
+                        },
+                        'footer': {
+                            templateUrl: 'static/partials/footer.html'
+                        }
+                    }
+                })
+                //.state('journey-one.step-two', {
+                //    url: '/getting-started/step/2',
+                //    data: {
+                //        step: 2
+                //    },
+                //    views: {
+                //        'navigation': {
+                //            templateUrl: "/static/partials/navigation.html",
+                //            controller: 'navigation'
+                //        },
+                //        'progress': {
+                //            templateUrl: 'static/partials/progress.html',
+                //            controller: 'ProgressController'
+                //        },
+                //        'step-two': {
+                //            templateUrl: 'static/partials/step-two/step-two.html',
+                //            controller: 'JourneyOneController'
+                //        },
+                //        'footer': {
+                //            templateUrl: 'static/partials/footer.html'
+                //        }
+                //    }
+                //})
+
+                .state('journey-one.step-two', {
+                    url: '/getting-started/step/2',
+                    data: {
+                        step: 2
+                    },
+                    views: {
+                        'navigation': {
+                            templateUrl: "/static/partials/navigation.html",
+                            controller: 'navigation'
+                        },
+                        'progress': {
+                            templateUrl: 'static/partials/progress.html',
+                            controller: 'ProgressController'
+                        },
+                        'step-two': {
+                            templateUrl: 'static/partials/step-two/step-two.html',
+                            controller: 'StepTwoController'
+                        },
+                        'footer': {
+                            templateUrl: 'static/partials/footer.html'
+                        }
+                    }
+                })
+                .state('journey-one.step-three', {
+                    url: '/getting-started/step/3',
+                    data: {
+                        step: 3
+                    },
+                    views: {
+                        'navigation': {
+                            templateUrl: "/static/partials/navigation.html",
+                            controller: 'navigation'
+                        },
+                        'modal': {
+                            templateUrl: '/static/partials/modal/modalContainer.html',
+                            controller: 'ModalController'
+                        },
+                        'progress': {
+                            templateUrl: 'static/partials/progress.html',
+                            controller: 'ProgressController'
+                        },
+                        'step-three': {
+                            templateUrl: 'static/partials/step-three/step-three.html',
+                            controller: 'StepThreeController'
+                        },
+                        'footer': {
+                            templateUrl: 'static/partials/footer.html'
+                        }
+                    }
+                });
+
+            $urlRouterProvider.otherwise("/")
         });
-
-    $urlRouterProvider.otherwise("/")
-});
 /**
  * Created by Nem on 9/18/15.
  */
@@ -392,7 +410,7 @@ function isOnDemand(elem) {
     }
 
     if(elem.source == 'hulu_free'){
-        return false 
+        return false
     }
 
     return  _.includes(elem.type, 'sub')
@@ -1112,7 +1130,7 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS) {
 
     var nShows = [];
 
@@ -1123,6 +1141,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         source: "netflix",
         type: "subcription"
     }
+
+
 
     $http.get('netflixable/')
         .then(function (data) {
@@ -1227,6 +1247,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             }
         }
 
+        var slingShows =  new Fuse(SLING_CHANNELS);
 
 
         if (typeof suggestion.guidebox_id === 'number') {
@@ -1243,6 +1264,14 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     if (isOnNetFlix(suggestion)) {
                         allSources.push(nChannel)
                     }
+
+                    _.forEach(allSources, function(elem){
+                      if(slingShows.search(elem.display_name).length > 0 ){
+                          debugger;
+                          elem.display_name = 'Sling TV (' + elem.display_name + ')'
+                      }
+                    })
+
                     var b = _.map(BANNED_CHANNELS, function (elem) {
                         return elem.toLowerCase().replace(' ', '')
                     })
