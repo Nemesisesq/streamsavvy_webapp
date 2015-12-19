@@ -212,11 +212,13 @@ body {
 .intro-question {
   font-weight: 900;
   font-size: 3em;
-  color: white; }
+  color: white;
+  margin-bottom: 0; }
 
 .intro-sub-question {
   color: #aeb6bb;
-  padding-top: 10px; }
+  padding-top: 50px;
+  margin-top: 0; }
 
 .container {
   padding: 0; }
