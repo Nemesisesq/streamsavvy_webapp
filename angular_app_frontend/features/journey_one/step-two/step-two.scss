@@ -72,6 +72,9 @@
       @include vertical-align()
 
     }
+    .hardware-name{
+      display: flex;
+    }
 
     .selected {
 

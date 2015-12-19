@@ -3148,6 +3148,8 @@ slick button {
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%); }
+  .device-grid .step-two .hardware-name {
+    display: flex; }
   .device-grid .step-two .selected {
     border-color: #3b94e3;
     border-top-right-radius: 0; }
@@ -3224,6 +3226,8 @@ slick button {
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%); }
+  .device-grid .step-two .hardware-name {
+    display: flex; }
   .device-grid .step-two .selected {
     border-color: #3b94e3;
     border-top-right-radius: 0; }
