@@ -28,7 +28,7 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            debugger
+            //debugger
             if(type == 'live'){
                 return isLive(elem);
             }
