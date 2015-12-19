@@ -118,7 +118,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             }
         }
 
-        var slingShows =  new Fuse(SLING_CHANNELS, {threshold:.2});
+        var slingShows =  new Fuse(SLING_CHANNELS, {threshold:.3});
 
 
         if (typeof suggestion.guidebox_id === 'number') {
