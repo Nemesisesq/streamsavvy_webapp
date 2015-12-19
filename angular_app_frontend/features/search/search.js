@@ -53,8 +53,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
     }
 
 
-
-
     $scope.checkMatched = function () {
         return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
     }
@@ -118,29 +116,34 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             }
         }
 
-        var slingShows =  new Fuse(SLING_CHANNELS, {threshold:.3});
+        var slingShows = new Fuse(SLING_CHANNELS, {threshold: .3});
 
 
         if (typeof suggestion.guidebox_id === 'number') {
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
 
+                    debugger;
+                    var cleanedChannels = data.data.results
 
-                    suggestion.channels = data.data.results;
+                    cleanedChannels.web.episodes.all_sources = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
+
+
+                    suggestion.channels = cleanedChannels;
 
                     addSling();
-
+                    
 
                     var allSources = suggestion.channels.web.episodes.all_sources;
                     if (isOnNetFlix(suggestion)) {
                         allSources.push(nChannel)
                     }
 
-                    _.forEach(allSources, function(elem){
-                      if(slingShows.search(elem.display_name).length > 0 ){
-                          debugger;
-                          elem.display_name = 'Sling TV (' + elem.display_name + ')'
-                      }
+                    _.forEach(allSources, function (elem) {
+                        if (slingShows.search(elem.display_name).length > 0) {
+                            debugger;
+                            elem.display_name = 'Sling TV (' + elem.display_name + ')'
+                        }
                     })
 
                     var b = _.map(BANNED_CHANNELS, function (elem) {
@@ -158,8 +161,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     PackageFactory.setPackage(ssPackage);
                 })
         } else {
-            if(suggestion.channels === undefined){
-                suggestion.channels = {web:{episodes:{all_sources: []}}}
+            if (suggestion.channels === undefined) {
+                suggestion.channels = {web: {episodes: {all_sources: []}}}
             }
 
             addSling();

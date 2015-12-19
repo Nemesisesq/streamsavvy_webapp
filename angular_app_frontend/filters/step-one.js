@@ -4,7 +4,7 @@
 
 function isLive(elem){
     if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' );
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free';
     }
 
 
