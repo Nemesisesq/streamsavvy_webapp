@@ -211,9 +211,10 @@ body {
 
 .intro-question {
   font-weight: 900;
-  font-size: 3em;
+  font-size: 42px;
   color: white;
-  margin-bottom: 0; }
+  margin-bottom: 0;
+  line-height: 56px; }
 
 .intro-sub-question {
   color: #aeb6bb;
