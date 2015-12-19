@@ -219,7 +219,9 @@ body {
 .intro-sub-question {
   color: #aeb6bb;
   padding-top: 50px;
-  margin-top: 0; }
+  font-size: 16px;
+  margin-top: 0;
+  line-height: 28px; }
 
 .container {
   padding: 0; }
