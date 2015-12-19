@@ -421,7 +421,7 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            debugger
+            //debugger
             if(type == 'live'){
                 return isLive(elem);
             }
@@ -1143,7 +1143,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
     }
 
 
-
+    //TODO make this a constant in the angular app
     $http.get('netflixable/')
         .then(function (data) {
 
@@ -1247,7 +1247,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             }
         }
 
-        var slingShows =  new Fuse(SLING_CHANNELS);
+        var slingShows =  new Fuse(SLING_CHANNELS, {threshold:.2});
 
 
         if (typeof suggestion.guidebox_id === 'number') {
