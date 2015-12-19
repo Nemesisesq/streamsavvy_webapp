@@ -11,8 +11,6 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
     });
     function getHardwareTotal() {
         var hardTotal = 0;
-        console.log("This is the package object array");
-        console.log($scope.package.providers[0]);
         for(var i= 0; i<$scope.package.hardware.length;i++)
         {
             hardTotal += ($scope.package.hardware[i].retail_cost);
@@ -28,6 +26,8 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
 
         return packTotal;
     }
+
+
 
 
 
