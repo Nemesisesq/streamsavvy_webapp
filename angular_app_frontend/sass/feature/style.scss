@@ -17,7 +17,7 @@ body {
 .intro-message {
   position: relative;
   padding-top: 7%;
-  padding-bottom: 12%;
+  padding-bottom: 7%;
   color: black;
   line-height: 3.529rem;
 }
@@ -32,6 +32,7 @@ body {
   color: white;
   margin-bottom: 0;
   line-height: 56px;
+
 }
 
 .intro-sub-question {
@@ -39,8 +40,27 @@ body {
     padding-top: 50px;
     font-size: 16px;
     margin-top: 0;
+    margin-bottom: 0;
     line-height: 28px;
 }
+.header-article-pointer {
+
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:0px;
+    padding-bottom: 0px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.glyphicon-chevron-down{
+  right:-1px;
+}
+
 
 .container {
   //width: 100%;
@@ -199,8 +219,8 @@ hr {
   width: auto;
   max-width: 250px;
   max-height: 34px;
-  margin-top: 18px;
   margin-left: 15px;
+  margin-top:10px;
 }
 
 .logo-and-text {
@@ -546,8 +566,7 @@ footer {
 
 @media (max-width: 767px) {
   .just-logo {
-    padding-left: 3%;
-    margin-top: 18px; /*magic number gotten from bootstrap*/
+    padding-left: 3%; /*magic number gotten from bootstrap*/
   }
   .navbar-toggle {
     margin-top: 18px;
@@ -557,13 +576,13 @@ footer {
 @media (min-width: 768px) and (max-width: 1215px) {
 
   .just-logo {
-    margin-top: 33%;
+   // margin-top: 33%;
   }
 }
 
 @media(min-width: 1216px) {
   .just-logo {
-    margin-top: 5%;
+    //margin-top: 5%;
   }
   .logo-and-text {
     display: inline !important;

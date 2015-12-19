@@ -1,6 +1,13 @@
 .row-centered {
     text-align:center;
 }
+
+.step-two-header{
+  margin-bottom: 3%;
+  h1{
+    font-weight: 900;
+  }
+}
 .col-centered {
     display:inline-block;
     float:none;
@@ -64,6 +71,9 @@
       width: 100%;
       @include vertical-align()
 
+    }
+    .hardware-name{
+      display: flex;
     }
 
     .selected {

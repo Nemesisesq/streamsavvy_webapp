@@ -202,7 +202,7 @@ body {
 .intro-message {
   position: relative;
   padding-top: 7%;
-  padding-bottom: 12%;
+  padding-bottom: 7%;
   color: black;
   line-height: 3.529rem; }
 
@@ -221,7 +221,23 @@ body {
   padding-top: 50px;
   font-size: 16px;
   margin-top: 0;
+  margin-bottom: 0;
   line-height: 28px; }
+
+.header-article-pointer {
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  font-size: 22px;
+  font-weight: 600; }
+
+.glyphicon-chevron-down {
+  right: -1px; }
 
 .container {
   padding: 0; }
@@ -347,8 +363,8 @@ hr {
   width: auto;
   max-width: 250px;
   max-height: 34px;
-  margin-top: 18px;
-  margin-left: 15px; }
+  margin-left: 15px;
+  margin-top: 10px; }
 
 .logo-and-text {
   display: none !important;
@@ -608,18 +624,11 @@ footer {
 @media (max-width: 767px) {
   .just-logo {
     padding-left: 3%;
-    margin-top: 18px;
     /*magic number gotten from bootstrap*/ }
   .navbar-toggle {
     margin-top: 18px; } }
 
-@media (min-width: 768px) and (max-width: 1215px) {
-  .just-logo {
-    margin-top: 33%; } }
-
 @media (min-width: 1216px) {
-  .just-logo {
-    margin-top: 5%; }
   .logo-and-text {
     display: inline !important; } }
 
@@ -3037,12 +3046,13 @@ slick button {
   height: 420px; }
 
 .still-confused .show-and-tell {
-  padding-top: 15%;
-  padding-bottom: 15%;
+  padding-top: 9%;
+  padding-bottom: 9%;
   padding-left: 12%;
   padding-right: 12%; }
   .still-confused .show-and-tell img.img-responsive {
-    padding-right: 18%; }
+    padding-right: 18%;
+    margin-top: 10%; }
   .still-confused .show-and-tell h3 {
     font-size: 2.8em;
     letter-spacing: 2px; }
@@ -3096,6 +3106,11 @@ slick button {
 .row-centered {
   text-align: center; }
 
+.step-two-header {
+  margin-bottom: 3%; }
+  .step-two-header h1 {
+    font-weight: 900; }
+
 .col-centered {
   display: inline-block;
   float: none;
@@ -3134,6 +3149,8 @@ slick button {
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%); }
+  .device-grid .step-two .hardware-name {
+    display: flex; }
   .device-grid .step-two .selected {
     border-color: #3b94e3;
     border-top-right-radius: 0; }
@@ -3167,6 +3184,11 @@ slick button {
 .row-centered {
   text-align: center; }
 
+.step-two-header {
+  margin-bottom: 3%; }
+  .step-two-header h1 {
+    font-weight: 900; }
+
 .col-centered {
   display: inline-block;
   float: none;
@@ -3205,6 +3227,8 @@ slick button {
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%); }
+  .device-grid .step-two .hardware-name {
+    display: flex; }
   .device-grid .step-two .selected {
     border-color: #3b94e3;
     border-top-right-radius: 0; }
@@ -3239,6 +3263,11 @@ slick button {
   margin-bottom: 5%; }
   .step-four img {
     max-width: 90%; }
+  .step-four .row-centered {
+    text-align: center; }
+    .step-four .row-centered h4 {
+      width: 75%;
+      margin: 0 auto; }
   .step-four .hardware-row {
     height: 180px;
     margin-top: 2%; }
@@ -3493,7 +3522,6 @@ div .navbar-header {
   width: auto;
   max-width: 250px;
   max-height: 34px;
-  margin-top: 18px;
   margin-left: 0px; }
 
 .logo-and-text {
@@ -3518,10 +3546,6 @@ a.navbarLink {
 @media (max-width: 1000px) {
   .navbar-inverse .navbar-nav > li > a {
     font-size: small; } }
-
-@media (max-width: 768px) {
-  .just-logo {
-    margin-left: 5%; } }
 
 .usr-paths .journey-image {
   padding: 5%;
