@@ -91,7 +91,10 @@
 
 .show-me-btn {
     background: #3FA1FF;
+}
 
+.show-me-btn:hover {
+  background: #4593fc;
 }
 .btn-red{
   background-color: #ED1C24;
@@ -102,10 +105,10 @@
     text-align: center;
     display: block;
 }
-
-.find-out{
-
+.find-show-btn:hover{
+  background:#c21a1f;
 }
+
 
 .btn-green:hover,
 .btn-green:focus,
