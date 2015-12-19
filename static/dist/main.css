@@ -3449,6 +3449,7 @@ slick button {
   background-color: white; }
   .j-one-container .navbar-fixed-top {
     background-color: white;
+    border-bottom: #e4e4e4 solid 2px;
     height: 77px;
     max-width: 1362px;
     margin: 0 auto; }
