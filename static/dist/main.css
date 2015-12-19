@@ -212,11 +212,13 @@ body {
 .intro-question {
   font-weight: 900;
   font-size: 3em;
-  color: white; }
+  color: white;
+  margin-bottom: 0; }
 
 .intro-sub-question {
   color: #aeb6bb;
-  padding-top: 10px; }
+  padding-top: 50px;
+  margin-top: 0; }
 
 .container {
   padding: 0; }
@@ -3449,6 +3451,7 @@ slick button {
   background-color: white; }
   .j-one-container .navbar-fixed-top {
     background-color: white;
+    border-bottom: #e4e4e4 solid 2px;
     height: 77px;
     max-width: 1362px;
     margin: 0 auto; }
