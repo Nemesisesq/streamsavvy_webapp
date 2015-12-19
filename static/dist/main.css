@@ -3258,6 +3258,11 @@ slick button {
   margin-bottom: 5%; }
   .step-four img {
     max-width: 90%; }
+  .step-four .row-centered {
+    text-align: center; }
+    .step-four .row-centered h4 {
+      width: 75%;
+      margin: 0 auto; }
   .step-four .hardware-row {
     height: 180px;
     margin-top: 2%; }
