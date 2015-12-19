@@ -3046,12 +3046,13 @@ slick button {
   height: 420px; }
 
 .still-confused .show-and-tell {
-  padding-top: 15%;
-  padding-bottom: 15%;
+  padding-top: 9%;
+  padding-bottom: 9%;
   padding-left: 12%;
   padding-right: 12%; }
   .still-confused .show-and-tell img.img-responsive {
-    padding-right: 18%; }
+    padding-right: 18%;
+    margin-top: 10%; }
   .still-confused .show-and-tell h3 {
     font-size: 2.8em;
     letter-spacing: 2px; }
