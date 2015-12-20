@@ -1127,6 +1127,9 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 });
 
 
+function slingInProviders(suggestion) {
+    return _.some(suggestion.content_provider, 'name', 'SlingTv');
+}
 /**
  * Created by Nem on 7/18/15.
  */
@@ -1240,12 +1243,12 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             debugger;
 
 
-            if (_.some(suggestion.content_provider, 'name', 'SlingTv')) {
+            if (slingInProviders(suggestion)) {
                 suggestion.channels.web.episodes.all_sources.push(slingObj)
             }
         }
 
-        var slingShows = new Fuse(SLING_CHANNELS, {threshold: .3});
+        var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
 
 
         if (typeof suggestion.guidebox_id === 'number') {
@@ -1255,36 +1258,45 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     debugger;
                     var cleanedChannels = data.data.results
 
-                    cleanedChannels.web.episodes.all_sources = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
-
-
-                    suggestion.channels = cleanedChannels;
-
-                    addSling();
-                    
-
-                    var allSources = suggestion.channels.web.episodes.all_sources;
-                    if (isOnNetFlix(suggestion)) {
-                        allSources.push(nChannel)
-                    }
-
-                    _.forEach(allSources, function (elem) {
-                        if (slingShows.search(elem.display_name).length > 0) {
-                            debugger;
-                            elem.display_name = 'Sling TV (' + elem.display_name + ')'
-                        }
-                    })
+                    var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
 
                     var b = _.map(BANNED_CHANNELS, function (elem) {
                         return elem.toLowerCase().replace(' ', '')
                     })
-                    _.remove(allSources, function (elem) {
+                    chans = _.filter(chans, function (elem) {
 
 
                         var e = elem.display_name.toLowerCase().replace(' ', '');
 
-                        return _.includes(b, e)
-                    });
+                        return !_.includes(b, e)
+                    })
+
+                    if (isOnNetFlix(suggestion)) {
+                        chans.push(nChannel)
+                    }
+
+                    chans = _.map(chans, function (elem) {
+                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0) {
+                            elem.display_name = elem.display_name + ' Over the Air'
+
+                            return elem
+
+                        }
+
+                        if (slingChannels.search(elem.display_name).length > 0) {
+                            elem.display_name = 'Sling TV (' + elem.display_name + ')'
+
+                            return elem
+
+                        }
+
+                        return elem;
+                    })
+
+                    cleanedChannels.web.episodes.all_sources = chans
+
+                    suggestion.channels = cleanedChannels;
+
 
                     ssPackage.content.push(suggestion);
                     PackageFactory.setPackage(ssPackage);
