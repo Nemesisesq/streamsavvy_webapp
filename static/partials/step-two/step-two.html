@@ -8,7 +8,7 @@
             <h1>Please select your hardware.</h1>
             <h4>Or don’t if you already own a device. In order to stream services to your TV you’ll need a SmartTV or one of these.</h4>
         </div>
-        <div class="row row-centered">
+        <div class="row row-centered picture-grid">
             <div class="col-sm-2 col-centered " ng-repeat="item in hardware"">
                 <div class="hardware-img" ng-click="addRemoveHardware(item)"
                      ng-class="{selected: itemSelected(item) }">
@@ -17,21 +17,12 @@
                 <div class="hardware-name">
                     {{ item.name }}
                 </div>
+                <div class="hardware-cost">
+                    ${{ item.retail_cost }}
+                </div>
             </div>
         </div>
 
-        <div class="row totals ">
-            <div class="col-xs-5 col-xs-offset-7">
-                <div class="  pull-right h-total"> Hardware Total:
-                    <span class="price"> ${{ hardwareTotal }}</span>
-                </div>
-            </div>
-            <div class="col-xs-5 col-xs-offset-7">
-                <div class=" pull-right m-total"> Your Monthly Total:
-                    <span class="price"> ${{ monthlyTotal }}</span>
-                </div>
-            </div>
-        </div>
 
     </div>
 

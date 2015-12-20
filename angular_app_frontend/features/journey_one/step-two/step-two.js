@@ -45,8 +45,8 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
                 hardwareCopy.splice(i, 1);
             }
         }
-        hardwareCopy.splice(-1,1);
-        hardwareCopy.splice(1,1);
+        hardwareCopy.splice(-1,1);//remove duplicate appletv
+        hardwareCopy.splice(1,1);//remvoe roku 2
         $scope.hardware = hardwareCopy;
 
 
