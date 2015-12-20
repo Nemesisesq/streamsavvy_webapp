@@ -9,7 +9,7 @@
             <h4>Or don’t if you already own a device. In order to stream services to your TV you’ll need a SmartTV or one of these.</h4>
         </div>
         <div class="row row-centered">
-            <div class="col-sm-2 col-centered " ng-repeat="item in hardware | limitTo:5  track by $index" ng-show="!$first">
+            <div class="col-sm-2 col-centered " ng-repeat="item in hardware"">
                 <div class="hardware-img" ng-click="addRemoveHardware(item)"
                      ng-class="{selected: itemSelected(item) }">
                     <img ng-src="{{ item.image_url }}"/>

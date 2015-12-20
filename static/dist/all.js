@@ -745,10 +745,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
     $rootScope.load()
 });
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -777,6 +773,40 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
+/**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
+    $scope.isHomePage = $state.current.data.isHomePage;
+    $scope.logged_in = false;
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
 //    debugger;
@@ -1001,36 +1031,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 //
 //});
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
-    $scope.isHomePage = $state.current.data.isHomePage;
-    $scope.logged_in = false;
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -1647,13 +1647,25 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
 
     $scope.package = PackageFactory.getPackage();
     var hardwareColl = $scope.package.hardware;
-
+    var wantedHardware = ["Mohu Antenna","Apple TV","Roku Streaming Stick","Google Chromecast", "Amazon Fire Stick"];
     $scope.hardwareTotal = 40.99;
     $scope.monthlyTotal = 5.99;
+    var digitalAntenna = {"url":"",
+                "name": "Mohu Antenna",
+                "version": 30,
+                "home_url": "http://www.gomohu.com/",
+                "image_url":"static/img/Mohu.png",
+                "retail_cost": 39.99,
+                "mem_cost": 225,
+                "description": "Roku is a digital streaming adapter that comes in several different flavors"};
 
     http.getHardware()
         .then(function (data) {
             $scope.hardware = data.results;
+            $scope.filterHardware();
+            $scope.hardware.push(digitalAntenna);
+
+
         });
 
     $scope.itemSelected = function (item) {
@@ -1665,7 +1677,23 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
 
         return x
 
-    }
+    };
+    $scope.filterHardware = function() {
+        var hardwareCopy = $scope.hardware;
+        for(var i = 0;i<hardwareCopy.length;i++)
+        {
+            if(!isWantedHardware(hardwareCopy[i]))
+            {
+                hardwareCopy.splice(i, 1);
+            }
+        }
+        hardwareCopy.splice(-1,1);
+        hardwareCopy.splice(1,1);
+        $scope.hardware = hardwareCopy;
+
+
+
+    };
 
     $scope.addRemoveHardware = function (item) {
         if(item.hasOwnProperty('selected')){
@@ -1695,4 +1723,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
         $scope.package = PackageFactory.getPackage();
     })
 
+    function isWantedHardware(hardwarePiece) {
+        return wantedHardware.indexOf(hardwarePiece.name) >= 0;
+    }
 });
