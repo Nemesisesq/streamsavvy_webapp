@@ -19,7 +19,7 @@
 
 .device-grid {
   //border-bottom: solid 2px #dedede;
-
+  display: inline-flex;
   .step-two {
 
     .totals {
@@ -42,7 +42,9 @@
     margin-bottom: 5%;
     //clear: both;
     //min-height: 250px;
-
+    .picture-grid{
+      display: inline-flex;
+    }
     .col-sm-2 {
 
 
@@ -75,7 +77,11 @@
     .hardware-name{
       display: flex;
     }
-
+    .hardware-cost{
+      color:#3b94e3 ;
+      font-weight: 900;
+      font-size:17px;
+    }
     .selected {
 
       border-color: #3b94e3;
