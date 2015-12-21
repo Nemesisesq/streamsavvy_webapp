@@ -6,12 +6,16 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'URL': location.origin
     })
     .constant('BANNED_CHANNELS', ['HBO Go',
+        'Dish',
+        'DirecTV',
+        'AT&T U-verse',
         'FX',
         'Xfinity',
         'Showtime Anytime',
         'STARZ Play'])
 
     .constant('SLING_CHANNELS', ['ESPN',
+        'HBO',
         'ESPN2',
         'AMC',
         'Food Network',
@@ -749,6 +753,35 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
  * Created by Nem on 10/7/15.
  */
 
+/**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, $cookies, $location) {
+    $scope.logged_in = false;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
 //    debugger;
@@ -972,35 +1005,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 //    });
 //
 //});
-
-/**
- * Created by chirag on 8/3/15.
- */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
-    $scope.logged_in = false;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
 
 /**
  * Created by Nem on 6/28/15.
@@ -1261,6 +1265,24 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                     var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
 
+                    chans = _.uniq(chans.concat(suggestion.content_provider), function (elem) {
+                        var x;
+
+                        elem.display_name == undefined ? x = elem.name : x= elem.display_name;
+
+                        return x;
+                        
+                    })
+
+                    chans = _.map(chans, function (elem) {
+                        if (elem.name != undefined) {
+                            elem.display_name = elem.name;
+                            elem.type = elem.channel_type;
+                        }
+
+                        return elem
+                    })
+
                     var b = _.map(BANNED_CHANNELS, function (elem) {
                         return elem.toLowerCase().replace(' ', '')
                     })
@@ -1284,7 +1306,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                         }
 
-                        if (slingChannels.search(elem.display_name).length > 0) {
+                        if (slingChannels.search(elem.display_name).length > 0 && elem.type != 'free') {
                             elem.display_name = 'Sling TV (' + elem.display_name + ')'
 
                             return elem

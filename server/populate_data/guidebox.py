@@ -425,6 +425,9 @@ class GuideBox(object):
         if 'themoviedb' in i:
             content.themoviedb_id = i['themoviedb']
 
+        if 'first_aired' in i:
+            content.first_aired = i['first_aired']
+
         content.thumbnail_small = i['artwork_208x117']
         content.thumbnail_medium = i['artwork_304x171']
         content.thumbnail_large = i['artwork_448x252']

@@ -69,6 +69,7 @@ class ContentProvider(models.Model):
 
 class Content(models.Model):
     title = models.CharField(max_length=250, blank=False, null=False)
+    first_aired = models.DateField(blank=True, null=True)
     guidebox_id = models.IntegerField(blank=True,null=True, unique=True)
     description = models.TextField(blank=True, null=True)
     home_url = models.URLField(blank=True, null=True)

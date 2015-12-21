@@ -50,7 +50,7 @@ def test_get_content(context):
 
 @when(u'populate_content is called')
 def test_populate_shows(context):
-    context.show_count = context.guidebox.populate_content(context)
+    context.show_count = context.guidebox.populate_content( )
 
 @when(u'get_content_detail method is called')
 def test_content_detail(context):
@@ -58,7 +58,7 @@ def test_content_detail(context):
 
 @when(u'show_detail_multithreading is called')
 def test_multithreaded(context):
-    context.guidebox.populate_content_detail_multithreaded(context)
+    context.guidebox.populate_content_detail_multithreaded()
 
 @when(u'show_detail_multithreading_extra is called')
 def test_multithreaded(context):

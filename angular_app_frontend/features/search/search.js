@@ -131,6 +131,24 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                     var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
 
+                    chans = _.uniq(chans.concat(suggestion.content_provider), function (elem) {
+                        var x;
+
+                        elem.display_name == undefined ? x = elem.name : x= elem.display_name;
+
+                        return x;
+                        
+                    })
+
+                    chans = _.map(chans, function (elem) {
+                        if (elem.name != undefined) {
+                            elem.display_name = elem.name;
+                            elem.type = elem.channel_type;
+                        }
+
+                        return elem
+                    })
+
                     var b = _.map(BANNED_CHANNELS, function (elem) {
                         return elem.toLowerCase().replace(' ', '')
                     })
@@ -154,7 +172,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                         }
 
-                        if (slingChannels.search(elem.display_name).length > 0) {
+                        if (slingChannels.search(elem.display_name).length > 0 && elem.type != 'free') {
                             elem.display_name = 'Sling TV (' + elem.display_name + ')'
 
                             return elem

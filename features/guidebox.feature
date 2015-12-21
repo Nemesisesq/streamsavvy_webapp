@@ -27,7 +27,7 @@ Feature: guidebox api feature
     When I call to populate extra provider information
     Then True
 
-  Scenario: Testing Multi threading
+  Scenario: Testing Mult   i threading
     When show_detail_multithreading is called
     Then shows have a description
 
