@@ -165,7 +165,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     }
 
                     chans = _.map(chans, function (elem) {
-                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0) {
+                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && ! _.includes(elem.display_name.toLowerCase(), 'now')) {
                             elem.display_name = elem.display_name + ' Over the Air'
 
                             return elem

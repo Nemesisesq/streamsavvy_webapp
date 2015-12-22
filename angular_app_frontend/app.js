@@ -6,6 +6,7 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'URL': location.origin
     })
     .constant('BANNED_CHANNELS', ['HBO Go',
+        'HBO',
         'Dish',
         'DirecTV',
         'AT&T U-verse',
@@ -15,7 +16,6 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'STARZ Play'])
 
     .constant('SLING_CHANNELS', ['ESPN',
-        'HBO',
         'ESPN2',
         'AMC',
         'Food Network',

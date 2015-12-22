@@ -6,6 +6,7 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'URL': location.origin
     })
     .constant('BANNED_CHANNELS', ['HBO Go',
+        'HBO',
         'Dish',
         'DirecTV',
         'AT&T U-verse',
@@ -15,7 +16,6 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'STARZ Play'])
 
     .constant('SLING_CHANNELS', ['ESPN',
-        'HBO',
         'ESPN2',
         'AMC',
         'Food Network',
@@ -402,7 +402,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
 function isLive(elem){
     if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free';
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
     }
 
 
@@ -1299,7 +1299,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     }
 
                     chans = _.map(chans, function (elem) {
-                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0) {
+                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && ! _.includes(elem.display_name.toLowerCase(), 'now')) {
                             elem.display_name = elem.display_name + ' Over the Air'
 
                             return elem
@@ -1380,82 +1380,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 });
 
 
-
-
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
-
-
-    $scope.login = 'Click Here to Login'
-
-
-    $scope.items = ['item1', 'item2', 'item3'];
-
-    $rootScope.openLogInModal = function () {
-        //debugger;
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: '/static/partials/modal/modal.html',
-            controller: 'ModalInstanceController',
-            size: 'sm',
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selectedItem = selectedItem;
-
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    }
-
-    if ($rootScope.currentStep == 3) {
-        $rootScope.openLogInModal()
-    }
-});
-
-app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
-
-    $scope.socialLogin = true;
-
-
-    $scope.facebookAuth = function () {
-
-    window.location = CONFIG.URL + $('#facebook_login').attr('href');
-    }
-
-    $scope.instagramAuth = function () {
-
-    window.location = CONFIG.URL + $('#instagram_login').attr('href');
-    }
-
-    $scope.twitterAuth = function () {
-
-     window.location = CONFIG.URL + $('#twitter_login').attr('href');
-    }
-
-
-
-
-    $scope.items = items;
-
-    $scope.selected = {
-        item: $scope.items[0]
-    }
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-    }
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel')
-    }
-
-})
 /**
  * Created by Nem on 10/27/15.
  */
@@ -1628,6 +1552,82 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 });
 
+
+
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+
+
+    $scope.login = 'Click Here to Login'
+
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $rootScope.openLogInModal = function () {
+        //debugger;
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal/modal.html',
+            controller: 'ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selectedItem = selectedItem;
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+
+    if ($rootScope.currentStep == 3) {
+        $rootScope.openLogInModal()
+    }
+});
+
+app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
+
+    $scope.socialLogin = true;
+
+
+    $scope.facebookAuth = function () {
+
+    window.location = CONFIG.URL + $('#facebook_login').attr('href');
+    }
+
+    $scope.instagramAuth = function () {
+
+    window.location = CONFIG.URL + $('#instagram_login').attr('href');
+    }
+
+    $scope.twitterAuth = function () {
+
+     window.location = CONFIG.URL + $('#twitter_login').attr('href');
+    }
+
+
+
+
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
+
+})
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     $scope.package = PackageFactory.getPackage();
