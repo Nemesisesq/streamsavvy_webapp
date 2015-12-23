@@ -15,6 +15,20 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'Showtime Anytime',
         'STARZ Play'])
 
+    .constant('SERVICE_PRICE_LIST', [
+        {name: 'Netflix', price: 9.99},
+        {name: 'Hulu', price: 7.99},
+        {name: 'Amazon Prime', price: 8.25},
+        {name: 'HBO Now', price: 14.99},
+        {name: 'SlingTV', price: 20.00},
+        {name: 'Over The Air', price: 0.00},
+        {name: 'Showtime', price: 10.99},
+        {name: 'CBS All Access', price: 5.99},
+        {name: 'NBC App', price: 0.00},
+        {name: 'CW Seed', price: 0.00},
+        {name: 'PBS App', price: 0.00}
+    ])
+
     .constant('SLING_CHANNELS', ['ESPN',
         'ESPN2',
         'AMC',
@@ -1138,7 +1152,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST) {
 
     var nShows = [];
 
@@ -1260,6 +1274,14 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
 
+                    var opts = {
+                        keys: ['name'],
+                        threshold:.2
+
+                    }
+
+                    sPrices = new Fuse(SERVICE_PRICE_LIST, opts);
+
                     debugger;
                     var cleanedChannels = data.data.results
 
@@ -1279,6 +1301,10 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                             elem.display_name = elem.name;
                             elem.type = elem.channel_type;
                         }
+
+                        debugger;
+
+
 
                         return elem
                     })
@@ -1311,6 +1337,11 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                             return elem
 
+                        }
+
+                        if(!_.isEmpty(sPrices.search(elem.display_name))){
+                            var res = sPrices.search(elem.display_name)
+                            elem.price = res[0].price
                         }
 
                         return elem;
@@ -1379,178 +1410,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
 });
 
-
-/**
- * Created by Nem on 10/27/15.
- */
-
-app.controller('AccordionController', function ($scope) {
-
-
-    $scope.viewingWindows = [
-        {
-            viewType: "onDemand",
-            description: "I want to watch this show with and <strong> On Demand Subscription. </strong>",
-            parenthetical: "(day/+ after live airing).",
-            dropdown: true,
-        },
-        {
-            viewType: "live",
-            description: "I want to watch this show <strong>Live Over the Air.</strong>",
-            parenthetical: "",
-            dropdown: false,
-        },
-        {
-            viewType: "fullseason",
-            description: " I want to watch this show using a <strong>Full Season Subscription.</strong>",
-            parenthetical: "(season behind).",
-            dropdown: true,
-        },
-        {
-            viewType: "I want to <strong>Pay Per Episode</strong> to watch this show.",
-            description: "",
-            parenthetical: "(day/+ after live airing).",
-            dropdown: false,
-        },
-        //{
-        //    viewType: "",
-        //    description: "",
-        //    parenthetical: "",
-        //    dropdown: false,
-        //}
-    ]
-});
-
-app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
-
-    
-    
-    $scope.directiveVW = [
-
-        {
-            type: 'live',
-            headerText : 'Live Over the Air.',
-            toolTip: 'get your content as soon as it dropped.'
-
-
-        },
-        {
-            type: 'onDemand',
-            headerText : 'On Demand Subscription.',
-            toolTip: 'day/+ after live airing.'
-
-
-        },
-        {
-            type: 'fullseason',
-            headerText : 'Binge Watch Full Seasons',
-            toolTip: 'season behind.'
-
-
-        },
-        {
-            type: 'alacarte',
-            headerText : 'Watch Current Season or Episodes for a fee',
-            toolTip: 'day/+ after live airing with no committment'
-
-
-        },
-
-
-    ]
-
-    $scope.popularShows = null;
-
-    $http.get('api/popular-shows')
-        .success(function (data) {
-            $scope.popularShows = data.results;
-            return data
-        })
-        .then(function () {
-            // ;
-            //$('.popular-shows').slick();
-        });
-
-
-    $scope.package = PackageFactory.getPackage();
-
-    $scope.onDemandLength = function (c) {
-        //debugger;
-
-        return _.filter(c, function(n){
-            return n.name == 'Netflix'
-        }).length > 0
-
-    }
-
-    $scope.delete = function (content) {
-        //debugger;
-
-        _.remove($scope.package.content, content);
-
-        $scope.savePackage()
-
-    }
-
-    $scope.prePopulateWindowProvider = function (content, prop) {
-
-        //debugger;
-
-        //var array = _.intersection($scope.package.providers, content.content_provider);
-
-        var array = _.filter(content.content_provider, function(prov){
-            return _.includes(_.map($scope.package.providers, function(elem){ return elem.name}), prov.name)
-        })
-
-        if(prop == 'onDemand'){
-
-            _.remove(array, function(n){
-                return n.name == 'Netflix';
-
-            })
-        } else if (prop == 'fullSeason') {
-
-            _.remove(array, function(n){
-                return n.name != 'Netflix';
-            })
-        }
-
-        return _.isEmpty(array) ? false : _.first(array).name;
-
-    }
-
-
-    $scope.saveWindowProvider = function(obj, prop, value) {
-        //debugger;
-
-        obj[prop] = value;
-
-        if(!_.includes($scope.package.providers, value)) {$scope.package.providers.push(value)}
-        
-        $scope.savePackage()
-
-
-    }
-
-    $scope.$watch(function () {return PackageFactory.getPackage()}, function(){
-        $scope.package = PackageFactory.getPackage();
-    })
-
-
-
-    $scope.savePackage = function() {
-        //debugger;
-        PackageFactory.setPackage($scope.package)
-    }
-
-    $scope.$watchCollection('package.content',function () {
-        //debugger;
-
-        PackageFactory.setPackage($scope.package)
-    })
-
-
-});
 
 
 
@@ -1628,6 +1487,221 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
     }
 
 })
+/**
+ * Created by Nem on 10/27/15.
+ */
+
+app.controller('AccordionController', function ($scope) {
+
+
+    $scope.viewingWindows = [
+        {
+            viewType: "onDemand",
+            description: "I want to watch this show with and <strong> On Demand Subscription. </strong>",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: true,
+        },
+        {
+            viewType: "live",
+            description: "I want to watch this show <strong>Live Over the Air.</strong>",
+            parenthetical: "",
+            dropdown: false,
+        },
+        {
+            viewType: "fullseason",
+            description: " I want to watch this show using a <strong>Full Season Subscription.</strong>",
+            parenthetical: "(season behind).",
+            dropdown: true,
+        },
+        {
+            viewType: "I want to <strong>Pay Per Episode</strong> to watch this show.",
+            description: "",
+            parenthetical: "(day/+ after live airing).",
+            dropdown: false,
+        },
+        //{
+        //    viewType: "",
+        //    description: "",
+        //    parenthetical: "",
+        //    dropdown: false,
+        //}
+    ]
+});
+
+app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
+
+    $scope.showTotal = function (content) {
+        debugger;
+
+        content.totalCost = _.reduce(content.viewingWindows, function (total, n) {
+            debugger;
+            if (typeof total !== 'number') {
+                if (total.channel.price !== undefined) {
+
+                    total = total.channel.price
+                } else {
+                    total = 0
+
+                }
+
+            }
+
+            if (n.channel.price !== undefined) {
+                return total + n.channel.price;
+            } else {
+
+                return total
+            }
+
+        })
+
+        return content.totalCost;
+
+
+    }
+
+
+    $scope.monthlyTotal = function (package) {
+
+        //TODO finish this get total cost of all services.
+
+        //make an uniq list of services
+
+    }
+
+
+    $scope.directiveVW = [
+
+        {
+            type: 'live',
+            headerText: 'Live Over the Air.',
+            toolTip: 'get your content as soon as it dropped.'
+
+
+        },
+        {
+            type: 'onDemand',
+            headerText: 'On Demand Subscription.',
+            toolTip: 'day/+ after live airing.'
+
+
+        },
+        {
+            type: 'fullseason',
+            headerText: 'Binge Watch Full Seasons',
+            toolTip: 'season behind.'
+
+
+        },
+        {
+            type: 'alacarte',
+            headerText: 'Watch Current Season or Episodes for a fee',
+            toolTip: 'day/+ after live airing with no committment'
+
+
+        },
+
+
+    ]
+
+    $scope.popularShows = null;
+
+    $http.get('api/popular-shows')
+        .success(function (data) {
+            $scope.popularShows = data.results;
+            return data
+        })
+        .then(function () {
+            // ;
+            //$('.popular-shows').slick();
+        });
+
+
+    $scope.package = PackageFactory.getPackage();
+
+    $scope.onDemandLength = function (c) {
+        //debugger;
+
+        return _.filter(c, function (n) {
+                return n.name == 'Netflix'
+            }).length > 0
+
+    }
+
+    $scope.delete = function (content) {
+        //debugger;
+
+        _.remove($scope.package.content, content);
+
+        $scope.savePackage()
+
+    }
+
+    $scope.prePopulateWindowProvider = function (content, prop) {
+
+        //debugger;
+
+        //var array = _.intersection($scope.package.providers, content.content_provider);
+
+        var array = _.filter(content.content_provider, function (prov) {
+            return _.includes(_.map($scope.package.providers, function (elem) {
+                return elem.name
+            }), prov.name)
+        })
+
+        if (prop == 'onDemand') {
+
+            _.remove(array, function (n) {
+                return n.name == 'Netflix';
+
+            })
+        } else if (prop == 'fullSeason') {
+
+            _.remove(array, function (n) {
+                return n.name != 'Netflix';
+            })
+        }
+
+        return _.isEmpty(array) ? false : _.first(array).name;
+
+    }
+
+
+    $scope.saveWindowProvider = function (obj, prop, value) {
+        //debugger;
+
+        obj[prop] = value;
+
+        if (!_.includes($scope.package.providers, value)) {
+            $scope.package.providers.push(value)
+        }
+
+        $scope.savePackage()
+
+
+    }
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    })
+
+
+    $scope.savePackage = function () {
+        //debugger;
+        PackageFactory.setPackage($scope.package)
+    }
+
+    $scope.$watchCollection('package.content', function () {
+        //debugger;
+
+        PackageFactory.setPackage($scope.package)
+    })
+
+
+});
+
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     $scope.package = PackageFactory.getPackage();

@@ -15,6 +15,20 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'Showtime Anytime',
         'STARZ Play'])
 
+    .constant('SERVICE_PRICE_LIST', [
+        {name: 'Netflix', price: 9.99},
+        {name: 'Hulu', price: 7.99},
+        {name: 'Amazon Prime', price: 8.25},
+        {name: 'HBO Now', price: 14.99},
+        {name: 'SlingTV', price: 20.00},
+        {name: 'Over The Air', price: 0.00},
+        {name: 'Showtime', price: 10.99},
+        {name: 'CBS All Access', price: 5.99},
+        {name: 'NBC App', price: 0.00},
+        {name: 'CW Seed', price: 0.00},
+        {name: 'PBS App', price: 0.00}
+    ])
+
     .constant('SLING_CHANNELS', ['ESPN',
         'ESPN2',
         'AMC',

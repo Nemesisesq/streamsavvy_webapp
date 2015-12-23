@@ -4,7 +4,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST) {
 
     var nShows = [];
 
@@ -126,6 +126,14 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
 
+                    var opts = {
+                        keys: ['name'],
+                        threshold:.2
+
+                    }
+
+                    sPrices = new Fuse(SERVICE_PRICE_LIST, opts);
+
                     debugger;
                     var cleanedChannels = data.data.results
 
@@ -145,6 +153,10 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                             elem.display_name = elem.name;
                             elem.type = elem.channel_type;
                         }
+
+                        debugger;
+
+
 
                         return elem
                     })
@@ -177,6 +189,11 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                             return elem
 
+                        }
+
+                        if(!_.isEmpty(sPrices.search(elem.display_name))){
+                            var res = sPrices.search(elem.display_name)
+                            elem.price = res[0].price
                         }
 
                         return elem;

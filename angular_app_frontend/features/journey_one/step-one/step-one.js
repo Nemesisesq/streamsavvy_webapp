@@ -1,33 +1,71 @@
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
 
-    
-    
+    $scope.showTotal = function (content) {
+        debugger;
+
+        content.totalCost = _.reduce(content.viewingWindows, function (total, n) {
+            debugger;
+            if (typeof total !== 'number') {
+                if (total.channel.price !== undefined) {
+
+                    total = total.channel.price
+                } else {
+                    total = 0
+
+                }
+
+            }
+
+            if (n.channel.price !== undefined) {
+                return total + n.channel.price;
+            } else {
+
+                return total
+            }
+
+        })
+
+        return content.totalCost;
+
+
+    }
+
+
+    $scope.monthlyTotal = function (package) {
+
+        //TODO finish this get total cost of all services.
+
+        //make an uniq list of services
+
+    }
+
+
     $scope.directiveVW = [
 
         {
             type: 'live',
-            headerText : 'Live Over the Air.',
+            headerText: 'Live Over the Air.',
             toolTip: 'get your content as soon as it dropped.'
 
 
         },
         {
             type: 'onDemand',
-            headerText : 'On Demand Subscription.',
+            headerText: 'On Demand Subscription.',
             toolTip: 'day/+ after live airing.'
 
 
         },
         {
             type: 'fullseason',
-            headerText : 'Binge Watch Full Seasons',
+            headerText: 'Binge Watch Full Seasons',
             toolTip: 'season behind.'
 
 
         },
         {
             type: 'alacarte',
-            headerText : 'Watch Current Season or Episodes for a fee',
+            headerText: 'Watch Current Season or Episodes for a fee',
             toolTip: 'day/+ after live airing with no committment'
 
 
@@ -54,9 +92,9 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     $scope.onDemandLength = function (c) {
         //debugger;
 
-        return _.filter(c, function(n){
-            return n.name == 'Netflix'
-        }).length > 0
+        return _.filter(c, function (n) {
+                return n.name == 'Netflix'
+            }).length > 0
 
     }
 
@@ -75,19 +113,21 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         //var array = _.intersection($scope.package.providers, content.content_provider);
 
-        var array = _.filter(content.content_provider, function(prov){
-            return _.includes(_.map($scope.package.providers, function(elem){ return elem.name}), prov.name)
+        var array = _.filter(content.content_provider, function (prov) {
+            return _.includes(_.map($scope.package.providers, function (elem) {
+                return elem.name
+            }), prov.name)
         })
 
-        if(prop == 'onDemand'){
+        if (prop == 'onDemand') {
 
-            _.remove(array, function(n){
+            _.remove(array, function (n) {
                 return n.name == 'Netflix';
 
             })
         } else if (prop == 'fullSeason') {
 
-            _.remove(array, function(n){
+            _.remove(array, function (n) {
                 return n.name != 'Netflix';
             })
         }
@@ -97,30 +137,33 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
 
-    $scope.saveWindowProvider = function(obj, prop, value) {
+    $scope.saveWindowProvider = function (obj, prop, value) {
         //debugger;
 
         obj[prop] = value;
 
-        if(!_.includes($scope.package.providers, value)) {$scope.package.providers.push(value)}
-        
+        if (!_.includes($scope.package.providers, value)) {
+            $scope.package.providers.push(value)
+        }
+
         $scope.savePackage()
 
 
     }
 
-    $scope.$watch(function () {return PackageFactory.getPackage()}, function(){
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
         $scope.package = PackageFactory.getPackage();
     })
 
 
-
-    $scope.savePackage = function() {
+    $scope.savePackage = function () {
         //debugger;
         PackageFactory.setPackage($scope.package)
     }
 
-    $scope.$watchCollection('package.content',function () {
+    $scope.$watchCollection('package.content', function () {
         //debugger;
 
         PackageFactory.setPackage($scope.package)
