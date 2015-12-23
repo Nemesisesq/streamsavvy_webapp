@@ -46,7 +46,7 @@ def run(*args, **kwargs):
     data = iter(content)
 
     while True:
-        if q.count < 2000:
+        if q.count < 10000:
             try:
                 q.enqueue(g.single_content_detail, next(data))
             except StopIteration:
