@@ -43,11 +43,23 @@ def run(*args, **kwargs):
     q = django_rq.get_queue('high')
 
 
-    for c in content:
-        q.enqueue(g.single_content_detail, c)
+    data = iter(content)
+
+    while True:
+        if q.count < 2000:
+            try:
+                q.enqueue(g.single_content_detail, next(data))
+            except StopIteration:
+                logger.info('all jobs started')
+                break
 
     return 'all jobs started!!!'
 
 #
 # if __name__ == "__main__":
 #     run()
+
+import os
+
+if 'DEBUG' in os.environ and os.environ['DEBUG']:
+    run()
