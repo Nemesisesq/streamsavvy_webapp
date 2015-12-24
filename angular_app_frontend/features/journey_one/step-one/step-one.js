@@ -3,7 +3,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     $scope.showTotal = function (content) {
         debugger;
 
-        content.totalCost = _.reduce(content.viewingWindows, function (total, n) {
+        return _.reduce(content.viewingWindows, function (total, n) {
             debugger;
             if (typeof total !== 'number') {
                 if (total.channel.price !== undefined) {
@@ -25,17 +25,11 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         })
 
-        return content.totalCost;
-
 
     }
 
 
-    $scope.monthlyTotal = function (package) {
-
-        //TODO finish this get total cost of all services.
-
-        //make an uniq list of services
+    $scope.monthlyTotal = function () {
 
     }
 

@@ -13,7 +13,7 @@ var livereload = require('gulp-livereload');
 //    })
 
 var paths = {
-    dist: './static/dist/',
+    dist: './static/',
     templates: './templates',
     partials: './static/partials',
     images_dest: './static/img',
