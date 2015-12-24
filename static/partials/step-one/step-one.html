@@ -58,14 +58,14 @@
                                         </button>-->
                                     </div>
 
-                                    <div class="col-xs-4 col-xs-offset-4 total">
-                                        <div class="row accord-show-total">
+                                    <div class="col-xs-4 col-xs-offset-4 total" >
+                                        <div class="row accord-show-total" ng-if="showTotal(content) > 0">
                                             <span class="pull-left">Selection Total:</span>
-                                            <span class="pull-right">{{ showTotal(content) }}</span>
+                                            <span class="pull-right" >{{ showTotal(content) }}</span>
                                         </div>
-                                        <div class="row accord-monthly-total">
+                                        <div class="row accord-monthly-total" ng-if="contentTotal() > 0">
                                             <span class="pull-left">Your Monthly Total:</span>
-                                            <span class="pull-right">$24.99</span>
+                                            <span class="pull-right">{{  contentTotal() }}</span>
                                         </div>
                                     </div>
 

@@ -663,7 +663,6 @@ app.factory('_', function($window){
 app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
-
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -763,6 +762,7 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
+
 /**
  * Created by Nem on 10/7/15.
  */
@@ -1531,35 +1531,56 @@ app.controller('AccordionController', function ($scope) {
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
 
     $scope.showTotal = function (content) {
-        debugger;
 
-        return _.reduce(content.viewingWindows, function (total, n) {
-            debugger;
-            if (typeof total !== 'number') {
-                if (total.channel.price !== undefined) {
+        var total = 0
 
-                    total = total.channel.price
-                } else {
-                    total = 0
+        _.forEach($scope.directiveVW, function (window) {
 
+            if (content.viewingWindows!== undefined &&  content.viewingWindows[window.type] !== undefined) {
+                debugger
+
+                var window = content.viewingWindows[window.type];
+                debugger;
+                if (window.channel !== undefined && window.channel.price !== undefined) {
+
+                    total += window.channel.price;
+
+                    if(!_.includes($scope.package.providers), window.channel){
+                        $scope.package.provider
+                    }
                 }
 
             }
-
-            if (n.channel.price !== undefined) {
-                return total + n.channel.price;
-            } else {
-
-                return total
-            }
-
         })
+
+        content.totalCost = total
+
+
+        return total
 
 
     }
 
 
-    $scope.monthlyTotal = function () {
+    $scope.contentTotal = function () {
+
+        debugger;
+        var t = 0
+
+        var package = $scope.package;
+        if (package.content.length > 0) {
+
+             t = _.map(package.content, function(elem){
+                return elem.totalCost;
+            })
+
+            t = _.reduce(t, function(total, n){
+                return total + n
+            })
+        }
+
+        return t
+
 
     }
 
