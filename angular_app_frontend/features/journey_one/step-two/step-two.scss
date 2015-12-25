@@ -19,7 +19,7 @@
 
 .device-grid {
   //border-bottom: solid 2px #dedede;
-  display: inline-flex;
+  display: flex;
   .step-two {
 
     .totals {
@@ -43,14 +43,14 @@
     //clear: both;
     //min-height: 250px;
     .picture-grid{
-      display: inline-flex;
+      display: block;
     }
     .col-sm-2 {
 
 
       margin-right: 10px;
       margin-left: 10px;
-
+      width:auto;
       //padding: 0;
     }
 

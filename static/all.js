@@ -1807,7 +1807,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
 
     $scope.package = PackageFactory.getPackage();
     var hardwareColl = $scope.package.hardware;
-    var wantedHardware = ["Mohu Antenna","Apple TV","Roku Streaming Stick","Google Chromecast", "Amazon Fire Stick"];
+    var wantedHardware = ["Mohu Antenna","Roku Streaming Stick", "Amazon Fire Stick"];
     $scope.hardwareTotal = 40.99;
     $scope.monthlyTotal = 5.99;
     var digitalAntenna = {"url":"",
@@ -1847,8 +1847,8 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
                 hardwareCopy.splice(i, 1);
             }
         }
-        hardwareCopy.splice(-1,1);//remove duplicate appletv
-        hardwareCopy.splice(1,1);//remvoe roku 2
+        hardwareCopy.splice(1,2);
+        hardwareCopy.splice(2,1);
         $scope.hardware = hardwareCopy;
 
 

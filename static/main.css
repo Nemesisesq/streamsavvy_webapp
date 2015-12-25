@@ -3120,7 +3120,7 @@ slick button {
   margin-right: -4px; }
 
 .device-grid {
-  display: inline-flex; }
+  display: flex; }
   .device-grid .step-two {
     margin-top: 5%;
     margin-bottom: 5%; }
@@ -3132,10 +3132,11 @@ slick button {
       .device-grid .step-two .totals .m-total {
         color: #31CE82; }
     .device-grid .step-two .picture-grid {
-      display: inline-flex; }
+      display: block; }
     .device-grid .step-two .col-sm-2 {
       margin-right: 10px;
-      margin-left: 10px; }
+      margin-left: 10px;
+      width: auto; }
     .device-grid .step-two .hardware-img {
       border: 1px solid #c9c9c9;
       height: 10.55vw;
@@ -3206,7 +3207,7 @@ slick button {
   margin-right: -4px; }
 
 .device-grid {
-  display: inline-flex; }
+  display: flex; }
   .device-grid .step-two {
     margin-top: 5%;
     margin-bottom: 5%; }
@@ -3218,10 +3219,11 @@ slick button {
       .device-grid .step-two .totals .m-total {
         color: #31CE82; }
     .device-grid .step-two .picture-grid {
-      display: inline-flex; }
+      display: block; }
     .device-grid .step-two .col-sm-2 {
       margin-right: 10px;
-      margin-left: 10px; }
+      margin-left: 10px;
+      width: auto; }
     .device-grid .step-two .hardware-img {
       border: 1px solid #c9c9c9;
       height: 10.55vw;
