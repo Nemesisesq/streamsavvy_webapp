@@ -14,7 +14,7 @@ app.factory('PackageFactory', ['$http', function ($http) {
 
     return {
         setPackage: function (ssPackage) {
-            // ;
+            debugger ;
             _package = ssPackage;
 
             if( ! _.isEmpty(ssPackage)){

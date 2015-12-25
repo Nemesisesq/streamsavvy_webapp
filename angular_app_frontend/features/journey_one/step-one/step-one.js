@@ -7,17 +7,14 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         _.forEach($scope.directiveVW, function (window) {
 
             if (content.viewingWindows!== undefined &&  content.viewingWindows[window.type] !== undefined) {
-                debugger
+                //debugger
 
                 var window = content.viewingWindows[window.type];
-                debugger;
+                //debugger;
                 if (window.channel !== undefined && window.channel.price !== undefined) {
 
                     total += window.channel.price;
 
-                    if(!_.includes($scope.package.providers), window.channel){
-                        $scope.package.provider
-                    }
                 }
 
             }
@@ -34,7 +31,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     $scope.contentTotal = function () {
 
-        debugger;
+        //debugger;
         var t = 0
 
         var package = $scope.package;

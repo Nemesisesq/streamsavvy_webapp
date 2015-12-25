@@ -73,6 +73,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
                 scope.content.viewingWindows[scope.id].channel = channel;
 
                 if (!_.includes(scope.package.providers, channel)) {
+                    debugger;
                     scope.package.providers.push(channel)
                 }
 

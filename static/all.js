@@ -397,6 +397,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
                 scope.content.viewingWindows[scope.id].channel = channel;
 
                 if (!_.includes(scope.package.providers, channel)) {
+                    debugger;
                     scope.package.providers.push(channel)
                 }
 
@@ -611,7 +612,7 @@ app.factory('PackageFactory', ['$http', function ($http) {
 
     return {
         setPackage: function (ssPackage) {
-            // ;
+            debugger ;
             _package = ssPackage;
 
             if( ! _.isEmpty(ssPackage)){
@@ -663,6 +664,7 @@ app.factory('_', function($window){
 app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
+
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -762,7 +764,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
-
 /**
  * Created by Nem on 10/7/15.
  */
@@ -1537,17 +1538,14 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         _.forEach($scope.directiveVW, function (window) {
 
             if (content.viewingWindows!== undefined &&  content.viewingWindows[window.type] !== undefined) {
-                debugger
+                //debugger
 
                 var window = content.viewingWindows[window.type];
-                debugger;
+                //debugger;
                 if (window.channel !== undefined && window.channel.price !== undefined) {
 
                     total += window.channel.price;
 
-                    if(!_.includes($scope.package.providers), window.channel){
-                        $scope.package.provider
-                    }
                 }
 
             }
@@ -1564,7 +1562,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     $scope.contentTotal = function () {
 
-        debugger;
+        //debugger;
         var t = 0
 
         var package = $scope.package;
