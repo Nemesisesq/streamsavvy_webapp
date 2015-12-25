@@ -3134,14 +3134,15 @@ slick button {
     .device-grid .step-two .picture-grid {
       display: block; }
     .device-grid .step-two .col-sm-2 {
-      margin-right: 10px;
-      margin-left: 10px;
-      width: auto; }
+      width: auto;
+      padding: 0;
+      margin-right: 5%; }
     .device-grid .step-two .hardware-img {
       border: 1px solid #c9c9c9;
       height: 10.55vw;
       width: 9.25vw;
-      padding: 10px; }
+      margin-left: auto;
+      margin-right: auto; }
       .device-grid .step-two .hardware-img + div {
         font-size: 17px;
         font-weight: 900;
@@ -3162,6 +3163,7 @@ slick button {
       font-size: 17px; }
     .device-grid .step-two .selected {
       border-color: #3b94e3;
+      border-width: 1px;
       border-top-right-radius: 0; }
 
 .btn-row {
@@ -3221,14 +3223,15 @@ slick button {
     .device-grid .step-two .picture-grid {
       display: block; }
     .device-grid .step-two .col-sm-2 {
-      margin-right: 10px;
-      margin-left: 10px;
-      width: auto; }
+      width: auto;
+      padding: 0;
+      margin-right: 5%; }
     .device-grid .step-two .hardware-img {
       border: 1px solid #c9c9c9;
       height: 10.55vw;
       width: 9.25vw;
-      padding: 10px; }
+      margin-left: auto;
+      margin-right: auto; }
       .device-grid .step-two .hardware-img + div {
         font-size: 17px;
         font-weight: 900;
@@ -3249,6 +3252,7 @@ slick button {
       font-size: 17px; }
     .device-grid .step-two .selected {
       border-color: #3b94e3;
+      border-width: 1px;
       border-top-right-radius: 0; }
 
 .btn-row {

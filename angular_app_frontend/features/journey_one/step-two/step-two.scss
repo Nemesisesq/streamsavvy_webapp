@@ -47,19 +47,17 @@
     }
     .col-sm-2 {
 
-
-      margin-right: 10px;
-      margin-left: 10px;
       width:auto;
-      //padding: 0;
+      padding: 0;
+      margin-right: 5%;
     }
 
     .hardware-img {
       border: 1px solid #c9c9c9;
       height: 10.55vw;
       width: 9.25vw;
-
-      padding: 10px;
+      margin-left:auto;
+      margin-right:auto;
 
       & + div {
         font-size: 17px;
@@ -85,7 +83,7 @@
     .selected {
 
       border-color: #3b94e3;
-      //border-radius: 1.5em;
+      border-width: 1px;
       border-top-right-radius: 0;
       //padding: 7px;
 
