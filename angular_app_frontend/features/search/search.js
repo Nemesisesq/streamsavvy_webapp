@@ -4,7 +4,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N) {
 
     var nShows = [];
 
@@ -18,15 +18,16 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
 
     //TODO make this a constant in the angular app
-    $http.get('netflixable/')
-        .then(function (data) {
-
-            nShows = new Fuse(data.data, {threshold: .2});
-        })
+    //$http.get('netflixable/')
+    //    .then(function (data) {
+    //
+    //        nShows = new Fuse(data.data, {threshold: .2});
+    //    })
 
     function isOnNetFlix(show) {
-        //debugger;
-        if (nShows.search(show.title).length > 0) {
+        debugger;
+        var shows = N.getShows();
+        if (shows.search(show.title).length > 0) {
             return true;
         }
     }
@@ -111,7 +112,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                 type: "live_online_tv"
             }
 
-            debugger;
+            //debugger;
 
 
             if (slingInProviders(suggestion)) {
@@ -122,7 +123,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
 
 
-        if (typeof suggestion.guidebox_id === 'number') {
+        if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
 
@@ -134,7 +135,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                     sPrices = new Fuse(SERVICE_PRICE_LIST, opts);
 
-                    debugger;
+                    //debugger;
                     var cleanedChannels = data.data.results
 
                     var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
@@ -154,7 +155,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                             elem.type = elem.channel_type;
                         }
 
-                        debugger;
+                        //debugger;
 
 
 

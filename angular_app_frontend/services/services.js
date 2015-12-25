@@ -1,7 +1,32 @@
 /**
  * Created by Nem on 6/27/15.
  */
+app.factory('N', function () {
+    var _netflix_shows = []
 
+    return {
+        setShows: function (shows) {
+            //debugger;
+            _netflix_shows = shows
+        },
+        getShows: function () {
+            //debugger;
+            var f = new Fuse(_netflix_shows, {threshold: .2});
+            return f;
+        }
+
+    }
+})
+
+app.run(function ($http, Fuse, N) {
+
+    $http.get('netflixable/')
+        .then(function (data) {
+            //debugger;
+
+            N.setShows(data.data)
+        })
+})
 
 
 app.factory('PackageFactory', ['$http', function ($http) {
@@ -14,10 +39,10 @@ app.factory('PackageFactory', ['$http', function ($http) {
 
     return {
         setPackage: function (ssPackage) {
-            debugger ;
+
             _package = ssPackage;
 
-            if( ! _.isEmpty(ssPackage)){
+            if (!_.isEmpty(ssPackage)) {
                 this.postPackage(ssPackage)
             }
 

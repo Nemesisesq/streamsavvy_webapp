@@ -325,7 +325,7 @@ app.directive('ssImageBlock', function (http, $rootScope) {
 /**
  * Created by Nem on 9/18/15.
  */
-app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
+app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
     return {
         restrict: 'AEC',
         //replace: true,
@@ -391,17 +391,55 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
             }
 
+            var updatePackageChannels = function () {
+
+
+
+                return $q(function (resolve, reject) {
+                    debugger;
+                    var chans = _.map(scope.package.content, function (elem) {
+                        var x = []
+                          debugger;
+                        _.forEach(scope.$parent.directiveVW , function (w) {
+
+                            if (elem.viewingWindows[w.type] !== undefined) {
+                                x.push(elem.viewingWindows[w.type])
+                            }
+
+                        })
+
+                        return x
+                    })
+
+                    chans = _.flatten(chans)
+
+                    scope.package.providers = chans
+                })
+
+
+            }
+
             scope.saveWindowProvider = function (channel) {
                 //debugger;
 
                 scope.content.viewingWindows[scope.id].channel = channel;
+                debugger;
 
-                if (!_.includes(scope.package.providers, channel)) {
+                updatePackageChannels().then( function(){
                     debugger;
-                    scope.package.providers.push(channel)
-                }
+                    scope.savePackage()
+                })
 
-                scope.savePackage()
+
+                //if (scope.package.chosenProviders !== undefined) {
+                //    if (!_.includes(scope.package.providers, channel.source)) {
+                //        debugger;
+                //        scope.package.providers.push(channel)
+                //    }
+                //} else {
+                //}
+
+                //scope.savePackage()
 
             }
 
@@ -599,7 +637,32 @@ app.factory('http', function ($http, $log, $q) {
 /**
  * Created by Nem on 6/27/15.
  */
+app.factory('N', function () {
+    var _netflix_shows = []
 
+    return {
+        setShows: function (shows) {
+            //debugger;
+            _netflix_shows = shows
+        },
+        getShows: function () {
+            //debugger;
+            var f = new Fuse(_netflix_shows, {threshold: .2});
+            return f;
+        }
+
+    }
+})
+
+app.run(function ($http, Fuse, N) {
+
+    $http.get('netflixable/')
+        .then(function (data) {
+            //debugger;
+
+            N.setShows(data.data)
+        })
+})
 
 
 app.factory('PackageFactory', ['$http', function ($http) {
@@ -612,10 +675,10 @@ app.factory('PackageFactory', ['$http', function ($http) {
 
     return {
         setPackage: function (ssPackage) {
-            debugger ;
+
             _package = ssPackage;
 
-            if( ! _.isEmpty(ssPackage)){
+            if (!_.isEmpty(ssPackage)) {
                 this.postPackage(ssPackage)
             }
 
@@ -1153,7 +1216,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N) {
 
     var nShows = [];
 
@@ -1167,15 +1230,16 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
 
     //TODO make this a constant in the angular app
-    $http.get('netflixable/')
-        .then(function (data) {
-
-            nShows = new Fuse(data.data, {threshold: .2});
-        })
+    //$http.get('netflixable/')
+    //    .then(function (data) {
+    //
+    //        nShows = new Fuse(data.data, {threshold: .2});
+    //    })
 
     function isOnNetFlix(show) {
-        //debugger;
-        if (nShows.search(show.title).length > 0) {
+        debugger;
+        var shows = N.getShows();
+        if (shows.search(show.title).length > 0) {
             return true;
         }
     }
@@ -1260,7 +1324,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                 type: "live_online_tv"
             }
 
-            debugger;
+            //debugger;
 
 
             if (slingInProviders(suggestion)) {
@@ -1271,7 +1335,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
 
 
-        if (typeof suggestion.guidebox_id === 'number') {
+        if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
 
@@ -1283,7 +1347,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                     sPrices = new Fuse(SERVICE_PRICE_LIST, opts);
 
-                    debugger;
+                    //debugger;
                     var cleanedChannels = data.data.results
 
                     var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
@@ -1303,7 +1367,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                             elem.type = elem.channel_type;
                         }
 
-                        debugger;
+                        //debugger;
 
 
 

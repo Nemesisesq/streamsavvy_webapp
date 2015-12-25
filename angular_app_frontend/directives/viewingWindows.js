@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 9/18/15.
  */
-app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
+app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
     return {
         restrict: 'AEC',
         //replace: true,
@@ -67,17 +67,55 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
             }
 
+            var updatePackageChannels = function () {
+
+
+
+                return $q(function (resolve, reject) {
+                    debugger;
+                    var chans = _.map(scope.package.content, function (elem) {
+                        var x = []
+                          debugger;
+                        _.forEach(scope.$parent.directiveVW , function (w) {
+
+                            if (elem.viewingWindows[w.type] !== undefined) {
+                                x.push(elem.viewingWindows[w.type])
+                            }
+
+                        })
+
+                        return x
+                    })
+
+                    chans = _.flatten(chans)
+
+                    scope.package.providers = chans
+                })
+
+
+            }
+
             scope.saveWindowProvider = function (channel) {
                 //debugger;
 
                 scope.content.viewingWindows[scope.id].channel = channel;
+                debugger;
 
-                if (!_.includes(scope.package.providers, channel)) {
+                updatePackageChannels().then( function(){
                     debugger;
-                    scope.package.providers.push(channel)
-                }
+                    scope.savePackage()
+                })
 
-                scope.savePackage()
+
+                //if (scope.package.chosenProviders !== undefined) {
+                //    if (!_.includes(scope.package.providers, channel.source)) {
+                //        debugger;
+                //        scope.package.providers.push(channel)
+                //    }
+                //} else {
+                //}
+
+                //scope.savePackage()
 
             }
 
