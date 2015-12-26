@@ -67,33 +67,36 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
             }
 
-            var updatePackageChannels = function () {
-
-
-
-                return $q(function (resolve, reject) {
-                    debugger;
-                    var chans = _.map(scope.package.content, function (elem) {
-                        var x = []
-                          debugger;
-                        _.forEach(scope.$parent.directiveVW , function (w) {
-
-                            if (elem.viewingWindows[w.type] !== undefined) {
-                                x.push(elem.viewingWindows[w.type])
-                            }
-
-                        })
-
-                        return x
-                    })
-
-                    chans = _.flatten(chans)
-
-                    scope.package.providers = chans
-                })
-
-
-            }
+            //var updatePackageChannels = function () {
+            //
+            //
+            //
+            //    return $q(function (resolve, reject) {
+            //        debugger;
+            //        var chans = _.map(scope.package.content, function (elem) {
+            //            var x = []
+            //              debugger;
+            //            _.forEach(scope.$parent.directiveVW , function (w) {
+            //
+            //                var window = elem.viewingWindows[w.type];
+            //                if (window !== undefined) {
+            //                    if (!_.includes(scope.package.providers, window.channel.source)) {
+            //                        x.push(window.channel)
+            //                    }
+            //                }
+            //
+            //            })
+            //
+            //            return x
+            //        })
+            //
+            //        chans = _.flatten(chans)
+            //
+            //        scope.package.providers = chans
+            //    })
+            //
+            //
+            //}
 
             scope.saveWindowProvider = function (channel) {
                 //debugger;
@@ -101,10 +104,9 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
                 scope.content.viewingWindows[scope.id].channel = channel;
                 debugger;
 
-                updatePackageChannels().then( function(){
-                    debugger;
-                    scope.savePackage()
-                })
+                scope.savePackage()
+
+                PackageFactory.updatePackageChannels(scope).debugger;
 
 
                 //if (scope.package.chosenProviders !== undefined) {

@@ -29,7 +29,7 @@ app.run(function ($http, Fuse, N) {
 })
 
 
-app.factory('PackageFactory', ['$http', function ($http) {
+app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $q, VIEW_WINDOWS) {
     // ;
 
     var _package = {};
@@ -61,6 +61,51 @@ app.factory('PackageFactory', ['$http', function ($http) {
         getSSTest: function () {
             // ;
             return _test;
+        },
+
+        updatePackageChannels: function (scope) {
+
+            if(scope.package.content.length == 0){
+                scope.package.providers = [];
+            }
+
+
+            return $q(function (resolve, reject) {
+                debugger;
+                var chans = _.map(scope.package.content, function (elem) {
+                    var x = []
+                    debugger;
+                    _.forEach(VIEW_WINDOWS, function (w) {
+                        debugger;
+
+                        if (elem.viewingWindows !== undefined && elem.viewingWindows[w.type] !== undefined) {
+                            var window = elem.viewingWindows[w.type];
+                            debugger;
+                            if (!_.some(scope.package.providers, 'source', window.channel.source)) {
+                                x.push(window.channel)
+                            } else {
+                                x = scope.package.providers
+                            }
+
+                        }
+
+                    })
+
+
+
+                    return x
+                })
+
+                chans = _.flatten(chans)
+
+                chans = _.uniq(chans, function (elem) {
+                        return elem.source
+                    })
+
+                scope.package.providers = chans
+            })
+
+
         }
     }
 

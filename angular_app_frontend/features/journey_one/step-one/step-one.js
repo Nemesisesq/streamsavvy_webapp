@@ -23,6 +23,8 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         content.totalCost = total
 
 
+        total = _.round(total, 2)
+
         return total
 
 
@@ -36,15 +38,18 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         var package = $scope.package;
         if (package.content.length > 0) {
+            debugger;
 
-             t = _.map(package.content, function(elem){
-                return elem.totalCost;
+             t = _.map(package.providers, function(elem){
+                return elem.price;
             })
 
             t = _.reduce(t, function(total, n){
                 return total + n
             })
         }
+
+        t = _.round(t, 2)
 
         return t
 
@@ -107,24 +112,15 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         return _.filter(c, function (n) {
                 return n.name == 'Netflix'
             }).length > 0
-
     }
 
     $scope.delete = function (content) {
-        //debugger;
-
         _.remove($scope.package.content, content);
-
         $scope.savePackage()
-
+        PackageFactory.updatePackageChannels($scope)
     }
 
     $scope.prePopulateWindowProvider = function (content, prop) {
-
-        //debugger;
-
-        //var array = _.intersection($scope.package.providers, content.content_provider);
-
         var array = _.filter(content.content_provider, function (prov) {
             return _.includes(_.map($scope.package.providers, function (elem) {
                 return elem.name
@@ -135,7 +131,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
             _.remove(array, function (n) {
                 return n.name == 'Netflix';
-
             })
         } else if (prop == 'fullSeason') {
 
@@ -180,6 +175,4 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         PackageFactory.setPackage($scope.package)
     })
-
-
 });

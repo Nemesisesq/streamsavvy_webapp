@@ -5,6 +5,12 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
     .constant('CONFIG', {
         'URL': location.origin
     })
+    .constant('VIEW_WINDOWS', [
+        {type: 'live', headerText: 'Live Over the Air.', toolTip: 'get your content as soon as it dropped.'},
+        {type: 'onDemand', headerText: 'On Demand Subscription.', toolTip: 'day/+ after live airing.'},
+        {type: 'fullseason', headerText: 'Binge Watch Full Seasons', toolTip: 'season behind.'},
+        {type: 'alacarte', headerText: 'Watch Current Season or Episodes for a fee', toolTip: 'day/+ after live airing with no committment'}
+    ])
     .constant('BANNED_CHANNELS', ['HBO Go',
         'HBO',
         'Dish',
@@ -391,33 +397,36 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
             }
 
-            var updatePackageChannels = function () {
-
-
-
-                return $q(function (resolve, reject) {
-                    debugger;
-                    var chans = _.map(scope.package.content, function (elem) {
-                        var x = []
-                          debugger;
-                        _.forEach(scope.$parent.directiveVW , function (w) {
-
-                            if (elem.viewingWindows[w.type] !== undefined) {
-                                x.push(elem.viewingWindows[w.type])
-                            }
-
-                        })
-
-                        return x
-                    })
-
-                    chans = _.flatten(chans)
-
-                    scope.package.providers = chans
-                })
-
-
-            }
+            //var updatePackageChannels = function () {
+            //
+            //
+            //
+            //    return $q(function (resolve, reject) {
+            //        debugger;
+            //        var chans = _.map(scope.package.content, function (elem) {
+            //            var x = []
+            //              debugger;
+            //            _.forEach(scope.$parent.directiveVW , function (w) {
+            //
+            //                var window = elem.viewingWindows[w.type];
+            //                if (window !== undefined) {
+            //                    if (!_.includes(scope.package.providers, window.channel.source)) {
+            //                        x.push(window.channel)
+            //                    }
+            //                }
+            //
+            //            })
+            //
+            //            return x
+            //        })
+            //
+            //        chans = _.flatten(chans)
+            //
+            //        scope.package.providers = chans
+            //    })
+            //
+            //
+            //}
 
             scope.saveWindowProvider = function (channel) {
                 //debugger;
@@ -425,10 +434,9 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
                 scope.content.viewingWindows[scope.id].channel = channel;
                 debugger;
 
-                updatePackageChannels().then( function(){
-                    debugger;
-                    scope.savePackage()
-                })
+                scope.savePackage()
+
+                PackageFactory.updatePackageChannels(scope).debugger;
 
 
                 //if (scope.package.chosenProviders !== undefined) {
@@ -665,7 +673,7 @@ app.run(function ($http, Fuse, N) {
 })
 
 
-app.factory('PackageFactory', ['$http', function ($http) {
+app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $q, VIEW_WINDOWS) {
     // ;
 
     var _package = {};
@@ -697,6 +705,51 @@ app.factory('PackageFactory', ['$http', function ($http) {
         getSSTest: function () {
             // ;
             return _test;
+        },
+
+        updatePackageChannels: function (scope) {
+
+            if(scope.package.content.length == 0){
+                scope.package.providers = [];
+            }
+
+
+            return $q(function (resolve, reject) {
+                debugger;
+                var chans = _.map(scope.package.content, function (elem) {
+                    var x = []
+                    debugger;
+                    _.forEach(VIEW_WINDOWS, function (w) {
+                        debugger;
+
+                        if (elem.viewingWindows !== undefined && elem.viewingWindows[w.type] !== undefined) {
+                            var window = elem.viewingWindows[w.type];
+                            debugger;
+                            if (!_.some(scope.package.providers, 'source', window.channel.source)) {
+                                x.push(window.channel)
+                            } else {
+                                x = scope.package.providers
+                            }
+
+                        }
+
+                    })
+
+
+
+                    return x
+                })
+
+                chans = _.flatten(chans)
+
+                chans = _.uniq(chans, function (elem) {
+                        return elem.source
+                    })
+
+                scope.package.providers = chans
+            })
+
+
         }
     }
 
@@ -1552,6 +1605,41 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
     }
 
 })
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = getHardwareTotal();
+    $scope.servicesTotal = 9.99;
+    $scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+    function getHardwareTotal() {
+        var hardTotal = 0;
+        for(var i= 0; i<$scope.package.hardware.length;i++)
+        {
+            hardTotal += ($scope.package.hardware[i].retail_cost);
+        }
+        hardTotal = parseFloat(hardTotal.toFixed(2));
+        return hardTotal;
+    }
+
+    function getPackageTotal() {
+        var packTotal = 0;
+        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
+        packTotal = parseFloat(packTotal.toFixed(2));
+
+        return packTotal;
+    }
+
+
+
+
+
+
+})
 /**
  * Created by Nem on 10/27/15.
  */
@@ -1618,6 +1706,8 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         content.totalCost = total
 
 
+        total = _.round(total, 2)
+
         return total
 
 
@@ -1631,15 +1721,18 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         var package = $scope.package;
         if (package.content.length > 0) {
+            debugger;
 
-             t = _.map(package.content, function(elem){
-                return elem.totalCost;
+             t = _.map(package.providers, function(elem){
+                return elem.price;
             })
 
             t = _.reduce(t, function(total, n){
                 return total + n
             })
         }
+
+        t = _.round(t, 2)
 
         return t
 
@@ -1702,24 +1795,15 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         return _.filter(c, function (n) {
                 return n.name == 'Netflix'
             }).length > 0
-
     }
 
     $scope.delete = function (content) {
-        //debugger;
-
         _.remove($scope.package.content, content);
-
         $scope.savePackage()
-
+        PackageFactory.updatePackageChannels($scope)
     }
 
     $scope.prePopulateWindowProvider = function (content, prop) {
-
-        //debugger;
-
-        //var array = _.intersection($scope.package.providers, content.content_provider);
-
         var array = _.filter(content.content_provider, function (prov) {
             return _.includes(_.map($scope.package.providers, function (elem) {
                 return elem.name
@@ -1730,7 +1814,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
             _.remove(array, function (n) {
                 return n.name == 'Netflix';
-
             })
         } else if (prop == 'fullSeason') {
 
@@ -1775,45 +1858,8 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         PackageFactory.setPackage($scope.package)
     })
-
-
 });
 
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = getHardwareTotal();
-    $scope.servicesTotal = 9.99;
-    $scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-    function getHardwareTotal() {
-        var hardTotal = 0;
-        for(var i= 0; i<$scope.package.hardware.length;i++)
-        {
-            hardTotal += ($scope.package.hardware[i].retail_cost);
-        }
-        hardTotal = parseFloat(hardTotal.toFixed(2));
-        return hardTotal;
-    }
-
-    function getPackageTotal() {
-        var packTotal = 0;
-        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
-        packTotal = parseFloat(packTotal.toFixed(2));
-
-        return packTotal;
-    }
-
-
-
-
-
-
-})
 /**
  * Created by Nem on 11/25/15.
  */
