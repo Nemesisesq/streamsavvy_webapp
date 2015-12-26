@@ -18,18 +18,4 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
         hardTotal = parseFloat(hardTotal.toFixed(2));
         return hardTotal;
     }
-
-    function getPackageTotal() {
-        var packTotal = 0;
-        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
-        packTotal = parseFloat(packTotal.toFixed(2));
-
-        return packTotal;
-    }
-
-
-
-
-
-
 })

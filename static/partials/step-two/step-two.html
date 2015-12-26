@@ -12,11 +12,15 @@
             <div class="col-sm-2 col-centered " ng-repeat="item in hardware"">
                 <div class="hardware-img" ng-click="addRemoveHardware(item)"
                      ng-class="{selected: itemSelected(item) }">
-                    <img ng-src="{{ item.image_url }}"/>
+                    <img class="img-responsive" ng-src="{{ item.image_url }}"/>
                 </div>
                 <div class="hardware-name">
                     {{ item.name }}
+                    &nbsp;
+                    <span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ item.home_url  }}"tooltip-placement="right"
+                  tooltip-class="vw-tooltip"></span>
                 </div>
+
                 <div class="hardware-cost">
                     ${{ item.retail_cost }}
                 </div>
@@ -33,7 +37,7 @@
         <div class="row">
             <div class="col-sm-12 btn-row">
                 <div class="col-sm-6 step-btn">
-                    <a class="go_back pull-right" onClick="location.href='#/getting-started/step/1'">
+                    <a class="go_back pull-right" onClick="location.href='#/getting-started/step/3'" ng-click="package.hardware.length = 0">
                         I Don't Need Hardware
                     </a>
                 </div>

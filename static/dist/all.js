@@ -5,12 +5,6 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
     .constant('CONFIG', {
         'URL': location.origin
     })
-    .constant('VIEW_WINDOWS', [
-        {type: 'live', headerText: 'Live Over the Air.', toolTip: 'get your content as soon as it dropped.'},
-        {type: 'onDemand', headerText: 'On Demand Subscription.', toolTip: 'day/+ after live airing.'},
-        {type: 'fullseason', headerText: 'Binge Watch Full Seasons', toolTip: 'season behind.'},
-        {type: 'alacarte', headerText: 'Watch Current Season or Episodes for a fee', toolTip: 'day/+ after live airing with no committment'}
-    ])
     .constant('BANNED_CHANNELS', ['HBO Go',
         'HBO',
         'Dish',
@@ -331,7 +325,7 @@ app.directive('ssImageBlock', function (http, $rootScope) {
 /**
  * Created by Nem on 9/18/15.
  */
-app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
+app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
     return {
         restrict: 'AEC',
         //replace: true,
@@ -397,57 +391,17 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
             }
 
-            //var updatePackageChannels = function () {
-            //
-            //
-            //
-            //    return $q(function (resolve, reject) {
-            //        debugger;
-            //        var chans = _.map(scope.package.content, function (elem) {
-            //            var x = []
-            //              debugger;
-            //            _.forEach(scope.$parent.directiveVW , function (w) {
-            //
-            //                var window = elem.viewingWindows[w.type];
-            //                if (window !== undefined) {
-            //                    if (!_.includes(scope.package.providers, window.channel.source)) {
-            //                        x.push(window.channel)
-            //                    }
-            //                }
-            //
-            //            })
-            //
-            //            return x
-            //        })
-            //
-            //        chans = _.flatten(chans)
-            //
-            //        scope.package.providers = chans
-            //    })
-            //
-            //
-            //}
-
             scope.saveWindowProvider = function (channel) {
                 //debugger;
 
                 scope.content.viewingWindows[scope.id].channel = channel;
-                debugger;
+
+                if (!_.includes(scope.package.providers, channel)) {
+                    debugger;
+                    scope.package.providers.push(channel)
+                }
 
                 scope.savePackage()
-
-                PackageFactory.updatePackageChannels(scope).debugger;
-
-
-                //if (scope.package.chosenProviders !== undefined) {
-                //    if (!_.includes(scope.package.providers, channel.source)) {
-                //        debugger;
-                //        scope.package.providers.push(channel)
-                //    }
-                //} else {
-                //}
-
-                //scope.savePackage()
 
             }
 
@@ -457,83 +411,6 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
     }
 
 })
-/**
- * Created by Nem on 11/17/15.
- */
-
-function isLive(elem){
-    if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
-    }
-
-
-}
-
-function isOnDemand(elem) {
-
-    if(elem.source == 'netflix'){
-        return false
-    }
-
-    if(elem.source == 'hulu_free'){
-        return false
-    }
-
-    return  _.includes(elem.type, 'sub')
-}
-
-app.filter('channel', function () {
-    return function (input, type) {
-
-
-        var list = _.filter(input, function (elem) {
-            //debugger
-            if(type == 'live'){
-                return isLive(elem);
-            }
-            if(type == 'onDemand'){
-                //debugger
-                return isOnDemand(elem)
-            }
-            if(type == 'fullseason'){
-                //debugger
-                return _.includes(elem.type, 'sub')
-            }
-            if(type == 'alacarte'){
-                //debugger
-                return _.includes(elem.type, 'purchase')
-            }
-        })
-
-        return list
-    }
-})
-
-app.filter('onDemand', function () {
-    return function (input) {
-
-        var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix';
-        })
-
-        return list
-    }
-
-});
-
-app.filter('fullSeason', function () {
-
-    return function (input) {
-
-
-        var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix';
-        })
-
-        return list
-    }
-
-});
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -645,35 +522,10 @@ app.factory('http', function ($http, $log, $q) {
 /**
  * Created by Nem on 6/27/15.
  */
-app.factory('N', function () {
-    var _netflix_shows = []
-
-    return {
-        setShows: function (shows) {
-            //debugger;
-            _netflix_shows = shows
-        },
-        getShows: function () {
-            //debugger;
-            var f = new Fuse(_netflix_shows, {threshold: .2});
-            return f;
-        }
-
-    }
-})
-
-app.run(function ($http, Fuse, N) {
-
-    $http.get('netflixable/')
-        .then(function (data) {
-            //debugger;
-
-            N.setShows(data.data)
-        })
-})
 
 
-app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $q, VIEW_WINDOWS) {
+
+app.factory('PackageFactory', ['$http', function ($http) {
     // ;
 
     var _package = {};
@@ -683,10 +535,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $
 
     return {
         setPackage: function (ssPackage) {
-
+            debugger ;
             _package = ssPackage;
 
-            if (!_.isEmpty(ssPackage)) {
+            if( ! _.isEmpty(ssPackage)){
                 this.postPackage(ssPackage)
             }
 
@@ -705,51 +557,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $
         getSSTest: function () {
             // ;
             return _test;
-        },
-
-        updatePackageChannels: function (scope) {
-
-            if(scope.package.content.length == 0){
-                scope.package.providers = [];
-            }
-
-
-            return $q(function (resolve, reject) {
-                debugger;
-                var chans = _.map(scope.package.content, function (elem) {
-                    var x = []
-                    debugger;
-                    _.forEach(VIEW_WINDOWS, function (w) {
-                        debugger;
-
-                        if (elem.viewingWindows !== undefined && elem.viewingWindows[w.type] !== undefined) {
-                            var window = elem.viewingWindows[w.type];
-                            debugger;
-                            if (!_.some(scope.package.providers, 'source', window.channel.source)) {
-                                x.push(window.channel)
-                            } else {
-                                x = scope.package.providers
-                            }
-
-                        }
-
-                    })
-
-
-
-                    return x
-                })
-
-                chans = _.flatten(chans)
-
-                chans = _.uniq(chans, function (elem) {
-                        return elem.source
-                    })
-
-                scope.package.providers = chans
-            })
-
-
         }
     }
 
@@ -780,6 +587,83 @@ app.factory('_', function($window){
 app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
+/**
+ * Created by Nem on 11/17/15.
+ */
+
+function isLive(elem){
+    if (elem.source != 'hulu_free') {
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
+    }
+
+
+}
+
+function isOnDemand(elem) {
+
+    if(elem.source == 'netflix'){
+        return false
+    }
+
+    if(elem.source == 'hulu_free'){
+        return false
+    }
+
+    return  _.includes(elem.type, 'sub')
+}
+
+app.filter('channel', function () {
+    return function (input, type) {
+
+
+        var list = _.filter(input, function (elem) {
+            //debugger
+            if(type == 'live'){
+                return isLive(elem);
+            }
+            if(type == 'onDemand'){
+                //debugger
+                return isOnDemand(elem)
+            }
+            if(type == 'fullseason'){
+                //debugger
+                return _.includes(elem.type, 'sub')
+            }
+            if(type == 'alacarte'){
+                //debugger
+                return _.includes(elem.type, 'purchase')
+            }
+        })
+
+        return list
+    }
+})
+
+app.filter('onDemand', function () {
+    return function (input) {
+
+        var list = _.filter(input, function (elem) {
+            return elem.name != 'Netflix';
+        })
+
+        return list
+    }
+
+});
+
+app.filter('fullSeason', function () {
+
+    return function (input) {
+
+
+        var list = _.filter(input, function (elem) {
+            return elem.name == 'Netflix';
+        })
+
+        return list
+    }
+
+});
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -913,6 +797,36 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
+    $scope.isHomePage = $state.current.data.isHomePage;
+    $scope.logged_in = false;
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
 //    debugger;
@@ -1137,36 +1051,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 //
 //});
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
-    $scope.isHomePage = $state.current.data.isHomePage;
-    $scope.logged_in = false;
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -1269,7 +1153,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST) {
 
     var nShows = [];
 
@@ -1283,16 +1167,15 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
 
     //TODO make this a constant in the angular app
-    //$http.get('netflixable/')
-    //    .then(function (data) {
-    //
-    //        nShows = new Fuse(data.data, {threshold: .2});
-    //    })
+    $http.get('netflixable/')
+        .then(function (data) {
+
+            nShows = new Fuse(data.data, {threshold: .2});
+        })
 
     function isOnNetFlix(show) {
-        debugger;
-        var shows = N.getShows();
-        if (shows.search(show.title).length > 0) {
+        //debugger;
+        if (nShows.search(show.title).length > 0) {
             return true;
         }
     }
@@ -1377,7 +1260,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                 type: "live_online_tv"
             }
 
-            //debugger;
+            debugger;
 
 
             if (slingInProviders(suggestion)) {
@@ -1388,7 +1271,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
 
 
-        if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
+        if (typeof suggestion.guidebox_id === 'number') {
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
 
@@ -1400,7 +1283,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                     sPrices = new Fuse(SERVICE_PRICE_LIST, opts);
 
-                    //debugger;
+                    debugger;
                     var cleanedChannels = data.data.results
 
                     var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
@@ -1420,7 +1303,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                             elem.type = elem.channel_type;
                         }
 
-                        //debugger;
+                        debugger;
 
 
 
@@ -1671,8 +1554,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         content.totalCost = total
 
 
-        total = _.round(total, 2)
-
         return total
 
 
@@ -1686,18 +1567,15 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         var package = $scope.package;
         if (package.content.length > 0) {
-            debugger;
 
-             t = _.map(package.providers, function(elem){
-                return elem.price;
+             t = _.map(package.content, function(elem){
+                return elem.totalCost;
             })
 
             t = _.reduce(t, function(total, n){
                 return total + n
             })
         }
-
-        t = _.round(t, 2)
 
         return t
 
@@ -1760,15 +1638,24 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         return _.filter(c, function (n) {
                 return n.name == 'Netflix'
             }).length > 0
+
     }
 
     $scope.delete = function (content) {
+        //debugger;
+
         _.remove($scope.package.content, content);
+
         $scope.savePackage()
-        PackageFactory.updatePackageChannels($scope)
+
     }
 
     $scope.prePopulateWindowProvider = function (content, prop) {
+
+        //debugger;
+
+        //var array = _.intersection($scope.package.providers, content.content_provider);
+
         var array = _.filter(content.content_provider, function (prov) {
             return _.includes(_.map($scope.package.providers, function (elem) {
                 return elem.name
@@ -1779,6 +1666,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
             _.remove(array, function (n) {
                 return n.name == 'Netflix';
+
             })
         } else if (prop == 'fullSeason') {
 
@@ -1823,6 +1711,8 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         PackageFactory.setPackage($scope.package)
     })
+
+
 });
 
 app.controller('StepThreeController', function ($scope, PackageFactory) {
@@ -1845,6 +1735,20 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
         hardTotal = parseFloat(hardTotal.toFixed(2));
         return hardTotal;
     }
+
+    function getPackageTotal() {
+        var packTotal = 0;
+        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
+        packTotal = parseFloat(packTotal.toFixed(2));
+
+        return packTotal;
+    }
+
+
+
+
+
+
 })
 /**
  * Created by Nem on 11/25/15.
@@ -1853,7 +1757,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
 
     $scope.package = PackageFactory.getPackage();
     var hardwareColl = $scope.package.hardware;
-    var wantedHardware = ["Mohu Antenna","Roku Streaming Stick", "Amazon Fire Stick"];
+    var wantedHardware = ["Mohu Antenna","Apple TV","Roku Streaming Stick","Google Chromecast", "Amazon Fire Stick"];
     $scope.hardwareTotal = 40.99;
     $scope.monthlyTotal = 5.99;
     var digitalAntenna = {"url":"",
@@ -1893,8 +1797,8 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
                 hardwareCopy.splice(i, 1);
             }
         }
-        hardwareCopy.splice(1,2);
-        hardwareCopy.splice(2,1);
+        hardwareCopy.splice(-1,1);//remove duplicate appletv
+        hardwareCopy.splice(1,1);//remvoe roku 2
         $scope.hardware = hardwareCopy;
 
 
