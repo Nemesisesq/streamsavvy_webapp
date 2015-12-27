@@ -80,11 +80,9 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $
 
                         if (elem.viewingWindows !== undefined && elem.viewingWindows[w.type] !== undefined) {
                             var window = elem.viewingWindows[w.type];
-                            debugger;
-                            if (!_.some(scope.package.providers, 'source', window.channel.source)) {
+
+                            if(window.selected && window.channel !== undefined){
                                 x.push(window.channel)
-                            } else {
-                                x = scope.package.providers
                             }
 
                         }

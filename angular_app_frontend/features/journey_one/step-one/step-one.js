@@ -33,16 +33,18 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     $scope.contentTotal = function () {
 
-        //debugger;
+        debugger;
         var t = 0
 
         var package = $scope.package;
         if (package.content.length > 0) {
-            debugger;
+            //debugger;
 
              t = _.map(package.providers, function(elem){
                 return elem.price;
             })
+
+            t = _.compact(t);
 
             t = _.reduce(t, function(total, n){
                 return total + n
@@ -144,19 +146,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
 
-    $scope.saveWindowProvider = function (obj, prop, value) {
-        //debugger;
 
-        obj[prop] = value;
-
-        if (!_.includes($scope.package.providers, value)) {
-            $scope.package.providers.push(value)
-        }
-
-        $scope.savePackage()
-
-
-    }
 
     $scope.$watch(function () {
         return PackageFactory.getPackage()

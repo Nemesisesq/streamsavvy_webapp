@@ -27,14 +27,32 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
             scope.that = "hello world";
 
+            var checkWindow = function () {
+                debugger;
+                
+                var v = scope.content.viewingWindows[scope.id];
+                if (!v.selected) {
+
+                    v = _.omit(v, 'channel')
+
+                    scope.content.viewingWindows[scope.id] = v;
+                }
+                return v
+            }
+
+
             scope.savePackage = function () {
-                //debugger;
+                var content = checkWindow();
+                debugger;
+
+                PackageFactory.updatePackageChannels(scope);
+                
+                
                 PackageFactory.setPackage(scope.package)
             }
 
             scope.$watchCollection('package.content', function () {
                 //debugger;
-
                 PackageFactory.setPackage(scope.package)
             });
 
@@ -100,9 +118,14 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
             scope.saveWindowProvider = function (channel) {
                 //debugger;
-
-                scope.content.viewingWindows[scope.id].channel = channel;
+                var viewingWindow = scope.content.viewingWindows[scope.id];
                 debugger;
+                if (viewingWindow.selected) {
+                    viewingWindow.channel = channel;
+                } else {
+                    _.omit(viewingWindow, 'channel')
+                }
+                //debugger;
 
                 scope.savePackage()
 

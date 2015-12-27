@@ -357,14 +357,32 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
             scope.that = "hello world";
 
+            var checkWindow = function () {
+                debugger;
+                
+                var v = scope.content.viewingWindows[scope.id];
+                if (!v.selected) {
+
+                    v = _.omit(v, 'channel')
+
+                    scope.content.viewingWindows[scope.id] = v;
+                }
+                return v
+            }
+
+
             scope.savePackage = function () {
-                //debugger;
+                var content = checkWindow();
+                debugger;
+
+                PackageFactory.updatePackageChannels(scope);
+                
+                
                 PackageFactory.setPackage(scope.package)
             }
 
             scope.$watchCollection('package.content', function () {
                 //debugger;
-
                 PackageFactory.setPackage(scope.package)
             });
 
@@ -430,9 +448,14 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
             scope.saveWindowProvider = function (channel) {
                 //debugger;
-
-                scope.content.viewingWindows[scope.id].channel = channel;
+                var viewingWindow = scope.content.viewingWindows[scope.id];
                 debugger;
+                if (viewingWindow.selected) {
+                    viewingWindow.channel = channel;
+                } else {
+                    _.omit(viewingWindow, 'channel')
+                }
+                //debugger;
 
                 scope.savePackage()
 
@@ -724,11 +747,9 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $
 
                         if (elem.viewingWindows !== undefined && elem.viewingWindows[w.type] !== undefined) {
                             var window = elem.viewingWindows[w.type];
-                            debugger;
-                            if (!_.some(scope.package.providers, 'source', window.channel.source)) {
+
+                            if(window.selected && window.channel !== undefined){
                                 x.push(window.channel)
-                            } else {
-                                x = scope.package.providers
                             }
 
                         }
@@ -780,6 +801,7 @@ app.factory('_', function($window){
 app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
+
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -879,7 +901,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
-
 /**
  * Created by Nem on 10/7/15.
  */
@@ -1681,16 +1702,18 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     $scope.contentTotal = function () {
 
-        //debugger;
+        debugger;
         var t = 0
 
         var package = $scope.package;
         if (package.content.length > 0) {
-            debugger;
+            //debugger;
 
              t = _.map(package.providers, function(elem){
                 return elem.price;
             })
+
+            t = _.compact(t);
 
             t = _.reduce(t, function(total, n){
                 return total + n
@@ -1792,19 +1815,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
 
-    $scope.saveWindowProvider = function (obj, prop, value) {
-        //debugger;
 
-        obj[prop] = value;
-
-        if (!_.includes($scope.package.providers, value)) {
-            $scope.package.providers.push(value)
-        }
-
-        $scope.savePackage()
-
-
-    }
 
     $scope.$watch(function () {
         return PackageFactory.getPackage()
