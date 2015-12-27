@@ -96,116 +96,117 @@ hr {
 .black-hr {
   border-color: black;
 }
-
-.nav-hero {
-  background-image: url('/static/img/ss_background.jpg');
-  background-position: center center;
-  background-repeat: no-repeat;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover;
-}
-
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: white;
-  height: 5px !important;
-}
-
-.navbar-toggle .icon-bar {
-  height: 4px !important;
-
-}
-
-.navbar, .navbar-inverse {
-  border-radius: 0;
-  border: none;
-  margin-bottom: 0;
-  border-color: transparent;
-  min-height: 80px;
-  background: transparent;
-}
-
-.nav li {
-  display: inline;
-  color: red;
-  height: 77px;
-}
-
-.navbar-inverse .navbar-nav > li > a {
-  color: #ED1C24;
-  font-family: inherit;
-  font-size: 13px;
-  line-height: 77px;
-  font-weight: 500;
-  padding: 0;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.navbar-inverse .navbar-nav li a:hover, li a:active, li a:visited {
-  border-bottom: #ED1C24 solid 3px;
-  color: #ED1C24;
-  height: 96%;
-  margin-bottom: 3px;
-  //padding-bottom: 30px;
-}
-
-.navbar-inverse .navbar-toggle {
-  border-color: transparent;
-}
-
-.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
-  background-color: transparent;
-}
-
-.usr-path-left, .usr-path-right {
-  width: 50%;
-  display: inline;
-  padding-bottom: 7%;
-}
-
-.usr-path-right {
-  background-color: #F4F6F6;
-  float: right;
-
-}
-
-.usr-path-left {
-  background-color: #13171A;
-  float: left;
-}
-
-.usr-path-header {
-  padding-top: 7%;
-  padding-bottom: 3%;
-  vertical-align: middle;
-  position: relative;
-  text-align: center;
-  /*font-size: 2em*/
-
-}
-.usr-path-left > .usr-path-header{
-  color: white;
-}
-.usr-path-header h2 {
-  font-size: 36px;
-  font-weight: 900;
-}
-
-.usr-path-header h3 {
-  font-size: 1.15em;
-  color: #aeb6bb;
-}
-.img-thumbnail {
-  background-color: transparent;
-  height: 45px;
-}
-.usr-paths{
-  .img-responsive{
+//----- Navbar ----//
+  .nav-hero {
+    background-image: url('/static/img/ss_background.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
   }
-}
 
+  .navbar-default .navbar-toggle .icon-bar {
+    background-color: white;
+    height: 5px !important;
+  }
+
+  .navbar-toggle .icon-bar {
+    height: 4px !important;
+
+  }
+
+  .navbar, .navbar-inverse {
+    border-radius: 0;
+    border: none;
+    margin-bottom: 0;
+    border-color: transparent;
+    min-height: 80px;
+    background: transparent;
+  }
+
+  .nav li {
+    display: inline;
+    color: red;
+    height: 77px;
+  }
+
+  .navbar-inverse .navbar-nav > li > a {
+    color: #ED1C24;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 77px;
+    font-weight: 500;
+    padding: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .navbar-inverse .navbar-nav li a:hover, li a:active, li a:visited {
+    border-bottom: #ED1C24 solid 3px;
+    color: #ED1C24;
+    height: 96%;
+    margin-bottom: 3px;
+    //padding-bottom: 30px;
+  }
+
+  .navbar-inverse .navbar-toggle {
+    border-color: transparent;
+  }
+
+  .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: transparent;
+  }
+
+
+.usr-paths{
+  display:block;//makes sure the two user journey divs are displayed in block format
+
+  .path{
+    padding-bottom: 7%;
+    padding-top: 7%;
+    vertical-align: middle;
+    position: relative;
+    text-align: center;
+    display:inline-table;
+    margin:0 auto;
+    .usr-path-header{
+      margin-bottom:5%;
+      height:130px;
+      h2{
+        font-size: 36px;
+        font-weight: 900;
+
+        .left-header{
+          color:white;
+        }
+      }
+      h3{
+        font-size: 1.15em;
+        color: #aeb6bb;
+      }
+    }
+    .journey-image{
+      padding-left:3%;
+      padding-right:3%;
+      height:230px;
+      margin-bottom:6%;
+    }
+
+  }
+  .usr-path-left{
+      background-color: #13171A;
+      h2{
+        color:white;
+      }
+  }
+    .usr-path-right{
+      background-color: #F4F6F6;
+  }
+
+
+}
 .burger {
   max-width: 30px;
   max-height: 30px;
