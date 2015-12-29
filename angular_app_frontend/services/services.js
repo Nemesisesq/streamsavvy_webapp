@@ -6,11 +6,9 @@ app.factory('N', function () {
 
     return {
         setShows: function (shows) {
-            //debugger;
             _netflix_shows = shows
         },
         getShows: function () {
-            //debugger;
             var f = new Fuse(_netflix_shows, {threshold: .2});
             return f;
         }
@@ -22,7 +20,6 @@ app.run(function ($http, Fuse, N) {
 
     $http.get('netflixable/')
         .then(function (data) {
-            //debugger;
 
             N.setShows(data.data)
         })
@@ -71,12 +68,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $
 
 
             return $q(function (resolve, reject) {
-                debugger;
+
                 var chans = _.map(scope.package.content, function (elem) {
                     var x = []
-                    debugger;
+
                     _.forEach(VIEW_WINDOWS, function (w) {
-                        debugger;
 
                         if (elem.viewingWindows !== undefined && elem.viewingWindows[w.type] !== undefined) {
                             var window = elem.viewingWindows[w.type];
@@ -119,7 +115,6 @@ app.run(function (PackageFactory, $http, http) {
             if (data.data == "") {
                 http.getPackage()
                     .then(function (data) {
-                        //debugger;
                         PackageFactory.setPackage(data)
                     })
             } else {

@@ -28,7 +28,6 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
             scope.that = "hello world";
 
             var checkWindow = function () {
-                debugger;
                 
                 var v = scope.content.viewingWindows[scope.id];
                 if (!v.selected) {
@@ -43,7 +42,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
             scope.savePackage = function () {
                 var content = checkWindow();
-                debugger;
+
 
                 PackageFactory.updatePackageChannels(scope);
                 
@@ -52,13 +51,11 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
             }
 
             scope.$watchCollection('package.content', function () {
-                //debugger;
                 PackageFactory.setPackage(scope.package)
             });
 
             scope.prePopulateWindowProvider = function (content, prop) {
 
-                //debugger;
 
                 //var array = _.intersection($scope.package.providers, content.content_provider);
 
@@ -90,10 +87,8 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
             //
             //
             //    return $q(function (resolve, reject) {
-            //        debugger;
             //        var chans = _.map(scope.package.content, function (elem) {
             //            var x = []
-            //              debugger;
             //            _.forEach(scope.$parent.directiveVW , function (w) {
             //
             //                var window = elem.viewingWindows[w.type];
@@ -117,24 +112,21 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
             //}
 
             scope.saveWindowProvider = function (channel) {
-                //debugger;
                 var viewingWindow = scope.content.viewingWindows[scope.id];
-                debugger;
+
                 if (viewingWindow.selected) {
                     viewingWindow.channel = channel;
                 } else {
                     _.omit(viewingWindow, 'channel')
                 }
-                //debugger;
 
                 scope.savePackage()
 
-                PackageFactory.updatePackageChannels(scope).debugger;
+                PackageFactory.updatePackageChannels(scope);
 
 
                 //if (scope.package.chosenProviders !== undefined) {
                 //    if (!_.includes(scope.package.providers, channel.source)) {
-                //        debugger;
                 //        scope.package.providers.push(channel)
                 //    }
                 //} else {

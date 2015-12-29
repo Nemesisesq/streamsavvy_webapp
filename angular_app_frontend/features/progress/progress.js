@@ -73,7 +73,6 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
         package = PackageFactory.getPackage();
         var barValue = 0;
 
-        //debugger
         // ;
 
         if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {

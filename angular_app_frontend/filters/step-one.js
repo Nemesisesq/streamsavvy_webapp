@@ -28,20 +28,16 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            //debugger
             if(type == 'live'){
                 return isLive(elem);
             }
             if(type == 'onDemand'){
-                //debugger
                 return isOnDemand(elem)
             }
             if(type == 'fullseason'){
-                //debugger
                 return _.includes(elem.type, 'sub')
             }
             if(type == 'alacarte'){
-                //debugger
                 return _.includes(elem.type, 'purchase')
             }
         })

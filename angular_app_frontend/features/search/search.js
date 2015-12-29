@@ -25,7 +25,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
     //    })
 
     function isOnNetFlix(show) {
-        debugger;
+
         var shows = N.getShows();
         if (shows.search(show.title).length > 0) {
             return true;
@@ -67,7 +67,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
-                    //debugger;
 
 
                     //var res = _.min(data.results, function (elem) {
@@ -101,7 +100,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
     }, 250, {'maxWait': 1000});
 
     $scope.addToSelectedShows = function (suggestion) {
-        //debugger;
         var ssPackage = PackageFactory.getPackage();
 
         function addSling() {
@@ -112,7 +110,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                 type: "live_online_tv"
             }
 
-            //debugger;
 
 
             if (slingInProviders(suggestion)) {
@@ -135,7 +132,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                     sPrices = new Fuse(SERVICE_PRICE_LIST, opts);
 
-                    //debugger;
                     var cleanedChannels = data.data.results
 
                     var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
@@ -155,7 +151,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                             elem.type = elem.channel_type;
                         }
 
-                        //debugger;
 
 
 

@@ -29,7 +29,8 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     $scope.itemSelected = function (item) {
         var hardwareColl = $scope.package.hardware;
 
-        debugger;
+
+
 
         var x = _.some(hardwareColl, 'url', item.url);
 
@@ -58,7 +59,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
             delete item['selected']
         }
 
-        debugger;
+
 
 
         var hardwareColl = $scope.package.hardware;

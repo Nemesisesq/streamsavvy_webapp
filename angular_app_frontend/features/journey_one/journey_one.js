@@ -1,6 +1,5 @@
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
-//    debugger;
 //    $scope.package = PackageFactory.getPackage();
 //    $scope.packageList = {};
 //    $scope.providerObj = [];

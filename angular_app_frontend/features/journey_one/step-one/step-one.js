@@ -7,10 +7,8 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         _.forEach($scope.directiveVW, function (window) {
 
             if (content.viewingWindows!== undefined &&  content.viewingWindows[window.type] !== undefined) {
-                //debugger
 
                 var window = content.viewingWindows[window.type];
-                //debugger;
                 if (window.channel !== undefined && window.channel.price !== undefined) {
 
                     total += window.channel.price;
@@ -33,12 +31,11 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     $scope.contentTotal = function () {
 
-        debugger;
+
         var t = 0
 
         var package = $scope.package;
         if (package.content.length > 0) {
-            //debugger;
 
              t = _.map(package.providers, function(elem){
                 return elem.price;
@@ -109,7 +106,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     $scope.package = PackageFactory.getPackage();
 
     $scope.onDemandLength = function (c) {
-        //debugger;
 
         return _.filter(c, function (n) {
                 return n.name == 'Netflix'
@@ -156,12 +152,10 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 
     $scope.savePackage = function () {
-        //debugger;
         PackageFactory.setPackage($scope.package)
     }
 
     $scope.$watchCollection('package.content', function () {
-        //debugger;
 
         PackageFactory.setPackage($scope.package)
     })
