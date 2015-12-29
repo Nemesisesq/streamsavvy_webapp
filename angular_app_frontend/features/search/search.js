@@ -162,6 +162,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     })
                     chans = _.filter(chans, function (elem) {
 
+                        debugger
+
 
                         var e = elem.display_name.toLowerCase().replace(' ', '');
 

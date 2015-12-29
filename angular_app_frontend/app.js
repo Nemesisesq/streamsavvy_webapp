@@ -12,6 +12,7 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         {type: 'alacarte', headerText: 'Watch Current Season or Episodes for a fee', toolTip: 'day/+ after live airing with no committment'}
     ])
     .constant('BANNED_CHANNELS', ['HBO Go',
+        'MSNBC',
         'HBO',
         'Dish',
         'DirecTV',

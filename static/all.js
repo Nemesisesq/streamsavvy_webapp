@@ -12,6 +12,7 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         {type: 'alacarte', headerText: 'Watch Current Season or Episodes for a fee', toolTip: 'day/+ after live airing with no committment'}
     ])
     .constant('BANNED_CHANNELS', ['HBO Go',
+        'MSNBC',
         'HBO',
         'Dish',
         'DirecTV',
@@ -1479,6 +1480,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     })
                     chans = _.filter(chans, function (elem) {
 
+                        debugger
+
 
                         var e = elem.display_name.toLowerCase().replace(' ', '');
 
@@ -1722,7 +1725,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     }
 
-    debugger;
+
     $scope.totalServiceCost = PackageFactory.totalServiceCost();
 
     //$scope.contentTotal = function () {

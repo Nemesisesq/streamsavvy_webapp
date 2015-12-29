@@ -1,6 +1,7 @@
 <title>Step 1</title>
 
-<meta name="Step 1 - Shows, Services, and Viewing windows" content="Figure out which steaming services and devices you need based on the shows you actually watch. Search for your shows and select applicable services.">
+<meta name="Step 1 - Shows, Services, and Viewing windows"
+      content="Figure out which steaming services and devices you need based on the shows you actually watch. Search for your shows and select applicable services.">
 <script type="text/ng-template" id="group-template.html">
     <div class="panel {{ panelClass || 'panel-default'}}" ng-class="{ accordionActive : isOpen}">
         <div class="panel-heading">
@@ -37,7 +38,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class=" pull-right" style="z-index:2; position:absolute; right: 100px; top:10px" ng-click="delete(content)">
+                                <button class=" pull-right" style="z-index:2; position:absolute; right: 100px; top:10px"
+                                        ng-click="delete(content)">
                                     delete
                                 </button>
                             </uib-accordion-heading>
@@ -47,10 +49,18 @@
                             </div>
 
                             <div id="viewingWindows" class="container-fluid ">
-                                <view-window ng-repeat="i in directiveVW" w="i" content="content" package="package"></view-window>
+                                <view-window ng-repeat="i in directiveVW" w="i" content="content"
+                                             package="package"></view-window>
 
 
-                                <div class="row ss-vw-row confirmation">
+                                <div class="row ss-vw-row confirmation"
+                                     ng-if="content.channels.web.episodes.all_sources.length == 0 ">
+
+                                    We're sorry we could not find this show via any streaming or free, over-the-air channel!
+
+                                </div>
+                                <div class="row ss-vw-row confirmation"
+                                     ng-if="content.channels.web.episodes.all_sources.length > 0 ">
 
 
                                     <div class="col-xs-4 total">
@@ -59,14 +69,14 @@
                                         </button>-->
                                     </div>
 
-                                    <div class="col-xs-4 col-xs-offset-4 total" >
+                                    <div class="col-xs-4 col-xs-offset-4 total">
                                         <div class="row accord-show-total" ng-if="showTotal(content) > 0">
                                             <span class="pull-left">Selection Total:</span>
-                                            <span class="pull-right" >{{ showTotal(content) }}</span>
+                                            <span class="pull-right">{{ showTotal(content) }}</span>
                                         </div>
                                         <div class="row accord-monthly-total" ng-if="totalServiceCost > 0">
                                             <span class="pull-left">Your Monthly Total:</span>
-                                            <span class="pull-right">{{  contentTotal }}</span>
+                                            <span class="pull-right">{{ totalServiceCost }}</span>
                                         </div>
                                     </div>
 
