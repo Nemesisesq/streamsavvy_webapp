@@ -1560,7 +1560,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
 
-    $scope.contentTotal = function () {
+    $scope.totalServiceCost = function () {
 
         //debugger;
         var t = 0

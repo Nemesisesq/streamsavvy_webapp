@@ -26,7 +26,7 @@ app.run(function ($http, Fuse, N) {
 })
 
 
-app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $q, VIEW_WINDOWS) {
+app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($http, $q, VIEW_WINDOWS, _) {
     // ;
 
     var _package = {};
@@ -62,7 +62,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $
 
         updatePackageChannels: function (scope) {
 
-            if(scope.package.content.length == 0){
+            if (scope.package.content.length == 0) {
                 scope.package.providers = [];
             }
 
@@ -77,7 +77,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $
                         if (elem.viewingWindows !== undefined && elem.viewingWindows[w.type] !== undefined) {
                             var window = elem.viewingWindows[w.type];
 
-                            if(window.selected && window.channel !== undefined){
+                            if (window.selected && window.channel !== undefined) {
                                 x.push(window.channel)
                             }
 
@@ -86,18 +86,68 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', function ($http, $
                     })
 
 
-
                     return x
                 })
 
                 chans = _.flatten(chans)
 
                 chans = _.uniq(chans, function (elem) {
-                        return elem.source
-                    })
+                    return elem.source
+                })
 
                 scope.package.providers = chans
             })
+
+
+        },
+
+        totalServiceCost: function () {
+
+
+            var t = 0;
+
+            var pkg = _package;
+            if (pkg.content.length > 0) {
+
+                t = _.map(pkg.providers, function (elem) {
+                    return elem.price;
+                })
+
+                t = _.compact(t);
+
+                t = _.reduce(t, function (total, n) {
+                    return total + n
+                })
+            }
+
+            t = _.round(t, 2)
+
+            return t
+
+
+        },
+        totalHardwareCost: function () {
+
+
+            var t = 0;
+
+            var pkg = _package;
+
+
+            t = _.map(pkg.hardware, function (elem) {
+                return elem.retail_cost;
+            })
+
+            t = _.compact(t);
+
+            t = _.reduce(t, function (total, n) {
+                return total + n
+            })
+
+
+            t = _.round(t, 2)
+
+            return t
 
 
         }

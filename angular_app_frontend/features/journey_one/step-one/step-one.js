@@ -28,32 +28,34 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
     }
 
+    debugger;
+    $scope.totalServiceCost = PackageFactory.totalServiceCost();
 
-    $scope.contentTotal = function () {
-
-
-        var t = 0
-
-        var package = $scope.package;
-        if (package.content.length > 0) {
-
-             t = _.map(package.providers, function(elem){
-                return elem.price;
-            })
-
-            t = _.compact(t);
-
-            t = _.reduce(t, function(total, n){
-                return total + n
-            })
-        }
-
-        t = _.round(t, 2)
-
-        return t
-
-
-    }
+    //$scope.contentTotal = function () {
+    //
+    //
+    //    var t = 0
+    //
+    //    var package = $scope.package;
+    //    if (package.content.length > 0) {
+    //
+    //         t = _.map(package.providers, function(elem){
+    //            return elem.price;
+    //        })
+    //
+    //        t = _.compact(t);
+    //
+    //        t = _.reduce(t, function(total, n){
+    //            return total + n
+    //        })
+    //    }
+    //
+    //    t = _.round(t, 2)
+    //
+    //    return t
+    //
+    //
+    //}
 
 
     $scope.directiveVW = [
