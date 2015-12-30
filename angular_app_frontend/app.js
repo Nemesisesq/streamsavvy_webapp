@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick'])
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick',"angular-send-feedback"])
     .constant('CONFIG', {
         'URL': location.origin
     })

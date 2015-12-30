@@ -18,6 +18,7 @@
     <link href="{% static 'angular-bootstrap/ui-bootstrap-csp.css' %}">
     <link href="{% static 'main.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.css"/>
+    <link href="{% static 'angular-send-feedback/dist/angular-send-feedback.css' %}" rel="stylesheet"/>
 
     <!-- SPELLS -->
     <!-- load angular and angular route via CDN -->
@@ -55,6 +56,10 @@
 <!-- MAIN CONTENT AND INJECTED VIEWS -->
 <div ui-view></div>
 
+<!-- feed back form-->
+<div ng-controller="FeedbackCtrl"><angular-feedback options="options"></angular-feedback></div>
+
+
 <a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
 <a id="instagram_login" href="{% url 'social:begin' 'instagram' %}?next={{ request.path }}">login to instagram</a>
 <a id="twitter_login" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">login to twitter</a>
@@ -65,7 +70,7 @@
         data-share="true"
         data-width="450"
         data-show-faces="true">
-</div>-
+</div>
 
 <script src="{% static 'jquery/dist/jquery.js' %}"></script>
 <script src="{% static 'angular/angular.js' %}"></script>
@@ -82,5 +87,7 @@
 <script src="{% static 'angular-animate/angular-animate.js' %}"></script>
 <script src="{% static 'fuse.js/src/fuse.min.js' %}"></script>
 <script src="https://use.fonticons.com/b92fc55f.js"></script>
+<script src="{% static 'angular-send-feedback/dist/angular-send-feedback.js' %}"></script>
+<script src="{% static 'html2canvas/build/html2canvas.js' %}"></script>
 </body>
 </html>

@@ -1,11 +1,18 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick'])
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick',"angular-send-feedback"])
     .constant('CONFIG', {
         'URL': location.origin
     })
+    .constant('VIEW_WINDOWS', [
+        {type: 'live', headerText: 'Live Over the Air.', toolTip: 'get your content as soon as it dropped.'},
+        {type: 'onDemand', headerText: 'On Demand Subscription.', toolTip: 'day/+ after live airing.'},
+        {type: 'fullseason', headerText: 'Binge Watch Full Seasons', toolTip: 'season behind.'},
+        {type: 'alacarte', headerText: 'Watch Current Season or Episodes for a fee', toolTip: 'day/+ after live airing with no committment'}
+    ])
     .constant('BANNED_CHANNELS', ['HBO Go',
+        'MSNBC',
         'HBO',
         'Dish',
         'DirecTV',
@@ -325,7 +332,7 @@ app.directive('ssImageBlock', function (http, $rootScope) {
 /**
  * Created by Nem on 9/18/15.
  */
-app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
+app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
     return {
         restrict: 'AEC',
         //replace: true,
@@ -351,20 +358,35 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
             scope.that = "hello world";
 
+            var checkWindow = function () {
+                
+                var v = scope.content.viewingWindows[scope.id];
+                if (!v.selected) {
+
+                    v = _.omit(v, 'channel')
+
+                    scope.content.viewingWindows[scope.id] = v;
+                }
+                return v
+            }
+
+
             scope.savePackage = function () {
-                //debugger;
+                var content = checkWindow();
+
+
+                PackageFactory.updatePackageChannels(scope);
+                
+                
                 PackageFactory.setPackage(scope.package)
             }
 
             scope.$watchCollection('package.content', function () {
-                //debugger;
-
                 PackageFactory.setPackage(scope.package)
             });
 
             scope.prePopulateWindowProvider = function (content, prop) {
 
-                //debugger;
 
                 //var array = _.intersection($scope.package.providers, content.content_provider);
 
@@ -391,16 +413,57 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory) {
 
             }
 
+            //var updatePackageChannels = function () {
+            //
+            //
+            //
+            //    return $q(function (resolve, reject) {
+            //        var chans = _.map(scope.package.content, function (elem) {
+            //            var x = []
+            //            _.forEach(scope.$parent.directiveVW , function (w) {
+            //
+            //                var window = elem.viewingWindows[w.type];
+            //                if (window !== undefined) {
+            //                    if (!_.includes(scope.package.providers, window.channel.source)) {
+            //                        x.push(window.channel)
+            //                    }
+            //                }
+            //
+            //            })
+            //
+            //            return x
+            //        })
+            //
+            //        chans = _.flatten(chans)
+            //
+            //        scope.package.providers = chans
+            //    })
+            //
+            //
+            //}
+
             scope.saveWindowProvider = function (channel) {
-                //debugger;
+                var viewingWindow = scope.content.viewingWindows[scope.id];
 
-                scope.content.viewingWindows[scope.id].channel = channel;
-
-                if (!_.includes(scope.package.providers, channel)) {
-                    scope.package.providers.push(channel)
+                if (viewingWindow.selected) {
+                    viewingWindow.channel = channel;
+                } else {
+                    _.omit(viewingWindow, 'channel')
                 }
 
                 scope.savePackage()
+
+                PackageFactory.updatePackageChannels(scope);
+
+
+                //if (scope.package.chosenProviders !== undefined) {
+                //    if (!_.includes(scope.package.providers, channel.source)) {
+                //        scope.package.providers.push(channel)
+                //    }
+                //} else {
+                //}
+
+                //scope.savePackage()
 
             }
 
@@ -440,20 +503,16 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            //debugger
             if(type == 'live'){
                 return isLive(elem);
             }
             if(type == 'onDemand'){
-                //debugger
                 return isOnDemand(elem)
             }
             if(type == 'fullseason'){
-                //debugger
                 return _.includes(elem.type, 'sub')
             }
             if(type == 'alacarte'){
-                //debugger
                 return _.includes(elem.type, 'purchase')
             }
         })
@@ -598,10 +657,32 @@ app.factory('http', function ($http, $log, $q) {
 /**
  * Created by Nem on 6/27/15.
  */
+app.factory('N', function () {
+    var _netflix_shows = []
+
+    return {
+        setShows: function (shows) {
+            _netflix_shows = shows
+        },
+        getShows: function () {
+            var f = new Fuse(_netflix_shows, {threshold: .2});
+            return f;
+        }
+
+    }
+})
+
+app.run(function ($http, Fuse, N) {
+
+    $http.get('netflixable/')
+        .then(function (data) {
+
+            N.setShows(data.data)
+        })
+})
 
 
-
-app.factory('PackageFactory', ['$http', function ($http) {
+app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($http, $q, VIEW_WINDOWS, _) {
     // ;
 
     var _package = {};
@@ -611,10 +692,10 @@ app.factory('PackageFactory', ['$http', function ($http) {
 
     return {
         setPackage: function (ssPackage) {
-            // ;
+
             _package = ssPackage;
 
-            if( ! _.isEmpty(ssPackage)){
+            if (!_.isEmpty(ssPackage)) {
                 this.postPackage(ssPackage)
             }
 
@@ -633,6 +714,98 @@ app.factory('PackageFactory', ['$http', function ($http) {
         getSSTest: function () {
             // ;
             return _test;
+        },
+
+        updatePackageChannels: function (scope) {
+
+            if (scope.package.content.length == 0) {
+                scope.package.providers = [];
+            }
+
+
+            return $q(function (resolve, reject) {
+
+                var chans = _.map(scope.package.content, function (elem) {
+                    var x = []
+
+                    _.forEach(VIEW_WINDOWS, function (w) {
+
+                        if (elem.viewingWindows !== undefined && elem.viewingWindows[w.type] !== undefined) {
+                            var window = elem.viewingWindows[w.type];
+
+                            if (window.selected && window.channel !== undefined) {
+                                x.push(window.channel)
+                            }
+
+                        }
+
+                    })
+
+
+                    return x
+                })
+
+                chans = _.flatten(chans)
+
+                chans = _.uniq(chans, function (elem) {
+                    return elem.source
+                })
+
+                scope.package.providers = chans
+            })
+
+
+        },
+
+        totalServiceCost: function () {
+
+
+            var t = 0;
+
+            var pkg = _package;
+            if (pkg.content.length > 0) {
+
+                t = _.map(pkg.providers, function (elem) {
+                    return elem.price;
+                })
+
+                t = _.compact(t);
+
+                t = _.reduce(t, function (total, n) {
+                    return total + n
+                })
+            }
+
+            t = _.round(t, 2)
+
+            return t
+
+
+        },
+        totalHardwareCost: function () {
+
+
+            var t = 0;
+
+            var pkg = _package;
+
+
+            t = _.map(pkg.hardware, function (elem) {
+                return elem.retail_cost;
+            })
+
+            t = _.compact(t);
+
+            t = _.reduce(t, function (total, n) {
+                return total + n
+            })
+
+
+            t = _.round(t, 2)
+
+            return t
+
+
         }
     }
 
@@ -648,7 +821,6 @@ app.run(function (PackageFactory, $http, http) {
             if (data.data == "") {
                 http.getPackage()
                     .then(function (data) {
-                        //debugger;
                         PackageFactory.setPackage(data)
                     })
             } else {
@@ -798,7 +970,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
-//    debugger;
 //    $scope.package = PackageFactory.getPackage();
 //    $scope.packageList = {};
 //    $scope.providerObj = [];
@@ -1125,7 +1296,6 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
         package = PackageFactory.getPackage();
         var barValue = 0;
 
-        //debugger
         // ;
 
         if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
@@ -1152,7 +1322,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N) {
 
     var nShows = [];
 
@@ -1166,15 +1336,16 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
 
     //TODO make this a constant in the angular app
-    $http.get('netflixable/')
-        .then(function (data) {
-
-            nShows = new Fuse(data.data, {threshold: .2});
-        })
+    //$http.get('netflixable/')
+    //    .then(function (data) {
+    //
+    //        nShows = new Fuse(data.data, {threshold: .2});
+    //    })
 
     function isOnNetFlix(show) {
-        //debugger;
-        if (nShows.search(show.title).length > 0) {
+
+        var shows = N.getShows();
+        if (shows.search(show.title).length > 0) {
             return true;
         }
     }
@@ -1214,7 +1385,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
             //$scope.suggestions = [];
             $http.get('/api/search?q=' + $scope.searchText)
                 .success(function (data) {
-                    //debugger;
 
 
                     //var res = _.min(data.results, function (elem) {
@@ -1248,7 +1418,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
     }, 250, {'maxWait': 1000});
 
     $scope.addToSelectedShows = function (suggestion) {
-        //debugger;
         var ssPackage = PackageFactory.getPackage();
 
         function addSling() {
@@ -1259,7 +1428,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                 type: "live_online_tv"
             }
 
-            debugger;
 
 
             if (slingInProviders(suggestion)) {
@@ -1270,7 +1438,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
 
 
-        if (typeof suggestion.guidebox_id === 'number') {
+        if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
 
@@ -1282,7 +1450,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
 
                     sPrices = new Fuse(SERVICE_PRICE_LIST, opts);
 
-                    debugger;
                     var cleanedChannels = data.data.results
 
                     var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
@@ -1302,7 +1469,6 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                             elem.type = elem.channel_type;
                         }
 
-                        debugger;
 
 
 
@@ -1313,6 +1479,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                         return elem.toLowerCase().replace(' ', '')
                     })
                     chans = _.filter(chans, function (elem) {
+
+                        debugger
 
 
                         var e = elem.display_name.toLowerCase().replace(' ', '');
@@ -1422,7 +1590,6 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
-        //debugger;
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',
@@ -1531,43 +1698,61 @@ app.controller('AccordionController', function ($scope) {
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
 
     $scope.showTotal = function (content) {
-        debugger;
 
-        content.totalCost = _.reduce(content.viewingWindows, function (total, n) {
-            debugger;
-            if (typeof total !== 'number') {
-                if (total.channel.price !== undefined) {
+        var total = 0
 
-                    total = total.channel.price
-                } else {
-                    total = 0
+        _.forEach($scope.directiveVW, function (window) {
+
+            if (content.viewingWindows!== undefined &&  content.viewingWindows[window.type] !== undefined) {
+
+                var window = content.viewingWindows[window.type];
+                if (window.channel !== undefined && window.channel.price !== undefined) {
+
+                    total += window.channel.price;
 
                 }
 
             }
-
-            if (n.channel.price !== undefined) {
-                return total + n.channel.price;
-            } else {
-
-                return total
-            }
-
         })
 
-        return content.totalCost;
+        content.totalCost = total
+
+
+        total = _.round(total, 2)
+
+        return total
 
 
     }
 
 
-    $scope.monthlyTotal = function (package) {
+    $scope.totalServiceCost = PackageFactory.totalServiceCost();
 
-        //TODO finish this get total cost of all services.
-
-        //make an uniq list of services
-
-    }
+    //$scope.contentTotal = function () {
+    //
+    //
+    //    var t = 0
+    //
+    //    var package = $scope.package;
+    //    if (package.content.length > 0) {
+    //
+    //         t = _.map(package.providers, function(elem){
+    //            return elem.price;
+    //        })
+    //
+    //        t = _.compact(t);
+    //
+    //        t = _.reduce(t, function(total, n){
+    //            return total + n
+    //        })
+    //    }
+    //
+    //    t = _.round(t, 2)
+    //
+    //    return t
+    //
+    //
+    //}
 
 
     $scope.directiveVW = [
@@ -1620,29 +1805,19 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     $scope.package = PackageFactory.getPackage();
 
     $scope.onDemandLength = function (c) {
-        //debugger;
 
         return _.filter(c, function (n) {
                 return n.name == 'Netflix'
             }).length > 0
-
     }
 
     $scope.delete = function (content) {
-        //debugger;
-
         _.remove($scope.package.content, content);
-
         $scope.savePackage()
-
+        PackageFactory.updatePackageChannels($scope)
     }
 
     $scope.prePopulateWindowProvider = function (content, prop) {
-
-        //debugger;
-
-        //var array = _.intersection($scope.package.providers, content.content_provider);
-
         var array = _.filter(content.content_provider, function (prov) {
             return _.includes(_.map($scope.package.providers, function (elem) {
                 return elem.name
@@ -1653,7 +1828,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
             _.remove(array, function (n) {
                 return n.name == 'Netflix';
-
             })
         } else if (prop == 'fullSeason') {
 
@@ -1667,19 +1841,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
 
-    $scope.saveWindowProvider = function (obj, prop, value) {
-        //debugger;
 
-        obj[prop] = value;
-
-        if (!_.includes($scope.package.providers, value)) {
-            $scope.package.providers.push(value)
-        }
-
-        $scope.savePackage()
-
-
-    }
 
     $scope.$watch(function () {
         return PackageFactory.getPackage()
@@ -1689,52 +1851,26 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
 
     $scope.savePackage = function () {
-        //debugger;
         PackageFactory.setPackage($scope.package)
     }
 
     $scope.$watchCollection('package.content', function () {
-        //debugger;
 
         PackageFactory.setPackage($scope.package)
     })
-
-
 });
 
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = getHardwareTotal();
-    $scope.servicesTotal = 9.99;
-    $scope.packageTotal = getPackageTotal();
+    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
+    $scope.servicesTotal = PackageFactory.totalServiceCost();
+    //$scope.packageTotal = getPackageTotal();
     $scope.$watch(function () {
         return PackageFactory.getPackage()
     }, function () {
         $scope.package = PackageFactory.getPackage();
     });
-    function getHardwareTotal() {
-        var hardTotal = 0;
-        for(var i= 0; i<$scope.package.hardware.length;i++)
-        {
-            hardTotal += ($scope.package.hardware[i].retail_cost);
-        }
-        hardTotal = parseFloat(hardTotal.toFixed(2));
-        return hardTotal;
-    }
-
-    function getPackageTotal() {
-        var packTotal = 0;
-        packTotal = $scope.hardwareTotal + $scope.servicesTotal;
-        packTotal = parseFloat(packTotal.toFixed(2));
-
-        return packTotal;
-    }
-
-
-
-
-
 
 })
 /**
@@ -1744,7 +1880,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
 
     $scope.package = PackageFactory.getPackage();
     var hardwareColl = $scope.package.hardware;
-    var wantedHardware = ["Mohu Antenna","Apple TV","Roku Streaming Stick","Google Chromecast", "Amazon Fire Stick"];
+    var wantedHardware = ["Mohu Antenna","Roku Streaming Stick", "Amazon Fire Stick"];
     $scope.hardwareTotal = 40.99;
     $scope.monthlyTotal = 5.99;
     var digitalAntenna = {"url":"",
@@ -1768,7 +1904,8 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     $scope.itemSelected = function (item) {
         var hardwareColl = $scope.package.hardware;
 
-        debugger;
+
+
 
         var x = _.some(hardwareColl, 'url', item.url);
 
@@ -1784,8 +1921,8 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
                 hardwareCopy.splice(i, 1);
             }
         }
-        hardwareCopy.splice(-1,1);//remove duplicate appletv
-        hardwareCopy.splice(1,1);//remvoe roku 2
+        hardwareCopy.splice(1,2);
+        hardwareCopy.splice(2,1);
         $scope.hardware = hardwareCopy;
 
 
@@ -1797,7 +1934,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
             delete item['selected']
         }
 
-        debugger;
+
 
 
         var hardwareColl = $scope.package.hardware;
