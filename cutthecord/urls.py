@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from rest_framework import routers
 
+from server.feedback import FeedbackView
 from server.views import *
 from server.auth import *
 
@@ -50,6 +51,7 @@ urlpatterns = [
     url(r'^django-rq', include('django_rq.urls')),
     url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
     url(r'^netflixable/', NetFlixListView.as_view(), name='netflixable'),
+    url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
     # url(r'^script/netflixable', get_netflixable_shows )
     # url(r'^package/$', package_list),
     # url(r'^package/(?P<pk>[0-9]+)/$', package_detail),

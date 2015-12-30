@@ -936,6 +936,16 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
     $rootScope.load()
 });
 /**
+ * Created by Nem on 12/29/15.
+ */
+
+app.controller('FeedbackCtrl', function ($scope) {
+    $scope.options = {
+        ajaxURL: 'feedback/'
+
+    }
+})
+/**
  * Created by Nem on 10/7/15.
  */
 
