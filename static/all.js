@@ -36,6 +36,10 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         {name: 'PBS App', price: 0.00}
     ])
 
+    .constant('MAJOR_NETWORKS', [
+        'ABC'
+    ])
+
     .constant('SLING_CHANNELS', ['ESPN',
         'ESPN2',
         'AMC',
@@ -515,6 +519,7 @@ app.filter('channel', function () {
                 return _.includes(elem.type, 'sub')
             }
             if(type == 'alacarte'){
+                //debugger
                 return _.includes(elem.type, 'purchase')
             }
         })
@@ -1334,7 +1339,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS) {
 
     var nShows = [];
 
@@ -1450,6 +1455,10 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
 
 
+        function isNetworkShow(n) {
+            return _.includes(MAJOR_NETWORKS, n)
+        }
+
         if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
@@ -1472,7 +1481,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                         elem.display_name == undefined ? x = elem.name : x= elem.display_name;
 
                         return x;
-                        
+
                     })
 
                     chans = _.map(chans, function (elem) {
@@ -1505,7 +1514,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     }
 
                     chans = _.map(chans, function (elem) {
-                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && ! _.includes(elem.display_name.toLowerCase(), 'now')) {
+                        debugger;
+                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && ! _.includes(elem.display_name.toLowerCase(), 'now') || isNetworkShow(elem.display_name)) {
                             elem.display_name = elem.display_name + ' Over the Air'
 
                             return elem
@@ -1872,6 +1882,19 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     })
 });
 
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
+    $scope.servicesTotal = PackageFactory.totalServiceCost();
+    //$scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+})
 /**
  * Created by Nem on 11/25/15.
  */
@@ -1960,16 +1983,3 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
         return wantedHardware.indexOf(hardwarePiece.name) >= 0;
     }
 });
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
-    $scope.servicesTotal = PackageFactory.totalServiceCost();
-    //$scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-})

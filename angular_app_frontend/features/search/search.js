@@ -4,7 +4,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N) {
+app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS) {
 
     var nShows = [];
 
@@ -120,6 +120,10 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
         var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
 
 
+        function isNetworkShow(n) {
+            return _.includes(MAJOR_NETWORKS, n)
+        }
+
         if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
@@ -142,7 +146,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                         elem.display_name == undefined ? x = elem.name : x= elem.display_name;
 
                         return x;
-                        
+
                     })
 
                     chans = _.map(chans, function (elem) {
@@ -175,7 +179,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     }
 
                     chans = _.map(chans, function (elem) {
-                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && ! _.includes(elem.display_name.toLowerCase(), 'now')) {
+                        debugger;
+                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && ! _.includes(elem.display_name.toLowerCase(), 'now') || isNetworkShow(elem.display_name)) {
                             elem.display_name = elem.display_name + ' Over the Air'
 
                             return elem

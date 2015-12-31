@@ -38,6 +38,7 @@ app.filter('channel', function () {
                 return _.includes(elem.type, 'sub')
             }
             if(type == 'alacarte'){
+                //debugger
                 return _.includes(elem.type, 'purchase')
             }
         })

@@ -36,6 +36,10 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         {name: 'PBS App', price: 0.00}
     ])
 
+    .constant('MAJOR_NETWORKS', [
+        'ABC'
+    ])
+
     .constant('SLING_CHANNELS', ['ESPN',
         'ESPN2',
         'AMC',
