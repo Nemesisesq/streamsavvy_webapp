@@ -112,8 +112,14 @@ a.navbarLink {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 990px) {
   .just-logo {
+
+    margin-left : 20px;
+  }
+  
+  .nav li {
+    float: right;
   }
 }
 

@@ -3564,6 +3564,12 @@ a.navbarLink {
   .navbar-inverse .navbar-nav > li > a {
     font-size: small; } }
 
+@media (max-width: 990px) {
+  .just-logo {
+    margin-left: 20px; }
+  .nav li {
+    float: right; } }
+
 .money {
   background: white; }
 
