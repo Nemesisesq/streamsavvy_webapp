@@ -119,4 +119,4 @@ class JsonPackage(models.Model):
     owner = models.OneToOneField (User)
 
     def __str__(self):
-        return "JSON package for {self.owner}"
+        return "JSON package for {owner}".format(owner=self.owner)

@@ -456,8 +456,10 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
                 PackageFactory.updatePackageChannels(scope);
 
 
+
                 //if (scope.package.chosenProviders !== undefined) {
                 //    if (!_.includes(scope.package.providers, channel.source)) {
+                //        debugger;
                 //        scope.package.providers.push(channel)
                 //    }
                 //} else {
@@ -1870,19 +1872,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     })
 });
 
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
-    $scope.servicesTotal = PackageFactory.totalServiceCost();
-    //$scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-})
 /**
  * Created by Nem on 11/25/15.
  */
@@ -1971,3 +1960,16 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
         return wantedHardware.indexOf(hardwarePiece.name) >= 0;
     }
 });
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
+    $scope.servicesTotal = PackageFactory.totalServiceCost();
+    //$scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+})

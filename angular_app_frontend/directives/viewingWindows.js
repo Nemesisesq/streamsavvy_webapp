@@ -125,8 +125,10 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
                 PackageFactory.updatePackageChannels(scope);
 
 
+
                 //if (scope.package.chosenProviders !== undefined) {
                 //    if (!_.includes(scope.package.providers, channel.source)) {
+                //        debugger;
                 //        scope.package.providers.push(channel)
                 //    }
                 //} else {
