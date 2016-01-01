@@ -61,6 +61,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         updatePackageChannels: function (scope) {
+            debugger;
 
             if (scope.package.content.length == 0) {
                 scope.package.providers = [];
@@ -103,7 +104,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         totalServiceCost: function () {
 
-            
+
 
 
             var t = 0;

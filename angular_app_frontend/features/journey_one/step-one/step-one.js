@@ -1,22 +1,48 @@
-app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
+app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
     $scope.showTotal = function (content) {
 
+
         var total = 0
 
-        _.forEach($scope.directiveVW, function (window) {
+        var chans = _.map(VIEW_WINDOWS, function (w) {
 
-            if (content.viewingWindows!== undefined &&  content.viewingWindows[window.type] !== undefined) {
+            debugger;
+            if (content.viewingWindows !== undefined && content.viewingWindows[w.type] !== undefined) {
+                var window = content.viewingWindows[w.type];
+                if (window.channel !== undefined) {
 
-                var window = content.viewingWindows[window.type];
-                if (window.channel !== undefined && window.channel.price !== undefined) {
-
-                    total += window.channel.price;
+                    return window.channel;
 
                 }
-
             }
         })
+
+        chans = _.uniq(_.compact(chans), function (c) {
+            return c.source
+        })
+        var prices = _.map(chans, function (elem) {
+            return elem.price
+        })
+        
+        total = _.reduce(prices, function (total, n) {
+            return total + n;
+        })
+
+
+        //_.forEach($scope.directiveVW, function (window) {
+        //
+        //    if (content.viewingWindows !== undefined && content.viewingWindows[window.type] !== undefined) {
+        //
+        //        var window = content.viewingWindows[window.type];
+        //        if (window.channel !== undefined && window.channel.price !== undefined) {
+        //
+        //            total += window.channel.price;
+        //
+        //        }
+        //
+        //    }
+        //})
 
         content.totalCost = total
 
@@ -142,8 +168,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         return _.isEmpty(array) ? false : _.first(array).name;
 
     }
-
-
 
 
     $scope.$watch(function () {

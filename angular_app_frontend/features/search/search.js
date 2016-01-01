@@ -188,7 +188,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                         }
 
                         if (slingChannels.search(elem.display_name).length > 0 && elem.type != 'free') {
-                            debugger;
+                            //TODO remove this and change the way this is done.
+                            //debugger;
                             elem.display_name = 'Sling TV (' + elem.display_name + ')'
                             elem.source = 'sling_tv'
                             elem.price = 20.00;

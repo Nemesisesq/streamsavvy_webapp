@@ -725,6 +725,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         updatePackageChannels: function (scope) {
+            debugger;
 
             if (scope.package.content.length == 0) {
                 scope.package.providers = [];
@@ -767,7 +768,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         totalServiceCost: function () {
 
-            
+
 
 
             var t = 0;
@@ -845,7 +846,6 @@ app.factory('_', function($window){
 app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
-
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -945,6 +945,7 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
+
 /**
  * Created by Nem on 12/29/15.
  */
@@ -1526,7 +1527,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                         }
 
                         if (slingChannels.search(elem.display_name).length > 0 && elem.type != 'free') {
-                            debugger;
+                            //TODO remove this and change the way this is done.
+                            //debugger;
                             elem.display_name = 'Sling TV (' + elem.display_name + ')'
                             elem.source = 'sling_tv'
                             elem.price = 20.00;
@@ -1723,25 +1725,51 @@ app.controller('AccordionController', function ($scope) {
     ]
 });
 
-app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory) {
+app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
     $scope.showTotal = function (content) {
 
+
         var total = 0
 
-        _.forEach($scope.directiveVW, function (window) {
+        var chans = _.map(VIEW_WINDOWS, function (w) {
 
-            if (content.viewingWindows!== undefined &&  content.viewingWindows[window.type] !== undefined) {
+            debugger;
+            if (content.viewingWindows !== undefined && content.viewingWindows[w.type] !== undefined) {
+                var window = content.viewingWindows[w.type];
+                if (window.channel !== undefined) {
 
-                var window = content.viewingWindows[window.type];
-                if (window.channel !== undefined && window.channel.price !== undefined) {
-
-                    total += window.channel.price;
+                    return window.channel;
 
                 }
-
             }
         })
+
+        chans = _.uniq(_.compact(chans), function (c) {
+            return c.source
+        })
+        var prices = _.map(chans, function (elem) {
+            return elem.price
+        })
+        
+        total = _.reduce(prices, function (total, n) {
+            return total + n;
+        })
+
+
+        //_.forEach($scope.directiveVW, function (window) {
+        //
+        //    if (content.viewingWindows !== undefined && content.viewingWindows[window.type] !== undefined) {
+        //
+        //        var window = content.viewingWindows[window.type];
+        //        if (window.channel !== undefined && window.channel.price !== undefined) {
+        //
+        //            total += window.channel.price;
+        //
+        //        }
+        //
+        //    }
+        //})
 
         content.totalCost = total
 
@@ -1869,8 +1897,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
 
-
-
     $scope.$watch(function () {
         return PackageFactory.getPackage()
     }, function () {
@@ -1888,19 +1914,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     })
 });
 
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
-    $scope.servicesTotal = PackageFactory.totalServiceCost();
-    //$scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-})
 /**
  * Created by Nem on 11/25/15.
  */
@@ -1989,3 +2002,16 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
         return wantedHardware.indexOf(hardwarePiece.name) >= 0;
     }
 });
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
+    $scope.servicesTotal = PackageFactory.totalServiceCost();
+    //$scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+})
