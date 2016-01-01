@@ -166,7 +166,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     })
                     chans = _.filter(chans, function (elem) {
 
-                        debugger
+                        //debugger
 
 
                         var e = elem.display_name.toLowerCase().replace(' ', '');
@@ -179,7 +179,7 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                     }
 
                     chans = _.map(chans, function (elem) {
-                        debugger;
+                        //debugger;
                         if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && ! _.includes(elem.display_name.toLowerCase(), 'now') || isNetworkShow(elem.display_name)) {
                             elem.display_name = elem.display_name + ' Over the Air'
 
@@ -188,7 +188,10 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                         }
 
                         if (slingChannels.search(elem.display_name).length > 0 && elem.type != 'free') {
+                            debugger;
                             elem.display_name = 'Sling TV (' + elem.display_name + ')'
+                            elem.source = 'sling_tv'
+                            elem.price = 20.00;
 
                             return elem
 

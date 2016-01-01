@@ -29,7 +29,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
 
-    $scope.totalServiceCost = PackageFactory.totalServiceCost();
+    $scope.totalServiceCost = PackageFactory.totalServiceCost;
 
     //$scope.contentTotal = function () {
     //

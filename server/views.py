@@ -62,20 +62,16 @@ class NetFlixListView(View):
 
 
 class ShowChannelsView(View):
-
     def get(self, request, show_id):
         channel_key = "channel_set_{}".format(show_id)
         if cache.get(channel_key):
             channel_set = cache.get(channel_key)
-
 
             return JsonResponse(channel_set, safe=False)
 
         g = GuideBox()
 
         channel_set = json.loads(g.get_channels(show_id))
-
-
 
         cache.set(channel_key, channel_set)
 
@@ -157,11 +153,17 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         else:
             return True
 
+    def filter_by_guidebox_id(self, x):
+
+        if x.guidebox_id not in [3084, 31168, 31150, 15935]:
+            return True
+
+        return False
+
     def filter_query(self, filtered_ids, entries):
 
         for i in filtered_ids:
             q = Q(guidebox_id=i)
-
 
             if self.params:
                 self.params = self.params | q
@@ -200,10 +202,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         # filter_results['search_term'] = self
 
-
-
-
-
+        filter_results = list(filter(self.filter_by_guidebox_id, filter_results))
 
         return filter_results
 

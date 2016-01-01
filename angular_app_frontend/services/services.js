@@ -103,6 +103,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         totalServiceCost: function () {
 
+            
+
 
             var t = 0;
 

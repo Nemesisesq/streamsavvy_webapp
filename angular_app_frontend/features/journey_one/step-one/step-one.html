@@ -74,9 +74,9 @@
                                             <span class="pull-left">Selection Total:</span>
                                             <span class="pull-right">{{ showTotal(content) }}</span>
                                         </div>
-                                        <div class="row accord-monthly-total" ng-if="totalServiceCost > 0">
+                                        <div class="row accord-monthly-total" ng-if="totalServiceCost() > 0">
                                             <span class="pull-left">Your Monthly Total:</span>
-                                            <span class="pull-right">{{ totalServiceCost }}</span>
+                                            <span class="pull-right">{{ totalServiceCost() }}</span>
                                         </div>
                                     </div>
 
