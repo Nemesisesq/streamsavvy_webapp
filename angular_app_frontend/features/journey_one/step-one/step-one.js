@@ -7,7 +7,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         var chans = _.map(VIEW_WINDOWS, function (w) {
 
-            debugger;
+
             if (content.viewingWindows !== undefined && content.viewingWindows[w.type] !== undefined) {
                 var window = content.viewingWindows[w.type];
                 if (window.channel !== undefined) {
@@ -19,6 +19,9 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         })
 
         chans = _.uniq(_.compact(chans), function (c) {
+                if(c.service !== undefined){
+                    return c.service
+                }
             return c.source
         })
         var prices = _.map(chans, function (elem) {

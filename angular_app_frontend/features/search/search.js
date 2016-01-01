@@ -191,8 +191,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                             //TODO remove this and change the way this is done.
                             //debugger;
                             elem.display_name = 'Sling TV (' + elem.display_name + ')'
-                            elem.source = 'sling_tv'
-                            elem.price = 20.00;
+                            elem.service = 'sling_tv'
+                            elem.price = 20.00.toFixed(2);
 
                             return elem
 

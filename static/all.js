@@ -756,7 +756,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 chans = _.flatten(chans)
 
+                debugger;
+
                 chans = _.uniq(chans, function (elem) {
+
+                    if (elem.service !== undefined) {
+                        return elem.service
+                    }
                     return elem.source
                 })
 
@@ -767,8 +773,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         totalServiceCost: function () {
-
-
 
 
             var t = 0;
@@ -1530,8 +1534,8 @@ app.controller('search', function ($scope, $http, http, PackageFactory, _, Fuse,
                             //TODO remove this and change the way this is done.
                             //debugger;
                             elem.display_name = 'Sling TV (' + elem.display_name + ')'
-                            elem.source = 'sling_tv'
-                            elem.price = 20.00;
+                            elem.service = 'sling_tv'
+                            elem.price = 20.00.toFixed(2);
 
                             return elem
 
@@ -1734,7 +1738,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         var chans = _.map(VIEW_WINDOWS, function (w) {
 
-            debugger;
+
             if (content.viewingWindows !== undefined && content.viewingWindows[w.type] !== undefined) {
                 var window = content.viewingWindows[w.type];
                 if (window.channel !== undefined) {
@@ -1746,6 +1750,9 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         })
 
         chans = _.uniq(_.compact(chans), function (c) {
+                if(c.service !== undefined){
+                    return c.service
+                }
             return c.source
         })
         var prices = _.map(chans, function (elem) {
@@ -1914,6 +1921,19 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     })
 });
 
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
+    $scope.servicesTotal = PackageFactory.totalServiceCost();
+    //$scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+})
 /**
  * Created by Nem on 11/25/15.
  */
@@ -2002,16 +2022,3 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
         return wantedHardware.indexOf(hardwarePiece.name) >= 0;
     }
 });
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
-    $scope.servicesTotal = PackageFactory.totalServiceCost();
-    //$scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-})

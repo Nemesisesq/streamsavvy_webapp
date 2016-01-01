@@ -92,7 +92,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 chans = _.flatten(chans)
 
+                debugger;
+
                 chans = _.uniq(chans, function (elem) {
+
+                    if (elem.service !== undefined) {
+                        return elem.service
+                    }
                     return elem.source
                 })
 
@@ -103,8 +109,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         totalServiceCost: function () {
-
-
 
 
             var t = 0;
