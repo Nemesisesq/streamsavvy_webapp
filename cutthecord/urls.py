@@ -13,17 +13,15 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import TemplateView
 from rest_framework import routers
 
+from server.auth import *
 from server.feedback import FeedbackView
 from server.views import *
-from server.auth import *
-
-from scripts import get_netflixable_shows
-
 
 router = routers.DefaultRouter()
 # router.register(r'users', UserViewSet)
@@ -35,7 +33,6 @@ router.register(r'search', ContentSearchViewSet, 'search')
 router.register(r'packageobj', PackageDetailViewSet, 'packageobj')
 router.register(r'package', PackagesViewSet, 'package')
 router.register(r'popular-shows', PopularShowsViewSet, 'popular_shows')
-
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html')),
@@ -52,6 +49,7 @@ urlpatterns = [
     url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
     url(r'^netflixable/', NetFlixListView.as_view(), name='netflixable'),
     url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
+    url(r'^login-modal/', TemplateView.as_view(template_name='modal/modal.html'), name='modal')
     # url(r'^script/netflixable', get_netflixable_shows )
     # url(r'^package/$', package_list),
     # url(r'^package/(?P<pk>[0-9]+)/$', package_detail),

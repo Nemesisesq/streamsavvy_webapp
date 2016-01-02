@@ -11,7 +11,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     $rootScope.openLogInModal = function () {
         var modalInstance = $modal.open({
             animation: true,
-            templateUrl: '/static/partials/modal/modal.html',
+            templateUrl: '/login-modal',
             controller: 'ModalInstanceController',
             size: 'sm',
             resolve: {
@@ -40,20 +40,20 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
     $scope.socialLogin = true;
 
 
-    $scope.facebookAuth = function () {
-
-    window.location = CONFIG.URL + $('#facebook_login').attr('href');
-    }
-
-    $scope.instagramAuth = function () {
-
-    window.location = CONFIG.URL + $('#instagram_login').attr('href');
-    }
-
-    $scope.twitterAuth = function () {
-
-     window.location = CONFIG.URL + $('#twitter_login').attr('href');
-    }
+    //$scope.facebookAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
+    //}
+    //
+    //$scope.instagramAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
+    //}
+    //
+    //$scope.twitterAuth = function () {
+    //
+    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
+    //}
 
 
 

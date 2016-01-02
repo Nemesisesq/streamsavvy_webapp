@@ -73,6 +73,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'static/partials'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -144,6 +145,7 @@ STATICFILES_FINDERS = (
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
+    os.path.join(BASE_DIR, 'static/partials'),
 )
 
 REST_FRAMEWORK = {
