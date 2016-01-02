@@ -850,6 +850,7 @@ app.factory('_', function($window){
 app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
+
 app.controller('chart', function ($scope, http, _, $rootScope) {
     $scope.showArray = [];
     $scope.providers = [];
@@ -949,7 +950,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
 
     $rootScope.load()
 });
-
 /**
  * Created by Nem on 12/29/15.
  */
