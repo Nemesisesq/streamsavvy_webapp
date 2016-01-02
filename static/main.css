@@ -3444,6 +3444,16 @@ slick button {
   border-top: solid 5px red; }
   .modal-dialog .modal-body {
     padding-top: 0; }
+    .modal-dialog .modal-body li {
+      float: left;
+      height: auto; }
+      .modal-dialog .modal-body li a {
+        margin-bottom: 0; }
+      .modal-dialog .modal-body li:active > a {
+        border-bottom: solid 1px white;
+        margin-bottom: 0; }
+      .modal-dialog .modal-body li:active {
+        border-bottom: none; }
     .modal-dialog .modal-body .btn-row {
       padding: 3px; }
       .modal-dialog .modal-body .btn-row .btn {
