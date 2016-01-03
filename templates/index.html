@@ -62,7 +62,8 @@
 
     <!-- feed back form-->
     <div ng-controller="FeedbackCtrl">
-        <angular-feedback options="options"></angular-feedback>
+        {{ isMobile }}
+        <div ng-if="isMobile"><angular-feedback options="options"></angular-feedback></div>
     </div>
 
 
