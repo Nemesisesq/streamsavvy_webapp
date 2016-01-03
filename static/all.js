@@ -1966,7 +1966,8 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
 
 
         });
-    var digitalAntenna = {"url":"",
+    var digitalAntenna = {
+            "url":"http://127.0.0.1:8000/api/hardware/1/",
                 "name": "Mohu Antenna",
                 "version": 30,
                 "home_url": "http://www.amazon.com/gp/product/B00DHKKI16/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00DHKKI16&linkCode=as2&tag=stream06-20&linkId=3OKXSTXXFWZ3UEEM",
@@ -1976,7 +1977,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
                 " i.e. ABC, NBC, CBS, FOX, The CW, and PBS.This is an indoor version that you simply stick to the wall behind your TV," +
                 " and just like that...you get free live TV in HD for the major channels." +
                 " One of the best values on the market and super easy to set up using your TV remote."};
-    var amazonFireStick = {"url":"",
+    var amazonFireStick = {"url":"http://127.0.0.1:8000/api/hardware/2/",
                 "name": "Amazon Fire Stick",
                 "version": "current-2015",
                 "home_url": "http://www.amazon.com/gp/product/B00GDQ0RMG/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00GDQ0RMG&linkCode=as2&tag=stream06-20&linkId=GTZPFR2FFATFZZVF",
@@ -1989,7 +1990,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
                 " Similar to the Roku, the biggest issue is speed with the Fire Stick." +
                 " So just make sure you locate your wireless router close by...like real close( or pick up a wireless booster)."};
 
-    var rokuStick = {"url":"",
+    var rokuStick = {"url":"http://127.0.0.1:8000/api/hardware/3/",
                 "name": "Roku Stick",
                 "version": "3500R",
                 "home_url": "http://www.roku.com/products/streaming-stick?utm_source=cj&utm_medium=affiliate&utm_campaign=cj_affiliate_sale&utm_content=%zi&utm_term=11771250",
@@ -2004,9 +2005,6 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
 
     $scope.itemSelected = function (item) {
         var hardwareColl = $scope.package.hardware;
-
-
-
 
         var x = _.some(hardwareColl, 'url', item.url);
 
