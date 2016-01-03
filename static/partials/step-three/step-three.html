@@ -23,7 +23,7 @@
         <div class="click-on"><p>Click on the Hardware and you'll be redirected to the appropriate site.</p></div>
         <div class="row hardware-rows" ng-repeat="item in package.hardware ">
             <div class="summary-service">
-                {{ item.name }}
+                <a href="{{ item.home_url }}" rel="nofollow">{{ item.name }}</a>
             </div>
         </div></div>
             <div class="col-md-4 price-list">
