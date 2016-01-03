@@ -4,7 +4,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS) {
+app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
 
     var nShows = [];
 
@@ -100,7 +100,15 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     }, 250, {'maxWait': 1000});
 
     $rootScope.addToSelectedShows = function (suggestion) {
+
+
         var ssPackage = PackageFactory.getPackage();
+        debugger;
+
+        if(_.some(ssPackage.content, 'title' ,suggestion.title)){
+            growl.warning('You already added ' + suggestion.title + ' to your package!')
+            return
+        }
 
         function addSling() {
             var slingObj = {

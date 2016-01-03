@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick',"angular-send-feedback"])
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick',"angular-send-feedback", 'angular-growl'])
     .constant('CONFIG', {
         'URL': location.origin
     })
@@ -64,6 +64,13 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'Lifetime',
         'Galavision',
         'Bloomberg Television']);
+
+app.config(['growlProvider', function(growlProvider){
+    growlProvider.globalReversedOrder(true);
+    growlProvider.globalTimeToLive(2000);
+    growlProvider.globalDisableCloseButton(true)
+
+}]);
 
 app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
@@ -993,6 +1000,36 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
+    $scope.isHomePage = $state.current.data.isHomePage;
+    $scope.logged_in = false;
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
 //app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
 //    $scope.hardware = [];
 //    $scope.package = PackageFactory.getPackage();
@@ -1216,36 +1253,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 //
 //});
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
-    $scope.isHomePage = $state.current.data.isHomePage;
-    $scope.logged_in = false;
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -1347,7 +1354,7 @@ function slingInProviders(suggestion) {
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS) {
+app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
 
     var nShows = [];
 
@@ -1443,7 +1450,15 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     }, 250, {'maxWait': 1000});
 
     $rootScope.addToSelectedShows = function (suggestion) {
+
+
         var ssPackage = PackageFactory.getPackage();
+        debugger;
+
+        if(_.some(ssPackage.content, 'title' ,suggestion.title)){
+            growl.warning('You already added ' + suggestion.title + ' to your package!')
+            return
+        }
 
         function addSling() {
             var slingObj = {
@@ -1688,107 +1703,6 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
     }
 
 })
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
-    $scope.servicesTotal = PackageFactory.totalServiceCost();
-    //$scope.packageTotal = getPackageTotal();
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-})
-/**
- * Created by Nem on 11/25/15.
- */
-app.controller('StepTwoController', function ($scope, http, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    var hardwareColl = $scope.package.hardware;
-    var wantedHardware = ["Mohu Antenna","Roku Streaming Stick", "Amazon Fire Stick"];
-    $scope.hardwareTotal = 40.99;
-    $scope.monthlyTotal = 5.99;
-    var digitalAntenna = {"url":"",
-                "name": "Mohu Antenna",
-                "version": 30,
-                "home_url": "http://www.gomohu.com/",
-                "image_url":"static/img/Mohu.png",
-                "retail_cost": 39.99,
-                "mem_cost": 225,
-                "description": "Roku is a digital streaming adapter that comes in several different flavors"};
-
-    http.getHardware()
-        .then(function (data) {
-            $scope.hardware = data.results;
-            $scope.filterHardware();
-            $scope.hardware.push(digitalAntenna);
-
-
-        });
-
-    $scope.itemSelected = function (item) {
-        var hardwareColl = $scope.package.hardware;
-
-
-
-
-        var x = _.some(hardwareColl, 'url', item.url);
-
-        return x
-
-    };
-    $scope.filterHardware = function() {
-        var hardwareCopy = $scope.hardware;
-        for(var i = 0;i<hardwareCopy.length;i++)
-        {
-            if(!isWantedHardware(hardwareCopy[i]))
-            {
-                hardwareCopy.splice(i, 1);
-            }
-        }
-        hardwareCopy.splice(1,2);
-        hardwareCopy.splice(2,1);
-        $scope.hardware = hardwareCopy;
-
-
-
-    };
-
-    $scope.addRemoveHardware = function (item) {
-        if(item.hasOwnProperty('selected')){
-            delete item['selected']
-        }
-
-
-
-
-        var hardwareColl = $scope.package.hardware;
-        if (_.some(hardwareColl, 'url', item.url)) {
-
-            _.remove(hardwareColl, item);
-
-        } else {
-            //item.selected = true;
-            hardwareColl.push(item);
-        }
-
-        PackageFactory.setPackage($scope.package)
-
-    };
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    })
-
-    function isWantedHardware(hardwarePiece) {
-        return wantedHardware.indexOf(hardwarePiece.name) >= 0;
-    }
-});
 /**
  * Created by Nem on 10/27/15.
  */
@@ -1976,6 +1890,7 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
     $scope.delete = function (content) {
+        debugger;
         _.remove($scope.package.content, content);
         $scope.savePackage()
         PackageFactory.updatePackageChannels($scope)
@@ -2020,4 +1935,105 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 
         PackageFactory.setPackage($scope.package)
     })
+});
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
+    $scope.servicesTotal = PackageFactory.totalServiceCost();
+    //$scope.packageTotal = getPackageTotal();
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+})
+/**
+ * Created by Nem on 11/25/15.
+ */
+app.controller('StepTwoController', function ($scope, http, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    var hardwareColl = $scope.package.hardware;
+    var wantedHardware = ["Mohu Antenna","Roku Streaming Stick", "Amazon Fire Stick"];
+    $scope.hardwareTotal = 40.99;
+    $scope.monthlyTotal = 5.99;
+    var digitalAntenna = {"url":"",
+                "name": "Mohu Antenna",
+                "version": 30,
+                "home_url": "http://www.gomohu.com/",
+                "image_url":"static/img/Mohu.png",
+                "retail_cost": 39.99,
+                "mem_cost": 225,
+                "description": "Roku is a digital streaming adapter that comes in several different flavors"};
+
+    http.getHardware()
+        .then(function (data) {
+            $scope.hardware = data.results;
+            $scope.filterHardware();
+            $scope.hardware.push(digitalAntenna);
+
+
+        });
+
+    $scope.itemSelected = function (item) {
+        var hardwareColl = $scope.package.hardware;
+
+
+
+
+        var x = _.some(hardwareColl, 'url', item.url);
+
+        return x
+
+    };
+    $scope.filterHardware = function() {
+        var hardwareCopy = $scope.hardware;
+        for(var i = 0;i<hardwareCopy.length;i++)
+        {
+            if(!isWantedHardware(hardwareCopy[i]))
+            {
+                hardwareCopy.splice(i, 1);
+            }
+        }
+        hardwareCopy.splice(1,2);
+        hardwareCopy.splice(2,1);
+        $scope.hardware = hardwareCopy;
+
+
+
+    };
+
+    $scope.addRemoveHardware = function (item) {
+        if(item.hasOwnProperty('selected')){
+            delete item['selected']
+        }
+
+
+
+
+        var hardwareColl = $scope.package.hardware;
+        if (_.some(hardwareColl, 'url', item.url)) {
+
+            _.remove(hardwareColl, item);
+
+        } else {
+            //item.selected = true;
+            hardwareColl.push(item);
+        }
+
+        PackageFactory.setPackage($scope.package)
+
+    };
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    })
+
+    function isWantedHardware(hardwarePiece) {
+        return wantedHardware.indexOf(hardwarePiece.name) >= 0;
+    }
 });

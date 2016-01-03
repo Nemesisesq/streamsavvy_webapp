@@ -331,8 +331,6 @@ hr {
       .usr-paths .path .usr-path-header h2 {
         font-size: 36px;
         font-weight: 900; }
-        .usr-paths .path .usr-path-header h2 .left-header {
-          color: white; }
       .usr-paths .path .usr-path-header h3 {
         font-size: 1.15em;
         color: #aeb6bb; }
@@ -3446,6 +3444,16 @@ slick button {
   border-top: solid 5px red; }
   .modal-dialog .modal-body {
     padding-top: 0; }
+    .modal-dialog .modal-body li {
+      float: left;
+      height: auto; }
+      .modal-dialog .modal-body li a {
+        margin-bottom: 0; }
+      .modal-dialog .modal-body li:active > a {
+        border-bottom: solid 1px white;
+        margin-bottom: 0; }
+      .modal-dialog .modal-body li:active {
+        border-bottom: none; }
     .modal-dialog .modal-body .btn-row {
       padding: 3px; }
       .modal-dialog .modal-body .btn-row .btn {
@@ -3565,6 +3573,12 @@ a.navbarLink {
 @media (max-width: 1000px) {
   .navbar-inverse .navbar-nav > li > a {
     font-size: small; } }
+
+@media (max-width: 990px) {
+  .just-logo {
+    margin-left: 20px; }
+  .nav li {
+    float: right; } }
 
 .money {
   background: white; }

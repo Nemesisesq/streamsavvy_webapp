@@ -19,6 +19,7 @@
     <link href="{% static 'main.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.css"/>
     <link href="{% static 'angular-send-feedback/dist/angular-send-feedback.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'angular-growl-v2/build/angular-growl.css' %}"/>
 
     <!-- SPELLS -->
     <!-- load angular and angular route via CDN -->
@@ -55,9 +56,12 @@
 
 <!-- MAIN CONTENT AND INJECTED VIEWS -->
 <div ui-view autoscroll="true"></div>
+<div growl></div>
 
 <!-- feed back form-->
-<div ng-controller="FeedbackCtrl"><angular-feedback options="options"></angular-feedback></div>
+<div ng-controller="FeedbackCtrl">
+    <angular-feedback options="options"></angular-feedback>
+</div>
 
 
 <a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
@@ -89,5 +93,6 @@
 <script src="https://use.fonticons.com/b92fc55f.js"></script>
 <script src="{% static 'angular-send-feedback/dist/angular-send-feedback.js' %}"></script>
 <script src="{% static 'html2canvas/build/html2canvas.js' %}"></script>
+<script src="{% static 'angular-growl-v2/build/angular-growl.js' %}"></script>
 </body>
 </html>

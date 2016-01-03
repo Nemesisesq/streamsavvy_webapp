@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick',"angular-send-feedback"])
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick',"angular-send-feedback", 'angular-growl'])
     .constant('CONFIG', {
         'URL': location.origin
     })
@@ -64,6 +64,13 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'Lifetime',
         'Galavision',
         'Bloomberg Television']);
+
+app.config(['growlProvider', function(growlProvider){
+    growlProvider.globalReversedOrder(true);
+    growlProvider.globalTimeToLive(2000);
+    growlProvider.globalDisableCloseButton(true)
+
+}]);
 
 app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
