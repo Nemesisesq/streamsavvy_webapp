@@ -3503,6 +3503,9 @@ slick button {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px; }
 
+.modal-footer {
+  text-align: center; }
+
 .j-one-container {
   padding-top: 77px;
   border-right: 1px solid #e6e6e6;
