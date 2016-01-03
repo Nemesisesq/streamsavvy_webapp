@@ -32,67 +32,70 @@
 <base href="/">
 
 <body ng-app='myApp' class="container">
+<div class="body-wrapper">
 
-<script>
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '123769897967344',
-            xfbml: true,
-            version: 'v2.4'
-        });
-    };
 
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '123769897967344',
+                xfbml: true,
+                version: 'v2.4'
+            });
+        };
 
-<!-- MAIN CONTENT AND INJECTED VIEWS -->
-<div ui-view autoscroll="true"></div>
-<div growl></div>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
-<!-- feed back form-->
-<div ng-controller="FeedbackCtrl">
-    <angular-feedback options="options"></angular-feedback>
+    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <div ui-view autoscroll="true"></div>
+    <div growl></div>
+
+    <!-- feed back form-->
+    <div ng-controller="FeedbackCtrl">
+        <angular-feedback options="options"></angular-feedback>
+    </div>
+
+
+    <a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
+    <a id="instagram_login" href="{% url 'social:begin' 'instagram' %}?next={{ request.path }}">login to instagram</a>
+    <a id="twitter_login" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">login to twitter</a>
+    {#{% url "socialauth_disconnect" %}#}
+
+    <div
+            class="fb-like"
+            data-share="true"
+            data-width="450"
+            data-show-faces="true">
+    </div>
+
+    <script src="{% static 'jquery/dist/jquery.js' %}"></script>
+    <script src="{% static 'angular/angular.js' %}"></script>
+    <script src="{% static 'angular-mocks/angular-mocks.js' %}"></script>
+    <script src="{% static 'angular-resource/angular-resource.js' %}"></script>
+    <script src="{% static 'angular-ui-router/release/angular-ui-router.js' %}"></script>
+    <script src="{% static 'angular-cookies/angular-cookies.js' %}"></script>
+    <script src="{% static 'slick-carousel/slick/slick.js' %}"></script>
+    <script src="{% static 'angular-slick/dist/slick.js' %}"></script>
+    <script src="{% static 'all.js' %}"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
+    <script src="{% static 'lodash/lodash.js' %}"></script>
+    <script src="{% static 'angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
+    <script src="{% static 'angular-animate/angular-animate.js' %}"></script>
+    <script src="{% static 'fuse.js/src/fuse.min.js' %}"></script>
+    <script src="https://use.fonticons.com/b92fc55f.js"></script>
+    <script src="{% static 'angular-send-feedback/dist/angular-send-feedback.js' %}"></script>
+    <script src="{% static 'html2canvas/build/html2canvas.js' %}"></script>
+    <script src="{% static 'angular-growl-v2/build/angular-growl.js' %}"></script>
 </div>
-
-
-<a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
-<a id="instagram_login" href="{% url 'social:begin' 'instagram' %}?next={{ request.path }}">login to instagram</a>
-<a id="twitter_login" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">login to twitter</a>
-{#{% url "socialauth_disconnect" %}#}
-
-<div
-        class="fb-like"
-        data-share="true"
-        data-width="450"
-        data-show-faces="true">
-</div>
-
-<script src="{% static 'jquery/dist/jquery.js' %}"></script>
-<script src="{% static 'angular/angular.js' %}"></script>
-<script src="{% static 'angular-mocks/angular-mocks.js' %}"></script>
-<script src="{% static 'angular-resource/angular-resource.js' %}"></script>
-<script src="{% static 'angular-ui-router/release/angular-ui-router.js' %}"></script>
-<script src="{% static 'angular-cookies/angular-cookies.js' %}"></script>
-<script src="{% static 'slick-carousel/slick/slick.js' %}"></script>
-<script src="{% static 'angular-slick/dist/slick.js' %}"></script>
-<script src="{% static 'all.js' %}"></script>
-<script src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
-<script src="{% static 'lodash/lodash.js' %}"></script>
-<script src="{% static 'angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
-<script src="{% static 'angular-animate/angular-animate.js' %}"></script>
-<script src="{% static 'fuse.js/src/fuse.min.js' %}"></script>
-<script src="https://use.fonticons.com/b92fc55f.js"></script>
-<script src="{% static 'angular-send-feedback/dist/angular-send-feedback.js' %}"></script>
-<script src="{% static 'html2canvas/build/html2canvas.js' %}"></script>
-<script src="{% static 'angular-growl-v2/build/angular-growl.js' %}"></script>
 </body>
 </html>

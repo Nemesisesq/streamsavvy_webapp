@@ -3586,6 +3586,9 @@ a.navbarLink {
 .money {
   background: white; }
 
+.body-wrapper {
+  overflow: hidden; }
+
 @media (max-width: 1198px) {
   .usr-path-right {
     height: 8%; } }
