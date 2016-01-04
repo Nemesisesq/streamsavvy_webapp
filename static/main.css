@@ -3038,7 +3038,9 @@ slick button {
 .still-confused .you-ready {
   padding-bottom: 10%;
   background: white;
-  height: 420px; }
+  height: auto; }
+  .still-confused .you-ready .get-started {
+    margin-bottom: 3%; }
 
 .still-confused .show-and-tell {
   padding-top: 9%;
