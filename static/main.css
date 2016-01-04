@@ -3505,6 +3505,8 @@ slick button {
 
 .modal-footer {
   text-align: center; }
+  .modal-footer .log-in {
+    color: white; }
 
 .j-one-container {
   padding-top: 77px;
