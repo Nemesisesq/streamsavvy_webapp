@@ -3,7 +3,7 @@
  */
 
 app.controller('FeedbackCtrl', function ($scope) {
-    debugger
+   
     $scope.isMobile = window.innerWidth > 540;
 
     $scope.options = {

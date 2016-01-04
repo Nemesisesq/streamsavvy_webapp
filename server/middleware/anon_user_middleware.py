@@ -13,6 +13,7 @@ class ProcessAnonUser(object):
                 user = AnonymousUser.objects.get(session=request.session.session_key)
             except:
                 user = AnonymousUser(session=request.session.session_key)
+                user.is_authenticated()
                 user.username = time.time()
 
             user.save()

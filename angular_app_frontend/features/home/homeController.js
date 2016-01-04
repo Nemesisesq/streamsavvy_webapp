@@ -2,7 +2,7 @@
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
-    $scope.logged_in = false;
+
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";

@@ -8,6 +8,8 @@ class AnonymousUser(User):
     session = models.CharField(max_length= 100)
     objects = UserManager()
 
+    def is_authenticated(self):
+        return False
 
 
 class Hardware(models.Model):

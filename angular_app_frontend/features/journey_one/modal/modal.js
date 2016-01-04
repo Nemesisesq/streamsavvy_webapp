@@ -1,5 +1,3 @@
-
-
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
@@ -9,6 +7,8 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
+        debugger
+
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/login-modal',
@@ -35,7 +35,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     }
 });
 
-app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http) {
 
     $scope.socialLogin = true;
 
@@ -55,6 +55,18 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
     // window.location = CONFIG.URL + $('#twitter_login').attr('href');
     //}
 
+
+    $scope.login = function (credentials) {
+        debugger;
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $rootScope.logged_in = true;
+            })
+    };
 
 
 

@@ -962,7 +962,7 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
  */
 
 app.controller('FeedbackCtrl', function ($scope) {
-    debugger
+   
     $scope.isMobile = window.innerWidth > 540;
 
     $scope.options = {
@@ -978,7 +978,7 @@ app.controller('FeedbackCtrl', function ($scope) {
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
-    $scope.logged_in = false;
+
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
@@ -1229,33 +1229,28 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG) {
     $scope.isHomePage = $state.current.data.isHomePage;
-    $scope.logged_in = false;
+
     $scope.hmdc = $state.current.data.hmdcActive;
 
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
     $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
+        debugger
+        $location.path(CONFIG.URL +'/django_auth/logout/');
+            //.success(function () {
+            //    $rootScope.logged_in = false;
+            //    console.log($rootScope.logged_in)
+            //})
     }
 
 
 });
+
+app.run(function ($rootScope) {
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false
+    console.log($rootScope.logged_in)
+
+})
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -1631,8 +1626,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 });
 
 
-
-
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
@@ -1642,6 +1635,8 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
+        debugger
+
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/login-modal',
@@ -1668,7 +1663,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     }
 });
 
-app.controller('ModalInstanceController', function ($scope, $modalInstance, items, $location, CONFIG) {
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http) {
 
     $scope.socialLogin = true;
 
@@ -1688,6 +1683,18 @@ app.controller('ModalInstanceController', function ($scope, $modalInstance, item
     // window.location = CONFIG.URL + $('#twitter_login').attr('href');
     //}
 
+
+    $scope.login = function (credentials) {
+        debugger;
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $rootScope.logged_in = true;
+            })
+    };
 
 
 

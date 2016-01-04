@@ -2,7 +2,7 @@
 
     <div class="modal-header">
         <h3 class="modal-title thick-modal-header">Log In</h3>
-        <h6 class="please-social" >Please fill in your Username and password below</h6>
+        <h6 class="please-social">Please fill in your Username and password below</h6>
 
 
         <div class="row">
@@ -73,16 +73,18 @@
                         </div> -->
 
                         <div class="modal-body">
-                            <form role="form">
+
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Username</label>
-                                    <input type="email" class="form-control"
-                                           id="exampleInputEmail1" placeholder="Enter email"/>
+                                    <input type="text" class="form-control"
+                                           id="exampleInputEmail1" placeholder="Enter email"
+                                           ng-model="credentials.username"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Password</label>
                                     <input type="password" class="form-control"
-                                           id="exampleInputPassword1" placeholder="Password"/>
+                                           id="exampleInputPassword1" placeholder="Password"
+                                           ng-model="credentials.password"/>
                                 </div>
                             </form>
 
@@ -91,7 +93,7 @@
 
                         <div class="modal-footer row">
 
-                            <input type="submit" value="Log In" name="subscribe"
+                            <input ng-click=login(credentials) type="submit" value="Log In" name="subscribe"
                                    class="button btn btn-lg btn-red page-scroll square log-in center-block">
 
                         </div>

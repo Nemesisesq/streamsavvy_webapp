@@ -62,7 +62,7 @@
 
     <!-- feed back form-->
     <div ng-controller="FeedbackCtrl">
-        {{ isMobile }}
+
         <div ng-if="isMobile"><angular-feedback options="options"></angular-feedback></div>
     </div>
 
@@ -78,6 +78,7 @@
             data-width="450"
             data-show-faces="true">
     </div>
+
 
     <script src="{% static 'jquery/dist/jquery.js' %}"></script>
     <script src="{% static 'angular/angular.js' %}"></script>
@@ -97,6 +98,11 @@
     <script src="{% static 'angular-send-feedback/dist/angular-send-feedback.js' %}"></script>
     <script src="{% static 'html2canvas/build/html2canvas.js' %}"></script>
     <script src="{% static 'angular-growl-v2/build/angular-growl.js' %}"></script>
+
+
 </div>
+<div>{{ request.user }} </div>
+    <div id="status" >{{ request.user.is_authenticated }}</div>
+
 </body>
 </html>

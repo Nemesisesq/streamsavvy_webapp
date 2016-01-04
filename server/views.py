@@ -83,7 +83,10 @@ class JsonPackageView(View):
 
         self.logger = logging.getLogger('cutthecord')
 
-        pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
+        try:
+            pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
+        except:
+            pkg = ''
         if pkg != '': pkg = json.loads(pkg, encoding='utf-8')
         return JsonResponse(pkg, safe=False)
 

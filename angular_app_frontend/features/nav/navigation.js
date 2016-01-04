@@ -1,30 +1,25 @@
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG) {
     $scope.isHomePage = $state.current.data.isHomePage;
-    $scope.logged_in = false;
+
     $scope.hmdc = $state.current.data.hmdcActive;
 
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
     $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
+        debugger
+        $location.path(CONFIG.URL +'/django_auth/logout/');
+            //.success(function () {
+            //    $rootScope.logged_in = false;
+            //    console.log($rootScope.logged_in)
+            //})
     }
 
 
 });
+
+app.run(function ($rootScope) {
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false
+    console.log($rootScope.logged_in)
+
+})
