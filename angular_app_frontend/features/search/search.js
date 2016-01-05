@@ -200,7 +200,9 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                             //debugger;
                             elem.display_name = 'Sling TV (' + elem.display_name + ')'
                             elem.service = 'sling_tv'
-                            elem.price = 20.00.toFixed(2);
+                            elem.price = 20.00;
+
+                            debugger
 
                             return elem
 
