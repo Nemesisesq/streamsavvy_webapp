@@ -26,7 +26,7 @@
 
                         <uib-accordion-group template-url="group-template.html"
                                              ng-repeat="content in package.content ">
-                            <button class=" pull-right"
+                            <button ng-if="false" class=" pull-right"
                                  style="z-index:2; position:relative; right: 100px; top:10px"
                                  ng-click="delete(content)">
                                 delete
