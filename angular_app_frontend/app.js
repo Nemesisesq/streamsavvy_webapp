@@ -65,10 +65,11 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'Galavision',
         'Bloomberg Television']);
 
-app.config(['growlProvider', function(growlProvider){
+app.config(['growlProvider','$httpProvider', function(growlProvider, $httpProvider){
     growlProvider.globalReversedOrder(true);
     growlProvider.globalTimeToLive(2000);
     growlProvider.globalDisableCloseButton(true)
+    $httpProvider.interceptors.push(growlProvider.serverMessagesInterceptor)
 
 }]);
 

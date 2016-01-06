@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.shortcuts import redirect
+
 from server.models import Package
 
 __author__ = 'Nem'
@@ -16,7 +18,13 @@ def login_view(request, the_json):
     if user is not None:
         if user.is_active:
             login(request, user)
-            return JsonResponse({'success':'Welcome {user}'.format(user=user.first_name)})
+
+            return redirect('/')
+            # return JsonResponse({'success':'Welcome {user}'.format(user=user.first_name),
+            #                      'messages': [
+            #                          {"text":"Logged In Successfully Welcome {user}".format(user=user.first_name),
+            #                           "severity": "success"}
+            #                      ]})
         else:
             return JsonResponse({'error': 'there seemes to be a problem with your username or password'})
     else:

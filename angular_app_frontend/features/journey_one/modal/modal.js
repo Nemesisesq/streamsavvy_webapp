@@ -35,7 +35,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     }
 });
 
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http) {
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
 
     $scope.socialLogin = true;
 
@@ -66,11 +66,17 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                 console.log(data);
                 $rootScope.logged_in = true;
                 $modalInstance.close();
-                window.location.reload()
+                growl.success('Login Successful', {
+                    onclose: function () {
+
+                        window.location.reload()
+                    },
+                    ttl : 1000,
+                    disableCountDown: true
+                })
 
             })
     };
-
 
 
     $scope.items = items;

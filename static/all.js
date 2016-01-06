@@ -65,10 +65,11 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'Galavision',
         'Bloomberg Television']);
 
-app.config(['growlProvider', function(growlProvider){
+app.config(['growlProvider','$httpProvider', function(growlProvider, $httpProvider){
     growlProvider.globalReversedOrder(true);
     growlProvider.globalTimeToLive(2000);
     growlProvider.globalDisableCloseButton(true)
+    $httpProvider.interceptors.push(growlProvider.serverMessagesInterceptor)
 
 }]);
 
@@ -1665,7 +1666,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     }
 });
 
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http) {
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
 
     $scope.socialLogin = true;
 
@@ -1696,11 +1697,17 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                 console.log(data);
                 $rootScope.logged_in = true;
                 $modalInstance.close();
-                window.location.reload()
+                growl.success('Login Successful', {
+                    onclose: function () {
+
+                        window.location.reload()
+                    },
+                    ttl : 1000,
+                    disableCountDown: true
+                })
 
             })
     };
-
 
 
     $scope.items = items;
