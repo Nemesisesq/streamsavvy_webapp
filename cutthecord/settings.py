@@ -61,7 +61,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'server.middleware.access_management.BlockLiveSiteFromNonAdminUsers',
+    # 'server.middleware.access_management.BlockLiveSiteFromNonAdminUsers',
     'server.middleware.anon_user_middleware.ProcessAnonUser',
     # 'django.middleware.cache.FetchFromCacheMiddleware',
 )
