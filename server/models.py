@@ -11,6 +11,9 @@ class AnonymousUser(User):
     def is_authenticated(self):
         return False
 
+    def __str__(self):
+        return "{}".format(self.username)
+
 
 class Hardware(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)

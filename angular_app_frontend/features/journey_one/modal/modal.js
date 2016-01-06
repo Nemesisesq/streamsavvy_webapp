@@ -65,6 +65,9 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
             .then(function (data) {
                 console.log(data);
                 $rootScope.logged_in = true;
+                $modalInstance.close();
+                window.location.reload()
+
             })
     };
 

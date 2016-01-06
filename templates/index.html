@@ -101,7 +101,7 @@
 
 
 </div>
-<div>{{ request.user }} </div>
+<div>{{ request.user|slugify}} </div>
     <div id="status" >{{ request.user.is_authenticated }}</div>
 
 </body>
