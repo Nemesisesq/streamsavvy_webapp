@@ -18,6 +18,9 @@ class BlockLiveSiteFromNonAdminUsers(object):
             if request.user.is_staff or request.path_info.startswith('/admin/'):
                 return None
 
+            elif request.path_info.startswith('/beta/'):
+                return None
+
             else:
                 return redirect('http://www.streamsavvy.tv')
 

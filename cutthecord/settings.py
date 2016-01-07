@@ -61,7 +61,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    # 'server.middleware.access_management.BlockLiveSiteFromNonAdminUsers',
+    'server.middleware.access_management.BlockLiveSiteFromNonAdminUsers',
     'server.middleware.anon_user_middleware.ProcessAnonUser',
     # 'django.middleware.cache.FetchFromCacheMiddleware',
 )
@@ -125,6 +125,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_REDIRECT_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -219,6 +220,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.instagram.InstagramOAuth2',
     'social.backends.twitter.TwitterOAuth',
+    'social.backends.username.UsernameAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 

@@ -49,8 +49,8 @@ urlpatterns = [
     url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
     url(r'^netflixable/', NetFlixListView.as_view(), name='netflixable'),
     url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
-    url(r'^login-modal/', TemplateView.as_view(template_name='modal/modal.html'), name='modal'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'})
+    url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     # url(r'^script/netflixable', get_netflixable_shows )
     # url(r'^package/$', package_list),
     # url(r'^package/(?P<pk>[0-9]+)/$', package_detail),

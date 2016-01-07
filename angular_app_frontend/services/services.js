@@ -163,6 +163,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 }]);
 
+
+
 app.run(function (PackageFactory, $http, http) {
     $http.get('/json-package/')
         .then(function (data) {

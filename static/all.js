@@ -165,23 +165,10 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        //.state('nav.index', {
-        //    url: '/search',
-        //    views: {
-        //        //'test' :{
-        //        //    templateUrl : 'static/partials/test-dashboard.html',
-        //        //    controller : 'testController'
-        //        //},
-        //        'search': {
-        //            templateUrl: 'static/partials/search.html',
-        //            controller: 'search'
-        //        },
-        //        'chart': {
-        //            templateUrl: 'static/partials/coverage-chart.html',
-        //            controller: 'chart'
-        //        }
-        //    }
-        //})
+        .state('login', {
+            url: '/login',
+            template : 'Hello world'
+        })
         .state('journey-one', {
             abstract: true,
             templateUrl: "/static/partials/journey-one.html",
@@ -290,6 +277,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         });
 
     $urlRouterProvider.otherwise("/")
+
+
 });
 /**
  * Created by Nem on 9/18/15.
@@ -834,6 +823,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 
 }]);
+
+
 
 app.run(function (PackageFactory, $http, http) {
     $http.get('/json-package/')
