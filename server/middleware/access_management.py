@@ -15,7 +15,7 @@ class BlockLiveSiteFromNonAdminUsers(object):
         re = request
         self.logger.debug('Checking environment {} for user {}'.format(os.getenv('Environment'), re.user))
         if os.getenv('ENVIRONMENT') == 'production':
-            if request.user.is_staff or request.path_info.startswith('/admin/'):
+            if request.user.is_staff or request.user.is_authenticated or request.path_info.startswith('/admin/'):
                 return None
 
             elif request.path_info.startswith('/beta/'):
