@@ -7,7 +7,8 @@ app.controller('FeedbackCtrl', function ($scope) {
     $scope.isMobile = window.innerWidth > 540;
 
     $scope.options = {
-        ajaxURL: 'feedback/'
+        ajaxURL: 'feedback/',
+        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
 
     }
 })

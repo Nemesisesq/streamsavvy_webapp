@@ -78,7 +78,7 @@ class ShowChannelsView(View):
         return JsonResponse(channel_set, safe=False)
 
 
-class JsonPackageView(View):
+class  JsonPackageView(View):
     def get(self, request):
 
         self.logger = logging.getLogger('cutthecord')
