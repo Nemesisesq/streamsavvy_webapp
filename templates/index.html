@@ -25,7 +25,7 @@
     <!-- load angular and angular route via CDN -->
 
 
-    <title>Cut the Cord</title>
+    <title>StreamSavvy | Helping You Cut the Cable Cord</title>
 
 </head>
 
@@ -70,8 +70,6 @@
     <a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
     <a id="instagram_login" href="{% url 'social:begin' 'instagram' %}?next={{ request.path }}">login to instagram</a>
     <a id="twitter_login" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">login to twitter</a>
-    <a id="username_login" href="{% url 'social:begin' 'username' %}?next={{ request.path }}">login to username</a>
-
     {#{% url "socialauth_disconnect" %}#}
 
     <div
