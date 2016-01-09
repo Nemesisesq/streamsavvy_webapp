@@ -1971,8 +1971,6 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     $scope.package = PackageFactory.getPackage();
     var hardwareColl = $scope.package.hardware;
     var wantedHardware = ["Mohu Antenna","Roku Streaming Stick", "Amazon Fire Stick"];
-    $scope.hardwareTotal = 40.99;
-    $scope.monthlyTotal = 5.99;
 
     http.getHardware()
         .then(function (data) {
@@ -2014,6 +2012,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
         $scope.changeImage($scope.hardware[1],customFireStickImagePath);
         $scope.changeURL($scope.hardware[0],RokuStickAffiliateLink);
         $scope.changeURL($scope.hardware[1],FireStickAffiliateLink);
+        $scope.fixupPrice($scope.hardware[1]);//making sure the fire stick's price shows up as $39.99
     };
     $scope.changeDescription = function(hardwareObject,newDescription) {
         hardwareObject.description = newDescription;
@@ -2023,6 +2022,9 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
     };
     $scope.changeURL = function(hardwareObject,newUrl){
         hardwareObject.home_url = newUrl;
+    };
+    $scope.fixupPrice = function(hardwareObject) {
+        hardwareObject.retail_cost += parseFloat(0.99);
     };
 
     $scope.addRemoveHardware = function (item) {
