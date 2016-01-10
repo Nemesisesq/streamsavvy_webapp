@@ -26,7 +26,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '(%iglg64ui6_)1-wpfk#z05bsh**k%c##@l)12u@30)c-oy9l4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+def is_debug():
+
+    if os.getenv('ENVIRONMENT') == 'DEBUG':
+        return True
+    return False
+
+DEBUG = is_debug()
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 
 ALLOWED_HOSTS = ['*']
 
@@ -48,6 +57,7 @@ INSTALLED_APPS = (
     'django_filters',
     'social.apps.django_app.default',
     'django_rq',
+    'debug_toolbar',
 
 )
 
@@ -63,6 +73,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
     'server.middleware.access_management.BlockLiveSiteFromNonAdminUsers',
     'server.middleware.anon_user_middleware.ProcessAnonUser',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
