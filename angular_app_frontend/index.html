@@ -61,10 +61,7 @@
     <div growl></div>
 
     <!-- feed back form-->
-    <div ng-controller="FeedbackCtrl">
-
-        <div ng-if="isMobile"><angular-feedback options="options"></angular-feedback></div>
-    </div>
+    
 
 
     <a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
