@@ -23,7 +23,7 @@
                 </div>
                 <div class="row service-rows" ng-repeat="provider in package.providers  ">
                     <div class=" summary-service">
-                        {{ provider.display_name }}
+                        <a target="_blank" href="{{ provider.home_url }}" rel="nofollow">{{ provider.display_name }}</a>
                     </div>
                 </div>
                 <div class="hardware-list"><h3 class="hardware-header">Hardware</h3></div>
