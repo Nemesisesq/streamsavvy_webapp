@@ -281,6 +281,80 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
 });
 /**
+ * Created by Nem on 11/17/15.
+ */
+
+function isLive(elem){
+    if (elem.source != 'hulu_free') {
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
+    }
+
+
+}
+
+function isOnDemand(elem) {
+
+    if(elem.source == 'netflix'){
+        return false
+    }
+
+    if(elem.source == 'hulu_free'){
+        return false
+    }
+
+    return  _.includes(elem.type, 'sub')
+}
+
+app.filter('channel', function () {
+    return function (input, type) {
+
+
+        var list = _.filter(input, function (elem) {
+            if(type == 'live'){
+                return isLive(elem);
+            }
+            if(type == 'onDemand'){
+                return isOnDemand(elem)
+            }
+            if(type == 'fullseason'){
+                return _.includes(elem.type, 'sub')
+            }
+            if(type == 'alacarte'){
+                //debugger
+                return _.includes(elem.type, 'purchase')
+            }
+        })
+
+        return list
+    }
+})
+
+app.filter('onDemand', function () {
+    return function (input) {
+
+        var list = _.filter(input, function (elem) {
+            return elem.name != 'Netflix';
+        })
+
+        return list
+    }
+
+});
+
+app.filter('fullSeason', function () {
+
+    return function (input) {
+
+
+        var list = _.filter(input, function (elem) {
+            return elem.name == 'Netflix';
+        })
+
+        return list
+    }
+
+});
+/**
  * Created by Nem on 9/18/15.
  */
 app.directive('ssImageBlock', function (http, $rootScope) {
@@ -477,80 +551,6 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
     }
 
 })
-/**
- * Created by Nem on 11/17/15.
- */
-
-function isLive(elem){
-    if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
-    }
-
-
-}
-
-function isOnDemand(elem) {
-
-    if(elem.source == 'netflix'){
-        return false
-    }
-
-    if(elem.source == 'hulu_free'){
-        return false
-    }
-
-    return  _.includes(elem.type, 'sub')
-}
-
-app.filter('channel', function () {
-    return function (input, type) {
-
-
-        var list = _.filter(input, function (elem) {
-            if(type == 'live'){
-                return isLive(elem);
-            }
-            if(type == 'onDemand'){
-                return isOnDemand(elem)
-            }
-            if(type == 'fullseason'){
-                return _.includes(elem.type, 'sub')
-            }
-            if(type == 'alacarte'){
-                //debugger
-                return _.includes(elem.type, 'purchase')
-            }
-        })
-
-        return list
-    }
-})
-
-app.filter('onDemand', function () {
-    return function (input) {
-
-        var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix';
-        })
-
-        return list
-    }
-
-});
-
-app.filter('fullSeason', function () {
-
-    return function (input) {
-
-
-        var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix';
-        })
-
-        return list
-    }
-
-});
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -950,20 +950,6 @@ app.controller('chart', function ($scope, http, _, $rootScope) {
     $rootScope.load()
 });
 /**
- * Created by Nem on 12/29/15.
- */
-
-app.controller('FeedbackCtrl', function ($scope) {
-   
-    $scope.isMobile = window.innerWidth > 540;
-
-    $scope.options = {
-        ajaxURL: 'feedback/',
-        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
-
-    }
-})
-/**
  * Created by Nem on 10/7/15.
  */
 
@@ -1219,6 +1205,20 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 //
 //});
 
+/**
+ * Created by Nem on 12/29/15.
+ */
+
+app.controller('FeedbackCtrl', function ($scope) {
+   
+    $scope.isMobile = window.innerWidth > 540;
+
+    $scope.options = {
+        ajaxURL: 'feedback/',
+        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
+
+    }
+})
 /**
  * Created by Nem on 6/28/15.
  */
