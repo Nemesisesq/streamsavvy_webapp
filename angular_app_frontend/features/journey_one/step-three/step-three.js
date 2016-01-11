@@ -4,10 +4,10 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
     $scope.hardwareTotal = PackageFactory.totalHardwareCost();
     $scope.servicesTotal = PackageFactory.totalServiceCost();
     //$scope.packageTotal = getPackageTotal();
-    $scope.$addProviderUrls = function (){
-        for(var i = 0; i<$scope.package.providers.length; i++){
+    $scope.$addProviderUrls = function () {
+        for (var i = 0; i < $scope.package.providers.length; i++) {
             var providerName = $scope.package.providers[i].display_name;
-            switch(providerName) {
+            switch (providerName) {
                 case "Yahoo Screen Over the Air":
                     $scope.package.providers[i].home_url = "https://www.yahoo.com/tv/tagged/originals";
                     break;
@@ -101,7 +101,6 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
         $scope.package = PackageFactory.getPackage();
         $scope.$addProviderUrls();
     });
-
 
 
 })

@@ -101,13 +101,7 @@ class Content(models.Model):
     def __str__(self):
         return "Show {0}".format(self.title)
 
-class BundleCost(models.Model):
-    provider = models.ForeignKey(ContentProvider, null=True, blank=True, related_name='provider')
-    partner_provider = models.ForeignKey(ContentProvider, null=True, blank=True, related_name='partner')
-    cost = models.FloatField(blank=True, null=True)
-
-    def __str__(self):
-        return "price for {provider} bundled with {partner}".format(provider = self.provider, partner= self.partner_provider)
+ 
 
 
 class Package(models.Model):
