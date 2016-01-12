@@ -133,7 +133,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
             templateUrl: "static/partials/explain.html"
         })
         .state('explain.still-confused', {
-            url: '/explain/still-confused/1',
+            url: '/explain/still-confused',
             data: {
                 explain: 1
             },
