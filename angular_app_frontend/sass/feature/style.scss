@@ -169,7 +169,6 @@ hr {
     vertical-align: middle;
     position: relative;
     text-align: center;
-    display:inline-table;
     margin:0 auto;
     .usr-path-header{
       margin-bottom:5%;
@@ -262,7 +261,6 @@ hr {
 
 
   }
-
 
 }
 
@@ -483,7 +481,7 @@ footer {
     }
 
 
-}
+  }
 
   .icon-2x {
       color: white;
@@ -499,7 +497,6 @@ footer {
   .intro-message {
     padding-top: 3%;
     padding-bottom: 5%;
-
   }
 }
 
@@ -549,11 +546,7 @@ footer {
 
 }
 
-//@media(min-width: 1024px) {
-//  .journey-one {
-//    width: 65%;
-//  }
-//}
+
 
 .build-bundle, .build-show-list, .step-one-explanation {
   background-color: #E3E3E5;
@@ -570,22 +563,11 @@ footer {
   .navbar-toggle {
     margin-top: 18px;
   }
-  .body{
-    //width: 100%;
-  }
-}
 
-@media (min-width: 768px) and (max-width: 1215px) {
-
-  .just-logo {
-   // margin-top: 33%;
-  }
 }
 
 @media(min-width: 1216px) {
-  .just-logo {
-    //margin-top: 5%;
-  }
+
   .logo-and-text {
     display: inline !important;
   }
@@ -598,9 +580,8 @@ footer {
   }
 }
 
-@media (min-width: 1200px){
-  .container{
-    width:1364px;
-  }
-}
+//@media (min-width: 1200px){
+ // .container{
+ // }
+//}
 

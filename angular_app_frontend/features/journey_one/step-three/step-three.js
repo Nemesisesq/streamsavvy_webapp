@@ -26,7 +26,8 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
                 case "Sling TV (ABC Family)":
                     $scope.package.providers[i].home_url = "http://www.sling.com/";
                     break;
-                case "Sling TV (AMC)":
+                case "Slin" +
+                "g TV (AMC)":
                     $scope.package.providers[i].home_url = "http://www.sling.com/";
                     break;
                 case "Sling TV (TNT)":

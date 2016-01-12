@@ -323,7 +323,6 @@ hr {
     vertical-align: middle;
     position: relative;
     text-align: center;
-    display: inline-table;
     margin: 0 auto; }
     .usr-paths .path .usr-path-header {
       margin-bottom: 5%;
@@ -630,10 +629,6 @@ footer {
 @media (min-width: 768px) and (max-width: 841px) {
   .collapse {
     display: block !important; } }
-
-@media (min-width: 1200px) {
-  .container {
-    width: 1364px; } }
 
 /*!
  *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
