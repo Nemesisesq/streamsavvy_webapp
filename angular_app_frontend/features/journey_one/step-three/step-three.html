@@ -36,11 +36,11 @@
                 </div>
             </div>
             <div class="col-md-4 price-list">
-                <div><h3 class="total-header">Monthly Total:<span class="total-cost">${{ servicesTotal }}</span></h3>
+                <div><h3 class="total-header">Monthly Total:<span class="total-cost">${{ servicesTotal || "0.00" }}</span></h3>
                 </div>
                 <div class="totals">
                     <div class="hardware-total"><label>Hardware Total:</label> <span
-                            class="hardware-cost">${{ hardwareTotal }}</span></div>
+                            class="hardware-cost">${{ hardwareTotal || "0.00" }}</span></div>
                 </div>
             </div>
         </div>
