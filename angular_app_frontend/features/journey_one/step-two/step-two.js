@@ -94,7 +94,7 @@ app.controller('StepTwoController', function ($scope, http, PackageFactory) {
         return wantedHardware.indexOf(hardwarePiece.name) >= 0;
     }
 
-    var digitalAntenna = {"url":"",
+    var digitalAntenna = {"url":"http://127.0.0.1:8000/api/hardware/digital-antenna/",
             "name": "Mohu Antenna",
             "version": 30,
             "home_url": "http://www.amazon.com/gp/product/B00DHKKI16/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00DHKKI16&linkCode=as2&tag=stream06-20&linkId=3OKXSTXXFWZ3UEEM",
