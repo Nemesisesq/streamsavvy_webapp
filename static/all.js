@@ -281,80 +281,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
 });
 /**
- * Created by Nem on 11/17/15.
- */
-
-function isLive(elem){
-    if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
-    }
-
-
-}
-
-function isOnDemand(elem) {
-
-    if(elem.source == 'netflix'){
-        return false
-    }
-
-    if(elem.source == 'hulu_free'){
-        return false
-    }
-
-    return  _.includes(elem.type, 'sub')
-}
-
-app.filter('channel', function () {
-    return function (input, type) {
-
-
-        var list = _.filter(input, function (elem) {
-            if(type == 'live'){
-                return isLive(elem);
-            }
-            if(type == 'onDemand'){
-                return isOnDemand(elem)
-            }
-            if(type == 'fullseason'){
-                return _.includes(elem.type, 'sub')
-            }
-            if(type == 'alacarte'){
-                //debugger
-                return _.includes(elem.type, 'purchase')
-            }
-        })
-
-        return list
-    }
-})
-
-app.filter('onDemand', function () {
-    return function (input) {
-
-        var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix';
-        })
-
-        return list
-    }
-
-});
-
-app.filter('fullSeason', function () {
-
-    return function (input) {
-
-
-        var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix';
-        })
-
-        return list
-    }
-
-});
-/**
  * Created by Nem on 9/18/15.
  */
 app.directive('ssImageBlock', function (http, $rootScope) {
@@ -551,7 +477,6 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
     }
 
 })
-<<<<<<< HEAD
 /**
  * Created by Nem on 11/17/15.
  */
@@ -716,8 +641,6 @@ app.constant('CHANNEL_URLS', [
 
 
 ])
-=======
->>>>>>> origin
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -1017,105 +940,20 @@ app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
 
-app.controller('chart', function ($scope, http, _, $rootScope) {
-    $scope.showArray = [];
-    $scope.providers = [];
-    $scope.rows = [];
-    $scope.providerList = [
-        {name: 'netflix'},
-        {name: 'hulu'},
-        {name: 'sling'},
-        {name: 'hbo'}
+/**
+ * Created by Nem on 12/29/15.
+ */
 
-    ];
+app.controller('FeedbackCtrl', function ($scope) {
+   
+    $scope.isMobile = window.innerWidth > 540;
 
+    $scope.options = {
+        ajaxURL: 'feedback/',
+        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
 
-    $scope.mockShows = [
-        {name: 'Orange is the new black', showProviders: [true, false, true, false]},
-        {name: 'Airwolf', showProviders: [true, true, false, false]},
-        {name: 'Bleach', showProviders: [false, true, false, false]},
-        {name: 'Game of Thrones', showProviders: [false, false, true, false]},
-        {name: 'Spaceman', showProviders: [true, false, false, false]},
-        {name: 'Prison Break', showProviders: [true, true, true, false]},
-        //{name: 'Followers', showProviders: [true, false, true, false]}
-    ];
-
-    $scope.removeShow = function (show) {
-        http.getRestPackage()
-            .then(function (package) {
-                _.remove(package.content, function (elem) {
-                    var elemArray = elem.split('/');
-                    var elemId = elemArray[elemArray.length - 2];
-                    return elemId == show.id;
-                });
-
-                http.putPackage(package)
-                    .then(function (result) {
-                        $rootScope.load()
-                        $scope.$apply()
-                    })
-            })
     }
-
-
-    var loadPackage = function () {
-            return http
-                .getPackage()
-                .then(function (package) {
-                    $scope.package = package;
-                    return package;
-                })
-        },
-        loadContentHeaderObjects = function () {
-            $scope.providers = [];
-            _.forEach($scope.package.content, function (show) {
-                _.forEach(show.content_provider, function (provider) {
-                    if (!_.includes($scope.providers, provider.name)) {
-
-                        $scope.providers.push(provider.name)
-                    }
-                })
-
-            })
-
-            //TODO marked for Deletion
-            //$scope.package.content.content_provder.forEach(function (provider) {
-            //    deffered.resolve(
-            //        _.contains($scope.providers, provider) || $scope.providers.push(provider)
-            //    )
-            //})
-
-            //return deffered.promise
-        },
-        loadContentRowObjects = function () {
-
-            $scope.rows = _.map($scope.package.content, function (content) {
-                var obj = {};
-                obj.title = content.title;
-                obj.id = content.id;
-                obj.providerCellValues = _.map($scope.providers, function (elem) {
-                    var providerObj = _.map(content.content_provider, function (prov) {
-                        return prov.name
-                    });
-
-                    return _.includes(providerObj, elem)
-                });
-
-                return obj;
-            })
-
-        };
-
-
-    $rootScope.load = function () {
-
-        loadPackage()
-        .then(loadContentHeaderObjects)
-        .then(loadContentRowObjects);
-    };
-
-    $rootScope.load()
-});
+})
 /**
  * Created by Nem on 10/7/15.
  */
@@ -1149,243 +987,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
-//app.controller('JourneyOneController', function ($scope, $rootScope, http, _, PackageFactory) {
-//    $scope.hardware = [];
-//    $scope.package = PackageFactory.getPackage();
-//    $scope.packageList = {};
-//    $scope.providerObj = [];
-//
-//    $scope.providers = [];
-//    $scope.rows = [];
-//
-//    $scope.cost = {
-//        services: 0,
-//        hardware: 0
-//    };
-//
-//    $scope.cableCost = 75.00;
-//
-//    $scope.savings = $scope.cableCost - $scope.cost.services;
-//
-//
-//    $rootScope.loadPackage = function () {
-//        if ($scope.package == "") {
-//            return http.getPackage()
-//                .then(function (data) {
-//                    $scope.package = data;
-//                    $scope.packageList = data.content;
-//                    return data
-//                });
-//        }
-//        $rootScope.step3ButtonMessage = $scope.package.hardware.length ? 'Right On! Time to Review.' : 'Sorry Partner You Need Some Hardware';
-//        $rootScope.step2ButtonMessage = $scope.package.providers.length ? 'Time to pick out the Hardware' : 'You still need to select a service';
-//    };
-//
-//    $scope.removeShow = function (show) {
-//        http.getRestPackage()
-//            .then(function (p) {
-//                _.remove(p.content, function (elem) {
-//
-//                    return elem == show.url;
-//                });
-//
-//
-//                http.putPackage(p)
-//                    .then(function () {
-//                        $rootScope.loadPackage();
-//
-//                    })
-//            })
-//    };
-//
-//
-//    var loadProviders = function () {
-//        $scope.providers = [];
-//        _.forEach($scope.packageList, function (show) {
-//            _.forEach(show.content_provider, function (provider) {
-//                if (!_.includes($scope.providers, provider.name)) {
-//
-//                    $scope.providers.push(provider.name);
-//                    $scope.providerObj.push(provider);
-//                }
-//            })
-//
-//        })
-//    };
-//
-//    var loadHardware = function () {
-//        http.getHardware()
-//            .then(function (hware) {
-//
-//                var userHardwareUrls = _.map($scope.package.hardware, function (item) {
-//                    return item.url
-//
-//                });
-//
-//                $scope.hardware = _.map(hware.results, function (item) {
-//                    if (_.includes(userHardwareUrls, item.url)) {
-//                        item.selected = true;
-//                        return item
-//                    } else {
-//                        item.selected = false;
-//                        return item
-//                    }
-//                })
-//
-//
-//            })
-//    };
-//    var loadProviderContentHash = function () {
-//
-//        var rows = _.map($scope.providers, function (provider) {
-//            var prov = _.find($scope.providerObj, function (obj) {
-//                return obj.name == provider;
-//            });
-//            var obj = {
-//                service: prov,
-//                content: []
-//            };
-//
-//
-//            obj.content = _.filter($scope.packageList, function (c) {
-//
-//                var cProviders = _.map(c.content_provider, function (content_provider) {
-//                    return content_provider.name
-//                });
-//
-//
-//                return _.includes(cProviders, provider)
-//            });
-//
-//
-//            var selectedProviders = _.map($scope.package.providers, function (pp) {
-//                return pp.name
-//
-//            });
-//
-//            obj.selected = _.includes(selectedProviders, provider);
-//
-//
-//            return obj
-//
-//        });
-//
-//        $scope.rows = _.filter(rows, function (obj) {
-//            return _.isEqual(obj.service.channel_type, "online")
-//        });
-//
-//        var selectedShows = _.flatten(
-//            _.map(rows, function (row) {
-//                if (row.selected) {
-//                    return row.content
-//                } else {
-//                    return []
-//                }
-//            })
-//        );
-//
-//
-//        $scope.rows = _.map($scope.rows, function (row) {
-//            if (!row.selected) {
-//                row.content = _.filter(row.content, function (show) {
-//                    return !_.includes(selectedShows, show)
-//                });
-//            }
-//
-//            return row;
-//        });
-//
-//        $scope.rows = _.sortByAll($scope.rows, ['selected', 'content'], _.values).reverse();
-//
-//
-//        return $scope.rows
-//
-//    };
-//
-//
-//    var calculateTotalCost = function () {
-//        $scope.cost.services = 0;
-//        _.each($scope.package.providers, function (p) {
-//            $scope.cost.services += p.retail_cost;
-//        });
-//
-//        $scope.savings = $scope.cableCost - $scope.cost.services;
-//
-//
-//    }
-//
-//    $scope.toggleService = function (row) {
-//        http.getRestPackage()
-//            .then(function (p) {
-//                if (!row.selected) {
-//                    p.providers.push(row.service.url);
-//
-//                    http.putPackage(p)
-//                        .then(function (d) {
-//                            console.log(d);
-//                            $rootScope.load()
-//                        })
-//
-//                } else {
-//                    _.remove(p.providers, function (elem) {
-//                        return elem == row.service.url
-//                    })
-//
-//                    http.putPackage(p)
-//                        .then(function (d) {
-//                            console.log(d);
-//                            $rootScope.load()
-//                        })
-//
-//                }
-//
-//
-//            })
-//    }
-//
-//    $rootScope.load = function () {
-//
-//        $rootScope.loadPackage()
-//            .then(loadProviders)
-//            .then(loadHardware)
-//            .then(loadProviderContentHash)
-//            .then(calculateTotalCost);
-//    };
-//
-//    //$rootScope.load();
-//
-//    $scope.toggleHardwareSelection = function (item) {
-//        var collection = $scope.package.hardware;
-//        _.includes(collection, item) ? _.remove(collection, item) : collection.push(item);
-//
-//        PackageFactory.setPackage($scope.package)
-//
-//
-//    }
-//
-//    $scope.$watch('package', function () {
-//
-//        PackageFactory.setPackage($scope.package);
-//            $rootScope.load();
-//
-//    });
-//
-//});
-
-/**
- * Created by Nem on 12/29/15.
- */
-
-app.controller('FeedbackCtrl', function ($scope) {
-   
-    $scope.isMobile = window.innerWidth > 540;
-
-    $scope.options = {
-        ajaxURL: 'feedback/',
-        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
-
-    }
-})
 /**
  * Created by Nem on 6/28/15.
  */
@@ -2145,7 +1746,8 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
                 case "Sling TV (ABC Family)":
                     $scope.package.providers[i].home_url = "http://www.sling.com/";
                     break;
-                case "Sling TV (AMC)":
+                case "Slin" +
+                "g TV (AMC)":
                     $scope.package.providers[i].home_url = "http://www.sling.com/";
                     break;
                 case "Sling TV (TNT)":
