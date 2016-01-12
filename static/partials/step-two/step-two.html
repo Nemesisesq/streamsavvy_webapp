@@ -9,7 +9,7 @@
             <h4>Or don’t if you already own a device. In order to stream services to your TV you’ll need a SmartTV or one of these.</h4>
         </div>
         <div class="row row-centered picture-grid">
-            <div class="col-sm-2 col-centered " ng-repeat="item in hardware"">
+            <div class="col-sm-2 col-centered " ng-repeat="item in hardware">
                 <div class="hardware-img" ng-click="addRemoveHardware(item)"
                      ng-class="{selected: itemSelected(item) }">
                     <img class="img-responsive" ng-src="{{ item.image_url }}"/>
@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="hardware-cost">
-                    ${{ item.retail_cost }}
+                    ${{ item.retail_cost.toFixed(2) }}
                 </div>
             </div>
         </div>
