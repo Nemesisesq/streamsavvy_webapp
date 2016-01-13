@@ -170,8 +170,11 @@
 
 }
   .summary-bottom{
+    margin: 0 auto;
     margin-bottom: 5%;
-    a.go_back.pull-right {
-    padding-top: 2%;
+    text-align: center;
+    a.back-to-hardware {
+
+      float: none;
     }
   }

@@ -645,7 +645,7 @@ footer {
 
 .fa, .step-one label .vw-info:after, .step-one .selected label:before, slick button.slick-prev:before, slick button.slick-next:after {
   display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -690,7 +690,7 @@ footer {
     left: -1.85714em; }
 
 .fa-border {
-  padding: .2em .25em .15em;
+  padding: 0.2em 0.25em 0.15em;
   border: solid 0.08em #eee;
   border-radius: .1em; }
 
@@ -3395,9 +3395,11 @@ slick button {
     border-color: black; }
 
 .summary-bottom {
-  margin-bottom: 5%; }
-  .summary-bottom a.go_back.pull-right {
-    padding-top: 2%; }
+  margin: 0 auto;
+  margin-bottom: 5%;
+  text-align: center; }
+  .summary-bottom a.back-to-hardware {
+    float: none; }
 
 .search-bar {
   position: relative;
