@@ -25,7 +25,7 @@
                     <uib-accordion close-others="true">
 
                         <uib-accordion-group template-url="group-template.html"
-                                             ng-repeat="content in package.content ">
+                                             ng-repeat="content in package.content " is-open="$index == package.content.length - 1">
                             <button ng-if="false" class=" pull-right"
                                  style="z-index:2; position:relative; right: 100px; top:10px"
                                  ng-click="delete(content)">
