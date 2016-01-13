@@ -28,7 +28,7 @@ class Hardware(models.Model):
         return "{0} version {1}".format(self.name, self.version)
 
 
-class ContentProvider(models.Model):
+class Channels(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
     source = models.CharField(max_length=50, blank=True, null=True)
     channel_type = models.CharField(max_length=100, blank=True, null=True)
@@ -50,7 +50,7 @@ class ContentProvider(models.Model):
 
     def save(self, *args, **kwargs):
         self.modified = timezone.now()
-        return super(ContentProvider, self).save(*args, **kwargs)
+        return super(Channels, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
