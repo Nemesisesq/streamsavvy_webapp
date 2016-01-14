@@ -750,6 +750,30 @@ app.factory('http', function ($http, $log, $q) {
     }
 });
 /**
+ * Created by Nem on 1/13/16.
+ */
+
+
+
+app.config(function ($httpProvider, $provide) {
+    
+    
+    $provide.factory('s3FeedbackInterceptor', function ($q) {
+
+        return {
+            'request' : function (config) {
+                debugger;
+                var x = config
+                return config
+            }
+        }
+        
+    })
+
+    $httpProvider.interceptors.push('s3FeedbackInterceptor');
+})
+
+/**
  * Created by Nem on 6/27/15.
  */
 app.factory('N', function () {
@@ -1420,9 +1444,9 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
         });
     }
 
-    if ($rootScope.currentStep == 3) {
-        $rootScope.openLogInModal()
-    }
+    //if ($rootScope.currentStep == 3) {
+    //    $rootScope.openLogInModal()
+    //}
 });
 
 app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {

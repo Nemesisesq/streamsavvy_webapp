@@ -32,7 +32,8 @@ class FeedbackView(CsrfExemptMixin, View):
 
         the_json = json.loads(re)
 
-        feedback = Feedback(the_json['browser'], the_json['url'], the_json['note'], the_json['img'], the_json['html'])
+        feedback = Feedback(browser=the_json['browser'], url=the_json['url'], note=the_json['note'],
+                            html=the_json['html'])
 
         if feedback.save():
             return JsonResponse('data', safe=False)
