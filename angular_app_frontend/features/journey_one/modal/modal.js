@@ -1,7 +1,7 @@
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
-    $scope.login = 'Click Here to Login'
+    //$scope.login = 'Click Here to Login'
 
 
     $scope.items = ['item1', 'item2', 'item3'];
