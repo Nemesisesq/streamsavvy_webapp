@@ -7,12 +7,13 @@ from django.views.generic import View
 
 
 # model for saving feed back
-class Feedback(models.Model):
-    browser = models.CharField(max_length=150, blank=True, null=True)
-    url = models.CharField(max_length=150, blank=True, null=True)
-    note = models.TextField(blank=True, null=True)
-    image = models.ImageField()
-    html = models.TextField(blank=True, null=True)
+# class Feedback(models.Model):
+#     browser = models.CharField(max_length=150, blank=True, null=True)
+#     url = models.CharField(max_length=150, blank=True, null=True)
+#     note = models.TextField(blank=True, null=True)
+#     image = models.ImageField()
+#     html = models.TextField(blank=True, null=True)
+from server.models import Feedback
 
 
 class FeedbackView(CsrfExemptMixin, View):

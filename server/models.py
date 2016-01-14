@@ -120,3 +120,9 @@ class JsonPackage(models.Model):
     def __str__(self):
         return "JSON package for {owner}".format(owner=self.owner)
 
+class Feedback(models.Model):
+    browser = models.CharField(max_length=150, blank=True, null=True)
+    url = models.CharField(max_length=150, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
+    image = models.ImageField()
+    html = models.TextField(blank=True, null=True)
