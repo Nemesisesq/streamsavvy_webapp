@@ -119,3 +119,4 @@ class JsonPackage(models.Model):
 
     def __str__(self):
         return "JSON package for {owner}".format(owner=self.owner)
+

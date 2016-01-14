@@ -1,8 +1,5 @@
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-    $scope.status = {
-        isFirstOpen: true,
-        isFirstDisabled: false
-    };
+
     $scope.showTotal = function (content) {
 
 

@@ -1,20 +1,18 @@
 import json
 
 from braces.views import CsrfExemptMixin
+from django.db import models
 from django.http import JsonResponse
 from django.views.generic import View
-from django.db import models
 
-#model for saving feed back
+
+# model for saving feed back
 class Feedback(models.Model):
-
-    browser = models.CharField(max_length=200, blank=True, null=True)
-    url     = models.URLField()
-    note    = models.TextField()
-    img     = models.ImageField()
-    html    = models.TextField()
-
-    pass
+    browser = models.CharField(max_length=150, blank=True, null=True)
+    url = models.CharField(max_length=150, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
+    image = models.ImageField()
+    html = models.TextField(blank=True, null=True)
 
 
 class FeedbackView(CsrfExemptMixin, View):
@@ -34,8 +32,12 @@ class FeedbackView(CsrfExemptMixin, View):
 
         the_json = json.loads(re)
 
-        x = 'hello world'
-        return JsonResponse('data', safe=False)
+        feedback = Feedback(the_json['browser'], the_json['url'], the_json['note'], the_json['img'], the_json['html'])
+
+        if feedback.save():
+            return JsonResponse('data', safe=False)
+        else:
+            return JsonResponse('something went wrong', safe=False)
 
 # @csrf_exempt
 # def feedback(request):

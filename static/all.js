@@ -1329,7 +1329,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
                     suggestion.channels = cleanedChannels;
 
-
+                    suggestion.isOpen = true;
                     ssPackage.content.push(suggestion);
                     PackageFactory.setPackage(ssPackage);
                 })
@@ -1527,10 +1527,7 @@ app.controller('AccordionController', function ($scope) {
 });
 
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-    $scope.status = {
-        isFirstOpen: true,
-        isFirstDisabled: false
-    };
+
     $scope.showTotal = function (content) {
 
 

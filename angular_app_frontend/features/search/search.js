@@ -220,7 +220,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
                     suggestion.channels = cleanedChannels;
 
-
+                    suggestion.isOpen = true;
                     ssPackage.content.push(suggestion);
                     PackageFactory.setPackage(ssPackage);
                 })
