@@ -1,0 +1,55 @@
+<title>Step 2</title>
+<meta name="Step 2 - Select Hardware" content="Once you've entered your favorite shows and chosen which service to watch them on, you need to pick a device that carries that service.">
+
+<section class="device-grid">
+    <div class="container-fluid step-two">
+
+        <div class="row row-centered step-two-header">
+            <h1>Please select your hardware.</h1>
+            <h4>Or don’t if you already own a device. In order to stream services to your TV you’ll need a SmartTV or one of these.</h4>
+        </div>
+        <div class="row row-centered picture-grid">
+            <div class="col-sm-2 col-centered " ng-repeat="item in hardware">
+                <div class="hardware-img" ng-click="addRemoveHardware(item)"
+                     ng-class="{selected: itemSelected(item) }">
+                    <img class="img-responsive" ng-src="{{ item.image_url }}"/>
+                </div>
+                <div class="hardware-name">
+                    {{ item.name }}
+                    &nbsp;
+                    <span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ item.description  }}"tooltip-placement="right"
+                  tooltip-class="vw-tooltip"></span>
+                </div>
+
+                <div class="hardware-cost">
+                    ${{ item.retail_cost.toFixed(2) }}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</section>
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 btn-row">
+                <div class="col-sm-6 step-btn">
+                    <a class="go_back pull-right" onClick="location.href='#/getting-started/step/3'" ng-click="package.hardware.length = 0">
+                        I Don't Need Hardware
+                    </a>
+                </div>
+                <div class="col-sm-6 step-btn">
+                    <button type="button" class="btn btn-primary btn-lg find-out go_fwd"
+                            onclick="location.href='#/getting-started/step/3';"
+                            ng-class="{disabled: package.hardware.length < 1}"
+                            ng-disabled='package.hardware.length < 1 '>
+                        Review My Show Selections
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
