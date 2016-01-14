@@ -1,5 +1,8 @@
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
+    $scope.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
     $scope.showTotal = function (content) {
 
 
@@ -19,15 +22,15 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         })
 
         chans = _.uniq(_.compact(chans), function (c) {
-                if(c.service !== undefined){
-                    return c.service
-                }
+            if (c.service !== undefined) {
+                return c.service
+            }
             return c.source
         })
         var prices = _.map(chans, function (elem) {
             return elem.price
         })
-        
+
         total = _.reduce(prices, function (total, n) {
             return total + n;
         })
