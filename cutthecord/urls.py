@@ -51,6 +51,7 @@ urlpatterns = [
     url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
     url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+    # url(r'test/', TemplateView.as_view(template_name='test.html')),
     # url(r'^script/netflixable', get_netflixable_shows )
     # url(r'^package/$', package_list),
     # url(r'^package/(?P<pk>[0-9]+)/$', package_detail),

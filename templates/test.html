@@ -1,88 +1,685 @@
-<!DOCTYPE html>
+<head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+    <!-- specific meta tags from Bootstrap -->
+    <!-- these tags must come first in the head -->
+    <meta charset="utf-8">a
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">a
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<html lang="en">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="robots" content="NONE,NOARCHIVE">
-    <title>403 Forbidden</title>
-    <style type="text/css">     html * {
-        padding: 0;
-        margin: 0;
-    }
+    <!-- SCROLLS -->
+    <!-- load bootstrap  -->
+    <link href="/static/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,100,300,900,700" rel="stylesheet" type="text/css">
+    <link href="/static/angular-bootstrap/ui-bootstrap-csp.css">
+    <link href="/static/main.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.css">
+    <link href="/static/angular-send-feedback/dist/angular-send-feedback.css" rel="stylesheet">
+    <link rel="shortcut icon" href="https://s3.amazonaws.com/streamsavvy/SS_Mark_red.png">
+    <link rel="stylesheet" type="text/css" href="/static/angular-growl-v2/build/angular-growl.css">
 
-    body * {
-        padding: 10px 20px;
-    }
+    <!-- SPELLS -->
+    <!-- load angular and angular route via CDN -->
 
-    body * * {
-        padding: 0;
-    }
 
-    body {
-        font: small sans-serif;
-        background: #eee;
-    }
+    <title>StreamSavvy | Helping You Cut the Cable Cord</title>
 
-    body > div {
-        border-bottom: 1px solid #ddd;
-    }
+<base href="/"><style type="text/css"></style><link href="https://fonticons-free-fonticons.netdna-ssl.com/kits/b92fc55f/b92fc55f.css" media="all" rel="stylesheet"><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow-x:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f6f7f8;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3a5795;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:18px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #2f477a;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f8;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style><script type="text/javascript" async="" src="http://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="chrome-extension://aadgmnobpdmgmigaicncghmmoeflnamj/ng-inspector.js"></script></head>
 
-    h1 {
-        font-weight: normal;
-        margin-bottom: .4em;
-    }
 
-    h1 span {
-        font-size: 60%;
-        color: #666;
-        font-weight: normal;
-    }
 
-    #info {
-        background: #f6f6f6;
-    }
+<body ng-app="myApp" class="container ng-scope">
+<div class="body-wrapper">
 
-    #info ul {
-        margin: 0.5em 4em;
-    }
 
-    #info p, #summary p {
-        padding-top: 10px;
-    }
+    <script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-KHF9ZT"></script><script id="facebook-jssdk" src="//connect.facebook.net/en_US/sdk.js"></script><script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '123769897967344',
+                xfbml: true,
+                version: 'v2.4'
+            });
+        };
 
-    #summary {
-        background: #ffc;
-    }
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
-    #explanation {
-        background: #eee;
-        border-bottom: 0px none;
-    }   </style>
-</head>
-<body>
-<div id="summary"><h1>Forbidden <span>(403)</span></h1>
-    <p>CSRF verification failed. Request aborted.</p></div>
-<div id="info"><h2>Help</h2>
-    <p>Reason given for failure:</p>
-    <pre>     CSRF token missing or incorrect.     </pre>
-    <p>In general, this can occur when there is a genuine Cross Site Request Forgery, or when <a
-            href="https://docs.djangoproject.com/en/1.8/ref/csrf/">Django\'s CSRF mechanism</a> has not been used
-        correctly. For POST forms, you need to ensure:</p>
-    <ul>
-        <li>Your browser is accepting cookies.</li>
-        <li>The view function passes a <code>request</code> to the template\'s <a
-                href="https://docs.djangoproject.com/en/dev/topics/templates/#django.template.backends.base.Template.render"><code>render</code></a>
-            method.
-        </li>
-        <li>In the template, there is a <code>{% csrf_token %}</code> template tag inside each POST form that targets an
-            internal URL.
-        </li>
-        <li>If you are not using <code>CsrfViewMiddleware</code>, then you must use <code>csrf_protect</code> on any
-            views that use the <code>csrf_token</code> template tag, as well as those that accept the POST data.
-        </li>
-    </ul>
-    <p>You\'re seeing the help section of this page because you have <code>DEBUG = True</code> in your Django settings
-        file. Change that to <code>False</code>, and only the initial error message will be displayed. </p>
-    <p>You can customize this page using the CSRF_FAILURE_VIEW setting.</p></div>
-</body>
-</html>
+    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <!-- uiView:  --><div ui-view="" autoscroll="true" class="ng-scope">
+<nav class="navbar navbar-inverse navbar-static-top ng-scope navbarhome" ng-class="{navbarhome: isHomePage}" role="navigation">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a href="/#/"><img class="img-responsive nav-logo logo just-logo" src="/static/img/SS_Mark_red.png"></a>
+            <a href="/#/"><img class="img-responsive nav-logo logo logo-and-text" ng-hide="currentStep >=1" src="/static/img/SS_Wordmark_White.png"></a>
+
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right navbar-links">
+                <li><a class="navbarLink" ng-class="{active: hmdc }" href="#/getting-started/step/1">Help Me Ditch Cable</a></li>
+                <li><a class="navbarLink" href="#/error/coming-soon">Find Your Shows</a></li>
+                <li><a class="navbarLink" href="#/blog/blog-one/1">Blog</a></li>
+                <li>
+                    <div class="ss_pipe"></div>
+                </li>
+               <!-- <li><a class="navbarLink" href="#/error/coming-soon" rel="nofollow">Sign Up</a></li> -->
+                <li><!-- ngIf: !logged_in --><a ng-if="!logged_in" class="navbarLink ng-scope" href="" ng-click="openLogInModal()" rel="nofollow">Login</a><!-- end ngIf: !logged_in --></li>
+                <li><!-- ngIf: logged_in --></li>
+                <!-- <li><a class="navbarLink" href="#">About Us</a></li>
+                <li><a href="" class="contact-us-link navbarLink">Contact Us</a></li> -->
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<!--  home page-->
+<!-- uiView: home --><div ui-view="home" class="main-page ng-scope"><title class="ng-scope">Homepage</title>
+<meta name="Homepage" content="" class="ng-scope">
+<section class="nav-hero ng-scope">
+    <section class="hero">
+        <div class="intro-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-lg-12">
+                        <div class="intro-message">
+                            <h1 class="intro-question">Ready to cut the cord? Let us show you how<br> and where to watch your favorite content.</h1>
+                            <h5 class="intro-sub-question">All the cool kids are doing it. Including hipsters, tech nerds and even<br> YOUR MOM. For realz (do people still say that?)</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <p class="header-article-pointer">Choose your path</p>
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </div>
+
+    </section>
+</section>
+
+
+
+<section class="usr-paths ng-scope">
+    <div class="container-fluid">
+      <div class="row">
+
+
+        <div class="col-xs-12  col-md-6 path usr-path-left">
+            <div class="usr-path-header">
+                <h2 class="left-header">Help Me Ditch Cable.</h2>
+                <h3>It's easy as 1, 2, 3.</h3>
+            </div>
+            <div class="journey-image">
+              <img class="img-responsive" src="/static/img/col-left-draft-dos.png" alt="">
+            </div>
+            <button type="button" class="btn btn-primary btn-lg show-me-btn" onclick="location.href='#/getting-started/step/1';">Get Started
+            </button>
+        </div>
+
+        <div class="col-xs-12 col-md-6 path usr-path-right">
+          <div class="usr-path-header right-header">
+              <h2>Just Show Me Where<br> to Watch My Stuff</h2>
+              <h3>You got dis.</h3>
+          </div>
+          <div class="journey-image">
+            <img class="img-responsive" src="/static/img/tv-right-icons-2x.png" alt="">
+          </div>
+          <button type="button" class="btn btn-primary btn-lg btn-red find-show-btn" onclick="location.href='#/error/coming-soon';">Find Your Shows</button>
+        </div>
+
+
+    </div>
+</div></section>
+
+<section class="money ng-scope">
+    <div class="container-fluid">
+        <div class="row-">
+            <div class="col-md-12 why-money">
+                <h2 class="why-money-title">Ready to Save Fat Stacks?</h2>
+                <h5>It's simple</h5>
+                <img class="img-responsive stacks" src="/static/img/fatstacks_720.png" alt="">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 money-reasons-left">
+                <p>Cable channels you <br>never watch.</p>
+            </div>
+            <div class="col-md-6 money-reasons-right">
+                <p>Streaming services with<br> the shows you want.</p>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="about-money">Oh, it’s about the money too. Cord cutters save between $500 and $1,000 yearly when they switch to streaming services.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="still-confused ng-scope">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 confused">
+                <div class="still-explain">
+                    <h2>Still Confused and Need More Context?</h2>
+                    <button type="button" class="btn btn-primary btn-lg let-us-explain" onclick="location.href='#/explain/still-confused';">
+                        Let Us Explain
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="related-articles ng-scope">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 articles">
+                <h2 class="articles-title">What's the buzz about?</h2>
+                <h5>Check out these related articles</h5>
+
+                <div class="poster-row">
+                    <div class="poster btn square">
+                        <!--Image -->
+                        <img class="img-responsive poster-logo" src="/static/img/mashable-logo.png" alt="">
+                        <!--Article Title -->
+                        <div class="tart quickfit">Why millenials are increasingly cutting the cord.</div>
+                        <!--Read Article: Link -->
+                        <div class="article-link red-link">Read the Article</div>
+                        <!-- the following anchor tag and span is a temporary workaround to have the entire div clickable without making it a button -->
+                        <a href="http://mashable.com/2015/03/02/millennial-cord-cutter/" target="_blank">
+                            <span class="link-spanner"></span>
+                        </a>
+                    </div>
+                    <div class="poster btn square">
+                        <img class="img-responsive poster-logo" src="/static/img/time-logo.png" alt="">
+
+                        <div class="tart quickfit">7 Streaming TV Packages That Will Let You Cut the Cord For Good</div>
+                        <div class="article-link red-link">Read the Article</div>
+                        <a href="http://time.com/money/3963077/streaming-packages-cord-cutting-cable/" target="_blank">
+                            <span class="link-spanner"></span>
+                        </a>
+                    </div>
+                    <div class="poster btn square">
+                        <img class="img-responsive poster-logo" src="/static/img/nyt-logo.png" alt="">
+
+                        <div class="tart quickfit">Have You Cut the Cable Cord?</div>
+                        <div class="article-link red-link">Read the Article</div>
+                        <a href="http://takingnote.blogs.nytimes.com/2015/08/21/have-you-cut-the-cable-cord/" target="_blank">
+                            <span class="link-spanner"></span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+<!-- uiView: modal --><div ui-view="modal" class="ng-scope"></div>
+<!--  blog-->
+<!-- uiView: blog --><div ui-view="blog" class="ng-scope"></div>
+
+<!-- search -->
+<!-- uiView: search --><div ui-view="search" class="ng-scope"></div>
+
+<!--step one -->
+
+<!-- uiView:  --><div ui-view="" class="ng-scope"></div>
+
+
+<!-- uiView: footer --><div ui-view="footer" class="ng-scope"><footer class="ng-scope">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 footer">
+                <img class="img-responsive foot-pic foot-logo" src="/static/img/SS_Mark_white.png" alt="">
+                <img class="img-responsive foot-pic foot-name" src="/static/img/SS_Wordmark_White.png" alt="">
+                <div class="footer-right">
+                    <a href="#/error/coming-soon" target="_blank">About Us</a>
+                    <a href="#/error/coming-soon" target="_blank">Contact Us</a>
+                    <a href="https://www.facebook.com/pages/StreamSavvy/904023313005052"><i class="icon icon-facebook-official icon-2x" target="_blank"></i></a>
+                    <a href="https://twitter.com/streamsavvy"><i class="icon icon-twitter icon-2x" target="_blank"></i></a>
+                </div>
+                <!-- Google Tag Manager -->
+                    <noscript>&lt;iframe src="//www.googletagmanager.com/ns.html?id=GTM-KHF9ZT"
+                    height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;</noscript>
+                    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                    })(window,document,'script','dataLayer','GTM-KHF9ZT');</script>
+                <!-- End Google Tag Manager -->
+            </div>
+        </div>
+    </div>
+</footer></div>
+
+</div>
+    <div growl="" class="ng-isolate-scope"><div class="growl-container growl-fixed top-right" ng-class="wrapperClasses()"><!-- ngRepeat: message in growlMessages.directives[referenceId].messages --></div></div>
+
+    <!-- feed back form-->
+    <div ng-controller="FeedbackCtrl" class="ng-scope">
+
+        <!-- ngIf: isMobile --><div ng-if="isMobile" class="ng-scope"><angular-feedback options="options" class="ng-isolate-scope"></angular-feedback></div><!-- end ngIf: isMobile -->
+    </div>
+
+
+    <a id="facebook_login" href="/sociallogin/facebook/?next=/">login to facebook</a>
+    <a id="instagram_login" href="/sociallogin/instagram/?next=/">login to instagram</a>
+    <a id="twitter_login" href="/sociallogin/twitter/?next=/">login to twitter</a>
+
+
+    <div class="fb-like fb_iframe_widget" data-share="true" data-width="450" data-show-faces="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=123769897967344&amp;container_width=1170&amp;href=http%3A%2F%2F127.0.0.1%3A8000%2F%23%2F&amp;locale=en_US&amp;sdk=joey&amp;share=true&amp;show_faces=true&amp;width=450"><span style="vertical-align: bottom; width: 450px; height: 25px;"><iframe name="f3bd9cc4b" width="450px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:like Facebook Social Plugin" src="http://www.facebook.com/v2.4/plugins/like.php?app_id=123769897967344&amp;channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D42%23cb%3Df153bde1a%26domain%3D127.0.0.1%26origin%3Dhttp%253A%252F%252F127.0.0.1%253A8000%252Ff2a4d6ef44%26relation%3Dparent.parent&amp;container_width=1170&amp;href=http%3A%2F%2F127.0.0.1%3A8000%2F%23%2F&amp;locale=en_US&amp;sdk=joey&amp;share=true&amp;show_faces=true&amp;width=450" style="border: none; visibility: visible; width: 450px; height: 25px;" class=""></iframe></span></div>
+
+
+    <script src="/static/jquery/dist/jquery.js"></script>
+    <script src="/static/angular/angular.js"></script>
+    <script src="/static/angular-mocks/angular-mocks.js"></script>
+    <script src="/static/angular-resource/angular-resource.js"></script>
+    <script src="/static/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/static/angular-cookies/angular-cookies.js"></script>
+    <script src="/static/slick-carousel/slick/slick.js"></script>
+    <script src="/static/angular-slick/dist/slick.js"></script>
+    <script src="/static/all.js"></script>
+    <script src="/static/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/static/lodash/lodash.js"></script>
+    <script src="/static/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/static/angular-animate/angular-animate.js"></script>
+    <script src="/static/fuse.js/src/fuse.min.js"></script>
+    <script src="https://use.fonticons.com/b92fc55f.js"></script>
+    <script src="/static/angular-send-feedback/dist/angular-send-feedback.js"></script>
+    <script src="/static/html2canvas/build/html2canvas.js"></script>
+    <script src="/static/angular-growl-v2/build/angular-growl.js"></script>
+
+
+</div><div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_http" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="Facebook Cross Domain Communication Frame" aria-hidden="true" tabindex="-1" id="fb_xdm_frame_http" src="http://staticxx.facebook.com/connect/xd_arbiter.php?version=42#channel=f2a4d6ef44&amp;origin=http%3A%2F%2F127.0.0.1%3A8000" style="border: none;"></iframe><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="Facebook Cross Domain Communication Frame" aria-hidden="true" tabindex="-1" id="fb_xdm_frame_https" src="https://staticxx.facebook.com/connect/xd_arbiter.php?version=42#channel=f2a4d6ef44&amp;origin=http%3A%2F%2F127.0.0.1%3A8000" style="border: none;"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div></div>
+
+
+
+
+<link rel="stylesheet" href="/static/debug_toolbar/css/print.css" type="text/css" media="print">
+<link rel="stylesheet" href="/static/debug_toolbar/css/toolbar.css" type="text/css">
+
+<!-- Prevent our copy of jQuery from registering as an AMD module on sites that use RequireJS. -->
+<script src="/static/debug_toolbar/js/jquery_pre.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/static/debug_toolbar/js/jquery_post.js"></script>
+
+<script src="/static/debug_toolbar/js/toolbar.js"></script>
+<div id="djDebug" hidden="hidden" dir="ltr" data-store-id="6a64548cfe214ffa897c2a44638e7149" data-render-panel-url="/__debug__/render_panel/" style="display: block;">
+	<div hidden="hidden" id="djDebugToolbar" style="">
+		<ul id="djDebugPanelList">
+
+			<li><a id="djHideToolBarButton" href="#" title="Hide toolbar">Hide »</a></li>
+
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtVersionsPanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="Versions" class="VersionsPanel">
+
+					Versions
+
+
+						<br><small>Django 1.8.2</small>
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtTimerPanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="Time" class="TimerPanel">
+
+					Time
+
+
+						<br><small>CPU: 396.70ms (398.36ms)</small>
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtSettingsPanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="Settings from <code>cutthecord.settings</code>" class="SettingsPanel">
+
+					Settings
+
+
+
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtHeadersPanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="Headers" class="HeadersPanel">
+
+					Headers
+
+
+
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtRequestPanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="Request" class="RequestPanel">
+
+					Request
+
+
+						<br><small>TemplateView</small>
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtSQLPanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="SQL queries from 0 connections" class="SQLPanel">
+
+					SQL
+
+
+						<br><small>0 queries in 0.00ms</small>
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtStaticFilesPanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="Static files (555 found, 22 used)" class="StaticFilesPanel">
+
+					Static files
+
+
+						<br><small>22 files used</small>
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtTemplatesPanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="Templates (1 rendered)" class="TemplatesPanel">
+
+					Templates
+
+
+						<br><small>index.html</small>
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtCachePanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="Cache calls from 1 backend" class="CachePanel">
+
+					Cache
+
+
+						<br><small>0 calls in 0.00ms</small>
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtSignalsPanel" checked="checked" title="Disable for next and successive requests">
+
+						<a href="#" title="Signals" class="SignalsPanel">
+
+					Signals
+
+
+						<br><small>15 receivers of 12 signals</small>
+
+
+
+						</a>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtLoggingPanel" title="Enable for next and successive requests">
+
+						<div class="djdt-contentless djdt-disabled">
+
+					Logging
+
+
+						</div>
+
+				</li>
+
+				<li class="djDebugPanelButton">
+					<input type="checkbox" data-cookie="djdtRedirectsPanel" title="Enable for next and successive requests">
+
+						<div class="djdt-contentless djdt-disabled">
+
+					Intercept redirects
+
+
+						</div>
+
+				</li>
+
+		</ul>
+	</div>
+	<div hidden="hidden" id="djDebugToolbarHandle" style="display: block;">
+		<span title="Show toolbar" id="djShowToolBarButton">«</span>
+	</div>
+
+
+			<div id="VersionsPanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>Versions</h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+
+
+
+			<div id="TimerPanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>Time</h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+
+
+
+			<div id="SettingsPanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>Settings from <code>cutthecord.settings</code></h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+
+
+
+			<div id="HeadersPanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>Headers</h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+
+
+
+			<div id="RequestPanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>Request</h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+
+
+
+			<div id="SQLPanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>SQL queries from 0 connections</h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+
+
+
+			<div id="StaticFilesPanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>Static files (555 found, 22 used)</h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+
+
+
+			<div id="TemplatesPanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>Templates (1 rendered)</h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+
+
+
+			<div id="CachePanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>Cache calls from 1 backend</h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+
+
+
+			<div id="SignalsPanel" class="djdt-panelContent" style="display: none;">
+				<div class="djDebugPanelTitle">
+					<a href="" class="djDebugClose"></a>
+					<h3>Signals</h3>
+				</div>
+				<div class="djDebugPanelContent">
+
+					<img src="/static/debug_toolbar/img/ajax-loader.gif" alt="loading" class="djdt-loader">
+					<div class="djdt-scroll"></div>
+
+				</div>
+			</div>
+		
+
+
+
+
+
+	<div id="djDebugWindow" class="djdt-panelContent" style="display: none;"></div>
+</div>
+
+
+<button class="feedback-btn feedback-btn-gray" style="display: none;">Send feedback</button><div id="feedback-module" style="position: absolute; left: 0px; top: 0px;"><div id="feedback-highlighter" style="display: block;"><div class="feedback-logo">Feedback</div><p>Click and drag on the page to help us better understand your feedback. You can move this dialog if it's in the way.</p><button class="feedback-sethighlight feedback-active"><div class="ico"></div><span>Highlight</span></button><label>Highlight areas relevant to your feedback.</label><button class="feedback-setblackout"><div class="ico"></div><span>Black out</span></button><label class="lower">Black out any personal information.</label><div class="feedback-buttons"><button id="feedback-highlighter-next" class="feedback-next-btn feedback-btn-gray">Next</button></div><div class="feedback-wizard-close"></div></div><div id="feedback-overview"><div class="feedback-logo">Feedback</div><div id="feedback-overview-description"><div id="feedback-overview-description-text"><h3>Description</h3><h3 class="feedback-additional">Additional info</h3><div id="feedback-additional-none"><span>None</span></div><div id="feedback-browser-info" style="display: block;"><span>Browser Info</span></div><div id="feedback-page-info" style="display: block;"><span>Page Info</span></div><div id="feedback-page-structure"><span>Page Structure</span></div></div></div><div id="feedback-overview-screenshot"><h3>Screenshot</h3></div><div class="feedback-buttons"><button id="feedback-submit" class="feedback-submit-btn feedback-btn-blue">Submit</button><button id="feedback-overview-back" class="feedback-back-btn feedback-btn-gray">Back</button></div><div id="feedback-overview-error">Please enter a description.</div><div class="feedback-wizard-close"></div></div><canvas id="feedback-canvas" width="1920" height="2889" style="z-index: 30000; cursor: crosshair;"></canvas><div id="feedback-helpers"></div><input id="feedback-note" name="feedback-note" type="hidden"></div></body>
