@@ -3063,7 +3063,8 @@ slick button {
 
 .still-confused .you-ready {
   text-align: center;
-  padding: 0; }
+  padding: 0;
+  background-color: white; }
 
 .still-confused .action-blue {
   color: #45a7e5; }
