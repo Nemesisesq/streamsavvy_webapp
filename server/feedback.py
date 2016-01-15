@@ -28,8 +28,7 @@ class FeedbackView(CsrfExemptMixin, View):
         reader = codecs.getreader("utf-8")
 
         re = request.REQUEST['feedback']
-        # req = request.body.decode('utf-8')
-        # s = re.decode('utf-8')
+       
 
         the_json = json.loads(re)
 
