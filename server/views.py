@@ -13,6 +13,7 @@ from django.views.generic import View
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 
+from cutthecord import settings
 from server.models import *
 from server.permissions import IsAdminOrReadOnly
 from server.populate_data.guidebox import GuideBox
@@ -78,7 +79,7 @@ class ShowChannelsView(View):
         return JsonResponse(channel_set, safe=False)
 
 
-class  JsonPackageView(View):
+class JsonPackageView(View):
     def get(self, request):
 
         self.logger = logging.getLogger('cutthecord')
@@ -88,6 +89,8 @@ class  JsonPackageView(View):
         except:
             pkg = ''
         if pkg != '': pkg = json.loads(pkg, encoding='utf-8')
+        pkg['env'] = 'debug' if settings.DEBUG else 'production'
+
         return JsonResponse(pkg, safe=False)
 
     def post(self, request):

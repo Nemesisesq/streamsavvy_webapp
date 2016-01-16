@@ -18,10 +18,13 @@
 </script>
 
 <section class="grid-section">
+
     <div class="container-fluid">
         <div class="row step-one">
             <div class="col-lg-12">
                 <div class="row accordion" ng-controller="AccordionController as crtl">
+
+                    <button ng-if="env === 'debug'" ng-click="clearContent()">clear content</button>
                     <uib-accordion close-others="true">
 
                         <uib-accordion-group template-url="group-template.html"

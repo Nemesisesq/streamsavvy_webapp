@@ -1,5 +1,13 @@
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
+    $scope.clearContent = function () {
+        var pkg = PackageFactory.getPackage()
+
+        pkg.content = []
+
+        PackageFactory.setPackage(pkg)
+    }
+
     $scope.showTotal = function (content) {
 
 

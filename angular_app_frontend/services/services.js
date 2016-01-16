@@ -31,6 +31,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
     var _package = {};
 
+    var _env = ""
+
     var _test = 1;
 
 
@@ -165,9 +167,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 
 
-app.run(function (PackageFactory, $http, http) {
+app.run(function (PackageFactory, $http, http, $rootScope) {
     $http.get('/json-package/')
         .then(function (data) {
+            debugger;
+            $rootScope.env = data.data.env
 
             console.log(data);
 

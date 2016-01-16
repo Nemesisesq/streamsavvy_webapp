@@ -11,9 +11,15 @@ app.config(function ($httpProvider, $provide) {
 
         return {
             'request' : function (config) {
-                debugger;
                 var x = config
                 return config
+            },
+
+            'response' : function (response) {
+
+
+
+                return response
             }
         }
         
