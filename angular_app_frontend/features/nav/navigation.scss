@@ -123,3 +123,12 @@ a.navbarLink {
   }
 }
 
+@media( min-width: 1366px){
+  .j-one-container {
+    .navbar-fixed-top {
+      max-width:100%;
+    }
+  }
+}
+
+
