@@ -630,6 +630,10 @@ footer {
   .collapse {
     display: block !important; } }
 
+@media (max-width: 1366px) {
+  .container {
+    width: 100% !important; } }
+
 /*!
  *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
