@@ -89,7 +89,7 @@ class JsonPackageView(View):
         except:
             pkg = ''
         if pkg != '': pkg = json.loads(pkg, encoding='utf-8')
-        pkg['env'] = 'debug' if settings.DEBUG else 'production'
+        #pkg['env'] = 'debug' if settings.DEBUG else 'production'
 
         return JsonResponse(pkg, safe=False)
 
