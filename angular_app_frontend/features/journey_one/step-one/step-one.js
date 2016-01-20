@@ -193,8 +193,8 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         PackageFactory.setPackage($scope.package)
     }
 
-    $scope.$watchCollection('package.content', function () {
-
-        PackageFactory.setPackage($scope.package)
-    })
+    //$scope.$watchCollection('package.content', function () {
+    //
+    //    PackageFactory.setPackage($scope.package)
+    //})
 });

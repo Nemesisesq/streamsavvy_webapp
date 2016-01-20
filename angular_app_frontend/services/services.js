@@ -49,7 +49,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         postPackage: function (ssPackage) {
 
-
+            debugger;
             $http.post('/json-package/', ssPackage);
         },
 

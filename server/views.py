@@ -140,7 +140,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 class HardwareViewSet(viewsets.ModelViewSet):
     queryset = Hardware.objects.all()
     serializer_class = HardwareSerializer
-
+2
 
 class ContentProviderViewSet(viewsets.ModelViewSet):
     queryset = ContentProvider.objects.all()

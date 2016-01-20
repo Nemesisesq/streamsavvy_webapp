@@ -383,9 +383,9 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
                 PackageFactory.setPackage(scope.package)
             }
 
-            scope.$watchCollection('package.content', function () {
-                PackageFactory.setPackage(scope.package)
-            });
+            //scope.$watchCollection('package.content', function () {
+            //    PackageFactory.setPackage(scope.package)
+            //});
 
             scope.prePopulateWindowProvider = function (content, prop) {
 
@@ -740,7 +740,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         postPackage: function (ssPackage) {
 
-
+            debugger;
             $http.post('/json-package/', ssPackage);
         },
 
@@ -885,20 +885,6 @@ app.factory('Fuse', function ($window) {
 })
 
 /**
- * Created by Nem on 12/29/15.
- */
-
-app.controller('FeedbackCtrl', function ($scope) {
-   
-    $scope.isMobile = window.innerWidth > 540;
-
-    $scope.options = {
-        ajaxURL: 'feedback/',
-        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
-
-    }
-})
-/**
  * Created by Nem on 10/7/15.
  */
 
@@ -932,125 +918,19 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 });
 
 /**
- * Created by Nem on 6/28/15.
+ * Created by Nem on 12/29/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG) {
-    $scope.isHomePage = $state.current.data.isHomePage;
 
-    $scope.hmdc = $state.current.data.hmdcActive;
+app.controller('FeedbackCtrl', function ($scope) {
+   
+    $scope.isMobile = window.innerWidth > 540;
 
-    $scope.logout = function () {
-        debugger
-        $location.path(CONFIG.URL +'/django_auth/logout/');
-            //.success(function () {
-            //    $rootScope.logged_in = false;
-            //    console.log($rootScope.logged_in)
-            //})
+    $scope.options = {
+        ajaxURL: 'feedback/',
+        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
+
     }
-
-
-});
-
-app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false
-    console.log($rootScope.logged_in)
-
 })
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
-});
-
-
 function slingInProviders(suggestion) {
     return _.some(suggestion.content_provider, 'name', 'SlingTv');
 }
@@ -1333,6 +1213,126 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 });
 
 
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
+
+
+        return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
+});
+
+
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG) {
+    $scope.isHomePage = $state.current.data.isHomePage;
+
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.logout = function () {
+        debugger
+        $location.path(CONFIG.URL +'/django_auth/logout/');
+            //.success(function () {
+            //    $rootScope.logged_in = false;
+            //    console.log($rootScope.logged_in)
+            //})
+    }
+
+
+});
+
+app.run(function ($rootScope) {
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false
+    console.log($rootScope.logged_in)
+
+})
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
@@ -1664,10 +1664,10 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
         PackageFactory.setPackage($scope.package)
     }
 
-    $scope.$watchCollection('package.content', function () {
-
-        PackageFactory.setPackage($scope.package)
-    })
+    //$scope.$watchCollection('package.content', function () {
+    //
+    //    PackageFactory.setPackage($scope.package)
+    //})
 });
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 

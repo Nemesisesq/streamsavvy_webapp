@@ -50,9 +50,9 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
                 PackageFactory.setPackage(scope.package)
             }
 
-            scope.$watchCollection('package.content', function () {
-                PackageFactory.setPackage(scope.package)
-            });
+            //scope.$watchCollection('package.content', function () {
+            //    PackageFactory.setPackage(scope.package)
+            //});
 
             scope.prePopulateWindowProvider = function (content, prop) {
 
