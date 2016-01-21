@@ -14,7 +14,7 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
                 case "Netflix":
                     $scope.package.providers[i].home_url = "https://www.netflix.com/";
                     break;
-                case "HBO Now":
+                case "HBO NOW":
                     $scope.package.providers[i].home_url = "https://order.hbonow.com/";
                     break;
                 case "Sling TV (ESPN)":
