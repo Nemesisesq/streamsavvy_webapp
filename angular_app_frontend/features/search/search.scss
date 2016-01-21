@@ -7,7 +7,9 @@
   z-index: 3;
 
 
+  .dropdown-menu .ng-isolate-scope {
 
+  }
   input {
     height: 61px;
     &.form-control {
@@ -39,7 +41,7 @@
   }
 }
 
-.suggestions-list {
+ul[id^='typeahead-'], .suggestions-list {
   left: 0;
   right: 0;
   margin: auto;

@@ -8,6 +8,14 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     var nShows = [];
 
+    $scope.modelOptions = {
+        debounce: {
+            default: 500,
+            blur: 250
+        },
+        getterSetter: true
+    };
+
 
     var nChannel = {
         display_name: "Netflix",
@@ -61,13 +69,12 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
     }
 
-    $scope.search = _.debounce(function () {
-        if ($scope.searchText) {
-
+    $scope.search = function (val) {
+        if (val) {
             //$scope.suggestions = [];
-            $http.get('/api/search?q=' + $scope.searchText)
-                .success(function (data) {
-
+            return $http.get('/api/search?q=' + val)
+                .then(function(data) {
+                    debugger;
 
                     //var res = _.min(data.results, function (elem) {
                     //    return elem.title.length
@@ -81,31 +88,34 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                     //
                     //}
 
-                    var sorted = _.sortBy(data.results, function (elem) {
+                    var sorted = _.sortBy(data.data.results, function (elem) {
 
 
                         return elem.title.length
 
                     })
 
-                    if (data.searchText == $scope.searchText) {
+                    if (data.data.searchText == val) {
                         $scope.suggestions = sorted;
+
+                        return sorted
                     }
 
                     $scope.selectedIndex = -1
                 });
         } else {
             $scope.suggestions = [];
+            return "hello world"
         }
-    }, 250, {'maxWait': 1000});
+    };
 
-    $rootScope.addToSelectedShows = function (suggestion) {
+    $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
 
 
         var ssPackage = PackageFactory.getPackage();
         debugger;
 
-        if(_.some(ssPackage.content, 'title' ,suggestion.title)){
+        if (_.some(ssPackage.content, 'title', suggestion.title)) {
             growl.warning('You already added ' + suggestion.title + ' to your package!')
             return
         }
@@ -117,7 +127,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                 source: "sling_tv",
                 type: "live_online_tv"
             }
-
 
 
             if (slingInProviders(suggestion)) {
@@ -138,7 +147,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
                     var opts = {
                         keys: ['name'],
-                        threshold:.2
+                        threshold: .2
 
                     }
 
@@ -151,7 +160,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                     chans = _.uniq(chans.concat(suggestion.content_provider), function (elem) {
                         var x;
 
-                        elem.display_name == undefined ? x = elem.name : x= elem.display_name;
+                        elem.display_name == undefined ? x = elem.name : x = elem.display_name;
 
                         return x;
 
@@ -162,8 +171,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                             elem.display_name = elem.name;
                             elem.type = elem.channel_type;
                         }
-
-
 
 
                         return elem
@@ -188,7 +195,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
                     chans = _.map(chans, function (elem) {
                         //debugger;
-                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && ! _.includes(elem.display_name.toLowerCase(), 'now') || isNetworkShow(elem.display_name)) {
+                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && !_.includes(elem.display_name.toLowerCase(), 'now') || isNetworkShow(elem.display_name)) {
                             elem.display_name = elem.display_name + ' Over the Air'
 
                             return elem
@@ -208,7 +215,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
                         }
 
-                        if(!_.isEmpty(sPrices.search(elem.display_name))){
+                        if (!_.isEmpty(sPrices.search(elem.display_name))) {
                             var res = sPrices.search(elem.display_name)
                             elem.price = res[0].price
                         }

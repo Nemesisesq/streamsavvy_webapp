@@ -49,7 +49,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         postPackage: function (ssPackage) {
 
-            debugger;
+            //debugger;
             $http.post('/json-package/', ssPackage);
         },
 
@@ -63,7 +63,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         updatePackageChannels: function (scope) {
-            debugger;
+            //debugger;
 
             if (scope.package.content.length == 0) {
                 scope.package.providers = [];
@@ -170,7 +170,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 app.run(function (PackageFactory, $http, http, $rootScope) {
     $http.get('/json-package/')
         .then(function (data) {
-            debugger;
             $rootScope.env = data.data.env
 
             console.log(data);

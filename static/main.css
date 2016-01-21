@@ -3427,7 +3427,7 @@ slick button {
     margin-top: 5%;
     margin-bottom: 10px; }
 
-.suggestions-list {
+ul[id^='typeahead-'], .suggestions-list {
   left: 0;
   right: 0;
   margin: auto;
@@ -3441,7 +3441,7 @@ slick button {
   z-index: 1;
   background-color: #ffffff;
   border: 1px solid #cccccc; }
-  .suggestions-list li {
+  ul[id^='typeahead-'] li, .suggestions-list li {
     list-style: none;
     font-size: 130%;
     color: #555555; }
