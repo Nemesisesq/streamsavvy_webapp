@@ -6,7 +6,6 @@
   max-width: 808px;
   z-index: 3;
 
-
   .dropdown-menu .ng-isolate-scope {
 
   }
@@ -63,3 +62,57 @@ ul[id^='typeahead-'], .suggestions-list {
     color: #555555;
   }
 }
+
+@keyframes loader {
+
+  from {
+    transform: rotatey(0deg);
+  }
+
+  to {
+    transform: rotatey(360deg);
+  }
+}
+
+@keyframes loader-fade {
+  from {
+    opacity: 100;
+  }
+
+  to {
+    opacity:0;
+  }
+
+}
+
+.loader {
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    margin-left: -50px;
+    z-index: 100;
+
+  img {
+    max-height: 100px;
+    max-width: 100px;
+
+
+
+    animation-name: loader;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  p {
+    animation-name: loader-fade;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in;
+    text-align: center;
+
+    font-size: 30px;
+  }
+}
+
