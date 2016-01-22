@@ -13,7 +13,6 @@ from django.views.generic import View
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 
-from cutthecord import settings
 from server.models import *
 from server.permissions import IsAdminOrReadOnly
 from server.populate_data.guidebox import GuideBox
@@ -187,6 +186,10 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         return response
 
     def get_queryset(self):
+        query_string = self.request.GET['q']
+        if cache.get(query_string):
+            return cache.get(query_string)
+
         search_results = content_search(self.request)
         filter_results = self.filter_query([165], search_results)
 
@@ -194,7 +197,6 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
             g = GuideBox()
 
             if ('q' in self.request.GET) and self.request.GET['q'].strip():
-                query_string = self.request.GET['q']
                 result = g.get_show_by_title(query_string)
 
                 result = result['results']
@@ -209,6 +211,8 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         # filter_results['search_term'] = self
 
         filter_results = list(filter(self.filter_by_guidebox_id, filter_results))
+
+        cache.set(query_string, filter_results)
 
         return filter_results
 
