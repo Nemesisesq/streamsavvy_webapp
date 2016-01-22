@@ -73,7 +73,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         if (val) {
             //$scope.suggestions = [];
             return $http.get('/api/search?q=' + val)
-                .then(function(data) {
+                .then(function (data) {
                     debugger;
 
                     //var res = _.min(data.results, function (elem) {
@@ -143,6 +143,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         }
 
         if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
+            $scope.loading = true
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
 
@@ -231,6 +232,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                     suggestion.isOpen = true;
                     ssPackage.content.push(suggestion);
                     PackageFactory.setPackage(ssPackage);
+
+                    $scope.loading = false
                 })
         } else {
             if (suggestion.channels === undefined) {

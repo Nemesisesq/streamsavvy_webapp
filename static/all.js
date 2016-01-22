@@ -884,10 +884,6 @@ app.factory('Fuse', function ($window) {
 })
 
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by Nem on 12/29/15.
  */
 
@@ -901,6 +897,10 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
 /**
  * Created by chirag on 8/3/15.
  */
@@ -1125,7 +1125,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         if (val) {
             //$scope.suggestions = [];
             return $http.get('/api/search?q=' + val)
-                .then(function(data) {
+                .then(function (data) {
                     debugger;
 
                     //var res = _.min(data.results, function (elem) {
@@ -1195,6 +1195,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         }
 
         if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
+            $scope.loading = true
             $http.get('/channels/' + suggestion.guidebox_id)
                 .then(function (data) {
 
@@ -1283,6 +1284,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                     suggestion.isOpen = true;
                     ssPackage.content.push(suggestion);
                     PackageFactory.setPackage(ssPackage);
+
+                    $scope.loading = false
                 })
         } else {
             if (suggestion.channels === undefined) {
