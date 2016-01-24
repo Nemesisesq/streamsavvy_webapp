@@ -195,7 +195,7 @@ DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
 x = urlparse(os.environ.get('REDISCLOUD_URL'))
 y = x.path
 z = x.netloc
-redis_url = urlparse(os.environ.get('REDISCLOUD_URL'))
+redis_url = urlparse(os.environ.get('REDIS_URL'))
 
 CACHES = {
     'default': {
