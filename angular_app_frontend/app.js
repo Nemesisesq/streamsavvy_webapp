@@ -174,6 +174,45 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
             templateUrl: "/static/partials/journey-one.html",
             data: {hmdcActive: true}
         })
+        .state('dash', {
+            templateUrl: '/static/partials/dashboard.html',
+            abstract: true
+        })
+        .state('dash.dashboard', {
+            url: '/dashboard',
+            data: {
+                hello: 'hello world'
+            },
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'progress': {
+                    templateUrl: 'static/partials/progress.html',
+                    controller: 'ProgressController'
+                },
+                'search': {
+                    templateUrl: 'static/partials/search.html',
+                    controller: 'search'
+                },
+                shows: {
+                    templateUrl: '/static/partials/step-one/step-one.html',
+                    controller: 'StepOneController'
+                },
+                services: {
+                    templateUrl: '/static/partials/step-two/step-two.html',
+                    controller: 'StepTwoController'
+                },
+                hardware: {
+                    templateUrl: '/static/partials/step-three/step-three.html',
+                    controller: 'StepThreeController'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            }
+        })
         .state('journey-one.step-one', {
             url: '/getting-started/step/1',
             data: {
