@@ -311,17 +311,17 @@ LOGGING = {
 
 RQ_QUEUES = {
     'default': {
-        'URL': os.getenv('REDISCLOUD_URL', 'redis://localhost:6379'),
+        'URL': os.getenv('REDIS_URL', 'redis://localhost:6379'),
         'DB': 0,
         'DEFAULT_TIMEOUT': 360,
     },
     'high': {
-        'URL': os.getenv('REDISCLOUD_URL', 'redis://localhost:6379'),  # If you're on Heroku
+        'URL': os.getenv('REDIS_URL', 'redis://localhost:6379'),  # If you're on Heroku
         'DB': 0,
         'DEFAULT_TIMEOUT': 500,
     },
     'low': {
-        'URL': os.getenv('REDISCLOUD_URL', 'redis://localhost:6379'),
+        'URL': os.getenv('REDIS_URL', 'redis://localhost:6379'),
         'DB': 0,
     }
 }
