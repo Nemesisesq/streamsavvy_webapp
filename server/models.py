@@ -11,6 +11,7 @@ class AnonymousUser(User):
     def is_authenticated(self):
         return False
 
+
     def __str__(self):
         return "{}".format(self.username)
 
