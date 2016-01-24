@@ -33,7 +33,7 @@ def is_debug():
         return True
     return False
 
-DEBUG = is_debug()
+DEBUG = True
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 
