@@ -265,7 +265,7 @@ hr {
   border-color: black; }
 
 .nav-hero {
-  background-image: url("/static/img/ss_background.jpg");
+  background-image: url("https://s3.amazonaws.com/streamsavvy/ss_background.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
