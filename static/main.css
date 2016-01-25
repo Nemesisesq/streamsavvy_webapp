@@ -265,7 +265,7 @@ hr {
   border-color: black; }
 
 .nav-hero {
-  background-image: url("/static/img/ss_background.jpg");
+  background-image: url("https://s3.amazonaws.com/streamsavvy/ss_background.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
@@ -649,7 +649,7 @@ footer {
 
 .fa, .step-one label .vw-info:after, .step-one .selected label:before, slick button.slick-prev:before, slick button.slick-next:after {
   display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -694,7 +694,7 @@ footer {
     left: -1.85714em; }
 
 .fa-border {
-  padding: .2em .25em .15em;
+  padding: 0.2em 0.25em 0.15em;
   border: solid 0.08em #eee;
   border-radius: .1em; }
 
