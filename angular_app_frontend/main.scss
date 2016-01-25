@@ -31,6 +31,7 @@
 @import 'features/blog/blog-one/blog-one';
 @import 'features/blog/blog-two/blog-two';
 @import 'features/blog/blog-three/blog-three';
+@import 'features/dashboard/dashboard';
 
 
 html,
@@ -43,6 +44,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 div ui-view {
   max-width: 1024px;
+}
+
+.container{
+  width: 100%;
 }
 
 

@@ -239,7 +239,7 @@ body {
 .glyphicon-chevron-down {
   right: -1px; }
 
-.container {
+.container, .dashboard {
   padding: 0; }
 
 h1, h2, h3, h5, p, div {
@@ -631,7 +631,7 @@ footer {
     display: block !important; } }
 
 @media (max-width: 1366px) {
-  .container {
+  .container, .dashboard {
     width: 100% !important; } }
 
 /*!
@@ -3627,10 +3627,6 @@ a.navbarLink {
   .nav li {
     float: right; } }
 
-@media (min-width: 1366px) {
-  .j-one-container .navbar-fixed-top {
-    max-width: 100%; } }
-
 .money {
   background: white; }
 
@@ -3659,6 +3655,16 @@ a.navbarLink {
     background-color: #14B23E;
     color: #ffffff; }
 
+.dashboard {
+  background-color: white; }
+  .dashboard .navbar-fixed-top.ng-scope {
+    position: relative; }
+  .dashboard .search-bar {
+    height: 50px;
+    padding: 0; }
+  .dashboard .services {
+    height: 10%; }
+
 html,
 button,
 input,
@@ -3668,3 +3674,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 div ui-view {
   max-width: 1024px; }
+
+.container, .dashboard {
+  width: 100%; }

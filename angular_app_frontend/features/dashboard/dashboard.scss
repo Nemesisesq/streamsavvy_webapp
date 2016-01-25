@@ -1,0 +1,22 @@
+.dashboard {
+
+  @extend .container;
+
+  background-color :white;
+
+  .navbar-fixed-top.ng-scope {
+    position: relative;
+  }
+
+  .search-bar {
+    height: 50px;
+    padding: 0;
+  }
+
+  .services {
+    height : 10%
+  }
+
+
+}
+

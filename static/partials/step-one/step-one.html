@@ -1,4 +1,6 @@
-<title>Step 1</title>
+<title>shows</title>
+
+
 <meta name="Step 1 - Shows, Services, and Viewing windows"
       content="Figure out which steaming services and devices you need based on the shows you actually watch. Search for your shows and select applicable services.">
 <script type="text/ng-template" id="group-template.html">
@@ -17,13 +19,13 @@
 </script>
 
 <section class="grid-section">
-
+<h2>Shows</h2>
     <div class="container-fluid">
         <div class="row step-one">
             <div class="col-lg-12">
                 <div class="row accordion" ng-controller="AccordionController as crtl">
 
-                    <button ng-if="env === 'debug'" ng-click="clearContent()">clear content</button>
+                    <button ng-click="clearContent()">clear content</button>
                     <uib-accordion close-others="true">
 
                         <uib-accordion-group template-url="group-template.html"
@@ -104,18 +106,6 @@
         </div>
     </div>
 </section>
-<section>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12 shows-bottom">
-                <button type="button" class="btn btn-primary btn-lg btn-red search-next-show"
-                        onclick="location.href='#/getting-started/step/2';">Let's Move To Step 2
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="pop-show-section">
     <div class="row">
         <span class="pop-show-header">Popular Show Searches</span>
@@ -123,12 +113,13 @@
     </div>
 
     <div class="row">
-        <slick infinite=true arrows=true slides-to-show="3" init-onload=true data="popularShows"
+        <!-- <slick infinite=true arrows=true slides-to-show="3" init-onload=true data="popularShows"
                ng-if="popularShows.length">
             <div ng-repeat="show in popularShows track by $index" ng-click="addToSelectedShows(show)">
                 <img ng-src="{{ show.thumbnail_medium }} " alt=""/>
             </div>
-        </slick>
+        </slick> -->
+        
 
 
     </div>

@@ -1,16 +1,20 @@
-<div class="j-one-container">
+<div class="dashboard">
     <div ui-view="navigation" class="navbar-fixed-top"></div>
 
-    <div ui-view="progress" class="journey-one-status"></div>
-    <div ui-view="search" class="journey-one"></div>
-    <div ui-view="modal" class="journey-one"></div>
+    <!-- <div ui-view="progress" class="journey-one-status"></div> -->
+    <div ui-view="search" class="row"></div>
 
 
-    <div ui-view="shows" class="journey-one"></div>
-    <div ui-view="services" class="journey-one"></div>
-    <div ui-view="hardware" class="journey-one"></div>
-
+    <div class="row dash">
+        <div ui-view="shows" class="col-sm-6 shows"></div>
+        <div class="col-sm-6">
+            <div ui-view="services" class="col-lg-12 services"></div>
+            <div ui-view="hardware" class="col-lg-12 hardware"></div>
+        </div>
+    </div>
 
 
     <div ui-view="footer"></div>
+    <div ui-view="modal" class="journey-one"></div>
+
 </div>
