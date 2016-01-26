@@ -1,25 +1,8 @@
-<title>Step 3</title>
-<meta name="Step 3 - Confirmation page" content="">
-<section>
-    <div class="container-fluid step-four">
-        <!-- Show  and services -->
 
-        <div class="row row-centered">
-            <h1 class="lets-wrap">
-                Now go make it happen.
-            </h1>
-            <h4>So, yeah. You’re not going to buy anything on this page. We’ve listed your selections below and provided
-                you with links to sign up for the services or buy the devices. Basically, we’re your guide on the
-                journey to saving money while watching your fave shows. Oh, and check out that estimated total you
-                should expect to spend - should be far less than cable. </h4>
 
-            <a href="https://www.surveymonkey.com/r/GTWPMZS" target="_blank" style="font-size: 30px">Click here to give us your feedback</a>
-
-        </div>
         <div class="row">
 
             <div class="col-md-8 summary-list"><h3 class="services-header">Services</h3>
-                <div class="click-on"><p>Click on the service and you'll be redirected to the appropriate site.</p>
                 </div>
                 <div class="row service-rows" ng-repeat="provider in package.providers  ">
                     <div class=" summary-service">
@@ -34,33 +17,4 @@
                         <a target="_blank" href="{{ item.home_url }}" rel="nofollow">{{ item.name }}</a>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 price-list">
-                <div><h3 class="total-header">Monthly Total:<span class="total-cost">${{ servicesTotal || "0.00" }}</span></h3>
-                </div>
-                <div class="totals">
-                    <div class="hardware-total"><label>Hardware Total:</label> <span
-                            class="hardware-cost">${{ hardwareTotal || "0.00" }}</span></div>
-                </div>
-            </div>
-        </div>
 
-    </div>
-</section>
-
-<section>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12 summary-bottom">
-                <div class="row">
-
-                        <a class="back-to-hardware" onClick="location.href='#/getting-started/step/2'">
-                        Back to Selecting Hardware
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-</section>
