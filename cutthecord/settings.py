@@ -58,6 +58,8 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'django_rq',
     'debug_toolbar',
+    'django_behave',
+    'titan',
 
 )
 
