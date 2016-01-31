@@ -17,6 +17,7 @@ click==5.1
 defusedxml==0.4.1
 dj-database-url==0.3.0
 dj-static==0.0.6
+django-behave==0.1.5
 django-braces==1.8.1
 django-debug-toolbar==1.4
 django-extensions==1.5.5
