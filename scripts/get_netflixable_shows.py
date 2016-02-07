@@ -28,7 +28,7 @@ def get_shows(x):
 
 def run(*args, **kwargs):
     # create instance of netflixable
-    if len(args) >= 0:
+    if len(args) <= 0:
         host = 'http://usa.netflixable.com'
 
         with urllib.request.urlopen(host) as response:
@@ -39,7 +39,8 @@ def run(*args, **kwargs):
 
         ref_list = soup.find_all(href=alpha_list)
 
-        url = host + ref_list[0].get('href')
+        url = 'http://usa.netflixable.com/2016/01/complete-alphabetical-list-sat-jan-23.html'
+
 
 
 
