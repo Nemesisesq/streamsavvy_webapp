@@ -3,6 +3,7 @@
 
 import requests
 from bs4 import BeautifulSoup
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import View
 
@@ -12,7 +13,7 @@ class GuideTestView(View):
         t = TitanCrawler()
 
         guide = t.run()
-        return render(request, template_name='guide.html', context={'guide' : guide})
+        return JsonResponse(guide, safe=False)
 
 
 def html_to_dict(i):
