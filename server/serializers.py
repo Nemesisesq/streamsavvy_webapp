@@ -77,3 +77,10 @@ class PackagesSerializer(serializers.HyperlinkedModelSerializer):
             'hardware',
             'providers'
         )
+
+class SignUpSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+        write_only_fields = ('password')
+
