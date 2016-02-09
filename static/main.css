@@ -1,4 +1,10 @@
 @charset "UTF-8";
+.green {
+  background-color: lawngreen; }
+
+.chart-col {
+  width: 10%; }
+
 .btn {
   display: inline-block;
   margin-bottom: 0;
@@ -193,18 +199,15 @@ span.glyphicon.glyphicon-ok-sign.glyphicon-background.blue-glyphicon.selected {
   text-align: center; }
 
 html, body {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   height: 100%; }
 
 .page-container {
-  position: relative;
-  height: 100%; }
+  position: relative; }
 
 .sidebar {
   position: relative;
-  height: 100%;
-  display: none;
   background-color: #13171a;
   transition: all 0.5s ease; }
   .sidebar .sidebar-content a {
@@ -212,7 +215,6 @@ html, body {
 
 .content-wrapper {
   position: relative;
-  height: 100%;
   padding: 10px; }
   .content-wrapper .logo-row {
     padding-top: 3%;
@@ -249,13 +251,14 @@ html, body {
     display: table-row; }
   .content-wrapper {
     display: table-cell;
-    vertical-align: top; }
+    vertical-align: top;
+    width: 100%; }
   .sidebar {
     display: table-cell;
     vertical-align: top;
     width: 260px; }
     .sidebar.collapse.in {
-      display: table-cell;
+      display: none;
       vertical-align: top;
       width: 260px; }
   .sidebar-content {
@@ -2280,16 +2283,6 @@ html, body {
 .fa-fonticons:before {
   content: ""; }
 
-.money {
-  background: white; }
-
-.body-wrapper {
-  overflow: hidden; }
-
-@media (max-width: 1198px) {
-  .usr-path-right {
-    height: 8%; } }
-
 html,
 button,
 input,
@@ -2297,8 +2290,6 @@ div,
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif; }
 
-div ui-view {
-  max-width: 1024px; }
-
 .container {
-  width: 100%; }
+  width: 100%;
+  padding: 0; }

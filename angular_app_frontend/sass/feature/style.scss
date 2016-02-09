@@ -1,3 +1,10 @@
+//colors
+
+$color_picton_blue_approx: #3fa1ff;
+$color_vulcan_approx: #13171a;
+$color_carnation_approx: #ff5750;
+$white: white;
+$action_red: #ed1c24;
 //urls
 $homepage-background-s3: url(https://s3.amazonaws.com/streamsavvy/ss_background.jpg );
 
@@ -5,10 +12,10 @@ $homepage-background-s3: url(https://s3.amazonaws.com/streamsavvy/ss_background.
 //original selectors
 //html, body
 html {
-	@extend %extend_1;
+	@extend %center_and_extend_height;
 }
 body {
-	@extend %extend_1;
+	@extend %center_and_extend_height;
 }
 #background {
 	background: $homepage-background-s3 no-repeat 50% 50% fixed;
@@ -22,7 +29,7 @@ body {
 	margin: 0 auto;
 	text-align: center;
 }
-%extend_1 {
+%center_and_extend_height {
 	margin: 0 auto;
 	padding: 0;
 	height: 100%;
@@ -41,7 +48,6 @@ body {
 }
 .content-wrapper {
 	position: relative;
-	height: 100%;
 	padding: 10px;
 	.logo-row {
 		padding-top: 3%;
@@ -80,7 +86,7 @@ body {
 	}
 }
 
-@media(max-width: 769px) {
+@media(min-width: 769px) {
 	.page-container {
 		display: table;
 		width: 100%;
@@ -92,6 +98,7 @@ body {
 	.content-wrapper {
 		display: table-cell;
 		vertical-align: top;
+        width:100%;
 	}
 	.sidebar {
 		display: table-cell;
@@ -99,7 +106,7 @@ body {
 		vertical-align: top;
 		width: 260px;
 		&.collapse.in {
-			display: table-cell;
+			display: none;
 			vertical-align: top;
 			width: 260px;
 		}

@@ -11,7 +11,7 @@
   transform: translateY(-50%);
 }
 
-//@import 'sass/feature/chart';
+@import 'sass/feature/chart';
 @import 'sass/feature/btn';
 @import 'sass/feature/style';
 @import "sass/font-awesome/scss/font-awesome";
@@ -24,7 +24,7 @@
 //@import 'features/journey_one/step-three/step-three';
 //@import "features/search/search";
 //@import "features/journey_one/modal/modal";
-@import 'features/nav/navigation';
+//@import 'features/nav/navigation';
 
 @import "features/home/home";
 //@import 'features/blog/blog-four/blog-four';
@@ -48,12 +48,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .container{
   width: 100%;
+  padding: 0;
 }
 
-//colors
-
-$color_picton_blue_approx: #3fa1ff;
-$color_vulcan_approx: #13171a;
-$color_carnation_approx: #ff5750;
-$white: white;
-$action_red: #ed1c24;
