@@ -11,27 +11,27 @@
   transform: translateY(-50%);
 }
 
-@import 'sass/feature/chart';
+//@import 'sass/feature/chart';
 @import 'sass/feature/btn';
 @import 'sass/feature/style';
 @import "sass/font-awesome/scss/font-awesome";
-@import 'features/progress/progress';
-@import 'features/journey_one/step-one/step-one';
-@import 'features/explain/still-confused/still-confused';
-@import 'features/error/coming-soon/coming-soon';
-@import 'features/journey_one/step-two/step-two';
-@import 'features/journey_one/step-two/step-two';
-@import 'features/journey_one/step-three/step-three';
-@import "features/search/search";
-@import "features/journey_one/modal/modal";
+//@import 'features/progress/progress';
+//@import 'features/journey_one/step-one/step-one';
+//@import 'features/explain/still-confused/still-confused';
+//@import 'features/error/coming-soon/coming-soon';
+//@import 'features/journey_one/step-two/step-two';
+//@import 'features/journey_one/step-two/step-two';
+//@import 'features/journey_one/step-three/step-three';
+//@import "features/search/search";
+//@import "features/journey_one/modal/modal";
 @import 'features/nav/navigation';
 
 @import "features/home/home";
-@import 'features/blog/blog-four/blog-four';
-@import 'features/blog/blog-one/blog-one';
-@import 'features/blog/blog-two/blog-two';
-@import 'features/blog/blog-three/blog-three';
-@import 'features/dashboard/dashboard';
+//@import 'features/blog/blog-four/blog-four';
+//@import 'features/blog/blog-one/blog-one';
+//@import 'features/blog/blog-two/blog-two';
+//@import 'features/blog/blog-three/blog-three';
+//@import 'features/dashboard/dashboard';
 
 
 html,
@@ -42,12 +42,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
 }
 
-div ui-view {
-  max-width: 1024px;
-}
+//div ui-view {
+ // max-width: 1024px;
+//}
 
 .container{
   width: 100%;
 }
 
+//colors
 
+$color_picton_blue_approx: #3fa1ff;
+$color_vulcan_approx: #13171a;
+$color_carnation_approx: #ff5750;
+$white: white;
+$action_red: #ed1c24;

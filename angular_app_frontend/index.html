@@ -32,7 +32,7 @@
 
 <base href="/">
 
-<body ng-app='myApp' class="container">
+<body ng-app='myApp' class="container" id="background">
 <div class="body-wrapper">
 
 
@@ -67,7 +67,7 @@
         <div ng-if="isMobile"><angular-feedback options="options"></angular-feedback></div>
     </div>
 
-
+<!--
     <a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
     <a id="instagram_login" href="{% url 'social:begin' 'instagram' %}?next={{ request.path }}">login to instagram</a>
     <a id="twitter_login" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">login to twitter</a>
@@ -79,7 +79,7 @@
             data-width="450"
             data-show-faces="true">
     </div>
-
+-->
 
     <script src="{% static 'jquery/dist/jquery.js' %}"></script>
     <script src="{% static 'angular/angular.js' %}"></script>
