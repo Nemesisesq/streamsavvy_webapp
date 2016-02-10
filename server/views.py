@@ -38,17 +38,17 @@ class NetFlixListView(View):
         if n_show_list:
             return JsonResponse(n_show_list, safe=False)
         else:
-            host = 'http://usa.netflixable.com'
+            # host = 'http://usa.netflixable.com'
+            #
+            # with urllib.request.urlopen(host) as response:
+            #     soup = BeautifulSoup(response, 'html.parser')
+            #
+            # def alpha_list(href):
+            #     return href and re.compile("alphabetical-list").search(href)
+            #
+            # ref_list = soup.find_all(href=alpha_list)
 
-            with urllib.request.urlopen(host) as response:
-                soup = BeautifulSoup(response, 'html.parser')
-
-            def alpha_list(href):
-                return href and re.compile("alphabetical-list").search(href)
-
-            ref_list = soup.find_all(href=alpha_list)
-
-            url = host + ref_list[0].get('href')
+            url = 'http://usa.netflixable.com/2016/01/complete-alphabetical-list-sat-jan-23.html'
 
             n = Netflixable(url)
 

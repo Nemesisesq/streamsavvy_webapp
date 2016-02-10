@@ -39,6 +39,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 
 ALLOWED_HOSTS = ['*']
 
+# APPEND_SLASH = False
+
 
 # Application definition
 
@@ -78,7 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'server.middleware.access_management.BlockLiveSiteFromNonAdminUsers',
     'server.middleware.anon_user_middleware.ProcessAnonUser',
@@ -87,6 +89,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
 
 ROOT_URLCONF = 'cutthecord.urls'
 
@@ -240,6 +243,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.instagram.InstagramOAuth2',
     'social.backends.twitter.TwitterOAuth',
