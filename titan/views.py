@@ -3,16 +3,22 @@
 
 import requests
 from bs4 import BeautifulSoup
+from django.core.cache import cache
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.views.generic import View
 
 
 class GuideTestView(View):
     def get(self, request):
+
+        # TODO set up with real zipcode
+        if cache.get('zip-code'):
+            return JsonResponse(cache.get('zip-code'), safe=False)
         t = TitanCrawler()
 
         guide = t.run()
+
+        cache.set('zip-code', guide)
         return JsonResponse(guide, safe=False)
 
 
@@ -62,5 +68,5 @@ class TitanCrawler(object):
     def run(self):
         req = self.get_request()
         channel_list = self.get_shows(req)
-        dirty_guide =self.process_soup(channel_list)
+        dirty_guide = self.process_soup(channel_list)
         return dirty_guide
