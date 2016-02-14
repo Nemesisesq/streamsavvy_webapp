@@ -35,6 +35,19 @@ body {
 	height: 100%;
 }
 
+.sidebar-trigger{
+
+  margin-top: 15px;
+  a{
+    color: $action_red;
+    i.fa.fa-bars{
+      font-size: 1.5em;
+      margin-right: 5px;
+    }
+  }
+
+
+}
 .page-container {
 	position: relative;
 }
