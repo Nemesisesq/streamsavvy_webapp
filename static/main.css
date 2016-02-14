@@ -265,7 +265,7 @@ html, body {
       vertical-align: top;
       width: 0px; }
   .sidebar-content {
-    width: 25%; } }
+    width: 100%; } }
 
 /*!
  *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
