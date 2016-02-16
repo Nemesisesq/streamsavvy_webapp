@@ -22,7 +22,7 @@ from rest_framework import routers
 from server.auth import *
 from server.feedback import FeedbackView
 from server.views import *
-from titan.views import GuideTestView
+from titan.views import GuideTestView, guide_reciever
 
 router = routers.DefaultRouter()
 # router.register(r'users', UserViewSet)
@@ -30,7 +30,7 @@ router = routers.DefaultRouter()
 router.register(r'hardware', HardwareViewSet)
 router.register(r'providers', ContentProviderViewSet)
 router.register(r'content', ContentViewSet)
-router.register(r'search ', ContentSearchViewSet, 'search')
+router.register(r'search', ContentSearchViewSet, 'search')
 router.register(r'packageobj', PackageDetailViewSet, 'packageobj')
 router.register(r'package', PackagesViewSet, 'package')
 router.register(r'popular-shows', PopularShowsViewSet, 'popular_shows')
@@ -53,7 +53,8 @@ urlpatterns = [
     url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^guide/', GuideTestView.as_view(), name='guide_test'),
-    url(r'^o/', include('oauth2_provider.urls'))
+    url(r'^o/', include('oauth2_provider.urls')),
+    url(r'^guide_reciever/', guide_reciever, name='reciever')
     # url(r'test/', TemplateView.as_view(template_name='test.html')),
     # url(r'^script/netflixable', get_netflixable_shows )
     # url(r'^package/$', package_list),

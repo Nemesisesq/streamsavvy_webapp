@@ -1,11 +1,23 @@
 # Create your views here.
-
+import json
 
 import requests
 from bs4 import BeautifulSoup
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.views.generic import View
+
+def guide_reciever(request):
+    if cache.get('zip-code'):
+            return JsonResponse(cache.get('zip-code'), safe=False)
+    titan_page = request.body.decode('utf-8')
+    t = TitanCrawler()
+    soup = t.get_shows(titan_page)
+    chans = t.process_soup(soup)
+
+    cache.set('zip-code', chans)
+
+    return JsonResponse(chans, safe=False)
 
 
 class GuideTestView(View):
@@ -14,12 +26,8 @@ class GuideTestView(View):
         # TODO set up with real zipcode
         if cache.get('zip-code'):
             return JsonResponse(cache.get('zip-code'), safe=False)
-        t = TitanCrawler()
 
-        guide = t.run()
-
-        cache.set('zip-code', guide)
-        return JsonResponse(guide, safe=False)
+        return JsonResponse('', safe=False)
 
 
 def html_to_dict(i):
