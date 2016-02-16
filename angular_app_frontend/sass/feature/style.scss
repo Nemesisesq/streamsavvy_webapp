@@ -35,6 +35,19 @@ body {
 	height: 100%;
 }
 
+.sidebar-trigger{
+
+  margin-top: 15px;
+  a{
+    color: $action_red;
+    i.fa.fa-bars{
+      font-size: 1.5em;
+      margin-right: 5px;
+    }
+  }
+
+
+}
 .page-container {
 	position: relative;
 }
@@ -97,14 +110,15 @@ body {
 	.content-wrapper {
 		display: table-cell;
 		vertical-align: top;
-        width:100%;
+        width:50%;
         height:100%;
+	  	margin:0 auto;
 	}
 	.sidebar {
 		display: table-cell;
 
 		vertical-align: top;
-		width: 260px;
+		width: 20% !important;
 		&.collapse.in {
 			display: none;
 			vertical-align: top;
@@ -112,6 +126,6 @@ body {
 		}
 	}
 	.sidebar-content {
-		width: 260px;
+		width: 100%;
 	}
 }
