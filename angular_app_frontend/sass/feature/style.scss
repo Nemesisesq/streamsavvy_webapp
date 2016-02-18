@@ -5,6 +5,7 @@ $color_vulcan_approx: #13171a;
 $color_carnation_approx: #ff5750;
 $white: white;
 $action_red: #ed1c24;
+
 //urls
 $homepage-background-s3: url(https://s3.amazonaws.com/streamsavvy/ss_background.jpg );
 
@@ -21,6 +22,12 @@ body {
 	background: $homepage-background-s3 no-repeat 50% 50% fixed;
 	background-size: cover;
 }
+%center_and_extend_height {
+	margin: 0 auto;
+	padding: 0;
+	height: 100%;
+}
+
 .savvy-blue {
 	color: $color_picton_blue_approx;
 }
@@ -29,25 +36,22 @@ body {
 	margin: 0 auto;
 	text-align: center;
 }
-%center_and_extend_height {
-	margin: 0 auto;
-	padding: 0;
-	height: 100%;
-}
 
 .sidebar-trigger{
-
   margin-top: 15px;
   a{
     color: $action_red;
     i.fa.fa-bars{
       font-size: 1.5em;
-      margin-right: 5px;
+      margin-right: 7px;
+
+    }
+    p{
+      display: inline;
     }
   }
-
-
 }
+
 .page-container {
 	position: relative;
 }

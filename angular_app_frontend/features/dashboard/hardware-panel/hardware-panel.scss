@@ -1,0 +1,27 @@
+.hardware-panel{
+  height: 25%;
+  .panel{
+    width: 100%;
+    display: table;
+    .panel-body{
+      margin:0 auto;
+      display: inline-block;
+      .hardware-img {
+      border: 1px solid #c9c9c9;
+      height: 10.55vw;
+      width: 9.25vw;
+      padding: 0;
+      }
+      .hardware-name{
+      display: flex;
+      }
+      .hardware-cost{
+        color:#3b94e3 ;
+        font-weight: 900;
+        font-size:17px;
+      }
+    }
+
+  }
+
+}

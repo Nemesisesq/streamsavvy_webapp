@@ -1,23 +1,25 @@
 .dashboard {
+  text-transform: uppercase;
+  padding-left: 2%;
+  padding-right: 1%;
 
-  @extend .container;
-
-  .dash {
-    margin-left: 1%;
-    margin-right: 1%;
-  }
-
-
-  background-color :white;
-
+  height: 100%;
+  $savvy_olive: #EBEBEB;
+  $panel_header:#858789;
+  $panel_body:#6A6C6E;
+  
   .navbar-fixed-top.ng-scope {
     position: relative;
   }
 
-  .search-bar {
+  .search-and-shows{
+    padding-right: 3%;
+    .search-bar {
     height: 50px;
     padding: 0;
+    }
   }
+
 
   .services {
     height : 10%
