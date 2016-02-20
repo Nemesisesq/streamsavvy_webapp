@@ -36,8 +36,8 @@ class Hardware(models.Model):
     description = models.TextField(blank=True, null=True)
     home_url = models.URLField(blank=True, null=True)
 
-    price = models.ForeignKey(Price)
-    images = models.ForeignKey(Images)
+    price = models.ForeignKey(Price, blank=True, null=True)
+    images = models.ForeignKey(Images, null=True, blank=True)
 
     def __str__(self):
         return "{0} version {1}".format(self.name, self.version)
@@ -53,9 +53,9 @@ class Channel(models.Model):
     payment_type = models.CharField(max_length=100, blank=True, null=True)
     android_app = models.URLField(blank=True, null=True)
     apple_app = models.URLField(blank=True, null=True)
-    images = models.ForeignKey(Images)
-    price = models.ForeignKey(Price)
-    hardware = models.ManyToManyField(Hardware)
+    images = models.ForeignKey(Images, null=True, blank=True)
+    price = models.ForeignKey(Price, blank=True, null=True)
+    hardware = models.ManyToManyField(Hardware, blank=True, null=True)
     modified = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -78,14 +78,15 @@ class Channel(models.Model):
                 data[f.name] = f.value_from_object(instance)
         return data
 
+
 class Content(models.Model):
     title = models.CharField(max_length=250, blank=False, null=False)
     first_aired = models.DateField(blank=True, null=True)
     guidebox_id = models.IntegerField(blank=True, null=True, unique=True)
     description = models.TextField(blank=True, null=True)
     home_url = models.URLField(blank=True, null=True)
-    images = models.ForeignKey(Images)
-    content_provider = models.ManyToManyField(Channel)
+    images = models.ForeignKey(Images, null=True, blank=True)
+    channel = models.ManyToManyField(Channel, null=True, blank=True)
     modified = models.DateTimeField(null=True, blank=True)
     tvrage_id = models.IntegerField(blank=True, null=True)
     themoviedb_id = models.IntegerField(blank=True, null=True)
