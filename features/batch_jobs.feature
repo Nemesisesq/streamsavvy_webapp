@@ -31,13 +31,20 @@ Feature: Batch Job Tests
   Scenario: No changes if up-to-date database
     Given the streamsavvy databse is up to date
     When the batch job has been run
-    Then the streamsavvy  stays the same
+    Then the streamsavvy database is not updated
 
   Scenario: Batch job returns empty database
     Given the batch job has been run
     #When it's diff file includes removal of all shows and providers
     When the batch job returns an empty show database
-    Then the streamsavvy database stays the same
+    Then the streamsavvy database is not updated
+
+  Scenario: Batch job tries to update existing database with duplicate information
+    Given the batch job has been run
+    When the batch job returns a duplicate database
+    Then the streamsavvy database is not updated
+
+
 
 
 
