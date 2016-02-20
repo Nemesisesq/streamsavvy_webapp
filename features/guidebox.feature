@@ -15,3 +15,7 @@ Feature: guidebox api feature
     Then json is returned
     Then we save the content list
 
+  Scenario: Iterate through all the guidebox objects and get
+    Given a total number of shows
+    When we call the populate shows task
+    Then there are a total number of shows in the que

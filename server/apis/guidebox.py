@@ -28,6 +28,11 @@ class GuideBox(object):
 
     # def __init__(self):
 
+    def get_total_number_of_shows(self):
+        response =  self.get_content_list(0)
+        dict =  json.loads(response)
+        return dict['total_results']
+
     def get_show_by_title(self, title):
         cleaned_title = title.replace("  ", " ")
         encoded_show = cleaned_title.strip().replace(" ", '%25252B')

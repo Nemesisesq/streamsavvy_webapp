@@ -1,9 +1,12 @@
 import json
+
+import django_rq
 from behave import given, when, then
 from server.apis.guidebox import *
 # import json
 from server.apis.netflixable import Netflixable
 from scripts import get_netflixable_shows
+from server.tasks import inital_database_population_of_content
 
 __author__ = 'Nem'
 
@@ -15,8 +18,14 @@ __author__ = 'Nem'
 ## GIVEN
 ############################
 @given(u'an index of {index}')
-def add_index_to_context(context, index):
+def test_add_index_to_context(context, index):
     context.index = index
+
+@given(u'a total number of shows')
+def test_get_total_number_guidebox_shows(context):
+    context.total_shows = context.guidebox.get_total_number_of_shows()
+    assert type(context.total_shows) == int
+    assert context.total_shows > 0
 
 
 
@@ -25,10 +34,15 @@ def add_index_to_context(context, index):
 ############################
 
 @when(u'a list of content is requested from guidebox')
-def request_content_from_guidebox(context):
+def test_request_content_from_guidebox(context):
     shows = context.guidebox.get_content_list(context.index)
     context.the_json = shows
     assert type(shows) == str
+
+@when(u'we call the populate shows task')
+def test_initial_population_of_shows(context):
+    inital_database_population_of_content()
+    assert False
 
 
 ############################
@@ -36,9 +50,14 @@ def request_content_from_guidebox(context):
 ############################
 
 @then(u'json is returned')
-def check_json(context):
+def test_check_json(context):
     assert context.the_json
 
 @then(u'we save the content list')
-def save_content_list(context):
+def test_save_content_list(context):
     assert False
+
+@then(u'there are a total number of shows in the que')
+def test_total_number_of_jobs_queued(context):
+    q = django_rq.get_queue('low')
+    assert q.get_jobs() > 0
