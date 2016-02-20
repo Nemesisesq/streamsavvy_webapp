@@ -1,4 +1,4 @@
-from server.models import Hardware, ContentProvider, Content, Package
+from server.models import Hardware, Channel, Content, Package
 
 __author__ = 'Nem'
 
@@ -38,9 +38,9 @@ class HardwareSerializer(serializers.HyperlinkedModelSerializer):
         #           )
 
 
-class ContentProviderSerializer(serializers.HyperlinkedModelSerializer):
+class ChannelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = ContentProvider
+        model = Channel
         # 4
 
 

@@ -9,8 +9,8 @@ class ContentAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(ContentProvider)
-class ContentProviderAdmin(admin.ModelAdmin):
+@admin.register(Channel)
+class ChannelAdmin(admin.ModelAdmin):
     pass
 
 

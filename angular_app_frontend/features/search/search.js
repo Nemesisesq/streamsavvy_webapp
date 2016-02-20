@@ -56,52 +56,22 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     $scope.selectedIndex = -1;
 
 
-    var switchCase = function (char) {
-        if (char == char.toUpperCase()) {
-            return char.toLowerCase();
-        } else {
-            return char.toUpperCase();
-        }
-    }
-
-
     $scope.checkMatched = function () {
         return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
     }
 
     $scope.search = function (val) {
         if (val) {
-            //$scope.suggestions = [];
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
-                    debugger;
-
-                    //var res = _.min(data.results, function (elem) {
-                    //    return elem.title.length
-                    //
-                    //})
-
-                    //var searchResult = matchCase($scope.searchText, res.title);
-
-                    //if (_.includes(searchResult, $scope.searchText)) {
-                    //    $scope.searchResult = searchResult;
-                    //
-                    //}
-
                     var sorted = _.sortBy(data.data.results, function (elem) {
-
-
                         return elem.title.length
-
                     })
 
                     if (data.data.searchText == val) {
                         $scope.suggestions = sorted;
-                        //$scope.loading = false;
-
                         return sorted
                     }
-
                     $scope.selectedIndex = -1
                 });
         } else {

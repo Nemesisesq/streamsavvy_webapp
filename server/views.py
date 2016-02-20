@@ -15,9 +15,9 @@ from rest_framework.permissions import IsAdminUser
 
 from server.models import *
 from server.permissions import IsAdminOrReadOnly
-from server.populate_data.guidebox import GuideBox
-from server.populate_data.netflixable import Netflixable
-from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ContentProviderSerializer, \
+from server.apis.guidebox import GuideBox
+from server.apis.netflixable import Netflixable
+from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer
 
 
@@ -141,9 +141,9 @@ class HardwareViewSet(viewsets.ModelViewSet):
     serializer_class = HardwareSerializer
 2
 
-class ContentProviderViewSet(viewsets.ModelViewSet):
-    queryset = ContentProvider.objects.all()
-    serializer_class = ContentProviderSerializer
+class ChannelViewSet(viewsets.ModelViewSet):
+    queryset = Channel.objects.all()
+    serializer_class = ChannelSerializer
 
 
 class ContentSearchViewSet(viewsets.ModelViewSet):

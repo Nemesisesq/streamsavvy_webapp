@@ -5,53 +5,62 @@ from django.utils import timezone
 
 
 class AnonymousUser(User):
-    session = models.CharField(max_length= 100)
+    session = models.CharField(max_length=100)
     objects = UserManager()
 
     def is_authenticated(self):
         return False
 
-
     def __str__(self):
         return "{}".format(self.username)
+
+
+class Images(models.Model):
+    image_url = models.URLField(blank=True, null=True)
+    thumbnail_small = models.URLField(blank=True, null=True)
+    thumbnail_medium = models.URLField(blank=True, null=True)
+    thumbnail_large = models.URLField(blank=True, null=True)
+    thumbnail_x_large = models.URLField(blank=True, null=True)
+    misc_pictures = models.TextField(blank=True, null=True)
+
+
+class Price(models.Model):
+    retail_cost = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    member_cost = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    subscription_monthly = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
 
 
 class Hardware(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
     version = models.CharField(max_length=50, blank=True, null=True)
-    home_url = models.URLField(blank=True, null=True)
-    image_url = models.URLField(blank=True, null=True)
-    retail_cost = models.FloatField(blank=True, null=True)
-    mem_cost = models.FloatField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    home_url = models.URLField(blank=True, null=True)
+
+    price = models.ForeignKey(Price)
+    images = models.ForeignKey(Images)
 
     def __str__(self):
         return "{0} version {1}".format(self.name, self.version)
 
 
-class ContentProvider(models.Model):
+class Channel(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
+    guidebox_id = models.IntegerField(blank=True, null=True)
     source = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    home_url = models.URLField(blank=True, null=True)
     channel_type = models.CharField(max_length=100, blank=True, null=True)
     payment_type = models.CharField(max_length=100, blank=True, null=True)
-    guidebox_id = models.IntegerField(blank=True, null=True)
-    home_url = models.URLField(blank=True, null=True)
-    image_url = models.URLField(blank=True, null=True)
     android_app = models.URLField(blank=True, null=True)
     apple_app = models.URLField(blank=True, null=True)
-    retail_cost = models.FloatField(blank=True, null=True)
-    mem_cost = models.FloatField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    thumbnail_small = models.URLField(blank=True, null=True)
-    thumbnail_medium = models.URLField(blank=True, null=True)
-    thumbnail_large = models.URLField(blank=True, null=True)
-    thumbnail_x_large = models.URLField(blank=True, null=True)
+    images = models.ForeignKey(Images)
+    price = models.ForeignKey(Price)
     hardware = models.ManyToManyField(Hardware)
     modified = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.modified = timezone.now()
-        return super(ContentProvider, self).save(*args, **kwargs)
+        return super(Channel, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -69,31 +78,21 @@ class ContentProvider(models.Model):
                 data[f.name] = f.value_from_object(instance)
         return data
 
-# class Channel(models.Model):
-
-
-
 class Content(models.Model):
     title = models.CharField(max_length=250, blank=False, null=False)
     first_aired = models.DateField(blank=True, null=True)
-    guidebox_id = models.IntegerField(blank=True,null=True, unique=True)
+    guidebox_id = models.IntegerField(blank=True, null=True, unique=True)
     description = models.TextField(blank=True, null=True)
     home_url = models.URLField(blank=True, null=True)
-    thumbnail_small = models.URLField(blank=True, null=True)
-    thumbnail_medium = models.URLField(blank=True, null=True)
-    thumbnail_large = models.URLField(blank=True, null=True)
-    thumbnail_x_large = models.URLField(blank=True, null=True)
-    content_provider = models.ManyToManyField(ContentProvider)
+    images = models.ForeignKey(Images)
+    content_provider = models.ManyToManyField(Channel)
     modified = models.DateTimeField(null=True, blank=True)
     tvrage_id = models.IntegerField(blank=True, null=True)
     themoviedb_id = models.IntegerField(blank=True, null=True)
     tvdb_id = models.IntegerField(blank=True, null=True)
-    freebase_id = models.CharField(max_length= 50, blank=True, null=True)
-    imdb_id = models.CharField(max_length= 50, blank=True, null=True)
+    freebase_id = models.CharField(max_length=50, blank=True, null=True)
+    imdb_id = models.CharField(max_length=50, blank=True, null=True)
     wikepedia_id = models.IntegerField(blank=True, null=True)
-
-
-
 
     def save(self, *args, **kwargs):
         self.modified = timezone.now()
@@ -102,24 +101,24 @@ class Content(models.Model):
     def __str__(self):
         return "Show {0}".format(self.title)
 
- 
-
 
 class Package(models.Model):
     content = models.ManyToManyField(Content)
-    providers = models.ManyToManyField(ContentProvider)
+    providers = models.ManyToManyField(Channel)
     hardware = models.ManyToManyField(Hardware)
     owner = models.ForeignKey(User, related_name='packages')
 
     def __str__(self):
         return "Package Configuration {0} for {1}".format(self.pk, self.owner.username)
 
+
 class JsonPackage(models.Model):
     json = models.TextField()
-    owner = models.OneToOneField (User)
+    owner = models.OneToOneField(User)
 
     def __str__(self):
         return "JSON package for {owner}".format(owner=self.owner)
+
 
 class Feedback(models.Model):
     browser = models.TextField(blank=True, null=True)

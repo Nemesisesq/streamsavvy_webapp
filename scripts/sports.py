@@ -1,4 +1,4 @@
-from server.models import Content, ContentProvider
+from server.models import Content, Channel
 
 __author__ = 'Nem'
 
@@ -23,7 +23,7 @@ sling_dict = {
     'source': "sling_tv",
 }
 
-sling = ContentProvider.objects.get_or_create(**sling_dict)[0]
+sling = Channel.objects.get_or_create(**sling_dict)[0]
 
 sports = [
     {'title': 'Football',

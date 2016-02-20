@@ -1,6 +1,6 @@
 import logging
 
-from server.populate_data.guidebox import GuideBox
+from server.apis.guidebox import GuideBox
 
 __author__ = 'Nem'
 

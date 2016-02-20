@@ -2,8 +2,8 @@ __author__ = 'Nem'
 import django
 import django_rq
 
-from server.populate_data.guidebox import *
-from server.populate_data.netflixable import *
+from server.apis.guidebox import *
+from server.apis.netflixable import *
 
 django.setup()
 

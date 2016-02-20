@@ -6,7 +6,7 @@ import urllib.request
 import django
 import django_rq
 
-from server.populate_data.netflixable import *
+from server.apis.netflixable import *
 from server.models import Content
 
 try:
@@ -29,15 +29,15 @@ def get_shows(x):
 def run(*args, **kwargs):
     # create instance of netflixable
     if len(args) <= 0:
-        host = 'http://usa.netflixable.com'
-
-        with urllib.request.urlopen(host) as response:
-            soup = BeautifulSoup(response, 'html.parser')
-
-        def alpha_list(href):
-            return href and re.compile("alphabetical-list").search(href)
-
-        ref_list = soup.find_all(href=alpha_list)
+        # host = 'http://usa.netflixable.com'
+        #
+        # with urllib.request.urlopen(host) as response:
+        #     soup = BeautifulSoup(response, 'html.parser')
+        #
+        # def alpha_list(href):
+        #     return href and re.compile("alphabetical-list").search(href)
+        #
+        # ref_list = soup.find_all(href=alpha_list)
 
         url = 'http://usa.netflixable.com/2016/01/complete-alphabetical-list-sat-jan-23.html'
 
