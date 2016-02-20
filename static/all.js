@@ -181,7 +181,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('dash.dashboard', {
             url: '/dashboard',
             data: {
-                hello: 'hello world'
+                dashboard: true
             },
             views: {
                 'navigation': {
@@ -197,15 +197,15 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'search'
                 },
                 shows: {
-                    templateUrl: '/static/partials/step-one/step-one.html',
+                    templateUrl: '/static/partials/dashboard/show-grid.html',
                     controller: 'StepOneController'
                 },
                 services: {
-                    templateUrl: '/static/partials/step-two/step-two.html',
+                    templateUrl: '/static/partials/dashboard/service-panel.html',
                     controller: 'StepTwoController'
                 },
                 hardware: {
-                    templateUrl: '/static/partials/step-three/step-three.html',
+                    templateUrl: '/static/partials/dashboard/hardware-panel.html',
                     controller: 'StepThreeController'
                 },
                 'footer': {

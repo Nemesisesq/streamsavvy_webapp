@@ -1,0 +1,9 @@
+<div class="show-grid">
+    <div class='row'><div class='span12'><hr></div></div>
+    <div class="row pop-shows">popular show searches </div>
+    <div class='row'><div class='span12'><hr></div></div>
+    <div class="show col-md-3 col-xs-6" ng-repeat="show in popularShows track by $index" ng-click="addToSelectedShows(show)">
+        <a class="thumbnail"><img ng-src="{{ show.thumbnail_small }} " alt=""/></a>
+    </div>
+
+</div>
