@@ -8,6 +8,7 @@ from server.apis.guidebox import GuideBox
 def inital_database_population_of_content():
     g = GuideBox()
     q = django_rq.get_queue('low')
+    result = []
 
     total_shows = g.get_total_number_of_shows()
 
@@ -18,6 +19,7 @@ def inital_database_population_of_content():
         for show in shows_dict['results']:
             q.enqueue(g.save_content, show)
 
+            result.append(show)
 
-    return
+    return result
 

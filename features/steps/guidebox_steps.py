@@ -1,3 +1,5 @@
+import json
+
 import django_rq
 from behave import given, when, then
 # import json
@@ -51,12 +53,16 @@ def test_check_json(context):
     assert context.the_json
 
 
-@then(u'we save the content list')
-def test_save_content_list(context):
+@then(u'we save the content')
+def test_save_content(context):
+    # TODO write test to check for saved content in the database
+    sample_show = json.loads(context.the_json)[0]
+
+    context.guidebox.save_content('')
     assert False
 
 
-@then(u'there are a total number of shows in the que')
+@then(u'there are a total number of shows in the queue')
 def test_total_number_of_jobs_queued(context):
     q = django_rq.get_queue('low')
-    assert q.get_jobs() > 0
+    assert len(q.jobs) > 0

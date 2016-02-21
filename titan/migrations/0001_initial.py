@@ -13,8 +13,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Channel',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
-                ('name', models.CharField(max_length=100)),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('callsign', models.CharField(max_length=100)),
+                ('network', models.CharField(max_length=100)),
             ],
         ),
     ]

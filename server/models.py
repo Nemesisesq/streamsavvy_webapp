@@ -55,7 +55,7 @@ class Channel(models.Model):
     apple_app = models.URLField(blank=True, null=True)
     images = models.ForeignKey(Images, null=True, blank=True)
     price = models.ForeignKey(Price, blank=True, null=True)
-    hardware = models.ManyToManyField(Hardware, blank=True, null=True)
+    # hardware = models.ManyToManyField(Hardware, blank=True, null=True)
     modified = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):

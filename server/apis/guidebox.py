@@ -176,7 +176,8 @@ class GuideBox(object):
         obj.thumbnail_large = i['artwork_448x252'] if i['artwork_448x252'] else None
         obj.thumbnail_x_large = i['artwork_608x342'] if i['artwork_608x342'] else None
 
-        return i
+        if obj.save():
+            return i
 
 
 # This Class is meant to flesh out provider details

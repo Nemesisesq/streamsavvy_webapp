@@ -139,7 +139,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 class HardwareViewSet(viewsets.ModelViewSet):
     queryset = Hardware.objects.all()
     serializer_class = HardwareSerializer
-2
+
 
 class ChannelViewSet(viewsets.ModelViewSet):
     queryset = Channel.objects.all()
@@ -152,7 +152,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
     serializer_class = ContentSerializer
 
     def filter_by_content_provider(self, x):
-        f = x.content_provider.filter(self.params)
+        f = x.channel.filter(self.params)
         if len(f) > 0:
             return False
         else:
@@ -187,8 +187,11 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_string = self.request.GET['q']
-        if cache.get(query_string):
-            return cache.get(query_string)
+        try:
+            if cache.get(query_string):
+                return cache.get(query_string)
+        except Exception as e:
+            print(e)
 
         search_results = content_search(self.request)
         filter_results = self.filter_query([165], search_results)
@@ -212,7 +215,11 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         filter_results = list(filter(self.filter_by_guidebox_id, filter_results))
 
-        cache.set(query_string, filter_results)
+        assert cache
+        try:
+            cache.set(query_string, filter_results)
+        except:
+            pass
 
         return filter_results
 
@@ -354,17 +361,17 @@ def content_search(request):
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
 
-        if cache.get(query_string):
-            return cache.get(query_string)
+        # if cache.get(query_string):
+        #     return cache.get(query_string)
 
         entry_query = get_query(query_string, ['title'])
 
         found_entries = Content.objects.filter(entry_query)
 
-        cache.set(query_string, found_entries)
+        # cache.set(query_string, found_entries)
 
-        for entry in found_entries:
-            pass
+        # for entry in found_entries:
+        #     pass
 
         # data = []
         # for i in found_entries:
