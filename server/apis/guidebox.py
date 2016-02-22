@@ -15,7 +15,7 @@ from django.db.models import Q
 from django.utils import timezone
 
 from cutthecord.settings import BASE_DIR
-from server.models import Content, Channel, Images
+from server.models import Content, Channel, Images, LiveStream
 
 
 class GuideBox(object):
@@ -31,6 +31,11 @@ class GuideBox(object):
     def get_total_number_of_shows(self):
         response =  self.get_content_list(0)
         dict =  json.loads(response)
+        return dict['total_results']
+
+    def get_total_number_of_channels(self):
+        response = self.get_channel_list()
+        dict = json.loads(response)
         return dict['total_results']
 
     def get_show_by_title(self, title):
@@ -178,6 +183,53 @@ class GuideBox(object):
 
         if obj.save():
             return i
+
+    def get_channel_list(self, type='all', start=0, limit=50):
+        url = "{BASE_URL}/channels/{type}/{start}/{limit}".format(BASE_URL=self.BASE_URL, type=type, start=start, limit = limit)
+
+        try:
+            with urllib.request.urlopen(url) as response:
+                the_json = response.read().decode('utf-8')
+            return the_json
+        except urllib.error.URLError as e:
+            print(e)
+            return False
+
+    def save_channel(self, c):
+
+        chan = Channel.objects.get_or_create()[0]
+
+        chan.name = c['name'] if c['name'] else None
+        chan.guidebox_id = c['id'] if c['id'] else None
+        chan.short_name = c['short_name'] if c['short_name'] else None
+
+        images = self.save_images(c)
+        chan.images = images
+
+        s = LiveStream()
+
+        live = c['live_stream']
+
+        s.web_source = live['web']['source'] if live['web']['source'] else None
+        s.web_display_name = live['web']['display_name'] if live['web']['display_name'] else None
+        s.web_type = live['web']['type'] if live['web']['type'] else None
+        s.web_link = live['web']['link'] if live['web']['link'] else None
+
+        s.save()
+
+        chan.live_stream = s
+
+        #TODO add social in the future
+
+        chan.save()
+
+        return chan
+
+
+
+
+
+
 
 
 # This Class is meant to flesh out provider details

@@ -23,3 +23,21 @@ def inital_database_population_of_content():
 
     return result
 
+def inital_database_population_of_channels():
+    g = GuideBox()
+    q = django_rq.get_queue('low')
+    result = []
+
+    total_channels = g.get_total_number_of_channels()
+
+    for i in range(0,total_channels, 24):
+        channel_list = g.get_channel_list('all', i)
+        channel_dict = json.loads(channel_list)
+
+        for chan in channel_dict['results']:
+            q.enqueue(g.save_channel, chan)
+
+            result.append(chan)
+
+    return result
+

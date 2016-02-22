@@ -3,7 +3,7 @@ import json
 import django_rq
 from behave import given, when, then
 # import json
-from server.tasks import inital_database_population_of_content
+from server.tasks import inital_database_population_of_content, inital_database_population_of_channels
 
 __author__ = 'Nem'
 
@@ -44,6 +44,13 @@ def test_initial_population_of_shows(context):
     assert result
 
 
+@when(u'a list of channels is requested from guidebox')
+def test_initial_population_of_channels(context):
+    context.the_json = context.guidebox.get_channel_list()
+    results = inital_database_population_of_channels()
+    assert results
+
+
 ############################
 ## THEN
 ############################
@@ -64,5 +71,11 @@ def test_save_content(context):
 
 @then(u'there are a total number of shows in the queue')
 def test_total_number_of_jobs_queued(context):
+    q = django_rq.get_queue('low')
+    assert len(q.jobs) > 0
+
+
+@then(u'there are channels in the database')
+def test_check_for_channels_in_db(context):
     q = django_rq.get_queue('low')
     assert len(q.jobs) > 0

@@ -20,3 +20,9 @@ Feature: guidebox api feature
     When we call the populate shows task
     Then there are a total number of shows in the queue
 
+  Scenario: Getting a list of channels from the guidebox api and saving them
+    When a list of channels is requested from guidebox
+    Then json is returned
+    Then there are channels in the database
+
+

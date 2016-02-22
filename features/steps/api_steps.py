@@ -8,10 +8,11 @@ from rest_framework.test import APIRequestFactory
 ############################
 ## GIVEN
 ############################
+from server.models import Channel
 from server.views import ContentSearchViewSet
 
 
-@given(u'a request for {query}')
+@given(u'a search request for {query}')
 def set_request_for_search(context, query):
     factory = APIRequestFactory()
     context.request = factory.get('/search/?q={q}'.format(q=query))
@@ -30,6 +31,11 @@ def search_for_term(context, query):
 
     context.query_result=search_set.get_queryset()
 
+@when(u'we get channel {source}')
+def test_find_channel(context, source):
+    context.channel = Channel.objects.get(source='source')
+
+
 
 
 
@@ -45,5 +51,11 @@ def search_for_term(context, query):
 @then(u'we get a list')
 def test_for_list(context):
     assert type(context.query_result) == list
+
+@then(u'we see that it can be viewed by sling')
+def test_check_for_sling(context):
+    assert context.channel.is_on_sling
+
+
 
 

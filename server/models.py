@@ -43,10 +43,19 @@ class Hardware(models.Model):
         return "{0} version {1}".format(self.name, self.version)
 
 
+class LiveStream(models.Model):
+    web_source = models.TextField(blank=True, null=True)
+    web_display_name = models.TextField(blank=True, null=True)
+    web_type = models.TextField(blank=True, null=True)
+    web_link = models.URLField(blank=True, null=True)
+
+
+
+
 class Channel(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
     guidebox_id = models.IntegerField(blank=True, null=True)
-    source = models.CharField(max_length=50, blank=True, null=True)
+    short_name = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     home_url = models.URLField(blank=True, null=True)
     channel_type = models.CharField(max_length=100, blank=True, null=True)
@@ -55,8 +64,10 @@ class Channel(models.Model):
     apple_app = models.URLField(blank=True, null=True)
     images = models.ForeignKey(Images, null=True, blank=True)
     price = models.ForeignKey(Price, blank=True, null=True)
-    # hardware = models.ManyToManyField(Hardware, blank=True, null=True)
+    hardware = models.ManyToManyField(Hardware, blank=True)
     modified = models.DateTimeField(null=True, blank=True)
+    is_on_sling = models.BooleanField(default=False)
+    live_stream  = models.ForeignKey(LiveStream)
 
     def save(self, *args, **kwargs):
         self.modified = timezone.now()
@@ -86,7 +97,7 @@ class Content(models.Model):
     description = models.TextField(blank=True, null=True)
     home_url = models.URLField(blank=True, null=True)
     images = models.ForeignKey(Images, null=True, blank=True)
-    channel = models.ManyToManyField(Channel, null=True, blank=True)
+    channel = models.ManyToManyField(Channel, blank=True)
     modified = models.DateTimeField(null=True, blank=True)
     tvrage_id = models.IntegerField(blank=True, null=True)
     themoviedb_id = models.IntegerField(blank=True, null=True)
