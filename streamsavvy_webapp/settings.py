@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_behave',
+    # 'haystack',
     'server',
     'rest_framework',
     'markdown',
@@ -46,7 +48,6 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
     'django_rq',
     'debug_toolbar',
-    'django_behave',
     'corsheaders',
     'oauth2_provider',
 ]
@@ -161,6 +162,7 @@ REST_FRAMEWORK = {
 }
 
 TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'
+
 import dj_database_url
 
 DATABASES = {}

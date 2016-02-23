@@ -1,15 +1,18 @@
 import os
-os.environ['DJANGO_SETTINGS_MODULE'] = 'cutthecord.settings'
 
-from server.apis.guidebox  import GuideBox
+os.environ['DJANGO_SETTINGS_MODULE'] = 'streamsavvy_webapp.settings'
+
+from server.apis.guidebox import GuideBox
+
+# Even though the environment variable is set, this still may be
+# necessary. Or may be CYA insurance
+
+import django
+
+django.setup()
+
 
 def before_all(context):
-    # Even though the environment variable is set, this still may be
-    # necessary. Or may be CYA insurance
-
-    import django
-    django.setup()
-
     #### Take a test runner hostage ###
     from django.test.runner import DiscoverRunner
 
@@ -29,4 +32,3 @@ def before_feature(context, feature):
 #     context.runner.teardown_databases(context.old_db_config)
 #
 #     context.runner.teardown_test_environment()
-
