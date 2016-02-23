@@ -2,14 +2,15 @@ import os
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'streamsavvy_webapp.settings'
 
-from server.apis.guidebox import GuideBox
 
 # Even though the environment variable is set, this still may be
 # necessary. Or may be CYA insurance
 
 import django
-
 django.setup()
+
+
+from server.apis.guidebox import GuideBox
 
 
 def before_all(context):
