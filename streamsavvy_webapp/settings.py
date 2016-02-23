@@ -173,7 +173,7 @@ else:
     DATABASE_URL = DBurl(BASE_DIR).url
 
 DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
-DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+# DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 #############################
 #  CACHES                   #
