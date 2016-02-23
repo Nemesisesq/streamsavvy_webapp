@@ -15,7 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from urllib.parse import urlparse
 
-from server.shortcuts import SettingsVars
+from server.shortcuts import SettingsVars, DBurl
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -166,7 +166,13 @@ TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'
 import dj_database_url
 
 DATABASES = {}
-DATABASES['default'] = dj_database_url.config(default='postgres://Nem:prelude@localhost:5432/streamsavvy3')
+
+if os.environ.get('HEROKU', None):
+    pass
+else:
+    DATABASE_URL = DBurl(BASE_DIR).url
+
+DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
 DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 #############################
