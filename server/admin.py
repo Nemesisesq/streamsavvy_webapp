@@ -23,10 +23,6 @@ class HardwareAdmin(admin.ModelAdmin):
 class PackageAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(JsonPackage)
-class JsonPackage(admin.ModelAdmin):
-    pass
-
 @admin.register(Feedback)
 class Feedback(admin.ModelAdmin):
     pass

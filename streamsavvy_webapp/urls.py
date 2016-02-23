@@ -22,7 +22,7 @@ from rest_framework import routers
 from server.auth import *
 from server.feedback import FeedbackView
 from server.views import *
-from titan.views import GuideTestView, guide_reciever
+# from titan.views import GuideTestView, guide_reciever
 
 router = routers.DefaultRouter()
 # router.register(r'users', UserViewSet)
@@ -52,9 +52,9 @@ urlpatterns = [
     url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
     url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-    url(r'^guide/', GuideTestView.as_view(), name='guide_test'),
     url(r'^o/', include('oauth2_provider.urls')),
-    url(r'^guide_reciever/', guide_reciever, name='reciever')
+    # url(r'^guide/', GuideTestView.as_view(), name='guide_test'),
+    # url(r'^guide_reciever/', guide_reciever, name='reciever')
     # url(r'test/', TemplateView.as_view(template_name='test.html')),
     # url(r'^script/netflixable', get_netflixable_shows )
     # url(r'^package/$', package_list),

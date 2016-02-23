@@ -63,9 +63,9 @@ def test_check_json(context):
 @then(u'we save the content')
 def test_save_content(context):
     # TODO write test to check for saved content in the database
-    sample_show = json.loads(context.the_json)[0]
+    sample_show = json.loads(context.the_json)['results'][0]
 
-    context.guidebox.save_content('')
+    context.guidebox.save_content(sample_show)
     assert False
 
 

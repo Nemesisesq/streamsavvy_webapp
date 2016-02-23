@@ -1,21 +1,21 @@
 import json
 import logging
 import os
-import threading
+# import threading
 import time
 import urllib
 import urllib.error
 import urllib.request
 from datetime import timedelta
-from queue import Queue
+# from queue import Queue
 
 import yaml
 from django.core import serializers
 from django.db.models import Q
 from django.utils import timezone
 
-from cutthecord.settings import BASE_DIR
-from server.models import Content, Channel, Images, LiveStream
+from streamsavvy_webapp.settings import BASE_DIR
+from server.models import Content, Channel, Images
 
 
 class GuideBox(object):
@@ -112,13 +112,13 @@ class GuideBox(object):
             print(e)
 
     def populate_content(self):
-        total_results = json.loads(self.get_content(0))['total_results']
+        total_results = json.loads(self.get_content_list(0))['total_results']
         show_count = 0
         loop = True
         count = 0
         while loop:
             index = count * 250
-            results = json.loads(self.get_content(index))
+            results = json.loads(self.get_content_list(index))
             if results['total_returned']:
                 shows_dict = results['results']
                 for i in shows_dict:
@@ -143,27 +143,16 @@ class GuideBox(object):
 
     def save_content(self, i):
 
-        c = Content.objects.get_or_create(guidebox_id=i['id'])
+        c = Content.objects.get_or_create(guidebox_data__id=i['id'])
 
         content = c[0]
 
-        content.title = i['title']
+        i =  {k:v if type(v) in (str,int ) else repr(v) for k,v in i.items() if v!=''}
+        i.pop('tvrage')
 
-        content.guidebox_id = i['id']
-        content.imdb_id = i['imdb_id'] if 'imdb_id' in i else None
-        content.freebase_id = i['freebase'] if 'freebase' in i else None
-        content.tvdb_id = i['tvdb'] if 'tvdb' in i else None
-        content.tvrage_id = i['tvrage']['tvrage_id'] if 'tvrage' in i and 'tvrage_id' in i['tvrage'] else None
-        content.wikepedia_id = i['wikipedia_id'] if 'wikipedia_id' in i else None
-        content.themoviedb_id = i['themoviedb'] if 'themoviedb' in i else None
+        content.guidebox_data = i
 
-        if 'first_aired' in i:
-            content.first_aired = i['first_aired']
-        images = self.save_images(i)
-        content.images = images
 
-        if 'url' in i:
-            content.home_url = i['url']
 
         try:
             content.save()
@@ -206,18 +195,7 @@ class GuideBox(object):
         images = self.save_images(c)
         chan.images = images
 
-        s = LiveStream()
-
         live = c['live_stream']
-
-        s.web_source = live['web']['source'] if live['web']['source'] else None
-        s.web_display_name = live['web']['display_name'] if live['web']['display_name'] else None
-        s.web_type = live['web']['type'] if live['web']['type'] else None
-        s.web_link = live['web']['link'] if live['web']['link'] else None
-
-        s.save()
-
-        chan.live_stream = s
 
         #TODO add social in the future
 
