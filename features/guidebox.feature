@@ -15,14 +15,20 @@ Feature: guidebox api feature
     Then json is returned
     Then we save the content
 
-  Scenario: Iterate through all the guidebox objects and get
+  Scenario: We get a list of channels from the guidebox api and save the channels
+    Given an index of 0
+    When a list of channels is requested from guidebox
+    Then json is returned
+    Then we save the channels
+
+  Scenario: We test the task that adds show to the queue to be saved
     Given a total number of shows
     When we call the populate shows task
     Then there are a total number of shows in the queue
 
-  Scenario: Getting a list of channels from the guidebox api and saving them
-    When a list of channels is requested from guidebox
-    Then json is returned
-    Then there are channels in the database
+  Scenario: We test the task that adds channels to the queue to be saved
+    Given a total number of channels
+    When we call the populate channel task
+    Then there are a total number of channels in the queue
 
 

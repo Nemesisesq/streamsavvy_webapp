@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_behave',
+    'django_extensions',
     # 'haystack',
     'server',
     'rest_framework',

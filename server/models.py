@@ -46,7 +46,7 @@ class Hardware(models.Model):
 class Channel(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
     guidebox_data = JSONField(blank=True, null=True)
-    is_on_sling = models.BooleanField()
+    is_on_sling = models.BooleanField(default=False)
     modified = models.DateTimeField(auto_now=True, blank=True)
 
     def save(self, *args, **kwargs):

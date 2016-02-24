@@ -29,8 +29,8 @@ class GuideBox(object):
     # def __init__(self):
 
     def get_total_number_of_shows(self):
-        response =  self.get_content_list(0)
-        dict =  json.loads(response)
+        response = self.get_content_list(0)
+        dict = json.loads(response)
         return dict['total_results']
 
     def get_total_number_of_channels(self):
@@ -141,19 +141,13 @@ class GuideBox(object):
             print(e)
             return False
 
-    def save_content(self, i):
+    def save_content(self, the_json):
 
-        c = Content.objects.get_or_create(guidebox_data__id=i['id'])
+        c = Content.objects.get_or_create(guidebox_data__id=the_json['id'])
 
         content = c[0]
-
-        i =  {k:v if type(v) in (str,int ) else repr(v) for k,v in i.items() if v!=''}
-        i.pop('tvrage')
-
-        content.guidebox_data = i
-
-
-
+        content.title = the_json['title']
+        content.guidebox_data = the_json
         try:
             content.save()
             print("{0} was saved".format(c))
@@ -174,7 +168,8 @@ class GuideBox(object):
             return i
 
     def get_channel_list(self, type='all', start=0, limit=50):
-        url = "{BASE_URL}/channels/{type}/{start}/{limit}".format(BASE_URL=self.BASE_URL, type=type, start=start, limit = limit)
+        url = "{BASE_URL}/channels/{type}/{start}/{limit}".format(BASE_URL=self.BASE_URL, type=type, start=start,
+                                                                  limit=limit)
 
         try:
             with urllib.request.urlopen(url) as response:
@@ -184,30 +179,17 @@ class GuideBox(object):
             print(e)
             return False
 
-    def save_channel(self, c):
+    def save_channel(self, the_json):
 
-        chan = Channel.objects.get_or_create()[0]
+        c = Channel.objects.get_or_create(guidebox_data__id=the_json['id'])
+        chan = c[0]
 
-        chan.name = c['name'] if c['name'] else None
-        chan.guidebox_id = c['id'] if c['id'] else None
-        chan.short_name = c['short_name'] if c['short_name'] else None
-
-        images = self.save_images(c)
-        chan.images = images
-
-        live = c['live_stream']
-
-        #TODO add social in the future
+        chan.name = the_json['name'] if the_json['name'] else None
+        chan.guidebox_data = the_json
 
         chan.save()
 
         return chan
-
-
-
-
-
-
 
 
 # This Class is meant to flesh out provider details
