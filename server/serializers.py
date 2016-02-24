@@ -72,10 +72,8 @@ class PackagesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Package
         fields = (
-            'url',
-            'content',
-            'hardware',
-            'providers'
+            'owner',
+            'data',
         )
 
 class SignUpSerialzier(serializers.ModelSerializer):

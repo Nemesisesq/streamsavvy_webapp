@@ -26,6 +26,7 @@ def test_get_total_number_guidebox_shows(context):
     assert type(context.total_shows) == int
     assert context.total_shows > 0
 
+
 @given(u'a total number of channels')
 def test_get_total_number_guidebox_shows(context):
     context.total_shows = context.guidebox.get_total_number_of_channels()
@@ -55,6 +56,7 @@ def test_initial_population_of_channels(context):
     results = inital_database_population_of_channels()
     assert results
 
+
 @when("a list of channels is requested from guidebox")
 def test_request_channels_from_guidebox(context):
     channels = context.guidebox.get_channel_list('all', context.index)
@@ -65,6 +67,7 @@ def test_request_channels_from_guidebox(context):
     :type context: behave.runner.Context
     """
     pass
+
 
 ############################
 ## THEN
@@ -82,6 +85,7 @@ def test_save_content(context):
     result = context.guidebox.save_content(sample_show)
     assert result
 
+
 @then("we save the channels")
 def test_save_channels(context):
     sample_channel = json.loads(context.the_json)['results'][0]
@@ -94,6 +98,7 @@ def test_total_number_of_jobs_queued(context):
     q = django_rq.get_queue('low')
     assert len(q.jobs) > 0
 
+
 @then(u'there are a total number of channels in the queue')
 def test_total_number_of_jobs_queued(context):
     q = django_rq.get_queue('low')
@@ -104,5 +109,22 @@ def test_total_number_of_jobs_queued(context):
 def test_check_for_channels_in_db(context):
     q = django_rq.get_queue('low')
     assert len(q.jobs) > 0
+
+@given("an unauthenticated user")
+def step_impl(context):
+    pass
+
+@when("we make a call {url}")
+def test_call_json_package(context, url):
+    context.response = context.rest_client.get(url)
+    assert context.response.status_code == 200
+
+
+
+@then("we get a blank package")
+def test_for_blank_package(context):
+    res = context.response.data['results'][0]['data']
+    assert res is not None
+    assert res == {'content': '', 'hardware': '', 'services': ''}
 
 
