@@ -78,33 +78,33 @@ class ShowChannelsView(View):
         return JsonResponse(channel_set, safe=False)
 
 
-class JsonPackageView(View):
-    def get(self, request):
-
-        self.logger = logging.getLogger('cutthecord')
-
-        try:
-            pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
-        except:
-            pkg = ''
-        if pkg != '': pkg = json.loads(pkg, encoding='utf-8')
-        #pkg['env'] = 'debug' if settings.DEBUG else 'production'
-
-        return JsonResponse(pkg, safe=False)
-
-    def post(self, request):
-        user_json_tuple = JsonPackage.objects.get_or_create(owner=request.user)
-        user_json_package = user_json_tuple[0]
-
-        try:
-
-            user_json_package.json = request.body
-            user_json_package.save()
-            return JsonResponse({'hello': 'world'}, safe=False)
-
-        except Exception as e:
-            self.logger.debug(e)
-
+# class JsonPackageView(View):
+#     def get(self, request):
+#
+#         self.logger = logging.getLogger('cutthecord')
+#
+#         try:
+#             pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
+#         except:
+#             pkg = ''
+#         if pkg != '': pkg = json.loads(pkg, encoding='utf-8')
+#         #pkg['env'] = 'debug' if settings.DEBUG else 'production'
+#
+#         return JsonResponse(pkg, safe=False)
+#
+#     def post(self, request):
+#         user_json_tuple = JsonPackage.objects.get_or_create(owner=request.user)
+#         user_json_package = user_json_tuple[0]
+#
+#         try:
+#
+#             user_json_package.json = request.body
+#             user_json_package.save()
+#             return JsonResponse({'hello': 'world'}, safe=False)
+#
+#         except Exception as e:
+#             self.logger.debug(e)
+#
 
 # def json_package(request):
 #     if request.method == 'POST':

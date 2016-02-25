@@ -1,8 +1,12 @@
 import json
+from copy import deepcopy
 
 import django_rq
-from behave import given, when, then
+from behave import given, when, then, step
 # import json
+from django.contrib.auth.models import User
+from rest_framework.test import APIClient
+
 from server.tasks import inital_database_population_of_content, inital_database_population_of_channels
 
 __author__ = 'Nem'
@@ -110,21 +114,61 @@ def test_check_for_channels_in_db(context):
     q = django_rq.get_queue('low')
     assert len(q.jobs) > 0
 
-@given("an unauthenticated user")
-def step_impl(context):
-    pass
 
-@when("we make a call {url}")
-def test_call_json_package(context, url):
-    context.response = context.rest_client.get(url)
-    assert context.response.status_code == 200
+@when("we make a get request {url}")
+def test_get_request_api_package(context, url):
+    response = context.rest_client.get(url)
+    assert response.status_code == 200
 
+    context.response = response
 
 
 @then("we get a blank package")
 def test_for_blank_package(context):
-    res = context.response.data['results'][0]['data']
-    assert res is not None
-    assert res == {'content': '', 'hardware': '', 'services': ''}
+    context.data = context.response.data['results'][0]['data']
+    context.p_url = context.response.data['results'][0]['url']
+    res = context.rest_client.get(context.response.data['results'][0]['url'])
+    context.package = res.data
+    assert context.data is not None
+    assert context.data == {'content': '', 'hardware': '', 'services': ''}
 
 
+@step("we modify the package")
+def step_impl(context):
+    package = context.package
+    context.old_package = deepcopy(package)
+    package['data']['content'] = 'hello, world!'
+    package['data']['hardware'] = 'hello, nurse!'
+    package['data']['services'] = 'hello, dolly!'
+    context.url = package['url']
+    # context.user = User.objects.get(id=package['url'].split('/')[:-1])
+    context.package = package
+
+
+@when("we make a post request {url}")
+def test_post_request_api_package(context, url):
+    # context.rest_client = APIClient()
+    # context.rest_client.force_authenticate(context.user)
+    response = context.rest_client.put(context.url, context.package, format='json')
+    assert response.status_code == 200
+
+
+@then("we update the package")
+def check_the_package_has_changed(context):
+    res = context.rest_client.get(context.p_url)
+    assert context.old_package is not res.data
+
+@when("we get a authtoken")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    pass
+
+
+@given("an unauthenticated user")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    pass

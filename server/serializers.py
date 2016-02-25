@@ -72,7 +72,8 @@ class PackagesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Package
         fields = (
-            'owner',
+            'url',
+            # 'owner',
             'data',
         )
 

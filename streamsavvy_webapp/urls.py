@@ -47,7 +47,8 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^social', include('social.apps.django_app.urls', namespace='social')),
     url(r'^django-rq', include('django_rq.urls')),
-    url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
+    #TODO remove this endpoint when the api package can get and post.
+    # url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
     url(r'^netflixable/', NetFlixListView.as_view(), name='netflixable'),
     url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
     url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),

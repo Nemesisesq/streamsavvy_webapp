@@ -1,23 +1,25 @@
 import os
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'streamsavvy_webapp.settings'
 
+os.environ['DJANGO_SETTINGS_MODULE'] = 'streamsavvy_webapp.settings'
 # Even though the environment variable is set, this still may be
 # necessary. Or may be CYA insurance
-
 import django
-
 django.setup()
 
 from server.apis.guidebox import GuideBox
 from splinter.browser import Browser
-from django.test import Client
+from rest_framework.test import APIClient
+
+
+
+
 
 
 
 def before_tag(context, tag):
     if tag == 'rest':
-        context.rest_client = Client()
+        context.rest_client = APIClient()
     if tag == 'browser':
         context.browser = Browser()
 
