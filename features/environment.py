@@ -2,6 +2,7 @@ import os
 
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'streamsavvy_webapp.settings'
+os.environ['REDIS_URL'] = 'http://localhost:6379'
 # Even though the environment variable is set, this still may be
 # necessary. Or may be CYA insurance
 import django
@@ -18,7 +19,7 @@ from rest_framework.test import APIClient
 
 
 def before_tag(context, tag):
-    if tag == 'rest':
+    if tag == 'rest_api':
         context.rest_client = APIClient()
     if tag == 'browser':
         context.browser = Browser()

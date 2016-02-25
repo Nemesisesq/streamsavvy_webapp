@@ -31,20 +31,6 @@ Feature: guidebox api feature
     When we call the populate channel task
     Then there are a total number of channels in the queue
 
-  @rest
-  Scenario: We test that Json Package is returned
-    Given an unauthenticated user
-    When we make a get request /api/package/
-    Then we get a blank package
-
-  @rest
-  Scenario: We test that a Json Package can be posted
-    Given an unauthenticated user
-    When we make a get request /api/package/
-    Then we get a blank package
-    And we modify the package
-    When we make a post request /api/package/
-    Then we update the package
 
 
 

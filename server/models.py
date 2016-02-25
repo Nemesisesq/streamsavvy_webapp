@@ -60,7 +60,9 @@ class Channel(models.Model):
 class Content(models.Model):
     title = models.CharField(max_length=250, blank=False, null=False)
     guidebox_data = JSONField(blank=True, null=True)
+    channel = models.ManyToManyField(Channel, blank=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
+
 
     def save(self, *args, **kwargs):
         self.modified = timezone.now()

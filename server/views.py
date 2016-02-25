@@ -158,9 +158,9 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         else:
             return True
 
-    def filter_by_guidebox_id(self, x):
+    def filter_content_by_guidebox_id(self, x):
 
-        if x.guidebox_id not in [3084, 31168, 31150, 15935]:
+        if x.guidebox_data['id'] not in [3084, 31168, 31150, 15935]:
             return True
 
         return False
@@ -168,7 +168,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
     def filter_query(self, filtered_ids, entries):
 
         for i in filtered_ids:
-            q = Q(guidebox_id=i)
+            q = Q(guidebox_data__id=i)
 
             if self.params:
                 self.params = self.params | q
@@ -213,7 +213,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         # filter_results['search_term'] = self
 
-        filter_results = list(filter(self.filter_by_guidebox_id, filter_results))
+        filter_results = list(filter(self.filter_content_by_guidebox_id, filter_results))
 
         assert cache
         try:
