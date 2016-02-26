@@ -27,6 +27,14 @@ Feature: API Fature
     When we make a post request /api/package/
     Then we update the package
 
-
+  @rest_api
   Scenario: This test is to ensure the content API is working correctly
     When we make a get request /api/content/
+
+  @rest_api
+  Scenario: This test is to ensure the services API is working correctly
+    When we make a get request /api/services/
+
+  @rest_api
+  Scenario: This test is to ensure the hardware API is working correctly
+    When we make a get request /api/hardware/

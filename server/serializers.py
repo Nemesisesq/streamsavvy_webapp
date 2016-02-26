@@ -41,13 +41,14 @@ class HardwareSerializer(serializers.HyperlinkedModelSerializer):
 class ChannelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Channel
+        depth = 3
         # 4
 
 
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Content
-        depth=3
+        depth = 3
         # fields = ('url',
         # 'title',
         # 'description',
@@ -77,9 +78,9 @@ class PackagesSerializer(serializers.HyperlinkedModelSerializer):
             'data',
         )
 
+
 class SignUpSerialzier(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'password')
         write_only_fields = ('password')
-

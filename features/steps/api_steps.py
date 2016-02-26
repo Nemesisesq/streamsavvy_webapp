@@ -1,8 +1,6 @@
 from copy import deepcopy
 
 from behave import given, when, then, step
-from rest_framework.test import APIRequestFactory
-
 ############################
 ## Helpers
 ############################
@@ -11,7 +9,6 @@ from rest_framework.test import APIRequestFactory
 ## GIVEN
 ############################
 from server.models import Channel
-from server.views import ContentSearchViewSet
 
 
 # @given(u'a search request for {query}')
@@ -28,7 +25,7 @@ from server.views import ContentSearchViewSet
 @when(u'we search queryset for {query}')
 def search_for_term(context, query):
     res = context.rest_client.get('/api/search/?q={q}'.format(q=query))
-    assert res.status_code == 200
+    assert res.status_code is 200
     context.response = res
 
 
@@ -47,6 +44,7 @@ def step_impl(context):
     """
     pass
 
+
 @then(u'we get a list')
 def test_for_list(context):
     assert isinstance(context.response.data['results'], list)
@@ -60,7 +58,7 @@ def test_check_for_sling(context):
 @when("we make a get request {url}")
 def test_get_request_api_package(context, url):
     response = context.rest_client.get(url)
-    assert response.status_code == 200
+    assert response.status_code is 200
     context.response = response
 
 
@@ -106,5 +104,3 @@ def step_impl(context):
     :type context: behave.runner.Context
     """
     pass
-
-

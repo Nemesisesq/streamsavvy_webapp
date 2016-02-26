@@ -2,9 +2,7 @@ import json
 import logging
 import re
 import time
-import urllib
 
-from bs4 import BeautifulSoup
 from django.contrib.auth.models import Group
 from django.core.cache import cache
 from django.db.models import Q
@@ -13,10 +11,10 @@ from django.views.generic import View
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 
-from server.models import *
-from server.permissions import IsAdminOrReadOnly
 from server.apis.guidebox import GuideBox
 from server.apis.netflixable import Netflixable
+from server.models import *
+from server.permissions import IsAdminOrReadOnly
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer
 

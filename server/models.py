@@ -54,7 +54,7 @@ class Channel(models.Model):
         return super(Channel, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return "{}".format( self.name)
 
 
 class Content(models.Model):
@@ -62,7 +62,6 @@ class Content(models.Model):
     guidebox_data = JSONField(blank=True, null=True)
     channel = models.ManyToManyField(Channel, blank=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
-
 
     def save(self, *args, **kwargs):
         self.modified = timezone.now()

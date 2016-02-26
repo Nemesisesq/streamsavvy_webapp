@@ -33,7 +33,7 @@ def test_get_total_number_guidebox_shows(context):
 
 @given(u'a total number of channels')
 def test_get_total_number_guidebox_shows(context):
-    context.total_shows = context.guidebox.get_total_number_of_channels()
+    context.total_channels = context.guidebox.get_total_number_of_channels()
     assert type(context.total_channels) == int
     assert context.total_shows > 0
 

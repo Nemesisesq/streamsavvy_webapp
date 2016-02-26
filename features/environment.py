@@ -1,21 +1,16 @@
 import os
 
-
 os.environ['DJANGO_SETTINGS_MODULE'] = 'streamsavvy_webapp.settings'
 os.environ['REDIS_URL'] = 'http://localhost:6379'
 # Even though the environment variable is set, this still may be
 # necessary. Or may be CYA insurance
 import django
+
 django.setup()
 
 from server.apis.guidebox import GuideBox
 from splinter.browser import Browser
 from rest_framework.test import APIClient
-
-
-
-
-
 
 
 def before_tag(context, tag):
