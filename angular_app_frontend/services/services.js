@@ -18,7 +18,7 @@ app.factory('N', function () {
 
 app.run(function ($http, Fuse, N) {
 
-    $http.get('netflixable/')
+    $http.get('/netflixable/')
         .then(function (data) {
 
             N.setShows(data.data)
@@ -49,8 +49,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         postPackage: function (ssPackage) {
 
-            //debugger;
-            $http.post('/json-package/', ssPackage);
+            debugger;
+            $http.put(ssPackage.url, ssPackage);
         },
 
         getPackage: function () {
@@ -168,19 +168,15 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 
 app.run(function (PackageFactory, $http, http, $rootScope) {
-    $http.get('/json-package/')
+    $http.get('/api/package/')
         .then(function (data) {
-            $rootScope.env = data.data.env
+            debugger
+            //$rootScope.env = data.data.env
 
             console.log(data);
 
-            if (data.data == "") {
-                http.getPackage()
-                    .then(function (data) {
-                        PackageFactory.setPackage(data)
-                    })
-            } else {
-                PackageFactory.setPackage(data.data)
-            }
+            data = data.data.results[0]
+            PackageFactory.setPackage(data)
+
         })
 });

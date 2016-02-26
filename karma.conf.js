@@ -27,6 +27,7 @@ module.exports = function (config) {
 
 
             'angular_app_frontend/**/*.js',
+            'test/**/*.js'
         ],
 
 
