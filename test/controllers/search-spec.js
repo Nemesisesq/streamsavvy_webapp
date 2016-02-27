@@ -1,15 +1,22 @@
 describe('SearchController', function () {
-    beforeEach(module('myApp'));
+    beforeEach(
+        function () {
 
-    var $controller;
+            module('myApp');
+            module('ngMockE2E');
+        }
+    );
 
-    beforeEach(inject(function (_$controller_, _$rootScope_, _$httpBackend_) {
+    var $controller, $rootScope, $httpBackend, $timeout;
+
+    beforeEach(inject(function (_$controller_, _$rootScope_, _$httpBackend_,_$timeout_) {
         $controller = _$controller_;
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
+        $timeout = _$timeout_;
 
         $httpBackend.expectGET('/netflixable/').respond('hello world')
-        $httpBackend.expectGET('/package/').respond('hello world')
+        $httpBackend.expectGET('/api/package/').respond('hello world')
     }))
 
     describe('$scope.search', function () {
@@ -28,17 +35,20 @@ describe('SearchController', function () {
             expect(typeof $scope.search).toBe('function')
         });
 
-        it('calls the server with a query and gets a list back', function () {
-            $httpBackend.whenGET(/^\/api\//).respond([1, 2, 3, 4, 5])
+        it('calls the server with a query and gets a list back', function (done) {
 
             expect($scope.suggestions).toBe([]);
+            $httpBackend.whenGET(/^\/api\//).passThrough()
+            //$rootScope.$apply();
 
-            spyOn($scope, 'search').and.callThrough()
+            setTimeout(function () {
+                spyOn($scope, 'search').and.callThrough()
 
-            var res = $scope.search('orange');
-            $rootScope.$apply()
-            expect(res).toBe('hello world')
-            expect($scope.suggestions.length).toBeGreaterThan(0)
+                var res = $scope.search('orange');
+                expect(res).toBe('hello world')
+                expect($scope.suggestions.length).toBeGreaterThan(0)
+                done();
+            },1000);
 
         });
     });
