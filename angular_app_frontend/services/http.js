@@ -76,7 +76,7 @@ app.factory('http', function ($http, $log, $q) {
             var deffered = $q.defer();
             $http({
                 method: 'POST',
-                url: "login/",
+                url: "o/token",
                 data:credentials
 
             })

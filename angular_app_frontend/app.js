@@ -197,8 +197,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'search'
                 },
                 shows: {
-                    templateUrl: '/static/partials/dashboard/show-grid.html',
-                    controller: 'StepOneController'
+                    templateUrl: '/static/partials/show-grid/show-grid.html',
+                    controller: 'ShowGridController'
                 },
                 services: {
                     templateUrl: '/static/partials/dashboard/service-panel.html',

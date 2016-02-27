@@ -1,30 +1,29 @@
-<section class="show-input-form">
-    <div class="loader" ng-show="loading">
-        <img src="/static/img/SS_Mark_red.png">
-    </div>.
-    <div class="container-fluid">
-        <div class="row">
+<div class="loader" ng-show="loading">
+    <img src="/static/img/SS_Mark_red.png">
+</div>
+<div class="container-fluid">
+    <div class="row">
 
-            <div class="row show-input search-bar">
-                <!-- <input type="text" placeholder="Start typing" id="searchInput" ng-keydown="checkKeyDown($event)"
-                       class="form-control stacked-input-1" ng-model="searchText" ng-change="search()"/> -->
+        <div class="row show-input
+        ">
+            <!-- <input type="text" placeholder="Start typing" id="searchInput" ng-keydown="checkKeyDown($event)"
+                   class="form-control stacked-input-1" ng-model="searchText" ng-change="search()"/> -->
 
-                <input type="text" placeholder="Start typing" id="searchInput" class="form-control stacked-input-1"
-                       ng-model="searchText" ng-model-options="modelOptions"
-                       uib-typeahead="suggestion.title for suggestion in search($viewValue)"
-                       typeahead-loading="loading" typeahead-no-results="noResults"
-                typeahead-on-select="addToSelectedShows($item, $model, $label, $event)"/>
-                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                <div ng-show="noResults">
-                    <i class="glyphicon glyphicon-remove"></i> No Results Found
-                </div>
-
-
-                <div class="row suggestions">
+            <input type="text" placeholder="Start typing" id="searchInput" class="form-control stacked-input-1"
+                   ng-model="searchText" ng-model-options="modelOptions"
+                   uib-typeahead="suggestion.title for suggestion in search($viewValue)"
+                   typeahead-loading="loading" typeahead-no-results="noResults"
+                   typeahead-on-select="addToSelectedShows($item, $model, $label, $event)"/>
+            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+            <div ng-show="noResults">
+                <i class="glyphicon glyphicon-remove"></i> No Results Found
+            </div>
 
 
-                </div>
+            <div class="row suggestions">
+
+
             </div>
         </div>
     </div>
-</section>
+</div>

@@ -2290,6 +2290,79 @@ html, body {
 .fa-fonticons:before {
   content: ""; }
 
+.search-bar {
+  margin: 0 auto;
+  max-width: 808px;
+  z-index: 3; }
+  .search-bar input {
+    height: 61px; }
+    .search-bar input.form-control {
+      border-color: #c9c9c9; }
+  .search-bar .stacked-input-1 {
+    position: relative;
+    background: transparent; }
+
+.just-type {
+  margin: 0 auto;
+  text-align: center; }
+  .just-type h1 {
+    font-weight: 900;
+    margin-top: 5%;
+    margin-bottom: 10px; }
+
+ul[id^='typeahead-'], .suggestions-list {
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding-left: 12px;
+  padding-right: 12px;
+  position: absolute;
+  width: 100%;
+  max-height: 20em;
+  display: block;
+  overflow: hidden;
+  z-index: 1;
+  background-color: #ffffff;
+  border: 1px solid #cccccc; }
+  ul[id^='typeahead-'] li, .suggestions-list li {
+    list-style: none;
+    font-size: 130%;
+    color: #555555; }
+
+@keyframes loader {
+  from {
+    transform: rotatey(0deg); }
+  to {
+    transform: rotatey(360deg); } }
+
+@keyframes loader-fade {
+  from {
+    opacity: 100; }
+  to {
+    opacity: 0; } }
+
+.loader {
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  margin-left: -50px;
+  z-index: 100; }
+  .loader img {
+    max-height: 100px;
+    max-width: 100px;
+    animation-name: loader;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; }
+  .loader p {
+    animation-name: loader-fade;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in;
+    text-align: center;
+    font-size: 30px; }
+
 .services-hardware {
   overflow-x: visible;
   z-index: 1050;
