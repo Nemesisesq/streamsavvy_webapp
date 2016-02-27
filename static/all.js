@@ -945,6 +945,35 @@ app.controller('FeedbackCtrl', function ($scope) {
  */
 
 /**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, $cookies, $location) {
+
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+
+/**
  * Created by Nem on 6/28/15.
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
@@ -1003,35 +1032,6 @@ $(document).ready(function () {
     //
     //}
 });
-/**
- * Created by chirag on 8/3/15.
- */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
-
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
-
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();

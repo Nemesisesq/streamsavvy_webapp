@@ -2290,6 +2290,11 @@ html, body {
 .fa-fonticons:before {
   content: ""; }
 
+.services-hardware {
+  overflow-x: visible;
+  z-index: 1050;
+  top: -25px; }
+
 .dashboard {
   text-transform: uppercase;
   padding-left: 2%;
@@ -2420,7 +2425,6 @@ html, body {
 
 /* Push classes applied to the body */
 .cbp-spmenu-push {
-  overflow-x: hidden;
   position: relative;
   left: 0; }
 
