@@ -30,6 +30,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
         $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
         //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
         $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        $('#dashPage').toggleClass('cbp-spmenu-push-toright');
 
         $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
 
