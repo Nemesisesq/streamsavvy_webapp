@@ -54,12 +54,13 @@ class Channel(models.Model):
         return super(Channel, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return "{}".format( self.name)
 
 
 class Content(models.Model):
     title = models.CharField(max_length=250, blank=False, null=False)
     guidebox_data = JSONField(blank=True, null=True)
+    channel = models.ManyToManyField(Channel, blank=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -72,7 +73,7 @@ class Content(models.Model):
 
 class Package(models.Model):
     owner = models.OneToOneField(User, primary_key=True, related_name='packages')
-    data = JSONField(blank=True, null=True)
+    data = JSONField(blank=True, null=True, default={'content': '', 'services': '', 'hardware': ''})
     modified = models.DateTimeField(auto_now=True, blank=True)
 
     def __str__(self):

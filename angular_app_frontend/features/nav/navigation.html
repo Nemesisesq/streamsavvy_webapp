@@ -1,16 +1,16 @@
-<div class="sidebar collapse in width" >
-  <div class="sidebar-content">
-      <ul class="nav nav-sidebar">
-          <li class="active"><a href="#">Overview</a></li>
-          <li><a href="#">Help Me Ditch Cable</a></li>
-          <li><a href="#">Find Your Shows</a></li>
-          <li><a href="#">Blog</a></li>
-      </ul>
-  </div>
-</div>
+<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+	<h3>Menu</h3>
+	<a href="#">Celery seakale</a>
+	<a href="#">Dulse daikon</a>
+	<a href="#">Zucchini garlic</a>
+	<a href="#">Catsear azuki bean</a>
+	<a href="#">Dandelion bunya</a>
+	<a href="#">Rutabaga</a>
+</nav>
 
+<button id="showLeftPush" class="cbp-spmenu-push" ng-click="showLeftPush()">Show/Hide Left Push Menu</button>
 <!--  home page-->
-<div ui-view="home" class="main-page container-fluid content-wrapper"></div>
+<div ui-view="home" id="mainPage" class="main-page container-fluid content-wrapper cbp-spmenu-push"></div>
 
 <div ui-view="modal"></div>
 <!--  blog-->

@@ -5,3 +5,7 @@ app.factory('_', function($window){
 app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
+
+app.factory('classie', function ($window) {
+    return $window.classie
+})

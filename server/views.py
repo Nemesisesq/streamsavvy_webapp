@@ -2,9 +2,7 @@ import json
 import logging
 import re
 import time
-import urllib
 
-from bs4 import BeautifulSoup
 from django.contrib.auth.models import Group
 from django.core.cache import cache
 from django.db.models import Q
@@ -13,10 +11,10 @@ from django.views.generic import View
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 
-from server.models import *
-from server.permissions import IsAdminOrReadOnly
 from server.apis.guidebox import GuideBox
 from server.apis.netflixable import Netflixable
+from server.models import *
+from server.permissions import IsAdminOrReadOnly
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer
 
@@ -78,33 +76,33 @@ class ShowChannelsView(View):
         return JsonResponse(channel_set, safe=False)
 
 
-class JsonPackageView(View):
-    def get(self, request):
-
-        self.logger = logging.getLogger('cutthecord')
-
-        try:
-            pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
-        except:
-            pkg = ''
-        if pkg != '': pkg = json.loads(pkg, encoding='utf-8')
-        #pkg['env'] = 'debug' if settings.DEBUG else 'production'
-
-        return JsonResponse(pkg, safe=False)
-
-    def post(self, request):
-        user_json_tuple = JsonPackage.objects.get_or_create(owner=request.user)
-        user_json_package = user_json_tuple[0]
-
-        try:
-
-            user_json_package.json = request.body
-            user_json_package.save()
-            return JsonResponse({'hello': 'world'}, safe=False)
-
-        except Exception as e:
-            self.logger.debug(e)
-
+# class JsonPackageView(View):
+#     def get(self, request):
+#
+#         self.logger = logging.getLogger('cutthecord')
+#
+#         try:
+#             pkg = JsonPackage.objects.get_or_create(owner=request.user)[0].json
+#         except:
+#             pkg = ''
+#         if pkg != '': pkg = json.loads(pkg, encoding='utf-8')
+#         #pkg['env'] = 'debug' if settings.DEBUG else 'production'
+#
+#         return JsonResponse(pkg, safe=False)
+#
+#     def post(self, request):
+#         user_json_tuple = JsonPackage.objects.get_or_create(owner=request.user)
+#         user_json_package = user_json_tuple[0]
+#
+#         try:
+#
+#             user_json_package.json = request.body
+#             user_json_package.save()
+#             return JsonResponse({'hello': 'world'}, safe=False)
+#
+#         except Exception as e:
+#             self.logger.debug(e)
+#
 
 # def json_package(request):
 #     if request.method == 'POST':
@@ -158,9 +156,9 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         else:
             return True
 
-    def filter_by_guidebox_id(self, x):
+    def filter_content_by_guidebox_id(self, x):
 
-        if x.guidebox_id not in [3084, 31168, 31150, 15935]:
+        if x.guidebox_data['id'] not in [3084, 31168, 31150, 15935]:
             return True
 
         return False
@@ -168,7 +166,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
     def filter_query(self, filtered_ids, entries):
 
         for i in filtered_ids:
-            q = Q(guidebox_id=i)
+            q = Q(guidebox_data__id=i)
 
             if self.params:
                 self.params = self.params | q
@@ -213,7 +211,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         # filter_results['search_term'] = self
 
-        filter_results = list(filter(self.filter_by_guidebox_id, filter_results))
+        filter_results = list(filter(self.filter_content_by_guidebox_id, filter_results))
 
         assert cache
         try:
