@@ -8,7 +8,8 @@ from behave import given, when, then, step
 ############################
 ## GIVEN
 ############################
-from server.models import Channel
+from server.apis.netflixable import Netflixable
+from server.models import Channel, Content
 
 
 # @given(u'a search request for {query}')
@@ -104,3 +105,30 @@ def step_impl(context):
     :type context: behave.runner.Context
     """
     pass
+
+
+@given("and instance of Netflixable with {url}")
+def test_get_instance_of_netflixable(context, url):
+    context.n_flix = Netflixable(url)
+
+
+
+@when("We make call the netflixable url")
+def test_netflixable_get_list(context):
+    context.n_flix.get_netflix_list()
+
+
+@step("we make soup out of those shows")
+def test_get_shows_from_soup(context):
+    context.shows = context.n_flix.get_shows_from_soup()
+
+
+@step("we process that list")
+def test_process_netflixable_shows(context):
+    context.n_flix.process_shows(context.shows)
+
+
+@then("{show} has the netflix channel")
+def test_show_for_netflix_in_channel(context, show):
+    orange = Content.object.get(title__iexact = show)
+    assert orange.guidebox_data

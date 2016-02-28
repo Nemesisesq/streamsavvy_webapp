@@ -58,8 +58,9 @@ class Channel(models.Model):
 
 
 class Content(models.Model):
-    title = models.CharField(max_length=250, blank=False, null=False)
+    title = models.CharField(max_length=250, blank=True, null=True)
     guidebox_data = JSONField(blank=True, null=True)
+    on_netflix = models.BooleanField(default=False)
     channel = models.ManyToManyField(Channel, blank=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
 
@@ -84,3 +85,4 @@ class Feedback(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     data = JSONField(blank=True, null=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
+
