@@ -1,8 +1,19 @@
+.navbar-fixed-top{
+  background-color: $dashboard-dark;
+  min-height: 50px;
+  #cbp-spmenu-s1{
 
+  }
+  #showLeftPush{
+    color: $action_red;
+    background-color: inherit;
 
-.services-hardware {
-  overflow-x: visible;
-  z-index : 1050;
-  top : -25px;
+    display: table;
+    vertical-align: middle;
+    padding-top:15px;
+    padding-bottom:15px;
+    img{
+          margin-right: 15px;
+    }
+  }
 }
-
