@@ -197,8 +197,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'search'
                 },
                 shows: {
-                    templateUrl: '/static/partials/dashboard/show-grid.html',
-                    controller: 'StepOneController'
+                    templateUrl: '/static/partials/show-grid/show-grid.html',
+                    controller: 'ShowGridController'
                 },
                 services: {
                     templateUrl: '/static/partials/dashboard/service-panel.html',
@@ -668,7 +668,7 @@ app.factory('http', function ($http, $log, $q) {
             var deffered = $q.defer();
             $http({
                 method: 'POST',
-                url: "login/",
+                url: "o/token",
                 data:credentials
 
             })
@@ -703,30 +703,49 @@ app.factory('http', function ($http, $log, $q) {
  */
 
 
+//angular.module('streamsavvy')
 
-app.config(function ($httpProvider, $provide) {
-    
-    
-    $provide.factory('s3FeedbackInterceptor', function ($q) {
+  app.factory('s3FeedbackInterceptor', function ($q) {
 
-        return {
-            'request' : function (config) {
-                var x = config
-                return config
-            },
+      return {
+        'request': function (config) {
+          var x = config
+          return config
+        },
 
-            'response' : function (response) {
+        'response': function (response) {
 
 
-
-                return response
-            }
+          return response
         }
-        
+      }
+
     })
 
+  .factory('TokenAuthInterceptor', function ($window, $q) {
+      return {
+        'request': function (config) {
+          config.headers = config.headers || {}
+          if ($window.sessionStorage.token) {
+            config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+          }
+
+          return config
+        },
+        response: function (response) {
+          if (response.status === 401) {
+            // handle the case where the user is not authenticated
+          }
+          return response || $q.when(response);
+        }
+      }
+    })
+
+  .config(function ($httpProvider, $provide, $windowProvider) {
     $httpProvider.interceptors.push('s3FeedbackInterceptor');
-})
+    $httpProvider.interceptors.push('TokenAuthInterceptor')
+
+  })
 
 /* Modernizr 2.6.2 (Custom Build) | MIT & BSD
  * Build: http://modernizr.com/download/#-shiv-cssclasses-load
@@ -783,7 +802,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         postPackage: function (ssPackage) {
 
-            debugger;
+            //debugger;
             $http.put(ssPackage.url, ssPackage);
         },
 
@@ -828,7 +847,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 chans = _.flatten(chans)
 
-                debugger;
+                //debugger;
 
                 chans = _.uniq(chans, function (elem) {
 
@@ -904,7 +923,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 app.run(function (PackageFactory, $http, http, $rootScope) {
     $http.get('/api/package/')
         .then(function (data) {
-            debugger
+            //debugger
             //$rootScope.env = data.data.env
 
             console.log(data);
@@ -999,7 +1018,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
     $scope.showLeftPush = function () {
         //classie.toggle(this, 'active')
 
-        debugger;
+        //debugger;
         //classie.toggle(body, 'cbp-spmenu-push-toright');
         //classie.toggle(menuLeft, 'cbp-spmenu-open');
         $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
@@ -1390,6 +1409,206 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 });
 
 
+app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.clearContent = function () {
+        var pkg = PackageFactory.getPackage()
+
+        pkg.content = []
+
+        PackageFactory.setPackage(pkg)
+    }
+
+    $scope.showTotal = function (content) {
+
+
+        var total = 0
+
+        var chans = _.map(VIEW_WINDOWS, function (w) {
+
+
+            if (content.viewingWindows !== undefined && content.viewingWindows[w.type] !== undefined) {
+                var window = content.viewingWindows[w.type];
+                if (window.channel !== undefined) {
+
+                    return window.channel;
+
+                }
+            }
+        })
+
+        chans = _.uniq(_.compact(chans), function (c) {
+            if (c.service !== undefined) {
+                return c.service
+            }
+            return c.source
+        })
+        var prices = _.map(chans, function (elem) {
+            return elem.price
+        })
+
+        total = _.reduce(prices, function (total, n) {
+            return total + n;
+        })
+
+
+        //_.forEach($scope.directiveVW, function (window) {
+        //
+        //    if (content.viewingWindows !== undefined && content.viewingWindows[window.type] !== undefined) {
+        //
+        //        var window = content.viewingWindows[window.type];
+        //        if (window.channel !== undefined && window.channel.price !== undefined) {
+        //
+        //            total += window.channel.price;
+        //
+        //        }
+        //
+        //    }
+        //})
+
+        content.totalCost = total
+
+
+        total = _.round(total, 2)
+
+        return total
+
+
+    }
+
+
+    $scope.totalServiceCost = PackageFactory.totalServiceCost;
+
+    //$scope.contentTotal = function () {
+    //
+    //
+    //    var t = 0
+    //
+    //    var package = $scope.package;
+    //    if (package.content.length > 0) {
+    //
+    //         t = _.map(package.providers, function(elem){
+    //            return elem.price;
+    //        })
+    //
+    //        t = _.compact(t);
+    //
+    //        t = _.reduce(t, function(total, n){
+    //            return total + n
+    //        })
+    //    }
+    //
+    //    t = _.round(t, 2)
+    //
+    //    return t
+    //
+    //
+    //}
+
+
+    $scope.directiveVW = [
+
+        {
+            type: 'live',
+            headerText: 'Live Over the Air.',
+            toolTip: 'get your content as soon as it dropped.'
+
+
+        },
+        {
+            type: 'onDemand',
+            headerText: 'On Demand Subscription.',
+            toolTip: 'day/+ after live airing.'
+
+
+        },
+        {
+            type: 'fullseason',
+            headerText: 'Binge Watch Full Seasons',
+            toolTip: 'season behind.'
+
+
+        },
+        {
+            type: 'alacarte',
+            headerText: 'Watch Current Season or Episodes for a fee',
+            toolTip: 'day/+ after live airing with no committment'
+
+
+        },
+
+
+    ]
+
+    $scope.popularShows = null;
+
+    $http.get('api/popular-shows')
+        .success(function (data) {
+            $scope.popularShows = data.results;
+            return data
+        })
+        .then(function () {
+            // ;
+            //$('.popular-shows').slick();
+        });
+
+
+    $scope.package = PackageFactory.getPackage();
+
+    $scope.onDemandLength = function (c) {
+
+        return _.filter(c, function (n) {
+                return n.name == 'Netflix'
+            }).length > 0
+    }
+
+    $scope.delete = function (content) {
+        debugger;
+        _.remove($scope.package.content, content);
+        $scope.savePackage()
+        PackageFactory.updatePackageChannels($scope)
+    }
+
+    $scope.prePopulateWindowProvider = function (content, prop) {
+        var array = _.filter(content.content_provider, function (prov) {
+            return _.includes(_.map($scope.package.providers, function (elem) {
+                return elem.name
+            }), prov.name)
+        })
+
+        if (prop == 'onDemand') {
+
+            _.remove(array, function (n) {
+                return n.name == 'Netflix';
+            })
+        } else if (prop == 'fullSeason') {
+
+            _.remove(array, function (n) {
+                return n.name != 'Netflix';
+            })
+        }
+
+        return _.isEmpty(array) ? false : _.first(array).name;
+
+    }
+
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    })
+
+
+    $scope.savePackage = function () {
+        PackageFactory.setPackage($scope.package)
+    }
+
+    //$scope.$watchCollection('package.content', function () {
+    //
+    //    PackageFactory.setPackage($scope.package)
+    //})
+});
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
@@ -1399,7 +1618,8 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
-        //debugger;
+
+        debugger;
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',

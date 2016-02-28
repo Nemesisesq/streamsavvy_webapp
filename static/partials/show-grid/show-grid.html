@@ -1,73 +1,12 @@
-<div class="show-grid">
-    <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/thumbnails_small/14461-6901999730-208x117.jpg">
-        </a>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3" ng-repeat="show in package.data">
+            {{ show }}
+        </div>
     </div>
-    <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/041014/thumbnails_small/19557-5767976544-208x117.jpg">
-        </a>
-    </div>
-
-    <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/thumbnails_small/14461-6901999730-208x117.jpg">
-        </a>
-    </div>
-    <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/041014/thumbnails_small/19557-5767976544-208x117.jpg">
-        </a>
-    </div>
-        <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/thumbnails_small/14461-6901999730-208x117.jpg">
-        </a>
-    </div>
-    <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/041014/thumbnails_small/19557-5767976544-208x117.jpg">
-        </a>
-    </div>
-        <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/thumbnails_small/14461-6901999730-208x117.jpg">
-        </a>
-    </div>
-    <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/041014/thumbnails_small/19557-5767976544-208x117.jpg">
-        </a>
-    </div>
-        <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/thumbnails_small/14461-6901999730-208x117.jpg">
-        </a>
-    </div>
-    <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/041014/thumbnails_small/19557-5767976544-208x117.jpg">
-        </a>
-    </div>
-        <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/thumbnails_small/14461-6901999730-208x117.jpg">
-        </a>
-    </div>
-    <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/041014/thumbnails_small/19557-5767976544-208x117.jpg">
-        </a>
-    </div>
-        <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/thumbnails_small/14461-6901999730-208x117.jpg">
-        </a>
-    </div>
-    <div class="show col-lg-5 col-md-6 col-xs-8">
-        <a class="">
-            <img class="img-responsive" src="http://static-api.guidebox.com/041014/thumbnails_small/19557-5767976544-208x117.jpg">
-        </a>
-    </div>
+    {{ package }}
+    <div class="row"><div class="col-sm-3" ng-repeat="show in popularShows">
+        <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+    </div></div>
 </div>
+
