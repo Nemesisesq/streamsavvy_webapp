@@ -13,7 +13,9 @@ import yaml
 from django.core import serializers
 from django.db.models import Q
 from django.utils import timezone
+from fuzzywuzzy import fuzz
 
+from server.constants import sling_channels
 from streamsavvy_webapp.settings import BASE_DIR
 from server.models import Content, Channel, Images
 
@@ -184,8 +186,14 @@ class GuideBox(object):
         c = Channel.objects.get_or_create(guidebox_data__id=the_json['id'])
         chan = c[0]
 
+
         chan.name = the_json['name'] if the_json['name'] else None
         chan.guidebox_data = the_json
+
+        matches = [c for c in sling_channels if fuzz.token_set_ratio(chan.name, c) >= 90]
+        if matches:
+            chan.is_on_sling = True
+
 
         chan.save()
 

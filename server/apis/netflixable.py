@@ -1,12 +1,13 @@
-import urllib.request
-import urllib.error
 import logging
-import re
+import time
+import urllib.error
+import urllib.request
 
 from bs4 import BeautifulSoup
+from fuzzywuzzy import fuzz
 
-from server.models import Content, Channel
 from server.apis.guidebox import GuideBox
+from server.models import Content, Channel
 
 
 class Netflixable():
@@ -17,10 +18,12 @@ class Netflixable():
     def __init__(self, url):
         self.url = url
 
-    def get_list(self):
+    def get_netflix_list(self):
         try:
             with urllib.request.urlopen(self.url) as response:
-                soup = BeautifulSoup(response, 'html.parser')
+                t1 = time.time()
+                soup = BeautifulSoup(response, 'lxml')
+                print(time.time() - t1)
 
                 self.logger.debug('successfully got soup')
             return soup
@@ -28,7 +31,7 @@ class Netflixable():
             print(e)
 
     def get_shows_from_soup(self):
-        soup = self.get_list()
+        soup = self.get_netflix_list()
 
         listings = soup.find_all(class_='listings')
 
@@ -50,15 +53,11 @@ class Netflixable():
 
         # shows = self.get_shows_from_soup()
 
-        p = Channel.objects.get_or_create(name='Netflix', channel_type='online', source='netflix')[0]
+        p = Channel.objects.get_or_create(name='Netflix')[0]
 
         for show in shows:
             print("{} is the current show".format(show))
             try:
-
-                show = show.replace(',', '').replace('The', '')
-
-                show = re.sub(r"\([^)]*\)", '', show).strip()
 
                 show_detail = self.g.get_show_by_title(show)
 
@@ -66,9 +65,11 @@ class Netflixable():
 
                 if show_detail['total_results'] != 0:
 
-                    for i in show_detail['results']:
+                    matching_shows = [s for s in show_detail['results'] if fuzz.token_sort_ratio(show, s['title']) > 80]
 
-                        self.logger.debug('new show {}'.format(show))
+                    self.logger.debug('new show {}'.format(show))
+
+                    if matching_shows:
 
                         try:
                             c_tuple = Content.objects.get_or_create(guidebox_id=i['id'])
@@ -77,18 +78,6 @@ class Netflixable():
 
                             content = self.g.save_content(i)
 
-                            # content.title = i['title']
-                            # content.guidebox_id = i['id']
-                            # content.imdb_id = i['imdb_id']
-                            # content.freebase_id = i['freebase']
-                            # content.tvdb_id = i['tvdb']
-                            # content.tvrage_id = i['tvrage']['tvrage_id']
-                            # content.wikepedia_id = i['wikipedia_id']
-                            # content.themoviedb_id = i['themoviedb']
-                            # content.thumbnail_small = i['artwork_208x117']
-                            # content.thumbnail_medium = i['artwork_304x171']
-                            # content.thumbnail_large = i['artwork_448x252']
-                            # content.thumbnail_x_large = i['artwork_608x342']
                             content.content_provider.add(p)
 
                             if not content.title:
@@ -100,5 +89,5 @@ class Netflixable():
                         except ValueError as e:
                             self.logger.debug(e)
 
-            except:
-                pass
+            except Exception as e:
+                print(e)

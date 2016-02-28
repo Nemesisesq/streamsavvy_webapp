@@ -1,6 +1,12 @@
 @guidebox
+
 Feature: Batch Job Tests
   These scenarios test the scheduled batch jobs ran to grab data from guidebox
+
+  Scenario: Checking DB status
+    When the guidebox date call is run
+    Then the streamsavvy db status is updated
+
 
   Scenario: Adding shows to DB after new content request to guidebox
     Given the streamsavvy database is outdated

@@ -1180,13 +1180,13 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     //        nShows = new Fuse(data.data, {threshold: .2});
     //    })
 
-    function isOnNetFlix(show) {
-
-        var shows = N.getShows();
-        if (shows.search(show.title).length > 0) {
-            return true;
-        }
-    }
+    //function isOnNetFlix(show) {
+    //
+    //    var shows = N.getShows();
+    //    if (shows.search(show.title).length > 0) {
+    //        return true;
+    //    }
+    //}
 
     function checkNextLetter() {
         var s = $scope.searchText,
@@ -1234,24 +1234,24 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         var ssPackage = PackageFactory.getPackage();
         debugger;
 
-        if (_.some(ssPackage.content, 'title', suggestion.title)) {
+        if (_.some(ssPackage.data.content, 'title', suggestion.title)) {
             growl.warning('You already added ' + suggestion.title + ' to your package!')
             return
         }
 
-        function addSling() {
-            var slingObj = {
-                display_name: "Sling TV",
-                id: 147,
-                source: "sling_tv",
-                type: "live_online_tv"
-            }
-
-
-            if (slingInProviders(suggestion)) {
-                suggestion.channels.web.episodes.all_sources.push(slingObj)
-            }
-        }
+        //function addSling() {
+        //    var slingObj = {
+        //        display_name: "Sling TV",
+        //        id: 147,
+        //        source: "sling_tv",
+        //        type: "live_online_tv"
+        //    }
+        //
+        //
+        //    if (slingInProviders(suggestion)) {
+        //        suggestion.channels.web.episodes.all_sources.push(slingObj)
+        //    }
+        //}
 
         var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
 

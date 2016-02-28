@@ -38,3 +38,10 @@ Feature: API Fature
   @rest_api
   Scenario: This test is to ensure the hardware API is working correctly
     When we make a get request /api/hardware/
+
+  Scenario: This is to test the netflixable class to ensure that it grabs and saves shows on netflix
+    Given  and instance of Netflixable with http://usa.netflixable.com/2016/01/complete-alphabetical-list-wed-jan-27.html
+    When We make call the netflixable url
+    And we make soup out of those shows
+    And we process that list
+    Then "Orange Is the New Black" has the netflix channel

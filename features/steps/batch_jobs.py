@@ -7,10 +7,6 @@ from behave import given, when, then
 ############################
 ## GIVEN
 ############################
-@given(u'an index of {index}')
-def test_add_index_to_context(context, index):
-    context.index = index
-
 
 
 
@@ -19,18 +15,18 @@ def test_add_index_to_context(context, index):
 ############################
 
 
-@when(u'we call the populate shows task')
-def test_initial_population_of_shows(context):
-    result = inital_database_population_of_content()
+@when(u'the guidebox date call is run')
+def test_guidebox_api_date_call(context):
+
+    result = context.guidebox.get_server_time()
     assert result
-
-
 
 
 ############################
 ## THEN
 ############################
 
-@then(u'json is returned')
-def test_check_json(context):
+@then(u'the streamsavvy db status is updated')
+def test_streamsavvy_db_status(context):
+
     assert context.the_json
