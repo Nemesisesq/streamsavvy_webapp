@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.4.9
+ * @license AngularJS v1.4.5
  * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -278,7 +278,7 @@ function $$CookieWriter($document, $log, $browser) {
     options = options || {};
     expires = options.expires;
     path = angular.isDefined(options.path) ? options.path : cookiePath;
-    if (angular.isUndefined(value)) {
+    if (value === undefined) {
       expires = 'Thu, 01 Jan 1970 00:00:00 GMT';
       value = '';
     }
