@@ -6,6 +6,7 @@ import time
 import urllib
 import urllib.error
 import urllib.request
+from argparse import _AppendAction
 from datetime import timedelta
 # from queue import Queue
 
@@ -42,7 +43,8 @@ class GuideBox(object):
 
     def get_show_by_title(self, title):
         cleaned_title = title.replace("  ", " ")
-        encoded_show = cleaned_title.strip().replace(" ", '%25252B')
+        title, sep, cruft = cleaned_title.partition("-")
+        encoded_show = title.strip().replace(" ", '%25252B')
         fuzzy_url = "{BASE_URL}/search/title/{TRIPLE_URL}/fuzzy".format(BASE_URL=self.BASE_URL, TRIPLE_URL=encoded_show)
         try:
             with urllib.request.urlopen(fuzzy_url) as exact_response:

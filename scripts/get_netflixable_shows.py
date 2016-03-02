@@ -1,20 +1,14 @@
 __author__ = 'Nem'
 
-import urllib.request
-
-
 import django
 import django_rq
 
 from server.apis.netflixable import *
-from server.models import Content
 
 try:
     django.setup()
 except:
     pass
-
-
 
 
 def chunks(l, n):
@@ -52,8 +46,6 @@ def run(*args, **kwargs):
     n = Netflixable(url)
 
     shows = chunks(n.get_shows_from_soup(), 20)
-
-    # shows = Content.objects.all()
 
     for i in shows:
         q.enqueue(n.process_shows, i)
