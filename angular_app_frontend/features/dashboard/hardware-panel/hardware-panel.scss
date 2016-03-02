@@ -1,5 +1,5 @@
 .hardware-panel{
-  height: 25%;
+  @extend %side-panel;
   .panel{
     width: 100%;
     display: table;

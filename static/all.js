@@ -201,11 +201,11 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'ShowGridController'
                 },
                 services: {
-                    templateUrl: '/static/partials/dashboard/service-panel.html',
+                    templateUrl: '/static/partials/service-panel/service-panel.html',
                     controller: 'StepTwoController'
                 },
                 hardware: {
-                    templateUrl: '/static/partials/dashboard/hardware-panel.html',
+                    templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
                     controller: 'StepThreeController'
                 },
                 'footer': {
@@ -1409,6 +1409,12 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 });
 
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    
+
+
+});
 app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
     $scope.clearContent = function () {

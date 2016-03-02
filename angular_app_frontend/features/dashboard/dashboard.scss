@@ -1,12 +1,31 @@
 .dashboard {
+  $savvy_olive: #EBEBEB;
+  $panel_header:#858789;
+  $panel_body:#6A6C6E;
+
   text-transform: uppercase;
   padding-left: 2%;
   padding-right: 1%;
 
   height: 100%;
-  $savvy_olive: #EBEBEB;
-  $panel_header:#858789;
-  $panel_body:#6A6C6E;
+
+
+  %side-panel{
+    background-color: $dashboard-dark;
+    color: red;
+
+    .panel-heading{
+      background-color: $dashboard-dark;
+
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      color: $warm-grey;
+    }
+
+    .panel-body{
+      background-color: $dashboard-dark;
+    }
+  }
   
   .navbar-fixed-top.ng-scope {
     position: relative;
@@ -28,6 +47,8 @@
   .plus-minus {
 
   }
+
+
 
 }
 
