@@ -201,11 +201,11 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'ShowGridController'
                 },
                 services: {
-                    templateUrl: '/static/partials/dashboard/service-panel.html',
+                    templateUrl: '/static/partials/service-panel/service-panel.html',
                     controller: 'StepTwoController'
                 },
                 hardware: {
-                    templateUrl: '/static/partials/dashboard/hardware-panel.html',
+                    templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
                     controller: 'StepThreeController'
                 },
                 'footer': {

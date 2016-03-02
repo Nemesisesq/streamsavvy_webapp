@@ -66,6 +66,6 @@ class DBurl(object):
             )
 
             return self.url
-        except:
+        except Exception as e:
             self.url = 'sqlite:///db.sqlite3'
             return 'sqlite:///db.sqlite3'
