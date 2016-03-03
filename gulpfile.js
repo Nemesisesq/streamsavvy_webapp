@@ -5,6 +5,7 @@ var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var clean = require('gulp-clean');
 var livereload = require('gulp-livereload');
+var del = require('del');
 
 //livereload(
 //    {
@@ -33,13 +34,13 @@ var paths = {
 };
 
 gulp.task('clean', function() {
- return gulp.src(paths.dist)
- .pipe(clean());
+ return del(paths.dist)
+
 });
 
 gulp.task('bower', function () {
     return gulp.src(['./bower_components/**/*.*', './bower_components/**/*.js', './bower_components/**/*.css'])
-        .pipe(gulp.dest(paths.dist))
+        .pipe(gulp.dest('./static/lib/'))
 });
 
 gulp.task('index', function () {
@@ -92,5 +93,5 @@ gulp.task('images:watch', function () {
     gulp.watch(paths.images, ['images']);
 });
 
-gulp.task('default', ['scripts', 'bower', 'index', 'partials', 'images', 'script:watch', 'sass', 'sass:watch', 'html:watch', 'images:watch']);
+gulp.task('default', ['clean', 'scripts', 'bower', 'index', 'partials', 'images', 'script:watch', 'sass', 'sass:watch', 'html:watch', 'images:watch']);
 

@@ -36,8 +36,6 @@
 <div class="body-wrapper">
 
 
-
-
     <!-- MAIN CONTENT AND INJECTED VIEWS -->
     <div ui-view autoscroll="true"></div>
     <div growl></div>
@@ -45,10 +43,12 @@
     <!-- feed back form-->
     <div ng-controller="FeedbackCtrl">
 
-        <div ng-if="isMobile"><angular-feedback options="options"></angular-feedback></div>
+        <div ng-if="isMobile">
+            <angular-feedback options="options"></angular-feedback>
+        </div>
     </div>
 
-<!--
+    <!--
     <a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
     <a id="instagram_login" href="{% url 'social:begin' 'instagram' %}?next={{ request.path }}">login to instagram</a>
     <a id="twitter_login" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">login to twitter</a>
@@ -62,25 +62,25 @@
     </div>
 -->
 
-    <script src="{% static 'jquery/dist/jquery.js' %}"></script>
-    <script src="{% static 'angular/angular.js' %}"></script>
-    <script src="{% static 'angular-mocks/angular-mocks.js' %}"></script>
-    <script src="{% static 'angular-resource/angular-resource.js' %}"></script>
-    <script src="{% static 'angular-ui-router/release/angular-ui-router.js' %}"></script>
-    <script src="{% static 'angular-cookies/angular-cookies.js' %}"></script>
-    <script src="{% static 'slick-carousel/slick/slick.js' %}"></script>
-    <script src="{% static 'angular-slick/dist/slick.js' %}"></script>
+    <script src="{% static 'lib/jquery/dist/jquery.js' %}"></script>
+    <script src="{% static 'lib/angular/angular.js' %}"></script>
+    <script src="{% static 'lib/angular-mocks/angular-mocks.js' %}"></script>
+    <script src="{% static 'lib/angular-resource/angular-resource.js' %}"></script>
+    <script src="{% static 'lib/angular-ui-router/release/angular-ui-router.js' %}"></script>
+    <script src="{% static 'lib/angular-cookies/angular-cookies.js' %}"></script>
+    <script src="{% static 'lib/slick-carousel/slick/slick.js' %}"></script>
+    <script src="{% static 'lib/angular-slick/dist/slick.js' %}"></script>
     <script src="{% static 'all.js' %}"></script>
-    <script src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
-    <script src="{% static 'lodash/lodash.js' %}"></script>
-    <script src="{% static 'angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
-    <script src="{% static 'angular-animate/angular-animate.js' %}"></script>
-    <script src="{% static 'fuse.js/src/fuse.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap/dist/js/bootstrap.js' %}"></script>
+    <script src="{% static 'lib/lodash/lodash.js' %}"></script>
+    <script src="{% static 'lib/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
+    <script src="{% static 'lib/angular-animate/angular-animate.js' %}"></script>
+    <script src="{% static 'lib/fuse.js/src/fuse.min.js' %}"></script>
     <script src="https://use.fonticons.com/b92fc55f.js"></script>
-    <script src="{% static 'angular-send-feedback/dist/angular-send-feedback.js' %}"></script>
-    <script src="{% static 'html2canvas/build/html2canvas.js' %}"></script>
-    <script src="{% static 'angular-growl-v2/build/angular-growl.js' %}"></script>
-    <script src="{% static 'classie/classie.js' %}"></script>
+    <script src="{% static 'lib/angular-send-feedback/dist/angular-send-feedback.js' %}"></script>
+    <script src="{% static 'lib/html2canvas/build/html2canvas.js' %}"></script>
+    <script src="{% static 'lib/angular-growl-v2/build/angular-growl.js' %}"></script>
+    <script src="{% static 'lib/classie/classie.js' %}"></script>
 
 
 </div>
