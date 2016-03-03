@@ -1,12 +1,18 @@
 .show-grid{
+  margin-top:20px;
 
   width: 100%;
-  .pop-shows{
-    font-size: 1.2em;
-    color: white;
-  }
-  .show{
+  .grid{
 
+
+
+    .col-sm-3{
+    margin-top:8.5px;
+    margin-bottom:8.5px;
+    margin-left:8px;
+    margin-right:8px;
+    }
   }
+
 
 }

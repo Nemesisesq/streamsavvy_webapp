@@ -1,12 +1,30 @@
-<div class="container">
+<div class="container-fluid grid">
     <div class="row">
         <div class="col-sm-3" ng-repeat="show in package.data">
-            {{ show }}
+           <!-- {{ show }}-->
         </div>
     </div>
-    {{ package }}
+    <!--{{ package }}/-->
     <div class="row"><div class="col-sm-3" ng-repeat="show in popularShows">
         <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
-    </div></div>
+    </div>
+    <div class="col-sm-3" ng-repeat="show in popularShows">
+        <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+    </div>
+    <div class="col-sm-3" ng-repeat="show in popularShows">
+        <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+    </div>
+    <div class="col-sm-3" ng-repeat="show in popularShows">
+        <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+    </div><div class="col-sm-3" ng-repeat="show in popularShows">
+        <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+    </div><div class="col-sm-3" ng-repeat="show in popularShows">
+        <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+    </div>
+        <div class="col-sm-3" ng-repeat="show in popularShows">
+        <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+    </div>
+
+    </div>
 </div>
 

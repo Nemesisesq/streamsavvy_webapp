@@ -13,6 +13,7 @@
   %side-panel{
     background-color: $dashboard-dark;
     color: red;
+    border:none;
 
     .panel-heading{
       background-color: $dashboard-dark;
@@ -37,18 +38,12 @@
     height: 50px;
     padding: 0;
     }
+    .pop-search{
+      margin-top: 10px;
+      margin-bottom: 10px;
+      float: left;
+    }
   }
-
-
-  .services {
-    height : 10%
-  }
-
-  .plus-minus {
-
-  }
-
-
 
 }
 
