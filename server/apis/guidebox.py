@@ -6,14 +6,11 @@ import time
 import urllib
 import urllib.error
 import urllib.request
-from argparse import _AppendAction
-from datetime import timedelta
 # from queue import Queue
 
 import yaml
 from django.core import serializers
 from django.db.models import Q
-from django.utils import timezone
 from fuzzywuzzy import fuzz
 
 from server.constants import sling_channels
@@ -31,8 +28,8 @@ class GuideBox(object):
 
     # def __init__(self):
 
-    def get_total_number_of_shows(self):
-        response = self.get_content_list(0)
+    def get_total_number_of_shows(self, **kwargs):
+        response = self.get_content_list(0, **kwargs)
         dict = json.loads(response)
         return dict['total_results']
 
@@ -84,12 +81,14 @@ class GuideBox(object):
             return False
 
     def get_content_list(self, index, **kwargs):
+        channel = kwargs['channel'] if 'channel' in kwargs else 'all'
         source = kwargs['source'] if 'source' in kwargs else 'all'
         platform = kwargs['platform'] if 'platform' in kwargs else  'all'
-        url = "{BASE_URL}/shows/all/{index}/250/{source}/{platform}".format(BASE_URL=self.BASE_URL,
-                                                                            index=index,
-                                                                            source=source,
-                                                                            platform=platform)
+        url = "{BASE_URL}/shows/{channel}/{index}/250/{source}/{platform}".format(BASE_URL=self.BASE_URL,
+                                                                                  index=index,
+                                                                                  channel=channel,
+                                                                                  source=source,
+                                                                                  platform=platform)
         try:
             with urllib.request.urlopen(url) as response:
                 the_json = response.read().decode('utf-8')
@@ -188,7 +187,6 @@ class GuideBox(object):
         c = Channel.objects.get_or_create(guidebox_data__id=the_json['id'])
         chan = c[0]
 
-
         chan.name = the_json['name'] if the_json['name'] else None
         chan.guidebox_data = the_json
 
@@ -196,10 +194,24 @@ class GuideBox(object):
         if matches:
             chan.is_on_sling = True
 
-
         chan.save()
 
         return chan
+
+    def connect_channels_shows(self, channel_list):
+
+        for chan in channel_list:
+            if chan.guidebox_data:
+                length = self.get_total_number_of_shows(channel=chan.guidebox_data['short_name'])
+
+                for i in range(0, length, 24):
+                    res = self.get_content_list(i, channel=chan.guidebox_data['short_name'])
+                    shows = json.loads(res)['results']
+                    for show in shows:
+                        content = Content.objects.get(guidebox_data__id=show['id'])
+                        content.channel.add(chan)
+
+                        content.save()
 
 
 # This Class is meant to flesh out provider details
@@ -259,59 +271,3 @@ class Providers(object):
             if cp.retail_cost is None:
                 cp.retail_cost = i['fields']['retail_cost']
                 cp.save()
-
-
-def get_shows_by_source():
-    provider_class = Providers()
-    guidebox_class = GuideBox()
-
-    logger = logging.getLogger('cutthecord')
-
-    provider_class.get_sources_info()
-
-    content_providers = Channel.objects.all()
-
-    for cp in content_providers.order_by('-modified'):
-
-        if cp.guidebox_id and cp.source:
-
-            count = 0
-            loop = True
-            while loop:
-
-                index = count * 250
-                results = json.loads(guidebox_class.get_content(index, source=cp.source, platform='all'))
-
-                if results['total_returned']:
-
-                    for i in results['results']:
-                        content_tup = Content.objects.get_or_create(guidebox_id=i['id'])
-                        try:
-
-                            if content_tup[1]:
-                                logger.debug("new show added {} ".format(content_tup[0]))
-
-                            content = content_tup[0]
-                            if content.modified and not content_tup[1]:
-                                t = timezone.now() - content.modified
-                            else:
-                                t = timedelta.max
-
-                            if t.total_seconds() > 0:
-                                content = guidebox_class.save_content(i)
-
-                            content.content_provider.add(cp)
-
-                            content.save()
-
-                            logger.debug('saving {}'.format(content))
-
-                        except Exception as e:
-                            logger.debug(e.with_traceback())
-
-                        finally:
-                            count += 1
-                            logger.info("{} finished".format(cp))
-                            print("{} finished".format(cp))
-                else:
-                    loop = False

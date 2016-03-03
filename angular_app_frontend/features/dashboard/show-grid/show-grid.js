@@ -1,6 +1,7 @@
 app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
     $scope.clearContent = function () {
+        debugger
         var pkg = PackageFactory.getPackage()
 
         pkg.content = []
@@ -193,8 +194,8 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
         PackageFactory.setPackage($scope.package)
     }
 
-    //$scope.$watchCollection('package.content', function () {
-    //
-    //    PackageFactory.setPackage($scope.package)
-    //})
+    $scope.$watchCollection('package.content', function () {
+
+        PackageFactory.setPackage($scope.package)
+    })
 });

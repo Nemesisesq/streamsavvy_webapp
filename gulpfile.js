@@ -33,12 +33,13 @@ var paths = {
 
 };
 
-gulp.task('clean', function() {
- return del(paths.dist)
+gulp.task('clean', function () {
+    //return del(paths.dist)
 
 });
 
 gulp.task('bower', function () {
+    del('./static/lib/');
     return gulp.src(['./bower_components/**/*.*', './bower_components/**/*.js', './bower_components/**/*.css'])
         .pipe(gulp.dest('./static/lib/'))
 });

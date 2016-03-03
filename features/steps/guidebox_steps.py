@@ -7,6 +7,7 @@ from behave import given, when, then, step
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 
+from server.models import Content, Channel
 from server.tasks import inital_database_population_of_content, inital_database_population_of_channels
 
 __author__ = 'Nem'
@@ -114,3 +115,20 @@ def test_check_for_channels_in_db(context):
     q = django_rq.get_queue('low')
     assert len(q.jobs) > 0
 
+
+@given("a list of channels from the database")
+def step_impl(context):
+    context.sample_channels = Channel.objects.all()[:20]
+
+
+
+@when("we process that list")
+def step_impl(context):
+    context.guidebox.connect_channels_shows(context.sample_channels)
+
+
+@then("the content now has channels")
+def step_impl(context):
+    for elem in context.sample_channels:
+        c = Content.objects.get(id = elem.id)
+        assert c.guidebox_data['channels']

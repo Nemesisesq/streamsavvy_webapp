@@ -32,5 +32,12 @@ Feature: guidebox api feature
     Then there are a total number of channels in the queue
 
 
+  Scenario: We Test the method that connects shows to channels using guidebox data
+    Given a list of channels from the database
+    When we process that list
+    Then the content now has channels
+
+
+
 
 

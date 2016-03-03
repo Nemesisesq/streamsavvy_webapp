@@ -53,9 +53,10 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         }
 
 
-        if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
+        if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+            debugger;
             $scope.loading = true
-            ssPackage.content.push(suggestion);
+            ssPackage.data.content.push(suggestion);
             PackageFactory.setPackage(ssPackage);
 
             $scope.loading = false

@@ -106,7 +106,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             var t = 0;
 
             var pkg = _package;
-            if (pkg.content.length > 0) {
+            if (true) {
 
                 t = _.map(pkg.providers, function (elem) {
                     return elem.price;
@@ -154,7 +154,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 
 }]);
-
 
 
 app.run(function (PackageFactory, $http, http, $rootScope) {
