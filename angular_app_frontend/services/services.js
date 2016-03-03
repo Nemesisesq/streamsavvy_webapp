@@ -16,16 +16,6 @@ app.factory('N', function () {
     }
 })
 
-app.run(function ($http, Fuse, N) {
-
-    $http.get('/netflixable/')
-        .then(function (data) {
-
-            N.setShows(data.data)
-        })
-})
-
-
 app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($http, $q, VIEW_WINDOWS, _) {
     // ;
 

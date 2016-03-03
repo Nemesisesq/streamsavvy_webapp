@@ -769,16 +769,6 @@ app.factory('N', function () {
     }
 })
 
-app.run(function ($http, Fuse, N) {
-
-    $http.get('/netflixable/')
-        .then(function (data) {
-
-            N.setShows(data.data)
-        })
-})
-
-
 app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($http, $q, VIEW_WINDOWS, _) {
     // ;
 
@@ -1146,15 +1136,12 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 });
 
 
-function slingInProviders(suggestion) {
-    return _.some(suggestion.content_provider, 'name', 'SlingTv');
-}
+
 /**
  * Created by Nem on 7/18/15.
  */
 app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
 
-    var nShows = [];
 
     $scope.modelOptions = {
         debounce: {
@@ -1163,42 +1150,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         },
         getterSetter: true
     };
-
-
-    var nChannel = {
-        display_name: "Netflix",
-        id: 0000,
-        source: "netflix",
-        type: "subcription"
-    }
-
-
-    //TODO make this a constant in the angular app
-    //$http.get('netflixable/')
-    //    .then(function (data) {
-    //
-    //        nShows = new Fuse(data.data, {threshold: .2});
-    //    })
-
-    //function isOnNetFlix(show) {
-    //
-    //    var shows = N.getShows();
-    //    if (shows.search(show.title).length > 0) {
-    //        return true;
-    //    }
-    //}
-
-    function checkNextLetter() {
-        var s = $scope.searchText,
-            r = $scope.searchResult;
-
-        if (s && r) {
-            // ;
-            if (_.last(s) !== r[s.length - 1]) {
-                $scope.searchResult = ''
-            }
-        }
-    }
 
     $scope.suggestions = [];
     $scope.selectedIndex = -1;
@@ -1239,130 +1190,15 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             return
         }
 
-        //function addSling() {
-        //    var slingObj = {
-        //        display_name: "Sling TV",
-        //        id: 147,
-        //        source: "sling_tv",
-        //        type: "live_online_tv"
-        //    }
-        //
-        //
-        //    if (slingInProviders(suggestion)) {
-        //        suggestion.channels.web.episodes.all_sources.push(slingObj)
-        //    }
-        //}
-
-        var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
-
-
-        function isNetworkShow(n) {
-            return _.includes(MAJOR_NETWORKS, n)
-        }
 
         if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
             $scope.loading = true
-            $http.get('/channels/' + suggestion.guidebox_id)
-                .then(function (data) {
-
-                    var opts = {
-                        keys: ['name'],
-                        threshold: .2
-
-                    }
-
-                    sPrices = new Fuse(SERVICE_PRICE_LIST, opts);
-
-                    var cleanedChannels = data.data.results
-
-                    var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
-
-                    chans = _.uniq(chans.concat(suggestion.content_provider), function (elem) {
-                        var x;
-
-                        elem.display_name == undefined ? x = elem.name : x = elem.display_name;
-
-                        return x;
-
-                    })
-
-                    chans = _.map(chans, function (elem) {
-                        if (elem.name != undefined) {
-                            elem.display_name = elem.name;
-                            elem.type = elem.channel_type;
-                        }
-
-
-                        return elem
-                    })
-
-                    var b = _.map(BANNED_CHANNELS, function (elem) {
-                        return elem.toLowerCase().replace(' ', '')
-                    })
-                    chans = _.filter(chans, function (elem) {
-
-                        //debugger
-
-
-                        var e = elem.display_name.toLowerCase().replace(' ', '');
-
-                        return !_.includes(b, e)
-                    })
-
-                    if (isOnNetFlix(suggestion)) {
-                        chans.push(nChannel)
-                    }
-
-                    chans = _.map(chans, function (elem) {
-                        //debugger;
-                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && !_.includes(elem.display_name.toLowerCase(), 'now') || isNetworkShow(elem.display_name)) {
-                            elem.display_name = elem.display_name + ' Over the Air'
-
-                            return elem
-
-                        }
-
-                        if (slingChannels.search(elem.display_name).length > 0 && elem.type != 'free') {
-                            //TODO remove this and change the way this is done.
-                            //debugger;
-                            elem.display_name = 'Sling TV (' + elem.display_name + ')'
-                            elem.service = 'sling_tv'
-                            elem.price = 20.00;
-
-                            debugger
-
-                            return elem
-
-                        }
-
-                        if (!_.isEmpty(sPrices.search(elem.display_name))) {
-                            var res = sPrices.search(elem.display_name)
-                            elem.price = res[0].price
-                        }
-
-                        return elem;
-                    })
-
-                    cleanedChannels.web.episodes.all_sources = chans
-
-                    suggestion.channels = cleanedChannels;
-
-                    suggestion.isOpen = true;
-                    ssPackage.content.push(suggestion);
-                    PackageFactory.setPackage(ssPackage);
-
-                    $scope.loading = false
-                })
-        } else {
-            if (suggestion.channels === undefined) {
-                suggestion.channels = {web: {episodes: {all_sources: []}}}
-            }
-
-            addSling();
-
             ssPackage.content.push(suggestion);
             PackageFactory.setPackage(ssPackage);
+
+            $scope.loading = false
         }
+
 
         $scope.searchText = '';
         $scope.suggestions = [];
@@ -1397,16 +1233,11 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         }
     });
 
-    $scope.$watch('searchText', function (val) {
-        // ;
-        if (val !== -1) {
-            checkNextLetter();
-
-        }
-    })
 
 
-});
+
+})
+;
 
 
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
@@ -1711,6 +1542,114 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
 })
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
+    $scope.servicesTotal = PackageFactory.totalServiceCost();
+    //$scope.packageTotal = getPackageTotal();
+    $scope.$addProviderUrls = function () {
+        for (var i = 0; i < $scope.package.providers.length; i++) {
+            var providerName = $scope.package.providers[i].display_name;
+            switch (providerName) {
+                case "Yahoo Screen Over the Air":
+                    $scope.package.providers[i].home_url = "https://www.yahoo.com/tv/tagged/originals";
+                    break;
+                case "Netflix":
+                    $scope.package.providers[i].home_url = "https://www.netflix.com/";
+                    break;
+                case "HBO NOW":
+                    $scope.package.providers[i].home_url = "https://order.hbonow.com/";
+                    break;
+                case "Sling TV (ESPN)":
+                    $scope.package.providers[i].home_url = "http://www.sling.com/";
+                    break;
+                case "Sling TV (CNN)":
+                    $scope.package.providers[i].home_url = "http://www.sling.com/";
+                    break;
+                case "Sling TV (ABC Family)":
+                    $scope.package.providers[i].home_url = "http://www.sling.com/";
+                    break;
+                case "Slin" +
+                "g TV (AMC)":
+                    $scope.package.providers[i].home_url = "http://www.sling.com/";
+                    break;
+                case "Sling TV (TNT)":
+                    $scope.package.providers[i].home_url = "http://www.sling.com/";
+                    break;
+                case "Sling TV (TBS)":
+                    $scope.package.providers[i].home_url = "http://www.sling.com/";
+                    break;
+                case "Sling TV (The CW)":
+                    $scope.package.providers[i].home_url = "http://www.sling.com/";
+                    break;
+                case "Sling TV (Travel)":
+                    $scope.package.providers[i].home_url = "http://www.sling.com/";
+                    break;
+                case "Amazon Prime":
+                    $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
+                    break;
+                case "Amazon":
+                    $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
+                    break;
+                case "Showtime":
+                    $scope.package.providers[i].home_url = "http://www.sho.com/sho/showtime-anytime";
+                    break;
+                case "Showtime FREEview Over the Air":
+                    $scope.package.providers[i].home_url = "http://www.sho.com/sho/free-preview/1";
+                    break;
+                case "Hulu":
+                    $scope.package.providers[i].home_url = "http://www.hulu.com/welcome";
+                    break;
+                case "Hulu with Showtime":
+                    $scope.package.providers[i].home_url = "http://www.hulu.com/getshowtime";
+                    break;
+                case "CBS All Access":
+                    $scope.package.providers[i].home_url = "http://www.cbs.com/all-access/";
+                    break;
+                case "VUDU":
+                    $scope.package.providers[i].home_url = "http://www.vudu.com/";
+                    break;
+                case "Google Play":
+                    $scope.package.providers[i].home_url = "https://play.google.com/store/movies?hl=en";
+                    break;
+                case "iTunes":
+                    $scope.package.providers[i].home_url = "https://www.apple.com/itunes/download/";
+                    break;
+                case "YouTube":
+                    $scope.package.providers[i].home_url = "https://www.youtube.com/user/YouTubeShowsUS/featured";
+                    break;
+                case "NBC Over the Air":
+                    $scope.package.providers[i].home_url = "http://www.nbc.com/schedule";
+                    break;
+                case "CBS Over the Air":
+                    $scope.package.providers[i].home_url = "http://www.cbs.com/schedule/";
+                    break;
+                case "FOX Over the Air":
+                    $scope.package.providers[i].home_url = "http://www.fox.com/schedule";
+                    break;
+                case "ABC Over the Air":
+                    $scope.package.providers[i].home_url = "http://abc.go.com/schedule";
+                    break;
+                case "The CW Over the Air":
+                    $scope.package.providers[i].home_url = "http://www.cwtv.com/schedule/";
+                    break;
+                default:
+                    $scope.package.providers[i].home_url = "http://www.guidebox.com/";
+                    break;
+            }
+        }
+    };
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+        $scope.$addProviderUrls();
+    });
+
+
+})
+
 /**
  * Created by Nem on 10/27/15.
  */
@@ -1952,114 +1891,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
-    $scope.servicesTotal = PackageFactory.totalServiceCost();
-    //$scope.packageTotal = getPackageTotal();
-    $scope.$addProviderUrls = function () {
-        for (var i = 0; i < $scope.package.providers.length; i++) {
-            var providerName = $scope.package.providers[i].display_name;
-            switch (providerName) {
-                case "Yahoo Screen Over the Air":
-                    $scope.package.providers[i].home_url = "https://www.yahoo.com/tv/tagged/originals";
-                    break;
-                case "Netflix":
-                    $scope.package.providers[i].home_url = "https://www.netflix.com/";
-                    break;
-                case "HBO NOW":
-                    $scope.package.providers[i].home_url = "https://order.hbonow.com/";
-                    break;
-                case "Sling TV (ESPN)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (CNN)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (ABC Family)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Slin" +
-                "g TV (AMC)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (TNT)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (TBS)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (The CW)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (Travel)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Amazon Prime":
-                    $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
-                    break;
-                case "Amazon":
-                    $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
-                    break;
-                case "Showtime":
-                    $scope.package.providers[i].home_url = "http://www.sho.com/sho/showtime-anytime";
-                    break;
-                case "Showtime FREEview Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.sho.com/sho/free-preview/1";
-                    break;
-                case "Hulu":
-                    $scope.package.providers[i].home_url = "http://www.hulu.com/welcome";
-                    break;
-                case "Hulu with Showtime":
-                    $scope.package.providers[i].home_url = "http://www.hulu.com/getshowtime";
-                    break;
-                case "CBS All Access":
-                    $scope.package.providers[i].home_url = "http://www.cbs.com/all-access/";
-                    break;
-                case "VUDU":
-                    $scope.package.providers[i].home_url = "http://www.vudu.com/";
-                    break;
-                case "Google Play":
-                    $scope.package.providers[i].home_url = "https://play.google.com/store/movies?hl=en";
-                    break;
-                case "iTunes":
-                    $scope.package.providers[i].home_url = "https://www.apple.com/itunes/download/";
-                    break;
-                case "YouTube":
-                    $scope.package.providers[i].home_url = "https://www.youtube.com/user/YouTubeShowsUS/featured";
-                    break;
-                case "NBC Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.nbc.com/schedule";
-                    break;
-                case "CBS Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.cbs.com/schedule/";
-                    break;
-                case "FOX Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.fox.com/schedule";
-                    break;
-                case "ABC Over the Air":
-                    $scope.package.providers[i].home_url = "http://abc.go.com/schedule";
-                    break;
-                case "The CW Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.cwtv.com/schedule/";
-                    break;
-                default:
-                    $scope.package.providers[i].home_url = "http://www.guidebox.com/";
-                    break;
-            }
-        }
-    };
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-        $scope.$addProviderUrls();
-    });
-
-
-})
-
 /**
  * Created by Nem on 11/25/15.
  */
