@@ -202,7 +202,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 },
                 services: {
                     templateUrl: '/static/partials/service-panel/service-panel.html',
-                    controller: 'StepTwoController'
+                    controller: 'ServicePanelController'
                 },
                 hardware: {
                     templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
@@ -1242,12 +1242,45 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
+    $scope.hello = 'world'
+
     var ssPackage = PackageFactory.getPackage()
+    debugger
+    $scope.listOfServices = _
+        .chain(ssPackage.data.content)
+        .map(function (elem) {
+            debugger
+            return elem.channel
+        })
+        .flatten()
+        .uniqBy('url')
+        .value();
 
 
-    var compileServices = function(){
-        _.map()
+    var compileService = function () {
+
     }
+
+
+    var users = [
+        {'user': 'barney', 'age': 36},
+        {'user': 'fred', 'age': 40},
+        {'user': 'pebbles', 'age': 1}
+    ];
+
+    var youngest = _
+        .chain(users)
+        .sortBy('age')
+        .map(function (o) {
+            return o.user + ' is ' + o.age;
+            debugger
+        })
+        .head()
+        .value();
+
+    console.log(youngest)
+
+
 });
 app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
@@ -1255,7 +1288,7 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
         debugger
         var pkg = PackageFactory.getPackage()
 
-        pkg.content = []
+        pkg.data.content = []
 
         PackageFactory.setPackage(pkg)
     }

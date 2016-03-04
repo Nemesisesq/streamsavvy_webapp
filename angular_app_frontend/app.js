@@ -202,7 +202,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 },
                 services: {
                     templateUrl: '/static/partials/service-panel/service-panel.html',
-                    controller: 'StepTwoController'
+                    controller: 'ServicePanelController'
                 },
                 hardware: {
                     templateUrl: '/static/partials/hardware-panel/hardware-panel.html',

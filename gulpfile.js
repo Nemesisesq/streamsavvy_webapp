@@ -39,9 +39,9 @@ gulp.task('clean', function () {
 });
 
 gulp.task('bower', function () {
-    del('./static/');
+    del('./static/lib/');
     return gulp.src(['./bower_components/**/*.*', './bower_components/**/*.js', './bower_components/**/*.css'])
-        .pipe(gulp.dest('./static/'))
+        .pipe(gulp.dest('./static/lib/'))
 });
 
 gulp.task('index', function () {

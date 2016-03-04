@@ -1,19 +1,24 @@
-
 <!--<div class="row service-rows" ng-repeat="provider in package.providers  ">
     <div class=" summary-service">
         <a target="_blank" href="{{ provider.home_url }}" rel="nofollow">{{ provider.display_name }}</a>
     </div>
 </div>
 -->
+
+{{ hello }}
 <div class="panel services-panel">
     <div class="panel-heading">services and shows</div>
 
-    <div class="panel-body"><a href="" ng-click="test_service.open = !test_service.open">Netflix</a></div>
+    <div class="panel-body" ng-repeat="service in listOfServices">
+        <a href="" ng-click="test_service.open = !test_service.open">{{ service.name }}</a>
+        <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
+    </div>
     <div uib-collapse="test_service.open" id="collapse1" class="panel-collapse collapse">
         <ul class="list-group">
-          <li class="list-group-item">House of Cards</li>
-          <li class="list-group-item">Beasts of No Nation</li>
-          <li class="list-group-item">Orange is the New Black</li>
+            <li class="list-group-item">House of Cards</li>
+            <li class="list-group-item">Beasts of No Nation</li>
+            <li class="list-group-item">Orange is the New Black</li>
+
         </ul>
     </div>
     <div class="panel-body">HOUSE OF FARTS</div>

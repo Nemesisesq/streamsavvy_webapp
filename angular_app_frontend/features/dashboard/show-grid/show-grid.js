@@ -4,7 +4,7 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
         debugger
         var pkg = PackageFactory.getPackage()
 
-        pkg.content = []
+        pkg.data.content = []
 
         PackageFactory.setPackage(pkg)
     }
