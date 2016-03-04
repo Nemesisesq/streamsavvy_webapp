@@ -1,15 +1,15 @@
-@mixin fa($icon) {
-  @extend .fa;
-  @extend .fa-#{$icon}:before;
-}
-
-@mixin vertical-align($position: relative) {
-  position: $position;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
+//@mixin fa($icon) {
+//  @extend .fa;
+//  @extend .fa-#{$icon}:before;
+//}
+//
+//@mixin vertical-align($position: relative) {
+//  position: $position;
+//  top: 50%;
+//  -webkit-transform: translateY(-50%);
+//  -ms-transform: translateY(-50%);
+//  transform: translateY(-50%);
+//}
 
 //@import 'sass/feature/chart';
 @import 'sass/feature/btn';
@@ -36,7 +36,7 @@
 @import 'features/dashboard/show-grid/show-grid';
 @import 'features/dashboard/hardware-panel/hardware-panel';
 @import 'sass/feature/component';
-@import 'sass/feature/default';
+//@import 'sass/feature/default';
 
 html,
 button,
