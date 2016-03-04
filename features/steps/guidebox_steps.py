@@ -1,14 +1,12 @@
 import json
-from copy import deepcopy
 
 import django_rq
-from behave import given, when, then, step
+from behave import given, when, then
 # import json
-from django.contrib.auth.models import User
-from rest_framework.test import APIClient
 
 from server.models import Content, Channel
-from server.tasks import inital_database_population_of_content, inital_database_population_of_channels
+from server.tasks import inital_database_population_of_content, inital_database_population_of_channels, \
+    connect_content_channel_task
 
 __author__ = 'Nem'
 
@@ -118,8 +116,7 @@ def test_check_for_channels_in_db(context):
 
 @given("a list of channels from the database")
 def step_impl(context):
-    context.sample_channels = Channel.objects.all()[:20]
-
+    context.sample_channels = Channel.objects.all()[:2]
 
 
 @when("we process that list")
@@ -130,5 +127,17 @@ def step_impl(context):
 @then("the content now has channels")
 def step_impl(context):
     for elem in context.sample_channels:
-        c = Content.objects.get(id = elem.id)
-        assert c.guidebox_data['channels']
+        c = Content.objects.filter(channel__id=elem.id)
+        if c:
+            assert len(c[0].channel.all()) > 0
+
+
+@when("we call the connect channel to content task")
+def step_impl(context):
+    connect_content_channel_task()
+
+
+@then("there are a total number of jobs in the queue")
+def step_impl(context):
+    q = django_rq.get_queue('low')
+    assert len(q.jobs) > 0

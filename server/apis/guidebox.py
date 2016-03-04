@@ -208,10 +208,20 @@ class GuideBox(object):
                     res = self.get_content_list(i, channel=chan.guidebox_data['short_name'])
                     shows = json.loads(res)['results']
                     for show in shows:
-                        content = Content.objects.get(guidebox_data__id=show['id'])
-                        content.channel.add(chan)
 
-                        content.save()
+                        try:
+                            c_tuple = Content.objects.get_or_create(guidebox_data__id=show['id'])
+                            if c_tuple[1]:
+                                content = self.save_content(show)
+                            else:
+                                content = c_tuple[0]
+
+                            content.channel.add(chan)
+
+                            content.save()
+                        except Exception as e:
+                            print(e)
+
 
 
 # This Class is meant to flesh out provider details

@@ -38,6 +38,12 @@ Feature: guidebox api feature
     Then the content now has channels
 
 
+  Scenario: We test the task that connects shows and channels
+    Given a list of channels from the database
+    When we call the connect channel to content task
+    Then there are a total number of jobs in the queue
+
+
 
 
 
