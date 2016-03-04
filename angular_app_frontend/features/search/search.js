@@ -47,7 +47,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         var ssPackage = PackageFactory.getPackage();
         debugger;
 
-        if (_.some(ssPackage.data.content, 'title', suggestion.title)) {
+        if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
             growl.warning('You already added ' + suggestion.title + ' to your package!')
             return
         }

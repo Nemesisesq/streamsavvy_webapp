@@ -3,16 +3,38 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     $scope.hello = 'world'
 
     var ssPackage = PackageFactory.getPackage()
-    debugger
+    //debugger
     $scope.listOfServices = _
         .chain(ssPackage.data.content)
         .map(function (elem) {
-            debugger
+            //debugger
             return elem.channel
         })
         .flatten()
-        .uniq()
+        .uniqBy('url')
+        .map(function (elem) {
+            var o = {chan: elem}
+            debugger;
+            o.shows = _.filter(ssPackage.data.content, function (show) {
+                debugger;
+                return _.some(show.channel, ['url', elem.url])
+            })
+
+            return o
+
+        })
         .value();
+
+    debugger
+    var servObj = _
+        .map($scope.listOfServices, function (elem) {
+            var o = {chan: elem}
+            debugger;
+            o.shows = _.filter(ssPackage.data.content, function (show) {
+                return _.includes(show.channel, elem)
+            })
+
+        })
 
 
     var compileService = function () {
