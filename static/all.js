@@ -1267,40 +1267,12 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
         })
         .value();
 
-    debugger
-    var servObj = _
-        .map($scope.listOfServices, function (elem) {
-            var o = {chan: elem}
-            debugger;
-            o.shows = _.filter(ssPackage.data.content, function (show) {
-                return _.includes(show.channel, elem)
-            })
 
-        })
-
-
-    var compileService = function () {
-
-    }
-
-
-    var users = [
-        {'user': 'barney', 'age': 36},
-        {'user': 'fred', 'age': 40},
-        {'user': 'pebbles', 'age': 1}
-    ];
-
-    var youngest = _
-        .chain(users)
-        .sortBy('age')
-        .map(function (o) {
-            return o.user + ' is ' + o.age;
-            debugger
-        })
-        .head()
-        .value();
-
-    console.log(youngest)
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+    })
 
 
 });
@@ -1505,102 +1477,6 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
         PackageFactory.setPackage($scope.package)
     })
 });
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
-
-
-    //$scope.login = 'Click Here to Login'
-
-
-    $scope.items = ['item1', 'item2', 'item3'];
-
-    $rootScope.openLogInModal = function () {
-
-        debugger;
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: '/static/partials/modal/modal.html',
-            controller: 'ModalInstanceController',
-            size: 'sm',
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selectedItem = selectedItem;
-
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    }
-
-    //if ($rootScope.currentStep == 3) {
-    //    $rootScope.openLogInModal()
-    //}
-});
-
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
-
-    $scope.socialLogin = true;
-
-
-    //$scope.facebookAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
-    //}
-    //
-    //$scope.instagramAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
-    //}
-    //
-    //$scope.twitterAuth = function () {
-    //
-    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
-    //}
-
-
-    $scope.login = function (credentials) {
-        debugger;
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $rootScope.logged_in = true;
-                $modalInstance.close();
-                growl.success('Login Successful', {
-                    onclose: function () {
-
-                        window.location.reload()
-                    },
-                    ttl : 1000,
-                    disableCountDown: true
-                })
-
-            })
-    };
-
-
-    $scope.items = items;
-
-    $scope.selected = {
-        item: $scope.items[0]
-    }
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-    }
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel')
-    }
-
-})
 /**
  * Created by Nem on 10/27/15.
  */
@@ -1842,6 +1718,102 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+
+
+    //$scope.login = 'Click Here to Login'
+
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $rootScope.openLogInModal = function () {
+
+        debugger;
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal/modal.html',
+            controller: 'ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selectedItem = selectedItem;
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+
+    //if ($rootScope.currentStep == 3) {
+    //    $rootScope.openLogInModal()
+    //}
+});
+
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
+
+    $scope.socialLogin = true;
+
+
+    //$scope.facebookAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
+    //}
+    //
+    //$scope.instagramAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
+    //}
+    //
+    //$scope.twitterAuth = function () {
+    //
+    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
+    //}
+
+
+    $scope.login = function (credentials) {
+        debugger;
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $rootScope.logged_in = true;
+                $modalInstance.close();
+                growl.success('Login Successful', {
+                    onclose: function () {
+
+                        window.location.reload()
+                    },
+                    ttl : 1000,
+                    disableCountDown: true
+                })
+
+            })
+    };
+
+
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
+
+})
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();

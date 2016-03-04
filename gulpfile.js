@@ -40,23 +40,23 @@ gulp.task('clean', function () {
 
 gulp.task('bower', function () {
     del('./static/lib/');
-    return gulp.src(['./bower_components/**/*.*', './bower_components/**/*.js', './bower_components/**/*.css'])
-        .pipe(gulp.dest('./static/lib/'))
-});
+    return gulp.src(['./bower_components/**/*.*', './bower_components/**/*.js', '!./bower_components/lodash/vendor/**', './bower_components/**/*.css'])
+     .pipe(gulp.dest('./static/lib/'))
+     });
 
-gulp.task('index', function () {
-    return gulp.src(paths.index)
-        .pipe(gulp.dest(paths.templates))
-});
+     gulp.task('index', function () {
+     return gulp.src(paths.index)
+     .pipe(gulp.dest(paths.templates))
+     });
 
-gulp.task('partials', function () {
-    return gulp.src(paths.features_html)
-        .pipe(gulp.dest(paths.partials))
-        .pipe(livereload());
-});
+     gulp.task('partials', function () {
+     return gulp.src(paths.features_html)
+     .pipe(gulp.dest(paths.partials))
+     .pipe(livereload());
+     });
 
-gulp.task('scripts', function () {
-    return gulp.src(['./angular_app_frontend/**/*.js'])
+     gulp.task('scripts', function () {
+     return gulp.src(['./angular_app_frontend/**/ *.js'])
         .pipe(concat('all.js'))
         .pipe(gulp.dest(paths.dist))
         .pipe(livereload());
