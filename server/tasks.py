@@ -47,9 +47,15 @@ def inital_database_population_of_channels():
 
 def connect_content_channel_task():
     g = GuideBox()
-    q = django_rq.get_queue('low')
+    q_low = django_rq.get_queue('low')
+    q_high = django_rq.get_queue('high')
+    print('im splitting stuff')
 
     all_channels = Channel.objects.all()
-
-    for i in [all_channels[i:i + 20] for i in range(0, len(all_channels), 20)]:
-        q.enqueue(g.connect_channels_shows, i)
+    count = 0
+    for i in [all_channels[i:i + 5] for i in range(0, len(all_channels), 5)]:
+        count += 5
+        if count % 2 == 0:
+            q_high.enqueue(g.connect_channels_shows, i)
+        else:
+            q_low.enqueue(g.connect_channels_shows, i)

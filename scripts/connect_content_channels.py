@@ -1,13 +1,14 @@
 import django
 
-from server.tasks import inital_database_population_of_content
+from server.tasks import connect_content_channel_task
 
 
 django.setup()
 
 def run():
-
-    inital_database_population_of_content()
+    print
+    connect_content_channel_task()
+    print('im running ')
 
 
 

@@ -1,13 +1,13 @@
 import django
 
-from server.tasks import connect_content_channel_task
+from server.tasks import inital_database_population_of_channels
 
 
 django.setup()
 
 def run():
 
-    connect_content_channel_task()
+    inital_database_population_of_channels()
 
 
 

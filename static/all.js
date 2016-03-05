@@ -1246,32 +1246,36 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     var ssPackage = PackageFactory.getPackage()
     //debugger
-    $scope.listOfServices = _
-        .chain(ssPackage.data.content)
-        .map(function (elem) {
-            //debugger
-            return elem.channel
-        })
-        .flatten()
-        .uniqBy('url')
-        .map(function (elem) {
-            var o = {chan: elem}
-            debugger;
-            o.shows = _.filter(ssPackage.data.content, function (show) {
-                debugger;
-                return _.some(show.channel, ['url', elem.url])
+    var updateServices = function () {
+        $scope.listOfServices =_
+            .chain(ssPackage.data.content)
+            .map(function (elem) {
+                //debugger
+                return elem.channel
             })
+            .flatten()
+            .uniqBy('url')
+            .map(function (elem) {
+                var o = {chan: elem}
+                //debugger;
+                o.shows = _.filter(ssPackage.data.content, function (show) {
+                    return _.some(show.channel, ['url', elem.url])
+                })
 
-            return o
+                return o
 
-        })
-        .value();
+            })
+            .value();
+    }
 
+    updateServices()
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
 
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
     }, function () {
+        debugger;
         ssPackage = PackageFactory.getPackage();
+        updateServices()
     })
 
 
@@ -1814,6 +1818,56 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
+/**
+ * Created by Nem on 11/25/15.
+ */
+app.controller('StepTwoController', function ($scope, http, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    var hardwareColl = $scope.package.hardware;
+
+    http.getHardware()
+        .then(function (data) {
+            $scope.hardware = data.results;
+        });
+
+    $scope.itemSelected = function (item) {
+        var hardwareColl = $scope.package.hardware;
+        var x = _.some(hardwareColl, 'url', item.url);
+        return x
+    };
+
+
+    $scope.addRemoveHardware = function (item) {
+        if (item.hasOwnProperty('selected')) {
+            delete item['selected']
+        }
+
+
+        var hardwareColl = $scope.package.hardware;
+        if (_.some(hardwareColl, 'url', item.url)) {
+            _.remove(hardwareColl, function(n){
+
+                return n.url == item.url
+
+            });
+
+        } else {
+            //item.selected = true;
+            hardwareColl.push(item);
+        }
+
+        PackageFactory.setPackage($scope.package)
+    };
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+
+});
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();
@@ -1921,54 +1975,3 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
 
 
 })
-
-/**
- * Created by Nem on 11/25/15.
- */
-app.controller('StepTwoController', function ($scope, http, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    var hardwareColl = $scope.package.hardware;
-
-    http.getHardware()
-        .then(function (data) {
-            $scope.hardware = data.results;
-        });
-
-    $scope.itemSelected = function (item) {
-        var hardwareColl = $scope.package.hardware;
-        var x = _.some(hardwareColl, 'url', item.url);
-        return x
-    };
-
-
-    $scope.addRemoveHardware = function (item) {
-        if (item.hasOwnProperty('selected')) {
-            delete item['selected']
-        }
-
-
-        var hardwareColl = $scope.package.hardware;
-        if (_.some(hardwareColl, 'url', item.url)) {
-            _.remove(hardwareColl, function(n){
-
-                return n.url == item.url
-
-            });
-
-        } else {
-            //item.selected = true;
-            hardwareColl.push(item);
-        }
-
-        PackageFactory.setPackage($scope.package)
-    };
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-
-});

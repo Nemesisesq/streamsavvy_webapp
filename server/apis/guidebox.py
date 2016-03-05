@@ -25,6 +25,7 @@ class GuideBox(object):
     API_KEY = 'rKWvTOuKvqzFbORmekPyhkYMGinuxgxM'
     BASE_URL = "http://{API_URL}/{VERSION}/{REGION}/{API_KEY}".format(API_URL=API_URL, VERSION=VERSION, REGION=REGION,
                                                                       API_KEY=API_KEY)
+    logger = logging.getLogger('cutthecord')
 
     # def __init__(self):
 
@@ -199,29 +200,31 @@ class GuideBox(object):
         return chan
 
     def connect_channels_shows(self, channel_list):
-
+        print(channel_list)
         for chan in channel_list:
-            if chan.guidebox_data:
-                length = self.get_total_number_of_shows(channel=chan.guidebox_data['short_name'])
+            try:
+                if chan.guidebox_data:
+                    length = self.get_total_number_of_shows(channel=chan.guidebox_data['short_name'])
+                    if length:
+                        for i in range(0, length, 24):
+                            res = self.get_content_list(i, channel=chan.guidebox_data['short_name'])
+                            shows = json.loads(res)['results']
+                            for show in shows:
 
-                for i in range(0, length, 24):
-                    res = self.get_content_list(i, channel=chan.guidebox_data['short_name'])
-                    shows = json.loads(res)['results']
-                    for show in shows:
+                                try:
+                                    c_tuple = Content.objects.get_or_create(guidebox_data__id=show['id'])
+                                    if c_tuple[1]:
+                                        content = self.save_content(show)
+                                    else:
+                                        content = c_tuple[0]
 
-                        try:
-                            c_tuple = Content.objects.get_or_create(guidebox_data__id=show['id'])
-                            if c_tuple[1]:
-                                content = self.save_content(show)
-                            else:
-                                content = c_tuple[0]
+                                    content.channel.add(chan)
 
-                            content.channel.add(chan)
-
-                            content.save()
-                        except Exception as e:
-                            print(e)
-
+                                    content.save()
+                                except Exception as e:
+                                    print(e)
+            except Exception as e:
+                self.logger.error(e)
 
 
 # This Class is meant to flesh out provider details
