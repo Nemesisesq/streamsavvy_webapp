@@ -1,4 +1,4 @@
-from server.models import Content
+from server.models import Content, Channel
 
 __author__ = 'Nem'
 
@@ -13,12 +13,12 @@ def clean_up_content():
         i.delete()
 
 
-def clean_up_providers():
-    content = Content.objects.all(name='')
+def clean_up_channels():
+    content = Channel.objects.all(name='')
     for i in content:
         i.delete()
 
 def run():
     #Cleanup Content
     q.enqueue(clean_up_content)
-    q.enqueue(clean_up_providers)
+    q.enqueue(clean_up_channels)
