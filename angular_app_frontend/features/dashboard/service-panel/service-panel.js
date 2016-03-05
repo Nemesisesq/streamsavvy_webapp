@@ -1,8 +1,8 @@
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
-    $scope.hello = 'world'
+    $scope.hello = 'world';
 
-    var ssPackage = PackageFactory.getPackage()
+    var ssPackage = PackageFactory.getPackage();
     //debugger
     var updateServices = function () {
         $scope.listOfServices =_
@@ -38,3 +38,4 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 
 });
+

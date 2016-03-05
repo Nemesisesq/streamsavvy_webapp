@@ -85,8 +85,3 @@ class Feedback(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     data = JSONField(blank=True, null=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
-
-
-class BatchJobs(models.Model):
-    updated = models.DateTimeField(auto_now=True, blank=True)
-    added = models.TextField(blank=True, null=True)
