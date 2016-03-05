@@ -12,7 +12,7 @@ import os
 from dj_static import Cling
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cutthecord.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "streamavvy_webapp.settings")
 
 from whitenoise.django import DjangoWhiteNoise
 
