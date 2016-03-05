@@ -33,10 +33,6 @@ var paths = {
 
 };
 
-gulp.task('clean', function () {
-    //return del(paths.dist)
-
-});
 
 gulp.task('bower', function () {
     del('./static/lib/');
@@ -56,7 +52,7 @@ gulp.task('bower', function () {
      });
 
      gulp.task('scripts', function () {
-     return gulp.src(['./angular_app_frontend/**/ *.js'])
+     return gulp.src(['./angular_app_frontend/**/*.js'])
         .pipe(concat('all.js'))
         .pipe(gulp.dest(paths.dist))
         .pipe(livereload());
@@ -94,5 +90,5 @@ gulp.task('images:watch', function () {
     gulp.watch(paths.images, ['images']);
 });
 
-gulp.task('default', ['clean', 'scripts', 'bower', 'index', 'partials', 'images', 'script:watch', 'sass', 'sass:watch', 'html:watch', 'images:watch']);
+gulp.task('default', [ 'scripts', 'bower', 'index', 'partials', 'images', 'script:watch', 'sass', 'sass:watch', 'html:watch', 'images:watch']);
 
