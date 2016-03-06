@@ -7,7 +7,7 @@
   padding-left: 2%;
   padding-right: 1%;
 
-  height: 100%;
+  height: 100vh;
   background: black;
   
   %side-panel{
@@ -42,6 +42,7 @@
       margin-top: 10px;
       margin-bottom: 10px;
       float: left;
+      color: $warm-grey;
     }
   }
 
