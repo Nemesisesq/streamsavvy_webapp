@@ -1,20 +1,14 @@
 import json
 import logging
-import os
 # import threading
-import time
 import urllib
 import urllib.error
 import urllib.request
 # from queue import Queue
 
-import yaml
-from django.core import serializers
-from django.db.models import Q
 from fuzzywuzzy import fuzz
 
 from server.constants import sling_channels
-from streamsavvy_webapp.settings import BASE_DIR
 from server.models import Content, Channel, Images
 
 
@@ -98,43 +92,47 @@ class GuideBox(object):
             print(e)
             return False
 
-    def single_populate_additional_sources(self, c):
-        # time.sleep(1)
-        # detail = json.loads(self.get_content_detail(worker.guidebox_id))
-        time.sleep(1)
-        provider_detail = json.loads(self.get_episode_details(c.guidebox_id))
-        try:
-            for provider in provider_detail['results']['web']['episodes']['all_sources']:
-                p = Channel.objects.get_or_create(name=provider['display_name'])
-                if isinstance(p, tuple):
-                    p = p[0]
-                c.content_provider.add(p)
-                c.save()
+    def add_additional_channels_for_show(self, shows):
 
-        # TODO set up logging for this exception
-        except Exception as e:
-            print(e)
+        def execute(c):
+            if c.guidebox_data:
+                available_sources = json.loads(self.get_available_content_for_show(c.guidebox_data['id']))
+                try:
 
-    def populate_content(self):
-        total_results = json.loads(self.get_content_list(0))['total_results']
-        show_count = 0
-        loop = True
-        count = 0
-        while loop:
-            index = count * 250
-            results = json.loads(self.get_content_list(index))
-            if results['total_returned']:
-                shows_dict = results['results']
-                for i in shows_dict:
-                    show_count += 1
-                    self.save_content(i)
-                count += 1
-            else:
-                loop = False
+                    c.guidebox_data['sources'] = available_sources['results']
+                    c.save()
 
-        return show_count
+                # TODO set up logging for this exception
+                except Exception as e:
+                    print(e)
 
-    def get_episode_details(self, content_id):
+        if type(shows) is list:
+            for c in shows:
+                execute(c)
+        else:
+            execute(shows)
+
+
+    # def populate_content(self):
+        # total_results = json.loads(self.get_content_list(0))['total_results']
+        # show_count = 0
+        # loop = True
+        # count = 0
+        # while loop:
+        #     index = count * 250
+        #     results = json.loads(self.get_content_list(index))
+        #     if results['total_returned']:
+        #         shows_dict = results['results']
+        #         for i in shows_dict:
+        #             show_count += 1
+        #             self.save_content(i)
+        #         count += 1
+        #     else:
+        #         loop = False
+        #
+        # return show_count
+
+    def get_available_content_for_show(self, content_id):
         url = "{BASE_URL}/show/{id}/available_content".format(BASE_URL=self.BASE_URL, id=content_id)
 
         try:
@@ -225,62 +223,3 @@ class GuideBox(object):
                                     print(e)
             except Exception as e:
                 self.logger.error(e)
-
-
-# This Class is meant to flesh out provider details
-class Providers(object):
-    def get_sources_info(self):
-
-        logger = logging.getLogger('cutthecord')
-
-        start_time = time.time()
-        sources = json.loads(GuideBox().get_sources())
-        print(sources)
-
-        for source in sources['results']:
-            cp = Channel.objects.get_or_create(name=source['display_name'])
-
-            if isinstance(cp, tuple):
-                cp = cp[0]
-            try:
-
-                cp.guidebox_id = source['id']
-                cp.source = source['source']
-                cp.payment_type = source['type']
-                cp.home_url = source['info']
-                cp.apple_app = source['ios_app']
-                cp.android_app = source['android_app']
-
-                cp.save()
-
-            except Exception as e:
-
-                logger.debug(e)
-
-        print("entire job too {time}".format(time=time.time() - start_time))
-
-    def export_paid_providers(self):
-
-        provider_file = os.path.join(BASE_DIR, 'provider_prices.yaml')
-
-        data = serializers.serialize('yaml',
-                                     Channel.objects.filter(
-                                         Q(payment_type='purchase') | Q(payment_type='subscription')),
-                                     fields=('name', 'channel_type', 'retail_cost', 'payment_type'))
-
-        with open(provider_file, "wb") as file_descriptor:
-            file_descriptor.write(bytes(data, 'UTF-8'))
-            file_descriptor.close()
-
-    def import_paid_providers(self):
-
-        provider_file = os.path.join(BASE_DIR, 'provider_prices.yaml')
-
-        with open(provider_file, 'r') as file_descriptor:
-            data = yaml.load(file_descriptor)
-
-        for i in data:
-            cp = Channel.objects.get(pk=i['pk'])
-            if cp.retail_cost is None:
-                cp.retail_cost = i['fields']['retail_cost']
-                cp.save()

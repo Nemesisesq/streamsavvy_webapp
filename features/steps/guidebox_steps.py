@@ -6,7 +6,7 @@ from behave import given, when, then
 
 from server.models import Content, Channel
 from server.tasks import inital_database_population_of_content, inital_database_population_of_channels, \
-    connect_content_channel_task
+    connect_content_channel_task, add_available_content_to_shows
 
 __author__ = 'Nem'
 
@@ -137,7 +137,27 @@ def step_impl(context):
     connect_content_channel_task()
 
 
-@then("there are a total number of jobs in the queue")
-def step_impl(context):
-    q = django_rq.get_queue('low')
+@then("there are a total number of jobs in the {level} queue")
+def step_impl(context, level):
+    q = django_rq.get_queue(level)
     assert len(q.jobs) > 0
+
+
+@given("a show Orange is the new black")
+def step_impl(context):
+    context.show = Content.objects.get(title__iexact='Orange is the new black')
+    assert context.show
+
+@when("we add available content to the show")
+def step_impl(context):
+    context.guidebox.add_additional_channels_for_show(context.show)
+
+
+@then("the show now has sources")
+def step_impl(context):
+    assert context.show.guidebox_data['sources']
+
+
+@when("we call the add available content task")
+def step_impl(context):
+    add_available_content_to_shows()

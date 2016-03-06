@@ -41,9 +41,16 @@ Feature: guidebox api feature
   Scenario: We test the task that connects shows and channels
     Given a list of channels from the database
     When we call the connect channel to content task
-    Then there are a total number of jobs in the queue
+    Then there are a total number of jobs in the low queue
 
+  Scenario: we test the method that adds sources to shows
+    Given a show Orange is the new black
+    When we add available content to the show
+    Then the show now has sources
 
+  Scenario: we test the task that adds available content to shows
+    When we call the add available content task
+    Then there are a total number of jobs in the high queue
 
 
 

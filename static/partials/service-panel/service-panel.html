@@ -2,7 +2,7 @@
     <div class="panel-heading">services and shows</div>
 
     <div class="panel-body" ng-repeat="service in listOfServices">
-        <a href="" ng-click="service.open = !service.open">{{ service.chan.name }}</a>
+        <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}</a>
         <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
         <div uib-collapse="service.open">
             <ul class="list-group">

@@ -3,7 +3,7 @@ import json
 import django_rq
 
 from server.apis.guidebox import GuideBox
-from server.models import Channel
+from server.models import Channel, Content
 
 
 def inital_database_population_of_content():
@@ -44,7 +44,6 @@ def inital_database_population_of_channels():
     return result
 
 
-
 def connect_content_channel_task():
     g = GuideBox()
     q_low = django_rq.get_queue('low')
@@ -59,3 +58,13 @@ def connect_content_channel_task():
             q_high.enqueue(g.connect_channels_shows, i)
         else:
             q_low.enqueue(g.connect_channels_shows, i)
+
+
+def add_available_content_to_shows():
+    g = GuideBox()
+    q_high = django_rq.get_queue('high')
+
+    all_shows = Content.objects.all()
+
+    for show in [all_shows[i: i + 20]  for i in range(0, len(all_shows), 20)]:
+        q_high.enqueue(g.add_additional_channels_for_show, show)

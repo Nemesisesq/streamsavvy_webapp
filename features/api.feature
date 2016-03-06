@@ -53,8 +53,8 @@ Feature: API Fature
 #    Then we find "Orange is the New Black" in the fuzzy search from guidebox
     Then Orange Is the New Black has the netflix channel
 
-    Scenario: This is to test the process shows method of the Netflixable class
-      Given  and instance of Netflixable with http://usa.netflixable.com/2016/01/complete-alphabetical-list-wed-jan-27.html
-      And we get a list of shows
-      When we call process shows
-      Then we see shows on netflix
+  Scenario: This is to test the process shows method of the Netflixable class
+    Given  and instance of Netflixable with http://usa.netflixable.com/2016/01/complete-alphabetical-list-wed-jan-27.html
+    And we get a list of shows
+    When we call process shows
+    Then we see shows on netflix
