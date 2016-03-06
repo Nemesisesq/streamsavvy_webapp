@@ -1,5 +1,6 @@
 .hardware-panel{
   @extend %side-panel;
+  max-height:20vh;
   .panel{
     width: 100%;
     display: table;
