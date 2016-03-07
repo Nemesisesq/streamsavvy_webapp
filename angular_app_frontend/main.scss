@@ -41,9 +41,11 @@ $dark-98: rgba(21, 25, 27, 0.98);
 //@import 'features/blog/blog-two/blog-two';
 //@import 'features/blog/blog-three/blog-three';
 @import 'features/dashboard/dashboard';
+@import 'features/dashboard/selected-show/select';
 @import 'features/dashboard/service-panel/service-panel';
 @import 'features/dashboard/show-grid/show-grid';
 @import 'features/dashboard/hardware-panel/hardware-panel';
+
 @import 'sass/feature/component';
 //@import 'sass/feature/default';
 
@@ -64,3 +66,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   padding: 0;
 }
 
+@mixin top-n-bottom-margin ($top-n-bottom) {
+    margin-top: $top-n-bottom;
+    margin-bottom: $top-n-bottom;
+  }
