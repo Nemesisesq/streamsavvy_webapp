@@ -1,12 +1,27 @@
 .selected-show{
   color: white;
+  .top-choice{
+    @include top-n-bottom-margin(5px);
+  }
   .poster-with-window{
 
     .service-options{
       img{
         border-radius: 4px;
-        margin-bottom: 8px;
+        @include top-n-bottom-margin(5px);
       }
+    }
+  }
+  .title-with-ratings{
+    @include top-n-bottom-margin(10px);
+
+    h2{
+      display: inline-block;
+      margin: 0;
+    }
+    .ratings{
+      float:right;
+      display: inline-block;
     }
   }
 }
