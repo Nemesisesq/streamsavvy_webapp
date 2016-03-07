@@ -208,6 +208,9 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
                     controller: 'StepThreeController'
                 },
+                select: {
+                    templateUrl: '/static/partials/selected-show/select.html'
+                },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
                 }

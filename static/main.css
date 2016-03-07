@@ -351,7 +351,8 @@ ul[id^='typeahead-'], .suggestions-list {
     display: table;
     vertical-align: middle;
     padding-top: 15px;
-    padding-bottom: 15px; }
+    padding-bottom: 15px;
+    margin-left: 15px; }
     .navbar-fixed-top #showLeftPush img {
       margin-right: 15px; }
 
@@ -370,7 +371,7 @@ ul[id^='typeahead-'], .suggestions-list {
   text-transform: uppercase;
   padding-left: 2%;
   padding-right: 1%;
-  height: 100%;
+  height: 100vh;
   background: black; }
   .dashboard .panel.services-panel.ng-scope, .dashboard .hardware-panel {
     background-color: #15191b;
@@ -393,7 +394,8 @@ ul[id^='typeahead-'], .suggestions-list {
     .dashboard .search-and-shows .pop-search {
       margin-top: 10px;
       margin-bottom: 10px;
-      float: left; }
+      float: left;
+      color: #9b9b9b; }
 
 .panel.services-panel.ng-scope {
   margin-bottom: 10px;
@@ -402,7 +404,9 @@ ul[id^='typeahead-'], .suggestions-list {
   backdrop-filter: blur(9.9px);
   background-color: #15191b;
   background-color: #15191b;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1); }
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  max-height: 60vh;
+  overflow-y: scroll; }
 
 .show-grid {
   margin-top: 20px;
@@ -413,25 +417,45 @@ ul[id^='typeahead-'], .suggestions-list {
   .show-grid img {
     width: 100%; }
 
-.hardware-panel .panel {
-  width: 100%;
-  display: table;
-  background-color: inherit;
-  color: #00a2ff; }
-  .hardware-panel .panel .panel-body {
-    margin: 0 auto;
-    display: inline-block; }
-    .hardware-panel .panel .panel-body .hardware-img {
-      border: 1px solid #c9c9c9;
-      height: 10.55vw;
-      width: 9.25vw;
-      padding: 0; }
-    .hardware-panel .panel .panel-body .hardware-name {
-      display: flex; }
-    .hardware-panel .panel .panel-body .hardware-cost {
-      color: #3b94e3;
-      font-weight: 900;
-      font-size: 17px; }
+.hardware-panel {
+  max-height: 20vh; }
+  .hardware-panel .panel {
+    width: 100%;
+    display: table;
+    background-color: inherit;
+    color: #00a2ff; }
+    .hardware-panel .panel .panel-body {
+      margin: 0 auto;
+      display: inline-block; }
+      .hardware-panel .panel .panel-body .hardware-img {
+        border: 1px solid #c9c9c9;
+        height: 10.55vw;
+        width: 9.25vw;
+        padding: 0; }
+      .hardware-panel .panel .panel-body .hardware-name {
+        display: flex; }
+      .hardware-panel .panel .panel-body .hardware-cost {
+        color: #3b94e3;
+        font-weight: 900;
+        font-size: 17px; }
+
+.selected-show {
+  color: white; }
+  .selected-show .top-choice {
+    margin-top: 5px;
+    margin-bottom: 5px; }
+  .selected-show .poster-with-window .service-options img {
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-bottom: 5px; }
+  .selected-show .title-with-ratings {
+    margin-bottom: 12px; }
+    .selected-show .title-with-ratings h2 {
+      display: inline-block;
+      margin: 0; }
+    .selected-show .title-with-ratings .ratings {
+      float: right;
+      display: inline-block; }
 
 /* General styles for all menus */
 .cbp-spmenu {
