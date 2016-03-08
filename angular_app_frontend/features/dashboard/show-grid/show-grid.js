@@ -1,4 +1,4 @@
-app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
 
     $scope.clearContent = function () {
         debugger
@@ -180,6 +180,27 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
 
         return _.isEmpty(array) ? false : _.first(array).name;
 
+    }
+
+    $scope.showDetail = function (ev, attrs) {
+        debugger;
+
+        var detail = angular.element(document.createElement('show-detail'));
+        detail.add_
+        var el = $compile(detail)($scope);
+
+        angular.element('div.search-and-shows').append(detail)
+
+
+        //ShowDetailAnimate.loadContent(item)
+
+
+
+
+    }
+    
+    $scope.hideDetail = function () {
+        
     }
 
 

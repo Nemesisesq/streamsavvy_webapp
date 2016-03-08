@@ -3,7 +3,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     $scope.hello = 'world';
 
     var ssPackage = PackageFactory.getPackage();
-    //debugger
     var updateServices = function () {
         $scope.listOfServices = _
             .chain(ssPackage.data.content)
@@ -19,9 +18,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
             .uniqBy('source')
             .map(function (elem) {
                 var o = {chan: elem}
-                //debugger;
                 o.shows = _.filter(ssPackage.data.content, function (show) {
-                    debugger;
                     if (show.guidebox_data.sources){
                         var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
                     } else {
@@ -43,7 +40,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
         return PackageFactory.getPackage().data.content
 
     }, function () {
-        debugger;
         ssPackage = PackageFactory.getPackage();
         updateServices()
     })

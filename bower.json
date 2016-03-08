@@ -36,5 +36,8 @@
     "classie": "^1.0.1",
     "angular-growl": "^0.4.0",
     "angular-growl-v2": "^0.7.9"
+  },
+  "resolutions": {
+    "lodash": "^4.6.1"
   }
 }
