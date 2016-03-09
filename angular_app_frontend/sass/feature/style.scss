@@ -13,11 +13,12 @@ $homepage-background-s3: url(https://s3.amazonaws.com/streamsavvy/ss_background.
 //@extend-elements
 //original selectors
 //html, body
-html {
-	@extend %center_and_extend_height;
-}
+//html {
+//	@extend %center_and_extend_height;
+//}
 body {
-	@extend %center_and_extend_height;
+	//@extend %center_and_extend_height;
+min-height: 101vh;
 }
 #background {
 	background: $homepage-background-s3 no-repeat 50% 50% fixed;

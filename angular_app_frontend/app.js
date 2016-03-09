@@ -98,7 +98,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'ModalController'
                 },
                 'home': {
-                    templateUrl: 'static/partials/home.html'
+                    templateUrl: 'static/partials/home.html',
+                    controller: 'HomeController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -322,3 +323,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
 
 });
+
+app.controller('HomeController', function () {
+    $('body').attr('id','background')
+})

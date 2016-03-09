@@ -1,5 +1,8 @@
 app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
 
+    $('body').removeAttr('id');
+    $('body').addClass('dashboard-background');
+
     $scope.clearContent = function () {
         debugger
         var pkg = PackageFactory.getPackage()
@@ -184,23 +187,23 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
 
     $scope.showDetail = function (ev, attrs) {
         debugger;
+        var positionItem = ev.currentTarget,
+            scaleItem = ev.target,
+            container = document.getElementById('search-and-shows');
+
+        ShowDetailAnimate.loadContent(positionItem, scaleItem, container);
 
         var detail = angular.element(document.createElement('show-detail'));
-        detail.add_
         var el = $compile(detail)($scope);
-
-        angular.element('div.search-and-shows').append(detail)
-
-
-        //ShowDetailAnimate.loadContent(item)
-
-
+        angular.element('div.placeholder').append(detail)
+        $('.show-grid').addClass('blur-and-fill')
+        $('#search-view').hide()
 
 
     }
-    
+
     $scope.hideDetail = function () {
-        
+
     }
 
 

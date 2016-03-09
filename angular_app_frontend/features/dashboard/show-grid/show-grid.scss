@@ -1,3 +1,17 @@
+.placeholder {
+  pointer-events: none;
+  position: absolute;
+  width: calc(100% + 5px);
+  height: calc(100vh + 5px);
+  z-index: 100;
+  top: 0;
+  left: 0;
+  //background: #fff;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  //opacity: .2;
+}
+
 .show-grid {
   margin-top: 20px;
 
@@ -17,6 +31,15 @@
 
 }
 
+.dashboard-background {
+
+ background: #282537;
+ background-image: -webkit-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+ background-image: -moz-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+ background-image: -o-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+ background-image: radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+}
+
 //.transition-placeholder {
 //  height: 100%;
 //  width: 100%;
@@ -26,19 +49,6 @@
 //  top: 0px;
 //  left: 0px;
 //}
-
-.placeholder {
-  pointer-events: none;
-  position: absolute;
-  width: calc(100% + 5px);
-  height: calc(100vh + 5px);
-  z-index: 100;
-  top: 0;
-  left: 0;
-  background: #fff;
-  -webkit-transform-origin: 0 0;
-  transform-origin: 0 0;
-}
 
 .placeholder.placeholder--trans-in {
   -webkit-transition: -webkit-transform 0.5s;
@@ -51,3 +61,11 @@
   -webkit-transition: -webkit-transform 0.5s;
   transition: transform 0.5s;
 }
+
+.blur-and-fill {
+
+  -webkit-filter: blur(7px);
+  filter: blur(7px);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), $dark);
+}
+

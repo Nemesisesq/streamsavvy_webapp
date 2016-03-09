@@ -37,16 +37,6 @@ show-detail {
     background: linear-gradient(to bottom, rgba(0, 162, 255, 0.2), rgba(225, 0, 25, 0.2), $dark, $dark);
   }
 
-  .blur-and-fill {
-    padding: 13px;
-    margin-left: -15px;
-    margin-right: -15px;
-    -webkit-backdrop-filter: blur(7px);
-    backdrop-filter: blur(7px);
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), $dark);
-    display: table;
-  }
-
   .close {
     width: 21px;
     height: 21px;

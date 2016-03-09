@@ -78,7 +78,7 @@ app.factory('ShowDetailAnimate', function () {
         scrollY: function () {
             return window.pageYOffset || docElem.scrollTop;
         },
-        loadContent: function (item) {
+        loadContent: function (positionItem, scaleItem, container) {
 
             console.log(this.scrollY());
             // add expanding element/placeholder
@@ -87,44 +87,44 @@ app.factory('ShowDetailAnimate', function () {
             dummy.className = 'placeholder';
 
             // set the width/heigth and position
-            dummy.style.WebkitTransform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop) + 'px, 0px) scale3d(' + (item.offsetWidth / gridItemsContainer.offsetWidth) -.3 + ',' + item.offsetHeight / this.getViewport('y') + ',1)';
-            dummy.style.transform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop) + 'px, 0px) scale3d(' +  (item.offsetWidth / gridItemsContainer.offsetWidth) -.3 + ',' + item.offsetHeight / this.getViewport('y') + ',1)';
+            dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / this.getViewport('y') + ',1)';
+            dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / this.getViewport('y') + ',1)';
 
             // add transition class
             classie.add(dummy, 'placeholder--trans-in');
 
             // insert it after all the grid items
-            gridItemsContainer.appendChild(dummy);
+            container.appendChild(dummy);
 
             // body overlay
-            //classie.add(bodyEl, 'view-single');
+            classie.add(bodyEl, 'view-single');
             //
-            //setTimeout(function () {
-            //    debugger;
-            //    // expands the placeholder
-            //    dummy.style.WebkitTransform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
-            //    dummy.style.transform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
-            //    // disallow scroll
-            //    window.addEventListener('scroll', this.noscroll);
-            //}, 25);
+            setTimeout(function () {
+                debugger;
+                // expands the placeholder
+                dummy.style.WebkitTransform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
+                dummy.style.transform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
+                // disallow scroll
+                window.addEventListener('scroll', this.noscroll);
+            }, 25);
 
-            //this.onEndTransition(dummy, function () {
-            //    // add transition class
-            //    classie.remove(dummy, 'placeholder--trans-in');
-            //    classie.add(dummy, 'placeholder--trans-out');
-            //    // position the content container
-            //    contentItemsContainer.style.top = scrollY() + 'px';
-            //    // show the main content container
-            //    classie.add(contentItemsContainer, 'content--show');
-            //    // show content item:
-            //    classie.add(contentItems[current], 'content__item--show');
-            //    // show close control
-            //    classie.add(closeCtrl, 'close-button--show');
-            //    // sets overflow hidden to the body and allows the switch to the content scroll
-            //    classie.addClass(bodyEl, 'noscroll');
-            //
-            //    isAnimating = false;
-            //});
+            this.onEndTransition(dummy, function () {
+                // add transition class
+                classie.remove(dummy, 'placeholder--trans-in');
+                classie.add(dummy, 'placeholder--trans-out');
+                // position the content container
+                //contentItemsContainer.style.top = scrollY() + 'px';
+                // show the main content container
+                //classie.add(contentItemsContainer, 'content--show');
+                // show content item:
+                //classie.add(contentItems[current], 'content__item--show');
+                // show close control
+                //classie.add(closeCtrl, 'close-button--show');
+                // sets overflow hidden to the body and allows the switch to the content scroll
+                classie.addClass(bodyEl, 'noscroll');
+
+                isAnimating = false;
+            });
         },
 
         hideContent: function () {

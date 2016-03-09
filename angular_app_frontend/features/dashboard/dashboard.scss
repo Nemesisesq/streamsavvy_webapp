@@ -1,13 +1,5 @@
 .dashboard {
-  $savvy_olive: #EBEBEB;
-  $panel_header:#858789;
-  $panel_body:#6A6C6E;
 
-  text-transform: uppercase;
-
-
-  height: 100vh;
-  background: black;
   
   %side-panel{
     background-color: $dashboard-dark;

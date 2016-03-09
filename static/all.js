@@ -98,7 +98,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'ModalController'
                 },
                 'home': {
-                    templateUrl: 'static/partials/home.html'
+                    templateUrl: 'static/partials/home.html',
+                    controller: 'HomeController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -322,6 +323,10 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
 
 });
+
+app.controller('HomeController', function () {
+    $('body').attr('id','background')
+})
 /**
  * Created by Nem on 9/18/15.
  */
@@ -1021,7 +1026,7 @@ app.factory('ShowDetailAnimate', function () {
         scrollY: function () {
             return window.pageYOffset || docElem.scrollTop;
         },
-        loadContent: function (item) {
+        loadContent: function (positionItem, scaleItem, container) {
 
             console.log(this.scrollY());
             // add expanding element/placeholder
@@ -1030,44 +1035,44 @@ app.factory('ShowDetailAnimate', function () {
             dummy.className = 'placeholder';
 
             // set the width/heigth and position
-            dummy.style.WebkitTransform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop) + 'px, 0px) scale3d(' + (item.offsetWidth / gridItemsContainer.offsetWidth) -.3 + ',' + item.offsetHeight / this.getViewport('y') + ',1)';
-            dummy.style.transform = 'translate3d(' + (item.offsetLeft - 5) + 'px, ' + (item.offsetTop) + 'px, 0px) scale3d(' +  (item.offsetWidth / gridItemsContainer.offsetWidth) -.3 + ',' + item.offsetHeight / this.getViewport('y') + ',1)';
+            dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / this.getViewport('y') + ',1)';
+            dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / this.getViewport('y') + ',1)';
 
             // add transition class
             classie.add(dummy, 'placeholder--trans-in');
 
             // insert it after all the grid items
-            gridItemsContainer.appendChild(dummy);
+            container.appendChild(dummy);
 
             // body overlay
-            //classie.add(bodyEl, 'view-single');
+            classie.add(bodyEl, 'view-single');
             //
-            //setTimeout(function () {
-            //    debugger;
-            //    // expands the placeholder
-            //    dummy.style.WebkitTransform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
-            //    dummy.style.transform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
-            //    // disallow scroll
-            //    window.addEventListener('scroll', this.noscroll);
-            //}, 25);
+            setTimeout(function () {
+                debugger;
+                // expands the placeholder
+                dummy.style.WebkitTransform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
+                dummy.style.transform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
+                // disallow scroll
+                window.addEventListener('scroll', this.noscroll);
+            }, 25);
 
-            //this.onEndTransition(dummy, function () {
-            //    // add transition class
-            //    classie.remove(dummy, 'placeholder--trans-in');
-            //    classie.add(dummy, 'placeholder--trans-out');
-            //    // position the content container
-            //    contentItemsContainer.style.top = scrollY() + 'px';
-            //    // show the main content container
-            //    classie.add(contentItemsContainer, 'content--show');
-            //    // show content item:
-            //    classie.add(contentItems[current], 'content__item--show');
-            //    // show close control
-            //    classie.add(closeCtrl, 'close-button--show');
-            //    // sets overflow hidden to the body and allows the switch to the content scroll
-            //    classie.addClass(bodyEl, 'noscroll');
-            //
-            //    isAnimating = false;
-            //});
+            this.onEndTransition(dummy, function () {
+                // add transition class
+                classie.remove(dummy, 'placeholder--trans-in');
+                classie.add(dummy, 'placeholder--trans-out');
+                // position the content container
+                //contentItemsContainer.style.top = scrollY() + 'px';
+                // show the main content container
+                //classie.add(contentItemsContainer, 'content--show');
+                // show content item:
+                //classie.add(contentItems[current], 'content__item--show');
+                // show close control
+                //classie.add(closeCtrl, 'close-button--show');
+                // sets overflow hidden to the body and allows the switch to the content scroll
+                classie.addClass(bodyEl, 'noscroll');
+
+                isAnimating = false;
+            });
         },
 
         hideContent: function () {
@@ -1218,101 +1223,6 @@ $(document).ready(function () {
     //
     //}
 });
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
-});
-
-
 
 /**
  * Created by Nem on 7/18/15.
@@ -1418,6 +1328,101 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 ;
 
 
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
+
+
+        return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
+});
+
+
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
     $scope.hello = 'world';
@@ -1469,6 +1474,9 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 
 app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
+
+    $('body').removeAttr('id');
+    $('body').addClass('dashboard-background');
 
     $scope.clearContent = function () {
         debugger
@@ -1654,23 +1662,23 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
 
     $scope.showDetail = function (ev, attrs) {
         debugger;
+        var positionItem = ev.currentTarget,
+            scaleItem = ev.target,
+            container = document.getElementById('search-and-shows');
+
+        ShowDetailAnimate.loadContent(positionItem, scaleItem, container);
 
         var detail = angular.element(document.createElement('show-detail'));
-        detail.add_
         var el = $compile(detail)($scope);
-
-        angular.element('div.search-and-shows').append(detail)
-
-
-        //ShowDetailAnimate.loadContent(item)
-
-
+        angular.element('div.placeholder').append(detail)
+        $('.show-grid').addClass('blur-and-fill')
+        $('#search-view').hide()
 
 
     }
-    
+
     $scope.hideDetail = function () {
-        
+
     }
 
 
