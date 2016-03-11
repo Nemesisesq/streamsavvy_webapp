@@ -5,10 +5,8 @@
 app.directive('showDetail',function(){
     return{
         restrict: 'E',
-        scope :{
-            show: '='
-        },
-        templateUrl : '/static/partials/selected-show/select.html'
+        templateUrl : '/static/partials/selected-show/select.html',
+        controller: 'ShowGridController'
 
 
 

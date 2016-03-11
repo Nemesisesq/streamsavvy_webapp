@@ -25,8 +25,18 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
     var _test = 1;
 
+    var _chosenShow = {};
+
 
     return {
+        setChosenShow: function(show){
+            _chosenShow = show
+        },
+
+        getChosenShow: function () {
+            return _chosenShow;
+        },
+
         setPackage: function (ssPackage) {
 
             _package = ssPackage;

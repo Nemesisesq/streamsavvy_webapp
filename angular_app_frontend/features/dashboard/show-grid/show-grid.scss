@@ -6,10 +6,18 @@
   z-index: 100;
   top: 0;
   left: 0;
-  //background: #fff;
+  background: rgba(0, 0, 0, .2);
   -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
-  //opacity: .2;
+
+  // opacity:.2;
+}
+
+.fade-in {
+  opacity: 1;
+  -webkit-transition: opacity .15s linear;
+  -o-transition: opacity .15s linear;
+  transition: opacity .15s linear;
 }
 
 .show-grid {
@@ -33,11 +41,11 @@
 
 .dashboard-background {
 
- background: #282537;
- background-image: -webkit-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
- background-image: -moz-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
- background-image: -o-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
- background-image: radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+  background: #282537;
+  background-image: -webkit-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+  background-image: -moz-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+  background-image: -o-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+  background-image: radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
 }
 
 //.transition-placeholder {

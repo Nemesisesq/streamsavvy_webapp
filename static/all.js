@@ -385,10 +385,8 @@ app.directive('ssImageBlock', function (http, $rootScope) {
 app.directive('showDetail',function(){
     return{
         restrict: 'E',
-        scope :{
-            show: '='
-        },
-        templateUrl : '/static/partials/selected-show/select.html'
+        templateUrl : '/static/partials/selected-show/select.html',
+        controller: 'ShowGridController'
 
 
 
@@ -802,8 +800,18 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
     var _test = 1;
 
+    var _chosenShow = {};
+
 
     return {
+        setChosenShow: function(show){
+            _chosenShow = show
+        },
+
+        getChosenShow: function () {
+            return _chosenShow;
+        },
+
         setPackage: function (ssPackage) {
 
             _package = ssPackage;
@@ -958,24 +966,24 @@ app.factory('classie', function ($window) {
     return $window.classie
 })
 
-app.factory('ShowDetailAnimate', function () {
+app.factory('ShowDetailAnimate', function ($timeout) {
     //debugger;
 
     var bodyEl = document.body,
         gridEl = $('#theGrid')[0],
         sidebarEl = document.getElementById('theSidebar'),
         gridItemsContainer = gridEl.querySelector('div.row'),
-        //contentItemsContainer = gridEl.querySelector('section.content'),
-        //gridItems = gridItemsContainer.querySelectorAll('.grid__item'),
-        //contentItems = contentItemsContainer.querySelectorAll('.content__item'),
-        //closeCtrl = contentItemsContainer.querySelector('.close-button'),
+    //contentItemsContainer = gridEl.querySelector('section.content'),
+    //gridItems = gridItemsContainer.querySelectorAll('.grid__item'),
+    //contentItems = contentItemsContainer.querySelectorAll('.content__item'),
+    //closeCtrl = contentItemsContainer.querySelector('.close-button'),
         current = -1,
         lockScroll = false,
         xscroll = "",
         yscroll = "",
         isAnimating = false,
-        //menuCtrl = document.getElementById('menu-toggle'),
-        //menuCloseCtrl = sidebarEl.querySelector('.close-button'),
+    //menuCtrl = document.getElementById('menu-toggle'),
+    //menuCloseCtrl = sidebarEl.querySelector('.close-button'),
         docElem = window.document.documentElement,
         support = {transitions: Modernizr.csstransitions},
     // transition end event name
@@ -985,29 +993,11 @@ app.factory('ShowDetailAnimate', function () {
             'OTransition': 'oTransitionEnd',
             'msTransition': 'MSTransitionEnd',
             'transition': 'transitionend'
-        };
-        //transEndEventName = transEndEventNames[Modernizr.prefixed('transition')];
 
-    return {
-        onEndTransition: function (el, callback) {
-            var onEndCallbackFn = function (ev) {
-                if (support.transitions) {
-                    if (ev.target != this) return;
-                    this.removeEventListener(transEndEventName, onEndCallbackFn);
-                }
-                if (callback && typeof callback === 'function') {
-                    callback.call(this);
-                }
-            };
-            if (support.transitions) {
-                el.addEventListener(transEndEventName, onEndCallbackFn);
-            }
-            else {
-                onEndCallbackFn();
-            }
         },
+    //transEndEventName = transEndEventNames[Modernizr.prefixed('transition')];
 
-        getViewport: function (axis) {
+        getViewport = function (axis) {
             var client, inner;
             if (axis === 'x') {
                 client = docElem['clientWidth'];
@@ -1019,24 +1009,44 @@ app.factory('ShowDetailAnimate', function () {
             }
 
             return client < inner ? inner : client;
-        },
-        scrollX: function () {
-            return window.pageXOffset || docElem.scrollLeft;
-        },
-        scrollY: function () {
-            return window.pageYOffset || docElem.scrollTop;
-        },
+        }
+    scrollX = function () {
+        return window.pageXOffset || docElem.scrollLeft;
+    }
+    scrollY = function () {
+        return window.pageYOffset || docElem.scrollTop;
+    }
+
+
+    onEndTransition= function (el, callback) {
+        var onEndCallbackFn = function (ev) {
+            if (support.transitions) {
+                if (ev.target != this) return;
+                this.removeEventListener(transEndEventName, onEndCallbackFn);
+            }
+            if (callback && typeof callback === 'function') {
+                callback.call(this);
+            }
+        };
+        if (support.transitions) {
+            el.addEventListener(transEndEventName, onEndCallbackFn);
+        }
+        else {
+            onEndCallbackFn();
+        }
+    }
+
+    return {
         loadContent: function (positionItem, scaleItem, container) {
 
-            console.log(this.scrollY());
             // add expanding element/placeholder
-            debugger;
+            //debugger;
             var dummy = document.createElement('div');
             dummy.className = 'placeholder';
 
             // set the width/heigth and position
-            dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / this.getViewport('y') + ',1)';
-            dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / this.getViewport('y') + ',1)';
+            dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
+            dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
 
             // add transition class
             classie.add(dummy, 'placeholder--trans-in');
@@ -1047,56 +1057,59 @@ app.factory('ShowDetailAnimate', function () {
             // body overlay
             classie.add(bodyEl, 'view-single');
             //
-            setTimeout(function () {
+            return $timeout(function () {
+
                 debugger;
                 // expands the placeholder
-                dummy.style.WebkitTransform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
-                dummy.style.transform = 'translate3d(-5px, ' + (this.scrollY - 5) + 'px, 0px)';
+                dummy.style.WebkitTransform = 'translate3d(-5px, ' + (scrollY()) + 'px, 0px)';
+                dummy.style.transform = 'translate3d(-5px, ' + (scrollY()) + 'px, 0px)';
                 // disallow scroll
                 window.addEventListener('scroll', this.noscroll);
+                onEndTransition(dummy, function () {
+                    // add transition class
+                    classie.remove(dummy, 'placeholder--trans-in');
+                    classie.add(dummy, 'placeholder--trans-out');
+                    // position the content container
+                    //contentItemsContainer.style.top = scrollY() + 'px';
+                    // show the main content container
+                    //classie.add(contentItemsContainer, 'content--show');
+                    // show content item:
+                    //classie.add(contentItems[current], 'content__item--show');
+                    // show close control
+                    //classie.add(closeCtrl, 'close-button--show');
+                    // sets overflow hidden to the body and allows the switch to the content scroll
+                    classie.addClass(bodyEl, 'noscroll');
+
+                    isAnimating = false;
+                });
             }, 25);
 
-            this.onEndTransition(dummy, function () {
-                // add transition class
-                classie.remove(dummy, 'placeholder--trans-in');
-                classie.add(dummy, 'placeholder--trans-out');
-                // position the content container
-                //contentItemsContainer.style.top = scrollY() + 'px';
-                // show the main content container
-                //classie.add(contentItemsContainer, 'content--show');
-                // show content item:
-                //classie.add(contentItems[current], 'content__item--show');
-                // show close control
-                //classie.add(closeCtrl, 'close-button--show');
-                // sets overflow hidden to the body and allows the switch to the content scroll
-                classie.addClass(bodyEl, 'noscroll');
-
-                isAnimating = false;
-            });
         },
 
-        hideContent: function () {
-            var gridItem = gridItems[current], contentItem = contentItems[current];
+        hideContent: function (positionItem, scaleItem, container) {
+            //var gridItem = gridItems[current], contentItem = contentItems[current];
+            //debugger;
 
-            classie.remove(contentItem, 'content__item--show');
-            classie.remove(contentItemsContainer, 'content--show');
-            classie.remove(closeCtrl, 'close-button--show');
+            //classie.remove(contentItem, 'content__item--show');
+            //classie.remove(contentItemsContainer, 'content--show');
+            //classie.remove(closeCtrl, 'close-button--show');
             classie.remove(bodyEl, 'view-single');
 
-            setTimeout(function () {
-                var dummy = gridItemsContainer.querySelector('.placeholder');
+            return $timeout(function () {
+                debugger;
+                var dummy = container.querySelector('.placeholder');
 
                 classie.removeClass(bodyEl, 'noscroll');
+                //debugger;
+                dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
+                dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
 
-                dummy.style.WebkitTransform = 'translate3d(' + gridItem.offsetLeft + 'px, ' + gridItem.offsetTop + 'px, 0px) scale3d(' + gridItem.offsetWidth / gridItemsContainer.offsetWidth + ',' + gridItem.offsetHeight / getViewport('y') + ',1)';
-                dummy.style.transform = 'translate3d(' + gridItem.offsetLeft + 'px, ' + gridItem.offsetTop + 'px, 0px) scale3d(' + gridItem.offsetWidth / gridItemsContainer.offsetWidth + ',' + gridItem.offsetHeight / getViewport('y') + ',1)';
-
-                this.onEndTransition(dummy, function () {
+                onEndTransition(dummy, function () {
                     // reset content scroll..
-                    contentItem.parentNode.scrollTop = 0;
-                    gridItemsContainer.removeChild(dummy);
-                    classie.remove(gridItem, 'grid__item--loading');
-                    classie.remove(gridItem, 'grid__item--animate');
+                    positionItem.parentNode.scrollTop = 0;
+                    container.removeChild(dummy);
+                    //classie.remove(gridItem, 'grid__item--loading');
+                    //classie.remove(gridItem, 'grid__item--animate');
                     lockScroll = false;
                     window.removeEventListener('scroll', this.noscroll);
                 });
@@ -1108,14 +1121,14 @@ app.factory('ShowDetailAnimate', function () {
         noscroll: function () {
             if (!lockScroll) {
                 lockScroll = true;
-                xscroll = this.scrollX();
-                yscroll = this.scrollY();
+                xscroll = scrollX();
+                yscroll = scrollY();
             }
             window.scrollTo(xscroll, yscroll);
         }
 
     }
-})
+});
 
 /**
  * Created by Nem on 12/29/15.
@@ -1223,6 +1236,101 @@ $(document).ready(function () {
     //
     //}
 });
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
+
+
+        return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
+});
+
+
 
 /**
  * Created by Nem on 7/18/15.
@@ -1328,101 +1436,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 ;
 
 
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
-});
-
-
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
     $scope.hello = 'world';
@@ -1473,7 +1486,10 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 });
 
 
-app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
+app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
+    //$rootScope.showDetailDirective = false;
+
+
 
     $('body').removeAttr('id');
     $('body').addClass('dashboard-background');
@@ -1621,7 +1637,12 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
         });
 
 
-    $scope.package = PackageFactory.getPackage();
+    //$q.when(PackageFactory.getPackage())
+    //    .then(function (v) {
+    //        //debugger;
+    //        $scope.package = v
+    //        $scope.cs = v.data.content[0].guidebox_data
+    //    })
 
     $scope.onDemandLength = function (c) {
 
@@ -1660,24 +1681,58 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
 
     }
 
-    $scope.showDetail = function (ev, attrs) {
-        debugger;
+    $scope.showDetail = function (item, ev, attrs) {
+
+        PackageFactory.setChosenShow(item);
+        //debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,
             container = document.getElementById('search-and-shows');
+        debugger;
+        $(scaleItem).attr('id', 'scaled-from')
+        $(positionItem).attr('id', 'is-opened')
+        //debugger;
+        ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
+            .then(function (v) {
+                return $timeout(function () {
+                    //debugger;
 
-        ShowDetailAnimate.loadContent(positionItem, scaleItem, container);
+                    var detail = angular.element(document.createElement('show-detail'));
 
-        var detail = angular.element(document.createElement('show-detail'));
-        var el = $compile(detail)($scope);
-        angular.element('div.placeholder').append(detail)
-        $('.show-grid').addClass('blur-and-fill')
-        $('#search-view').hide()
+                    $rootScope.showSearchView = false;
+                    $rootScope.showDetailDirective = true;
+                    debugger;
+
+                }, 500)
+            })
+            .then(function (v) {
+                $('show-detail').addClass('fade-in');
+                //$('show-detail').removeClass('fade');
+            })
+
+        $('.show-grid').addClass('blur-and-fill');
 
 
     }
 
-    $scope.hideDetail = function () {
+    $scope.hideDetail = function (ev, attrs) {
+
+        var positionItem = document.getElementById('is-opened'),
+            scaleItem = document.getElementById('scaled-from'),
+            container = document.getElementById('search-and-shows');
+        $('show-detail').removeClass('fade-in');
+        $rootScope.showDetailDirective = false;
+
+        ShowDetailAnimate.hideContent(positionItem, scaleItem, container)
+            .then(function (v) {
+                $timeout(function () {
+                    debugger;
+
+                    $rootScope.showSearchView = true;
+                    $('.show-grid').removeClass('blur-and-fill');
+                }, 500)
+            });
+
 
     }
 
@@ -1686,6 +1741,12 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
         return PackageFactory.getPackage()
     }, function () {
         $scope.package = PackageFactory.getPackage();
+    })
+
+    $scope.$watch(function(){
+        return PackageFactory.getChosenShow()
+    }, function () {
+        $scope.cs = PackageFactory.getChosenShow()
     })
 
 

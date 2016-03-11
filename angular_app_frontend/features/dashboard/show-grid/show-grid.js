@@ -1,4 +1,7 @@
-app.controller('ShowGridController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
+app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
+    //$rootScope.showDetailDirective = false;
+
+
 
     $('body').removeAttr('id');
     $('body').addClass('dashboard-background');
@@ -146,7 +149,12 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
         });
 
 
-    $scope.package = PackageFactory.getPackage();
+    //$q.when(PackageFactory.getPackage())
+    //    .then(function (v) {
+    //        //debugger;
+    //        $scope.package = v
+    //        $scope.cs = v.data.content[0].guidebox_data
+    //    })
 
     $scope.onDemandLength = function (c) {
 
@@ -185,24 +193,58 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
 
     }
 
-    $scope.showDetail = function (ev, attrs) {
-        debugger;
+    $scope.showDetail = function (item, ev, attrs) {
+
+        PackageFactory.setChosenShow(item);
+        //debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,
             container = document.getElementById('search-and-shows');
+        debugger;
+        $(scaleItem).attr('id', 'scaled-from')
+        $(positionItem).attr('id', 'is-opened')
+        //debugger;
+        ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
+            .then(function (v) {
+                return $timeout(function () {
+                    //debugger;
 
-        ShowDetailAnimate.loadContent(positionItem, scaleItem, container);
+                    var detail = angular.element(document.createElement('show-detail'));
 
-        var detail = angular.element(document.createElement('show-detail'));
-        var el = $compile(detail)($scope);
-        angular.element('div.placeholder').append(detail)
-        $('.show-grid').addClass('blur-and-fill')
-        $('#search-view').hide()
+                    $rootScope.showSearchView = false;
+                    $rootScope.showDetailDirective = true;
+                    debugger;
+
+                }, 500)
+            })
+            .then(function (v) {
+                $('show-detail').addClass('fade-in');
+                //$('show-detail').removeClass('fade');
+            })
+
+        $('.show-grid').addClass('blur-and-fill');
 
 
     }
 
-    $scope.hideDetail = function () {
+    $scope.hideDetail = function (ev, attrs) {
+
+        var positionItem = document.getElementById('is-opened'),
+            scaleItem = document.getElementById('scaled-from'),
+            container = document.getElementById('search-and-shows');
+        $('show-detail').removeClass('fade-in');
+        $rootScope.showDetailDirective = false;
+
+        ShowDetailAnimate.hideContent(positionItem, scaleItem, container)
+            .then(function (v) {
+                $timeout(function () {
+                    debugger;
+
+                    $rootScope.showSearchView = true;
+                    $('.show-grid').removeClass('blur-and-fill');
+                }, 500)
+            });
+
 
     }
 
@@ -211,6 +253,12 @@ app.controller('ShowGridController', function ($scope, $http, $timeout, PackageF
         return PackageFactory.getPackage()
     }, function () {
         $scope.package = PackageFactory.getPackage();
+    })
+
+    $scope.$watch(function(){
+        return PackageFactory.getChosenShow()
+    }, function () {
+        $scope.cs = PackageFactory.getChosenShow()
     })
 
 
