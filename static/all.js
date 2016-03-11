@@ -1061,8 +1061,8 @@ app.factory('ShowDetailAnimate', function ($timeout) {
 
                 debugger;
                 // expands the placeholder
-                dummy.style.WebkitTransform = 'translate3d(-5px, ' + (scrollY()) + 'px, 0px)';
-                dummy.style.transform = 'translate3d(-5px, ' + (scrollY()) + 'px, 0px)';
+                dummy.style.WebkitTransform = 'translate3d(-5px, ' + (scrollY() -9) + 'px, 0px)';
+                dummy.style.transform = 'translate3d(-5px, ' + (scrollY() -9) + 'px, 0px)';
                 // disallow scroll
                 window.addEventListener('scroll', this.noscroll);
                 onEndTransition(dummy, function () {

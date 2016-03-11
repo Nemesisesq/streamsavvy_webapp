@@ -429,11 +429,12 @@ ul[id^='typeahead-'], .suggestions-list {
     width: 100%; }
 
 .dashboard-background {
-  background: #282537;
-  background-image: -webkit-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
-  background-image: -moz-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
-  background-image: -o-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
-  background-image: radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%); }
+  background-image: #282537;
+  background-image: -o-linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), -o-linear-gradient(#15191b, #15191b);
+  background-image: -moz-linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), -moz-linear-gradient(#15191b, #15191b);
+  background-image: -ms-linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), -ms-linear-gradient(#15191b, #15191b);
+  background-image: -webkit-linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), -webkit-linear-gradient(#15191b, #15191b);
+  background-image: linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), linear-gradient(#15191b, #15191b); }
 
 .placeholder.placeholder--trans-in {
   -webkit-transition: -webkit-transform 0.5s;
@@ -494,7 +495,8 @@ show-detail {
   left: 0px;
   position: absolute; }
   show-detail .background {
-    background: linear-gradient(to bottom, rgba(0, 162, 255, 0.2), rgba(225, 0, 25, 0.2), #15191b, #15191b); }
+    background: linear-gradient(to bottom, rgba(0, 162, 255, 0.2), rgba(225, 0, 25, 0.2), #15191b, #15191b);
+    padding-top: 15px; }
   show-detail .close {
     width: 21px;
     height: 21px;
