@@ -14,12 +14,9 @@
 
   }
   .ss_nav {
-    margin-left: -15px;
-    margin-right: -43px;
+    width: 75%;
   }
-  .navbar-fixed-top.ng-scope {
-    position: relative;
-  }
+
 
   .search-and-shows {
     padding-right: 3%;
@@ -35,9 +32,10 @@
     }
   }
   .services-hardware {
-    position: relative;
-    //top: -55px;
+    position: fixed;
+    right: 0;
     z-index: 1;
+    height : 100vh;
 
     //-webkit-filter: blur(3px);
     //filter: blur(3px);
