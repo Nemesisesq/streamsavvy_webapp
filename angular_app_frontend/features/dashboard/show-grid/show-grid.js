@@ -1,6 +1,8 @@
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
+    $rootScope.showSearchView = true
+
 
 
     $('body').removeAttr('id');
