@@ -374,7 +374,8 @@ ul[id^='typeahead-'], .suggestions-list {
   width: 75%; }
 
 .dashboard .search-and-shows {
-  padding-right: 3%; }
+  padding-left: 40px;
+  padding-right: 40px; }
   .dashboard .search-and-shows .search-bar {
     height: 50px;
     padding: 0; }
