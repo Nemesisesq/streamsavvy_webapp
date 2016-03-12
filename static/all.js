@@ -1211,7 +1211,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
         $('#mainPage').toggleClass('cbp-spmenu-push-toright');
         $('#dashPage').toggleClass('cbp-spmenu-push-toright');
 
-        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
 
         //disableOther('showLeftPush');
     };

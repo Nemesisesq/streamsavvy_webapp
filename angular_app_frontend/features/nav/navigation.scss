@@ -8,13 +8,16 @@
     color: $action_red;
     background-color: inherit;
 
-    display: table;
-    vertical-align: middle;
+    //display: table;
+    //vertical-align: middle;
     padding-top: 15px;
     padding-bottom: 15px;
     margin-left: 15px;
+    border:none;
+    background: none;
+    width: 75px;
     img {
-      margin-right: 15px;
+      //margin-right: 15px;
     }
   }
 }
@@ -23,6 +26,7 @@
 
   .navbar-fixed-top {
     background-color: $dark-98;
+    z-index:0;
   }
 }
 
