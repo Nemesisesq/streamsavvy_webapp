@@ -1,7 +1,7 @@
 import json
 
 import django_rq
-from behave import given, when, then
+from behave import given, when, then, step
 # import json
 
 from server.models import Content, Channel
@@ -163,33 +163,24 @@ def step_impl(context):
     add_available_content_to_shows()
 
 
-@given("the show orange is the new black")
-def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    pass
+@given("the show {show}")
+def step_impl(context, show):
+    context.sample_show = Content.objects.get(title__iexact=show)
+    assert context.sample_show
 
 
 @when("we call guidebox for detail about the show")
 def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    pass
+    context.the_detail = context.guidebox.get_content_detail(context.sample_show.guidebox_data['id'])
+    assert context.the_detail
 
 
 @step("we save the show")
 def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    pass
+    assert context.guidebox.save_content_detail(context.the_detail)
 
 
-@then("orange is the new black has details")
-def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    pass
+@then("{show} has details")
+def step_impl(context, show):
+    obj = Content.objects.get(title__iexact=show)
+    assert obj.guidebox_data['detail']
