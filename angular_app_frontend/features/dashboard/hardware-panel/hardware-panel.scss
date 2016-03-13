@@ -16,5 +16,16 @@
   }
   .hardware-header{
     @extend %ss_panel-header;
+
   }
+
+  .hardware-body {
+    margin-top: 55px;
+  }
+}
+
+.hardware_panel {
+
+  height:40%;
+  overflow: scroll;
 }

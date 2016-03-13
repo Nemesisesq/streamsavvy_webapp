@@ -356,9 +356,6 @@ ul[id^='typeahead-'], .suggestions-list {
     background: none;
     width: 75px; }
 
-.dashboard .navbar-fixed-top {
-  background-color: rgba(21, 25, 27, 0.98); }
-
 .menu-background {
   -webkit-backdrop-filter: blur(9.9px);
   backdrop-filter: blur(9.9px);
@@ -372,14 +369,18 @@ ul[id^='typeahead-'], .suggestions-list {
   width: 91.65%; }
 
 .dashboard .service-header, .dashboard .ss_hardware-panel .hardware-header, .ss_hardware-panel .dashboard .hardware-header {
-  padding-left: 26px;
+  padding-left: 20px;
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
   font-size: 12px;
   letter-spacing: 0.5px;
   color: #9b9b9b;
   height: 46px;
-  line-height: 46px; }
+  line-height: 46px;
+  margin-left: 5px;
+  position: fixed;
+  z-index: 100;
+  width: 100%; }
 
 .dashboard .service-panel.ng-scope .menu-background, .dashboard .ss_hardware-panel .menu-background {
   height: 46px;
@@ -413,7 +414,7 @@ ul[id^='typeahead-'], .suggestions-list {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease;
-  background-color: rgba(21, 25, 27, 0.7); }
+  background-color: rgba(21, 25, 27, 0.4); }
 
 .service-panel.ng-scope {
   min-height: 300px;
@@ -423,7 +424,8 @@ ul[id^='typeahead-'], .suggestions-list {
   overflow-y: scroll; }
   .service-panel.ng-scope .ss_panel-body {
     margin-bottom: 5px;
-    margin-left: 26px; }
+    margin-left: 26px;
+    margin-top: 55px; }
   .service-panel.ng-scope .ss_show {
     border: 0;
     background-color: #15191b;
@@ -482,6 +484,11 @@ ul[id^='typeahead-'], .suggestions-list {
   filter: blur(7px);
   background-image: linear-gradient(to bottom, transparent, #15191b); }
 
+.show-tile img {
+  object-fit: contain;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 4px; }
+
 .ss_hardware-panel .row {
   margin-left: 11px; }
   .ss_hardware-panel .row .hardware-name, .ss_hardware-panel .row .hardware-cost {
@@ -490,6 +497,13 @@ ul[id^='typeahead-'], .suggestions-list {
     margin-top: 20px;
     margin-bottom: 10px;
     border-radius: 8px; }
+
+.ss_hardware-panel .hardware-body {
+  margin-top: 55px; }
+
+.hardware_panel {
+  height: 40%;
+  overflow: scroll; }
 
 show-detail {
   text-transform: none;
