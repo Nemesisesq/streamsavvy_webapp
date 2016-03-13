@@ -1,15 +1,23 @@
 .dashboard {
 
+  %ss_panel-header {
+  margin-left: 5px;
+  background-color: $dark-98;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: $warm-grey;
+  height: 46px;
+  line-height: 46px;
+
+}
   %side-panel {
 
     .menu-background {
 
       height: 46px;
-      //-webkit-backdrop-filter: blur(9.9px);
-      //backdrop-filter: blur(9.9px);
       background-color: $dark-98;
       box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07);
-
     }
 
   }

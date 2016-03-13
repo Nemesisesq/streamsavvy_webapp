@@ -1,0 +1,7 @@
+.ss_hardware-panel{
+  @extend %side-panel;
+
+  .hardware-header{
+    @extend %ss_panel-header;
+  }
+}

@@ -365,7 +365,17 @@ ul[id^='typeahead-'], .suggestions-list {
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
 
-.dashboard .services-panel.ng-scope .menu-background {
+.dashboard .service-header, .dashboard .ss_hardware-panel .hardware-header, .ss_hardware-panel .dashboard .hardware-header {
+  margin-left: 5px;
+  background-color: rgba(21, 25, 27, 0.98);
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #9b9b9b;
+  height: 46px;
+  line-height: 46px; }
+
+.dashboard .services-panel.ng-scope .menu-background, .dashboard .ss_hardware-panel .menu-background {
   height: 46px;
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
@@ -398,16 +408,6 @@ ul[id^='typeahead-'], .suggestions-list {
   backdrop-filter: blur(9.9px);
   max-height: 60vh;
   overflow-y: scroll; }
-
-.service-header {
-  margin-left: 5px;
-  background-color: rgba(21, 25, 27, 0.98);
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
-  font-size: 12px;
-  letter-spacing: 0.5px;
-  color: #9b9b9b;
-  height: 46px;
-  line-height: 46px; }
 
 .placeholder {
   pointer-events: none;
