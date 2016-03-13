@@ -243,3 +243,18 @@ class GuideBox(object):
                                     print(e)
             except Exception as e:
                 self.logger.error(e)
+
+    def process_shows_for_content_detail(self, show_list):
+        for show in show_list:
+            try:
+                if show.guidebox_data:
+                    res = self.get_content_detail(show.guidebox_data['id'])
+
+                    details = json.loads(res)
+                    show.guidebox_data['detail'] = details
+
+                    show.save()
+
+
+            except Exception as e:
+                print(e)

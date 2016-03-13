@@ -6,7 +6,7 @@ from behave import given, when, then, step
 
 from server.models import Content, Channel
 from server.tasks import inital_database_population_of_content, inital_database_population_of_channels, \
-    connect_content_channel_task, add_available_content_to_shows
+    connect_content_channel_task, add_available_content_to_shows, add_detail_to_shows
 
 __author__ = 'Nem'
 
@@ -184,3 +184,8 @@ def step_impl(context):
 def step_impl(context, show):
     obj = Content.objects.get(title__iexact=show)
     assert obj.guidebox_data['detail']
+
+
+@given("we call the the add details task")
+def step_impl(context):
+    add_detail_to_shows()

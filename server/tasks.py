@@ -68,3 +68,14 @@ def add_available_content_to_shows():
     all_shows = Content.objects.filter(guidebox_data__sources='null')
     for show in [all_shows[i: i + 20]  for i in range(0, len(all_shows), 20)]:
         q_high.enqueue(g.add_additional_channels_for_show, show)
+
+def add_detail_to_shows():
+    g = GuideBox()
+    q_low = django_rq.get_queue('low')
+
+    all_shows = Content.objects.all()
+
+    all_shows = [show for show in all_shows if show.guidebox_data is not None and 'detail' not in show.guidebox_data]
+    for shows_chunk in [all_shows[i: i+20] for i in range(0, len(all_shows), 20)]:
+        q_low.enqueue(g.process_shows_for_content_detail, shows_chunk)
+
