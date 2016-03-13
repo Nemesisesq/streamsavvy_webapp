@@ -483,11 +483,13 @@ ul[id^='typeahead-'], .suggestions-list {
   background-image: linear-gradient(to bottom, transparent, #15191b); }
 
 .ss_hardware-panel .row {
-  margin-top: 20px;
   margin-left: 11px; }
-
-.ss_hardware-panel .hardware-img {
-  border-radius: 8px; }
+  .ss_hardware-panel .row .hardware-name, .ss_hardware-panel .row .hardware-cost {
+    color: #45a7e5; }
+  .ss_hardware-panel .row img {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 8px; }
 
 show-detail {
   text-transform: none;
