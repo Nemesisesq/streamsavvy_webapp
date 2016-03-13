@@ -473,18 +473,6 @@ ul[id^='typeahead-'], .suggestions-list {
   filter: blur(7px);
   background-image: linear-gradient(to bottom, transparent, #15191b); }
 
-.selected-show {
-  font-family: AvenirNext-Bold;
-  font-size: 14px;
-  line-height: 1.2;
-  color: white; }
-  .selected-show .title-with-ratings h2 {
-    display: inline-block;
-    margin: 0; }
-  .selected-show .title-with-ratings .ratings {
-    float: right;
-    display: inline-block; }
-
 show-detail {
   text-transform: none;
   font-family: AvenirNext-Bold;
