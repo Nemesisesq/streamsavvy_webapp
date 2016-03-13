@@ -372,7 +372,7 @@ ul[id^='typeahead-'], .suggestions-list {
   width: 91.65%; }
 
 .dashboard .service-header, .dashboard .ss_hardware-panel .hardware-header, .ss_hardware-panel .dashboard .hardware-header {
-  margin-left: 5px;
+  padding-left: 26px;
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
   font-size: 12px;
@@ -381,12 +381,10 @@ ul[id^='typeahead-'], .suggestions-list {
   height: 46px;
   line-height: 46px; }
 
-.dashboard .service-panel.ng-scope, .dashboard .ss_hardware-panel {
-  padding-left: 20px; }
-  .dashboard .service-panel.ng-scope .menu-background, .dashboard .ss_hardware-panel .menu-background {
-    height: 46px;
-    background-color: rgba(21, 25, 27, 0.98);
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
+.dashboard .service-panel.ng-scope .menu-background, .dashboard .ss_hardware-panel .menu-background {
+  height: 46px;
+  background-color: rgba(21, 25, 27, 0.98);
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
 
 .dashboard .ss_nav {
   position: fixed;
@@ -424,10 +422,11 @@ ul[id^='typeahead-'], .suggestions-list {
   backdrop-filter: blur(9.9px);
   overflow-y: scroll; }
   .service-panel.ng-scope .ss_panel-body {
-    margin-bottom: 5px; }
+    margin-bottom: 5px;
+    margin-left: 26px; }
   .service-panel.ng-scope .ss_show {
     border: 0;
-    background-color: rgba(21, 25, 27, 0.98);
+    background-color: #15191b;
     color: white; }
   .service-panel.ng-scope .ss_show-list {
     margin-bottom: 0; }
@@ -482,6 +481,13 @@ ul[id^='typeahead-'], .suggestions-list {
   -webkit-filter: blur(7px);
   filter: blur(7px);
   background-image: linear-gradient(to bottom, transparent, #15191b); }
+
+.ss_hardware-panel .row {
+  margin-top: 20px;
+  margin-left: 11px; }
+
+.ss_hardware-panel .hardware-img {
+  border-radius: 8px; }
 
 show-detail {
   text-transform: none;
