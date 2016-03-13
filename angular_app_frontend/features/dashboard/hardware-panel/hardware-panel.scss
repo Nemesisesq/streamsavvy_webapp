@@ -1,6 +1,19 @@
 .ss_hardware-panel{
   @extend %side-panel;
+  .row{
 
+    margin-left:11px;
+    .hardware-name,.hardware-cost{
+    color: $dark-sky-blue;
+    }
+
+    img{
+      margin-top:20px;
+      margin-bottom:10px;
+      border-radius: 8px;
+    }
+
+  }
   .hardware-header{
     @extend %ss_panel-header;
   }

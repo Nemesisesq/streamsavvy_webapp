@@ -372,7 +372,7 @@ ul[id^='typeahead-'], .suggestions-list {
   width: 91.65%; }
 
 .dashboard .service-header, .dashboard .ss_hardware-panel .hardware-header, .ss_hardware-panel .dashboard .hardware-header {
-  margin-left: 5px;
+  padding-left: 26px;
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
   font-size: 12px;
@@ -381,7 +381,7 @@ ul[id^='typeahead-'], .suggestions-list {
   height: 46px;
   line-height: 46px; }
 
-.dashboard .services-panel.ng-scope .menu-background, .dashboard .ss_hardware-panel .menu-background {
+.dashboard .service-panel.ng-scope .menu-background, .dashboard .ss_hardware-panel .menu-background {
   height: 46px;
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
@@ -415,12 +415,21 @@ ul[id^='typeahead-'], .suggestions-list {
   transition: all 0.3s ease;
   background-color: rgba(21, 25, 27, 0.7); }
 
-.services-panel.ng-scope {
+.service-panel.ng-scope {
   min-height: 300px;
+  max-height: 60vh;
   -webkit-backdrop-filter: blur(9.9px);
   backdrop-filter: blur(9.9px);
-  max-height: 60vh;
   overflow-y: scroll; }
+  .service-panel.ng-scope .ss_panel-body {
+    margin-bottom: 5px;
+    margin-left: 26px; }
+  .service-panel.ng-scope .ss_show {
+    border: 0;
+    background-color: #15191b;
+    color: white; }
+  .service-panel.ng-scope .ss_show-list {
+    margin-bottom: 0; }
 
 .placeholder {
   pointer-events: none;
@@ -473,17 +482,14 @@ ul[id^='typeahead-'], .suggestions-list {
   filter: blur(7px);
   background-image: linear-gradient(to bottom, transparent, #15191b); }
 
-.selected-show {
-  font-family: AvenirNext-Bold;
-  font-size: 14px;
-  line-height: 1.2;
-  color: white; }
-  .selected-show .title-with-ratings h2 {
-    display: inline-block;
-    margin: 0; }
-  .selected-show .title-with-ratings .ratings {
-    float: right;
-    display: inline-block; }
+.ss_hardware-panel .row {
+  margin-left: 11px; }
+  .ss_hardware-panel .row .hardware-name, .ss_hardware-panel .row .hardware-cost {
+    color: #45a7e5; }
+  .ss_hardware-panel .row img {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 8px; }
 
 show-detail {
   text-transform: none;
@@ -543,6 +549,9 @@ show-detail {
     width: 20px;
     height: 21px;
     object-fit: contain; }
+  show-detail .title-with-ratings {
+    margin-top: 10px;
+    margin-bottom: 10px; }
   show-detail .show-title {
     text-transform: none;
     width: 176px;
@@ -560,6 +569,8 @@ show-detail {
     color: white; }
   show-detail .close:hover {
     opacity: 100; }
+  show-detail .ratings {
+    line-height: 33px; }
   show-detail .synopsis {
     font-family: Lato;
     font-size: 14px;

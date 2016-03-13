@@ -1,27 +1,3 @@
-.selected-show {
-
-  font-family: AvenirNext-Bold;
-  font-size: 14px;
-  line-height: 1.2;
-  color: $white;
-
-  .top-choice {
-    //@include top-n-bottom-margin(5px);
-  }
-
-  .title-with-ratings {
-    //@include top-n-bottom-margin(10px);
-
-    h2 {
-      display: inline-block;
-      margin: 0;
-    }
-    .ratings {
-      float: right;
-      display: inline-block;
-    }
-  }
-}
 
 show-detail {
   text-transform: none;
@@ -104,7 +80,10 @@ show-detail {
     height: 21px;
     object-fit: contain;
   }
-
+  .title-with-ratings{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
   .show-title {
     text-transform: none;
     width: 176px;
@@ -125,6 +104,10 @@ show-detail {
   }
   .close:hover {
     opacity: 100;
+  }
+
+  .ratings{
+    line-height: 33px;
   }
 
   .synopsis {
