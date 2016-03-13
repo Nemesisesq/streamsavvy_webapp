@@ -531,6 +531,9 @@ show-detail {
     width: 20px;
     height: 21px;
     object-fit: contain; }
+  show-detail .title-with-ratings {
+    margin-top: 10px;
+    margin-bottom: 10px; }
   show-detail .show-title {
     text-transform: none;
     width: 176px;
@@ -548,6 +551,8 @@ show-detail {
     color: white; }
   show-detail .close:hover {
     opacity: 100; }
+  show-detail .ratings {
+    line-height: 33px; }
   show-detail .synopsis {
     font-family: Lato;
     font-size: 14px;

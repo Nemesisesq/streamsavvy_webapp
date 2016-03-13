@@ -80,7 +80,10 @@ show-detail {
     height: 21px;
     object-fit: contain;
   }
-
+  .title-with-ratings{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
   .show-title {
     text-transform: none;
     width: 176px;
@@ -101,6 +104,10 @@ show-detail {
   }
   .close:hover {
     opacity: 100;
+  }
+
+  .ratings{
+    line-height: 33px;
   }
 
   .synopsis {
