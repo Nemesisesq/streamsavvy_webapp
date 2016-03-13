@@ -33,6 +33,8 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
         $('#dashPage').toggleClass('cbp-spmenu-push-toright');
 
         //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
 
         //disableOther('showLeftPush');
     };

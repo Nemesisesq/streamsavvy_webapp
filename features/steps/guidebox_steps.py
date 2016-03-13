@@ -161,3 +161,35 @@ def step_impl(context):
 @when("we call the add available content task")
 def step_impl(context):
     add_available_content_to_shows()
+
+
+@given("the show orange is the new black")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    pass
+
+
+@when("we call guidebox for detail about the show")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    pass
+
+
+@step("we save the show")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    pass
+
+
+@then("orange is the new black has details")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    pass

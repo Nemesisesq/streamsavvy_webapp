@@ -365,6 +365,12 @@ ul[id^='typeahead-'], .suggestions-list {
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
 
+.fixed-menu-transform {
+  transform: translate(240px, 0); }
+
+.dashboard .ss_nav.fixed-nav-transform {
+  width: 91.65%; }
+
 .dashboard .service-header, .dashboard .ss_hardware-panel .hardware-header, .ss_hardware-panel .dashboard .hardware-header {
   margin-left: 5px;
   background-color: rgba(21, 25, 27, 0.98);
@@ -381,7 +387,11 @@ ul[id^='typeahead-'], .suggestions-list {
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
 
 .dashboard .ss_nav {
-  width: 75%; }
+  position: fixed;
+  width: 75%;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease; }
 
 .dashboard .search-and-shows {
   padding-left: 40px;
@@ -400,6 +410,9 @@ ul[id^='typeahead-'], .suggestions-list {
   right: 0;
   z-index: 1;
   height: 100vh;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
   background-color: rgba(21, 25, 27, 0.7); }
 
 .services-panel.ng-scope {
@@ -689,6 +702,9 @@ input,
 div,
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif; }
+
+body {
+  overflow-x: hidden; }
 
 .container {
   width: 100%;

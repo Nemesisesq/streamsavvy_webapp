@@ -52,5 +52,10 @@ Feature: guidebox api feature
     When we call the add available content task
     Then there are a total number of jobs in the high queue
 
+  Scenario: We test getting and saving detials for shows
+    Given the show orange is the new black
+    When we call guidebox for detail about the show
+    And we save the show
+    Then orange is the new black has details
 
 

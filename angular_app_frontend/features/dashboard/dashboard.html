@@ -6,7 +6,7 @@
      <div ui-view="progress" class="journey-one-status"></div> -->
     <div id="dashPage" class="container cbp-spmenu-push">
         <div id="search-and-shows" class=" col-sm-9 search-and-shows">
-            <div ui-view="navigation" class="navbar-fixed-top ss_nav"></div>
+            <div ui-view="navigation" id="ss-navigation-view" class="navbar-fixed-top ss_nav"></div>
             <div ui-view="search" ng-if="showSearchView" class="row ss_search"></div>
             <div ui-view="shows" class="row show-grid"></div>
             <show-detail class="fade" ng-show="showDetailDirective"></show-detail>
@@ -14,7 +14,7 @@
             <!-- <div ui-view="select" class="selected-show"></div> -->
         </div>
 
-        <div class="col-sm-3 services-hardware">
+        <div id="ss-panel-right" class="col-sm-3 services-hardware">
             <div ui-view="services" class="row service-panel"></div>
             <div ui-view="hardware" class="row hardware-panel"></div>
         </div>
