@@ -381,10 +381,12 @@ ul[id^='typeahead-'], .suggestions-list {
   height: 46px;
   line-height: 46px; }
 
-.dashboard .services-panel.ng-scope .menu-background, .dashboard .ss_hardware-panel .menu-background {
-  height: 46px;
-  background-color: rgba(21, 25, 27, 0.98);
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
+.dashboard .service-panel.ng-scope, .dashboard .ss_hardware-panel {
+  padding-left: 20px; }
+  .dashboard .service-panel.ng-scope .menu-background, .dashboard .ss_hardware-panel .menu-background {
+    height: 46px;
+    background-color: rgba(21, 25, 27, 0.98);
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
 
 .dashboard .ss_nav {
   position: fixed;
@@ -415,12 +417,20 @@ ul[id^='typeahead-'], .suggestions-list {
   transition: all 0.3s ease;
   background-color: rgba(21, 25, 27, 0.7); }
 
-.services-panel.ng-scope {
+.service-panel.ng-scope {
   min-height: 300px;
+  max-height: 60vh;
   -webkit-backdrop-filter: blur(9.9px);
   backdrop-filter: blur(9.9px);
-  max-height: 60vh;
   overflow-y: scroll; }
+  .service-panel.ng-scope .ss_panel-body {
+    margin-bottom: 5px; }
+  .service-panel.ng-scope .ss_show {
+    border: 0;
+    background-color: rgba(21, 25, 27, 0.98);
+    color: white; }
+  .service-panel.ng-scope .ss_show-list {
+    margin-bottom: 0; }
 
 .placeholder {
   pointer-events: none;
