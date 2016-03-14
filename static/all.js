@@ -1238,111 +1238,6 @@ $(document).ready(function () {
     //
     //}
 });
-
-/**
- * Created by Nem on 7/18/15.
- */
-app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
-
-
-    $scope.modelOptions = {
-        debounce: {
-            default: 500,
-            blur: 250
-        },
-        getterSetter: true
-    };
-
-    $scope.suggestions = [];
-    $scope.selectedIndex = -1;
-
-
-    $scope.checkMatched = function () {
-        return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
-    }
-
-    $scope.search = function (val) {
-        if (val) {
-            return $http.get('/api/search?q=' + val)
-                .then(function (data) {
-                    var sorted = _.sortBy(data.data.results, function (elem) {
-                        return elem.title.length
-                    })
-
-                    if (data.data.searchText == val) {
-                        $scope.suggestions = sorted;
-                        return sorted
-                    }
-                    $scope.selectedIndex = -1
-                });
-        } else {
-            $scope.suggestions = [];
-            return "hello world"
-        }
-    };
-
-    $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
-
-
-        var ssPackage = PackageFactory.getPackage();
-        debugger;
-
-        if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
-            growl.warning('You already added ' + suggestion.title + ' to your package!')
-            return
-        }
-
-
-        if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-            debugger;
-            $scope.loading = true
-            ssPackage.data.content.push(suggestion);
-            PackageFactory.setPackage(ssPackage);
-
-            $scope.loading = false
-        }
-
-
-        $scope.searchText = '';
-        $scope.suggestions = [];
-
-
-    };
-
-    $scope.checkKeyDown = function (event) {
-
-        if (event.keyCode === 40) {
-            event.preventDefault();
-            if ($scope.selectedIndex + 1 !== $scope.suggestions.length) {
-                $scope.selectedIndex++;
-            }
-        } else if (event.keyCode === 38) {
-            event.preventDefault();
-            if ($scope.selectedIndex - 1 !== -1) {
-                $scope.selectedIndex--
-            }
-        } else if (event.keyCode === 13) {
-            $scope.addToSelectedShows($scope.suggestions[$scope.selectedIndex]);
-        } else if (event.keyCode === 8) {
-            $scope.searchResult = '';
-        }
-
-    };
-
-
-    $scope.$watch('selectedIndex', function (val) {
-        if (val !== -1) {
-            $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
-        }
-    });
-
-
-
-
-})
-;
-
-
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -1436,6 +1331,110 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
         return $scope.stateStep > step ? 100 : barValue;
     }
 });
+
+
+
+/**
+ * Created by Nem on 7/18/15.
+ */
+app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
+
+
+    $scope.modelOptions = {
+        debounce: {
+            blur: 250
+        },
+        getterSetter: true
+    };
+
+    $scope.suggestions = [];
+    $scope.selectedIndex = -1;
+
+
+    $scope.checkMatched = function () {
+        return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
+    }
+
+    $scope.search = function (val) {
+        if (val) {
+            return $http.get('/api/search?q=' + val)
+                .then(function (data) {
+                    var sorted = _.sortBy(data.data.results, function (elem) {
+                        return elem.title.length
+                    })
+
+                    if (data.data.searchText == val) {
+                        $scope.suggestions = sorted;
+                        return sorted
+                    }
+                    $scope.selectedIndex = -1
+                });
+        } else {
+            $scope.suggestions = [];
+            return "hello world"
+        }
+    };
+
+    $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
+
+
+        var ssPackage = PackageFactory.getPackage();
+        debugger;
+
+        if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
+            growl.warning('You already added ' + suggestion.title + ' to your package!')
+            return
+        }
+
+
+        if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+            debugger;
+            $scope.loading = true
+            ssPackage.data.content.push(suggestion);
+            PackageFactory.setPackage(ssPackage);
+
+            $scope.loading = false
+        }
+
+
+        $scope.searchText = '';
+        $scope.suggestions = [];
+
+
+    };
+
+    $scope.checkKeyDown = function (event) {
+
+        if (event.keyCode === 40) {
+            event.preventDefault();
+            if ($scope.selectedIndex + 1 !== $scope.suggestions.length) {
+                $scope.selectedIndex++;
+            }
+        } else if (event.keyCode === 38) {
+            event.preventDefault();
+            if ($scope.selectedIndex - 1 !== -1) {
+                $scope.selectedIndex--
+            }
+        } else if (event.keyCode === 13) {
+            $scope.addToSelectedShows($scope.suggestions[$scope.selectedIndex]);
+        } else if (event.keyCode === 8) {
+            $scope.searchResult = '';
+        }
+
+    };
+
+
+    $scope.$watch('selectedIndex', function (val) {
+        if (val !== -1) {
+            $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
+        }
+    });
+
+
+
+
+})
+;
 
 
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
@@ -1763,6 +1762,102 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setPackage($scope.package)
     })
 });
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+
+
+    //$scope.login = 'Click Here to Login'
+
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $rootScope.openLogInModal = function () {
+
+        debugger;
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal/modal.html',
+            controller: 'ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selectedItem = selectedItem;
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    }
+
+    //if ($rootScope.currentStep == 3) {
+    //    $rootScope.openLogInModal()
+    //}
+});
+
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
+
+    $scope.socialLogin = true;
+
+
+    //$scope.facebookAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
+    //}
+    //
+    //$scope.instagramAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
+    //}
+    //
+    //$scope.twitterAuth = function () {
+    //
+    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
+    //}
+
+
+    $scope.login = function (credentials) {
+        debugger;
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $rootScope.logged_in = true;
+                $modalInstance.close();
+                growl.success('Login Successful', {
+                    onclose: function () {
+
+                        window.location.reload()
+                    },
+                    ttl : 1000,
+                    disableCountDown: true
+                })
+
+            })
+    };
+
+
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
+
+})
 /**
  * Created by Nem on 10/27/15.
  */
@@ -2004,102 +2099,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
-
-
-    //$scope.login = 'Click Here to Login'
-
-
-    $scope.items = ['item1', 'item2', 'item3'];
-
-    $rootScope.openLogInModal = function () {
-
-        debugger;
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: '/static/partials/modal/modal.html',
-            controller: 'ModalInstanceController',
-            size: 'sm',
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selectedItem = selectedItem;
-
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    }
-
-    //if ($rootScope.currentStep == 3) {
-    //    $rootScope.openLogInModal()
-    //}
-});
-
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
-
-    $scope.socialLogin = true;
-
-
-    //$scope.facebookAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
-    //}
-    //
-    //$scope.instagramAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
-    //}
-    //
-    //$scope.twitterAuth = function () {
-    //
-    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
-    //}
-
-
-    $scope.login = function (credentials) {
-        debugger;
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $rootScope.logged_in = true;
-                $modalInstance.close();
-                growl.success('Login Successful', {
-                    onclose: function () {
-
-                        window.location.reload()
-                    },
-                    ttl : 1000,
-                    disableCountDown: true
-                })
-
-            })
-    };
-
-
-    $scope.items = items;
-
-    $scope.selected = {
-        item: $scope.items[0]
-    }
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-    }
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel')
-    }
-
-})
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();

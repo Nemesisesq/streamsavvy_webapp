@@ -1,3 +1,14 @@
+
+@mixin top-n-bottom-margin($top-n-bottom) {
+  margin-top: $top-n-bottom;
+  margin-bottom: $top-n-bottom;
+}
+
+@mixin left-n-right-margin($lnr) {
+  margin-left: $lnr;
+  margin-right: $lnr;
+}
+
 //@mixin fa($icon) {
 //  @extend .fa;
 //  @extend .fa-#{$icon}:before;
@@ -68,9 +79,4 @@ body {
 .container {
   width: 100%;
   padding: 0;
-}
-
-@mixin top-n-bottom-margin($top-n-bottom) {
-  margin-top: $top-n-bottom;
-  margin-bottom: $top-n-bottom;
 }

@@ -1,3 +1,4 @@
+
 .search-bar {
   //position: relative;
   margin: 0 auto;
@@ -47,7 +48,7 @@ ul[id^='typeahead-'], .suggestions-list {
   padding-left: 12px;
   padding-right: 12px;
   position: absolute;
-  width: 100%;
+  //width: 100%;
   //max-width: 80%;
   max-height: 20em;
   display: block;
@@ -55,6 +56,9 @@ ul[id^='typeahead-'], .suggestions-list {
   z-index: 1;
   background-color: #ffffff;
   border: 1px solid #cccccc;
+  //margin-right: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 
   li {
     list-style: none;
@@ -80,23 +84,21 @@ ul[id^='typeahead-'], .suggestions-list {
   }
 
   to {
-    opacity:0;
+    opacity: 0;
   }
 
 }
 
 .loader {
-    position: fixed;
-    left: 50%;
-    top: 40%;
-    margin-left: -50px;
-    z-index: 100;
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  margin-left: -50px;
+  z-index: 100;
 
   img {
     max-height: 100px;
     max-width: 100px;
-
-
 
     animation-name: loader;
     animation-duration: 2s;
@@ -118,5 +120,46 @@ ul[id^='typeahead-'], .suggestions-list {
 
 .ss_search {
   margin-top: 60px;
+}
+
+.ss-search-input {
+  height: 53px;
+
+  &.has-suggestions {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+}
+
+.floating-label {
+  position: absolute;
+  top: 17px;
+  left: 13px;
+  //opacity: 1;
+  transition: all 0.3s ease-in;
+  color: $dark;
+
+  &.float {
+    top: 0px;
+    //opacity: 1;
+    -webkit-animation: float-fade .3s ease-in;
+    -o-animation: float-fade .3s ease-in;
+    animation: float-fade .3s ease-in;
+
+  }
+}
+
+.show-input {
+  position: relative;
+}
+
+@keyframes float-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;}
 }
 
