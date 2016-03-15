@@ -57,10 +57,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
 }
 
-//div ui-view {
-// max-width: 1024px;
-//}
-
 body {
   overflow-x: hidden;
 }
@@ -68,9 +64,4 @@ body {
 .container {
   width: 100%;
   padding: 0;
-}
-
-@mixin top-n-bottom-margin($top-n-bottom) {
-  margin-top: $top-n-bottom;
-  margin-bottom: $top-n-bottom;
 }
