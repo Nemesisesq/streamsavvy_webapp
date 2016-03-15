@@ -58,4 +58,8 @@ Feature: guidebox api feature
     And we save the show
     Then orange is the new black has details
 
+  Scenario: we test the task that connects show and channels
+    Given we call the the add details task
+    Then there are a total number of jobs in the low queue
+
 

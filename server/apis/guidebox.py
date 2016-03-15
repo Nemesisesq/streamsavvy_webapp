@@ -75,6 +75,7 @@ class GuideBox(object):
             print(e)
             return False
 
+
     def get_content_list(self, index, **kwargs):
         channel = kwargs['channel'] if 'channel' in kwargs else 'all'
         source = kwargs['source'] if 'source' in kwargs else 'all'
@@ -145,6 +146,8 @@ class GuideBox(object):
 
     def save_content(self, the_json):
 
+
+
         c = Content.objects.get_or_create(guidebox_data__id=the_json['id'])
 
         content = c[0]
@@ -157,6 +160,23 @@ class GuideBox(object):
             print(e)
 
         return content
+
+    def save_content_detail(self, the_json):
+        c = ''
+
+        if type(the_json) is str:
+            the_json = json.loads(the_json)
+
+        c = Content.objects.get(guidebox_data__id=the_json['id'])
+
+        c.guidebox_data['detail'] = the_json
+
+        try:
+            c.save()
+            return True
+        except Exception as e:
+            return False
+
 
     def save_images(self, i):
         obj = Images()
@@ -223,3 +243,18 @@ class GuideBox(object):
                                     print(e)
             except Exception as e:
                 self.logger.error(e)
+
+    def process_shows_for_content_detail(self, show_list):
+        for show in show_list:
+            try:
+                if show.guidebox_data:
+                    res = self.get_content_detail(show.guidebox_data['id'])
+
+                    details = json.loads(res)
+                    show.guidebox_data['detail'] = details
+
+                    show.save()
+
+
+            except Exception as e:
+                print(e)
