@@ -10,6 +10,7 @@
             <div ui-view="search" ng-if="showSearchView" class="row ss_search"></div>
             <div ui-view="shows" class="row show-grid"></div>
             <show-detail class="fade" ng-show="showDetailDirective"></show-detail>
+            <div ui-view="footer" class="row footer"></div>
         </div>
 
         <div id="ss-panel-right" class="col-sm-3 services-hardware">
@@ -18,7 +19,7 @@
         </div>
 
 
-        <div ui-view="footer"></div>
+
         <div ui-view="modal" class="journey-one"></div>
     </div>
 

@@ -523,6 +523,13 @@ ul[id^='typeahead-'], .suggestions-list {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
   border-radius: 4px; }
 
+.row.footer img {
+  max-height: 30px;
+  display: inline-block; }
+
+.row.footer span {
+  float: right; }
+
 .ss_hardware-panel .row {
   margin-left: 11px; }
   .ss_hardware-panel .row .hardware-name, .ss_hardware-panel .row .hardware-cost {
