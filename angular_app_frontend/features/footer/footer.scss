@@ -1,10 +1,14 @@
 .row.footer{
     img{
-      max-height: 30px;
       display:inline-block;
     }
-  
+    .ss_mark{
+        max-height: 30px;
+    }
+    .ss_wordmark{
+        height: 16px;
+    }
     span{
       float: right;
     }
-  }
+}
