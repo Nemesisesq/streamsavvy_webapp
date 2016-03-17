@@ -1490,6 +1490,17 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
+    function verifySelectedShowDetails(){
+        var chosen = PackageFactory.getChosenShow()
+        if (chosen.detail == undefined){
+            $http.get(chosen.url)
+                .then(function(res){
+                    PackageFactory.setChosenShow(res.data)
+                })
+
+        }
+    }
+
     $rootScope.showSearchView = true
 
 

@@ -226,6 +226,23 @@ class ContentViewSet(viewsets.ModelViewSet):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
 
+    def get_object(self):
+        obj = super(ContentViewSet, self).get_object()
+
+        if 'detail' in obj.guidebox_data:
+            return obj
+
+        else:
+            g = GuideBox()
+            detail = g.get_content_detail(obj.guidebox_data['id'])
+            detail = json.loads(detail)
+
+            obj.guidebox_data['detail'] = detail
+
+            obj.save()
+
+            return obj
+
 
 class PopularShowsViewSet(viewsets.ModelViewSet):
     # queryset = get_popular_shows()
