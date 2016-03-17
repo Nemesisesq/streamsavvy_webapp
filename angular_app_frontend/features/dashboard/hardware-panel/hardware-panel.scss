@@ -1,4 +1,6 @@
-.ss_hardware-panel{
+.ss-hardware-panel {
+
+
   @extend %side-panel;
   .row{
 
@@ -15,7 +17,10 @@
 
   }
   .hardware-header{
-    @extend %ss_panel-header;
+    @extend %ss-panel-header;
+
+    margin-top:-55px;
+
 
   }
 
@@ -24,8 +29,8 @@
   }
 }
 
-.hardware_panel {
+.hardware-panel {
 
-  height:40%;
+  height:40vh;
   overflow: scroll;
 }

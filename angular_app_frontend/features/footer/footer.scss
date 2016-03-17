@@ -1,14 +1,29 @@
-.row.footer{
-    img{
-      display:inline-block;
-    }
-    .ss_mark{
-        max-height: 30px;
-    }
-    .ss_wordmark{
-        height: 16px;
-    }
-    span{
-      float: right;
-    }
+.row.footer {
+  img {
+    display: inline-block;
+  }
+  .ss_mark {
+    max-height: 30px;
+  }
+  .ss_wordmark {
+    height: 16px;
+  }
+  span {
+    float: right;
+  }
+
+  .footer-right {
+    color: $warm-grey;
+  }
+
+  .streamsavvy-logo {
+    width: 218px;
+    height: 30px;
+    object-fit: contain;
+  }
+
+  position: relative;
+  bottom: 0;
+  margin-bottom: 12px;
+
 }

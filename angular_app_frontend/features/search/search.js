@@ -2,7 +2,7 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
+app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse,  growl) {
 
 
     $scope.modelOptions = {

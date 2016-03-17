@@ -1,7 +1,7 @@
 .service-panel.ng-scope{
   @extend %side-panel;
 
-  min-height: 300px;
+  min-height: 60vh;
   max-height: 60vh;
 
   -webkit-backdrop-filter: blur(9.9px);
@@ -9,6 +9,7 @@
   overflow-y: scroll;
 
   .ss_panel-body{
+
     margin-bottom:5px;
     margin-left:26px;
     margin-top: 55px;
@@ -31,5 +32,5 @@
   }
 }
 .service-header {
-  @extend %ss_panel-header;
+  @extend %ss-panel-header;
 }

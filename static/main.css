@@ -363,7 +363,8 @@ ul[id^='typeahead-'], .suggestions-list {
     animation: float-fade .3s ease-in; }
 
 .show-input {
-  position: relative; }
+  position: relative;
+  margin: 0; }
 
 @keyframes float-fade {
   from {
@@ -396,7 +397,7 @@ ul[id^='typeahead-'], .suggestions-list {
 .dashboard .ss_nav.fixed-nav-transform {
   width: 91.65%; }
 
-.dashboard .service-header, .dashboard .ss_hardware-panel .hardware-header, .ss_hardware-panel .dashboard .hardware-header {
+.dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   padding-left: 20px;
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
@@ -410,7 +411,7 @@ ul[id^='typeahead-'], .suggestions-list {
   z-index: 100;
   width: 100%; }
 
-.dashboard .service-panel.ng-scope .menu-background, .dashboard .ss_hardware-panel .menu-background {
+.dashboard .service-panel.ng-scope .menu-background, .dashboard .ss-hardware-panel .menu-background {
   height: 46px;
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07); }
@@ -422,17 +423,15 @@ ul[id^='typeahead-'], .suggestions-list {
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease; }
 
-.dashboard .search-and-shows {
-  padding-left: 40px;
-  padding-right: 40px; }
-  .dashboard .search-and-shows .search-bar {
-    height: 50px;
-    padding: 0; }
-  .dashboard .search-and-shows .pop-search {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    float: left;
-    color: #9b9b9b; }
+.dashboard .search-and-shows .search-bar {
+  height: 50px;
+  padding: 0; }
+
+.dashboard .search-and-shows .pop-search {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: left;
+  color: #9b9b9b; }
 
 .dashboard .services-hardware {
   position: fixed;
@@ -444,20 +443,27 @@ ul[id^='typeahead-'], .suggestions-list {
   transition: all 0.3s ease;
   background-color: rgba(21, 25, 27, 0.4); }
 
-.row.footer img {
-  display: inline-block; }
-
-.row.footer .ss_mark {
-  max-height: 30px; }
-
-.row.footer .ss_wordmark {
-  height: 16px; }
-
-.row.footer span {
-  float: right; }
+.row.footer {
+  position: relative;
+  bottom: 0;
+  margin-bottom: 12px; }
+  .row.footer img {
+    display: inline-block; }
+  .row.footer .ss_mark {
+    max-height: 30px; }
+  .row.footer .ss_wordmark {
+    height: 16px; }
+  .row.footer span {
+    float: right; }
+  .row.footer .footer-right {
+    color: #9b9b9b; }
+  .row.footer .streamsavvy-logo {
+    width: 218px;
+    height: 30px;
+    object-fit: contain; }
 
 .service-panel.ng-scope {
-  min-height: 300px;
+  min-height: 60vh;
   max-height: 60vh;
   -webkit-backdrop-filter: blur(9.9px);
   backdrop-filter: blur(9.9px);
@@ -500,12 +506,15 @@ ul[id^='typeahead-'], .suggestions-list {
 .show-grid {
   margin-top: 20px;
   width: 100%; }
-  .show-grid .col-sm-3 {
+  .show-grid .col-sm-4 {
     margin-top: 8.5px;
     margin-bottom: 8.5px;
     position: relative; }
   .show-grid img {
-    width: 100%; }
+    width: 100%;
+    object-fit: contain;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 4px; }
 
 .dashboard-background {
   background-image: #282537;
@@ -530,25 +539,23 @@ ul[id^='typeahead-'], .suggestions-list {
   filter: blur(7px);
   background-image: linear-gradient(to bottom, transparent, #15191b); }
 
-.show-tile img {
-  object-fit: contain;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-  border-radius: 4px; }
-
-.ss_hardware-panel .row {
+.ss-hardware-panel .row {
   margin-left: 11px; }
-  .ss_hardware-panel .row .hardware-name, .ss_hardware-panel .row .hardware-cost {
+  .ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
     color: #45a7e5; }
-  .ss_hardware-panel .row img {
+  .ss-hardware-panel .row img {
     margin-top: 20px;
     margin-bottom: 10px;
     border-radius: 8px; }
 
-.ss_hardware-panel .hardware-body {
+.ss-hardware-panel .hardware-header {
+  margin-top: -55px; }
+
+.ss-hardware-panel .hardware-body {
   margin-top: 55px; }
 
-.hardware_panel {
-  height: 40%;
+.hardware-panel {
+  height: 40vh;
   overflow: scroll; }
 
 show-detail {
