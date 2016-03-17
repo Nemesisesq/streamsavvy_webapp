@@ -2,10 +2,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     //$rootScope.showDetailDirective = false;
 
     function verifySelectedShowDetails(){
+        debugger;
         var chosen = PackageFactory.getChosenShow()
         if (chosen.detail == undefined){
             $http.get(chosen.url)
                 .then(function(res){
+                    debugger;
                     PackageFactory.setChosenShow(res.data)
                 })
 
@@ -209,6 +211,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.showDetail = function (item, ev, attrs) {
 
         PackageFactory.setChosenShow(item);
+        verifySelectedShowDetails()
         //debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,

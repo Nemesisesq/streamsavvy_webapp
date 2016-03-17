@@ -1337,11 +1337,12 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse,  growl) {
+app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
 
 
     $scope.modelOptions = {
         debounce: {
+            default: 500,
             blur: 250
         },
         getterSetter: true
@@ -1349,6 +1350,10 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $scope.suggestions = [];
     $scope.selectedIndex = -1;
+
+    $('#searchInput').bind('input',function(){
+        $(this).val().length > 0 ? $('.floating-label').addClass('float') : $('.floating-label').removeClass('float')
+    })
 
 
     $scope.checkMatched = function () {
@@ -1359,6 +1364,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         if (val) {
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
+                    debugger;
                     var sorted = _.sortBy(data.data.results, function (elem) {
                         return elem.title.length
                     })
@@ -1491,10 +1497,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     //$rootScope.showDetailDirective = false;
 
     function verifySelectedShowDetails(){
+        debugger;
         var chosen = PackageFactory.getChosenShow()
         if (chosen.detail == undefined){
             $http.get(chosen.url)
                 .then(function(res){
+                    debugger;
                     PackageFactory.setChosenShow(res.data)
                 })
 
@@ -1698,6 +1706,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.showDetail = function (item, ev, attrs) {
 
         PackageFactory.setChosenShow(item);
+        verifySelectedShowDetails()
         //debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,

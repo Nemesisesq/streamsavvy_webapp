@@ -2,11 +2,12 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse,  growl) {
+app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
 
 
     $scope.modelOptions = {
         debounce: {
+            default: 500,
             blur: 250
         },
         getterSetter: true
@@ -14,6 +15,10 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $scope.suggestions = [];
     $scope.selectedIndex = -1;
+
+    $('#searchInput').bind('input',function(){
+        $(this).val().length > 0 ? $('.floating-label').addClass('float') : $('.floating-label').removeClass('float')
+    })
 
 
     $scope.checkMatched = function () {
@@ -24,6 +29,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         if (val) {
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
+                    debugger;
                     var sorted = _.sortBy(data.data.results, function (elem) {
                         return elem.title.length
                     })
