@@ -19,9 +19,11 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from rest_framework import routers
 
+from guide.views import RoviChannelGridView
 from server.auth import *
 from server.feedback import FeedbackView
 from server.views import *
+
 # from titan.views import GuideTestView, guide_reciever
 
 router = routers.DefaultRouter()
@@ -47,13 +49,14 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^social', include('social.apps.django_app.urls', namespace='social')),
     url(r'^django-rq', include('django_rq.urls')),
-    #TODO remove this endpoint when the api package can get and post.
+    # TODO remove this endpoint when the api package can get and post.
     # url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
     url(r'^netflixable/', NetFlixListView.as_view(), name='netflixable'),
     url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
     url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^o/', include('oauth2_provider.urls')),
+    url(r'^api/guide/(?P<zip>\d{5})', RoviChannelGridView.as_view(), name='rovi_channel_grid_view'),
     # url(r'^guide/', GuideTestView.as_view(), name='guide_test'),
     # url(r'^guide_reciever/', guide_reciever, name='reciever')
     # url(r'test/', TemplateView.as_view(template_name='test.html')),

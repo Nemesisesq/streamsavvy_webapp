@@ -32,15 +32,15 @@ def before_feature(context, feature):
         context.guidebox = GuideBox()
 
 
-# def before_scenario(context, scenario):
-#     context.runner.setup_test_environment()
-#
-#     context.old_db_config = context.runner.setup_databases()
-#
-# def after_scenario(context, scenario):
-#     context.runner.teardown_databases(context.old_db_config)
-#
-#     context.runner.teardown_test_environment()
+def before_scenario(context, scenario):
+    context.runner.setup_test_environment()
+
+    context.old_db_config = context.runner.setup_databases()
+
+def after_scenario(context, scenario):
+    context.runner.teardown_databases(context.old_db_config)
+
+    context.runner.teardown_test_environment()
 
 def after_tag(context, tag):
     if tag == 'browser':

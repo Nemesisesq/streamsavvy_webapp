@@ -1,0 +1,13 @@
+# Created by Nem at 3/19/16
+Feature: Guide test
+  We test the guide functionality, the search and retrival of a
+
+  @rest_api
+  Scenario: Test the retrival of a grid for a zip_code
+    Given a zip_code
+      | zip   |
+      | 43209 |
+      | 10583 |
+
+    When we call the get method on RoviChannelGrid
+    Then we get a grid

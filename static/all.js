@@ -1496,12 +1496,12 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
-    function verifySelectedShowDetails(){
+    function verifySelectedShowDetails() {
         debugger;
         var chosen = PackageFactory.getChosenShow()
-        if (chosen.detail == undefined){
+        if (chosen.detail == undefined) {
             $http.get(chosen.url)
-                .then(function(res){
+                .then(function (res) {
                     debugger;
                     PackageFactory.setChosenShow(res.data)
                 })
@@ -1510,7 +1510,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $rootScope.showSearchView = true
-
 
 
     $('body').removeAttr('id');
@@ -1705,6 +1704,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     $scope.showDetail = function (item, ev, attrs) {
 
+        $('body').css('overflow', 'hidden');
+
         PackageFactory.setChosenShow(item);
         verifySelectedShowDetails()
         //debugger;
@@ -1748,13 +1749,18 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         ShowDetailAnimate.hideContent(positionItem, scaleItem, container)
             .then(function (v) {
-                $timeout(function () {
+                return $timeout(function () {
                     debugger;
 
                     $rootScope.showSearchView = true;
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
-            });
+            })
+            .then(function (v) {
+                debugger;
+                $('body').css('overflow', 'scroll');
+
+            })
 
 
     }
@@ -1766,7 +1772,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.package = PackageFactory.getPackage();
     })
 
-    $scope.$watch(function(){
+    $scope.$watch(function () {
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow()

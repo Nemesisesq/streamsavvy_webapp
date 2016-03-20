@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_extensions',
     # 'haystack',
     'server',
+    'guide',
     'rest_framework',
     'markdown',
     'django_filters',
