@@ -95,7 +95,7 @@ class GuideBox(object):
     def sling_tv_and_over_the_air_processor(self, c):
         sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
 
-        def check_for_sling([s):
+        def check_for_sling(s):
             if s['display_name'] in sling_channels:
                 s['on_sling'] = 'true'
                 return s

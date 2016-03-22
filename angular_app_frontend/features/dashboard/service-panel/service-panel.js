@@ -11,7 +11,8 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     c.source = c.guidebox_data.short_name
                 })
                 var list
-                elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
+                //elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
+                list = elem.guidebox_data.sources.web.episodes.all_sources;
                 return list
             })
             .flatten()
