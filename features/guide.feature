@@ -11,3 +11,14 @@ Feature: Guide test
 
     When we call the get method on RoviChannelGrid
     Then we get a grid
+
+  Scenario: Test the retrival of network name for a call sign
+
+    Given the call sign
+      | call_sign |
+      | WABC      |
+    When I call the service for the network
+    Then There is a CallSign objet that matched <call_sign>
+
+
+

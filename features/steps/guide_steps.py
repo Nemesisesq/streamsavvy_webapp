@@ -15,3 +15,26 @@ def step_impl(context):
         @then(u"we get a grid")
         def step_impl(context):
             assert context.res.status_code is 200
+
+
+@given("the call sign")
+def step_impl(context):
+    for row in context.table:
+        context.call_sign = row['call_sign']
+        pass
+
+
+        @when("I call the service for the network")
+        def step_impl(context):
+            """
+            :type context: behave.runner.Context
+            """
+            pass
+
+
+        @then("There is a CallSign objet that matched <call_sign>")
+        def step_impl(context):
+            """
+            :type context: behave.runner.Context
+            """
+            pass

@@ -21,3 +21,8 @@ class RoviGridSchedule(models.Model):
 
     def __str__(self):
         return self.data['GridScheduleResult']['Name']
+
+class CallSigns(models.Model):
+    callsign = models.TextField()
+    network_affilitation = models.TextField()
+    data = JSONField(blank=True, null=True)
