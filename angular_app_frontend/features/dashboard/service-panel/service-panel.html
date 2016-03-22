@@ -1,8 +1,10 @@
-
 <div class="menu-background service-header">SERVICE & SHOWS</div>
 
 <div class="ss_panel-body" ng-repeat="service in listOfServices">
-    <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}</a>
+    <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}
+        <span ng-if="service.chan.on_sling"> Sling TV</span>
+        <span ng-if="service.chan.is_over_the_air"> Over The Air</span>
+    </a>
     <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
     <div uib-collapse="service.open">
         <ul class="list-group ss_show-list">
@@ -14,4 +16,6 @@
 
 </div>
 
-<div ng-hide="listOfServices.length >= 1" class="please-add-please">Please add <br> shows or services <br> to get started</div>
+<div ng-hide="listOfServices.length >= 1" class="please-add-please">Please add <br> shows or services <br> to get
+    started
+</div>
