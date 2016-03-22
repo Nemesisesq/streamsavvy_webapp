@@ -8,7 +8,7 @@ import urllib.request
 
 from fuzzywuzzy import fuzz
 
-from server.constants import sling_channels
+from server.constants import sling_channels, broadcast_channels
 from server.models import Content, Channel, Images
 
 
@@ -75,7 +75,6 @@ class GuideBox(object):
             print(e)
             return False
 
-
     def get_content_list(self, index, **kwargs):
         channel = kwargs['channel'] if 'channel' in kwargs else 'all'
         source = kwargs['source'] if 'source' in kwargs else 'all'
@@ -93,6 +92,23 @@ class GuideBox(object):
             print(e)
             return False
 
+    def sling_tv_and_over_the_air_processor(self, c):
+        sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
+
+        def check_for_sling(s):
+            if s['display_name'] in sling_channels:
+                s['on_sling'] = 'true'
+                return s
+
+            if s['display_name'] in broadcast_channels:
+                s['is_over_the_air'] = 'true'
+            return s
+
+        sources = [check_for_sling(s) for s in sources]
+
+        c.save()
+        return c
+
     def add_additional_channels_for_show(self, shows):
 
         def execute(c):
@@ -101,6 +117,9 @@ class GuideBox(object):
                 try:
 
                     c.guidebox_data['sources'] = available_sources['results']
+
+                    self.sling_tv_and_over_the_air_processor()
+
                     c.save()
 
                 # TODO set up logging for this exception
@@ -114,24 +133,24 @@ class GuideBox(object):
             execute(shows)
 
 
-    # def populate_content(self):
-        # total_results = json.loads(self.get_content_list(0))['total_results']
-        # show_count = 0
-        # loop = True
-        # count = 0
-        # while loop:
-        #     index = count * 250
-        #     results = json.loads(self.get_content_list(index))
-        #     if results['total_returned']:
-        #         shows_dict = results['results']
-        #         for i in shows_dict:
-        #             show_count += 1
-        #             self.save_content(i)
-        #         count += 1
-        #     else:
-        #         loop = False
-        #
-        # return show_count
+            # def populate_content(self):
+            # total_results = json.loads(self.get_content_list(0))['total_results']
+            # show_count = 0
+            # loop = True
+            # count = 0
+            # while loop:
+            #     index = count * 250
+            #     results = json.loads(self.get_content_list(index))
+            #     if results['total_returned']:
+            #         shows_dict = results['results']
+            #         for i in shows_dict:
+            #             show_count += 1
+            #             self.save_content(i)
+            #         count += 1
+            #     else:
+            #         loop = False
+            #
+            # return show_count
 
     def get_available_content_for_show(self, content_id):
         url = "{BASE_URL}/show/{id}/available_content".format(BASE_URL=self.BASE_URL, id=content_id)
@@ -145,8 +164,6 @@ class GuideBox(object):
             return False
 
     def save_content(self, the_json):
-
-
 
         c = Content.objects.get_or_create(guidebox_data__id=the_json['id'])
 
@@ -176,7 +193,6 @@ class GuideBox(object):
             return True
         except Exception as e:
             return False
-
 
     def save_images(self, i):
         obj = Images()
