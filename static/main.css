@@ -572,7 +572,8 @@ show-detail {
   show-detail .close {
     width: 21px;
     height: 21px;
-    object-fit: contain; }
+    object-fit: contain;
+    opacity: 100; }
   show-detail img.show-pic {
     width: 100%;
     border-radius: 2.7%;

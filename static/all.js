@@ -1131,10 +1131,6 @@ app.factory('ShowDetailAnimate', function ($timeout) {
 });
 
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by Nem on 12/29/15.
  */
 
@@ -1148,6 +1144,10 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
 /**
  * Created by chirag on 8/3/15.
  */
