@@ -401,3 +401,20 @@ def content_search(request):
 
         # return JsonResponse(data, safe=False)
         return found_entries
+
+
+class ChannelImagesView(View):
+    def get(self, channel_id):
+
+        try:
+            img_obj = ChannelImages.objects.get(guidebox_id=channel_id)
+
+            return JsonResponse(img_obj, safe=False)
+
+        except:
+
+            g = GuideBox()
+
+            img_obj = g.process_channels_for_images(channel_id)
+
+            return JsonResponse(img_obj, safe=False)

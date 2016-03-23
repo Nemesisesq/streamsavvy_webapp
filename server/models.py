@@ -85,3 +85,8 @@ class Feedback(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     data = JSONField(blank=True, null=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
+
+
+class ChannelImages(models.Model):
+    guidebox_id = models.TextField(blank=True, null=True, unique=True)
+    data = JSONField(blank=True, null=True)

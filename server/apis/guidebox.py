@@ -9,7 +9,7 @@ import urllib.request
 from fuzzywuzzy import fuzz
 
 from server.constants import sling_channels, broadcast_channels
-from server.models import Content, Channel, Images
+from server.models import Content, Channel, Images, ChannelImages
 
 
 class GuideBox(object):
@@ -38,6 +38,16 @@ class GuideBox(object):
         title, sep, cruft = cleaned_title.partition("-")
         encoded_show = title.strip().replace(" ", '%25252B')
         fuzzy_url = "{BASE_URL}/search/title/{TRIPLE_URL}/fuzzy".format(BASE_URL=self.BASE_URL, TRIPLE_URL=encoded_show)
+        try:
+            with urllib.request.urlopen(fuzzy_url) as exact_response:
+                the_json = json.loads(exact_response.read().decode('utf-8'))
+            return the_json
+        except:
+            pass
+
+    def get_channel_images(self, id):
+
+        fuzzy_url = "{BASE_URL}/channel/{ID}/images/all".format(BASE_URL=self.BASE_URL, ID=id)
         try:
             with urllib.request.urlopen(fuzzy_url) as exact_response:
                 the_json = json.loads(exact_response.read().decode('utf-8'))
@@ -274,3 +284,21 @@ class GuideBox(object):
 
             except Exception as e:
                 print(e)
+
+    def process_channels_for_images(self, channel):
+        try:
+
+            res = self.get_channel_images(channel.id)
+
+            images = json.loads(res)
+
+            imgs = ChannelImages(guidebox_id=channel, data=images)
+
+            imgs.save()
+
+            return imgs
+
+
+
+        except Exception as e:
+            print(e)
