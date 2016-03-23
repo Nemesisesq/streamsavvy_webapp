@@ -61,7 +61,22 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
             debugger;
             $scope.loading = true
+
+            channels = suggestion.sources.web.episodes.all_sources
+
+            channels = _.map(channels, function (elem) {
+                $http.get('api/channel_images/' + elem.id)
+                    .then(function (data) {
+                        elem.images = data.data;
+                        return elem
+                    })
+            })
+                
+
             ssPackage.data.content.push(suggestion);
+
+
+
             PackageFactory.setPackage(ssPackage);
 
             $scope.loading = false
