@@ -203,10 +203,26 @@ def step_impl(context):
             query = query | q
 
         else:
-            query  = q
+            query = q
 
     shows = Content.objects.filter(query)
 
     for show in shows:
         assert show.on_netflix
 
+
+@given("a search term {show}")
+def step_impl(context, show):
+    context.query = show;
+
+
+@then("the suggestions {test} is true")
+def step_impl(context, test):
+    suggestions = context.response.data['results']
+
+    def loop_sources(xx):
+        return [xy for xy in xx if test in xy]
+
+    check = [x for x in suggestions if loop_sources(x['guidebox_data']['sources']['web']['episodes']['all_sources'])]
+
+    assert check

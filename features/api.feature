@@ -58,3 +58,19 @@ Feature: API Fature
     And we get a list of shows
     When we call process shows
     Then we see shows on netflix
+
+  @rest_api
+  @real_db
+  Scenario: Test for addding sling to a show
+    Given a search term the walking dead
+    When we search queryset for the walking dead
+    Then the suggestions on_sling is true
+    # Enter steps here
+
+  @rest_api
+  @real_db
+  Scenario: Test for addding sling to a show
+    Given a search term scandal
+    When we search queryset for scandal
+    Then the suggestions is_over_the_air is true
+    # Enter steps here
