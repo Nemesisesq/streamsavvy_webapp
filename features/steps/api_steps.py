@@ -226,3 +226,21 @@ def step_impl(context, test):
     check = [x for x in suggestions if loop_sources(x['guidebox_data']['sources']['web']['episodes']['all_sources'])]
 
     assert check
+
+
+@given("and id of {id}")
+def step_impl(context, id):
+    context.channel_id = id
+
+
+@when("we query the api for channel images")
+def step_impl(context):
+    res = context.rest_client.get('/api/channel_images/147')
+
+    assert res.status_code == 200
+    context.res = res
+
+
+@then("we get image json")
+def step_impl(context):
+    assert context.res.data['data']

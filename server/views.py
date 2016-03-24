@@ -8,15 +8,17 @@ from django.core.cache import cache
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views.generic import View
+from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
+from rest_framework.views import APIView
 
 from server.apis.guidebox import GuideBox
 from server.apis.netflixable import Netflixable
 from server.models import *
 from server.permissions import IsAdminOrReadOnly
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
-    ContentSerializer, PackagesSerializer, PackageDetailSerializer
+    ContentSerializer, PackagesSerializer, PackageDetailSerializer, ChannelImagesSerializer
 
 
 def flatten(l):
@@ -403,13 +405,14 @@ def content_search(request):
         return found_entries
 
 
-class ChannelImagesView(View):
-    def get(self, channel_id):
+class ChannelImagesView(APIView):
+    def get(self, request, channel_id):
 
         try:
             img_obj = ChannelImages.objects.get(guidebox_id=channel_id)
+            serializer = ChannelImagesSerializer(img_obj)
 
-            return JsonResponse(img_obj, safe=False)
+            return Response(serializer.data)
 
         except:
 
@@ -417,4 +420,6 @@ class ChannelImagesView(View):
 
             img_obj = g.process_channels_for_images(channel_id)
 
-            return JsonResponse(img_obj, safe=False)
+            serializer = ChannelImagesSerializer(img_obj)
+
+            return Response(serializer.data)

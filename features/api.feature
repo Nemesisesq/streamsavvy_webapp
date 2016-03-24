@@ -74,3 +74,9 @@ Feature: API Fature
     When we search queryset for scandal
     Then the suggestions is_over_the_air is true
     # Enter steps here
+
+  @rest_api
+  Scenario: Testing the channel images endpoint
+    Given and id of 147
+    When we query the api for channel images
+    Then we get image json

@@ -52,7 +52,7 @@ class GuideBox(object):
             with urllib.request.urlopen(fuzzy_url) as exact_response:
                 the_json = json.loads(exact_response.read().decode('utf-8'))
             return the_json
-        except:
+        except Exception as e:
             pass
 
     def get_sources(self):
@@ -288,9 +288,9 @@ class GuideBox(object):
     def process_channels_for_images(self, channel):
         try:
 
-            res = self.get_channel_images(channel.id)
+            res = self.get_channel_images(channel)
 
-            images = json.loads(res)
+            images = res['results']
 
             imgs = ChannelImages(guidebox_id=channel, data=images)
 

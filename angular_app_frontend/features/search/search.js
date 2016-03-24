@@ -71,7 +71,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                         return elem
                     })
             })
-                
+
 
             ssPackage.data.content.push(suggestion);
 

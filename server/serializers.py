@@ -1,4 +1,4 @@
-from server.models import Hardware, Channel, Content, Package
+from server.models import Hardware, Channel, Content, Package, ChannelImages
 
 __author__ = 'Nem'
 
@@ -84,3 +84,7 @@ class SignUpSerialzier(serializers.ModelSerializer):
         model = User
         fields = ('username', 'password')
         write_only_fields = ('password')
+
+class ChannelImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChannelImages
