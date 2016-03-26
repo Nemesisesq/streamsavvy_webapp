@@ -34,3 +34,10 @@
 .service-header {
   @extend %ss-panel-header;
 }
+
+.im-ready{
+  color: white;
+  display: -webkit-box;
+  margin-left: 26px;
+  margin-top: 17px;
+}

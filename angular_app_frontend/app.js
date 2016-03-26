@@ -179,6 +179,30 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
             templateUrl: '/static/partials/dashboard.html',
             abstract: true
         })
+
+        .state('check',{
+            templateUrl: '/static/partials/checkout.html',
+            abstract: true
+        })
+        .state('check.out',{
+            url:'/checkout',
+            data: {
+                checkout: true
+            },
+            views:{
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                checkoutList: {
+                    templateUrl: "static/partials/checkout-list/checkout-list.html"
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            }
+        })
+
         .state('dash.dashboard', {
             url: '/dashboard',
             data: {
