@@ -544,9 +544,14 @@ ul[id^='typeahead-'], .suggestions-list {
   filter: blur(7px);
   background-image: linear-gradient(to bottom, transparent, #15191b); }
 
-hr {
-  margin-left: 60px;
-  margin-right: 60px; }
+.suggested {
+  display: inline;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #9b9b9b; }
+  .suggested hr {
+    margin-left: 30px;
+    margin-right: 30px; }
 
 .ss-hardware-panel .row {
   margin-left: 11px; }
