@@ -22,8 +22,9 @@
     object-fit: contain;
   }
 
-  position: relative;
+  position: fixed;
   bottom: 0;
   margin-bottom: 12px;
-
+  width: 100%;
+  
 }
