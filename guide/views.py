@@ -101,7 +101,7 @@ class RoviChannelGridView(APIView):
             query = ''
 
             for i in ota_services:
-                q = Q(service_id=i.data['ServiceId'])
+                q = Q(listing=i)
 
                 if query:
                     query = query | q

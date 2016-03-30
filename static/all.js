@@ -1524,7 +1524,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     updateServices()
     $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data
+        return PackageFactory.getPackage().data.content
 
     }, function () {
         ssPackage = PackageFactory.getPackage();
