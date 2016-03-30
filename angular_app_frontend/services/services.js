@@ -26,6 +26,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
     var _test = 1;
 
     var _chosenShow = {};
+    
+    var _listOfServices = [];
 
 
     return {
@@ -159,6 +161,14 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             return t
 
 
+        },
+
+        getListOfServices: function() {
+
+            return _listOfServices;
+        },
+        setListOfServices: function(listOfServices) {
+            _listOfServices = listOfServices;
         }
     }
 

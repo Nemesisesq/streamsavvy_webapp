@@ -195,7 +195,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'navigation'
                 },
                 checkoutList: {
-                    templateUrl: "static/partials/checkout-list/checkout-list.html"
+                    templateUrl: "static/partials/checkout-list/checkout-list.html",
+                    controller: 'CheckoutController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -825,6 +826,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
     var _test = 1;
 
     var _chosenShow = {};
+    
+    var _listOfServices = [];
 
 
     return {
@@ -958,6 +961,14 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             return t
 
 
+        },
+
+        getListOfServices: function() {
+
+            return _listOfServices;
+        },
+        setListOfServices: function(listOfServices) {
+            _listOfServices = listOfServices;
         }
     }
 
@@ -1153,6 +1164,18 @@ app.factory('ShowDetailAnimate', function ($timeout) {
 
     }
 });
+
+app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.list = PackageFactory.getListOfServices();
+   
+
+});
+
+/**
+ * Created by chirag on 3/28/16.
+ */
 
 /**
  * Created by Nem on 12/29/15.
@@ -1519,12 +1542,13 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                 })
                 .value();
+            PackageFactory.setListOfServices($scope.listOfServices);
         }
     }
 
     updateServices()
     $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data
+        return PackageFactory.getPackage().data.content
 
     }, function () {
         ssPackage = PackageFactory.getPackage();

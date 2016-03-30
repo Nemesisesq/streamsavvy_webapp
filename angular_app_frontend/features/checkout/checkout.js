@@ -1,9 +1,8 @@
-app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
+app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
     var ssPackage = PackageFactory.getPackage();
-    var listOfServices = $scope.listOfServices;
+    $scope.list = PackageFactory.getListOfServices();
+   
 
 });
 

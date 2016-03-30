@@ -195,7 +195,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'navigation'
                 },
                 checkoutList: {
-                    templateUrl: "static/partials/checkout-list/checkout-list.html"
+                    templateUrl: "static/partials/checkout-list/checkout-list.html",
+                    controller: 'CheckoutController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
