@@ -57,7 +57,7 @@ class RoviAPI(object):
     def save_channel_grid(cls, zip, grid):
 
         g = RoviGridSchedule.objects.get_or_create(
-            listing=RoviListings.objects.get(service_id=str(grid['GridScheduleResult']['ServiceId'])),
+            listing=RoviListings.objects.get(service_id=str(grid['GridScheduleResult']['ServiceId']), postal_code=zip),
             locale='en-US', data=grid, postal_code=zip)
         return g[0]
 
@@ -81,18 +81,18 @@ class RoviChannelGridView(APIView):
 
             show_grids = [RoviAPI.save_channel_grid(zip, grid) for grid in grid_list]
 
-            query = ''
+            # query = ''
 
-            for i in show_grids:
-                q = Q(pk=i.pk)
-
-                if query:
-                    query = query | q
-
-                else:
-                    query = q
-
-            show_grids = RoviGridSchedule.objects.filter(query)
+            # for i in show_grids:
+            #     q = Q(pk=i.pk)
+            #
+            #     if query:
+            #         query = query | q
+            #
+            #     else:
+            #         query = q
+            #
+            # show_grids = RoviGridSchedule.objects.filter(query)
 
         else:
 
