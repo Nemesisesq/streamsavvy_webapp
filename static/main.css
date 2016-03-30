@@ -691,6 +691,10 @@ show-detail {
     background: rgba(255, 255, 255, 0.6);
     opacity: 10;
     margin-top: 10px; }
+  show-detail .ss_source {
+    margin-top: 15px; }
+    show-detail .ss_source a {
+      color: white; }
   show-detail .service-options {
     padding-top: 10px;
     display: table-cell;

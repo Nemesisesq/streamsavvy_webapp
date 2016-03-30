@@ -280,7 +280,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.$watch(function () {
         return PackageFactory.getChosenShow()
     }, function () {
-        $scope.cs = PackageFactory.getChosenShow()
+        $scope.cs = PackageFactory.getChosenShow();
+        $scope.chosenSourceList = PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources;
     })
 
 

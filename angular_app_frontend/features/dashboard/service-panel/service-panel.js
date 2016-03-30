@@ -35,6 +35,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                 })
                 .value();
+            PackageFactory.setListOfServices($scope.listOfServices);
         }
     }
 
