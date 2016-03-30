@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class RoviListings(models.Model):
-    service_id = models.TextField(blank=True, null=True)
+    service_id = models.TextField(unique=True, blank=True, null=True)
     postal_code = models.TextField(blank=True, null=True)
     locale = models.TextField(blank=True, null=True)
     country = models.TextField(blank=True, null=True)
