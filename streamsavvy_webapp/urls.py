@@ -55,7 +55,7 @@ urlpatterns = [
     url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
     url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-    url(r'^o/', include('oauth2_provider.urls')),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^api/guide/(?P<zip>\d{5})', RoviChannelGridView.as_view(), name='rovi_channel_grid_view'),
     url(r'^api/channel_images/(?P<channel_id>\d+)', ChannelImagesView.as_view(), name='channel_images')
     # url(r'^guide/', GuideTestView.as_view(), name='guide_test'),

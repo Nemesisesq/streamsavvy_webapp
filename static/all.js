@@ -1164,6 +1164,7 @@ app.factory('ShowDetailAnimate', function ($timeout) {
 
     }
 });
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
     var ssPackage = PackageFactory.getPackage();
@@ -1175,7 +1176,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -1505,6 +1505,60 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 ;
 
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    var updateServices = function () {
+        if ('data' in ssPackage) {
+            $scope.listOfServices = _
+                .chain(ssPackage.data.content)
+                .map(function (elem) {
+                    _.forEach(elem.channel, function (c) {
+                        c.source = c.guidebox_data.short_name
+                    })
+                    var list
+                    //elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
+                    list = elem.guidebox_data.sources.web.episodes.all_sources;
+                    return list
+                })
+                .flatten()
+                .uniqBy('source')
+                .map(function (elem) {
+                    var o = {chan: elem}
+                    o.shows = _.filter(ssPackage.data.content, function (show) {
+                        if (show.guidebox_data.sources) {
+                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                        } else {
+                            source_check = false
+                        }
+
+                        var url_check = _.some(show.channel, ['url', elem.url]);
+                        return url_check || source_check
+                    })
+
+                    return o
+
+                })
+                .value();
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        updateServices()
+    })
+
+
+});
+
+
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
@@ -1801,60 +1855,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setPackage($scope.package)
     })
 });
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    var updateServices = function () {
-        if ('data' in ssPackage) {
-            $scope.listOfServices = _
-                .chain(ssPackage.data.content)
-                .map(function (elem) {
-                    _.forEach(elem.channel, function (c) {
-                        c.source = c.guidebox_data.short_name
-                    })
-                    var list
-                    //elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
-                    list = elem.guidebox_data.sources.web.episodes.all_sources;
-                    return list
-                })
-                .flatten()
-                .uniqBy('source')
-                .map(function (elem) {
-                    var o = {chan: elem}
-                    o.shows = _.filter(ssPackage.data.content, function (show) {
-                        if (show.guidebox_data.sources) {
-                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                        } else {
-                            source_check = false
-                        }
-
-                        var url_check = _.some(show.channel, ['url', elem.url]);
-                        return url_check || source_check
-                    })
-
-                    return o
-
-                })
-                .value();
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data.content
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        updateServices()
-    })
-
-
-});
-
-
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
