@@ -87,6 +87,6 @@ class RoviChannelGridView(APIView):
 
         serializer = RoviGridScheduleSerializers(show_grids, many=True)
 
-        cache.set(zip, serializer.data, timeout=60 * 60 * 30)
+        cache.set(zip, serializer.data, timeout=600)
 
         return Response(serializer.data)
