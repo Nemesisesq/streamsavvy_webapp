@@ -1,8 +1,7 @@
 import json
 import urllib
 
-from django.db.models import Q
-from django.http import JsonResponse
+from django.core.cache import cache
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -49,7 +48,8 @@ class RoviAPI(object):
 
     @classmethod
     def save_listing(cls, zip, x):
-        r = RoviListings.objects.get_or_create(service_id=x['ServiceId'] ,postal_code=zip, locale='en-US', country='US', data=x)
+        r = RoviListings.objects.get_or_create(service_id=x['ServiceId'], postal_code=zip, locale='en-US', country='US',
+                                               data=x)
 
         return r[0]
 
@@ -65,6 +65,9 @@ class RoviAPI(object):
 class RoviChannelGridView(APIView):
     def get(self, request, zip, format=None):
 
+        if cache.get(zip):
+            return Response(cache.get(zip))
+
         service_listings = RoviListings.objects.filter(postal_code=zip)
 
         if not service_listings:
@@ -72,45 +75,18 @@ class RoviChannelGridView(APIView):
 
             s = json.loads(s)['ServicesResult']['Services']['Service']
 
-            s = [RoviAPI.save_listing(zip, x) for x in s]
-            s = [x for x in s if x.data['Type'] == 'Broadcast']
+            service_listings = [RoviAPI.save_listing(zip, x) for x in s]
 
-            res = [RoviAPI.get_grid_listings(serv) for serv in s]
+        relevant_services = [x for x in service_listings if x.data['Type'] == 'Broadcast']
 
-            grid_list = [json.loads(the_json) for the_json in res]
+        res = [RoviAPI.get_grid_listings(serv) for serv in relevant_services]
 
-            show_grids = [RoviAPI.save_channel_grid(zip, grid) for grid in grid_list]
+        grid_list = [json.loads(the_json) for the_json in res]
 
-            # query = ''
-
-            # for i in show_grids:
-            #     q = Q(pk=i.pk)
-            #
-            #     if query:
-            #         query = query | q
-            #
-            #     else:
-            #         query = q
-            #
-            # show_grids = RoviGridSchedule.objects.filter(query)
-
-        else:
-
-            ota_services = [s for s in service_listings if s.data['Type'] == 'Broadcast']
-
-            query = ''
-
-            for i in ota_services:
-                q = Q(listing=i)
-
-                if query:
-                    query = query | q
-
-                else:
-                    query = q
-
-            show_grids = RoviGridSchedule.objects.filter(query)
+        show_grids = [RoviAPI.save_channel_grid(zip, grid) for grid in grid_list]
 
         serializer = RoviGridScheduleSerializers(show_grids, many=True)
+
+        cache.set(zip, serializer.data, timeout=60 * 60 * 30)
 
         return Response(serializer.data)
