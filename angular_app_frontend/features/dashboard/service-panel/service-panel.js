@@ -8,16 +8,23 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
             $scope.listOfServices = _
                 .chain(ssPackage.data.content)
                 .map(function (elem) {
+                    debugger;
                     _.forEach(elem.channel, function (c) {
                         c.source = c.guidebox_data.short_name
                     })
-                    var list
+                    var list;
                     elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
                     //list = elem.guidebox_data.sources.web.episodes.all_sources;
                     return list
                 })
                 .flatten()
                 .uniqBy('source')
+                .thru(function(list){
+                    console.log(list);
+                    debugger;
+
+                    return list
+                })
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -31,7 +38,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return url_check || source_check
                     })
 
-                    return o
+                    return o;
 
                 })
                 .value();
