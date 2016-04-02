@@ -699,8 +699,16 @@ show-detail {
     padding-top: 10px;
     display: table-cell;
     vertical-align: bottom; }
-    show-detail .service-options img {
-      border-radius: 4px; }
+    show-detail .service-options .window.row.live {
+      margin-left: 2px; }
+    show-detail .service-options .window-label {
+      margin-top: 19px; }
+    show-detail .service-options a {
+      object-fit: contain;
+      margin-right: 24px; }
+      show-detail .service-options a img {
+        width: 64px;
+        height: 25px; }
   show-detail .fresh {
     width: 20px;
     height: 21px;
