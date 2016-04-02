@@ -8,21 +8,40 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
             $scope.listOfServices = _
                 .chain(ssPackage.data.content)
                 .map(function (elem) {
-                    debugger;
                     _.forEach(elem.channel, function (c) {
                         c.source = c.guidebox_data.short_name
                     })
-                    var list;
+                    var list
                     elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
                     //list = elem.guidebox_data.sources.web.episodes.all_sources;
                     return list
                 })
                 .flatten()
                 .uniqBy('source')
-                .thru(function(list){
-                    console.log(list);
-                    debugger;
+                .map(function(elem){
+                    //debugger
+                    if(elem.guidebox_data != undefined){
+                        elem.name = elem.guidebox_data.name
+                        return elem
+                    } else {
+                        return elem
+                    }
+                })
+                .thru(function (list) {
+                    var clean = _.filter(list, function (elem) {
 
+                        _.forEach(list, function (mem) {
+
+                            if(mem!=elem){
+                                if(mem.name == elem.name){
+                                    //debugger;
+                                }
+                                //debugger
+                            }
+                        })
+
+
+                    })
                     return list
                 })
                 .map(function (elem) {
@@ -38,7 +57,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return url_check || source_check
                     })
 
-                    return o;
+                    return o
 
                 })
                 .value();

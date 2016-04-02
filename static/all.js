@@ -858,7 +858,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         getPackage: function () {
             return _package;
         },
-
+        setPackage: function (package) {
+            _package =  package;
+        },
+        
         getSSTest: function () {
             // ;
             return _test;
@@ -1505,6 +1508,86 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 ;
 
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    var updateServices = function () {
+        if ('data' in ssPackage) {
+            $scope.listOfServices = _
+                .chain(ssPackage.data.content)
+                .map(function (elem) {
+                    _.forEach(elem.channel, function (c) {
+                        c.source = c.guidebox_data.short_name
+                    })
+                    var list
+                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
+                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
+                    return list
+                })
+                .flatten()
+                .uniqBy('source')
+                .map(function(elem){
+                    //debugger
+                    if(elem.guidebox_data != undefined){
+                        elem.name = elem.guidebox_data.name
+                        return elem
+                    } else {
+                        return elem
+                    }
+                })
+                .thru(function (list) {
+                    var clean = _.filter(list, function (elem) {
+
+                        _.forEach(list, function (mem) {
+
+                            if(mem!=elem){
+                                if(mem.name == elem.name){
+                                    //debugger;
+                                }
+                                //debugger
+                            }
+                        })
+
+
+                    })
+                    return list
+                })
+                .map(function (elem) {
+                    var o = {chan: elem}
+                    o.shows = _.filter(ssPackage.data.content, function (show) {
+                        if (show.guidebox_data.sources) {
+                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                        } else {
+                            source_check = false
+                        }
+
+                        var url_check = _.some(show.channel, ['url', elem.url]);
+                        return url_check || source_check
+                    })
+
+                    return o
+
+                })
+                .value();
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        updateServices()
+    })
+
+
+});
+
+
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
@@ -1571,7 +1654,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     $rootScope.showSearchView = false;
                     $rootScope.showDetailDirective = true;
-                    debugger;
+                    //debugger;
 
                 }, 500)
             })
@@ -1596,14 +1679,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         ShowDetailAnimate.hideContent(positionItem, scaleItem, container)
             .then(function (v) {
                 return $timeout(function () {
-                    debugger;
+                    //debugger;
 
                     $rootScope.showSearchView = true;
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
             })
             .then(function (v) {
-                debugger;
+                //debugger;
                 $('body').css('overflow', 'scroll');
 
             })
@@ -1635,67 +1718,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setPackage($scope.package)
     })
 });
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    var updateServices = function () {
-        if ('data' in ssPackage) {
-            $scope.listOfServices = _
-                .chain(ssPackage.data.content)
-                .map(function (elem) {
-                    debugger;
-                    _.forEach(elem.channel, function (c) {
-                        c.source = c.guidebox_data.short_name
-                    })
-                    var list;
-                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
-                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
-                    return list
-                })
-                .flatten()
-                .uniqBy('source')
-                .thru(function(list){
-                    console.log(list);
-                    debugger;
-
-                    return list
-                })
-                .map(function (elem) {
-                    var o = {chan: elem}
-                    o.shows = _.filter(ssPackage.data.content, function (show) {
-                        if (show.guidebox_data.sources) {
-                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                        } else {
-                            source_check = false
-                        }
-
-                        var url_check = _.some(show.channel, ['url', elem.url]);
-                        return url_check || source_check
-                    })
-
-                    return o;
-
-                })
-                .value();
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data.content
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        updateServices()
-    })
-
-
-});
-
-
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
@@ -2033,56 +2055,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
-/**
- * Created by Nem on 11/25/15.
- */
-app.controller('StepTwoController', function ($scope, http, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    var hardwareColl = $scope.package.hardware;
-
-    http.getHardware()
-        .then(function (data) {
-            $scope.hardware = data.results;
-        });
-
-    $scope.itemSelected = function (item) {
-        var hardwareColl = $scope.package.hardware;
-        var x = _.some(hardwareColl, 'url', item.url);
-        return x
-    };
-
-
-    $scope.addRemoveHardware = function (item) {
-        if (item.hasOwnProperty('selected')) {
-            delete item['selected']
-        }
-
-
-        var hardwareColl = $scope.package.hardware;
-        if (_.some(hardwareColl, 'url', item.url)) {
-            _.remove(hardwareColl, function(n){
-
-                return n.url == item.url
-
-            });
-
-        } else {
-            //item.selected = true;
-            hardwareColl.push(item);
-        }
-
-        PackageFactory.setPackage($scope.package)
-    };
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-
-});
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();
@@ -2190,3 +2162,54 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
 
 
 })
+
+/**
+ * Created by Nem on 11/25/15.
+ */
+app.controller('StepTwoController', function ($scope, http, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    var hardwareColl = $scope.package.hardware;
+
+    http.getHardware()
+        .then(function (data) {
+            $scope.hardware = data.results;
+        });
+
+    $scope.itemSelected = function (item) {
+        var hardwareColl = $scope.package.hardware;
+        var x = _.some(hardwareColl, 'url', item.url);
+        return x
+    };
+
+
+    $scope.addRemoveHardware = function (item) {
+        if (item.hasOwnProperty('selected')) {
+            delete item['selected']
+        }
+
+
+        var hardwareColl = $scope.package.hardware;
+        if (_.some(hardwareColl, 'url', item.url)) {
+            _.remove(hardwareColl, function(n){
+
+                return n.url == item.url
+
+            });
+
+        } else {
+            //item.selected = true;
+            hardwareColl.push(item);
+        }
+
+        PackageFactory.setPackage($scope.package)
+    };
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+
+});

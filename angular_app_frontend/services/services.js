@@ -58,7 +58,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         getPackage: function () {
             return _package;
         },
-
+        setPackage: function (package) {
+            _package =  package;
+        },
+        
         getSSTest: function () {
             // ;
             return _test;

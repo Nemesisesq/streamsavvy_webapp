@@ -64,7 +64,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     $rootScope.showSearchView = false;
                     $rootScope.showDetailDirective = true;
-                    debugger;
+                    //debugger;
 
                 }, 500)
             })
@@ -89,14 +89,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         ShowDetailAnimate.hideContent(positionItem, scaleItem, container)
             .then(function (v) {
                 return $timeout(function () {
-                    debugger;
+                    //debugger;
 
                     $rootScope.showSearchView = true;
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
             })
             .then(function (v) {
-                debugger;
+                //debugger;
                 $('body').css('overflow', 'scroll');
 
             })
