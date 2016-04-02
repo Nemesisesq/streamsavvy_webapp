@@ -34,14 +34,15 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                             if(mem!=elem){
                                 if(mem.name == elem.name){
-                                    debugger;
+                                    //debugger;
                                 }
                                 //debugger
                             }
                         })
 
-                        return true
+
                     })
+                    return list
                 })
                 .map(function (elem) {
                     var o = {chan: elem}
