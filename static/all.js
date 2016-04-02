@@ -1164,6 +1164,7 @@ app.factory('ShowDetailAnimate', function ($timeout) {
 
     }
 });
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
     var ssPackage = PackageFactory.getPackage();
@@ -1175,7 +1176,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -1525,6 +1525,31 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 })
                 .flatten()
                 .uniqBy('source')
+                .map(function(elem){
+                    //debugger
+                    if(elem.guidebox_data != undefined){
+                        elem.name = elem.guidebox_data.name
+                        return elem
+                    } else {
+                        return elem
+                    }
+                })
+                .thru(function (list) {
+                    var clean = _.filter(list, function (elem) {
+
+                        _.forEach(list, function (mem) {
+
+                            if(mem!=elem){
+                                if(mem.name == elem.name){
+                                    debugger;
+                                }
+                                //debugger
+                            }
+                        })
+
+                        return true
+                    })
+                })
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {

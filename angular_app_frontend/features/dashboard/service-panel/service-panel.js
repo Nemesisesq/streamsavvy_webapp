@@ -18,6 +18,31 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 })
                 .flatten()
                 .uniqBy('source')
+                .map(function(elem){
+                    //debugger
+                    if(elem.guidebox_data != undefined){
+                        elem.name = elem.guidebox_data.name
+                        return elem
+                    } else {
+                        return elem
+                    }
+                })
+                .thru(function (list) {
+                    var clean = _.filter(list, function (elem) {
+
+                        _.forEach(list, function (mem) {
+
+                            if(mem!=elem){
+                                if(mem.name == elem.name){
+                                    debugger;
+                                }
+                                //debugger
+                            }
+                        })
+
+                        return true
+                    })
+                })
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
