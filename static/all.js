@@ -567,9 +567,9 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
  * Created by Nem on 11/17/15.
  */
 
-function isLive(elem){
+function isLive(elem) {
     if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
     }
 
 
@@ -577,15 +577,15 @@ function isLive(elem){
 
 function isOnDemand(elem) {
 
-    if(elem.source == 'netflix'){
+    if (elem.source == 'netflix') {
         return false
     }
 
-    if(elem.source == 'hulu_free'){
+    if (elem.source == 'hulu_free') {
         return false
     }
 
-    return  _.includes(elem.type, 'sub')
+    return _.includes(elem.type, 'sub')
 }
 
 app.filter('channel', function () {
@@ -593,16 +593,16 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            if(type == 'live'){
+            if (type == 'live') {
                 return isLive(elem);
             }
-            if(type == 'onDemand'){
+            if (type == 'onDemand') {
                 return isOnDemand(elem)
             }
-            if(type == 'fullseason'){
+            if (type == 'fullseason') {
                 return _.includes(elem.type, 'sub')
             }
-            if(type == 'alacarte'){
+            if (type == 'alacarte') {
                 //debugger
                 return _.includes(elem.type, 'purchase')
             }
@@ -618,6 +618,8 @@ app.filter('onDemand', function () {
         var list = _.filter(input, function (elem) {
             return elem.name != 'Netflix';
         })
+        console.log(list)
+        console.log('list')
 
         return list
     }
@@ -637,6 +639,24 @@ app.filter('fullSeason', function () {
     }
 
 });
+
+app.filter('unwantedChannels', function () {
+    return function (input) {
+        debugger;
+        var list = _.filter(input, function (elem) {
+            var res = _.some([150, 26, 157], function (x) {
+                return x == elem.chan.id
+            })
+
+            return !res
+
+        })
+        console.log(list)
+        console.log('list')
+
+        return list
+    }
+})
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -841,6 +861,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         setPackage: function (ssPackage) {
 
+
             _package = ssPackage;
 
             if (!_.isEmpty(ssPackage)) {
@@ -850,18 +871,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         postPackage: function (ssPackage) {
-
-            //debugger;
             $http.put(ssPackage.url, ssPackage);
         },
 
         getPackage: function () {
             return _package;
         },
-        setPackage: function (package) {
-            _package =  package;
-        },
-        
+
         getSSTest: function () {
             // ;
             return _test;
@@ -1508,9 +1524,118 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 ;
 
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    var updateServices = function () {
+        if ('data' in ssPackage) {
+            $scope.listOfServices = _
+                .chain(ssPackage.data.content)
+                .map(function (elem) {
+                    _.forEach(elem.channel, function (c) {
+                        c.source = c.guidebox_data.short_name
+                    })
+                    var list
+                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
+                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
+                    return list
+                })
+                .flatten()
+                .uniqBy('source')
+                .map(function(elem){
+                    //debugger
+                    if(elem.guidebox_data != undefined){
+                        elem.display_name = elem.guidebox_data.name
+                        return elem
+                    } else {
+                        return elem
+                    }
+                })
+                .thru(function (list) {
+                    var clean = _.filter(list, function (elem) {
+                        // debugger;
+
+                        var res = !_.some(list, function (mem) {
+
+                            if(mem!=elem){
+                                // debugger;
+                                if(RegExp(elem.display_name).test(mem.display_name)){
+                                  // debugger;
+                                    return mem.is_over_the_air && !elem.is_on_sling
+                                }
+                                
+                            }
+                            return false
+                        })
+                        
+                        return res
+
+
+                    });
+                    debugger;
+                    return clean
+                })
+                .map(function (elem) {
+                    var o = {chan: elem}
+                    o.shows = _.filter(ssPackage.data.content, function (show) {
+                        if (show.guidebox_data.sources) {
+                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                        } else {
+                            source_check = false
+                        }
+
+                        var url_check = _.some(show.channel, ['url', elem.url]);
+                        return url_check || source_check
+                    })
+
+                    if(o.chan.guidebox_data){
+                        if(o.chan.guidebox_data.is_over_the_air){
+                            o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
+                        }
+                    }
+
+                    return o
+
+                }).groupBy(function(elem){
+                    if (elem.chan.is_over_the_air){
+                        return 'ota'
+                    } else {
+                        return 'not_ota'
+                    }
+                })
+                .value();
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        updateServices()
+    })
+
+
+});
+
+
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
+    $scope.hello = 'clear package';
+
+    $scope.clearContent = function () {
+        // debugger;
+        var pkg = PackageFactory.getPackage()
+
+        pkg.data.content = []
+
+        PackageFactory.setPackage(pkg)
+    }
     function verifySelectedShowDetails() {
         debugger;
         var chosen = PackageFactory.getChosenShow()
@@ -1625,7 +1750,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        $scope.chosenSourceList = PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources;
+        // $scope.chosenSourceList = PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources;
     })
 
 
@@ -1637,87 +1762,105 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setPackage($scope.package)
     })
+
+
 });
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    var updateServices = function () {
-        if ('data' in ssPackage) {
-            $scope.listOfServices = _
-                .chain(ssPackage.data.content)
-                .map(function (elem) {
-                    _.forEach(elem.channel, function (c) {
-                        c.source = c.guidebox_data.short_name
-                    })
-                    var list
-                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
-                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
-                    return list
-                })
-                .flatten()
-                .uniqBy('source')
-                .map(function(elem){
-                    //debugger
-                    if(elem.guidebox_data != undefined){
-                        elem.name = elem.guidebox_data.name
-                        return elem
-                    } else {
-                        return elem
-                    }
-                })
-                .thru(function (list) {
-                    var clean = _.filter(list, function (elem) {
-
-                        _.forEach(list, function (mem) {
-
-                            if(mem!=elem){
-                                if(mem.name == elem.name){
-                                    //debugger;
-                                }
-                                //debugger
-                            }
-                        })
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
-                    })
-                    return list
-                })
-                .map(function (elem) {
-                    var o = {chan: elem}
-                    o.shows = _.filter(ssPackage.data.content, function (show) {
-                        if (show.guidebox_data.sources) {
-                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                        } else {
-                            source_check = false
-                        }
+    //$scope.login = 'Click Here to Login'
 
-                        var url_check = _.some(show.channel, ['url', elem.url]);
-                        return url_check || source_check
-                    })
 
-                    return o
+    $scope.items = ['item1', 'item2', 'item3'];
 
-                })
-                .value();
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
+    $rootScope.openLogInModal = function () {
+
+        debugger;
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal/modal.html',
+            controller: 'ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selectedItem = selectedItem;
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
     }
 
-    updateServices()
-    $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data.content
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        updateServices()
-    })
-
-
+    //if ($rootScope.currentStep == 3) {
+    //    $rootScope.openLogInModal()
+    //}
 });
 
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
 
+    $scope.socialLogin = true;
+
+
+    //$scope.facebookAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
+    //}
+    //
+    //$scope.instagramAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
+    //}
+    //
+    //$scope.twitterAuth = function () {
+    //
+    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
+    //}
+
+
+    $scope.login = function (credentials) {
+        debugger;
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $rootScope.logged_in = true;
+                $modalInstance.close();
+                growl.success('Login Successful', {
+                    onclose: function () {
+
+                        window.location.reload()
+                    },
+                    ttl : 1000,
+                    disableCountDown: true
+                })
+
+            })
+    };
+
+
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
+
+})
 /**
  * Created by Nem on 10/27/15.
  */
@@ -1761,13 +1904,13 @@ app.controller('AccordionController', function ($scope) {
 
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
-    $scope.clearContent = function () {
-        var pkg = PackageFactory.getPackage()
-
-        pkg.content = []
-
-        PackageFactory.setPackage(pkg)
-    }
+    // $scope.clearContent = function () {
+    //     var pkg = PackageFactory.getPackage()
+    //
+    //     pkg.content = []
+    //
+    //     PackageFactory.setPackage(pkg)
+    // }
 
     $scope.showTotal = function (content) {
 
@@ -1959,102 +2102,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
-
-
-    //$scope.login = 'Click Here to Login'
-
-
-    $scope.items = ['item1', 'item2', 'item3'];
-
-    $rootScope.openLogInModal = function () {
-
-        debugger;
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: '/static/partials/modal/modal.html',
-            controller: 'ModalInstanceController',
-            size: 'sm',
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selectedItem = selectedItem;
-
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    }
-
-    //if ($rootScope.currentStep == 3) {
-    //    $rootScope.openLogInModal()
-    //}
-});
-
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
-
-    $scope.socialLogin = true;
-
-
-    //$scope.facebookAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
-    //}
-    //
-    //$scope.instagramAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
-    //}
-    //
-    //$scope.twitterAuth = function () {
-    //
-    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
-    //}
-
-
-    $scope.login = function (credentials) {
-        debugger;
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $rootScope.logged_in = true;
-                $modalInstance.close();
-                growl.success('Login Successful', {
-                    onclose: function () {
-
-                        window.location.reload()
-                    },
-                    ttl : 1000,
-                    disableCountDown: true
-                })
-
-            })
-    };
-
-
-    $scope.items = items;
-
-    $scope.selected = {
-        item: $scope.items[0]
-    }
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-    }
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel')
-    }
-
-})
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();

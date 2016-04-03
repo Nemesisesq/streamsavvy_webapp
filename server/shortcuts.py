@@ -8,6 +8,13 @@ import psycopg2
 
 
 __author__ = 'Nem'
+def try_catch(f):
+    def handleProblems(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+        except Exception as e:
+            print( "there was a problem with {} with {} and {}".format(f.__name__, args, kwargs))
+    return handleProblems
 
 
 def api_json_post(view_func):

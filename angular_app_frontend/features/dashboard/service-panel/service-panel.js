@@ -21,7 +21,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 .map(function(elem){
                     //debugger
                     if(elem.guidebox_data != undefined){
-                        elem.name = elem.guidebox_data.name
+                        elem.display_name = elem.guidebox_data.name
                         return elem
                     } else {
                         return elem
@@ -29,20 +29,27 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 })
                 .thru(function (list) {
                     var clean = _.filter(list, function (elem) {
+                        // debugger;
 
-                        _.forEach(list, function (mem) {
+                        var res = !_.some(list, function (mem) {
 
                             if(mem!=elem){
-                                if(mem.name == elem.name){
-                                    //debugger;
+                                // debugger;
+                                if(RegExp(elem.display_name).test(mem.display_name)){
+                                  // debugger;
+                                    return mem.is_over_the_air && !elem.is_on_sling
                                 }
-                                //debugger
+                                
                             }
+                            return false
                         })
+                        
+                        return res
 
 
-                    })
-                    return list
+                    });
+                    debugger;
+                    return clean
                 })
                 .map(function (elem) {
                     var o = {chan: elem}
@@ -57,8 +64,20 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return url_check || source_check
                     })
 
+                    if(o.chan.guidebox_data){
+                        if(o.chan.guidebox_data.is_over_the_air){
+                            o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
+                        }
+                    }
+
                     return o
 
+                }).groupBy(function(elem){
+                    if (elem.chan.is_over_the_air){
+                        return 'ota'
+                    } else {
+                        return 'not_ota'
+                    }
                 })
                 .value();
             PackageFactory.setListOfServices($scope.listOfServices);

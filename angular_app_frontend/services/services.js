@@ -41,6 +41,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         setPackage: function (ssPackage) {
 
+
             _package = ssPackage;
 
             if (!_.isEmpty(ssPackage)) {
@@ -50,18 +51,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         postPackage: function (ssPackage) {
-
-            //debugger;
             $http.put(ssPackage.url, ssPackage);
         },
 
         getPackage: function () {
             return _package;
         },
-        setPackage: function (package) {
-            _package =  package;
-        },
-        
+
         getSSTest: function () {
             // ;
             return _test;
