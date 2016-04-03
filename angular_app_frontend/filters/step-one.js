@@ -77,7 +77,6 @@ app.filter('fullSeason', function () {
 
 app.filter('unwantedChannels', function () {
     return function (input) {
-        debugger;
         var list = _.filter(input, function (elem) {
             var res = _.some([150, 26, 157], function (x) {
                 return x == elem.chan.id
@@ -86,8 +85,7 @@ app.filter('unwantedChannels', function () {
             return !res
 
         })
-        console.log(list)
-        console.log('list')
+
 
         return list
     }

@@ -353,6 +353,98 @@ app.controller('HomeController', function () {
     $('body').attr('id','background')
 })
 /**
+ * Created by Nem on 11/17/15.
+ */
+
+function isLive(elem) {
+    if (elem.source != 'hulu_free') {
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
+    }
+
+
+}
+
+function isOnDemand(elem) {
+
+    if (elem.source == 'netflix') {
+        return false
+    }
+
+    if (elem.source == 'hulu_free') {
+        return false
+    }
+
+    return _.includes(elem.type, 'sub')
+}
+
+app.filter('channel', function () {
+    return function (input, type) {
+
+
+        var list = _.filter(input, function (elem) {
+            if (type == 'live') {
+                return isLive(elem);
+            }
+            if (type == 'onDemand') {
+                return isOnDemand(elem)
+            }
+            if (type == 'fullseason') {
+                return _.includes(elem.type, 'sub')
+            }
+            if (type == 'alacarte') {
+                //debugger
+                return _.includes(elem.type, 'purchase')
+            }
+        })
+
+        return list
+    }
+})
+
+app.filter('onDemand', function () {
+    return function (input) {
+
+        var list = _.filter(input, function (elem) {
+            return elem.name != 'Netflix';
+        })
+        console.log(list)
+        console.log('list')
+
+        return list
+    }
+
+});
+
+app.filter('fullSeason', function () {
+
+    return function (input) {
+
+
+        var list = _.filter(input, function (elem) {
+            return elem.name == 'Netflix';
+        })
+
+        return list
+    }
+
+});
+
+app.filter('unwantedChannels', function () {
+    return function (input) {
+        var list = _.filter(input, function (elem) {
+            var res = _.some([150, 26, 157], function (x) {
+                return x == elem.chan.id
+            })
+
+            return !res
+
+        })
+
+
+        return list
+    }
+})
+/**
  * Created by Nem on 9/18/15.
  */
 app.directive('ssImageBlock', function (http, $rootScope) {
@@ -562,100 +654,6 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
     }
 
-})
-/**
- * Created by Nem on 11/17/15.
- */
-
-function isLive(elem) {
-    if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
-    }
-
-
-}
-
-function isOnDemand(elem) {
-
-    if (elem.source == 'netflix') {
-        return false
-    }
-
-    if (elem.source == 'hulu_free') {
-        return false
-    }
-
-    return _.includes(elem.type, 'sub')
-}
-
-app.filter('channel', function () {
-    return function (input, type) {
-
-
-        var list = _.filter(input, function (elem) {
-            if (type == 'live') {
-                return isLive(elem);
-            }
-            if (type == 'onDemand') {
-                return isOnDemand(elem)
-            }
-            if (type == 'fullseason') {
-                return _.includes(elem.type, 'sub')
-            }
-            if (type == 'alacarte') {
-                //debugger
-                return _.includes(elem.type, 'purchase')
-            }
-        })
-
-        return list
-    }
-})
-
-app.filter('onDemand', function () {
-    return function (input) {
-
-        var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix';
-        })
-        console.log(list)
-        console.log('list')
-
-        return list
-    }
-
-});
-
-app.filter('fullSeason', function () {
-
-    return function (input) {
-
-
-        var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix';
-        })
-
-        return list
-    }
-
-});
-
-app.filter('unwantedChannels', function () {
-    return function (input) {
-        debugger;
-        var list = _.filter(input, function (elem) {
-            var res = _.some([150, 26, 157], function (x) {
-                return x == elem.chan.id
-            })
-
-            return !res
-
-        })
-        console.log(list)
-        console.log('list')
-
-        return list
-    }
 })
 app.factory('http', function ($http, $log, $q) {
     return {
@@ -1215,35 +1213,6 @@ app.controller('FeedbackCtrl', function ($scope) {
  */
 
 /**
- * Created by chirag on 8/3/15.
- */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
-
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
-
-/**
  * Created by Nem on 6/28/15.
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
@@ -1304,6 +1273,35 @@ $(document).ready(function () {
     //
     //}
 });
+/**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, $cookies, $location) {
+
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
