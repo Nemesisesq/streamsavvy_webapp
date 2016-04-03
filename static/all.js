@@ -567,9 +567,9 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
  * Created by Nem on 11/17/15.
  */
 
-function isLive(elem){
+function isLive(elem) {
     if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
     }
 
 
@@ -577,15 +577,15 @@ function isLive(elem){
 
 function isOnDemand(elem) {
 
-    if(elem.source == 'netflix'){
+    if (elem.source == 'netflix') {
         return false
     }
 
-    if(elem.source == 'hulu_free'){
+    if (elem.source == 'hulu_free') {
         return false
     }
 
-    return  _.includes(elem.type, 'sub')
+    return _.includes(elem.type, 'sub')
 }
 
 app.filter('channel', function () {
@@ -593,16 +593,16 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            if(type == 'live'){
+            if (type == 'live') {
                 return isLive(elem);
             }
-            if(type == 'onDemand'){
+            if (type == 'onDemand') {
                 return isOnDemand(elem)
             }
-            if(type == 'fullseason'){
+            if (type == 'fullseason') {
                 return _.includes(elem.type, 'sub')
             }
-            if(type == 'alacarte'){
+            if (type == 'alacarte') {
                 //debugger
                 return _.includes(elem.type, 'purchase')
             }
@@ -618,6 +618,8 @@ app.filter('onDemand', function () {
         var list = _.filter(input, function (elem) {
             return elem.name != 'Netflix';
         })
+        console.log(list)
+        console.log('list')
 
         return list
     }
@@ -637,6 +639,24 @@ app.filter('fullSeason', function () {
     }
 
 });
+
+app.filter('unwantedChannels', function () {
+    return function (input) {
+        debugger;
+        var list = _.filter(input, function (elem) {
+            var res = _.some([150, 26, 157], function (x) {
+                return x == elem.chan.id
+            })
+
+            return !res
+
+        })
+        console.log(list)
+        console.log('list')
+
+        return list
+    }
+})
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -841,6 +861,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         setPackage: function (ssPackage) {
 
+
             _package = ssPackage;
 
             if (!_.isEmpty(ssPackage)) {
@@ -850,18 +871,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         postPackage: function (ssPackage) {
-
-            //debugger;
             $http.put(ssPackage.url, ssPackage);
         },
 
         getPackage: function () {
             return _package;
         },
-        setPackage: function (package) {
-            _package =  package;
-        },
-        
+
         getSSTest: function () {
             // ;
             return _test;
@@ -1531,7 +1547,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 .map(function(elem){
                     //debugger
                     if(elem.guidebox_data != undefined){
-                        elem.name = elem.guidebox_data.name
+                        elem.display_name = elem.guidebox_data.name
                         return elem
                     } else {
                         return elem
@@ -1539,20 +1555,27 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 })
                 .thru(function (list) {
                     var clean = _.filter(list, function (elem) {
+                        // debugger;
 
-                        _.forEach(list, function (mem) {
+                        var res = !_.some(list, function (mem) {
 
                             if(mem!=elem){
-                                if(mem.name == elem.name){
-                                    //debugger;
+                                // debugger;
+                                if(RegExp(elem.display_name).test(mem.display_name)){
+                                  // debugger;
+                                    return mem.is_over_the_air && !elem.is_on_sling
                                 }
-                                //debugger
+                                
                             }
+                            return false
                         })
+                        
+                        return res
 
 
-                    })
-                    return list
+                    });
+                    debugger;
+                    return clean
                 })
                 .map(function (elem) {
                     var o = {chan: elem}
@@ -1567,8 +1590,20 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return url_check || source_check
                     })
 
+                    if(o.chan.guidebox_data){
+                        if(o.chan.guidebox_data.is_over_the_air){
+                            o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
+                        }
+                    }
+
                     return o
 
+                }).groupBy(function(elem){
+                    if (elem.chan.is_over_the_air){
+                        return 'ota'
+                    } else {
+                        return 'not_ota'
+                    }
                 })
                 .value();
             PackageFactory.setListOfServices($scope.listOfServices);
@@ -1591,6 +1626,16 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
+    $scope.hello = 'clear package';
+
+    $scope.clearContent = function () {
+        // debugger;
+        var pkg = PackageFactory.getPackage()
+
+        pkg.data.content = []
+
+        PackageFactory.setPackage(pkg)
+    }
     function verifySelectedShowDetails() {
         debugger;
         var chosen = PackageFactory.getChosenShow()
@@ -1705,7 +1750,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        $scope.chosenSourceList = PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources;
+        // $scope.chosenSourceList = PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources;
     })
 
 
@@ -1717,6 +1762,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setPackage($scope.package)
     })
+
+
 });
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
@@ -1857,13 +1904,13 @@ app.controller('AccordionController', function ($scope) {
 
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
-    $scope.clearContent = function () {
-        var pkg = PackageFactory.getPackage()
-
-        pkg.content = []
-
-        PackageFactory.setPackage(pkg)
-    }
+    // $scope.clearContent = function () {
+    //     var pkg = PackageFactory.getPackage()
+    //
+    //     pkg.content = []
+    //
+    //     PackageFactory.setPackage(pkg)
+    // }
 
     $scope.showTotal = function (content) {
 

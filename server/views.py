@@ -385,8 +385,7 @@ def content_search(request):
 
         entry_query = get_query(query_string, ['title'])
 
-        found_entries = Content.objects.filter(entry_query)
-
+        found_entries = Content.objects.filter(entry_query)[:10]
         # cache.set(query_string, found_entries)
 
         # for entry in found_entries:

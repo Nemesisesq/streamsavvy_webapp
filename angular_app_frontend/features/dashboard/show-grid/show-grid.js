@@ -1,6 +1,16 @@
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
+    $scope.hello = 'clear package';
+
+    $scope.clearContent = function () {
+        // debugger;
+        var pkg = PackageFactory.getPackage()
+
+        pkg.data.content = []
+
+        PackageFactory.setPackage(pkg)
+    }
     function verifySelectedShowDetails() {
         debugger;
         var chosen = PackageFactory.getChosenShow()
@@ -115,7 +125,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        $scope.chosenSourceList = PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources;
+        // $scope.chosenSourceList = PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources;
     })
 
 
@@ -127,4 +137,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setPackage($scope.package)
     })
+
+
 });

@@ -2,9 +2,9 @@
  * Created by Nem on 11/17/15.
  */
 
-function isLive(elem){
+function isLive(elem) {
     if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
     }
 
 
@@ -12,15 +12,15 @@ function isLive(elem){
 
 function isOnDemand(elem) {
 
-    if(elem.source == 'netflix'){
+    if (elem.source == 'netflix') {
         return false
     }
 
-    if(elem.source == 'hulu_free'){
+    if (elem.source == 'hulu_free') {
         return false
     }
 
-    return  _.includes(elem.type, 'sub')
+    return _.includes(elem.type, 'sub')
 }
 
 app.filter('channel', function () {
@@ -28,16 +28,16 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            if(type == 'live'){
+            if (type == 'live') {
                 return isLive(elem);
             }
-            if(type == 'onDemand'){
+            if (type == 'onDemand') {
                 return isOnDemand(elem)
             }
-            if(type == 'fullseason'){
+            if (type == 'fullseason') {
                 return _.includes(elem.type, 'sub')
             }
-            if(type == 'alacarte'){
+            if (type == 'alacarte') {
                 //debugger
                 return _.includes(elem.type, 'purchase')
             }
@@ -53,6 +53,8 @@ app.filter('onDemand', function () {
         var list = _.filter(input, function (elem) {
             return elem.name != 'Netflix';
         })
+        console.log(list)
+        console.log('list')
 
         return list
     }
@@ -72,3 +74,21 @@ app.filter('fullSeason', function () {
     }
 
 });
+
+app.filter('unwantedChannels', function () {
+    return function (input) {
+        debugger;
+        var list = _.filter(input, function (elem) {
+            var res = _.some([150, 26, 157], function (x) {
+                return x == elem.chan.id
+            })
+
+            return !res
+
+        })
+        console.log(list)
+        console.log('list')
+
+        return list
+    }
+})

@@ -10,6 +10,7 @@ from fuzzywuzzy import fuzz
 
 from server.constants import sling_channels, broadcast_channels
 from server.models import Content, Channel, Images, ChannelImages
+from server.shortcuts import try_catch
 
 
 class GuideBox(object):
@@ -101,20 +102,39 @@ class GuideBox(object):
         except urllib.error.URLError as e:
             print(e)
             return False
-
+    @try_catch
     def sling_tv_and_over_the_air_processor(self, c):
+        if 'sources' not in c.guidebox_data:
+            c = self.add_additional_channels_for_show(c)
+
         sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
 
+        @try_catch
         def check_for_sling(s):
-            if s['display_name'] in sling_channels:
+            if isinstance(s, Channel):
+                if s.guidebox_data['name'] in broadcast_channels:
+                    s.guidebox_data['is_over_the_air'] = 'true'
+                    s.save()
+                return s
+
+            if 'display_name' in s and s['display_name'] in sling_channels:
                 s['on_sling'] = 'true'
                 return s
 
-            if s['display_name'] in broadcast_channels:
+            elif 'display_name' in s and s['display_name'] in broadcast_channels:
                 s['is_over_the_air'] = 'true'
+                return s
+
+
+
+
             return s
 
         sources = [check_for_sling(s) for s in sources]
+        # c.channel = [check_for_sling(s) for s in c.channel.all()]
+
+        for s in c.channel.all():
+            check_for_sling(s)
 
         c.save()
         return c
@@ -141,6 +161,7 @@ class GuideBox(object):
                 execute(c)
         else:
             execute(shows)
+        return c
 
 
             # def populate_content(self):
