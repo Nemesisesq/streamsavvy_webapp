@@ -86,8 +86,8 @@ app.filter('unwantedChannels', function () {
             return !res
 
         })
-        console.log(list)
-        console.log('list')
+        //console.log(list)
+        //console.log('list')
 
         return list
     }
