@@ -585,6 +585,8 @@ ul[id^='typeahead-'], .suggestions-list {
     margin-top: 8.5px;
     margin-bottom: 8.5px;
     position: relative; }
+  .show-grid .col-sm-4.show-title.ng-scope {
+    width: inherit; }
   .show-grid img {
     width: 100%;
     object-fit: contain;

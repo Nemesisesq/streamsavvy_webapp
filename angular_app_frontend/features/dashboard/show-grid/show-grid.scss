@@ -37,9 +37,10 @@
   //  width: 100%;
   //}
 
-  //.show-tile {
+  .col-sm-4.show-title.ng-scope{
     //display: none;
-
+    width: inherit;
+  }
     img {
       width: 100%;
       object-fit: contain;

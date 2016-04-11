@@ -1,6 +1,6 @@
 <div class="menu-background service-header">SERVICE & SHOWS</div>
 <div class="ss_panel-body" >
-    <div style="color : #9b9b9b" ng-click="ota.open = !ota.open">
+    <div style="color : #9b9b9b" ng-click="ota.open = !ota.open" ng-hide="listOfServices.ota.length == 0">
         OVER THE AIR
     </div>
     <div ng-repeat="service in listOfServices.ota" uib-collapse="ota.open">

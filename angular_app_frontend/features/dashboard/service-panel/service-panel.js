@@ -48,7 +48,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 
                     });
-                    debugger;
+                    //debugger;
                     return clean
                 })
                 .map(function (elem) {
