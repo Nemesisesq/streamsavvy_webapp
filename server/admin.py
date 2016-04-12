@@ -11,6 +11,7 @@ class ContentAdmin(admin.ModelAdmin):
 
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
+    search_fields = ('name','is_on_sling')
     pass
 
 
@@ -25,4 +26,8 @@ class PackageAdmin(admin.ModelAdmin):
 
 @admin.register(Feedback)
 class Feedback(admin.ModelAdmin):
+    pass
+
+@admin.register(ChannelImages)
+class ChannelImagesAdmin(admin.ModelAdmin):
     pass

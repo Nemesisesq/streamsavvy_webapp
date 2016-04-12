@@ -76,10 +76,22 @@ show-detail {
     display: table-cell;
     vertical-align: bottom;
     //padding-top: 10px;
-    img {
-      border-radius: 4px;
-      //@include top-n-bottom-margin(5px);
+    .window.row.live{
+      margin-left: 2px
     }
+    .window-label{
+        margin-top: 19px;
+      }
+    a {
+      object-fit: contain;
+      margin-right: 24px;
+      img{
+        width: 64px;
+        height: 25px;
+      }
+}
+      //@include top-n-bottom-margin(5px);
+
   }
   .fresh {
     width: 20px;

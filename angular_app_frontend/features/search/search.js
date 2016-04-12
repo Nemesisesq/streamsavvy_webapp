@@ -29,7 +29,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         if (val) {
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
-                    debugger;
+                    //debugger;
                     var sorted = _.sortBy(data.data.results, function (elem) {
                         return elem.title.length
                     })
@@ -50,7 +50,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 
         var ssPackage = PackageFactory.getPackage();
-        debugger;
+        //debugger;
 
         if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
             growl.warning('You already added ' + suggestion.title + ' to your package!')
@@ -59,7 +59,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 
         if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-            debugger;
+            //debugger;
             $scope.loading = true
 
             var channels = suggestion.guidebox_data.sources.web.episodes.all_sources
