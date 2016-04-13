@@ -353,98 +353,6 @@ app.controller('HomeController', function () {
     $('body').attr('id','background')
 })
 /**
- * Created by Nem on 11/17/15.
- */
-
-function isLive(elem) {
-    if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
-    }
-
-
-}
-
-function isOnDemand(elem) {
-
-    if (elem.source == 'netflix') {
-        return false
-    }
-
-    if (elem.source == 'hulu_free') {
-        return false
-    }
-
-    return _.includes(elem.type, 'sub')
-}
-
-app.filter('channel', function () {
-    return function (input, type) {
-
-
-        var list = _.filter(input, function (elem) {
-            if (type == 'live') {
-                return isLive(elem);
-            }
-            if (type == 'onDemand') {
-                return isOnDemand(elem)
-            }
-            if (type == 'fullseason') {
-                return _.includes(elem.type, 'sub')
-            }
-            if (type == 'alacarte') {
-                //debugger
-                return _.includes(elem.type, 'purchase')
-            }
-        })
-
-        return list
-    }
-})
-
-app.filter('onDemand', function () {
-    return function (input) {
-
-        var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix';
-        })
-        console.log(list)
-        console.log('list')
-
-        return list
-    }
-
-});
-
-app.filter('fullSeason', function () {
-
-    return function (input) {
-
-
-        var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix';
-        })
-
-        return list
-    }
-
-});
-
-app.filter('unwantedChannels', function () {
-    return function (input) {
-        var list = _.filter(input, function (elem) {
-            var res = _.some([150, 26, 157], function (x) {
-                return x == elem.chan.id
-            })
-
-            return !res
-
-        })
-
-
-        return list
-    }
-})
-/**
  * Created by Nem on 9/18/15.
  */
 app.directive('ssImageBlock', function (http, $rootScope) {
@@ -1182,18 +1090,6 @@ app.factory('ShowDetailAnimate', function ($timeout) {
     }
 });
 
-app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.list = PackageFactory.getListOfServices();
-   
-
-});
-
-/**
- * Created by chirag on 3/28/16.
- */
-
 /**
  * Created by Nem on 12/29/15.
  */
@@ -1212,67 +1108,6 @@ app.controller('FeedbackCtrl', function ($scope) {
  * Created by Nem on 10/7/15.
  */
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
-    $scope.isHomePage = $state.current.data.isHomePage;
-
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.logout = function () {
-        debugger
-        $location.path(CONFIG.URL + '/django_auth/logout/');
-        //.success(function () {
-        //    $rootScope.logged_in = false;
-        //    console.log($rootScope.logged_in)
-        //})
-    }
-
-    var menuLeft = document.getElementById('cbp-spmenu-s1'),
-        mainPage = document.getElementById('mainPage'),
-        showLeftPush = document.getElementById('showLeftPush'),
-        body = document.body;
-
-
-    $scope.showLeftPush = function () {
-        //classie.toggle(this, 'active')
-
-        //debugger;
-        //classie.toggle(body, 'cbp-spmenu-push-toright');
-        //classie.toggle(menuLeft, 'cbp-spmenu-open');
-        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
-        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
-        $('#mainPage').toggleClass('cbp-spmenu-push-toright');
-        $('#dashPage').toggleClass('cbp-spmenu-push-toright');
-
-        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-        $('#ss-panel-right').toggleClass('fixed-menu-transform');
-        $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
-
-        //disableOther('showLeftPush');
-    };
-
-
-});
-
-app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false
-    console.log($rootScope.logged_in)
-
-})
-
-$(document).ready(function () {
-
-
-
-    //function disableOther(button) {
-    //    if (button !== 'showLeftPush') {
-    //        classie.toggle(showLeftPush, 'disabled');
-    //    }
-    //
-    //}
-});
 /**
  * Created by chirag on 8/3/15.
  */
@@ -1301,6 +1136,18 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 
 });
+
+app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.list = PackageFactory.getListOfServices();
+   
+
+});
+
+/**
+ * Created by chirag on 3/28/16.
+ */
 
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
@@ -1397,6 +1244,159 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 });
 
 
+/**
+ * Created by Nem on 11/17/15.
+ */
+
+function isLive(elem) {
+    if (elem.source != 'hulu_free') {
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
+    }
+
+
+}
+
+function isOnDemand(elem) {
+
+    if (elem.source == 'netflix') {
+        return false
+    }
+
+    if (elem.source == 'hulu_free') {
+        return false
+    }
+
+    return _.includes(elem.type, 'sub')
+}
+
+app.filter('channel', function () {
+    return function (input, type) {
+
+
+        var list = _.filter(input, function (elem) {
+            if (type == 'live') {
+                return isLive(elem);
+            }
+            if (type == 'onDemand') {
+                return isOnDemand(elem)
+            }
+            if (type == 'fullseason') {
+                return _.includes(elem.type, 'sub')
+            }
+            if (type == 'alacarte') {
+                //debugger
+                return _.includes(elem.type, 'purchase')
+            }
+        })
+
+        return list
+    }
+})
+
+app.filter('onDemand', function () {
+    return function (input) {
+
+        var list = _.filter(input, function (elem) {
+            return elem.name != 'Netflix';
+        })
+        console.log(list)
+        console.log('list')
+
+        return list
+    }
+
+});
+
+app.filter('fullSeason', function () {
+
+    return function (input) {
+
+
+        var list = _.filter(input, function (elem) {
+            return elem.name == 'Netflix';
+        })
+
+        return list
+    }
+
+});
+
+app.filter('unwantedChannels', function () {
+    return function (input) {
+        var list = _.filter(input, function (elem) {
+            var res = _.some([150, 26, 157], function (x) {
+                return x == elem.chan.id
+            })
+
+            return !res
+
+        })
+
+
+        return list
+    }
+})
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
+    $scope.isHomePage = $state.current.data.isHomePage;
+
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.logout = function () {
+        debugger
+        $location.path(CONFIG.URL + '/django_auth/logout/');
+        //.success(function () {
+        //    $rootScope.logged_in = false;
+        //    console.log($rootScope.logged_in)
+        //})
+    }
+
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+        mainPage = document.getElementById('mainPage'),
+        showLeftPush = document.getElementById('showLeftPush'),
+        body = document.body;
+
+
+    $scope.showLeftPush = function () {
+        //classie.toggle(this, 'active')
+
+        //debugger;
+        //classie.toggle(body, 'cbp-spmenu-push-toright');
+        //classie.toggle(menuLeft, 'cbp-spmenu-open');
+        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
+        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
+        $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+
+        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
+
+        //disableOther('showLeftPush');
+    };
+
+
+});
+
+app.run(function ($rootScope) {
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false
+    console.log($rootScope.logged_in)
+
+})
+
+$(document).ready(function () {
+
+
+
+    //function disableOther(button) {
+    //    if (button !== 'showLeftPush') {
+    //        classie.toggle(showLeftPush, 'disabled');
+    //    }
+    //
+    //}
+});
 
 /**
  * Created by Nem on 7/18/15.
@@ -1428,7 +1428,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         if (val) {
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
-                    debugger;
+                    //debugger;
                     var sorted = _.sortBy(data.data.results, function (elem) {
                         return elem.title.length
                     })
@@ -1449,7 +1449,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 
         var ssPackage = PackageFactory.getPackage();
-        debugger;
+        //debugger;
 
         if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
             growl.warning('You already added ' + suggestion.title + ' to your package!')
@@ -1458,7 +1458,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 
         if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-            debugger;
+            //debugger;
             $scope.loading = true
 
             var channels = suggestion.guidebox_data.sources.web.episodes.all_sources
@@ -1572,7 +1572,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 
                     });
-                    debugger;
+                    //debugger;
                     return clean
                 })
                 .map(function (elem) {
