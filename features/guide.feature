@@ -3,6 +3,7 @@ Feature: Guide test
   We test the guide functionality, the search and retrival of a
 
   @rest_api
+#  @real_db
   Scenario: Test the retrival of a grid for a zip_code
     Given a zip_code
       | zip   |

@@ -24,5 +24,5 @@ class RoviGridSchedule(models.Model):
 
 class CallSigns(models.Model):
     callsign = models.TextField()
-    network_affilitation = models.TextField()
+    network_affiliation = models.TextField()
     data = JSONField(blank=True, null=True)

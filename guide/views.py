@@ -77,8 +77,11 @@ class RoviChannelGridView(APIView):
 
             service_listings = [RoviAPI.save_listing(zip, x) for x in s]
 
-        relevant_services = [x for x in service_listings if x.data['Type'] == 'Broadcast']
+        broadcast_services = [x for x in service_listings if x.data['Type'] ==  'Broadcast']
+        satellite_services = [x for x in service_listings if x.data['SystemName'] =='Dish Network']
 
+
+        relevant_services = [broadcast_services[0], satellite_services[0]]
         res = [RoviAPI.get_grid_listings(serv) for serv in relevant_services]
 
         grid_list = [json.loads(the_json) for the_json in res]
