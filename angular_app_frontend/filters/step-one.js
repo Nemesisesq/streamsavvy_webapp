@@ -76,10 +76,35 @@ app.filter('fullSeason', function () {
 });
 
 app.filter('unwantedChannels', function () {
+    var unwantedChannelIDs = [
+    150,
+    26,
+    157,
+    171,  //DirecTV
+    169, //Dish
+    36, //HBO
+    12, 54, //USA
+    32, //FX
+    170, //AT&T U-verse
+    281, //Hulu with Showtime
+    69, //Cinemax
+    141, //Showtime Freeview
+    67, //TV Guide
+    1, //Hulu_Free
+    235, //Watch HGTV
+    22, //MTV
+    31, //Bravo
+    20, 101, //Syfy
+    14,267 //Showtime
+    ];
     return function (input) {
         var list = _.filter(input, function (elem) {
-            var res = _.some([150, 26, 157], function (x) {
-                return x == elem.chan.id
+            var res = _.some(unwantedChannelIDs, function (x) {
+                if(elem.chan.id)
+                {
+                    return x == elem.chan.id
+                }
+                return x == elem.chan.guidebox_data.id
             })
 
             return !res
