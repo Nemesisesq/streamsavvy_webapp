@@ -94,8 +94,11 @@ app.filter('unwantedChannels', function () {
     235, //Watch HGTV
     22, //MTV
     31, //Bravo
+    17, //A&E
     20, 101, //Syfy
+    133, //Starz
     14,267 //Showtime
+
     ];
     return function (input) {
         var list = _.filter(input, function (elem) {
