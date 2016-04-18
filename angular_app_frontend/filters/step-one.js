@@ -97,6 +97,7 @@ app.filter('unwantedChannels', function () {
     17, //A&E
     20, 101, //Syfy
     133, //Starz
+    121,190, //Esquire, Esquire Network
     14,267 //Showtime
 
     ];
