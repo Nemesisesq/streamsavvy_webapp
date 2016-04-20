@@ -125,7 +125,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        // $scope.chosenSourceList = PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources;
+        PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources.forEach(function (arrayElem){
+            $scope.cs[arrayElem.source] = true;
+    });
+
     })
 
 
