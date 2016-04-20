@@ -92,7 +92,7 @@ app.filter('unwantedChannels', function () {
     141, //Showtime Freeview
     67, //TV Guide
     1, //Hulu_Free
-    235, //Watch HGTV
+    235,16, //Watch HGTV
     22, //MTV
     31, //Bravo
     17, //A&E

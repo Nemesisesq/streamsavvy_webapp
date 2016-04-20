@@ -16,18 +16,20 @@
         <div class="service-options col-md-4">
             <span class="please-select-how-yo">Please select how you would like to watch this show</span>
                 <!--<div class="ss_source" ng-repeat="source in chosenSourceList"><a>{{  source.display_name}}</a></div>-->
-                            <div class="window row live">
+            <div class="window row live">
               <div class="window-label">LIVE</div>
               <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-              <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-              <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-              <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
+              <a ng-class="{'available': cs.channel[0].guidebox_data.is_over_the_air}"><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg"></a>
+              <a><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/sling-tv.svg"></a>
             </div>
             <div class="window row live">
               <div class="window-label">BINGE</div>
               <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-              <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-              <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
+               <a><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/starz"></a>
+              <a><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/amazon_prime"></a>
+              <a><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/hulu"></a>
+                <a><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/netflix"></a>
+
             </div>
             <div class="window row live">
               <div class="window-label">ON-DEMAND</div>
@@ -37,9 +39,10 @@
             </div>
             <div class="window row live">
               <div class="window-label">PAY PER EPISODE / SEASON</div>
-              <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-              <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-              <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
+              <a><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/amazon_buy"></a>
+              <a><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/google_play"></a>
+              <a><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/itunes"></a>
+            <a><img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/vudu"></a>
             </div>
         </div>
     </div>

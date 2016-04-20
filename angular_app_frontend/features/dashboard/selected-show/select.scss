@@ -85,6 +85,7 @@ show-detail {
     a {
       object-fit: contain;
       margin-right: 24px;
+      opacity: .1;
       img{
         width: 64px;
         height: 25px;
@@ -151,3 +152,6 @@ show-detail {
 
 }
 
+.available{
+  opacity:  1 !important;
+}

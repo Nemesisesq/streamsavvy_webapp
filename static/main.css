@@ -707,7 +707,8 @@ show-detail {
       margin-top: 19px; }
     show-detail .service-options a {
       object-fit: contain;
-      margin-right: 24px; }
+      margin-right: 24px;
+      opacity: .1; }
       show-detail .service-options a img {
         width: 64px;
         height: 25px; }
@@ -747,6 +748,9 @@ show-detail {
     font-weight: bold; }
   show-detail .show-info ul {
     font-weight: 200; }
+
+.available {
+  opacity: 1 !important; }
 
 /* General styles for all menus */
 .cbp-spmenu {
