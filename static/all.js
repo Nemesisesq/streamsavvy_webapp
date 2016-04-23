@@ -1214,6 +1214,7 @@ app.factory('ShowDetailAnimate', function ($timeout) {
 
     }
 });
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
     var ssPackage = PackageFactory.getPackage();
@@ -1225,7 +1226,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -1784,6 +1784,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources.forEach(function (arrayElem){
             $scope.cs[arrayElem.source] = true;
     });
+        if(PackageFactory.getChosenShow().channel[0].guidebox_data.short_name = 'amazon')
+        {
+            $scope.cs['amazon_buy'] = true;
+        }
 
     })
 

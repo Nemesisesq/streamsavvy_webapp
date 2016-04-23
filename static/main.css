@@ -375,6 +375,21 @@ ul[id^='typeahead-'], .suggestions-list {
 .navbar-fixed-top {
   background-color: #15191b;
   min-height: 50px; }
+  .navbar-fixed-top .cbp-spmenu {
+    background: #15191b; }
+  .navbar-fixed-top .cbp-spmenu-vertical a {
+    border-bottom: none;
+    padding: 1em;
+    color: #4a4a4a; }
+  .navbar-fixed-top .cbp-spmenu a:hover {
+    background: #e7021e;
+    color: white; }
+  .navbar-fixed-top .cbp-spmenu a:active {
+    background: #c30018;
+    color: white; }
+  .navbar-fixed-top .cbp-spmenu h3 {
+    color: white;
+    background: #15191b; }
   .navbar-fixed-top #showLeftPush {
     color: #ed1c24;
     background-color: inherit;
@@ -836,7 +851,9 @@ show-detail {
 /* Push classes applied to the body */
 .cbp-spmenu-push {
   position: relative;
-  left: 0; }
+  left: 0;
+  margin-left: 15px;
+  margin-top: 15px; }
 
 .cbp-spmenu-push-toright {
   left: 240px;
