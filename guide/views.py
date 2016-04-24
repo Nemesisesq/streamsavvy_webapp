@@ -1,12 +1,16 @@
 import json
 import urllib
 
+import re
 from django.core.cache import cache
+from fuzzywuzzy import fuzz
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from guide.models import RoviListings, RoviGridSchedule
 from guide.serializers import RoviGridScheduleSerializers
+from server.constants import sling_channels
+from server.shortcuts import lazy_thunkify
 
 
 class RoviAPI(object):
@@ -61,6 +65,15 @@ class RoviAPI(object):
             locale='en-US', data=grid, postal_code=zip)
         return g[0]
 
+@lazy_thunkify
+def filter_sling_channels(chan):
+
+    for i in sling_channels:
+        z = chan['CallLetters']
+        if fuzz.token_set_ratio(chan['SourceLongName'], i) > 95 and not re.search("HD", chan['CallLetters']):
+            return True
+    return False
+
 
 class RoviChannelGridView(APIView):
     def get(self, request, zip, format=None):
@@ -77,11 +90,23 @@ class RoviChannelGridView(APIView):
 
             service_listings = [RoviAPI.save_listing(zip, x) for x in s]
 
-        relevant_services = [x for x in service_listings if x.data['SystemName'] =='Dish Network']
+        broadcast_services = [x for x in service_listings if x.data['Type'] ==  'Broadcast'][0]
+        satellite_services = [x for x in service_listings if x.data['SystemName'] =='Dish Network'][0]
 
-        res = [RoviAPI.get_grid_listings(serv) for serv in relevant_services]
 
-        grid_list = [json.loads(the_json) for the_json in res]
+
+
+        broadcadst_grid_response = RoviAPI.get_grid_listings(broadcast_services)
+        satellite_grid_response = RoviAPI.get_grid_listings(satellite_services)
+
+        broadcast_grid_list = json.loads(broadcadst_grid_response)
+        satellite_grid_list = json.loads(satellite_grid_response)
+
+        satellite_grid_list['GridScheduleResult']['GridChannels'] = [chan for chan in satellite_grid_list['GridScheduleResult']['GridChannels'] if filter_sling_channels(chan)()]
+
+
+        grid_list = [broadcast_grid_list, satellite_grid_list]
+
 
         show_grids = [RoviAPI.save_channel_grid(zip, grid) for grid in grid_list]
 
