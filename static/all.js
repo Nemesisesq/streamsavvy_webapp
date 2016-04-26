@@ -1280,10 +1280,10 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
     $scope.isHomePage = $state.current.data.isHomePage;
 
+
     $scope.hmdc = $state.current.data.hmdcActive;
 
     $scope.logout = function () {
-        debugger
         $location.path(CONFIG.URL + '/django_auth/logout/');
         //.success(function () {
         //    $rootScope.logged_in = false;
@@ -1307,6 +1307,9 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
         //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
         $('#mainPage').toggleClass('cbp-spmenu-push-toright');
         $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+        if ($location.path() == '/') {
+            $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        }
 
         //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
         $('#ss-panel-right').toggleClass('fixed-menu-transform');
