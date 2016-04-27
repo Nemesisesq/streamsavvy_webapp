@@ -407,16 +407,36 @@ app.directive('ssImageBlock', function (http, $rootScope) {
  * Created by Nem on 3/7/16.
  */
 
-app.directive('showDetail',function(){
-    return{
+app.directive('showDetail', function () {
+    return {
         restrict: 'E',
-        templateUrl : '/static/partials/selected-show/select.html',
+        templateUrl: '/static/partials/selected-show/select.html',
         controller: 'ShowGridController'
-
-
-
     }
 })
+
+
+app.directive('openDetail', function ($timeout) {
+    return {
+        restrict: 'A',
+
+        link: function (scope, element, attrs) {
+            debugger;
+            // alert('Hello World');
+            $timeout(function () {
+                if (scope.$last) {
+                    var ev = {};
+                    ev.currentTarget = element;
+                    ev.target = element.context.children[0];
+                    scope.showDetail(scope.show, ev);
+                }
+            }, 1000)
+
+
+        }
+    }
+})
+
 /**
  * Created by Nem on 9/18/15.
  */
@@ -1228,6 +1248,10 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
  */
 
 /**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
  * Created by Nem on 12/29/15.
  */
 
@@ -1241,10 +1265,6 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
-/**
- * Created by Nem on 10/7/15.
- */
-
 /**
  * Created by chirag on 8/3/15.
  */
@@ -1322,7 +1342,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 });
 
 app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
     console.log($rootScope.logged_in)
 
 })
@@ -1485,7 +1505,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 
         var ssPackage = PackageFactory.getPackage();
-        //debugger;
 
         if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
             growl.warning('You already added ' + suggestion.title + ' to your package!')
@@ -1716,7 +1735,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setChosenShow(item);
         verifySelectedShowDetails()
-        //debugger;
+        debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,
             container = document.getElementById('search-and-shows');
@@ -1748,6 +1767,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $scope.hideDetail = function (ev, attrs) {
+        debugger;
 
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
@@ -1771,14 +1791,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             })
 
 
-    }
+    };
+    
 
 
     $scope.$watch(function () {
         return PackageFactory.getPackage()
     }, function () {
         $scope.package = PackageFactory.getPackage();
-    })
+    });
 
     $scope.$watch(function () {
         return PackageFactory.getChosenShow()

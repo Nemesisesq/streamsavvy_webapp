@@ -46,7 +46,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 });
 
 app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
     console.log($rootScope.logged_in)
 
 })

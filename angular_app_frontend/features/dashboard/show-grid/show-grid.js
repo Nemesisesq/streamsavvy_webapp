@@ -57,7 +57,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setChosenShow(item);
         verifySelectedShowDetails()
-        //debugger;
+        debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,
             container = document.getElementById('search-and-shows');
@@ -89,6 +89,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $scope.hideDetail = function (ev, attrs) {
+        debugger;
 
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
@@ -112,14 +113,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             })
 
 
-    }
+    };
+    
 
 
     $scope.$watch(function () {
         return PackageFactory.getPackage()
     }, function () {
         $scope.package = PackageFactory.getPackage();
-    })
+    });
 
     $scope.$watch(function () {
         return PackageFactory.getChosenShow()
