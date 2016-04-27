@@ -84,7 +84,7 @@ app.factory('ShowDetailAnimate', function ($timeout) {
         loadContent: function (positionItem, scaleItem, container) {
 
             // add expanding element/placeholder
-            //debugger;
+            debugger;
             var dummy = document.createElement('div');
             dummy.className = 'placeholder';
 

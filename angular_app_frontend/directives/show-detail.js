@@ -16,18 +16,16 @@ app.directive('openDetail', function ($timeout) {
         restrict: 'A',
 
         link: function (scope, element, attrs) {
-            debugger;
             // alert('Hello World');
             $timeout(function () {
+            debugger;
                 if (scope.$last) {
                     var ev = {};
-                    ev.currentTarget = element;
+                    ev.currentTarget = element[0];
                     ev.target = element.context.children[0];
                     scope.showDetail(scope.show, ev);
                 }
             }, 1000)
-
-
         }
     }
 })

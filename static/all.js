@@ -421,18 +421,16 @@ app.directive('openDetail', function ($timeout) {
         restrict: 'A',
 
         link: function (scope, element, attrs) {
-            debugger;
             // alert('Hello World');
             $timeout(function () {
+            debugger;
                 if (scope.$last) {
                     var ev = {};
-                    ev.currentTarget = element;
+                    ev.currentTarget = element[0];
                     ev.target = element.context.children[0];
                     scope.showDetail(scope.show, ev);
                 }
             }, 1000)
-
-
         }
     }
 })
@@ -1145,7 +1143,7 @@ app.factory('ShowDetailAnimate', function ($timeout) {
         loadContent: function (positionItem, scaleItem, container) {
 
             // add expanding element/placeholder
-            //debugger;
+            debugger;
             var dummy = document.createElement('div');
             dummy.className = 'placeholder';
 
@@ -1234,7 +1232,6 @@ app.factory('ShowDetailAnimate', function ($timeout) {
 
     }
 });
-
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
     var ssPackage = PackageFactory.getPackage();
@@ -1247,9 +1244,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
  * Created by chirag on 3/28/16.
  */
 
-/**
- * Created by Nem on 10/7/15.
- */
 
 /**
  * Created by Nem on 12/29/15.
@@ -1265,6 +1259,10 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
 /**
  * Created by chirag on 8/3/15.
  */
