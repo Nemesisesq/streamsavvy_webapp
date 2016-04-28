@@ -69,7 +69,9 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                         elem.images = data.data;
                         return elem
                     })
-            })
+            });
+
+            suggestion.justAdded = true;
 
 
             ssPackage.data.content.push(suggestion);

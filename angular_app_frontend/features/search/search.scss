@@ -120,6 +120,7 @@ ul[id^='typeahead-'], .suggestions-list {
 
 .ss_search {
   margin-top: 60px;
+  transition: opacity 500ms, linear;
 }
 
 .ss-search-input {
@@ -164,3 +165,6 @@ ul[id^='typeahead-'], .suggestions-list {
     opacity: 1;}
 }
 
+.search_transparent {
+  opacity: 0;
+}

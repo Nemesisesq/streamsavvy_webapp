@@ -19,11 +19,12 @@ app.directive('openDetail', function ($timeout) {
             // alert('Hello World');
             $timeout(function () {
             debugger;
-                if (scope.$last) {
+                if (scope.$last && scope.show.justAdded) {
                     var ev = {};
                     ev.currentTarget = element[0];
                     ev.target = element.context.children[0];
                     scope.showDetail(scope.show, ev);
+                    scope.show.justAdded = false
                 }
             }, 1000)
         }

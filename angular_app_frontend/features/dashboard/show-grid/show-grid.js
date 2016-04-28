@@ -12,12 +12,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setPackage(pkg)
     }
     function verifySelectedShowDetails() {
-        debugger;
         var chosen = PackageFactory.getChosenShow()
         if (chosen.detail == undefined) {
             $http.get(chosen.url)
                 .then(function (res) {
-                    debugger;
                     PackageFactory.setChosenShow(res.data)
                 })
 
@@ -57,14 +55,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setChosenShow(item);
         verifySelectedShowDetails()
-        debugger;
+        // debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,
             container = document.getElementById('search-and-shows');
-        debugger;
+        // debugger;
         $(scaleItem).attr('id', 'scaled-from')
         $(positionItem).attr('id', 'is-opened')
         //debugger;
+        $rootScope.showSearchView = false;
         ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
             .then(function (v) {
                 return $timeout(function () {
@@ -72,7 +71,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     var detail = angular.element(document.createElement('show-detail'));
 
-                    $rootScope.showSearchView = false;
                     $rootScope.showDetailDirective = true;
                     //debugger;
 
@@ -94,15 +92,16 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
-        $('show-detail').removeClass('fade-in');
-        $rootScope.showDetailDirective = false;
-
-        ShowDetailAnimate.hideContent(positionItem, scaleItem, container)
+        $q.when($('show-detail').removeClass('fade-in'))
+            .then(function () {
+                    $rootScope.showSearchView = true;
+                $rootScope.showDetailDirective = false
+            })
+            .then(ShowDetailAnimate.hideContent.bind(null, positionItem, scaleItem, container))
             .then(function (v) {
                 return $timeout(function () {
-                    //debugger;
+                    debugger;
 
-                    $rootScope.showSearchView = true;
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
             })
@@ -114,7 +113,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
     };
-    
 
 
     $scope.$watch(function () {
@@ -127,11 +125,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources.forEach(function (arrayElem){
+        PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources.forEach(function (arrayElem) {
             $scope.cs[arrayElem.source] = true;
-    });
-        if(PackageFactory.getChosenShow().channel[0].guidebox_data.short_name = 'amazon')
-        {
+        });
+        if (PackageFactory.getChosenShow().channel[0].guidebox_data.short_name = 'amazon') {
             $scope.cs['amazon_buy'] = true;
         }
 
