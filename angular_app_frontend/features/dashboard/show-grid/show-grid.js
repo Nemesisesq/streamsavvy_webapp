@@ -64,6 +64,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $(positionItem).attr('id', 'is-opened')
         //debugger;
         $rootScope.showSearchView = false;
+        $rootScope.$broadcast('save_package');
         ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
             .then(function (v) {
                 return $timeout(function () {
@@ -87,20 +88,20 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $scope.hideDetail = function (ev, attrs) {
-        debugger;
+        // debugger;
 
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
         $q.when($('show-detail').removeClass('fade-in'))
             .then(function () {
-                    $rootScope.showSearchView = true;
+                $rootScope.showSearchView = true;
                 $rootScope.showDetailDirective = false
             })
             .then(ShowDetailAnimate.hideContent.bind(null, positionItem, scaleItem, container))
             .then(function (v) {
                 return $timeout(function () {
-                    debugger;
+                    // debugger;
 
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
@@ -139,8 +140,13 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setPackage($scope.package)
     }
 
-    $scope.$watchCollection('package.content', function () {
+    $scope.$on('save_package', function(){
+        debugger;
+       PackageFactory.setPackage($scope.package)
+    });
 
+    $scope.$watchCollection('package.data.content', function () {
+        debugger;
         PackageFactory.setPackage($scope.package)
     })
 

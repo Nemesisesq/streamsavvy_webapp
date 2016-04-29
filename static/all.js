@@ -423,7 +423,7 @@ app.directive('openDetail', function ($timeout) {
         link: function (scope, element, attrs) {
             // alert('Hello World');
             $timeout(function () {
-            debugger;
+            // debugger;
                 if (scope.$last && scope.show.justAdded) {
                     var ev = {};
                     ev.currentTarget = element[0];
@@ -1198,20 +1198,20 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
             classie.remove(bodyEl, 'view-single');
 
             return $timeout(function () {
-                debugger;
+                // debugger;
 
                 var dummy = container.querySelector('.placeholder');
 
                 function firstStep() {
                     console.log('first step being called ')
-                    debugger;
+                    // debugger;
                     classie.removeClass(bodyEl, 'noscroll');
                     return 'hello first'
                 }
 
                 $q.when(firstStep())
                     .then(function (data) {
-                        console.log(data)
+                        console.log(data);
                         dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
                         dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
                         return "hello world"
@@ -1225,7 +1225,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
                             //classie.remove(gridItem, 'grid__item--loading');
                             //classie.remove(gridItem, 'grid__item--animate');
                             lockScroll = false;
-                            console.log('removing dummy')
+                            console.log('removing dummy');
                             window.removeEventListener('scroll', this.noscroll);
                         })
                         current = -1;
@@ -1531,7 +1531,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             //debugger;
             $scope.loading = true
 
-            var channels = suggestion.guidebox_data.sources.web.episodes.all_sources
+            var channels = suggestion.guidebox_data.sources.web.episodes.all_sources;
 
             channels = _.map(channels, function (elem) {
                 $http.get('api/channel_images/' + elem.id)
@@ -1541,6 +1541,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                     })
             });
 
+            debugger;
             suggestion.justAdded = true;
 
 
@@ -1759,6 +1760,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $(positionItem).attr('id', 'is-opened')
         //debugger;
         $rootScope.showSearchView = false;
+        $rootScope.$broadcast('save_package');
         ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
             .then(function (v) {
                 return $timeout(function () {
@@ -1782,20 +1784,20 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $scope.hideDetail = function (ev, attrs) {
-        debugger;
+        // debugger;
 
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
         $q.when($('show-detail').removeClass('fade-in'))
             .then(function () {
-                    $rootScope.showSearchView = true;
+                $rootScope.showSearchView = true;
                 $rootScope.showDetailDirective = false
             })
             .then(ShowDetailAnimate.hideContent.bind(null, positionItem, scaleItem, container))
             .then(function (v) {
                 return $timeout(function () {
-                    debugger;
+                    // debugger;
 
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
@@ -1834,8 +1836,13 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setPackage($scope.package)
     }
 
-    $scope.$watchCollection('package.content', function () {
+    $scope.$on('save_package', function(){
+        debugger;
+       PackageFactory.setPackage($scope.package)
+    });
 
+    $scope.$watchCollection('package.data.content', function () {
+        debugger;
         PackageFactory.setPackage($scope.package)
     })
 

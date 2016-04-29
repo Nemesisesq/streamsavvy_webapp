@@ -18,7 +18,7 @@ app.directive('openDetail', function ($timeout) {
         link: function (scope, element, attrs) {
             // alert('Hello World');
             $timeout(function () {
-            debugger;
+            // debugger;
                 if (scope.$last && scope.show.justAdded) {
                     var ev = {};
                     ev.currentTarget = element[0];

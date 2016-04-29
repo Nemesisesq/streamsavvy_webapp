@@ -138,20 +138,20 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
             classie.remove(bodyEl, 'view-single');
 
             return $timeout(function () {
-                debugger;
+                // debugger;
 
                 var dummy = container.querySelector('.placeholder');
 
                 function firstStep() {
                     console.log('first step being called ')
-                    debugger;
+                    // debugger;
                     classie.removeClass(bodyEl, 'noscroll');
                     return 'hello first'
                 }
 
                 $q.when(firstStep())
                     .then(function (data) {
-                        console.log(data)
+                        console.log(data);
                         dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
                         dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
                         return "hello world"
@@ -165,7 +165,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
                             //classie.remove(gridItem, 'grid__item--loading');
                             //classie.remove(gridItem, 'grid__item--animate');
                             lockScroll = false;
-                            console.log('removing dummy')
+                            console.log('removing dummy');
                             window.removeEventListener('scroll', this.noscroll);
                         })
                         current = -1;

@@ -61,7 +61,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             //debugger;
             $scope.loading = true
 
-            var channels = suggestion.guidebox_data.sources.web.episodes.all_sources
+            var channels = suggestion.guidebox_data.sources.web.episodes.all_sources;
 
             channels = _.map(channels, function (elem) {
                 $http.get('api/channel_images/' + elem.id)
@@ -71,6 +71,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                     })
             });
 
+            debugger;
             suggestion.justAdded = true;
 
 
