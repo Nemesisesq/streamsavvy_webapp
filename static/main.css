@@ -532,14 +532,6 @@ ul[id^='typeahead-'], .suggestions-list {
     text-align: center;
     margin-top: 130px; }
 
-.service-center {
-  margin: 0 auto;
-  display: table;
-  padding-top: 20px; }
-
-.im-ready {
-  color: white; }
-
 .placeholder {
   pointer-events: none;
   position: absolute;
@@ -623,6 +615,14 @@ ul[id^='typeahead-'], .suggestions-list {
 .hardware-panel {
   height: 40vh;
   overflow: scroll; }
+
+.service-center {
+  margin: 0 auto;
+  display: table;
+  padding-top: 20px; }
+
+.im-ready {
+  color: white; }
 
 show-detail {
   text-transform: none;
