@@ -126,12 +126,55 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources.forEach(function (arrayElem) {
-            $scope.cs[arrayElem.source] = true;
-        });
-        if (PackageFactory.getChosenShow().channel[0].guidebox_data.short_name = 'amazon') {
-            $scope.cs['amazon_buy'] = true;
+        $scope.cs.services = [];
+        var onDemand = {
+            title: "ON DEMAND",
+            cbs: false,
+            hulu_plus: false,
+            nbc: false,
+            pbs: false,
+            showtime: false,
+            starz: false
+        };
+        var binge = {
+            title: "BINGE",
+            amazon_prime: false,
+            thecw: false,
+            netflix: false,
+            Seeso: false,
+            youtube_purchase: false
+        };
+        var payPer = {
+            title: "PAY PER EPISODE / SEASON",
+            amazon_buy: false,
+            google_play: false,
+            itunes: false,
+            vudu: false
+        };
+        $scope.cs.windows = [onDemand, binge, payPer];
+        if ($scope.cs.channel[0].guidebox_data.short_name == 'amazon') {
+            $scope.cs.services.push('amazon_buy');
         }
+        //for netflix originals
+        if ($scope.cs.channel[0].name == 'Netflix' ){
+            $scope.cs.services.push('netflix');
+        }
+        _.forEach(PackageFactory.getChosenShow().guidebox_data.sources.web.episodes.all_sources, function (arrayElem) {
+            $scope.cs.services.push(arrayElem.source);
+        });
+        //iterates through each of the shows services
+        _.forEach($scope.cs.services, function(serv) {
+            //checks to see if those services are in any of the prebuilt windows and sets them to true
+            _.forEach($scope.cs.windows, function(window) {
+                _.forOwn(window, function(value, key) {
+                    if( key == serv )
+                        {window[key] = true;}
+                     }
+                );
+            });
+        });
+
+
 
     })
 

@@ -29,39 +29,9 @@
                     <img src="https://s3.amazonaws.com/streamsavvy/service_logos/sling-tv.svg">
                 </a>
             </div>
-            <div class="window row live">
-                <div class="window-label">BINGE</div>
-                <a ng-class="{'available': cs.hbo_now}">
-                    <img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg">
-                </a>
-                <a ng-class="{'available': cs.channel[0].name='Starz'}"><img
-                        src="https://s3.amazonaws.com/streamsavvy/service_logos/starz"></a>
-                <a ng-class="{'available': cs.amazon_prime}">
-                    <img
-                        src="https://s3.amazonaws.com/streamsavvy/service_logos/amazon_prime">
-                </a>
-                <a ng-class="{'available': cs.hulu_plus}">
-                    <img src="https://s3.amazonaws.com/streamsavvy/service_logos/hulu">
-                </a>
-                <a ng-class="{'available': cs.on_netflix}">><img
-                        src="https://s3.amazonaws.com/streamsavvy/service_logos/netflix"></a>
-
-            </div>
-            <div class="window row live">
-                <div class="window-label">ON-DEMAND</div>
-                <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-                <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-                <a><img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg"></a>
-            </div>
-            <div class="window row live">
-                <div class="window-label">PAY PER EPISODE / SEASON</div>
-                <a ng-class="{'available': cs.amazon_buy}"><img
-                        src="https://s3.amazonaws.com/streamsavvy/service_logos/amazon_buy"></a>
-                <a ng-class="{'available': cs.google_play}"><img
-                        src="https://s3.amazonaws.com/streamsavvy/service_logos/google_play"></a>
-                <a ng-class="{'available': cs.itunes}"><img
-                        src="https://s3.amazonaws.com/streamsavvy/service_logos/itunes"></a>
-                <a ng-class="{'available': cs.vudu}"><img src="https://s3.amazonaws.com/streamsavvy/service_logos/vudu"></a>
+            <div class="window row live" ng-repeat='window in cs.windows'>
+                <div class="window-label">{{ window.title }}</div>
+                <a  ng-repeat="(service,avail) in window" ng-class="{'available': avail}" ng-if="!$first"><img src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service }}" ></a>
             </div>
         </div>
     </div>

@@ -77,7 +77,7 @@ app.filter('fullSeason', function () {
 
 app.filter('unwantedChannels', function () {
     var unwantedChannelIDs = [
-    150,
+    150,//150
     26,
     157,
     171,  //DirecTV
