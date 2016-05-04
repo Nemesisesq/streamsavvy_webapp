@@ -14,24 +14,14 @@
 
         </div>
         <div class="service-options col-md-4">
-            <span class="please-select-how-yo">Please select how you would like to watch this show</span>
-            <!--<div class="ss_source" ng-repeat="source in chosenSourceList"><a>{{  source.display_name}}</a></div>-->
-            <div class="window row live">
-                <div class="window-label">LIVE</div>
-                <a ng-class="{'available': cs.hbo_now}">
-                    <img src="https://s3.amazonaws.com/streamsavvy/h-b-o-n-o-w.svg">
-                </a>
-                <a ng-class="{'available': cs.channel[0].guidebox_data.is_over_the_air}">
-                    <img
-                            src="https://s3.amazonaws.com/streamsavvy/service_logos/o-t-a.svg">
-                </a>
-                <a>
-                    <img src="https://s3.amazonaws.com/streamsavvy/service_logos/sling-tv.svg">
-                </a>
-            </div>
-            <div class="window row live" ng-repeat='window in cs.windows'>
-                <div class="window-label">{{ window.title }}</div>
-                <a  ng-repeat="(service,avail) in window" ng-class="{'available': avail}" ng-if="!$first"><img src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service }}" ></a>
+
+                <div class="col-sm-4" ng-if="cs.on_netflix">
+                    <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}" >
+                </div>
+                <div class="col-sm-4" ng-repeat='service in detailSources()'>
+                    <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.guidebox_data.short_name }}" >
+                    <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}" >
+                </div>
             </div>
         </div>
     </div>

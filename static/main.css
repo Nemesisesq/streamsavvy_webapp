@@ -685,13 +685,11 @@ show-detail {
       margin-left: 2px; }
     show-detail .service-options .window-label {
       margin-top: 19px; }
-    show-detail .service-options a {
+    show-detail .service-options div {
       object-fit: contain;
-      margin-right: 24px;
-      opacity: .1; }
-      show-detail .service-options a img {
-        width: 64px;
-        height: 25px; }
+      height: 60px; }
+      show-detail .service-options div img {
+        width: 100%; }
   show-detail .fresh {
     width: 20px;
     height: 21px;

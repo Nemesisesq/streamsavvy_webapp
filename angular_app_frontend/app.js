@@ -222,19 +222,19 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     templateUrl: 'static/partials/search.html',
                     controller: 'search'
                 },
-                shows: {
+                'shows': {
                     templateUrl: '/static/partials/show-grid/show-grid.html',
                     controller: 'ShowGridController'
                 },
-                services: {
+                'services': {
                     templateUrl: '/static/partials/service-panel/service-panel.html',
                     controller: 'ServicePanelController'
                 },
-                hardware: {
+                'hardware': {
                     templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
                     controller: 'StepThreeController'
                 },
-                select: {
+                'select': {
                     templateUrl: '/static/partials/selected-show/select.html'
                 },
                 'footer': {
