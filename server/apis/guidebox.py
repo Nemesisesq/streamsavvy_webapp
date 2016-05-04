@@ -115,15 +115,23 @@ class GuideBox(object):
                 if s.guidebox_data['name'] in broadcast_channels:
                     s.guidebox_data['is_over_the_air'] = 'true'
                     s.save()
-                return s
+                    return s
 
-            if 'display_name' in s and s['display_name'] in sling_channels:
-                s['on_sling'] = 'true'
-                return s
+                if s.guidebox_data['name'] in sling_channels:
+                    s.guidebox_data['on_sling'] = 'true'
+                    s.is_on_sling = True
+                    s.save()
+                    return s
 
-            elif 'display_name' in s and s['display_name'] in broadcast_channels:
-                s['is_over_the_air'] = 'true'
-                return s
+            else:
+
+                if 'display_name' in s and s['display_name'] in sling_channels:
+                    s['on_sling'] = 'true'
+                    return s
+
+                elif 'display_name' in s and s['display_name'] in broadcast_channels:
+                    s['is_over_the_air'] = 'true'
+                    return s
 
 
 

@@ -73,9 +73,12 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     return o
 
                 }).groupBy(function(elem){
+                    debugger;
                     if (elem.chan.is_over_the_air){
                         return 'ota'
-                    } else {
+                    } if(elem.chan.is_on_sling){
+                        return 'sling'
+                    }else {
                         return 'not_ota'
                     }
                 })

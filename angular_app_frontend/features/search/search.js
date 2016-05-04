@@ -71,7 +71,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                     })
             });
 
-            debugger;
             suggestion.justAdded = true;
 
 

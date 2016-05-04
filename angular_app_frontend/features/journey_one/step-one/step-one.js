@@ -152,7 +152,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
     $scope.delete = function (content) {
-        debugger;
         _.remove($scope.package.content, content);
         $scope.savePackage()
         PackageFactory.updatePackageChannels($scope)

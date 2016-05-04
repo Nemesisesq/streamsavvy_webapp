@@ -43,7 +43,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
     $scope.delete = function (content) {
-        debugger;
         _.remove($scope.package.content, content);
         $scope.savePackage()
         PackageFactory.updatePackageChannels($scope)
@@ -127,7 +126,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
         $scope.detailSources = function(){
+            if($scope.cs.guidebox_data !=undefined){
+
             return _.concat( $scope.cs.channel, $scope.cs.guidebox_data.sources.web.episodes.all_sources);
+            }
         }
 
         // $scope.getRatings = function () {
@@ -144,12 +146,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $scope.$on('save_package', function(){
-        debugger;
        PackageFactory.setPackage($scope.package)
     });
 
     $scope.$watchCollection('package.data.content', function () {
-        debugger;
         PackageFactory.setPackage($scope.package)
     })
 
