@@ -82,7 +82,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
 
     return {
         loadContent: function (positionItem, scaleItem, container) {
-
+debugger;
             // add expanding element/placeholder
             var dummy = document.createElement('div');
             dummy.className = 'placeholder';
@@ -103,8 +103,8 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
             return $timeout(function () {
 
                 // expands the placeholder
-                dummy.style.WebkitTransform = 'translate3d(-5px, ' + (scrollY() + 55) + 'px, 0px)';
-                dummy.style.transform = 'translate3d(-5px, ' + (scrollY() + 55) + 'px, 0px)';
+                dummy.style.WebkitTransform = 'translate3d(-15px, ' + (scrollY() + 55) + 'px, 0px)';
+                dummy.style.transform = 'translate3d(-15, ' + (scrollY() + 55) + 'px, 0px)';
                 // disallow scroll
                 window.addEventListener('scroll', this.noscroll);
                 onEndTransition(dummy, function () {

@@ -70,7 +70,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 return $timeout(function () {
                     //debugger;
 
-                    var detail = angular.element(document.createElement('show-detail'));
+                    // var detail = angular.element(document.createElement('show-detail'));
 
                     $rootScope.showDetailDirective = true;
                     //debugger;

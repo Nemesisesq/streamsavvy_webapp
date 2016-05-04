@@ -1,10 +1,10 @@
 <div class="col-sm-12 background">
 
     <div class="row">
-        <div class="col-sm-11">
+        <div class="col-sm-9">
             <span class="s-e-l-e-c-t-e-d-s-h-o-w">Selected Show</span>
         </div>
-        <div class="col-sm-1" ng-click="hideDetail($event)">
+        <div class="col-sm-3" ng-click="hideDetail($event)">
             <img class="close" src="/static/img/close.png"/>
         </div>
     </div>
@@ -22,15 +22,19 @@
                     <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.guidebox_data.short_name }}" >
                     <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}" >
                 </div>
+
             </div>
+        <div class="col-sm-4" ng-click="hideDetail($event)">
+            <button class="btn btn-red btn-sm"> add another show</button>
         </div>
+    </div>
     </div>
 
     <div class="row title-with-ratings">
         <div class="col-xs-8">
             <div class="row">
                 <div class="col-xs-6">
-                    <span class="show-title"><a href="#">{{ cs.guidebox_data.title }}</a></span>
+                    <span class="show-title">{{ cs.guidebox_data.title }}</span>
                 </div>
 
 

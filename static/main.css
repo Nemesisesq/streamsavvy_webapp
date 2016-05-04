@@ -535,7 +535,7 @@ ul[id^='typeahead-'], .suggestions-list {
 .placeholder {
   pointer-events: none;
   position: absolute;
-  width: calc(100% + 5px);
+  width: calc(100%);
   height: calc(100vh + 5px);
   z-index: 100;
   top: 0;
@@ -631,7 +631,7 @@ show-detail {
   line-height: 1.2;
   color: white;
   top: 55px;
-  left: 0px;
+  left: -15px;
   position: absolute; }
   show-detail .background {
     background: linear-gradient(to bottom, rgba(0, 162, 255, 0.2), rgba(225, 0, 25, 0.2), #15191b, #15191b);
