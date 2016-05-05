@@ -56,7 +56,7 @@ class Netflixable():
             return tag.string != 'imdb'
 
         # shows = filter(f, anchor_tags)
-        shows = [t for t in anchor_tags if t.string is not 'imdb']
+        shows = [t for t in anchor_tags if t.string !='imdb']
 
         # result = map(lambda x: str(x.string), shows)
         result = [{'show': elem.string, 'link': elem.get('href')} for elem in list(shows)]

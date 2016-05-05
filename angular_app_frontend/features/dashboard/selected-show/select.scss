@@ -12,6 +12,7 @@ show-detail {
   .background {
     background: linear-gradient(to bottom, rgba(0, 162, 255, 0.2), rgba(225, 0, 25, 0.2), $dark, $dark);
     padding-top: 15px;
+    height: 95vh;
   }
 
   .close {
