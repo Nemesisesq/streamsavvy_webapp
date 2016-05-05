@@ -1,5 +1,5 @@
 {
-  "name": "cutthecord",
+  "name": "streamsavvy",
   "version": "1.0.0",
   "description": "A way from the bondage cable",
   "main": "index.js",
@@ -26,12 +26,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nemesisesq/cutthecord.git"
+    "url": "git+https://github.com/Nemesisesq/cutthecord.git"
   },
   "author": "Carl Lewis",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Nemesisesq/cutthecord/issues"
   },
-  "homepage": "https://github.com/Nemesisesq/cutthecord"
+  "homepage": "https://github.com/Nemesisesq/cutthecord",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "cable",
+    "cutting"
+  ]
 }
