@@ -127,8 +127,19 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.cs = PackageFactory.getChosenShow();
         $scope.detailSources = function(){
             if($scope.cs.guidebox_data !=undefined){
+                debugger;
 
-            return _.concat( $scope.cs.channel, $scope.cs.guidebox_data.sources.web.episodes.all_sources);
+            return _( $scope.cs.channel)
+                .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                .map(function(elem){
+                    if(elem.guidebox_data != undefined){
+                        elem.source = elem.guidebox_data.short_name
+                    }
+
+                    return elem
+                })
+                .uniqBy('source')
+                .value();
             }
         }
 
@@ -139,6 +150,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
     })
+
 
 
     $scope.savePackage = function () {

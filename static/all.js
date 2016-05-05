@@ -661,39 +661,38 @@ app.filter('fullSeason', function () {
 
 app.filter('unwantedChannels', function () {
     var unwantedChannelIDs = [
-    150,//150
-    26,
-    157,
-    171,  //DirecTV
-    169, //Dish
-    234, 70, //Food Network
-    36, //HBO
-    12, 54, //USA
-    32, //FX
-    170, //AT&T U-verse
-    281, //Hulu with Showtime
-    69, //Cinemax
-    141, //Showtime Freeview
-    67, //TV Guide
-    1, //Hulu_Free
-    235,16, //Watch HGTV
-    22, //MTV
-    31, //Bravo
-    17, //A&E
-    20, 101, //Syfy
-    10,48,59, //Comedy Central
-    133, //Starz
-    21,241,239, //VH1
-    18,123, //History Channel
-    121,190, //Esquire, Esquire Network
-    14,267 //Showtime
+        150,//150
+        26,
+        157,
+        171,  //DirecTV
+        169, //Dish
+        234, 70, //Food Network
+        36, //HBO
+        12, 54, //USA
+        32, //FX
+        170, //AT&T U-verse
+        281, //Hulu with Showtime
+        69, //Cinemax
+        141, //Showtime Freeview
+        67, //TV Guide
+        1, //Hulu_Free
+        235, 16, //Watch HGTV
+        22, //MTV
+        31, //Bravo
+        17, //A&E
+        20, 101, //Syfy
+        10, 48, 59, //Comedy Central
+        133, //Starz
+        21, 241, 239, //VH1
+        18, 123, //History Channel
+        121, 190, //Esquire, Esquire Network
+        14, 267 //Showtime
 
     ];
     return function (input) {
         var list = _.filter(input, function (elem) {
             var res = _.some(unwantedChannelIDs, function (x) {
-                if(elem.chan.id)
-                {
+                if (elem.chan.id) {
                     return x == elem.chan.id
                 }
                 return x == elem.chan.guidebox_data.id
@@ -705,6 +704,36 @@ app.filter('unwantedChannels', function () {
 
 
         return list
+    }
+})
+
+app.filter('onSling', function (Fuse, SLING_CHANNELS) {
+    return function (input, bool) {
+        return _.filter(input, function (elem) {
+
+            var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
+
+            if (elem.diplay_name != undefined && sling_fuse.search(elem.display_name)) {
+                return true == bool
+            }
+            if (elem.name != undefined && sling_fuse.search(elem.name)) {
+                return true == bool
+            }
+
+            if (elem.is_on_sling) {
+
+                return true == bool
+            }
+
+            if (elem.guidebox_data) {
+                if (elem.guidebox_data.on_sling) {
+                    return true == bool
+                }
+            }
+
+            return false == bool
+
+        })
     }
 })
 app.factory('http', function ($http, $log, $q) {
@@ -1064,6 +1093,10 @@ app.factory('_', function ($window) {
 
 app.factory('Fuse', function ($window) {
     return $window.Fuse
+})
+
+app.factory('Fuzzy', function ($window) {
+    return $window.fuzzy
 })
 
 app.factory('classie', function ($window) {
@@ -1607,7 +1640,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         c.source = c.guidebox_data.short_name
                     })
                     var list
-                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources)
+                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
                     //list = elem.guidebox_data.sources.web.episodes.all_sources;
                     return list
                 })
@@ -1668,7 +1701,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     return o
 
                 }).groupBy(function(elem){
-                    debugger;
+                    // debugger;
                     if (elem.chan.is_over_the_air){
                         return 'ota'
                     } if(elem.chan.is_on_sling){
@@ -1824,8 +1857,19 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.cs = PackageFactory.getChosenShow();
         $scope.detailSources = function(){
             if($scope.cs.guidebox_data !=undefined){
+                debugger;
 
-            return _.concat( $scope.cs.channel, $scope.cs.guidebox_data.sources.web.episodes.all_sources);
+            return _( $scope.cs.channel)
+                .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                .map(function(elem){
+                    if(elem.guidebox_data != undefined){
+                        elem.source = elem.guidebox_data.short_name
+                    }
+
+                    return elem
+                })
+                .uniqBy('source')
+                .value();
             }
         }
 
@@ -1836,6 +1880,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
     })
+
 
 
     $scope.savePackage = function () {

@@ -4,3 +4,15 @@ sling_channels = ['ESPN', 'ESPN2', 'AMC', 'Food Network', 'A & E', 'History', 'T
 # def add_sling(channel):
 
 broadcast_channels = ['NBC', 'FOX', 'ABC', 'CBS', 'The CW', 'CW']
+
+banned_channels = ['HBO Go',
+                   'Guidebox',
+                   'MSNBC',
+                   'HBO',
+                   'Dish',
+                   'DirecTV',
+                   'AT&T U-verse',
+                   'FX',
+                   'Xfinity',
+                   'Showtime Anytime',
+                   'STARZ Play']

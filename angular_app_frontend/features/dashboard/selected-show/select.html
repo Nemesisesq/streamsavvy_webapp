@@ -16,9 +16,15 @@
         <div class="service-options col-md-4">
 
                 <div class="col-sm-4" ng-if="cs.on_netflix">
-                    <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}" >
+                    <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/netflix" >
                 </div>
-                <div class="col-sm-4" ng-repeat='service in detailSources()'>
+                <div class="col-sm-4" ng-repeat='service in detailSources() | onSling:true '>
+
+                    <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sling-tv.svg" >
+                    <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}" >
+
+                </div>
+            <div class="col-sm-4" ng-repeat='service in detailSources() | onSling:false'>
                     <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.guidebox_data.short_name }}" >
                     <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}" >
                 </div>

@@ -77,39 +77,38 @@ app.filter('fullSeason', function () {
 
 app.filter('unwantedChannels', function () {
     var unwantedChannelIDs = [
-    150,//150
-    26,
-    157,
-    171,  //DirecTV
-    169, //Dish
-    234, 70, //Food Network
-    36, //HBO
-    12, 54, //USA
-    32, //FX
-    170, //AT&T U-verse
-    281, //Hulu with Showtime
-    69, //Cinemax
-    141, //Showtime Freeview
-    67, //TV Guide
-    1, //Hulu_Free
-    235,16, //Watch HGTV
-    22, //MTV
-    31, //Bravo
-    17, //A&E
-    20, 101, //Syfy
-    10,48,59, //Comedy Central
-    133, //Starz
-    21,241,239, //VH1
-    18,123, //History Channel
-    121,190, //Esquire, Esquire Network
-    14,267 //Showtime
+        150,//150
+        26,
+        157,
+        171,  //DirecTV
+        169, //Dish
+        234, 70, //Food Network
+        36, //HBO
+        12, 54, //USA
+        32, //FX
+        170, //AT&T U-verse
+        281, //Hulu with Showtime
+        69, //Cinemax
+        141, //Showtime Freeview
+        67, //TV Guide
+        1, //Hulu_Free
+        235, 16, //Watch HGTV
+        22, //MTV
+        31, //Bravo
+        17, //A&E
+        20, 101, //Syfy
+        10, 48, 59, //Comedy Central
+        133, //Starz
+        21, 241, 239, //VH1
+        18, 123, //History Channel
+        121, 190, //Esquire, Esquire Network
+        14, 267 //Showtime
 
     ];
     return function (input) {
         var list = _.filter(input, function (elem) {
             var res = _.some(unwantedChannelIDs, function (x) {
-                if(elem.chan.id)
-                {
+                if (elem.chan.id) {
                     return x == elem.chan.id
                 }
                 return x == elem.chan.guidebox_data.id
@@ -121,5 +120,35 @@ app.filter('unwantedChannels', function () {
 
 
         return list
+    }
+})
+
+app.filter('onSling', function (Fuse, SLING_CHANNELS) {
+    return function (input, bool) {
+        return _.filter(input, function (elem) {
+
+            var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
+
+            if (elem.diplay_name != undefined && sling_fuse.search(elem.display_name)) {
+                return true == bool
+            }
+            if (elem.name != undefined && sling_fuse.search(elem.name)) {
+                return true == bool
+            }
+
+            if (elem.is_on_sling) {
+
+                return true == bool
+            }
+
+            if (elem.guidebox_data) {
+                if (elem.guidebox_data.on_sling) {
+                    return true == bool
+                }
+            }
+
+            return false == bool
+
+        })
     }
 })

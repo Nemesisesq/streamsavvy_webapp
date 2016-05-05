@@ -6,6 +6,10 @@ app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
 
+app.factory('Fuzzy', function ($window) {
+    return $window.fuzzy
+})
+
 app.factory('classie', function ($window) {
     return $window.classie
 })

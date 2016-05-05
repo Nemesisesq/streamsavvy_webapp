@@ -8,9 +8,19 @@ import urllib.request
 
 from fuzzywuzzy import fuzz
 
-from server.constants import sling_channels, broadcast_channels
+from server.constants import sling_channels, broadcast_channels, banned_channels
 from server.models import Content, Channel, Images, ChannelImages
 from server.shortcuts import try_catch
+
+
+def check_for_banned_service(i):
+
+    matches = [m for m in banned_channels if fuzz.token_set_ratio(m,i ) >= 90]
+
+    if matches:
+        return False
+    return True
+    pass
 
 
 class GuideBox(object):
@@ -107,7 +117,13 @@ class GuideBox(object):
         if 'sources' not in c.guidebox_data:
             c = self.add_additional_channels_for_show(c)
 
+
+        c.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in c.guidebox_data['sources']['web']['episodes']['all_sources'] if check_for_banned_service(i)]
+
         sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
+
+
+
 
         @try_catch
         def check_for_sling(s):
