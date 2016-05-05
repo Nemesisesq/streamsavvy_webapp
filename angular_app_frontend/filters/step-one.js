@@ -125,6 +125,7 @@ app.filter('unwantedChannels', function () {
 
 app.filter('onSling', function (Fuse, SLING_CHANNELS) {
     return function (input, bool) {
+        debugger
         return _.filter(input, function (elem) {
 
             var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
@@ -132,7 +133,7 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
             if (elem.diplay_name != undefined && sling_fuse.search(elem.display_name)) {
                 return true == bool
             }
-            if (elem.name != undefined && sling_fuse.search(elem.name)) {
+            if (elem.name != undefined && !_.isEmpty(sling_fuse.search(elem.name))) {
                 return true == bool
             }
 
@@ -145,6 +146,10 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
                 if (elem.guidebox_data.on_sling) {
                     return true == bool
                 }
+            }
+
+            if (elem.name == 'Netflix'){
+                return false
             }
 
             return false == bool
