@@ -6,7 +6,14 @@ app.directive('showDetail', function () {
     return {
         restrict: 'E',
         templateUrl: '/static/partials/selected-show/select.html',
-        controller: 'ShowGridController'
+        controller: 'ShowGridController',
+
+        link: function (scope) {
+            scope.formatDate = function(dateString) {
+                debugger
+                return moment(dateString).format('MMMM D, Y')
+            }
+        }
     }
 })
 
@@ -27,6 +34,8 @@ app.directive('openDetail', function ($timeout) {
                     scope.show.justAdded = false
                 }
             }, 1000)
+
+
         }
     }
 })
