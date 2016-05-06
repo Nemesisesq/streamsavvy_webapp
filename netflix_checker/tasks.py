@@ -2,28 +2,37 @@ import json
 import logging
 
 import django_rq
+import re
 from django.db.models import Q
 from fuzzywuzzy import fuzz
 
 from server.apis.guidebox import GuideBox
 from server.apis.netflixable import Netflixable
 from server.models import Channel, Content
+from server.shortcuts import try_catch
 
 logger = logging.getLogger('cutthecord')
 
 def run_initial_netflix_population():
     n = Netflixable(' http://usa.netflixable.com/2016/01/complete-alphabetical-list-wed-jan-27.html')
     soup = n.get_shows_from_soup()
-    q = None
     for i in soup:
-        q = get_query(i, q)
 
-        if q:
-            match_for_netflixable(i, q)
-        res = None
-        q = None
+        process_show_dict(i, n)
+
+
 
     return('Initial Netflix Check Completed')
+
+
+def process_show_dict(i, n):
+    q = None
+    title = get_title_from_detail(n, i)
+    if title:
+        i['show'] = title
+    q = get_query(i, q)
+    if q:
+        match_for_netflixable(i, q)
 
 
 def match_for_netflixable(i, q):
@@ -51,7 +60,8 @@ def match_for_netflixable(i, q):
 
 
 def sort_fuzzy_matches(i, res):
-    res = [(show, fuzz.token_sort_ratio(show.title, i['show'])) for show in res]
+    cleaned_show = re.sub('Season\s-\s\d+', '', i['show'])
+    res = [(show, fuzz.token_sort_ratio(show.title, cleaned_show)) for show in res]
 
     def getVal(item):
         return item[1]
@@ -61,13 +71,19 @@ def sort_fuzzy_matches(i, res):
 
 
 def get_query(i, q):
+
     for word in i['show'].split():
-        if word.lower() not in ['of', 'the']:
+        if word.lower() not in ['of', 'the', 'season', "-"]:
             if q:
-                q = q & Q(title__icontains=word)
+                q = q | Q(title__icontains=word)
             else:
                 q = Q(title__icontains=word)
     return q
 
+@try_catch
+def get_title_from_detail(n,show_dict):
+    res = n.get_netflixable_show_detail(show_dict['link'])
+    title = res.find('h3', class_='post-title').string
 
+    return title
 

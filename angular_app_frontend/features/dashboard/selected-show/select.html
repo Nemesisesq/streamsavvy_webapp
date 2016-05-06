@@ -25,7 +25,6 @@
 
                 </div>
             <div class="col-sm-4" ng-repeat='service in detailSources() | onSling:false'>
-                    <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.guidebox_data.short_name }}" >
                     <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}" >
                 </div>
 
@@ -67,9 +66,18 @@
 
         <div class="show-info col-xs-4">
             <ul>
-                <li><span>Number of seasons:</span> 33</li>
-                <li><span>Release</span> date: 29 February 2016</li>
-                <li><span>Genres:</span> Romance | Romance | Romance | Romance</li>
+                <li><span class="bold">Number of seasons:</span> 33</li>
+                <li><span class="bold">Release date:</span>{{ cs.guidebox_data.first_aired }}</li>
+                <li>
+                    <span class="bold">
+                        Genres:
+                    </span>
+
+                    <span ng-repeat="genre in cs.guidebox_data.detail.genres">
+                        {{ genre.title }}
+                        <span ng-if="!$last">|</span>
+                    </span>
+                </li>
             </ul>
         </div>
     </div>
