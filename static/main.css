@@ -451,6 +451,42 @@ ul[id^='typeahead-'], .suggestions-list {
           letter-spacing: .5px;
           color: #9b9b9b;
           text-decoration: underline; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options .add-successful {
+          display: none;
+          font-size: 14px;
+          letter-spacing: 0.6px;
+          color: #3fc23f; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options .keep-going {
+          display: none;
+          font-size: 12px;
+          letter-spacing: 0.5px;
+          color: #45a7e5; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options .going-successful {
+          display: inline;
+          margin-left: 14px; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options .green-check {
+          display: none; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options .added {
+          display: none; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options .remove-cross {
+          display: inline;
+          float: right;
+          margin-right: 33px; }
+          .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options .remove-cross img {
+            vertical-align: top; }
+      .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected {
+        float: right; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .added {
+          display: inline-flex;
+          margin-top: 10px;
+          margin-right: 66px; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .add-successful, .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .keep-going {
+          display: block; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .green-check {
+          display: inline-block;
+          margin: 0; }
+        .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .btn-remove, .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .btn-purchase, .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected a {
+          display: none; }
     .col-sm-12 .checkoutList .service-title.row .ss_show-list {
       list-style: none; }
       .col-sm-12 .checkoutList .service-title.row .ss_show-list .ss_show.row {
@@ -482,7 +518,6 @@ ul[id^='typeahead-'], .suggestions-list {
   padding-top: 8px;
   padding-bottom: 8px;
   margin-left: 12px;
-  margin-right: 33px;
   letter-spacing: .6px;
   font-size: 14px;
   background-color: #11b2e6;

@@ -19,7 +19,57 @@
             color: $warm-grey;
             text-decoration: underline;
           }
+          .add-successful{
+            display: none;
+            font-size: 14px;
+            letter-spacing: 0.6px;
+            color: $leafy-green;
+          }
+          .keep-going{
+            display: none;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            color: $dark-sky-blue;
+          }
+          .going-successful{
+            display: inline;
+            margin-left:14px;
+          }
+          .green-check{
+            display: none;
+          }
+          .added{
+            display: none;
+          }
+          .remove-cross{
+            display: inline;
+            float:right;
+            margin-right: 33px;
+            img{
+              vertical-align: top;
+            }
+          }
+
         }
+        .selected{
+
+            float:right;
+            .added{
+            display: inline-flex;
+            margin-top: 10px;
+            margin-right: 66px;
+            }
+            .add-successful,.keep-going{
+              display: block;
+            }
+            .green-check{
+              display: inline-block;
+              margin:0;
+            }
+            .btn-remove,.btn-purchase,a{
+              display: none;
+            }
+          }
 
       }
       .ss_show-list{
@@ -65,8 +115,6 @@
   padding-bottom: 8px;
 
   margin-left: 12px;
-  margin-right: 33px;
-
   letter-spacing: .6px;
   font-size: 14px;
   background-color: #11b2e6;

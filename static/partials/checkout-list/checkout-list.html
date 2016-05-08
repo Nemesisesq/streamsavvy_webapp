@@ -1,12 +1,44 @@
+<!--<div class="service-title row">
+        <div class="ss_image-purchase row">
+          <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/google_play"/>
+          <div class="service-options" ng-class="{'selected': isSelected==true}">
+            <a href="" ng-click="addRemoveService()">
+                I have this service already
+            </a>
+            <button class="btn btn-remove">Remove</button>
+            <button class="btn btn-purchase">Purchase</button>
+
+            <img src="https://s3.amazonaws.com/streamsavvy/big-check.svg"/>
+            <span class="add-succesful">Added Succesfully</span>
+            <span class="keep-going">Keep Going!</span>
+          </div>
+        </div>
+          <ul class="list-group ss_show-list">
+            <li class="ss_show row" >This is a really really really long show name that's probably some anime or some shit</li>
+              <li class="ss_show row" >This is a really really really long show name that's probably some anime or some shit</li>
+              <li class="ss_show row" >This is a really really really long show name that's probably some anime or some shit</li>
+          </ul>
+</div>
+-->
 <div class="service-title row" ng-repeat="service in list.ota"><!--ng-repeat="service in listOfServices"-->
         <div class="ss_image-purchase row">
           <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.chan.source }}"/>
-          <div class="service-options">
-            <a>
+          <div class="service-options"  ng-class="{'selected': service.added==true}">
+            <a href="" ng-click="addService(service)">
               I have this service already
             </a>
             <button class="btn btn-remove">Remove</button>
             <button class="btn btn-purchase">Purchase</button>
+
+            <div class="added">
+               <img class="green-check" src="https://s3.amazonaws.com/streamsavvy/big-check.svg"/>
+                <div class="going-successful">
+                    <div class="add-successful">Added Successfully</div>
+                    <div class="keep-going">Keep Going!</div>
+                </div>
+            </div>
+
+            <a href="" ng-click="removeService(service)" class="remove-cross"><img src="https://s3.amazonaws.com/streamsavvy/small-x-copy-4.svg"></a>
           </div>
         </div>
           <ul class="list-group ss_show-list">
@@ -17,12 +49,23 @@
 <div class="service-title row" ng-repeat="service in list.not_ota"><!--ng-repeat="service in listOfServices"-->
         <div class="ss_image-purchase row">
           <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.chan.source }}"/>
-          <div class="service-options">
-            <a>
+          <div class="service-options" ng-class="{'selected': service.added==true}">
+            <a href="" ng-click="addService(service)">
               I have this service already
             </a>
             <button class="btn btn-remove">Remove</button>
             <button class="btn btn-purchase">Purchase</button>
+
+
+            <div class="added">
+               <img src="https://s3.amazonaws.com/streamsavvy/big-check.svg"/>
+                <div class="going-successful">
+                    <div class="add-successful">Added Successfully</div>
+                    <div class="keep-going">Keep Going!</div>
+                </div>
+            </div>
+
+            <a href="" ng-click="removeService(service)" class="remove-cross"><img src="https://s3.amazonaws.com/streamsavvy/small-x-copy-4.svg"></a>
           </div>
         </div>
           <ul class="list-group ss_show-list">
