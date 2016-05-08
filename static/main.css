@@ -770,7 +770,7 @@ show-detail {
     line-height: 1.4;
     font-weight: 200;
     color: white; }
-  show-detail .show-info span {
+  show-detail .show-info span.bold {
     font-weight: bold; }
   show-detail .show-info ul {
     font-weight: 200; }

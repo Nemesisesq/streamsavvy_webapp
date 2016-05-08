@@ -411,7 +411,14 @@ app.directive('showDetail', function () {
     return {
         restrict: 'E',
         templateUrl: '/static/partials/selected-show/select.html',
-        controller: 'ShowGridController'
+        controller: 'ShowGridController',
+
+        link: function (scope) {
+            scope.formatDate = function(dateString) {
+                debugger
+                return moment(dateString).format('MMMM D, Y')
+            }
+        }
     }
 })
 
@@ -432,6 +439,8 @@ app.directive('openDetail', function ($timeout) {
                     scope.show.justAdded = false
                 }
             }, 1000)
+
+
         }
     }
 })
@@ -1376,70 +1385,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
-    $scope.isHomePage = $state.current.data.isHomePage;
-
-
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.logout = function () {
-        $location.path(CONFIG.URL + '/django_auth/logout/');
-        //.success(function () {
-        //    $rootScope.logged_in = false;
-        //    console.log($rootScope.logged_in)
-        //})
-    }
-
-    var menuLeft = document.getElementById('cbp-spmenu-s1'),
-        mainPage = document.getElementById('mainPage'),
-        showLeftPush = document.getElementById('showLeftPush'),
-        body = document.body;
-
-
-    $scope.showLeftPush = function () {
-        //classie.toggle(this, 'active')
-
-        //debugger;
-        //classie.toggle(body, 'cbp-spmenu-push-toright');
-        //classie.toggle(menuLeft, 'cbp-spmenu-open');
-        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
-        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
-        $('#mainPage').toggleClass('cbp-spmenu-push-toright');
-        $('#dashPage').toggleClass('cbp-spmenu-push-toright');
-        if ($location.path() == '/') {
-            $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-        }
-
-        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-        $('#ss-panel-right').toggleClass('fixed-menu-transform');
-        $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
-
-        //disableOther('showLeftPush');
-    };
-
-
-});
-
-app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
-    console.log($rootScope.logged_in)
-
-})
-
-$(document).ready(function () {
-
-
-
-    //function disableOther(button) {
-    //    if (button !== 'showLeftPush') {
-    //        classie.toggle(showLeftPush, 'disabled');
-    //    }
-    //
-    //}
-});
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -1535,6 +1480,70 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 });
 
 
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
+    $scope.isHomePage = $state.current.data.isHomePage;
+
+
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.logout = function () {
+        $location.path(CONFIG.URL + '/django_auth/logout/');
+        //.success(function () {
+        //    $rootScope.logged_in = false;
+        //    console.log($rootScope.logged_in)
+        //})
+    }
+
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+        mainPage = document.getElementById('mainPage'),
+        showLeftPush = document.getElementById('showLeftPush'),
+        body = document.body;
+
+
+    $scope.showLeftPush = function () {
+        //classie.toggle(this, 'active')
+
+        //debugger;
+        //classie.toggle(body, 'cbp-spmenu-push-toright');
+        //classie.toggle(menuLeft, 'cbp-spmenu-open');
+        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
+        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
+        $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+        if ($location.path() == '/') {
+            $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        }
+
+        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
+
+        //disableOther('showLeftPush');
+    };
+
+
+});
+
+app.run(function ($rootScope) {
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
+    console.log($rootScope.logged_in)
+
+})
+
+$(document).ready(function () {
+
+
+
+    //function disableOther(button) {
+    //    if (button !== 'showLeftPush') {
+    //        classie.toggle(showLeftPush, 'disabled');
+    //    }
+    //
+    //}
+});
 
 /**
  * Created by Nem on 7/18/15.
