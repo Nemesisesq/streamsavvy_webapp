@@ -34,3 +34,7 @@
 .service-header {
   @extend %ss-panel-header;
 }
+
+.row-buffer {
+  margin-bottom: 60px;
+}

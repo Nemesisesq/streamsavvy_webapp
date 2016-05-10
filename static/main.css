@@ -568,6 +568,9 @@ ul[id^='typeahead-'], .suggestions-list {
     text-align: center;
     margin-top: 130px; }
 
+.row-buffer {
+  margin-bottom: 60px; }
+
 .placeholder {
   pointer-events: none;
   position: absolute;
