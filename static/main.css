@@ -636,6 +636,11 @@ ul[id^='typeahead-'], .suggestions-list {
     margin-left: 30px;
     margin-right: 30px; }
 
+.grid-title {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #9b9b9b; }
+
 .ss-hardware-panel .row {
   margin-left: 11px; }
   .ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
