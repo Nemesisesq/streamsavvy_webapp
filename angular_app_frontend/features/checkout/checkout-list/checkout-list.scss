@@ -3,9 +3,10 @@
     margin-top: 30px;
     .service-title.row {
       margin-top: 36px;
+      border-bottom: solid 2px rgba(155, 155, 155, .1);
       .ss_image-purchase.row {
-        padding-bottom: 27.2px;
-        border-bottom: solid 2px rgba(155, 155, 155, .1);
+        padding-bottom: 15px;
+
         .service-image{
             display: inline-block;
             margin-top: 10px;
@@ -75,6 +76,7 @@
       }
       .ss_show-list{
         list-style: none;
+        margin-bottom: 32px;
         .ss_show.row {
         font-size: 14px;
         letter-spacing: 0.6px;

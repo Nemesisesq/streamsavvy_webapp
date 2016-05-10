@@ -436,10 +436,10 @@ ul[id^='typeahead-'], .suggestions-list {
 .col-sm-12 .checkoutList {
   margin-top: 30px; }
   .col-sm-12 .checkoutList .service-title.row {
-    margin-top: 36px; }
+    margin-top: 36px;
+    border-bottom: solid 2px rgba(155, 155, 155, 0.1); }
     .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row {
-      padding-bottom: 27.2px;
-      border-bottom: solid 2px rgba(155, 155, 155, 0.1); }
+      padding-bottom: 15px; }
       .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-image {
         display: inline-block;
         margin-top: 10px;
@@ -489,7 +489,8 @@ ul[id^='typeahead-'], .suggestions-list {
         .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .btn-remove, .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .btn-purchase, .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected a {
           display: none; }
     .col-sm-12 .checkoutList .service-title.row .ss_show-list {
-      list-style: none; }
+      list-style: none;
+      margin-bottom: 32px; }
       .col-sm-12 .checkoutList .service-title.row .ss_show-list .ss_show.row {
         font-size: 14px;
         letter-spacing: 0.6px;
