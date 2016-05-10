@@ -646,6 +646,9 @@ ul[id^='typeahead-'], .suggestions-list {
   margin-left: 11px; }
   .ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
     color: #45a7e5; }
+  .ss-hardware-panel .row .hardware-other {
+    color: #45a7e5;
+    margin-top: 90px; }
   .ss-hardware-panel .row img {
     margin-top: 20px;
     margin-bottom: 10px;
