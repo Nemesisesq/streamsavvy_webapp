@@ -3,6 +3,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     $scope.hello = 'world';
 
     var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
     var updateServices = function () {
         if ('data' in ssPackage) {
             $scope.listOfServices = _
@@ -18,9 +19,9 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 })
                 .flatten()
                 .uniqBy('source')
-                .map(function(elem){
+                .map(function (elem) {
                     //debugger
-                    if(elem.guidebox_data != undefined){
+                    if (elem.guidebox_data != undefined) {
                         elem.display_name = elem.guidebox_data.name
                         return elem
                     } else {
@@ -33,17 +34,17 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                         var res = !_.some(list, function (mem) {
 
-                            if(mem!=elem){
+                            if (mem != elem) {
                                 // debugger;
-                                if(RegExp(elem.display_name).test(mem.display_name)){
-                                  // debugger;
+                                if (RegExp(elem.display_name).test(mem.display_name)) {
+                                    // debugger;
                                     return mem.is_over_the_air && !elem.is_on_sling
                                 }
-                                
+
                             }
                             return false
                         })
-                        
+
                         return res
 
 
@@ -64,21 +65,27 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return url_check || source_check
                     })
 
-                    if(o.chan.guidebox_data){
-                        if(o.chan.guidebox_data.is_over_the_air){
+                    if (o.chan.guidebox_data) {
+                        if (o.chan.guidebox_data.is_over_the_air) {
                             o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
                         }
                     }
 
                     return o
 
-                }).groupBy(function(elem){
+                })
+                .filter(function (elem) {
+                    debugger;
+                    return elem.chan.source != "netflix"
+                })
+                .groupBy(function (elem) {
                     // debugger;
-                    if (elem.chan.is_over_the_air){
+                    if (elem.chan.is_over_the_air) {
                         return 'ota'
-                    } if(elem.chan.is_on_sling){
+                    }
+                    if (elem.chan.is_on_sling) {
                         return 'sling'
-                    }else {
+                    } else {
                         return 'not_ota'
                     }
                 })
@@ -93,6 +100,8 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     }, function () {
         ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
         updateServices()
     })
 
