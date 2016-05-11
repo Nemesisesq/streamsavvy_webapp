@@ -1,10 +1,10 @@
 <button ng-click="clearContent()">{{ hello }}</button>
-<div class="grid-title">Shows I've Added</div>
 
 
 <div id='theGrid' class="container-fluid">
     <div class="row show-grid-container">
-        <div class="col-sm-4 show-title" ng-repeat="show in package.data.content" open-detail
+        <div class="grid-title">Shows I've Added</div>
+        <div class="col-lg-3 col-md-4 col-sm-6 show-title" ng-repeat="show in package.data.content" open-detail
              ng-click="showDetail(show, $event)">
             <img ng-src="{{ show.guidebox_data.artwork_208x117 }}">
         </div>
@@ -13,12 +13,12 @@
         <hr align="center" ng-hide="package.data.content<1">
     </div>
     <div class="row">
-    <div class="col-sm-12 grid-title">Popular Show Searches</div>
+        <div class="col-sm-12 grid-title">Popular Show Searches</div>
 
 
-    <div class="col-sm-4" ng-repeat="show in popularShows">
-        <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+        <div class="col-sm-4" ng-repeat="show in popularShows">
+            <img ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+        </div>
     </div>
-</div>
 </div>
 
