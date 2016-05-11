@@ -20,7 +20,7 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'AT&T U-verse',
         'FX',
         'Xfinity',
-        'Showtime Anytime',
+        // 'Showtime Anytime',
         'STARZ Play'])
 
     .constant('SERVICE_PRICE_LIST', [

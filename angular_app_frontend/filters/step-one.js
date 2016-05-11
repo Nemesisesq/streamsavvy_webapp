@@ -87,11 +87,11 @@ app.filter('unwantedChannels', function () {
         12, 54, //USA
         32, //FX
         170, //AT&T U-verse
-        281, //Hulu with Showtime
+        // 281, //Hulu with Showtime
         69, //Cinemax
-        141, //Showtime Freeview
+        // 141, ///Showtime Freeview
         67, //TV Guide
-        1, //Hulu_Free
+        // 1, //Hulu_Free
         235, 16, //Watch HGTV
         22, //MTV
         31, //Bravo
@@ -102,7 +102,7 @@ app.filter('unwantedChannels', function () {
         21, 241, 239, //VH1
         18, 123, //History Channel
         121, 190, //Esquire, Esquire Network
-        14, 267 //Showtime
+        // 14, 267 //Showtime
 
     ];
     return function (input) {

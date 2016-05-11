@@ -10,6 +10,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 .chain(ssPackage.data.content)
                 .map(function (elem) {
                     _.forEach(elem.channel, function (c) {
+                        debugger;
                         c.source = c.guidebox_data.short_name
                     })
                     var list

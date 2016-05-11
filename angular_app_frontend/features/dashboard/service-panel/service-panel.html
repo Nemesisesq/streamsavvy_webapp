@@ -1,4 +1,6 @@
 <div class="menu-background service-header">SERVICE & SHOWS</div>
+
+
 <div class="ss_panel-body">
     <div style="color : #337ab7; cursor:pointer" ng-click="ota.open = !ota.open"
          ng-show="listOfServices.ota.length > 0">
@@ -12,6 +14,7 @@
         </ul>
     </div>
 </div>
+
 <div class="ss_panel-body">
     <div style="color : #337ab7; cursor:pointer" ng-click="n_flix.open = !n_flix.open">
         NETFLIX
@@ -25,6 +28,7 @@
         </ul>
     </div>
 </div>
+
 <div class="ss_panel-body">
     <div style="color : #337ab7; cursor:pointer" ng-click="sling.open = !sling.open"
          ng-show="listOfServices.sling.length > 0">
@@ -38,6 +42,7 @@
         </ul>
     </div>
 </div>
+
 <div class="ss_panel-body" ng-repeat="service in listOfServices.not_ota | unwantedChannels">
     <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}
         <span ng-if="service.chan.on_sling"> Sling TV</span>
