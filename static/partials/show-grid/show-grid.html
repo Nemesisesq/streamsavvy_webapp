@@ -1,8 +1,9 @@
 <button ng-click="clearContent()">{{ hello }}</button>
-<div class="grid-title">Shows I've Added</div>
+
 
 
 <div id='theGrid' class="container-fluid">
+    <div class="grid-title" ng-hide="package.data.content < 1">Shows I've Added</div>
     <div class="row show-grid-container">
         <div class="col-sm-4 show-title" ng-repeat="show in package.data.content" open-detail
              ng-click="showDetail(show, $event)">
