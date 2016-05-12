@@ -31,6 +31,7 @@ $dark-sky-blue: #45a7e5;
 $greyish-brown: #4a4a4a;
 $leafy-green: #3fc23f;
 $dark-98: rgba(21, 25, 27, 0.98);
+$mid-grey: #9AA1A1;
 
 //@import 'sass/feature/chart';
 @import 'sass/feature/btn';
@@ -39,7 +40,7 @@ $dark-98: rgba(21, 25, 27, 0.98);
 //@import 'features/progress/progress';
 //@import 'features/journey_one/step-one/step-one';
 //@import 'features/explain/still-confused/still-confused';
-//@import 'features/error/coming-soon/coming-soon';
+@import 'features/error/coming-soon/coming-soon';
 //@import 'features/journey_one/step-two/step-two';
 //@import 'features/journey_one/step-two/step-two';
 //@import 'features/journey_one/step-three/step-three';
