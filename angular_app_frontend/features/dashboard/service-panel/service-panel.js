@@ -4,15 +4,15 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     var ssPackage = PackageFactory.getPackage();
     $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu','amazon_buy','google_play','itunes'];
-    $scope.payPerShows = [];
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes'];
+    // $scope.payPerShows = [];
     var updateServices = function () {
         if ('data' in ssPackage) {
             $scope.listOfServices = _
                 .chain(ssPackage.data.content)
                 .map(function (elem) {
                     _.forEach(elem.channel, function (c) {
-                        debugger;
+                        // debugger;
                         c.source = c.guidebox_data.short_name
                     })
                     var list
@@ -78,7 +78,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                 })
                 .filter(function (elem) {
-                    debugger;
                     return elem.chan.source != "netflix"
                 })
                 .groupBy(function (elem) {
@@ -88,12 +87,13 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     }
                     if (elem.chan.is_on_sling) {
                         return 'sling'
-                    } else {
-                        if(_.includes(payPerServices,elem.chan.source))
-                        {
-                            $scope.payPerShows = _.union(elem.shows,$scope.payPerShows);
-                            var index = _.indexOf($scope.listOfServices, _.find($scope.listOfServices,$scope.payPerShows ));
-                        }
+                    }
+
+                    if (_.includes(payPerServices, elem.chan.source)) {
+                        return 'ppv'
+
+                    }
+                    else {
                         return 'not_ota'
                     }
                 })

@@ -403,18 +403,50 @@ app.directive('ssImageBlock', function (http, $rootScope) {
 
     }
 })
-// /**
-//  * Created by Nem on 5/11/16.
-//  */
-// app.directive(servicePanelItem, function spanelItem (){
-//     return {
-//         itemList : '&=',
-//         templateUrl : '/static/partials/service-panel/panel-item',
-//         link : function (scope) {
-//
-//         }
-//     }
-// })
+/**
+ * Created by Nem on 5/11/16.
+ */
+app.directive('servicePanelItem', function sPanelItem() {
+    return {
+        itemList: '&=',
+        templateUrl: '/static/partials/service-panel/panel-item',
+        link: function (scope) {
+
+        }
+    }
+})
+    .directive('hideDuplicate', function () {
+
+        function checkPrevious(element) {
+            debugger;
+            var dupeCollection = angular.element('[hide-duplicate]').slice(0,-1);
+            if (dupeCollection.length > 0) {
+                var res =  _.some(dupeCollection, function (elem) {
+                    elem = angular.element(elem);
+                    return elem.scope().show.title == element.scope().show.title
+                })
+
+                return res
+            }
+
+            return res
+
+        }
+
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs, controller) {
+                debugger;
+
+                if (checkPrevious(element)) {
+                    element.remove()
+
+                }
+            }
+
+        }
+
+    })
 /**
  * Created by Nem on 3/7/16.
  */
@@ -427,7 +459,7 @@ app.directive('showDetail', function () {
 
         link: function (scope) {
             scope.formatDate = function(dateString) {
-                debugger
+                // debugger
                 return moment(dateString).format('MMMM D, Y')
             }
         }
@@ -730,7 +762,6 @@ app.filter('unwantedChannels', function () {
 
 app.filter('onSling', function (Fuse, SLING_CHANNELS) {
     return function (input, bool) {
-        debugger
         return _.filter(input, function (elem) {
 
             var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
@@ -1682,6 +1713,126 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 ;
 
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes'];
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+        if ('data' in ssPackage) {
+            $scope.listOfServices = _
+                .chain(ssPackage.data.content)
+                .map(function (elem) {
+                    _.forEach(elem.channel, function (c) {
+                        // debugger;
+                        c.source = c.guidebox_data.short_name
+                    })
+                    var list
+                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
+                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
+                    return list
+                })
+                .flatten()
+                .uniqBy('source')
+                .map(function (elem) {
+                    //debugger
+                    if (elem.guidebox_data != undefined) {
+                        elem.display_name = elem.guidebox_data.name
+                        return elem
+                    } else {
+                        return elem
+                    }
+                })
+                .thru(function (list) {
+                    var clean = _.filter(list, function (elem) {
+                        // debugger;
+
+                        var res = !_.some(list, function (mem) {
+
+                            if (mem != elem) {
+                                // debugger;
+                                if (RegExp(elem.display_name).test(mem.display_name)) {
+                                    // debugger;
+                                    return mem.is_over_the_air && !elem.is_on_sling
+                                }
+
+                            }
+                            return false
+                        })
+
+                        return res
+
+
+                    });
+                    //debugger;
+                    return clean
+                })
+                .map(function (elem) {
+                    var o = {chan: elem}
+                    o.shows = _.filter(ssPackage.data.content, function (show) {
+                        if (show.guidebox_data.sources) {
+                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                        } else {
+                            source_check = false
+                        }
+
+                        var url_check = _.some(show.channel, ['url', elem.url]);
+                        return url_check || source_check
+                    })
+
+                    if (o.chan.guidebox_data) {
+                        if (o.chan.guidebox_data.is_over_the_air) {
+                            o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
+                        }
+                    }
+
+                    return o
+
+                })
+                .filter(function (elem) {
+                    return elem.chan.source != "netflix"
+                })
+                .groupBy(function (elem) {
+                    // debugger;
+                    if (elem.chan.is_over_the_air) {
+                        return 'ota'
+                    }
+                    if (elem.chan.is_on_sling) {
+                        return 'sling'
+                    }
+
+                    if (_.includes(payPerServices, elem.chan.source)) {
+                        return 'ppv'
+
+                    }
+                    else {
+                        return 'not_ota'
+                    }
+                })
+                .value();
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
@@ -1851,118 +2002,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var updateServices = function () {
-        if ('data' in ssPackage) {
-            $scope.listOfServices = _
-                .chain(ssPackage.data.content)
-                .map(function (elem) {
-                    _.forEach(elem.channel, function (c) {
-                        debugger;
-                        c.source = c.guidebox_data.short_name
-                    })
-                    var list
-                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
-                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
-                    return list
-                })
-                .flatten()
-                .uniqBy('source')
-                .map(function (elem) {
-                    //debugger
-                    if (elem.guidebox_data != undefined) {
-                        elem.display_name = elem.guidebox_data.name
-                        return elem
-                    } else {
-                        return elem
-                    }
-                })
-                .thru(function (list) {
-                    var clean = _.filter(list, function (elem) {
-                        // debugger;
-
-                        var res = !_.some(list, function (mem) {
-
-                            if (mem != elem) {
-                                // debugger;
-                                if (RegExp(elem.display_name).test(mem.display_name)) {
-                                    // debugger;
-                                    return mem.is_over_the_air && !elem.is_on_sling
-                                }
-
-                            }
-                            return false
-                        })
-
-                        return res
-
-
-                    });
-                    //debugger;
-                    return clean
-                })
-                .map(function (elem) {
-                    var o = {chan: elem}
-                    o.shows = _.filter(ssPackage.data.content, function (show) {
-                        if (show.guidebox_data.sources) {
-                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                        } else {
-                            source_check = false
-                        }
-
-                        var url_check = _.some(show.channel, ['url', elem.url]);
-                        return url_check || source_check
-                    })
-
-                    if (o.chan.guidebox_data) {
-                        if (o.chan.guidebox_data.is_over_the_air) {
-                            o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
-                        }
-                    }
-
-                    return o
-
-                })
-                .filter(function (elem) {
-                    debugger;
-                    return elem.chan.source != "netflix"
-                })
-                .groupBy(function (elem) {
-                    // debugger;
-                    if (elem.chan.is_over_the_air) {
-                        return 'ota'
-                    }
-                    if (elem.chan.is_on_sling) {
-                        return 'sling'
-                    } else {
-                        return 'not_ota'
-                    }
-                })
-                .value();
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data.content
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
-
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 

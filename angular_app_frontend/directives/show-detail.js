@@ -10,7 +10,7 @@ app.directive('showDetail', function () {
 
         link: function (scope) {
             scope.formatDate = function(dateString) {
-                debugger
+                // debugger
                 return moment(dateString).format('MMMM D, Y')
             }
         }

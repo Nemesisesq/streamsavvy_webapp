@@ -125,7 +125,6 @@ app.filter('unwantedChannels', function () {
 
 app.filter('onSling', function (Fuse, SLING_CHANNELS) {
     return function (input, bool) {
-        debugger
         return _.filter(input, function (elem) {
 
             var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
