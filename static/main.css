@@ -267,6 +267,19 @@ body {
   .sidebar-content {
     width: 100%; } }
 
+.coming-soon {
+  background-color: #1F2325;
+  height: 960px; }
+  .coming-soon .soon-top .close-cross {
+    min-width: 0;
+    margin-right: 85px;
+    float: right; }
+  .coming-soon .coming-soon-body .row {
+    text-align: center;
+    color: white; }
+    .coming-soon .coming-soon-body .row .soon-paragraph {
+      letter-spacing: 2px; }
+
 .search-bar {
   margin: 0 auto;
   max-width: 808px;
@@ -962,6 +975,9 @@ show-detail {
   color: white;
   padding: 0;
   background: #15191b; }
+
+.nav-space {
+  margin-top: 30px; }
 
 html,
 button,
