@@ -1339,6 +1339,24 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
  */
 
 /**
+ * Created by Nem on 12/29/15.
+ */
+
+app.controller('FeedbackCtrl', function ($scope) {
+   
+    $scope.isMobile = window.innerWidth > 540;
+
+    $scope.options = {
+        ajaxURL: 'feedback/',
+        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
+
+    }
+})
+/**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -1367,24 +1385,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
-/**
- * Created by Nem on 10/7/15.
- */
-
-/**
- * Created by Nem on 12/29/15.
- */
-
-app.controller('FeedbackCtrl', function ($scope) {
-   
-    $scope.isMobile = window.innerWidth > 540;
-
-    $scope.options = {
-        ajaxURL: 'feedback/',
-        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
-
-    }
-})
 /**
  * Created by Nem on 6/28/15.
  */
@@ -1676,6 +1676,8 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     var ssPackage = PackageFactory.getPackage();
     $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu','amazon_buy','google_play','itunes'];
+    $scope.payPerShows = [];
     var updateServices = function () {
         if ('data' in ssPackage) {
             $scope.listOfServices = _
@@ -1758,10 +1760,16 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     if (elem.chan.is_on_sling) {
                         return 'sling'
                     } else {
+                        if(_.includes(payPerServices,elem.chan.source))
+                        {
+                            $scope.payPerShows = _.union(elem.shows,$scope.payPerShows);
+                            var index = _.indexOf($scope.listOfServices, _.find($scope.listOfServices,$scope.payPerShows ));
+                        }
                         return 'not_ota'
                     }
                 })
                 .value();
+
             PackageFactory.setListOfServices($scope.listOfServices);
         }
     }
