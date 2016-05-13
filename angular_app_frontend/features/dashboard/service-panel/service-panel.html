@@ -37,7 +37,7 @@
         <img ng-src=""/>
         <ul class="list-group ss_show-list">
             <li class="list-group-item ss_show"
-                ng-repeat="show in pkg.data.content | filter: 'on_netflix': true">{{ show.title }}</li>
+                ng-repeat="show in pkg.data.content | onNetflix">{{ show.title }}</li>
         </ul>
     </div>
 </div>

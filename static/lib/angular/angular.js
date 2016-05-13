@@ -19686,7 +19686,6 @@ function $FilterProvider($provide) {
  */
 function filterFilter() {
   return function(array, expression, comparator) {
-      debugger
     if (!isArrayLike(array)) {
       if (array == null) {
         return array;

@@ -147,7 +147,7 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
                 }
             }
 
-            if (elem.name == 'Netflix'){
+            if (elem.name == 'Netflix') {
                 return false
             }
 
@@ -155,4 +155,12 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
 
         })
     }
+})
+
+.filter('onNetflix', function (_) {
+    debugger;
+    return function(array){
+        return _.filter(array, 'on_netflix')
+    }
+
 })
