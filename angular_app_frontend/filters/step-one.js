@@ -83,7 +83,7 @@ app.filter('unwantedChannels', function () {
         171,  //DirecTV
         169, //Dish
         234, 70, //Food Network
-        36, //HBO
+        // 36, //HBO
         12, 54, //USA
         32, //FX
         170, //AT&T U-verse
@@ -95,12 +95,12 @@ app.filter('unwantedChannels', function () {
         235, 16, //Watch HGTV
         22, //MTV
         31, //Bravo
-        17, //A&E
+        // 17, //A&E
         20, 101, //Syfy
         10, 48, 59, //Comedy Central
         133, //Starz
         21, 241, 239, //VH1
-        18, 123, //History Channel
+        // 18, 123, //History Channel
         121, 190, //Esquire, Esquire Network
         // 14, 267 //Showtime
 
