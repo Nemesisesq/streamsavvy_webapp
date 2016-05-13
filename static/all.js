@@ -1382,10 +1382,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
  */
 
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by Nem on 12/29/15.
  */
 
@@ -1399,6 +1395,10 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
 /**
  * Created by chirag on 8/3/15.
  */
@@ -1796,7 +1796,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     return elem.chan.source != "netflix"
                 })
                 .groupBy(function (elem) {
-                    debugger;
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }

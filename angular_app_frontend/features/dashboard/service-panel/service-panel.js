@@ -81,7 +81,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     return elem.chan.source != "netflix"
                 })
                 .groupBy(function (elem) {
-                    debugger;
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
