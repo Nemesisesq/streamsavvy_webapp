@@ -81,11 +81,11 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     return elem.chan.source != "netflix"
                 })
                 .groupBy(function (elem) {
-                    // debugger;
+                    debugger;
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
-                    if (elem.chan.is_on_sling) {
+                    if (elem.chan.on_sling) {
                         return 'sling'
                     }
 
