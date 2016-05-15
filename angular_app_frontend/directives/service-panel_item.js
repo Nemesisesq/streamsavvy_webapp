@@ -49,18 +49,26 @@ app.directive('servicePanelItem', function sPanelItem() {
                 debugger
                 $timeout(function () {
                     var re = new RegExp(/showtime/i)
-                    var combinedShowtimeShows = _.chain(element.children())
+                    var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
                         .filter(function (index) {
-                            debugger
-                            return re.test(angular.element(index).scope().service.chan.display_name)
+                            return re.test(index.chan.display_name)
                         })
                         .reduce(function (sum, n) {
-                            debugger
-                            _.concat(sum, n)
+                            sum.shows = _.chain(sum.shows)
+                                .concat(n.shows)
+                                .uniqBy('title')
+                                .value();
+                            return sum
                         })
-                        .value()
+                        .value();
 
-                    return combinedShowtimeShows
+                    var nonShowtimeServices = _.chain(scope.listOfServices.not_ota)
+                        .filter(function (index) {
+                            return !re.test(index.chan.display_name)
+                        }).value()
+
+                    scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
+                    debugger
                 }, 0)
 
 
