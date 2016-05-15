@@ -21,9 +21,11 @@
                 <div class="col-sm-4" ng-repeat='service in detailSources() | onSling:true '>
 
                     <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sling-tv.svg" >
-                    <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}" >
 
                 </div>
+             <div class="col-sm-4" ng-if="cs.channel[0].guidebox_data.is_over_the_air">
+                 <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/ota" >
+             </div>
             <div class="col-sm-4" ng-repeat='service in detailSources() | onSling:false'>
                     <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}" >
                 </div>
@@ -66,7 +68,7 @@
 
         <div class="show-info col-xs-4">
             <ul>
-                <li><span class="bold">Number of seasons:</span> 33</li>
+                <li><span class="bold">Status: </span>{{ cs.guidebox_data.detail.status }}</li>
                 <li><span class="bold">Release date:</span> {{ formatDate(cs.guidebox_data.first_aired) }}</li>
                 <li>
                     <span class="bold">

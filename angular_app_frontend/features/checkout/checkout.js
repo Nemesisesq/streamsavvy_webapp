@@ -25,13 +25,25 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
         addService();
         PackageFactory.setPackage()
         */
-    }
+    };
 
-    $scope.removeService = function(service) {
-        
-    }
+    $scope.removeService = function(service,serviceArray) {
+        if(serviceArray == 'ota'){
+           _.pull($scope.list.ota,service);
+        }
+        else{
+           _.pull($scope.list.not_ota,service);
+        }
+        PackageFactory.setListOfServices($scope.list);
+    };
 
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
 
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+        $scope.list = PackageFactory.getListOfServices();
+    })
    
 
 });
