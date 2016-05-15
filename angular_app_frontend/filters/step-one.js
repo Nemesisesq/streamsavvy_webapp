@@ -158,7 +158,7 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
 })
 
 .filter('onNetflix', function (_) {
-    debugger;
+    // debugger;
     return function(array){
         return _.filter(array, 'on_netflix')
     }

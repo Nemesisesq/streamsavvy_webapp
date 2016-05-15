@@ -56,11 +56,7 @@
     </div>
 </div>
 
-<div class="ss_panel-body" ng-repeat="service in listOfServices.not_ota | unwantedChannels">
-    <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}
-        <span ng-if="service.chan.on_sling"> Sling TV</span>
-    </a>
-    <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
+<div class="ss_panel-body" ng-repeat="service in listOfServices.not_ota | unwantedChannels" combine-showtime>
     <div uib-collapse="service.open">
         <ul class="list-group ss_show-list">
             <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>

@@ -16,7 +16,7 @@ app.directive('servicePanelItem', function sPanelItem() {
             // debugger;
             var dupeCollection = _.initial(angular.element('[hide-duplicate]'));
             if (dupeCollection.length > 0) {
-                var res =  _.some(dupeCollection, function (elem) {
+                var res = _.some(dupeCollection, function (elem) {
                     elem = angular.element(elem);
                     return elem.scope().show.title == element.scope().show.title
                 })
@@ -41,4 +41,29 @@ app.directive('servicePanelItem', function sPanelItem() {
 
         }
 
+    })
+    .directive('combineShowtime', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs, controller) {
+                debugger
+                $timeout(function () {
+                    var re = new RegExp(/showtime/i)
+                    var combinedShowtimeShows = _.chain(element.children())
+                        .filter(function (index) {
+                            debugger
+                            return re.test(angular.element(index).scope().service.chan.display_name)
+                        })
+                        .reduce(function (sum, n) {
+                            debugger
+                            _.concat(sum, n)
+                        })
+                        .value()
+
+                    return combinedShowtimeShows
+                }, 0)
+
+
+            }
+        }
     })
