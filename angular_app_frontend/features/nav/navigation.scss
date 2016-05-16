@@ -1,5 +1,7 @@
 .navbar-fixed-top {
-  background-color: $dashboard-dark;
+  .dashboard & {
+    background-color: $dashboard-dark;
+  }
   min-height: 50px;
 
   #showLeftPush {
@@ -52,8 +54,9 @@
 .cbp-spmenu {
   background: $menu-dark;
 }
+
 .cbp-spmenu-push {
-margin-top: 0;
+  margin-top: 0;
 }
 
 .cbp-spmenu-vertical a {
@@ -75,25 +78,18 @@ margin-top: 0;
 .cbp-spmenu h3 {
   color: white;
   //font-size: 1.9em;
-  padding:0;
+  padding: 0;
   //padding: 20px;
   //margin: 0;
   //font-weight: 300;
   background: $menu-dark;
-  
+
 }
 
 .nav-space {
   margin-top: 30px;
 }
-div#showLeftPush {
+
+.menu-buttons {
   color: $action_red;
-  background-color: inherit;
-
-  padding-top: 15px;
-  padding-bottom: 15px;
-  margin-left: 15px;
-  border: none;
-  background: none;
-
 }

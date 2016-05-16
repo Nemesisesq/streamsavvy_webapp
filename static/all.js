@@ -452,30 +452,32 @@ app.directive('servicePanelItem', function sPanelItem() {
             restrict: 'A',
             link: function (scope, element, attrs, controller) {
                 debugger
-                $timeout(function () {
-                    var re = new RegExp(/showtime/i)
-                    var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
-                        .filter(function (index) {
-                            return re.test(index.chan.display_name)
-                        })
-                        .reduce(function (sum, n) {
-                            sum.shows = _.chain(sum.shows)
-                                .concat(n.shows)
-                                .uniqBy('title')
-                                .value();
-                            return sum
-                        })
-                        .value();
+                scope.$watchCollection('pkg.data.content', function () {
+                    $timeout(function () {
+                        var re = new RegExp(/showtime/i);
+                        debugger;
+                        var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
+                            .filter(function (index) {
+                                return re.test(index.chan.display_name)
+                            })
+                            .reduce(function (sum, n) {
+                                sum.shows = _.chain(sum.shows)
+                                    .concat(n.shows)
+                                    .uniqBy('title')
+                                    .value();
+                                return sum
+                            })
+                            .value();
 
-                    var nonShowtimeServices = _.chain(scope.listOfServices.not_ota)
-                        .filter(function (index) {
-                            return !re.test(index.chan.display_name)
-                        }).value()
+                        var nonShowtimeServices = _.chain(scope.listOfServices.not_ota)
+                            .filter(function (index) {
+                                return !re.test(index.chan.display_name)
+                            }).value()
 
-                    scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
-                    debugger
-                }, 0)
-
+                        scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
+                        debugger
+                    }, 0)
+                })
 
             }
         }
@@ -1382,7 +1384,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
 
     }
 });
-
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
 
@@ -1436,6 +1437,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.
@@ -1509,6 +1511,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
     $scope.showLeftPush = function () {
         //classie.toggle(this, 'active')
+        $scope.menuOpen = !$scope.menuOpen;
 
         //debugger;
         //classie.toggle(body, 'cbp-spmenu-push-toright');
@@ -1769,125 +1772,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 ;
 
 
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes'];
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-        if ('data' in ssPackage) {
-            $scope.listOfServices = _
-                .chain(ssPackage.data.content)
-                .map(function (elem) {
-                    _.forEach(elem.channel, function (c) {
-                        // debugger;
-                        c.source = c.guidebox_data.short_name
-                    })
-                    var list
-                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
-                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
-                    return list
-                })
-                .flatten()
-                .uniqBy('source')
-                .map(function (elem) {
-                    //debugger
-                    if (elem.guidebox_data != undefined) {
-                        elem.display_name = elem.guidebox_data.name
-                        return elem
-                    } else {
-                        return elem
-                    }
-                })
-                .thru(function (list) {
-                    var clean = _.filter(list, function (elem) {
-                        // debugger;
-
-                        var res = !_.some(list, function (mem) {
-
-                            if (mem != elem) {
-                                // debugger;
-                                if (RegExp(elem.display_name).test(mem.display_name)) {
-                                    // debugger;
-                                    return mem.is_over_the_air && !elem.is_on_sling
-                                }
-
-                            }
-                            return false
-                        })
-
-                        return res
-
-
-                    });
-                    //debugger;
-                    return clean
-                })
-                .map(function (elem) {
-                    var o = {chan: elem}
-                    o.shows = _.filter(ssPackage.data.content, function (show) {
-                        if (show.guidebox_data.sources) {
-                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                        } else {
-                            source_check = false
-                        }
-
-                        var url_check = _.some(show.channel, ['url', elem.url]);
-                        return url_check || source_check
-                    })
-
-                    if (o.chan.guidebox_data) {
-                        if (o.chan.guidebox_data.is_over_the_air) {
-                            o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
-                        }
-                    }
-
-                    return o
-
-                })
-                .filter(function (elem) {
-                    return elem.chan.source != "netflix"
-                })
-                .groupBy(function (elem) {
-                    if (elem.chan.is_over_the_air) {
-                        return 'ota'
-                    }
-                    if (elem.chan.on_sling) {
-                        return 'sling'
-                    }
-
-                    if (_.includes(payPerServices, elem.chan.source)) {
-                        return 'ppv'
-
-                    }
-                    else {
-                        return 'not_ota'
-                    }
-                })
-                .value();
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data.content
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
-
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
     //$rootScope.showDetailDirective = false;
 
@@ -2017,7 +1901,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.cs = PackageFactory.getChosenShow();
         $scope.detailSources = function(){
             if($scope.cs.guidebox_data !=undefined){
-                debugger;
+                // debugger;
 
             return _( $scope.cs.channel)
                 .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
@@ -2057,6 +1941,125 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes'];
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+        if ('data' in ssPackage) {
+            $scope.listOfServices = _
+                .chain(ssPackage.data.content)
+                .map(function (elem) {
+                    _.forEach(elem.channel, function (c) {
+                        // debugger;
+                        c.source = c.guidebox_data.short_name
+                    })
+                    var list
+                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
+                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
+                    return list
+                })
+                .flatten()
+                .uniqBy('source')
+                .map(function (elem) {
+                    //debugger
+                    if (elem.guidebox_data != undefined) {
+                        elem.display_name = elem.guidebox_data.name
+                        return elem
+                    } else {
+                        return elem
+                    }
+                })
+                .thru(function (list) {
+                    var clean = _.filter(list, function (elem) {
+                        // debugger;
+
+                        var res = !_.some(list, function (mem) {
+
+                            if (mem != elem) {
+                                // debugger;
+                                if (RegExp(elem.display_name).test(mem.display_name)) {
+                                    // debugger;
+                                    return mem.is_over_the_air && !elem.is_on_sling
+                                }
+
+                            }
+                            return false
+                        })
+
+                        return res
+
+
+                    });
+                    //debugger;
+                    return clean
+                })
+                .map(function (elem) {
+                    var o = {chan: elem}
+                    o.shows = _.filter(ssPackage.data.content, function (show) {
+                        if (show.guidebox_data.sources) {
+                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                        } else {
+                            source_check = false
+                        }
+
+                        var url_check = _.some(show.channel, ['url', elem.url]);
+                        return url_check || source_check
+                    })
+
+                    if (o.chan.guidebox_data) {
+                        if (o.chan.guidebox_data.is_over_the_air) {
+                            o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
+                        }
+                    }
+
+                    return o
+
+                })
+                .filter(function (elem) {
+                    return elem.chan.source != "netflix"
+                })
+                .groupBy(function (elem) {
+                    if (elem.chan.is_over_the_air) {
+                        return 'ota'
+                    }
+                    if (elem.chan.on_sling) {
+                        return 'sling'
+                    }
+
+                    if (_.includes(payPerServices, elem.chan.source)) {
+                        return 'ppv'
+
+                    }
+                    else {
+                        return 'not_ota'
+                    }
+                })
+                .value();
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 

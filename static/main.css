@@ -931,8 +931,9 @@ show-detail {
     position: relative; } }
 
 .navbar-fixed-top {
-  background-color: #15191b;
   min-height: 50px; }
+  .dashboard .navbar-fixed-top {
+    background-color: #15191b; }
   .navbar-fixed-top #showLeftPush {
     color: #ed1c24;
     background-color: inherit;
@@ -982,14 +983,8 @@ show-detail {
 .nav-space {
   margin-top: 30px; }
 
-div#showLeftPush {
-  color: #ed1c24;
-  background-color: inherit;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  margin-left: 15px;
-  border: none;
-  background: none; }
+.menu-buttons {
+  color: #ed1c24; }
 
 html,
 button,
