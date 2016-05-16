@@ -47,30 +47,32 @@ app.directive('servicePanelItem', function sPanelItem() {
             restrict: 'A',
             link: function (scope, element, attrs, controller) {
                 debugger
-                $timeout(function () {
-                    var re = new RegExp(/showtime/i)
-                    var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
-                        .filter(function (index) {
-                            return re.test(index.chan.display_name)
-                        })
-                        .reduce(function (sum, n) {
-                            sum.shows = _.chain(sum.shows)
-                                .concat(n.shows)
-                                .uniqBy('title')
-                                .value();
-                            return sum
-                        })
-                        .value();
+                scope.$watchCollection('pkg.data.content', function () {
+                    $timeout(function () {
+                        var re = new RegExp(/showtime/i);
+                        debugger;
+                        var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
+                            .filter(function (index) {
+                                return re.test(index.chan.display_name)
+                            })
+                            .reduce(function (sum, n) {
+                                sum.shows = _.chain(sum.shows)
+                                    .concat(n.shows)
+                                    .uniqBy('title')
+                                    .value();
+                                return sum
+                            })
+                            .value();
 
-                    var nonShowtimeServices = _.chain(scope.listOfServices.not_ota)
-                        .filter(function (index) {
-                            return !re.test(index.chan.display_name)
-                        }).value()
+                        var nonShowtimeServices = _.chain(scope.listOfServices.not_ota)
+                            .filter(function (index) {
+                                return !re.test(index.chan.display_name)
+                            }).value()
 
-                    scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
-                    debugger
-                }, 0)
-
+                        scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
+                        debugger
+                    }, 0)
+                })
 
             }
         }

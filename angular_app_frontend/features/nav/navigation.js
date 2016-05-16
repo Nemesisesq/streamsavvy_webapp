@@ -23,6 +23,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
     $scope.showLeftPush = function () {
         //classie.toggle(this, 'active')
+        $scope.menuOpen = !$scope.menuOpen;
 
         //debugger;
         //classie.toggle(body, 'cbp-spmenu-push-toright');

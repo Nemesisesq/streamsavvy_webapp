@@ -127,7 +127,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.cs = PackageFactory.getChosenShow();
         $scope.detailSources = function(){
             if($scope.cs.guidebox_data !=undefined){
-                debugger;
+                // debugger;
 
             return _( $scope.cs.channel)
                 .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
