@@ -29,11 +29,12 @@
 </div>
 
 <div class="ss_panel-body">
-    <div style="color : #337ab7; cursor:pointer" ng-click="n_flix.open = !n_flix.open">
+    <a style="color : #337ab7; cursor:pointer" ng-click="n_flix.open = !n_flix.open"
+        >
         NETFLIX
-    </div>
+    </a>
     <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-    <div uib-collapse="n_flix.open">
+    <div uib-collapse="n_flix.open" style="display: flex">
         <img ng-src=""/>
         <ul class="list-group ss_show-list">
             <li class="list-group-item ss_show"
@@ -43,10 +44,10 @@
 </div>
 
 <div class="ss_panel-body">
-    <div style="color : #337ab7; cursor:pointer" ng-click="sling.open = !sling.open"
+    <a style="color : #337ab7; cursor:pointer" ng-click="sling.open = !sling.open"
          ng-show="listOfServices.sling.length > 0">
         SLING
-    </div>
+    </a>
     <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
     <div ng-repeat="service in listOfServices.sling" uib-collapse="sling.open">
         <img ng-src=""/>
@@ -63,7 +64,7 @@
         </a>
         <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
 
-        <div uib-collapse="service.open">
+        <div uib-collapse="service.open" style="display: flex">
             <ul class="list-group ss_show-list">
                 <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
             </ul>
