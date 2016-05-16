@@ -20,7 +20,7 @@
         Pay Per View
     </div>
     <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-    <div ng-repeat="service in listOfServices.ppv" uib-collapse="ppv.open" style="display: flex">
+    <div ng-repeat="service in listOfServices.ppv" uib-collapse="ppv.open">
         <img ng-src=""/>
         <ul class="list-group ss_show-list">
             <li class="list-group-item ss_show" hide-duplicate ng-repeat="show in service.shows">{{ show.title }}</li>
@@ -28,13 +28,12 @@
     </div>
 </div>
 
-<div class="ss_panel-body">
-    <a style="color : #337ab7; cursor:pointer" ng-click="n_flix.open = !n_flix.open"
-        >
+<div class="ss_panel-body" ng-if="(pkg.data.content | onNetflix).length > 0">
+    <div style="color : #337ab7; cursor:pointer" ng-click="n_flix.open = !n_flix.open">
         NETFLIX
-    </a>
+    </div>
     <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-    <div uib-collapse="n_flix.open" style="display: flex">
+    <div uib-collapse="n_flix.open">
         <img ng-src=""/>
         <ul class="list-group ss_show-list">
             <li class="list-group-item ss_show"
@@ -44,10 +43,10 @@
 </div>
 
 <div class="ss_panel-body">
-    <a style="color : #337ab7; cursor:pointer" ng-click="sling.open = !sling.open"
+    <div style="color : #337ab7; cursor:pointer" ng-click="sling.open = !sling.open"
          ng-show="listOfServices.sling.length > 0">
         SLING
-    </a>
+    </div>
     <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
     <div ng-repeat="service in listOfServices.sling" uib-collapse="sling.open">
         <img ng-src=""/>
@@ -64,7 +63,7 @@
         </a>
         <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
 
-        <div uib-collapse="service.open" style="display: flex">
+        <div uib-collapse="service.open">
             <ul class="list-group ss_show-list">
                 <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
             </ul>
