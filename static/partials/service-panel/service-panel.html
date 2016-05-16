@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<div class="ss_panel-body">
+<div class="ss_panel-body" ng-if="(pkg.data.content | onNetflix).length > 0">
     <div style="color : #337ab7; cursor:pointer" ng-click="n_flix.open = !n_flix.open">
         NETFLIX
     </div>
