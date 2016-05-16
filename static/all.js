@@ -1516,15 +1516,15 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
         //classie.toggle(menuLeft, 'cbp-spmenu-open');
         $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
         //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
-        $('#mainPage').toggleClass('cbp-spmenu-push-toright');
-        $('#dashPage').toggleClass('cbp-spmenu-push-toright');
-        if ($location.path() == '/') {
-            $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-        }
+        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+
+        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+
 
         //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-        $('#ss-panel-right').toggleClass('fixed-menu-transform');
-        $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
+        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
 
         //disableOther('showLeftPush');
     };

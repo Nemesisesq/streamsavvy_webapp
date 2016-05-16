@@ -57,7 +57,7 @@
 </div>
 
 <div combine-showtime>
-    <div class="ss_panel-body" ng-repeat="service in listOfServices.not_ota | unwantedChannels track by $index">
+    <div class="ss_panel-body" ng-repeat="service in listOfServices.not_ota | unwantedChannels">
         <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}
             <span ng-if="service.chan.on_sling"> Sling TV</span>
         </a>
