@@ -980,6 +980,15 @@ show-detail {
 .nav-space {
   margin-top: 30px; }
 
+div#showLeftPush {
+  color: #ed1c24;
+  background-color: inherit;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-left: 15px;
+  border: none;
+  background: none; }
+
 html,
 button,
 input,
