@@ -20,7 +20,7 @@
         Pay Per View
     </div>
     <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-    <div ng-repeat="service in listOfServices.ppv" uib-collapse="ppv.open">
+    <div ng-repeat="service in listOfServices.ppv" uib-collapse="ppv.open" style="display: flex">
         <img ng-src=""/>
         <ul class="list-group ss_show-list">
             <li class="list-group-item ss_show" hide-duplicate ng-repeat="show in service.shows">{{ show.title }}</li>
