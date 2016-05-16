@@ -122,6 +122,8 @@ class GuideBox(object):
 
         sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
 
+        c.channel  = [i for i in c.channel.all() if check_for_banned_service(i)]
+
 
 
 
