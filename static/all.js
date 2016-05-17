@@ -1942,7 +1942,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $scope.showDetail = function (item, ev, attrs) {
-
+        window.scrollTo(0, 0);
         $('body').css('overflow', 'hidden');
 
         PackageFactory.setChosenShow(item);
