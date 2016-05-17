@@ -44,10 +44,12 @@ show-detail {
     text-transform: none;
     width: 310px;
     height: 16px;
+    display: block;
     font-family: AvenirNext-Regular;
     font-size: 12px;
     letter-spacing: 0.5px;
     color: $white;
+    margin-bottom: 15px;
   }
 
   .main-image {
