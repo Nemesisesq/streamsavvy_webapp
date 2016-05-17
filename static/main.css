@@ -397,6 +397,12 @@ ul[id^='typeahead-'], .suggestions-list {
   background-image: -webkit-linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), -webkit-linear-gradient(#15191b, #15191b);
   background-image: linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), linear-gradient(#15191b, #15191b); }
 
+.h1-row {
+  margin-top: 73px; }
+
+.home-imgs {
+  padding-top: 20px; }
+
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;
   padding-left: 15px;
