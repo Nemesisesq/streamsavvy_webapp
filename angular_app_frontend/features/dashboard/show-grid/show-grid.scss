@@ -22,7 +22,7 @@
 
 .show-grid {
   margin-top: 20px;
-
+  padding-left:0;
   width: 100%;
 
   .col-sm-4 {
@@ -105,4 +105,8 @@
   font-size: 12px;
   letter-spacing: 0.5px;
   color: $warm-grey;
+}
+
+#theGrid{
+  padding-left:0;
 }
