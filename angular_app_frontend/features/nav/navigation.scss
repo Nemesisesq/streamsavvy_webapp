@@ -62,16 +62,21 @@
 .cbp-spmenu-vertical a {
   border-bottom: none;
   padding: 1em;
-  color: $mid-grey;
+  //color: $mid-grey;
+
 }
 
 .cbp-spmenu a:hover {
-  background: $button_hover;
+  background-color: inherit;
+  border-left: 3px solid $button_hover;
   color: white;
+  text-decoration: none !important;
+
 }
 
 .cbp-spmenu a:active {
-  background: $button_click;
+  //background: $button_click;
+  border: none;
   color: white;
 }
 
@@ -93,3 +98,45 @@
 .menu-buttons {
   color: $action_red;
 }
+
+.ss-menu {
+  padding-bottom: 5%;
+  padding-top: 2%;
+  min-height: 100vh;
+  a {
+
+    padding: 5px;
+
+    color: $greyish-brown;
+    font-size: 24px;
+
+    div & {
+
+      margin-left: 10%;
+      margin-right: 4%;
+    }
+
+    &:focus {
+      border: none;
+      outline: none;
+    }
+    .sign-up {
+      color: $action_red;
+    }
+  }
+}
+
+.ss-small-menu-options {
+  margin-top: 30%;
+  a {
+    font-size: 18px;
+
+  }
+}
+
+.ss-menu-auth {
+  width: 100%;
+  position: absolute;
+  bottom: 10%;
+}
+
