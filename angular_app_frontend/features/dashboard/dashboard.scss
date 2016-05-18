@@ -36,7 +36,7 @@
   .search-and-shows {
     //padding-left: 40px;
     //padding-right: 40px;
-
+    padding-left:0;
     .search-bar {
       height: 50px;
       padding: 0;
@@ -46,6 +46,7 @@
       margin-bottom: 10px;
       float: left;
       color: $warm-grey;
+      padding-left:0;
     }
   }
   .services-hardware {
