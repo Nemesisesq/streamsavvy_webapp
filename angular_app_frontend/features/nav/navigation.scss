@@ -140,3 +140,10 @@
   bottom: 10%;
 }
 
+#sign-up {
+ color: $action_red;
+
+  &:hover{
+    color: white;
+  }
+}

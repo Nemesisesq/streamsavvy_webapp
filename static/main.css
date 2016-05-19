@@ -1067,6 +1067,11 @@ show-detail {
   position: absolute;
   bottom: 10%; }
 
+#sign-up {
+  color: #ed1c24; }
+  #sign-up:hover {
+    color: white; }
+
 html,
 button,
 input,
