@@ -46,7 +46,6 @@ app.directive('servicePanelItem', function sPanelItem() {
         return {
             restrict: 'A',
             link: function (scope, element, attrs, controller) {
-                debugger
                 scope.$watchCollection('pkg.data.content', function () {
                     $timeout(function () {
                         var re = new RegExp(/showtime/i);

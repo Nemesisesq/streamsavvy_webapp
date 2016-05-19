@@ -93,7 +93,7 @@ app.filter('unwantedChannels', function () {
         67, //TV Guide
         // 1, //Hulu_Free
         235, 16, //Watch HGTV
-        22,237,240, //MTV
+        22, 237, 240, //MTV
         31, //Bravo
         // 17, //A&E
         20, 101, //Syfy
@@ -108,20 +108,16 @@ app.filter('unwantedChannels', function () {
     return function (input) {
         var list = _.filter(input, function (elem) {
             var res = _.some(unwantedChannelIDs, function (x) {
-                    if (elem.chan.id) {
-                        return x === elem.chan.id
+                if (elem !== undefined) {
+                    if (elem.chan.id !== undefined) {
+                        return x === elem.chan.id;
+                    } else {
+                        return x === elem.chan.guidebox_data.id
                     }
-                    return x === elem.chan.guidebox_data.id
-
-
-
+                }
             })
-
             return !res
-
         })
-
-
         return list
     }
 })
@@ -160,10 +156,10 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
     }
 })
 
-.filter('onNetflix', function (_) {
-    // debugger;
-    return function(array){
-        return _.filter(array, 'on_netflix')
-    }
+    .filter('onNetflix', function (_) {
+        // debugger;
+        return function (array) {
+            return _.filter(array, 'on_netflix')
+        }
 
-})
+    })
