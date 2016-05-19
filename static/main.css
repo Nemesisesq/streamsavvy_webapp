@@ -364,7 +364,10 @@ ul[id^='typeahead-'], .suggestions-list {
 
 .ss-search-input {
   height: 53px;
-  padding-left: 45px; }
+  text-indent: 31px;
+  background-image: url("https://s3.amazonaws.com/streamsavvy/search-icon.svg");
+  background-repeat: no-repeat;
+  background-position: 9px; }
   .ss-search-input.has-suggestions {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -373,14 +376,10 @@ ul[id^='typeahead-'], .suggestions-list {
 .floating-label {
   position: absolute;
   top: 17px;
-  left: 13px;
+  left: 45px;
   transition: all 0.3s ease-in;
   color: #15191b;
-  padding-left: 34px;
-  background-image: url("https://s3.amazonaws.com/streamsavvy/search-icon.svg");
-  background-repeat: no-repeat;
-  background-position: left center;
-  outline: 0; }
+  pointer-events: none; }
   .floating-label.float {
     top: 0px;
     -webkit-animation: float-fade .3s ease-in;

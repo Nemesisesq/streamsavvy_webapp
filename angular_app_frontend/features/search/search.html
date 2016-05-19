@@ -6,7 +6,7 @@
         <div class="row show-input">
             <!-- <input type="text" placeholder="Start typing" id="searchInput"
                    class="form-control stacked-input-1" ng-model="searchText" ng-change="search()"/> -->
-            <span class="floating-label" ng-class="{float: searchText}">Search for your shows</span>
+
             <input type="text"  id="searchInput"
                    class="form-control ss-search-input" ng-class="{'has-suggestions' : suggestions.length}"
                    ng-model="searchText" ng-model-options="modelOptions"
@@ -15,6 +15,7 @@
                    typeahead-on-select="addToSelectedShows($item, $model, $label, $event)"
                    ng-keydown="checkKeyDown($event)"
             />
+            <span class="floating-label" ng-class="{float: searchText}">Search for your shows</span>
             <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
             <div ng-show="noResults">
                 <i class="glyphicon glyphicon-remove"></i> No Results Found
