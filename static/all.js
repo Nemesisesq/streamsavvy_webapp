@@ -1520,7 +1520,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
         //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
         // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
         // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
-        $('#background').toggleClass('menu-open');
+        $('#menu-mask').fadeToggle()
 
         $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
 

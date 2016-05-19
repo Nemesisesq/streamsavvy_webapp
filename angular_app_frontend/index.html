@@ -5,6 +5,7 @@
 <head>
     <!-- specific meta tags from Bootstrap -->
     <!-- these tags must come first in the head -->
+    <link rel="stylesheet" type="text/css" href="angular_app_frontend/features/home/home.scss"/>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,6 +40,7 @@
     <!-- MAIN CONTENT AND INJECTED VIEWS -->
     <div ui-view autoscroll="true"></div>
     <div growl></div>
+    <div id="menu-mask" class="dim-on-open-menu"></div>
 
     <!-- feed back form-->
     <!--<<div ng-controller="FeedbackCtrl">

@@ -17,3 +17,14 @@
   padding-top: 20px;
 }
 
+.dim-on-open-menu {
+  position: fixed;
+  height: 100vh;
+  top:0;
+
+  width:100vw;
+  background-color: black;
+  opacity: .4;
+  display: none;
+
+}
