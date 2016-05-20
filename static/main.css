@@ -778,7 +778,6 @@ show-detail {
   show-detail .s-e-l-e-c-t-e-d-s-h-o-w {
     width: 105px;
     height: 16px;
-    font-family: AvenirNext-Regular;
     font-size: 12px;
     letter-spacing: 0.5px;
     color: white; }
@@ -787,7 +786,6 @@ show-detail {
     width: 310px;
     height: 16px;
     display: block;
-    font-family: AvenirNext-Regular;
     font-size: 12px;
     letter-spacing: 0.5px;
     color: white;
@@ -834,6 +832,10 @@ show-detail {
     font-size: 28px;
     letter-spacing: 0.4px;
     color: white; }
+  show-detail .network-title-logo {
+    height: 24px;
+    vertical-align: top;
+    padding-left: 10px; }
   show-detail .score {
     height: 19px;
     font-family: Lato;
