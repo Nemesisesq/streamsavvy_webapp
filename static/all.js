@@ -454,7 +454,6 @@ app.directive('servicePanelItem', function sPanelItem() {
                 scope.$watchCollection('pkg.data.content', function () {
                     $timeout(function () {
                         var re = new RegExp(/showtime/i);
-                        debugger;
                         var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
                             .filter(function (index) {
                                 return re.test(index.chan.display_name)
@@ -474,7 +473,6 @@ app.directive('servicePanelItem', function sPanelItem() {
                             }).value()
 
                         scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
-                        debugger
                     }, 0)
                 })
 
@@ -1379,7 +1377,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
 
     }
 });
-
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
 
@@ -1433,6 +1430,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.
@@ -1692,7 +1690,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
 
-        debugger;
         var ssPackage = PackageFactory.getPackage();
 
         if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
@@ -1775,6 +1772,20 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     var ssPackage = PackageFactory.getPackage();
     $scope.pkg = PackageFactory.getPackage();
     var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
     // $scope.payPerShows = [];
     var updateServices = function () {
         if ('data' in ssPackage) {
@@ -1854,7 +1865,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
-                    if (elem.chan.on_sling) {
+                    if (check_if_on_sling(elem)) {
                         return 'sling'
                     }
 
@@ -1888,6 +1899,8 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
+
+    var openingDetail = false
     //$rootScope.showDetailDirective = false;
 
     $scope.hello = 'clear package';
@@ -1937,7 +1950,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.updatePackageChannels($scope)
     }
 
-    $scope.showDetail = function (item, ev, attrs) {
+    $scope.showDetail = _.debounce(function (item, ev, attrs) {
+
+        if(openingDetail){
+            return
+        }
+
+        openingDetail = true;
+
+
         window.scrollTo(0, 0);
         $('body').css('overflow', 'hidden');
 
@@ -1972,8 +1993,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         $('.show-grid').addClass('blur-and-fill');
 
+        openingDetail = false
 
-    }
+
+    }, 50);
 
     $scope.hideDetail = function (ev, attrs) {
         // debugger;
@@ -2014,21 +2037,21 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        $scope.detailSources = function(){
-            if($scope.cs.guidebox_data !=undefined){
+        $scope.detailSources = function () {
+            if ($scope.cs.guidebox_data != undefined) {
                 // debugger;
 
-            return _( $scope.cs.channel)
-                .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
-                .map(function(elem){
-                    if(elem.guidebox_data != undefined){
-                        elem.source = elem.guidebox_data.short_name
-                    }
+                return _($scope.cs.channel)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .map(function (elem) {
+                        if (elem.guidebox_data != undefined) {
+                            elem.source = elem.guidebox_data.short_name
+                        }
 
-                    return elem
-                })
-                .uniqBy('source')
-                .value();
+                        return elem
+                    })
+                    .uniqBy('source')
+                    .value();
             }
         }
 
@@ -2037,17 +2060,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         // }
 
 
-
     })
-
 
 
     $scope.savePackage = function () {
         PackageFactory.setPackage($scope.package)
     }
 
-    $scope.$on('save_package', function(){
-       PackageFactory.setPackage($scope.package)
+    $scope.$on('save_package', function () {
+        PackageFactory.setPackage($scope.package)
     });
 
     $scope.$watchCollection('package.data.content', function () {

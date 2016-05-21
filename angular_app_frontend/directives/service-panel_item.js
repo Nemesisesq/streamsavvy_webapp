@@ -49,7 +49,6 @@ app.directive('servicePanelItem', function sPanelItem() {
                 scope.$watchCollection('pkg.data.content', function () {
                     $timeout(function () {
                         var re = new RegExp(/showtime/i);
-                        debugger;
                         var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
                             .filter(function (index) {
                                 return re.test(index.chan.display_name)
@@ -69,7 +68,6 @@ app.directive('servicePanelItem', function sPanelItem() {
                             }).value()
 
                         scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
-                        debugger
                     }, 0)
                 })
 

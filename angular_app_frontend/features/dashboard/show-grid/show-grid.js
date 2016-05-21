@@ -1,4 +1,6 @@
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
+
+    var openingDetail = false
     //$rootScope.showDetailDirective = false;
 
     $scope.hello = 'clear package';
@@ -48,7 +50,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.updatePackageChannels($scope)
     }
 
-    $scope.showDetail = function (item, ev, attrs) {
+    $scope.showDetail = _.debounce(function (item, ev, attrs) {
+
+        if(openingDetail){
+            return
+        }
+
+        openingDetail = true;
+
+
         window.scrollTo(0, 0);
         $('body').css('overflow', 'hidden');
 
@@ -83,8 +93,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         $('.show-grid').addClass('blur-and-fill');
 
+        openingDetail = false
 
-    }
+
+    }, 50);
 
     $scope.hideDetail = function (ev, attrs) {
         // debugger;
@@ -125,21 +137,21 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        $scope.detailSources = function(){
-            if($scope.cs.guidebox_data !=undefined){
+        $scope.detailSources = function () {
+            if ($scope.cs.guidebox_data != undefined) {
                 // debugger;
 
-            return _( $scope.cs.channel)
-                .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
-                .map(function(elem){
-                    if(elem.guidebox_data != undefined){
-                        elem.source = elem.guidebox_data.short_name
-                    }
+                return _($scope.cs.channel)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .map(function (elem) {
+                        if (elem.guidebox_data != undefined) {
+                            elem.source = elem.guidebox_data.short_name
+                        }
 
-                    return elem
-                })
-                .uniqBy('source')
-                .value();
+                        return elem
+                    })
+                    .uniqBy('source')
+                    .value();
             }
         }
 
@@ -148,17 +160,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         // }
 
 
-
     })
-
 
 
     $scope.savePackage = function () {
         PackageFactory.setPackage($scope.package)
     }
 
-    $scope.$on('save_package', function(){
-       PackageFactory.setPackage($scope.package)
+    $scope.$on('save_package', function () {
+        PackageFactory.setPackage($scope.package)
     });
 
     $scope.$watchCollection('package.data.content', function () {

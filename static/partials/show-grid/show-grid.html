@@ -5,7 +5,7 @@
     <div class="row show-grid-container">
         <div class=" col-sm-12 grid-title" ng-if="package.data.content.length > 0"> SHOWS I'VE ADDED </div>
         <div class="col-lg-3 col-md-4 col-sm-6 show-title" ng-repeat="show in package.data.content" open-detail
-             ng-click="showDetail(show, $event)">
+             ng-click="showDetail(show, $event)" ng-disabled="true">
             <img class="pointer" ng-src="{{ show.guidebox_data.artwork_208x117 }}">
         </div>
     </div>

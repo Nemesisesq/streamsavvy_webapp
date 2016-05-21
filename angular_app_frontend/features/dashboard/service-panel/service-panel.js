@@ -5,6 +5,20 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     var ssPackage = PackageFactory.getPackage();
     $scope.pkg = PackageFactory.getPackage();
     var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
     // $scope.payPerShows = [];
     var updateServices = function () {
         if ('data' in ssPackage) {
@@ -84,7 +98,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
-                    if (elem.chan.on_sling) {
+                    if (check_if_on_sling(elem)) {
                         return 'sling'
                     }
 
