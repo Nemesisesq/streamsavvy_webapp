@@ -65,6 +65,24 @@
 
   }
 
+  show-detail {
+
+    &.fade{
+
+    pointer-events: none;
+
+      &.fade-in{
+        pointer-events: all;
+      }
+    }
+
+
+
+
+
+
+  }
+
 
 
 

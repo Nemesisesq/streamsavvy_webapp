@@ -81,7 +81,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     // var detail = angular.element(document.createElement('show-detail'));
 
-                    $rootScope.showDetailDirective = true;
+                    // $rootScope.showDetailDirective = true;
                     //debugger;
 
                 }, 500)
@@ -106,7 +106,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             container = document.getElementById('search-and-shows');
         $q.when($('show-detail').removeClass('fade-in'))
             .then(function () {
-                $rootScope.showSearchView = true;
+
                 $rootScope.showDetailDirective = false
             })
             .then(ShowDetailAnimate.hideContent.bind(null, positionItem, scaleItem, container))
@@ -114,12 +114,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 return $timeout(function () {
                     // debugger;
 
+                    $rootScope.showSearchView = true;
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
             })
             .then(function (v) {
                 //debugger;
                 $('body').css('overflow', 'scroll');
+
 
             })
 

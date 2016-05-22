@@ -1291,8 +1291,8 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
             return $timeout(function () {
 
                 // expands the placeholder
-                dummy.style.WebkitTransform = 'translate3d(-15px, ' + (scrollY() + 55) + 'px, 0px)';
-                dummy.style.transform = 'translate3d(-15, ' + (scrollY() + 55) + 'px, 0px)';
+                dummy.style.WebkitTransform = 'translate3d(-15px, ' + (scrollY() + 50) + 'px, 0px)';
+                dummy.style.transform = 'translate3d(-15, ' + (scrollY() + 50) + 'px, 0px)';
                 // disallow scroll
                 window.addEventListener('scroll', this.noscroll);
                 onEndTransition(dummy, function () {
@@ -1377,6 +1377,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
 
     }
 });
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
 
@@ -1430,7 +1431,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -1981,7 +1981,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     // var detail = angular.element(document.createElement('show-detail'));
 
-                    $rootScope.showDetailDirective = true;
+                    // $rootScope.showDetailDirective = true;
                     //debugger;
 
                 }, 500)
@@ -2006,7 +2006,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             container = document.getElementById('search-and-shows');
         $q.when($('show-detail').removeClass('fade-in'))
             .then(function () {
-                $rootScope.showSearchView = true;
+
                 $rootScope.showDetailDirective = false
             })
             .then(ShowDetailAnimate.hideContent.bind(null, positionItem, scaleItem, container))
@@ -2014,12 +2014,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 return $timeout(function () {
                     // debugger;
 
+                    $rootScope.showSearchView = true;
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
             })
             .then(function (v) {
                 //debugger;
                 $('body').css('overflow', 'scroll');
+
 
             })
 

@@ -106,8 +106,8 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
             return $timeout(function () {
 
                 // expands the placeholder
-                dummy.style.WebkitTransform = 'translate3d(-15px, ' + (scrollY() + 55) + 'px, 0px)';
-                dummy.style.transform = 'translate3d(-15, ' + (scrollY() + 55) + 'px, 0px)';
+                dummy.style.WebkitTransform = 'translate3d(-15px, ' + (scrollY() + 50) + 'px, 0px)';
+                dummy.style.transform = 'translate3d(-15, ' + (scrollY() + 50) + 'px, 0px)';
                 // disallow scroll
                 window.addEventListener('scroll', this.noscroll);
                 onEndTransition(dummy, function () {
