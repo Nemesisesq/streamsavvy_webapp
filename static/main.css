@@ -652,8 +652,7 @@ ul[id^='typeahead-'], .suggestions-list {
   background: rgba(0, 0, 0, 0.2);
   -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
-  opacity: .9;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), #000000); }
+  background: linear-gradient(to bottom, #15191b, rgba(0, 0, 0, 0.5) 5%, #000000); }
 
 .fade-in {
   opacity: 1;
