@@ -1,3 +1,4 @@
+import datetime
 import json
 import logging
 # import threading
@@ -13,14 +14,27 @@ from server.models import Content, Channel, Images, ChannelImages
 from server.shortcuts import try_catch
 
 
-def check_for_banned_service(i):
+def is_banned_channel(i, m):
+    if type(i) == dict:
+        return fuzz.token_sort_ratio(i['display_name'], m) >= 90
+    else:
+         return fuzz.token_sort_ratio(i.name, m) >= 90
 
-    matches = [m for m in banned_channels if fuzz.token_set_ratio(m,i ) >= 90]
+
+def check_for_banned_service(i):
+    matches = [m for m in banned_channels if is_banned_channel(i, m)]
 
     if matches:
         return False
     return True
     pass
+
+
+def get_date_channels_last_checked(c):
+    if c.channels_last_checked:
+        td = datetime.datetime.now(datetime.timezone.utc) - c.channels_last_checked
+        return td.days > 30
+    return True
 
 
 class GuideBox(object):
@@ -112,20 +126,22 @@ class GuideBox(object):
         except urllib.error.URLError as e:
             print(e)
             return False
+
     @try_catch
     def sling_tv_and_over_the_air_processor(self, c):
-        if 'sources' not in c.guidebox_data:
+        if 'sources' not in c.guidebox_data or get_date_channels_last_checked(c):
             c = self.add_additional_channels_for_show(c)
+            c.channels_last_checked = datetime.datetime.now()
+            c.save()
 
-
-        c.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in c.guidebox_data['sources']['web']['episodes']['all_sources'] if check_for_banned_service(i)]
+        c.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
+                                                                        c.guidebox_data['sources']['web']['episodes'][
+                                                                            'all_sources'] if
+                                                                        check_for_banned_service(i)]
 
         sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
 
-        c.channel  = [i for i in c.channel.all() if check_for_banned_service(i)]
-
-
-
+        c.channel = [i for i in c.channel.all() if check_for_banned_service(i)]
 
         @try_catch
         def check_for_sling(s):
@@ -151,9 +167,6 @@ class GuideBox(object):
                     s['is_over_the_air'] = 'true'
                     return s
 
-
-
-
             return s
 
         sources = [check_for_sling(s) for s in sources]
@@ -162,7 +175,7 @@ class GuideBox(object):
         for s in c.channel.all():
             check_for_sling(s)
 
-        c.save()
+        # c.save()
         return c
 
     def add_additional_channels_for_show(self, shows):
@@ -187,27 +200,28 @@ class GuideBox(object):
                 execute(c)
         else:
             execute(shows)
-        return c
+
+        return shows
 
 
-            # def populate_content(self):
-            # total_results = json.loads(self.get_content_list(0))['total_results']
-            # show_count = 0
-            # loop = True
-            # count = 0
-            # while loop:
-            #     index = count * 250
-            #     results = json.loads(self.get_content_list(index))
-            #     if results['total_returned']:
-            #         shows_dict = results['results']
-            #         for i in shows_dict:
-            #             show_count += 1
-            #             self.save_content(i)
-            #         count += 1
-            #     else:
-            #         loop = False
-            #
-            # return show_count
+        # def populate_content(self):
+        # total_results = json.loads(self.get_content_list(0))['total_results']
+        # show_count = 0
+        # loop = True
+        # count = 0
+        # while loop:
+        #     index = count * 250
+        #     results = json.loads(self.get_content_list(index))
+        #     if results['total_returned']:
+        #         shows_dict = results['results']
+        #         for i in shows_dict:
+        #             show_count += 1
+        #             self.save_content(i)
+        #         count += 1
+        #     else:
+        #         loop = False
+        #
+        # return show_count
 
     def get_available_content_for_show(self, content_id):
         url = "{BASE_URL}/show/{id}/available_content".format(BASE_URL=self.BASE_URL, id=content_id)

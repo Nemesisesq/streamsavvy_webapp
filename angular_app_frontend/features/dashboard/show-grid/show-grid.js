@@ -52,7 +52,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
-        if(openingDetail){
+        if (openingDetail || !_.isEmpty($('.placeholder'))) {
             return
         }
 

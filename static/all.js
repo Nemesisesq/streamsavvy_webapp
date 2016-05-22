@@ -418,7 +418,7 @@ app.directive('servicePanelItem', function sPanelItem() {
     .directive('hideDuplicate', function (_) {
 
         function checkPrevious(element) {
-            // debugger;
+            debugger;
             var dupeCollection = _.initial(angular.element('[hide-duplicate]'));
             if (dupeCollection.length > 0) {
                 var res = _.some(dupeCollection, function (elem) {
@@ -1331,7 +1331,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
                 var dummy = container.querySelector('.placeholder');
 
                 function firstStep() {
-                    console.log('first step being called ')
                     // debugger;
                     classie.removeClass(bodyEl, 'noscroll');
                     return 'hello first'
@@ -1339,12 +1338,10 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
 
                 $q.when(firstStep())
                     .then(function (data) {
-                        console.log(data);
                         dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
                         dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
                         return "hello world"
                     }).then(function (data) {
-                    console.log(data)
                     return $timeout(function () {
                         onEndTransition(dummy, function () {
                             // reset content scroll..
@@ -1353,7 +1350,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
                             //classie.remove(gridItem, 'grid__item--loading');
                             //classie.remove(gridItem, 'grid__item--animate');
                             lockScroll = false;
-                            console.log('removing dummy');
                             window.removeEventListener('scroll', this.noscroll);
                         })
                         current = -1;
@@ -1877,7 +1873,12 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return 'not_ota'
                     }
                 })
+
                 .value();
+
+            $scope.listOfServices = _.forEach($scope.listOfServices,function(val, key){
+                $scope.listOfServices[key].open = true
+            })
 
             PackageFactory.setListOfServices($scope.listOfServices);
         }
@@ -1952,7 +1953,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
-        if(openingDetail){
+        if (openingDetail || !_.isEmpty($('.placeholder'))) {
             return
         }
 

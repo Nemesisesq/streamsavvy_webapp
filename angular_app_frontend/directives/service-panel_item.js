@@ -13,7 +13,7 @@ app.directive('servicePanelItem', function sPanelItem() {
     .directive('hideDuplicate', function (_) {
 
         function checkPrevious(element) {
-            // debugger;
+            debugger;
             var dupeCollection = _.initial(angular.element('[hide-duplicate]'));
             if (dupeCollection.length > 0) {
                 var res = _.some(dupeCollection, function (elem) {

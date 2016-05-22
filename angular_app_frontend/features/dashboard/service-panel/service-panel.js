@@ -110,7 +110,12 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return 'not_ota'
                     }
                 })
+
                 .value();
+
+            $scope.listOfServices = _.forEach($scope.listOfServices,function(val, key){
+                $scope.listOfServices[key].open = true
+            })
 
             PackageFactory.setListOfServices($scope.listOfServices);
         }

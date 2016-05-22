@@ -146,7 +146,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
                 var dummy = container.querySelector('.placeholder');
 
                 function firstStep() {
-                    console.log('first step being called ')
                     // debugger;
                     classie.removeClass(bodyEl, 'noscroll');
                     return 'hello first'
@@ -154,12 +153,10 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
 
                 $q.when(firstStep())
                     .then(function (data) {
-                        console.log(data);
                         dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
                         dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
                         return "hello world"
                     }).then(function (data) {
-                    console.log(data)
                     return $timeout(function () {
                         onEndTransition(dummy, function () {
                             // reset content scroll..
@@ -168,7 +165,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
                             //classie.remove(gridItem, 'grid__item--loading');
                             //classie.remove(gridItem, 'grid__item--animate');
                             lockScroll = false;
-                            console.log('removing dummy');
                             window.removeEventListener('scroll', this.noscroll);
                         })
                         current = -1;

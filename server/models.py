@@ -63,6 +63,8 @@ class Content(models.Model):
     on_netflix = models.BooleanField(default=False)
     channel = models.ManyToManyField(Channel, blank=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
+    channels_last_checked = models.DateTimeField(blank=True, null=True)
+
 
     def save(self, *args, **kwargs):
         self.modified = timezone.now()
