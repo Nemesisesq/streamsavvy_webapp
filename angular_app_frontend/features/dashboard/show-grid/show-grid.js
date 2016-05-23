@@ -150,8 +150,20 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = elem.guidebox_data.short_name
                         }
 
+                        if(elem.source == 'hulu_free'){
+                            return false
+                        }
+
                         return elem
+                    }).filter(function(elem){
+
+                        if (elem.hasOwnProperty('guidebox_data')) {
+                            return !elem.guidebox_data.is_over_the_air
+                        }
+
+                        return true
                     })
+
                     .uniqBy('source')
                     .value();
             }
