@@ -808,6 +808,9 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
             if (elem.is_on_sling) {
 
                 return true == bool
+            }if (elem.on_sling) {
+
+                return true == bool
             }
 
             if (elem.guidebox_data) {
@@ -1376,7 +1379,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
 
@@ -1430,6 +1432,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.
