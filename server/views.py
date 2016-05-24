@@ -235,11 +235,12 @@ class ContentViewSet(viewsets.ModelViewSet):
         g = GuideBox()
 
         if 'detail' in obj.guidebox_data:
-            obj.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
-                                                                              obj.guidebox_data['sources']['web'][
-                                                                                  'episodes'][
-                                                                                  'all_sources'] if
-                                                                              g.check_for_banned_service(i)]
+            obj = g.sling_tv_and_over_the_air_processor(obj)
+            # obj.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
+            #                                                                   obj.guidebox_data['sources']['web'][
+            #                                                                       'episodes'][
+            #                                                                       'all_sources'] if
+            #                                                                   g.check_for_banned_service(i)]
             return obj
 
         else:
@@ -250,11 +251,7 @@ class ContentViewSet(viewsets.ModelViewSet):
 
             obj.save()
 
-            obj.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
-                                                                              obj.guidebox_data['sources']['web'][
-                                                                                  'episodes'][
-                                                                                  'all_sources'] if
-                                                                              g.check_for_banned_service(i)]
+            obj = g.sling_tv_and_over_the_air_processor(obj)
 
             return obj
 
