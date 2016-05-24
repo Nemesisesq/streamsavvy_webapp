@@ -162,7 +162,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return !elem.guidebox_data.is_over_the_air
                         }
 
-                        if (elem.source == 'hulu_free') {
+                        if (elem.source == 'hulu_free' || elem.source =='starz_tveverywhere') {
                             return false
                         }
 

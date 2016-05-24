@@ -20,4 +20,6 @@ banned_channels = ['HBO Go',
                    'USA',
                    'MTV',
                    'Hulu with Showtime',
+                   'TV Guide',
+                   # 'ClevverTV',
                    ]

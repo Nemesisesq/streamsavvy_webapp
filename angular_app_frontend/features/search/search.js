@@ -50,7 +50,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         var ssPackage = PackageFactory.getPackage();
 
         if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
-            growl.warning('You already added ' + suggestion.title + ' to your package!')
+            growl.warning('You already added ' + suggestion.title + ' to your package!');
+            $scope.suggestions = [];
             return
         }
 
@@ -64,7 +65,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             ssPackage.data.content.push(suggestion);
 
             PackageFactory.setPackage(ssPackage);
-            
+
             $scope.loading = false
         }
 

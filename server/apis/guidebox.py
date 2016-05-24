@@ -131,7 +131,7 @@ class GuideBox(object):
     def sling_tv_and_over_the_air_processor(self, c):
         if 'sources' not in c.guidebox_data or get_date_channels_last_checked(c):
             c = self.add_additional_channels_for_show(c)
-            c.channels_last_checked = datetime.datetime.now()
+            c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
             c.save()
 
         c.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in

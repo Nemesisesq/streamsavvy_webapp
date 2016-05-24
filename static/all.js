@@ -1695,7 +1695,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         var ssPackage = PackageFactory.getPackage();
 
         if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
-            growl.warning('You already added ' + suggestion.title + ' to your package!')
+            growl.warning('You already added ' + suggestion.title + ' to your package!');
+            $scope.suggestions = [];
             return
         }
 
@@ -1709,7 +1710,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             ssPackage.data.content.push(suggestion);
 
             PackageFactory.setPackage(ssPackage);
-            
+
             $scope.loading = false
         }
 
@@ -2054,7 +2055,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return !elem.guidebox_data.is_over_the_air
                         }
 
-                        if (elem.source == 'hulu_free') {
+                        if (elem.source == 'hulu_free' || elem.source =='starz_tveverywhere') {
                             return false
                         }
 
