@@ -137,11 +137,11 @@ class GuideBox(object):
         c.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
                                                                         c.guidebox_data['sources']['web']['episodes'][
                                                                             'all_sources'] if
-                                                                        check_for_banned_service(i)]
+                                                                        self.check_for_banned_service(i)]
 
         sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
 
-        c.channel = [i for i in c.channel.all() if check_for_banned_service(i)]
+        c.channel = [i for i in c.channel.all() if self.check_for_banned_service(i)]
 
         @try_catch
         def check_for_sling(s):
@@ -363,3 +363,10 @@ class GuideBox(object):
 
         except Exception as e:
             print(e)
+
+    def check_for_banned_service(self, i):
+        matches = [m for m in banned_channels if is_banned_channel(i, m)]
+
+        if matches:
+            return False
+        return True

@@ -16,4 +16,5 @@ banned_channels = ['HBO Go',
                    'Xfinity',
                    'Showtime Anytime',
                    'STARZ Play',
-                   'SyFy']
+                   'SyFy',
+                   'USA']
