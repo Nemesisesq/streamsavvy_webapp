@@ -418,7 +418,6 @@ app.directive('servicePanelItem', function sPanelItem() {
     .directive('hideDuplicate', function (_) {
 
         function checkPrevious(element) {
-            debugger;
             var dupeCollection = _.initial(angular.element('[hide-duplicate]'));
             if (dupeCollection.length > 0) {
                 var res = _.some(dupeCollection, function (elem) {
@@ -479,6 +478,7 @@ app.directive('servicePanelItem', function sPanelItem() {
             }
         }
     })
+
 /**
  * Created by Nem on 3/7/16.
  */
@@ -794,6 +794,7 @@ app.filter('unwantedChannels', function () {
 app.filter('onSling', function (Fuse, SLING_CHANNELS) {
     return function (input, bool) {
         return _.filter(input, function (elem) {
+
 
             var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
 
@@ -1637,7 +1638,6 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 });
 
 
-
 /**
  * Created by Nem on 7/18/15.
  */
@@ -1655,7 +1655,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     $scope.suggestions = [];
     $scope.selectedIndex = -1;
 
-    $('#searchInput').bind('input',function(){
+    $('#searchInput').bind('input', function () {
         $(this).val().length > 0 ? $('.floating-label').addClass('float') : $('.floating-label').removeClass('float')
     })
 
@@ -1686,7 +1686,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     };
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
-
+        debugger;
         var ssPackage = PackageFactory.getPackage();
 
         if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
@@ -1699,25 +1699,12 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             //debugger;
             $scope.loading = true
 
-            var channels = suggestion.guidebox_data.sources.web.episodes.all_sources;
-
-            channels = _.map(channels, function (elem) {
-                $http.get('api/channel_images/' + elem.id)
-                    .then(function (data) {
-                        elem.images = data.data;
-                        return elem
-                    })
-            });
-
             suggestion.justAdded = true;
-
 
             ssPackage.data.content.push(suggestion);
 
-
-
             PackageFactory.setPackage(ssPackage);
-
+            
             $scope.loading = false
         }
 
@@ -1754,8 +1741,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
         }
     });
-
-
 
 
 })
@@ -2041,14 +2026,16 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        $scope.detailSources = function () {
+        $scope.detailSources = (function () {
             if ($scope.cs.guidebox_data != undefined) {
-                // debugger;
 
-                return _($scope.cs.channel)
+
+                 var x = _($scope.cs.channel)
                     .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
                     .map(function (elem) {
+
                         if (elem.guidebox_data != undefined) {
+                            debugger
                             elem.source = elem.guidebox_data.short_name
                         }
 
@@ -2068,8 +2055,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     .uniqBy('source')
                     .value();
+
+                return x;
             }
-        }
+        })()
 
         // $scope.getRatings = function () {
         //     $http.get($scope.cs.url + '/ratings')

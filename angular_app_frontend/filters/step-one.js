@@ -126,6 +126,7 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
     return function (input, bool) {
         return _.filter(input, function (elem) {
 
+
             var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
 
             if (elem.diplay_name != undefined && sling_fuse.search(elem.display_name)) {

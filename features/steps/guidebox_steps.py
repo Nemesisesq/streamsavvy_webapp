@@ -148,6 +148,7 @@ def step_impl(context):
     context.show = Content.objects.get(title__iexact='Orange is the new black')
     assert context.show
 
+
 @when("we add available content to the show")
 def step_impl(context):
     context.guidebox.add_additional_channels_for_show(context.show)
@@ -189,3 +190,24 @@ def step_impl(context, show):
 @given("we call the the add details task")
 def step_impl(context):
     add_detail_to_shows()
+
+
+@given("a the show Game of Thrones")
+def step_impl(context):
+    context.show = Content.objects.get(title='Game of Thrones')
+
+
+@when("We call sling over the air processor")
+def step_impl(context):
+    context.guidebox.sling_tv_and_over_the_air_processor(context.show)
+    """
+    :type context: behave.runner.Context
+    """
+
+
+@then("Xfinity is removed")
+def step_impl(context):
+    show_list = [i for i in context.show.guidebox_data['sources']['web']['episodes']['all_sources'] if
+                 i['display_name'] == 'Xfinity']
+
+    assert len(show_list) == 0

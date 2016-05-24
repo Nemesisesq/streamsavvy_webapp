@@ -1,4 +1,3 @@
-
 /**
  * Created by Nem on 7/18/15.
  */
@@ -16,7 +15,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     $scope.suggestions = [];
     $scope.selectedIndex = -1;
 
-    $('#searchInput').bind('input',function(){
+    $('#searchInput').bind('input', function () {
         $(this).val().length > 0 ? $('.floating-label').addClass('float') : $('.floating-label').removeClass('float')
     })
 
@@ -47,7 +46,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     };
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
-
+        debugger;
         var ssPackage = PackageFactory.getPackage();
 
         if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
@@ -60,25 +59,12 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             //debugger;
             $scope.loading = true
 
-            var channels = suggestion.guidebox_data.sources.web.episodes.all_sources;
-
-            channels = _.map(channels, function (elem) {
-                $http.get('api/channel_images/' + elem.id)
-                    .then(function (data) {
-                        elem.images = data.data;
-                        return elem
-                    })
-            });
-
             suggestion.justAdded = true;
-
 
             ssPackage.data.content.push(suggestion);
 
-
-
             PackageFactory.setPackage(ssPackage);
-
+            
             $scope.loading = false
         }
 
@@ -115,8 +101,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
         }
     });
-
-
 
 
 })

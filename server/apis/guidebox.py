@@ -27,7 +27,7 @@ def check_for_banned_service(i):
     if matches:
         return False
     return True
-    pass
+
 
 
 def get_date_channels_last_checked(c):

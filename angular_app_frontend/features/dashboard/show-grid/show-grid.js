@@ -139,14 +139,16 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        $scope.detailSources = function () {
+        $scope.detailSources = (function () {
             if ($scope.cs.guidebox_data != undefined) {
-                // debugger;
 
-                return _($scope.cs.channel)
+
+                 var x = _($scope.cs.channel)
                     .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
                     .map(function (elem) {
+
                         if (elem.guidebox_data != undefined) {
+                            debugger
                             elem.source = elem.guidebox_data.short_name
                         }
 
@@ -166,8 +168,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     .uniqBy('source')
                     .value();
+
+                return x;
             }
-        }
+        })()
 
         // $scope.getRatings = function () {
         //     $http.get($scope.cs.url + '/ratings')

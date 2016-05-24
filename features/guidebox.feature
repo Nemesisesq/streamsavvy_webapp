@@ -62,4 +62,8 @@ Feature: guidebox api feature
     Given we call the the add details task
     Then there are a total number of jobs in the low queue
 
-
+  @real_db
+  Scenario: Test sling over the air processor
+    Given a the show Game of Thrones
+    When We call sling over the air processor
+    Then Xfinity is removed

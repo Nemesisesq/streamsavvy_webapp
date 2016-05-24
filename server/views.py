@@ -232,18 +232,29 @@ class ContentViewSet(viewsets.ModelViewSet):
 
     def get_object(self):
         obj = super(ContentViewSet, self).get_object()
+        g = GuideBox()
 
         if 'detail' in obj.guidebox_data:
+            obj.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
+                                                                              obj.guidebox_data['sources']['web'][
+                                                                                  'episodes'][
+                                                                                  'all_sources'] if
+                                                                              g.check_for_banned_service(i)]
             return obj
 
         else:
-            g = GuideBox()
             detail = g.get_content_detail(obj.guidebox_data['id'])
             detail = json.loads(detail)
 
             obj.guidebox_data['detail'] = detail
 
             obj.save()
+
+            obj.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
+                                                                              obj.guidebox_data['sources']['web'][
+                                                                                  'episodes'][
+                                                                                  'all_sources'] if
+                                                                              g.check_for_banned_service(i)]
 
             return obj
 
