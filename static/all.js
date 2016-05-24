@@ -1376,6 +1376,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
 
@@ -1955,7 +1956,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,
             container = document.getElementById('search-and-shows');
-        // debugger;
+        debugger;
         $(scaleItem).attr('id', 'scaled-from')
         $(positionItem).attr('id', 'is-opened')
         //debugger;
@@ -2008,6 +2009,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             .then(function (v) {
                 //debugger;
                 $('body').css('overflow', 'scroll');
+                $(scaleItem).removeAttr('id')
+                $(positionItem).removeAttr('id')
 
 
             })

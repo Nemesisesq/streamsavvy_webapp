@@ -236,11 +236,6 @@ class ContentViewSet(viewsets.ModelViewSet):
 
         if 'detail' in obj.guidebox_data:
             obj = g.sling_tv_and_over_the_air_processor(obj)
-            # obj.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
-            #                                                                   obj.guidebox_data['sources']['web'][
-            #                                                                       'episodes'][
-            #                                                                       'all_sources'] if
-            #                                                                   g.check_for_banned_service(i)]
             return obj
 
         else:
