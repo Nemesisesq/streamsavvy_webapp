@@ -18,4 +18,6 @@ banned_channels = ['HBO Go',
                    'STARZ Play',
                    'SyFy',
                    'USA',
-                   'MTV']
+                   'MTV',
+                   'Hulu with Showtime',
+                   ]
