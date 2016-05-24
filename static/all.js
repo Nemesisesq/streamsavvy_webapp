@@ -808,7 +808,8 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
             if (elem.is_on_sling) {
 
                 return true == bool
-            }if (elem.on_sling) {
+            }
+            if (elem.on_sling) {
 
                 return true == bool
             }
@@ -1379,6 +1380,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
 
@@ -1432,7 +1434,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -2036,7 +2037,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             if ($scope.cs.guidebox_data != undefined) {
 
 
-                 var x = _($scope.cs.channel)
+                var x = _($scope.cs.channel)
                     .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
                     .map(function (elem) {
 
@@ -2045,15 +2046,16 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = elem.guidebox_data.short_name
                         }
 
-                        if(elem.source == 'hulu_free'){
-                            return false
-                        }
 
                         return elem
-                    }).filter(function(elem){
+                    }).filter(function (elem) {
 
                         if (elem.hasOwnProperty('guidebox_data')) {
                             return !elem.guidebox_data.is_over_the_air
+                        }
+
+                        if (elem.source == 'hulu_free') {
+                            return false
                         }
 
                         return true

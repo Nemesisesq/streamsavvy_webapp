@@ -145,7 +145,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             if ($scope.cs.guidebox_data != undefined) {
 
 
-                 var x = _($scope.cs.channel)
+                var x = _($scope.cs.channel)
                     .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
                     .map(function (elem) {
 
@@ -154,15 +154,16 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = elem.guidebox_data.short_name
                         }
 
-                        if(elem.source == 'hulu_free'){
-                            return false
-                        }
 
                         return elem
-                    }).filter(function(elem){
+                    }).filter(function (elem) {
 
                         if (elem.hasOwnProperty('guidebox_data')) {
                             return !elem.guidebox_data.is_over_the_air
+                        }
+
+                        if (elem.source == 'hulu_free') {
+                            return false
                         }
 
                         return true

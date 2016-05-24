@@ -139,7 +139,8 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
             if (elem.is_on_sling) {
 
                 return true == bool
-            }if (elem.on_sling) {
+            }
+            if (elem.on_sling) {
 
                 return true == bool
             }
