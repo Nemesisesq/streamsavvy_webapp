@@ -1,5 +1,8 @@
 <div class="ss-hardware-panel">
-
+    <div class="service-center">
+        <button class="btn btn-red im-ready" onclick="location.href='#/checkout';"> I'm Ready To Cut the Cord.
+        </button>
+    </div>
     <div class="hardware-header row">
         <div class="col-xs-10">HARDWARE SUGGESTIONS</div>
         <div class="col-xs-2" ng-click="toggleHardwarePanel()">
@@ -7,7 +10,7 @@
             <i ng-if="collapseHardware==true" class="fa fa-chevron-up"></i>
         </div>
     </div>
-    <div  class="row hardware-body">
+    <div class="row hardware-body">
         <div class="col-sm-6">
 
             <div class="hardware-img" ng-click="addRemoveHardware(item)"
