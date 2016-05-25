@@ -1450,10 +1450,6 @@ app.controller('FeedbackCtrl', function ($scope) {
     }
 })
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -1483,10 +1479,20 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 });
 
 /**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
  * Created by Nem on 6/28/15.
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
     $scope.isHomePage = $state.current.data.isHomePage;
+
+    $scope.isActive = function (hash) {
+        return document.location.hash == hash;
+
+
+    }
 
 
     $scope.hmdc = $state.current.data.hmdcActive;

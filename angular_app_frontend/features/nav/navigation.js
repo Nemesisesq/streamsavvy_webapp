@@ -4,6 +4,12 @@
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
     $scope.isHomePage = $state.current.data.isHomePage;
 
+    $scope.isActive = function (hash) {
+        return document.location.hash == hash;
+
+
+    }
+
 
     $scope.hmdc = $state.current.data.hmdcActive;
 

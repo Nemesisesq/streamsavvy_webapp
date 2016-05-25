@@ -147,3 +147,10 @@
     color: white;
   }
 }
+
+a.active {
+  background-color: inherit;
+  border-left: 3px solid $button_hover;
+  color: white;
+  text-decoration: none !important;
+}

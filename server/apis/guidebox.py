@@ -18,17 +18,15 @@ def is_banned_channel(i, m):
     if type(i) == dict:
         return fuzz.token_sort_ratio(i['display_name'], m) >= 90
     else:
-         return fuzz.token_sort_ratio(i.name, m) >= 90
+        return fuzz.token_sort_ratio(i.name, m) >= 90
 
-
+@try_catch
 def check_for_banned_service(i):
     matches = [m for m in banned_channels if is_banned_channel(i, m)]
 
     if matches:
         return False
     return True
-
-
 
 def get_date_channels_last_checked(c):
     if c.channels_last_checked:
@@ -143,7 +141,7 @@ class GuideBox(object):
 
         c.channel = [i for i in c.channel.all() if self.check_for_banned_service(i)]
 
-        @try_catch
+
         def check_for_sling(s):
             if isinstance(s, Channel):
                 if s.guidebox_data['name'] in broadcast_channels:
@@ -178,6 +176,7 @@ class GuideBox(object):
         # c.save()
         return c
 
+
     def add_additional_channels_for_show(self, shows):
 
         def execute(c):
@@ -187,7 +186,7 @@ class GuideBox(object):
 
                     c.guidebox_data['sources'] = available_sources['results']
 
-                    self.sling_tv_and_over_the_air_processor()
+                    self.sling_tv_and_over_the_air_processor(c)
 
                     c.save()
 
@@ -223,6 +222,7 @@ class GuideBox(object):
         #
         # return show_count
 
+    @try_catch
     def get_available_content_for_show(self, content_id):
         url = "{BASE_URL}/show/{id}/available_content".format(BASE_URL=self.BASE_URL, id=content_id)
 
@@ -364,6 +364,7 @@ class GuideBox(object):
         except Exception as e:
             print(e)
 
+    @try_catch
     def check_for_banned_service(self, i):
         matches = [m for m in banned_channels if is_banned_channel(i, m)]
 

@@ -1087,6 +1087,12 @@ show-detail {
   #sign-up:hover {
     color: white; }
 
+a.active {
+  background-color: inherit;
+  border-left: 3px solid #e7021e;
+  color: white;
+  text-decoration: none !important; }
+
 html,
 button,
 input,
