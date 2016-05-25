@@ -8,13 +8,6 @@
   .ss_wordmark {
     height: 16px;
   }
-  span {
-    float: right;
-  }
-
-  .footer-right {
-    color: $warm-grey;
-  }
 
   .streamsavvy-logo {
     width: 218px;
@@ -22,7 +15,7 @@
     object-fit: contain;
   }
 
-  position: fixed;
+  position: absolute;
   bottom: 0;
 
   width: 100%;
@@ -42,4 +35,8 @@
 
 .footer {
   z-index: 102;
+}
+
+span.pull-right.footer-right {
+  color: $warm-grey;
 }

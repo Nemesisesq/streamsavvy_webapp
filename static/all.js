@@ -232,7 +232,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 },
                 'hardware': {
                     templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
-                    controller: 'StepThreeController'
+                    controller: 'HardwareController'
                 },
                 'select': {
                     templateUrl: '/static/partials/selected-show/select.html'
@@ -1450,6 +1450,10 @@ app.controller('FeedbackCtrl', function ($scope) {
     }
 })
 /**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -1477,10 +1481,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 
 });
-
-/**
- * Created by Nem on 10/7/15.
- */
 
 /**
  * Created by Nem on 6/28/15.
@@ -1759,6 +1759,30 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 ;
 
 
+/**
+ * Created by Nem on 5/24/16.
+ */
+app.controller('HardwareController', function($scope){
+    $scope.collapseHardware=false;
+    
+    $scope.toggleHardwarePanel = function () {
+               debugger;
+
+
+        var serviceHeight = $(window).height() - 46;
+
+        if (!$scope.collapseHardware) {
+            $('.service-panel.ng-scope').animate({height: serviceHeight + 'px'});
+            $('.hardware-panel.ng-scope').animate('46px');
+        } else {
+            $('.service-panel.ng-scope').animate({height: '60vh'});
+            $('.hardware-body').animate('40vh');
+
+        }
+        $scope.collapseHardware = !$scope.collapseHardware;
+        
+    }
+})
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
     $scope.hello = 'world';

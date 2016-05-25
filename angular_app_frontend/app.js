@@ -232,7 +232,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 },
                 'hardware': {
                     templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
-                    controller: 'StepThreeController'
+                    controller: 'HardwareController'
                 },
                 'select': {
                     templateUrl: '/static/partials/selected-show/select.html'

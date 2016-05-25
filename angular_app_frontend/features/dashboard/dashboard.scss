@@ -10,12 +10,14 @@
     color: $warm-grey;
     height: 46px;
     line-height: 46px;
-    position: fixed;
+    position: absolute;
     z-index: 100;
     width: 100%;
 
   }
   %side-panel {
+
+    transition: height 2s ease;
 
     .menu-background {
 
@@ -37,6 +39,8 @@
     //padding-left: 40px;
     //padding-right: 40px;
     padding-left:0;
+    height: 100vh;
+    overflow: scroll;
     .search-bar {
       height: 50px;
       padding: 0;

@@ -66,6 +66,8 @@ gulp.task('sass', function () {
         .pipe(livereload());
 });
 
+
+
 gulp.task('images', function () {
     return gulp.src(paths.images)
         .pipe(gulp.dest(paths.images_dest));

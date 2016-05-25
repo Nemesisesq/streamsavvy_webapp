@@ -1,6 +1,7 @@
 .ss-hardware-panel {
 
 
+
   @extend %side-panel;
   .row{
 
@@ -30,6 +31,7 @@
   }
 
   .hardware-body {
+    transition: height 2s ease;
     margin-top: 55px;
   }
 }
@@ -61,4 +63,8 @@
 
 .im-ready{
   color: white;
+}
+
+.hardware-collapsed {
+  height: 100vh;
 }
