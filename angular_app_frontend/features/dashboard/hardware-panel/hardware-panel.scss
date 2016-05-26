@@ -59,7 +59,7 @@
   width: 25vw;
 }
 
-.im-ready {
+.not-ready {
   margin: 0 auto;
   display: block;
   width: 243px;
@@ -71,6 +71,11 @@
   text-align: center;
   color: #9b9b9b;
   font-weight: 300;
+
+  &.ready-for-checkout {
+    background-color: #3fc23f;
+    color: #ffffff;
+  }
 }
 
 .hardware-collapsed {

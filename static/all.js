@@ -1762,18 +1762,18 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 /**
  * Created by Nem on 5/24/16.
  */
-app.controller('HardwareController', function ($scope) {
+app.controller('HardwareController', function ($scope, PackageFactory) {
 
     $('.service-panel').on('scroll', function () {
-        $('.im-ready').fadeOut()
+        $('.not-ready').fadeOut()
     })
 
     $('.service-panel').on('scroll', function () {
         debugger
         _.debounce(function () {
 
-            $('.im-ready').fadeIn()
-        }, 500)()
+            $('.not-ready').fadeIn()
+        }, 100)()
     })
     $scope.collapseHardware = true;
     var serviceHeight = $(window).height() - 46;
@@ -1785,7 +1785,6 @@ app.controller('HardwareController', function ($scope) {
     }
 
     $scope.toggleHardwarePanel = function () {
-        debugger;
 
 
         if (!$scope.collapseHardware) {
@@ -1800,7 +1799,12 @@ app.controller('HardwareController', function ($scope) {
         $scope.collapseHardware = !$scope.collapseHardware;
 
     }
-})
+    $scope.servicesGT0 = function () {
+        debugger
+        return !_.isEmpty(PackageFactory.getListOfServices())
+    }
+
+});
 
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 

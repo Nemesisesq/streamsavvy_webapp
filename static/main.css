@@ -2774,7 +2774,7 @@ span.pull-right.footer-right {
   z-index: 100;
   width: 25vw; }
 
-.im-ready {
+.not-ready {
   margin: 0 auto;
   display: block;
   width: 243px;
@@ -2786,6 +2786,9 @@ span.pull-right.footer-right {
   text-align: center;
   color: #9b9b9b;
   font-weight: 300; }
+  .not-ready.ready-for-checkout {
+    background-color: #3fc23f;
+    color: #ffffff; }
 
 .hardware-collapsed {
   height: 100vh; }
