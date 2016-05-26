@@ -125,7 +125,7 @@ class GuideBox(object):
             return False
 
     @try_catch
-    def sling_tv_and_over_the_air_processor(self, c):
+    def process_content_for_sling_ota_banned_channels(self, c):
         c = self.check_for_sources(c)
 
         c = self.remove_banned_channels(c)
@@ -196,7 +196,7 @@ class GuideBox(object):
 
                     c.guidebox_data['sources'] = available_sources['results']
 
-                    # self.sling_tv_and_over_the_air_processor(c)
+                    # self.process_content_for_sling_ota_banned_channels(c)
 
                     c.save()
 

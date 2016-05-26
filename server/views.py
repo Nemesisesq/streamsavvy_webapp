@@ -215,7 +215,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         filter_results = list(filter(self.filter_content_by_guidebox_id, filter_results))
 
-        filter_results = [GuideBox().sling_tv_and_over_the_air_processor(show) for show in filter_results]
+        filter_results = [GuideBox().process_content_for_sling_ota_banned_channels(show) for show in filter_results]
 
         assert cache
         try:
@@ -235,7 +235,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         g = GuideBox()
 
         if 'detail' in obj.guidebox_data:
-            # obj = g.sling_tv_and_over_the_air_processor(obj)
+            # obj = g.process_content_for_sling_ota_banned_channels(obj)
             return obj
 
         else:
@@ -246,7 +246,7 @@ class ContentViewSet(viewsets.ModelViewSet):
 
             obj.save()
 
-            # obj = g.sling_tv_and_over_the_air_processor(obj)
+            # obj = g.process_content_for_sling_ota_banned_channels(obj)
 
             return obj
 

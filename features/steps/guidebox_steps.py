@@ -199,7 +199,7 @@ def step_impl(context):
 
 @when("We call sling over the air processor")
 def step_impl(context):
-    context.guidebox.sling_tv_and_over_the_air_processor(context.show)
+    context.guidebox.process_content_for_sling_ota_banned_channels(context.show)
     """
     :type context: behave.runner.Context
     """
