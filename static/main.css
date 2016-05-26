@@ -2767,23 +2767,25 @@ span.pull-right.footer-right {
   transition: height 1s ease; }
 
 .service-center {
-  margin: -112px auto auto 5px;
+  margin-top: -130px;
   display: table;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 45px;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
-  font-size: 12px;
-  letter-spacing: 0.5px;
   color: #9b9b9b;
-  height: 46px;
-  line-height: 46px;
   position: fixed;
   z-index: 100;
-  width: 100%; }
+  width: 25vw; }
 
 .im-ready {
-  color: white; }
+  margin: 0 auto;
+  display: block;
+  width: 243px;
+  height: 60px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  text-align: center;
+  color: #9b9b9b;
+  font-weight: 300; }
 
 .hardware-collapsed {
   height: 100vh; }
