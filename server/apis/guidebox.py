@@ -30,8 +30,12 @@ def check_for_banned_service(i):
     return True
 
 
+@try_catch
 def get_date_channels_last_checked(c):
-    return False
+    if c.channels_last_checked is not None:
+        td = datetime.datetime.now(datetime.timezone.utc) - c.channels_last_checked
+        return td.days > 30
+    return True
 
 
 class GuideBox(object):
@@ -126,7 +130,7 @@ class GuideBox(object):
 
     @try_catch
     def process_content_for_sling_ota_banned_channels(self, c):
-        c = self.check_for_sources(c)
+        c = self.check_for_sources_date_last_checked(c)
 
         c = self.remove_banned_channels(c)
 
@@ -180,10 +184,10 @@ class GuideBox(object):
         c.channel = [i for i in c.channel.all() if self.check_for_banned_service(i)]
         return c
 
-    def check_for_sources(self, c):
+    def check_for_sources_date_last_checked(self, c):
         if 'sources' not in c.guidebox_data or get_date_channels_last_checked(c):
             c = self.add_additional_channels_for_show(c)
-            # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
+            c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
             c.save()
         return c
 
