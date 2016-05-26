@@ -185,9 +185,9 @@ class GuideBox(object):
         return c
 
     def check_for_sources_date_last_checked(self, c):
-        if 'sources' not in c.guidebox_data or get_date_channels_last_checked(c):
+        if 'sources' not in c.guidebox_data:
             c = self.add_additional_channels_for_show(c)
-            c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
+            # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
             c.save()
         return c
 
