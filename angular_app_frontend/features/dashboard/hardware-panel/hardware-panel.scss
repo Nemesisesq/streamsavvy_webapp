@@ -31,15 +31,16 @@
   }
 
   .hardware-body {
-    transition: height 2s ease;
+    transition: height 0.3s ease;
     margin-top: 55px;
   }
 }
 
 .hardware-panel {
 
-  height:40vh;
+  height:46px;
   overflow: scroll;
+  transition: height 1s ease;
 }
 
 .service-center{

@@ -2459,7 +2459,7 @@ ul[id^='typeahead-'], .suggestions-list {
   width: 100%; }
 
 .dashboard .service-panel.ng-scope, .dashboard .ss-hardware-panel {
-  transition: height 2s ease; }
+  transition: height 1s ease; }
   .dashboard .service-panel.ng-scope .menu-background, .dashboard .ss-hardware-panel .menu-background {
     height: 46px;
     background-color: rgba(21, 25, 27, 0.98);
@@ -2490,7 +2490,7 @@ ul[id^='typeahead-'], .suggestions-list {
   position: fixed;
   right: 0;
   z-index: 1;
-  height: 100vh;
+  max-height: 100vh;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease;
@@ -2637,6 +2637,7 @@ span.pull-right.footer-right {
 
 .service-panel.ng-scope {
   min-height: 60vh;
+  max-height: calc(100vh - 46px);
   -webkit-backdrop-filter: blur(9.9px);
   backdrop-filter: blur(9.9px);
   overflow-y: scroll; }
@@ -2757,12 +2758,13 @@ span.pull-right.footer-right {
   margin-top: -55px; }
 
 .ss-hardware-panel .hardware-body {
-  transition: height 2s ease;
+  transition: height 0.3s ease;
   margin-top: 55px; }
 
 .hardware-panel {
-  height: 40vh;
-  overflow: scroll; }
+  height: 46px;
+  overflow: scroll;
+  transition: height 1s ease; }
 
 .service-center {
   margin: -112px auto auto 5px;

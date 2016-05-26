@@ -17,7 +17,7 @@
   }
   %side-panel {
 
-    transition: height 2s ease;
+    transition: height 1s ease;
 
     .menu-background {
 
@@ -57,7 +57,7 @@
     position: fixed;
     right: 0;
     z-index: 1;
-    height: 100vh;
+    max-height: 100vh;
 
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
