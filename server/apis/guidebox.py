@@ -20,6 +20,7 @@ def is_banned_channel(i, m):
     else:
         return fuzz.token_sort_ratio(i.name, m) >= 90
 
+
 @try_catch
 def check_for_banned_service(i):
     matches = [m for m in banned_channels if is_banned_channel(i, m)]
@@ -27,6 +28,7 @@ def check_for_banned_service(i):
     if matches:
         return False
     return True
+
 
 def get_date_channels_last_checked(c):
     return False
@@ -124,55 +126,66 @@ class GuideBox(object):
 
     @try_catch
     def sling_tv_and_over_the_air_processor(self, c):
-        if 'sources' not in c.guidebox_data or get_date_channels_last_checked(c):
-            c = self.add_additional_channels_for_show(c)
-            # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
-            c.save()
+        c = self.check_for_sources(c)
 
+        c = self.remove_banned_channels(c)
+
+        sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
+
+        sources = [self.check_for_sling(s) for s in sources]
+        sources = [self.check_for_over_the_air(s) for s in sources]
+
+        c.guidebox_data['sources']['web']['episodes']['all_sources'] = sources
+
+        for s in c.channel.all():
+            self.check_for_sling(s)
+
+        c.save()
+        return c
+
+    def check_for_over_the_air(self, s):
+        if isinstance(s, Channel):
+            if s.guidebox_data['name'] in broadcast_channels:
+                s.guidebox_data['is_over_the_air'] = 'true'
+                s.save()
+                return s
+
+        else:
+
+            if 'display_name' in s and s['display_name'] in broadcast_channels:
+                s['is_over_the_air'] = 'true'
+                return s
+
+        return s
+
+    def check_for_sling(self, s):
+        if isinstance(s, Channel):
+            if s.guidebox_data['name'] in sling_channels:
+                s.guidebox_data['on_sling'] = 'true'
+                s.is_on_sling = True
+                s.save()
+                return s
+        else:
+            if 'display_name' in s and s['display_name'] in sling_channels:
+                s['on_sling'] = 'true'
+                return s
+        return s
+
+    def remove_banned_channels(self, c):
         c.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
                                                                         c.guidebox_data['sources']['web']['episodes'][
                                                                             'all_sources'] if
                                                                         self.check_for_banned_service(i)]
 
-        sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
-
         c.channel = [i for i in c.channel.all() if self.check_for_banned_service(i)]
-
-
-        def check_for_sling(s):
-            if isinstance(s, Channel):
-                if s.guidebox_data['name'] in broadcast_channels:
-                    s.guidebox_data['is_over_the_air'] = 'true'
-                    s.save()
-                    return s
-
-                if s.guidebox_data['name'] in sling_channels:
-                    s.guidebox_data['on_sling'] = 'true'
-                    s.is_on_sling = True
-                    s.save()
-                    return s
-
-            else:
-
-                if 'display_name' in s and s['display_name'] in sling_channels:
-                    s['on_sling'] = 'true'
-                    return s
-
-                elif 'display_name' in s and s['display_name'] in broadcast_channels:
-                    s['is_over_the_air'] = 'true'
-                    return s
-
-            return s
-
-        sources = [check_for_sling(s) for s in sources]
-        # c.channel = [check_for_sling(s) for s in c.channel.all()]
-
-        for s in c.channel.all():
-            check_for_sling(s)
-
-        # c.save()
         return c
 
+    def check_for_sources(self, c):
+        if 'sources' not in c.guidebox_data or get_date_channels_last_checked(c):
+            c = self.add_additional_channels_for_show(c)
+            # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
+            c.save()
+        return c
 
     def add_additional_channels_for_show(self, shows):
 

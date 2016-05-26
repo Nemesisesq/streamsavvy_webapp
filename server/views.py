@@ -215,7 +215,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         filter_results = list(filter(self.filter_content_by_guidebox_id, filter_results))
 
-        # filter_results = [GuideBox().sling_tv_and_over_the_air_processor(show) for show in filter_results]
+        filter_results = [GuideBox().sling_tv_and_over_the_air_processor(show) for show in filter_results]
 
         assert cache
         try:
