@@ -1,79 +1,88 @@
 <div class="menu-background service-header">SERVICE & SHOWS</div>
 
 <div class="ss_panel-body">
-<div class="ss_service">
-    <div style="color : #337ab7; cursor:pointer" ng-click="ota.open = !ota.open"
-         ng-show="listOfServices.ota.length > 0">
-        OVER THE AIR
-    </div>
-    <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-    <div ng-repeat="service in listOfServices.ota" uib-collapse="ota.open">
-        <!--<img ng-src=""/>-->
-        <ul class="list-group ss_show-list">
-            <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
-        </ul>
-    </div>
-</div>
-<div class="ss_service">
-    <div style="color : #337ab7; cursor:pointer" ng-click="ppv.open = !ppv.open"
-         ng-show="listOfServices.ppv.length > 0">
-        Pay Per View
-    </div>
-    <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-    <div ng-repeat="service in listOfServices.ppv" uib-collapse="ppv.open">
-        <!--<img ng-src=""/>-->
-        <ul class="list-group ss_show-list">
-            <li class="list-group-item ss_show" hide-duplicate ng-repeat="show in service.shows">{{ show.title }}</li>
-        </ul>
-    </div>
-</div>
-
-<div class="ss_service" ng-if="(pkg.data.content | onNetflix).length > 0">
-    <div style="color : #337ab7; cursor:pointer" ng-click="n_flix.open = !n_flix.open">
-        NETFLIX
-    </div>
-    <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-    <div uib-collapse="n_flix.open">
-        <!--<img ng-src=""/>-->
-        <ul class="list-group ss_show-list">
-            <li class="list-group-item ss_show"
-                ng-repeat="show in pkg.data.content | onNetflix">{{ show.title }}</li>
-        </ul>
-    </div>
-</div>
-
-<div class="ss_service">
-    <div style="color : #337ab7; cursor:pointer" ng-click="sling.open = !sling.open"
-         ng-show="listOfServices.sling.length > 0">
-        SLING
-    </div>
-    <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-    <div ng-repeat="service in listOfServices.sling" uib-collapse="sling.open">
-        <!--<img ng-src=""/>-->
-        <ul class="list-group ss_show-list">
-            <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
-        </ul>
-    </div>
-</div>
-
-<div combine-showtime>
-    <div class="ss_service" ng-repeat="service in listOfServices.not_ota | unwantedChannels">
-        <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}
-            <span ng-if="service.chan.on_sling"> Sling TV</span>
-        </a>
-        <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
-
-        <div uib-collapse="service.open">
+    <div class="ss_service">
+        <div style="color : #337ab7; cursor:pointer" ng-click="ota.open = !ota.open"
+             ng-show="listOfServices.ota.length > 0">
+            OVER THE AIR
+        </div>
+        <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
+        <div ng-repeat="service in listOfServices.ota" uib-collapse="ota.open">
+            <!--<img ng-src=""/>-->
             <ul class="list-group ss_show-list">
                 <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
             </ul>
         </div>
-        <div class="row-buffer"></div>
     </div>
-</div>
+    <div class="ss_service">
+        <div style="color : #337ab7; cursor:pointer" ng-click="ppv.open = !ppv.open"
+             ng-show="listOfServices.ppv.length > 0">
+            Pay Per View
+        </div>
+        <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
+        <div ng-repeat="service in listOfServices.ppv" uib-collapse="ppv.open">
+            <!--<img ng-src=""/>-->
+            <ul class="list-group ss_show-list">
+                <li class="list-group-item ss_show" hide-duplicate
+                    ng-repeat="show in service.shows">{{ show.title }}</li>
+            </ul>
+        </div>
+    </div>
 
-<div ng-hide="listOfServices.not_ota.length > 0 || listOfServices.ota.length > 0" class="please-add-please">Please add <br>
-    shows or services <br> to get
-    started
-</div>
+    <div class="ss_service" ng-if="(pkg.data.content | onNetflix).length > 0">
+        <div style="color : #337ab7; cursor:pointer" ng-click="n_flix.open = !n_flix.open">
+            NETFLIX
+        </div>
+        <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
+        <div uib-collapse="n_flix.open">
+            <!--<img ng-src=""/>-->
+            <ul class="list-group ss_show-list">
+                <li class="list-group-item ss_show"
+                    ng-repeat="show in pkg.data.content | onNetflix">{{ show.title }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="ss_service">
+        <div style="color : #337ab7; cursor:pointer" ng-click="sling.open = !sling.open"
+             ng-show="listOfServices.sling.length > 0">
+            SLING
+        </div>
+        <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
+        <div ng-repeat="service in listOfServices.sling" uib-collapse="sling.open">
+            <!--<img ng-src=""/>-->
+            <ul class="list-group ss_show-list">
+                <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div combine-showtime>
+        <div class="ss_service" ng-repeat="service in listOfServices.not_ota | unwantedChannels">
+            <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}
+                <span ng-if="service.chan.on_sling"> Sling TV</span>
+            </a>
+            <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
+
+            <div uib-collapse="service.open">
+                <ul class="list-group ss_show-list">
+                    <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
+                </ul>
+            </div>
+            <div class="row-buffer"></div>
+        </div>
+    </div>
+
+    <div ng-hide="listOfServices.not_ota.length > 0 || listOfServices.ota.length > 0" class="please-add-please">Please
+        add <br>
+        shows or services <br> to get
+        started
+    </div>
+
+    <div class="row">
+        <div class="service-center">
+            <button class="btn btn-red im-ready" onclick="location.href='#/checkout';"> I'm Ready To Cut the Cord.
+            </button>
+        </div>
+    </div>
 </div>
