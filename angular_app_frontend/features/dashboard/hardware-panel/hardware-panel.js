@@ -3,12 +3,19 @@
  */
 app.controller('HardwareController', function($scope){
     $scope.collapseHardware=true;
+    var serviceHeight = $(window).height() - 46;
+
+    if ($scope.collapseHardware) {
+        debugger
+        $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
+
+    }
     
     $scope.toggleHardwarePanel = function () {
                debugger;
 
 
-        var serviceHeight = $(window).height() - 46;
+
 
         if (!$scope.collapseHardware) {
             $('.service-panel.ng-scope').animate({'height': serviceHeight + 'px'});
