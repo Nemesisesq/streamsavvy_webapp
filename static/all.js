@@ -1421,7 +1421,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
 
 
@@ -1475,6 +1474,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.
@@ -1991,6 +1991,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     var openingDetail = false
     //$rootScope.showDetailDirective = false;
+    var liveServices = ['sling','cbs','nbc','abc'];
+    var onDemandServices = ['hulu_plus','nbc'];
+    var bingeServices = ['netflix','amazon_prime'];
+    var payPerServices = ['google_play','itunes','amazon_buy','youtube_purchase','vudu'];
 
     $scope.hello = 'clear package';
 
@@ -2130,37 +2134,70 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
+        $scope.cs.liveWindow = [];
+        $scope.cs.bingeWindow = [];
+        $scope.cs.onDemandWindow = [];
+        $scope.cs.payPerWindow = [];
+        $scope.cs.misc = [];
         $scope.detailSources = (function () {
             if ($scope.cs.guidebox_data != undefined) {
 
 
                 var x = _($scope.cs.channel)
-                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
-                    .map(function (elem) {
+                        .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                        .map(function (elem) {
 
-                        if (elem.guidebox_data != undefined) {
-                            debugger
-                            elem.source = elem.guidebox_data.short_name
-                        }
+                            if (elem.guidebox_data != undefined) {
+                                debugger
+                                elem.source = elem.guidebox_data.short_name
+                            }
 
 
-                        return elem
-                    }).filter(function (elem) {
+                            return elem
+                        }).filter(function (elem) {
 
-                        if (elem.hasOwnProperty('guidebox_data')) {
-                            return !elem.guidebox_data.is_over_the_air
-                        }
+                            if (elem.hasOwnProperty('guidebox_data')) {
+                                return !elem.guidebox_data.is_over_the_air
+                            }
 
-                        if (elem.source == 'hulu_free' || elem.source =='starz_tveverywhere') {
-                            return false
-                        }
+                            if (elem.source == 'hulu_free' || elem.source == 'starz_tveverywhere') {
+                                return false
+                            }
 
-                        return true
-                    })
+                            return true
+                        })
 
-                    .uniqBy('source')
-                    .value();
+                        .uniqBy('source')
+                        .value()
 
+                        .forEach(function (service) {
+                            if (liveServices.includes(service.source)) {
+                                $scope.cs.liveWindow.push(service.source);
+                            }
+                            else if (onDemandServices.includes(service.source)) {
+                                $scope.cs.onDemandWindow.push(service.source);
+                            }
+                            else if (bingeServices.includes(service.source)) {
+                                $scope.cs.bingeWindow.push(service.source);
+                            }
+                            else if (payPerServices.includes(service.source)) {
+                                $scope.cs.payPerWindow.push(service.source);
+                            }
+                            else if (service.source == 'hbo_now') {
+                                $scope.cs.liveWindow.push(service.source);
+                                $scope.cs.onDemandWindow.push(service.source);
+                                $scope.cs.bingeWindow.push(service.source);
+                            }
+                            else if (service.source == 'showtime_subscription') {
+                                $scope.cs.onDemandWindow.push(service.source);
+                                $scope.cs.bingeWindow.push(service.source);
+                            }
+                            else {
+                                $scope.cs.misc.push(service.source);
+                            }
+                        })
+                        ;
+                console.log(x);
                 return x;
             }
         })()
