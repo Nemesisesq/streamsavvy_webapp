@@ -495,7 +495,40 @@ app.directive('showDetail', function () {
                 return moment(dateString).format('MMMM D, Y')
             }
 
-            scope.viewingWindows = _.chain(scope.cs)
+            scope.detailSources = (function () {
+            if ($scope.cs.guidebox_data != undefined) {
+
+
+                var x = _($scope.cs.channel)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .map(function (elem) {
+
+                        if (elem.guidebox_data != undefined) {
+                            debugger
+                            elem.source = elem.guidebox_data.short_name
+                        }
+
+
+                        return elem
+                    }).filter(function (elem) {
+
+                        if (elem.hasOwnProperty('guidebox_data')) {
+                            return !elem.guidebox_data.is_over_the_air
+                        }
+
+                        if (elem.source == 'hulu_free' || elem.source =='starz_tveverywhere') {
+                            return false
+                        }
+
+                        return true
+                    })
+
+                    .uniqBy('source')
+                    .value();
+
+                return x;
+            }
+        })()
         }
     }
 })
