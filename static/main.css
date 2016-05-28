@@ -2855,12 +2855,16 @@ show-detail {
     show-detail .service-options .window.row.live {
       margin-left: 2px; }
     show-detail .service-options .window-label {
-      margin-top: 19px; }
+      margin-top: 10px;
+      margin-bottom: 10px; }
     show-detail .service-options div {
       object-fit: contain;
-      height: 60px; }
+      margin-bottom: 3%;
+      height: auto; }
       show-detail .service-options div img {
         width: 100%; }
+  show-detail .add-another {
+    margin-top: 20px; }
   show-detail .fresh {
     width: 20px;
     height: 21px;
