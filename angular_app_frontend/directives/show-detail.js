@@ -13,6 +13,8 @@ app.directive('showDetail', function () {
                 // debugger
                 return moment(dateString).format('MMMM D, Y')
             }
+
+            scope.viewingWindows = _.chain(scope.cs)
         }
     }
 })

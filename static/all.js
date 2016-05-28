@@ -494,6 +494,8 @@ app.directive('showDetail', function () {
                 // debugger
                 return moment(dateString).format('MMMM D, Y')
             }
+
+            scope.viewingWindows = _.chain(scope.cs)
         }
     }
 })
@@ -1763,8 +1765,10 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
  * Created by Nem on 5/24/16.
  */
 app.controller('HardwareController', function ($scope, PackageFactory) {
+    
+    $scope.pkg = PackageFactory.getPackage();
 
-    $('.service-panel').on('scroll', function () {
+  /*  $('.service-panel').on('scroll', function () {
         $('.not-ready').fadeOut()
     })
 
@@ -1774,7 +1778,7 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
 
             $('.not-ready').fadeIn()
         }, 100)()
-    })
+    })*/
     $scope.collapseHardware = true;
     var serviceHeight = $(window).height() - 46;
 

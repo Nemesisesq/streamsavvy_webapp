@@ -1,9 +1,10 @@
 <div class="ss-hardware-panel">
     <div class="service-center">
         <button class="btn btn-red not-ready " onclick="location.href='#/checkout';"
-                ng-class="{'ready-for-checkout': servicesGT0()}">
-            <span ng-if="!servicesGT0()">Add shows or services</span>
-            <span ng-if="servicesGT0()">I'm ready to cut the cord</span>
+                ng-class="{'ready-for-checkout': pkg.data.content.length > 0 }">
+
+            <span ng-if="pkg.data.content.length < 1">Add shows or services</span>
+            <span ng-if="pkg.data.content.length > 0">I'm ready to cut the cord</span>
         </button>
     </div>
     <div class="hardware-header row">

@@ -2,6 +2,8 @@
  * Created by Nem on 5/24/16.
  */
 app.controller('HardwareController', function ($scope, PackageFactory) {
+    
+    $scope.pkg = PackageFactory.getPackage();
 
   /*  $('.service-panel').on('scroll', function () {
         $('.not-ready').fadeOut()
