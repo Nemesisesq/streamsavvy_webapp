@@ -43,6 +43,12 @@ app.directive('showDetail', function () {
                     })
 
                     .uniqBy('source')
+                    .groupBy(function(elem){
+                        if(elem.display_name != unefined){
+
+                        }
+
+                    })
                     .value();
 
                 return x;
