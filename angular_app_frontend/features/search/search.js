@@ -46,7 +46,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     };
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
-        debugger;
         var ssPackage = PackageFactory.getPackage();
 
         if (_.some(ssPackage.data.content, ['title', suggestion.title])) {

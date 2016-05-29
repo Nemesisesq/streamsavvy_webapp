@@ -20,7 +20,6 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
     var serviceHeight = $(window).height() - 46;
 
     if ($scope.collapseHardware) {
-        debugger
         $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
 
     }
@@ -41,7 +40,6 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
 
     }
     $scope.servicesGT0 = function () {
-        debugger
         return !_.isEmpty(PackageFactory.getListOfServices())
     }
 
