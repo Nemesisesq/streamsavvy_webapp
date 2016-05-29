@@ -2815,11 +2815,14 @@ show-detail {
     height: 21px;
     object-fit: contain;
     opacity: 100; }
-  show-detail img.show-pic {
-    width: 100%;
-    border-radius: 2.7%;
-    object-fit: contain;
-    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.5); }
+  show-detail .ss_pic-column {
+    margin-bottom: 20px; }
+    show-detail .ss_pic-column img.show-pic {
+      width: 100%;
+      margin-left: 13px;
+      border-radius: 2.7%;
+      object-fit: contain;
+      box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.5); }
   show-detail .s-e-l-e-c-t-e-d-s-h-o-w {
     width: 105px;
     height: 16px;
@@ -2877,6 +2880,7 @@ show-detail {
     margin-bottom: 10px; }
   show-detail .show-title {
     text-transform: none;
+    margin-left: 33px;
     font-family: AvenirNext-Bold;
     font-size: 28px;
     letter-spacing: 0.4px;
@@ -2897,6 +2901,7 @@ show-detail {
   show-detail .ratings {
     line-height: 33px; }
   show-detail .synopsis {
+    margin-left: 33px;
     font-family: Lato;
     font-size: 14px;
     line-height: 1.4;

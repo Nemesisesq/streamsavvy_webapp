@@ -22,15 +22,20 @@ show-detail {
     object-fit: contain;
     opacity: 100;
   }
-
-  img.show-pic {
+  .ss_pic-column{
+    margin-bottom: 20px;
+    img.show-pic {
     width: 100%;
     //width: 741px;
+    margin-left: 13px;
     border-radius: 2.7%;
     //height: 399px;
     object-fit: contain;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.5);
+    }
   }
+
+
 
   .s-e-l-e-c-t-e-d-s-h-o-w {
     width: 105px;
@@ -114,6 +119,7 @@ show-detail {
     text-transform: none;
     //width: 176px;
     //height: 38px;
+    margin-left: 33px;
     font-family: AvenirNext-Bold;
     font-size: 28px;
     letter-spacing: 0.4px;
@@ -142,7 +148,7 @@ show-detail {
   }
 
   .synopsis {
-
+    margin-left:33px;
     font-family: Lato;
     font-size: 14px;
     line-height: 1.4;
