@@ -70,8 +70,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             else if (service.source == 'showtime_subscription') {
                                 services.on_demand.push(service);
                                 service.binge.push(service);
+                                service.live.push(service);
                             }
-
+                            else if (service.source == 'starz'){
+                                service.binge.push(service);
+                                service.on_demand.push(service);
+                            }
                         })
 
                         if (services.live) {
