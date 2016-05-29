@@ -25,31 +25,46 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
 
     .constant('SERVICE_PRICE_LIST', [
         {name: 'Pay Per View', price: 0.00, description: 'If a subscription service is not for you, these apps allow you to purchase a show at a time.' +
-        ' Or you can purchase an entire season once it has finished airing.'},
+        ' Or you can purchase an entire season once it has finished airing.',
+        subscriptionLink: 'https://play.google.com/store/movies/category/TV?hl=en'},
         {name: 'netflix', price: 9.99, description: 'Best described as a "binge watch" service. ' +
         'Typically, full seasons are launched all at once and a season behind what is currently showing on TV. Netflix also offers original programming now.' +
-        ' This is also released a full season at a time.'},
+        ' This is also released a full season at a time.',
+        subscriptionLink: 'https://www.netflix.com/'},
         {name: 'hulu_plus', price: 7.99, description: 'An on-demand service (think DVR) that offers shows from certain networks (ABC, limited NBC, FOX, CW, etc)' +
-        ' a day after they air. Subscription prices depend on whether or not you purchase an ad-free package or not.'},
+        ' a day after they air. Subscription prices depend on whether or not you purchase an ad-free package or not.',
+        subscriptionLink: 'http://www.hulu.com/start'},
         {name: 'amazon_prime', price: 8.25, description:'An on-demand and binge combo. Some programming is offered in full-season format and some is on-demand after it airs live.' +
         ' Some shows are free while others are not. Amazon is also building a strong offering of original shows. ' +
-        'It comes free with an annual Prime membership.'},
-        {name: 'hbo_now', price: 14.99, description: 'Watch HBO shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.'},
-        {name: 'SlingTV', price: 20.00, description: 'Live streaming service that makes shows available as they simultaneously air on cable.' +
+        'It comes free with an annual Prime membership.',
+        subscriptionLink:'http://www.amazon.com/gp/video/getstarted'},
+        {name: 'hbo_now', price: 14.99, description: 'Watch HBO shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.',
+            subscriptionLink: 'https://order.hbonow.com/'},
+        {name: 'SlingTV', price: 20.00,
+            description: 'Live streaming service that makes shows available as they simultaneously air on cable.' +
         ' The main Sling package gives you a "skinny bundle" of some of the most popular cable channels (ESPN, CNN, HGTV, etc.) ' +
-        'with the option to add extra mini packages on top of your main Sling package.'},
+        'with the option to add extra mini packages on top of your main Sling package.',
+            subscriptionLink: 'https://www.sling.com/'},
         {name: 'Over The Air', price: 0.00, description:'Watching over the air (OTA) is like watching live television.' +
-        ' There is no monthly cost, but a digital antenna is needed to pull in the signal.'},
-        {name: 'showtime', price: 10.99, description:'Watch Showtime shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.'},
+        ' There is no monthly cost, but a digital antenna is needed to pull in the signal.',
+            subscriptionLink:'http://amzn.com/B00X4RA74A'},
+        {name: 'showtime', price: 10.99, description:'Watch Showtime shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.',
+        subscriptionLink: 'http://www.sho.com/order?source=acq_shoanytime_about'},
         {name: 'cbs', price: 5.99, description:'New CBS episodes on demand the day after they air and almost all past seasons of CBS shows for binging.' +
-        ' In select markets, you can stream CBS live.'},
-        {name: 'nbc', price: 0.00, description:'A DVR-like, on-demand app that offers shows from NBC a day after they air. You do have to watch commercials, but it\'s free.'},
-        {name: 'thecw', price: 0.00, description:'An on-demand and binge combo for classic CW shows and some new original content.'},
-        {name: 'PBS App', price: 0.00, description:'A streaming App for PBS.'},
+        ' In select markets, you can stream CBS live.',
+        subscriptionLink: 'https://www.cbs.com/all-access/'},
+        {name: 'nbc', price: 0.00, description:'A DVR-like, on-demand app that offers shows from NBC a day after they air. You do have to watch commercials, but it\'s free.',
+        subscriptionLink: 'http://www.nbc.com/video'},
+        {name: 'thecw', price: 0.00, description:'An on-demand and binge combo for classic CW shows and some new original content.',
+        subscriptionLink: 'http://www.cwseed.com/'},
+        {name: 'PBS App', price: 0.00, description:'A streaming App for PBS.', subscriptionLink: 'http://www.pbs.org/video/'},
         {name: 'starz', price:8.99, description: 'Download and watch past episodes and seasons of your favorite Starz shows. Unlike HBO Now and Showtime,' +
-        ' you can\'t watch shows as they air. They do let you download shows to watch at a later time when you may not have access to wifi.'},
-        {name: 'Seeso', price: 3.99, description: 'NBC\'s binge watching app for classic and hard-to-find comedy as well as original content. No commercials.'},
-        {name: 'tubi_tv', price: 0.00, description: 'Free binge watching app for unique and classic content.'}
+        ' you can\'t watch shows as they air. They do let you download shows to watch at a later time when you may not have access to wifi.',
+        subscriptionLink: 'https://www.starz.com/buy-starz/?TID='},
+        {name: 'Seeso', price: 3.99, description: 'NBC\'s binge watching app for classic and hard-to-find comedy as well as original content. No commercials.',
+        subscriptionLink: 'https://www.seeso.com/'},
+        {name: 'tubi_tv', price: 0.00, description: 'Free binge watching app for unique and classic content.',
+        subscriptionLink: 'https://tubitv.com/'}
 
     ])
 
@@ -1469,15 +1484,17 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
             console.log('this is the payperview service ' + mystery_service.chan.source);
             mystery_service.description = SERVICE_PRICE_LIST[0].description;
             mystery_service.price = SERVICE_PRICE_LIST[0].price;
+            mystery_service.link = SERVICE_PRICE_LIST[0].subscriptionLink;
         }
         else{
             var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
                 return elem.name == mystery_service.chan.source;
             });
             if(serviceMatch != undefined){
-                
+
                 mystery_service.description = serviceMatch.description;
                 mystery_service.price = serviceMatch.price;
+                mystery_service.subscriptionLink = serviceMatch.subscriptionLink;
             }
         }
     };
@@ -1487,11 +1504,14 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
             var slingService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'SlingTV'});
             live_mystery_service.description = slingService.description;
             live_mystery_service.price = slingService.price;
+            live_mystery_service.subscriptionLink = slingService.subscriptionLink;
+            
         }
         else if(live_mystery_service.chan.is_over_the_air){
             var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
             live_mystery_service.description = otaService.description;
             live_mystery_service.price = otaService.price;
+            live_mystery_service.subscriptionLink = otaService.subscriptionLink;
         }
     };
     $scope.removeService = function(service,serviceArray) {
@@ -1503,7 +1523,9 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
         }
         PackageFactory.setListOfServices($scope.list);
     };
-
+    $scope.openTab = function(servicePurchase){
+        $scope.url = servicePurchase.subscriptionLink;
+    }
     $scope.$watchCollection(function () {
         return PackageFactory.getPackage().data.content
 
@@ -1537,24 +1559,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
  */
 
 /**
- * Created by Nem on 12/29/15.
- */
-
-app.controller('FeedbackCtrl', function ($scope) {
-   
-    $scope.isMobile = window.innerWidth > 540;
-
-    $scope.options = {
-        ajaxURL: 'feedback/',
-        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
-
-    }
-})
-/**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -1584,171 +1588,22 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 });
 
 /**
- * Created by Nem on 6/28/15.
+ * Created by Nem on 12/29/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
-    $scope.isHomePage = $state.current.data.isHomePage;
 
-    $scope.isActive = function (hash) {
-        return document.location.hash == hash;
+app.controller('FeedbackCtrl', function ($scope) {
+   
+    $scope.isMobile = window.innerWidth > 540;
 
+    $scope.options = {
+        ajaxURL: 'feedback/',
+        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
 
     }
-
-
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.logout = function () {
-        $location.path(CONFIG.URL + '/django_auth/logout/');
-        //.success(function () {
-        //    $rootScope.logged_in = false;
-        //    console.log($rootScope.logged_in)
-        //})
-    }
-
-    var menuLeft = document.getElementById('cbp-spmenu-s1'),
-        mainPage = document.getElementById('mainPage'),
-        showLeftPush = document.getElementById('showLeftPush'),
-        body = document.body;
-
-
-    $scope.showLeftPush = function () {
-        //classie.toggle(this, 'active')
-        $scope.menuOpen = !$scope.menuOpen;
-
-        //debugger;
-        //classie.toggle(body, 'cbp-spmenu-push-toright');
-        //classie.toggle(menuLeft, 'cbp-spmenu-open');
-        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
-        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
-        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
-        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
-        $('#menu-mask').fadeToggle()
-
-        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-
-
-        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
-        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
-
-        //disableOther('showLeftPush');
-    };
-
-
-});
-
-app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
-    console.log($rootScope.logged_in)
-
 })
-
-$(document).ready(function () {
-
-
-
-    //function disableOther(button) {
-    //    if (button !== 'showLeftPush') {
-    //        classie.toggle(showLeftPush, 'disabled');
-    //    }
-    //
-    //}
-});
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
-});
-
+/**
+ * Created by Nem on 10/7/15.
+ */
 
 /**
  * Created by Nem on 7/18/15.
@@ -1859,6 +1714,173 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 ;
 
 
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
+
+
+        return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
+});
+
+
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
+    $scope.isHomePage = $state.current.data.isHomePage;
+
+    $scope.isActive = function (hash) {
+        return document.location.hash == hash;
+
+
+    }
+
+
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.logout = function () {
+        $location.path(CONFIG.URL + '/django_auth/logout/');
+        //.success(function () {
+        //    $rootScope.logged_in = false;
+        //    console.log($rootScope.logged_in)
+        //})
+    }
+
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+        mainPage = document.getElementById('mainPage'),
+        showLeftPush = document.getElementById('showLeftPush'),
+        body = document.body;
+
+
+    $scope.showLeftPush = function () {
+        //classie.toggle(this, 'active')
+        $scope.menuOpen = !$scope.menuOpen;
+
+        //debugger;
+        //classie.toggle(body, 'cbp-spmenu-push-toright');
+        //classie.toggle(menuLeft, 'cbp-spmenu-open');
+        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
+        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
+        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+        $('#menu-mask').fadeToggle()
+
+        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+
+
+        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
+
+        //disableOther('showLeftPush');
+    };
+
+
+});
+
+app.run(function ($rootScope) {
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
+    console.log($rootScope.logged_in)
+
+})
+
+$(document).ready(function () {
+
+
+
+    //function disableOther(button) {
+    //    if (button !== 'showLeftPush') {
+    //        classie.toggle(showLeftPush, 'disabled');
+    //    }
+    //
+    //}
+});
 /**
  * Created by Nem on 5/24/16.
  */
@@ -2463,114 +2485,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
 })
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    //$scope.package = PackageFactory.getPackage();
-    //$scope.hardwareTotal = PackageFactory.totalHardwareCost();
-    //$scope.servicesTotal = PackageFactory.totalServiceCost();
-    ////$scope.packageTotal = getPackageTotal();
-    //$scope.$addProviderUrls = function () {
-    //    for (var i = 0; i < $scope.package.providers.length; i++) {
-    //        var providerName = $scope.package.providers[i].display_name;
-    //        switch (providerName) {
-    //            case "Yahoo Screen Over the Air":
-    //                $scope.package.providers[i].home_url = "https://www.yahoo.com/tv/tagged/originals";
-    //                break;
-    //            case "Netflix":
-    //                $scope.package.providers[i].home_url = "https://www.netflix.com/";
-    //                break;
-    //            case "HBO NOW":
-    //                $scope.package.providers[i].home_url = "https://order.hbonow.com/";
-    //                break;
-    //            case "Sling TV (ESPN)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (CNN)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (ABC Family)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Slin" +
-    //            "g TV (AMC)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (TNT)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (TBS)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (The CW)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (Travel)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Amazon Prime":
-    //                $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
-    //                break;
-    //            case "Amazon":
-    //                $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
-    //                break;
-    //            case "Showtime":
-    //                $scope.package.providers[i].home_url = "http://www.sho.com/sho/showtime-anytime";
-    //                break;
-    //            case "Showtime FREEview Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.sho.com/sho/free-preview/1";
-    //                break;
-    //            case "Hulu":
-    //                $scope.package.providers[i].home_url = "http://www.hulu.com/welcome";
-    //                break;
-    //            case "Hulu with Showtime":
-    //                $scope.package.providers[i].home_url = "http://www.hulu.com/getshowtime";
-    //                break;
-    //            case "CBS All Access":
-    //                $scope.package.providers[i].home_url = "http://www.cbs.com/all-access/";
-    //                break;
-    //            case "VUDU":
-    //                $scope.package.providers[i].home_url = "http://www.vudu.com/";
-    //                break;
-    //            case "Google Play":
-    //                $scope.package.providers[i].home_url = "https://play.google.com/store/movies?hl=en";
-    //                break;
-    //            case "iTunes":
-    //                $scope.package.providers[i].home_url = "https://www.apple.com/itunes/download/";
-    //                break;
-    //            case "YouTube":
-    //                $scope.package.providers[i].home_url = "https://www.youtube.com/user/YouTubeShowsUS/featured";
-    //                break;
-    //            case "NBC Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.nbc.com/schedule";
-    //                break;
-    //            case "CBS Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.cbs.com/schedule/";
-    //                break;
-    //            case "FOX Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.fox.com/schedule";
-    //                break;
-    //            case "ABC Over the Air":
-    //                $scope.package.providers[i].home_url = "http://abc.go.com/schedule";
-    //                break;
-    //            case "The CW Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.cwtv.com/schedule/";
-    //                break;
-    //            default:
-    //                $scope.package.providers[i].home_url = "http://www.guidebox.com/";
-    //                break;
-    //        }
-    //    }
-    //};
-    //$scope.$watch(function () {
-    //    return PackageFactory.getPackage()
-    //}, function () {
-    //    $scope.package = PackageFactory.getPackage();
-    //    $scope.$addProviderUrls();
-    //});
-
-
-})
-
 /**
  * Created by Nem on 10/27/15.
  */
@@ -2811,6 +2725,114 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
+app.controller('StepThreeController', function ($scope, PackageFactory) {
+
+    //$scope.package = PackageFactory.getPackage();
+    //$scope.hardwareTotal = PackageFactory.totalHardwareCost();
+    //$scope.servicesTotal = PackageFactory.totalServiceCost();
+    ////$scope.packageTotal = getPackageTotal();
+    //$scope.$addProviderUrls = function () {
+    //    for (var i = 0; i < $scope.package.providers.length; i++) {
+    //        var providerName = $scope.package.providers[i].display_name;
+    //        switch (providerName) {
+    //            case "Yahoo Screen Over the Air":
+    //                $scope.package.providers[i].home_url = "https://www.yahoo.com/tv/tagged/originals";
+    //                break;
+    //            case "Netflix":
+    //                $scope.package.providers[i].home_url = "https://www.netflix.com/";
+    //                break;
+    //            case "HBO NOW":
+    //                $scope.package.providers[i].home_url = "https://order.hbonow.com/";
+    //                break;
+    //            case "Sling TV (ESPN)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (CNN)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (ABC Family)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Slin" +
+    //            "g TV (AMC)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (TNT)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (TBS)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (The CW)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (Travel)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Amazon Prime":
+    //                $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
+    //                break;
+    //            case "Amazon":
+    //                $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
+    //                break;
+    //            case "Showtime":
+    //                $scope.package.providers[i].home_url = "http://www.sho.com/sho/showtime-anytime";
+    //                break;
+    //            case "Showtime FREEview Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.sho.com/sho/free-preview/1";
+    //                break;
+    //            case "Hulu":
+    //                $scope.package.providers[i].home_url = "http://www.hulu.com/welcome";
+    //                break;
+    //            case "Hulu with Showtime":
+    //                $scope.package.providers[i].home_url = "http://www.hulu.com/getshowtime";
+    //                break;
+    //            case "CBS All Access":
+    //                $scope.package.providers[i].home_url = "http://www.cbs.com/all-access/";
+    //                break;
+    //            case "VUDU":
+    //                $scope.package.providers[i].home_url = "http://www.vudu.com/";
+    //                break;
+    //            case "Google Play":
+    //                $scope.package.providers[i].home_url = "https://play.google.com/store/movies?hl=en";
+    //                break;
+    //            case "iTunes":
+    //                $scope.package.providers[i].home_url = "https://www.apple.com/itunes/download/";
+    //                break;
+    //            case "YouTube":
+    //                $scope.package.providers[i].home_url = "https://www.youtube.com/user/YouTubeShowsUS/featured";
+    //                break;
+    //            case "NBC Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.nbc.com/schedule";
+    //                break;
+    //            case "CBS Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.cbs.com/schedule/";
+    //                break;
+    //            case "FOX Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.fox.com/schedule";
+    //                break;
+    //            case "ABC Over the Air":
+    //                $scope.package.providers[i].home_url = "http://abc.go.com/schedule";
+    //                break;
+    //            case "The CW Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.cwtv.com/schedule/";
+    //                break;
+    //            default:
+    //                $scope.package.providers[i].home_url = "http://www.guidebox.com/";
+    //                break;
+    //        }
+    //    }
+    //};
+    //$scope.$watch(function () {
+    //    return PackageFactory.getPackage()
+    //}, function () {
+    //    $scope.package = PackageFactory.getPackage();
+    //    $scope.$addProviderUrls();
+    //});
+
+
+})
+
 /**
  * Created by Nem on 11/25/15.
  */

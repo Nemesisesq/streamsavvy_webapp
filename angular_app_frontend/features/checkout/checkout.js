@@ -18,15 +18,17 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
             console.log('this is the payperview service ' + mystery_service.chan.source);
             mystery_service.description = SERVICE_PRICE_LIST[0].description;
             mystery_service.price = SERVICE_PRICE_LIST[0].price;
+            mystery_service.link = SERVICE_PRICE_LIST[0].subscriptionLink;
         }
         else{
             var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
                 return elem.name == mystery_service.chan.source;
             });
             if(serviceMatch != undefined){
-                
+
                 mystery_service.description = serviceMatch.description;
                 mystery_service.price = serviceMatch.price;
+                mystery_service.subscriptionLink = serviceMatch.subscriptionLink;
             }
         }
     };
@@ -36,11 +38,14 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
             var slingService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'SlingTV'});
             live_mystery_service.description = slingService.description;
             live_mystery_service.price = slingService.price;
+            live_mystery_service.subscriptionLink = slingService.subscriptionLink;
+            
         }
         else if(live_mystery_service.chan.is_over_the_air){
             var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
             live_mystery_service.description = otaService.description;
             live_mystery_service.price = otaService.price;
+            live_mystery_service.subscriptionLink = otaService.subscriptionLink;
         }
     };
     $scope.removeService = function(service,serviceArray) {
@@ -52,7 +57,9 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
         }
         PackageFactory.setListOfServices($scope.list);
     };
-
+    $scope.openTab = function(servicePurchase){
+        $scope.url = servicePurchase.subscriptionLink;
+    }
     $scope.$watchCollection(function () {
         return PackageFactory.getPackage().data.content
 

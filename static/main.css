@@ -2597,11 +2597,12 @@ ul[id^='typeahead-'], .suggestions-list {
   margin-left: 25px; }
 
 .btn-purchase {
-  color: white;
+  color: white !important;
   padding-left: 19px;
   padding-right: 19px;
   padding-top: 8px;
   padding-bottom: 8px;
+  text-decoration: none !important;
   margin-left: 12px;
   letter-spacing: .6px;
   font-size: 14px;
