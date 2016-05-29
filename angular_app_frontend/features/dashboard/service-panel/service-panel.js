@@ -4,7 +4,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     var ssPackage = PackageFactory.getPackage();
     $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes'];
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
 
     function check_if_on_sling(obj) {

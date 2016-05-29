@@ -24,10 +24,12 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'STARZ Play'])
 
     .constant('SERVICE_PRICE_LIST', [
+        {name: 'Pay Per View', price: 0.00, description: 'If a subscription service is not for you, these apps allow you to purchase a show at a time.' +
+        ' Or you can purchase an entire season once it has finished airing.'},
         {name: 'netflix', price: 9.99, description: 'Best described as a "binge watch" service. ' +
         'Typically, full seasons are launched all at once and a season behind what is currently showing on TV. Netflix also offers original programming now.' +
         ' This is also released a full season at a time.'},
-        {name: 'hulu', price: 7.99, description: 'An on-demand service (think DVR) that offers shows from certain networks (ABC, limited NBC, FOX, CW, etc)' +
+        {name: 'hulu_plus', price: 7.99, description: 'An on-demand service (think DVR) that offers shows from certain networks (ABC, limited NBC, FOX, CW, etc)' +
         ' a day after they air. Subscription prices depend on whether or not you purchase an ad-free package or not.'},
         {name: 'amazon_prime', price: 8.25, description:'An on-demand and binge combo. Some programming is offered in full-season format and some is on-demand after it airs live.' +
         ' Some shows are free while others are not. Amazon is also building a strong offering of original shows. ' +
@@ -47,9 +49,8 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         {name: 'starz', price:8.99, description: 'Download and watch past episodes and seasons of your favorite Starz shows. Unlike HBO Now and Showtime,' +
         ' you can\'t watch shows as they air. They do let you download shows to watch at a later time when you may not have access to wifi.'},
         {name: 'Seeso', price: 3.99, description: 'NBC\'s binge watching app for classic and hard-to-find comedy as well as original content. No commercials.'},
-        {name: 'TubiTv', price: 0.00, description: 'Free binge watching app for unique and classic content.'},
-        {name: 'Pay Per View', price: 0.00, description: 'If a subscription service is not for you, these apps allow you to purchase a show at a time.' +
-        ' Or you can purchase an entire season once it has finished airing.'}
+        {name: 'TubiTv', price: 0.00, description: 'Free binge watching app for unique and classic content.'}
+
     ])
 
     .constant('MAJOR_NETWORKS', [
@@ -1462,19 +1463,35 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
         $scope.list.added.push(service.chan.source);
         service.added = true;
     };
-    $scope.serviceDetail = function(naked_service) {
-        if(naked_service != undefined){
+    $scope.notOtaServiceDetail = function(mystery_service) {
+        if(_.some(payPerServices,mystery_service.chan.source)){
+            console.log('this is the payperview service ' + mystery_service.chan.source);
+            mystery_service.description = SERVICE_PRICE_LIST[0].description;
+            mystery_service.price = SERVICE_PRICE_LIST[0].price;
+        }
+        else{
             var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
-                return elem.name == naked_service.chan.source;
-            })
-            console.log("This is the service match" + serviceMatch);
+                return elem.name == mystery_service.chan.source;
+            });
             if(serviceMatch != undefined){
-                naked_service.description = serviceMatch.description;
-                naked_service.price = serviceMatch.price;
+                mystery_service.description = serviceMatch.description;
+                mystery_service.price = serviceMatch.price;
             }
         }
+    };
 
-    }
+    $scope.otaServiceDetail = function(live_mystery_service){
+        if(live_mystery_service.chan.is_on_sling){
+            var slingService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'SlingTV'});
+            live_mystery_service.description = slingService.description;
+            live_mystery_service.price = slingService.price;
+        }
+        else if(live_mystery_service.chan.is_over_the_air){
+            var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
+            live_mystery_service.description = otaService.description;
+            live_mystery_service.price = otaService.price;
+        }
+    };
     $scope.removeService = function(service,serviceArray) {
         if(serviceArray == 'ota'){
            _.pull($scope.list.ota,service);
@@ -1492,8 +1509,16 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
         $scope.package = PackageFactory.getPackage();
         $scope.list = PackageFactory.getListOfServices();
         _.forEach($scope.list.not_ota, function(not_ota_service){
-            $scope.serviceDetail(not_ota_service);
-        } )
+            if(not_ota_service != undefined){
+                $scope.notOtaServiceDetail(not_ota_service);
+            }
+
+        } );
+        _.forEach($scope.list.ota, function(ota_service){
+            if(ota_service != undefined){
+                $scope.otaServiceDetail(ota_service);
+            }
+        })
     })
    
 
@@ -1525,10 +1550,6 @@ app.controller('FeedbackCtrl', function ($scope) {
     }
 })
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -1556,6 +1577,10 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 
 });
+
+/**
+ * Created by Nem on 10/7/15.
+ */
 
 /**
  * Created by Nem on 6/28/15.
@@ -1886,7 +1911,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     var ssPackage = PackageFactory.getPackage();
     $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes'];
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
 
     function check_if_on_sling(obj) {

@@ -13,19 +13,35 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
         $scope.list.added.push(service.chan.source);
         service.added = true;
     };
-    $scope.serviceDetail = function(naked_service) {
-        if(naked_service != undefined){
+    $scope.notOtaServiceDetail = function(mystery_service) {
+        if(_.some(payPerServices,mystery_service.chan.source)){
+            console.log('this is the payperview service ' + mystery_service.chan.source);
+            mystery_service.description = SERVICE_PRICE_LIST[0].description;
+            mystery_service.price = SERVICE_PRICE_LIST[0].price;
+        }
+        else{
             var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
-                return elem.name == naked_service.chan.source;
-            })
-            console.log("This is the service match" + serviceMatch);
+                return elem.name == mystery_service.chan.source;
+            });
             if(serviceMatch != undefined){
-                naked_service.description = serviceMatch.description;
-                naked_service.price = serviceMatch.price;
+                mystery_service.description = serviceMatch.description;
+                mystery_service.price = serviceMatch.price;
             }
         }
+    };
 
-    }
+    $scope.otaServiceDetail = function(live_mystery_service){
+        if(live_mystery_service.chan.is_on_sling){
+            var slingService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'SlingTV'});
+            live_mystery_service.description = slingService.description;
+            live_mystery_service.price = slingService.price;
+        }
+        else if(live_mystery_service.chan.is_over_the_air){
+            var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
+            live_mystery_service.description = otaService.description;
+            live_mystery_service.price = otaService.price;
+        }
+    };
     $scope.removeService = function(service,serviceArray) {
         if(serviceArray == 'ota'){
            _.pull($scope.list.ota,service);
@@ -43,8 +59,16 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
         $scope.package = PackageFactory.getPackage();
         $scope.list = PackageFactory.getListOfServices();
         _.forEach($scope.list.not_ota, function(not_ota_service){
-            $scope.serviceDetail(not_ota_service);
-        } )
+            if(not_ota_service != undefined){
+                $scope.notOtaServiceDetail(not_ota_service);
+            }
+
+        } );
+        _.forEach($scope.list.ota, function(ota_service){
+            if(ota_service != undefined){
+                $scope.otaServiceDetail(ota_service);
+            }
+        })
     })
    
 

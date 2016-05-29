@@ -24,10 +24,12 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'STARZ Play'])
 
     .constant('SERVICE_PRICE_LIST', [
+        {name: 'Pay Per View', price: 0.00, description: 'If a subscription service is not for you, these apps allow you to purchase a show at a time.' +
+        ' Or you can purchase an entire season once it has finished airing.'},
         {name: 'netflix', price: 9.99, description: 'Best described as a "binge watch" service. ' +
         'Typically, full seasons are launched all at once and a season behind what is currently showing on TV. Netflix also offers original programming now.' +
         ' This is also released a full season at a time.'},
-        {name: 'hulu', price: 7.99, description: 'An on-demand service (think DVR) that offers shows from certain networks (ABC, limited NBC, FOX, CW, etc)' +
+        {name: 'hulu_plus', price: 7.99, description: 'An on-demand service (think DVR) that offers shows from certain networks (ABC, limited NBC, FOX, CW, etc)' +
         ' a day after they air. Subscription prices depend on whether or not you purchase an ad-free package or not.'},
         {name: 'amazon_prime', price: 8.25, description:'An on-demand and binge combo. Some programming is offered in full-season format and some is on-demand after it airs live.' +
         ' Some shows are free while others are not. Amazon is also building a strong offering of original shows. ' +
@@ -47,9 +49,8 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         {name: 'starz', price:8.99, description: 'Download and watch past episodes and seasons of your favorite Starz shows. Unlike HBO Now and Showtime,' +
         ' you can\'t watch shows as they air. They do let you download shows to watch at a later time when you may not have access to wifi.'},
         {name: 'Seeso', price: 3.99, description: 'NBC\'s binge watching app for classic and hard-to-find comedy as well as original content. No commercials.'},
-        {name: 'TubiTv', price: 0.00, description: 'Free binge watching app for unique and classic content.'},
-        {name: 'Pay Per View', price: 0.00, description: 'If a subscription service is not for you, these apps allow you to purchase a show at a time.' +
-        ' Or you can purchase an entire season once it has finished airing.'}
+        {name: 'TubiTv', price: 0.00, description: 'Free binge watching app for unique and classic content.'}
+
     ])
 
     .constant('MAJOR_NETWORKS', [

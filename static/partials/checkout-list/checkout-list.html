@@ -23,7 +23,9 @@
 <div class="service-title row" ng-repeat="service in list.ota"><!--ng-repeat="service in listOfServices"-->
         <div class="ss_image-purchase row">
           <img class="service-image" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.chan.source }}"/>
-          <div class="service-options"  ng-class="{'selected': service.added==true}">
+          <span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ service.description }}"   tooltip-placement="right"
+                  tooltip-class="vw-tooltip"></span>
+            <div class="service-options"  ng-class="{'selected': service.added==true}">
             <a href="" ng-click="addService(service)">
               I Have This Service Already
             </a>
