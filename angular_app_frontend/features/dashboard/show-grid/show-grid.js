@@ -1,6 +1,130 @@
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
 
+    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw'];
+    var onDemandServices = ['hulu_plus', 'nbc'];
+    var bingeServices = ['netflix', 'amazon_prime'];
+    var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
+
     var openingDetail = false
+
+    $scope.$watch(function () {
+        return PackageFactory.getChosenShow();
+    }, function () {
+
+
+        $scope.cs = PackageFactory.getChosenShow();
+
+        $scope.detailSources = (function () {
+
+            if ($scope.cs.guidebox_data != undefined) {
+
+
+                var x = _($scope.cs.channel)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .map(function (elem) {
+
+                        if (elem.guidebox_data != undefined) {
+                            elem.source = elem.guidebox_data.short_name
+                        }
+                        return elem
+                    }).filter(function (elem) {
+
+                        if (elem.hasOwnProperty('guidebox_data')) {
+                            return !elem.guidebox_data.is_over_the_air
+                        }
+
+                        if (elem.source == 'hulu_free' || elem.source == 'starz_tveverywhere') {
+                            return false
+                        }
+
+                        return true
+                    })
+
+                    .uniqBy('source')
+                    .groupBy(function (service) {
+                        if (liveServices.includes(service.source)) {
+                            return 'live'
+                        }
+                        if (service.is_on_sling) {
+                            return 'live'
+                        }
+                        if (onDemandServices.includes(service.source)) {
+                            return 'on_demand'
+                        }
+                        if (bingeServices.includes(service.source)) {
+                            return 'binge'
+                        }
+                        if (payPerServices.includes(service.source)) {
+                            return 'pay_per_view'
+                        }
+
+                        return 'misc'
+                    })
+                    .thru(function (services) {
+                        _.forEach(services.misc, function (service) {
+                            if (service.source == 'hbo_now') {
+                                services.live.push(service);
+                                services.on_demand.push(service);
+                                services.binge.push(service);
+                            }
+                            else if (service.source == 'showtime_subscription') {
+                                services.on_demand.push(service);
+                                service.binge.push(service);
+                            }
+
+                        })
+
+                        if (services.live) {
+                            _.map(services.live, function (elem) {
+                                // debugger
+
+                                if (elem.is_over_the_air) {
+
+                                    if (elem.source = 'thecw') {
+                                        var new_elem = _.cloneDeep(elem)
+                                        new_elem.source = 'ota'
+
+                                        services.live.push(new_elem)
+                                        return elem
+                                    }
+                                    elem.source = 'ota'
+                                }
+
+                                if (elem.is_on_sling) {
+                                    elem.source = 'sling-tv.svg'
+                                }
+
+
+                                //
+
+                                return elem
+
+                            })
+                        }
+
+
+                        if (!Object.keys) Object.prototype.keys = function (o) {
+                            if (o !== Object(o))
+                                throw new TypeError('Object.keys called on a non-object');
+                            var k = [], p;
+                            for (p in o) if (Object.prototype.hasOwnProperty.call(o, p)) k.push(p);
+                            return k;
+                        }
+
+
+                        debugger;
+                        $scope.sortedServices = Object.keys(services)
+                            .sort();
+
+
+                        return services
+                    })
+                    .value();
+                return x;
+            }
+        })()
+
+    })
 
 
     //$rootScope.showDetailDirective = false;
@@ -55,9 +179,22 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
-        var el = angular.element('show-detail');
+        // var el = angular.element('show-detail');
+        //
+        // var parent = el.parent()
+        //
+        // // el.$destroy()
+        // el.remove()
+        //
+        // el = document.createElement('show-detail')
+        // el.className +='container fade'
+        //
+        // $compile(el)($scope);
+        //
+        // parent.append(el);
+
+
         // var osn = angular.element('otaSlingNetfilx');
-        $compile(el)($scope);
 
 
         // el = document.getElement('show-detail')
@@ -140,7 +277,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                 var el = angular.element('show-detail');
                 // var osn = angular.element('otaSlingNetfilx');
-                $compile(el)($scope);
+                // $compile(el)($scope);
 
 
             })
