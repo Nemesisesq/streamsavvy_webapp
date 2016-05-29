@@ -49,7 +49,7 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         {name: 'starz', price:8.99, description: 'Download and watch past episodes and seasons of your favorite Starz shows. Unlike HBO Now and Showtime,' +
         ' you can\'t watch shows as they air. They do let you download shows to watch at a later time when you may not have access to wifi.'},
         {name: 'Seeso', price: 3.99, description: 'NBC\'s binge watching app for classic and hard-to-find comedy as well as original content. No commercials.'},
-        {name: 'TubiTv', price: 0.00, description: 'Free binge watching app for unique and classic content.'}
+        {name: 'tubi_tv', price: 0.00, description: 'Free binge watching app for unique and classic content.'}
 
     ])
 

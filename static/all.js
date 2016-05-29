@@ -49,7 +49,7 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         {name: 'starz', price:8.99, description: 'Download and watch past episodes and seasons of your favorite Starz shows. Unlike HBO Now and Showtime,' +
         ' you can\'t watch shows as they air. They do let you download shows to watch at a later time when you may not have access to wifi.'},
         {name: 'Seeso', price: 3.99, description: 'NBC\'s binge watching app for classic and hard-to-find comedy as well as original content. No commercials.'},
-        {name: 'TubiTv', price: 0.00, description: 'Free binge watching app for unique and classic content.'}
+        {name: 'tubi_tv', price: 0.00, description: 'Free binge watching app for unique and classic content.'}
 
     ])
 
@@ -1448,6 +1448,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory, SERVICE_PRICE_LIST) {
 
 
@@ -1534,7 +1535,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
  * Created by chirag on 3/28/16.
  */
 
-
 /**
  * Created by Nem on 12/29/15.
  */
@@ -1549,6 +1549,10 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
 /**
  * Created by chirag on 8/3/15.
  */
@@ -1577,10 +1581,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 
 });
-
-/**
- * Created by Nem on 10/7/15.
- */
 
 /**
  * Created by Nem on 6/28/15.
@@ -2045,9 +2045,9 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
 
-    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw'];
-    var onDemandServices = ['hulu_plus', 'nbc'];
-    var bingeServices = ['netflix', 'amazon_prime'];
+    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw','showtime_subscription'];
+    var onDemandServices = ['hulu_plus', 'nbc', 'starz','showtime_subscription'];
+    var bingeServices = ['netflix', 'amazon_prime','seeso','tubitv', 'starz','showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
     var openingDetail = false
