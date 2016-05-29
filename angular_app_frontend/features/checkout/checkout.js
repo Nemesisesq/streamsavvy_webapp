@@ -24,6 +24,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
                 return elem.name == mystery_service.chan.source;
             });
             if(serviceMatch != undefined){
+                
                 mystery_service.description = serviceMatch.description;
                 mystery_service.price = serviceMatch.price;
             }

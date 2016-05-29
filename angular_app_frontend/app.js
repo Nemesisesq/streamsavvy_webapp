@@ -40,7 +40,7 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'with the option to add extra mini packages on top of your main Sling package.'},
         {name: 'Over The Air', price: 0.00, description:'Watching over the air (OTA) is like watching live television.' +
         ' There is no monthly cost, but a digital antenna is needed to pull in the signal.'},
-        {name: 'showtime_subscription', price: 10.99, description:'Watch Showtime shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.'},
+        {name: 'showtime', price: 10.99, description:'Watch Showtime shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.'},
         {name: 'cbs', price: 5.99, description:'New CBS episodes on demand the day after they air and almost all past seasons of CBS shows for binging.' +
         ' In select markets, you can stream CBS live.'},
         {name: 'nbc', price: 0.00, description:'A DVR-like, on-demand app that offers shows from NBC a day after they air. You do have to watch commercials, but it\'s free.'},
