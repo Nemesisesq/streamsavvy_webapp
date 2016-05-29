@@ -24,17 +24,32 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'STARZ Play'])
 
     .constant('SERVICE_PRICE_LIST', [
-        {name: 'Netflix', price: 9.99},
-        {name: 'Hulu', price: 7.99},
-        {name: 'Amazon Prime', price: 8.25},
-        {name: 'HBO Now', price: 14.99},
-        {name: 'SlingTV', price: 20.00},
-        {name: 'Over The Air', price: 0.00},
-        {name: 'Showtime', price: 10.99},
-        {name: 'CBS All Access', price: 5.99},
-        {name: 'NBC App', price: 0.00},
-        {name: 'CW Seed', price: 0.00},
-        {name: 'PBS App', price: 0.00}
+        {name: 'netflix', price: 9.99, description: 'Best described as a "binge watch" service. ' +
+        'Typically, full seasons are launched all at once and a season behind what is currently showing on TV. Netflix also offers original programming now.' +
+        ' This is also released a full season at a time.'},
+        {name: 'hulu', price: 7.99, description: 'An on-demand service (think DVR) that offers shows from certain networks (ABC, limited NBC, FOX, CW, etc)' +
+        ' a day after they air. Subscription prices depend on whether or not you purchase an ad-free package or not.'},
+        {name: 'amazon_prime', price: 8.25, description:'An on-demand and binge combo. Some programming is offered in full-season format and some is on-demand after it airs live.' +
+        ' Some shows are free while others are not. Amazon is also building a strong offering of original shows. ' +
+        'It comes free with an annual Prime membership.'},
+        {name: 'hbo_now', price: 14.99, description: 'Watch HBO shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.'},
+        {name: 'SlingTV', price: 20.00, description: 'Live streaming service that makes shows available as they simultaneously air on cable.' +
+        ' The main Sling package gives you a "skinny bundle" of some of the most popular cable channels (ESPN, CNN, HGTV, etc.) ' +
+        'with the option to add extra mini packages on top of your main Sling package.'},
+        {name: 'Over The Air', price: 0.00, description:'Watching over the air (OTA) is like watching live television.' +
+        ' There is no monthly cost, but a digital antenna is needed to pull in the signal.'},
+        {name: 'showtime_subscription', price: 10.99, description:'Watch Showtime shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.'},
+        {name: 'cbs', price: 5.99, description:'New CBS episodes on demand the day after they air and almost all past seasons of CBS shows for binging.' +
+        ' In select markets, you can stream CBS live.'},
+        {name: 'nbc', price: 0.00, description:'A DVR-like, on-demand app that offers shows from NBC a day after they air. You do have to watch commercials, but it\'s free.'},
+        {name: 'thecw', price: 0.00, description:'An on-demand and binge combo for classic CW shows and some new original content.'},
+        {name: 'PBS App', price: 0.00, description:'A streaming App for PBS.'},
+        {name: 'starz', price:8.99, description: 'Download and watch past episodes and seasons of your favorite Starz shows. Unlike HBO Now and Showtime,' +
+        ' you can\'t watch shows as they air. They do let you download shows to watch at a later time when you may not have access to wifi.'},
+        {name: 'Seeso', price: 3.99, description: 'NBC\'s binge watching app for classic and hard-to-find comedy as well as original content. No commercials.'},
+        {name: 'TubiTv', price: 0.00, description: 'Free binge watching app for unique and classic content.'},
+        {name: 'Pay Per View', price: 0.00, description: 'If a subscription service is not for you, these apps allow you to purchase a show at a time.' +
+        ' Or you can purchase an entire season once it has finished airing.'}
     ])
 
     .constant('MAJOR_NETWORKS', [
@@ -63,7 +78,8 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         'ABC Family',
         'Lifetime',
         'Galavision',
-        'Bloomberg Television']);
+        'Bloomberg Television'])
+    ;
 
 app.config(['growlProvider','$httpProvider', function(growlProvider, $httpProvider){
     growlProvider.globalReversedOrder(true);
@@ -1431,8 +1447,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
-
-app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
+app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory, SERVICE_PRICE_LIST) {
 
 
 
@@ -1440,27 +1455,26 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
     $scope.list = PackageFactory.getListOfServices();
     $scope.list.added = [];
     
+    var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
+
     $scope.addService = function (service) {
         
         $scope.list.added.push(service.chan.source);
         service.added = true;
-        /*
-        if (service.hasOwnProperty('selected')) {
-            delete service['selected'];
-            //removeShowFromService();
+    };
+    $scope.serviceDetail = function(naked_service) {
+        if(naked_service != undefined){
+            var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
+                return elem.name == naked_service.chan.source;
+            })
+            console.log("This is the service match" + serviceMatch);
+            if(serviceMatch != undefined){
+                naked_service.description = serviceMatch.description;
+                naked_service.price = serviceMatch.price;
+            }
         }
 
-        var addService = function () {
-            if (!_.includes($scope.list.added, service)) {
-                $scope.list.added.push(service);
-            }
-            $scope.setListOfServices($scope.list);
-        };
-        addService();
-        PackageFactory.setPackage()
-        */
-    };
-
+    }
     $scope.removeService = function(service,serviceArray) {
         if(serviceArray == 'ota'){
            _.pull($scope.list.ota,service);
@@ -1477,14 +1491,24 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
     }, function () {
         $scope.package = PackageFactory.getPackage();
         $scope.list = PackageFactory.getListOfServices();
+        _.forEach($scope.list.not_ota, function(not_ota_service){
+            $scope.serviceDetail(not_ota_service);
+        } )
     })
    
 
+    
+    
+    
+    
+    
+    
 });
 
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.
@@ -1605,6 +1629,101 @@ $(document).ready(function () {
     //
     //}
 });
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
+
+
+        return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
+});
+
+
 /**
  * Created by Nem on 7/18/15.
  */
@@ -1712,101 +1831,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 })
 ;
-
-
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
-});
 
 
 /**

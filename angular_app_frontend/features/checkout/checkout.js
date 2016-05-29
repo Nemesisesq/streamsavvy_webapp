@@ -1,4 +1,4 @@
-app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
+app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory, SERVICE_PRICE_LIST) {
 
 
 
@@ -6,27 +6,26 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
     $scope.list = PackageFactory.getListOfServices();
     $scope.list.added = [];
     
+    var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
+
     $scope.addService = function (service) {
         
         $scope.list.added.push(service.chan.source);
         service.added = true;
-        /*
-        if (service.hasOwnProperty('selected')) {
-            delete service['selected'];
-            //removeShowFromService();
+    };
+    $scope.serviceDetail = function(naked_service) {
+        if(naked_service != undefined){
+            var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
+                return elem.name == naked_service.chan.source;
+            })
+            console.log("This is the service match" + serviceMatch);
+            if(serviceMatch != undefined){
+                naked_service.description = serviceMatch.description;
+                naked_service.price = serviceMatch.price;
+            }
         }
 
-        var addService = function () {
-            if (!_.includes($scope.list.added, service)) {
-                $scope.list.added.push(service);
-            }
-            $scope.setListOfServices($scope.list);
-        };
-        addService();
-        PackageFactory.setPackage()
-        */
-    };
-
+    }
     $scope.removeService = function(service,serviceArray) {
         if(serviceArray == 'ota'){
            _.pull($scope.list.ota,service);
@@ -43,9 +42,18 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
     }, function () {
         $scope.package = PackageFactory.getPackage();
         $scope.list = PackageFactory.getListOfServices();
+        _.forEach($scope.list.not_ota, function(not_ota_service){
+            $scope.serviceDetail(not_ota_service);
+        } )
     })
    
 
+    
+    
+    
+    
+    
+    
 });
 
 /**

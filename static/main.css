@@ -2524,6 +2524,9 @@ ul[id^='typeahead-'], .suggestions-list {
         margin-top: 10px;
         margin-left: 17px;
         width: 90px; }
+      .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row span.glyphicon.glyphicon-info-sign {
+        color: white;
+        margin-left: 1%; }
       .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options {
         float: right; }
         .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options a {
