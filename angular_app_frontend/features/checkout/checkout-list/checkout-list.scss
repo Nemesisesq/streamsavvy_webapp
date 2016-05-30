@@ -13,6 +13,10 @@
             margin-left: 17px;
             width: 90px;
         }
+        span.glyphicon.glyphicon-info-sign{
+          color: white;
+          margin-left: 1%;
+        }
         .service-options {
           float: right;
           a{
@@ -112,11 +116,12 @@
 
 
 .btn-purchase{
-  color: white;
+  color: white !important;
   padding-left: 19px;
   padding-right: 19px;
   padding-top: 8px;
   padding-bottom: 8px;
+  text-decoration: none !important;
 
   margin-left: 12px;
   letter-spacing: .6px;

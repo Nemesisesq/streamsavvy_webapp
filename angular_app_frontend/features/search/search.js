@@ -47,28 +47,28 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
         var ssPackage = PackageFactory.getPackage();
+        if(suggestion !== undefined) {
+            if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
+                growl.warning('You already added ' + suggestion.title + ' to your package!');
+                $scope.suggestions = [];
+                return
+            }
 
-        if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
-            growl.warning('You already added ' + suggestion.title + ' to your package!');
-            $scope.suggestions = [];
-            return
+
+            if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+                //debugger;
+                $scope.loading = true
+
+                suggestion.justAdded = true;
+
+                ssPackage.data.content.push(suggestion);
+
+                PackageFactory.setPackage(ssPackage);
+
+                $scope.loading = false
+            }
+
         }
-
-
-        if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-            //debugger;
-            $scope.loading = true
-
-            suggestion.justAdded = true;
-
-            ssPackage.data.content.push(suggestion);
-
-            PackageFactory.setPackage(ssPackage);
-
-            $scope.loading = false
-        }
-
-
         $scope.searchText = '';
         $scope.suggestions = [];
 
