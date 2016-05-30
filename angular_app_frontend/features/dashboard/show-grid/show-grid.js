@@ -1,6 +1,6 @@
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
 
-    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw','showtime_subscription'];
+    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw','showtime_subscription','hbo_now'];
     var onDemandServices = ['hulu_plus', 'nbc', 'starz','showtime_subscription'];
     var bingeServices = ['netflix', 'amazon_prime','seeso','tubitv', 'starz','showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
@@ -20,7 +20,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
                 var x = _($scope.cs.channel)
-                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
                     .map(function (elem) {
 
                         if (elem.guidebox_data != undefined) {
