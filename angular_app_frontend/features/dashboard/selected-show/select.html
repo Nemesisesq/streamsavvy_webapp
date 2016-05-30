@@ -27,7 +27,6 @@
             </div>
         -->
 
-            {{ detailSourcea }}
             <div class="window row live" ota-sling-netflix ng-repeat="key in sortedServices"
                  ng-if="key !== 'misc'">
                 <div class="window-label">{{ fixTitle(key) }}</div>
@@ -41,45 +40,46 @@
                 <button class="btn btn-red btn-sm"> add another show</button>
             </div>
         </div>
+    </div>
 
-        <div class="row title-with-ratings">
-            <div class="col-xs-12">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <span class="show-title">{{ cs.guidebox_data.title }}</span>
-                        <img class="network-title-logo"
-                             ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ cs.channel[0].source }}"
-                             alt="{{ cs.channel[0].source }}"/>
-                    </div>
-
-
-                    <!--<div class="col-xs-6 ratings">
-                        <div class="col-xs-4">
-                            <img src="/static/img/fresh.svg/">
-                            <span class="score">100%</span>
-                        </div>
-                        <div class="col-xs-4">
-                            <img src="/static/img/limav-flat-gradient-social-i-m-db.svg">
-                            <span class="score">0.5/10</span>
-                        </div>
-                        <div class="col-xs-4">
-                            <img src="/static/img/s-s-mark.svg">
-                            <span class="score"> 7.8/10</span>
-                        </div>
-                    </div>-->
+    <div class="row title-with-ratings">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-6">
+                    <span class="show-title">{{ cs.guidebox_data.title }}</span>
+                    <img class="network-title-logo"
+                         ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ cs.channel[0].source }}"
+                         alt="{{ cs.channel[0].source }}"/>
                 </div>
+
+
+                <!--<div class="col-xs-6 ratings">
+                    <div class="col-xs-4">
+                        <img src="/static/img/fresh.svg/">
+                        <span class="score">100%</span>
+                    </div>
+                    <div class="col-xs-4">
+                        <img src="/static/img/limav-flat-gradient-social-i-m-db.svg">
+                        <span class="score">0.5/10</span>
+                    </div>
+                    <div class="col-xs-4">
+                        <img src="/static/img/s-s-mark.svg">
+                        <span class="score"> 7.8/10</span>
+                    </div>
+                </div>-->
             </div>
         </div>
-        <div class="row synopsis-with-info ">
-            <div class="col-xs-8"><p class="synopsis">
-                {{ cs.guidebox_data.detail.overview }}
-            </p></div>
+    </div>
+    <div class="row synopsis-with-info ">
+        <div class="col-xs-8"><p class="synopsis">
+            {{ cs.guidebox_data.detail.overview }}
+        </p></div>
 
-            <div class="show-info col-xs-4">
-                <ul>
-                    <li><span class="bold">Status: </span>{{ cs.guidebox_data.detail.status }}</li>
-                    <li><span class="bold">Release date:</span> {{ formatDate(cs.guidebox_data.first_aired) }}</li>
-                    <li>
+        <div class="show-info col-xs-4">
+            <ul>
+                <li><span class="bold">Status: </span>{{ cs.guidebox_data.detail.status }}</li>
+                <li><span class="bold">Release date:</span> {{ formatDate(cs.guidebox_data.first_aired) }}</li>
+                <li>
                     <span class="bold">
                         Genres:
                     </span>
@@ -88,9 +88,10 @@
                         {{ genre.title }}
                         <span ng-if="!$last">|</span>
                     </span>
-                    </li>
-                </ul>
-            </div>
+                </li>
+            </ul>
         </div>
-
     </div>
+
+</div>
+</div>
