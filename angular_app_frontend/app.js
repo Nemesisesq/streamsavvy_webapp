@@ -40,7 +40,7 @@ var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ng
         subscriptionLink:'http://www.amazon.com/gp/video/getstarted'},
         {name: 'hbo_now', price: 14.99, description: 'Watch HBO shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.',
             subscriptionLink: 'https://order.hbonow.com/'},
-        {name: 'SlingTV', price: 20.00,
+        {name: 'sling-tv', price: 20.00,
             description: 'Live streaming service that makes shows available as they simultaneously air on cable.' +
         ' The main Sling package gives you a "skinny bundle" of some of the most popular cable channels (ESPN, CNN, HGTV, etc.) ' +
         'with the option to add extra mini packages on top of your main Sling package.',

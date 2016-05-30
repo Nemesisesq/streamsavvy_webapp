@@ -2876,6 +2876,8 @@ show-detail {
     show-detail .service-options .window-label {
       margin-top: 10px;
       margin-bottom: 10px; }
+    show-detail .service-options .window-service {
+      display: inline-flex; }
     show-detail .service-options div {
       object-fit: contain;
       margin-bottom: 3%;
