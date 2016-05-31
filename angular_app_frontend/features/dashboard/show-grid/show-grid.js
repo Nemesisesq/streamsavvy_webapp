@@ -116,7 +116,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
 
 
-                        debugger;
                         $scope.sortedServices = Object.keys(services)
                             .sort();
 
@@ -182,6 +181,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
+        
+        $('#search-and-shows').addClass('no-scroll');
 
         // var el = angular.element('show-detail');
         //
@@ -214,7 +215,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
         window.scrollTo(0, 0);
-        $('body').css('overflow', 'hidden');
+        // $('body').css('overflow', 'hidden');
 
         PackageFactory.setChosenShow(item);
 
@@ -243,6 +244,11 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             })
             .then(function (v) {
                 $('show-detail').addClass('fade-in');
+                var showDetailTop = $('show-detail').offset().top,
+                    scrolledDistance = $('#search-and-shows').scrollTop()
+                $('show-detail').css({top: 55 + scrolledDistance })
+                
+                // $('show-detail').
                 //$('show-detail').removeClass('fade');
             })
 
@@ -254,7 +260,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }, 50);
 
     $scope.hideDetail = function (ev, attrs) {
-        debugger
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
@@ -275,14 +280,11 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             })
             .then(function (v) {
                 //debugger;
-                $('body').css('overflow', 'scroll');
+                // $('body').css('overflow', 'scroll');
                 $(scaleItem).removeAttr('id')
                 $(positionItem).removeAttr('id')
 
-                var el = angular.element('show-detail');
-                // var osn = angular.element('otaSlingNetfilx');
-                // $compile(el)($scope);
-
+                $('#search-and-shows').removeClass('no-scroll');
 
             })
 

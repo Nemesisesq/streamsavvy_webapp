@@ -75,10 +75,8 @@ app.directive('otaSlingNetflix', function () {
 
         link: function (scope, element, attrs) {
 
-            debugger;
 
             if (element.scope().$parent.key == 'binge') {
-                debugger;
                 if (scope.cs.on_netflix && !_.some(scope.detailSources.binge, ['source', 'netflix'])) {
 
                     element.append('<div class="col-sm-4"><img class="" src="https://s3.amazonaws.com/streamsavvy/service_logos/netflix"></div>')

@@ -1,71 +1,162 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick',"angular-send-feedback", 'angular-growl'])
-    .constant('CONFIG', {
-        'URL': location.origin
-    })
-    .constant('VIEW_WINDOWS', [
-        {type: 'live', headerText: 'Live Over the Air.', toolTip: 'get your content as soon as it dropped.'},
-        {type: 'onDemand', headerText: 'On Demand Subscription.', toolTip: 'day/+ after live airing.'},
-        {type: 'fullseason', headerText: 'Binge Watch Full Seasons', toolTip: 'season behind.'},
-        {type: 'alacarte', headerText: 'Watch Current Season or Episodes for a fee', toolTip: 'day/+ after live airing with no committment'}
-    ])
-    .constant('BANNED_CHANNELS', ['HBO Go',
-        'Guidebox',
-        'MSNBC',
-        'HBO',
-        'Dish',
-        'DirecTV',
-        'AT&T U-verse',
-        'FX',
-        'Xfinity',
-        // 'Showtime Anytime',
-        'STARZ Play'])
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick', "angular-send-feedback", 'angular-growl'])
+        .constant('CONFIG', {
+            'URL': location.origin
+        })
+        .constant('VIEW_WINDOWS', [
+            {type: 'live', headerText: 'Live Over the Air.', toolTip: 'get your content as soon as it dropped.'},
+            {type: 'onDemand', headerText: 'On Demand Subscription.', toolTip: 'day/+ after live airing.'},
+            {type: 'fullseason', headerText: 'Binge Watch Full Seasons', toolTip: 'season behind.'},
+            {
+                type: 'alacarte',
+                headerText: 'Watch Current Season or Episodes for a fee',
+                toolTip: 'day/+ after live airing with no committment'
+            }
+        ])
+        .constant('BANNED_CHANNELS', ['HBO Go',
+            'Guidebox',
+            'MSNBC',
+            'HBO',
+            'Dish',
+            'DirecTV',
+            'AT&T U-verse',
+            'FX',
+            'Xfinity',
+            // 'Showtime Anytime',
+            'STARZ Play'])
 
-    .constant('SERVICE_PRICE_LIST', [
-        {name: 'Netflix', price: 9.99},
-        {name: 'Hulu', price: 7.99},
-        {name: 'Amazon Prime', price: 8.25},
-        {name: 'HBO Now', price: 14.99},
-        {name: 'SlingTV', price: 20.00},
-        {name: 'Over The Air', price: 0.00},
-        {name: 'Showtime', price: 10.99},
-        {name: 'CBS All Access', price: 5.99},
-        {name: 'NBC App', price: 0.00},
-        {name: 'CW Seed', price: 0.00},
-        {name: 'PBS App', price: 0.00}
-    ])
+        .constant('SERVICE_PRICE_LIST', [
+            {
+                name: 'Pay Per View',
+                price: 0.00,
+                description: 'If a subscription service is not for you, these apps allow you to purchase a show at a time.' +
+                ' Or you can purchase an entire season once it has finished airing.',
+                subscriptionLink: 'https://play.google.com/store/movies/category/TV?hl=en'
+            },
+            {
+                name: 'netflix', price: 9.99, description: 'Best described as a "binge watch" service. ' +
+            'Typically, full seasons are launched all at once and a season behind what is currently showing on TV. Netflix also offers original programming now.' +
+            ' This is also released a full season at a time.',
+                subscriptionLink: 'https://www.netflix.com/'
+            },
+            {
+                name: 'hulu_plus',
+                price: 7.99,
+                description: 'An on-demand service (think DVR) that offers shows from certain networks (ABC, limited NBC, FOX, CW, etc)' +
+                ' a day after they air. Subscription prices depend on whether or not you purchase an ad-free package or not.',
+                subscriptionLink: 'http://www.hulu.com/start'
+            },
+            {
+                name: 'amazon_prime',
+                price: 8.25,
+                description: 'An on-demand and binge combo. Some programming is offered in full-season format and some is on-demand after it airs live.' +
+                ' Some shows are free while others are not. Amazon is also building a strong offering of original shows. ' +
+                'It comes free with an annual Prime membership.',
+                subscriptionLink: 'http://www.amazon.com/gp/video/getstarted'
+            },
+            {
+                name: 'hbo_now',
+                price: 14.99,
+                description: 'Watch HBO shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.',
+                subscriptionLink: 'https://order.hbonow.com/'
+            },
+            {
+                name: 'sling-tv', price: 20.00,
+                description: 'Live streaming service that makes shows available as they simultaneously air on cable.' +
+                ' The main Sling package gives you a "skinny bundle" of some of the most popular cable channels (ESPN, CNN, HGTV, etc.) ' +
+                'with the option to add extra mini packages on top of your main Sling package.',
+                subscriptionLink: 'https://www.sling.com/'
+            },
+            {
+                name: 'Over The Air',
+                price: 0.00,
+                description: 'Watching over the air (OTA) is like watching live television.' +
+                ' There is no monthly cost, but a digital antenna is needed to pull in the signal.',
+                subscriptionLink: 'http://amzn.com/B00X4RA74A'
+            },
+            {
+                name: 'showtime',
+                price: 10.99,
+                description: 'Watch Showtime shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.',
+                subscriptionLink: 'http://www.sho.com/order?source=acq_shoanytime_about'
+            },
+            {
+                name: 'cbs',
+                price: 5.99,
+                description: 'New CBS episodes on demand the day after they air and almost all past seasons of CBS shows for binging.' +
+                ' In select markets, you can stream CBS live.',
+                subscriptionLink: 'https://www.cbs.com/all-access/'
+            },
+            {
+                name: 'nbc',
+                price: 0.00,
+                description: 'A DVR-like, on-demand app that offers shows from NBC a day after they air. You do have to watch commercials, but it\'s free.',
+                subscriptionLink: 'http://www.nbc.com/video'
+            },
+            {
+                name: 'thecw',
+                price: 0.00,
+                description: 'An on-demand and binge combo for classic CW shows and some new original content.',
+                subscriptionLink: 'http://www.cwseed.com/'
+            },
+            {
+                name: 'PBS App',
+                price: 0.00,
+                description: 'A streaming App for PBS.',
+                subscriptionLink: 'http://www.pbs.org/video/'
+            },
+            {
+                name: 'starz',
+                price: 8.99,
+                description: 'Download and watch past episodes and seasons of your favorite Starz shows. Unlike HBO Now and Showtime,' +
+                ' you can\'t watch shows as they air. They do let you download shows to watch at a later time when you may not have access to wifi.',
+                subscriptionLink: 'https://www.starz.com/buy-starz/?TID='
+            },
+            {
+                name: 'Seeso',
+                price: 3.99,
+                description: 'NBC\'s binge watching app for classic and hard-to-find comedy as well as original content. No commercials.',
+                subscriptionLink: 'https://www.seeso.com/'
+            },
+            {
+                name: 'tubi_tv', price: 0.00, description: 'Free binge watching app for unique and classic content.',
+                subscriptionLink: 'https://tubitv.com/'
+            }
 
-    .constant('MAJOR_NETWORKS', [
-        'ABC'
-    ])
+        ])
 
-    .constant('SLING_CHANNELS', ['ESPN',
-        'ESPN2',
-        'AMC',
-        'Food Network',
-        'A & E',
-        'History',
-        'TNT',
-        'El Rey',
-        'HGTV',
-        'IFC',
-        'Disney Channel',
-        'Polaris +',
-        'Maker',
-        'TBS',
-        'Travel Channel',
-        'Adult Swim',
-        'CNN',
-        'H2',
-        'Cartoon Network',
-        'ABC Family',
-        'Lifetime',
-        'Galavision',
-        'Bloomberg Television']);
+        .constant('MAJOR_NETWORKS', [
+            'ABC'
+        ])
 
-app.config(['growlProvider','$httpProvider', function(growlProvider, $httpProvider){
+        .constant('SLING_CHANNELS', ['ESPN',
+            'ESPN2',
+            'AMC',
+            'Food Network',
+            'A & E',
+            'History',
+            'TNT',
+            'El Rey',
+            'HGTV',
+            'IFC',
+            'Disney Channel',
+            'Polaris +',
+            'Maker',
+            'TBS',
+            'Travel Channel',
+            'Adult Swim',
+            'CNN',
+            'H2',
+            'Cartoon Network',
+            'ABC Family',
+            'Lifetime',
+            'Galavision',
+            'Bloomberg Television'])
+    ;
+
+app.config(['growlProvider', '$httpProvider', function (growlProvider, $httpProvider) {
     growlProvider.globalReversedOrder(true);
     growlProvider.globalTimeToLive(2000);
     growlProvider.globalDisableCloseButton(true)
@@ -168,7 +259,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('login', {
             url: '/login',
-            template : 'Hello world'
+            template: 'Hello world'
         })
         .state('journey-one', {
             abstract: true,
@@ -180,16 +271,16 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
             abstract: true
         })
 
-        .state('check',{
+        .state('check', {
             templateUrl: '/static/partials/checkout.html',
             abstract: true
         })
-        .state('check.out',{
-            url:'/checkout',
+        .state('check.out', {
+            url: '/checkout',
             data: {
                 checkout: true
             },
-            views:{
+            views: {
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
@@ -240,6 +331,12 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
                 }
+            },
+            onEnter: function () {
+               $('body').addClass('no-scroll')
+            },
+            onExit: function () {
+                $('body').removeClass('no-scroll')
             }
         })
         .state('journey-one.step-one', {
@@ -350,7 +447,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 });
 
 app.controller('HomeController', function () {
-    $('body').attr('id','background')
+    $('body').attr('id', 'background')
 })
 /**
  * Created by Nem on 9/18/15.
@@ -556,10 +653,8 @@ app.directive('otaSlingNetflix', function () {
 
         link: function (scope, element, attrs) {
 
-            debugger;
 
             if (element.scope().$parent.key == 'binge') {
-                debugger;
                 if (scope.cs.on_netflix && !_.some(scope.detailSources.binge, ['source', 'netflix'])) {
 
                     element.append('<div class="col-sm-4"><img class="" src="https://s3.amazonaws.com/streamsavvy/service_logos/netflix"></div>')
@@ -1304,7 +1399,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
         return window.pageXOffset || docElem.scrollLeft;
     }
     scrollY = function () {
-        return window.pageYOffset || docElem.scrollTop;
+        return $('#search-and-shows').scrollTop()
     }
 
 
@@ -1432,7 +1527,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
 });
 
 
-app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory) {
+app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory, SERVICE_PRICE_LIST) {
 
 
 
@@ -1440,27 +1535,48 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
     $scope.list = PackageFactory.getListOfServices();
     $scope.list.added = [];
     
+    var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
+
     $scope.addService = function (service) {
         
         $scope.list.added.push(service.chan.source);
         service.added = true;
-        /*
-        if (service.hasOwnProperty('selected')) {
-            delete service['selected'];
-            //removeShowFromService();
+    };
+    $scope.notOtaServiceDetail = function(mystery_service) {
+        if(_.some(payPerServices,mystery_service.chan.source)){
+            console.log('this is the payperview service ' + mystery_service.chan.source);
+            mystery_service.description = SERVICE_PRICE_LIST[0].description;
+            mystery_service.price = SERVICE_PRICE_LIST[0].price;
+            mystery_service.link = SERVICE_PRICE_LIST[0].subscriptionLink;
         }
+        else{
+            var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
+                return elem.name == mystery_service.chan.source;
+            });
+            if(serviceMatch != undefined){
 
-        var addService = function () {
-            if (!_.includes($scope.list.added, service)) {
-                $scope.list.added.push(service);
+                mystery_service.description = serviceMatch.description;
+                mystery_service.price = serviceMatch.price;
+                mystery_service.subscriptionLink = serviceMatch.subscriptionLink;
             }
-            $scope.setListOfServices($scope.list);
-        };
-        addService();
-        PackageFactory.setPackage()
-        */
+        }
     };
 
+    $scope.otaServiceDetail = function(live_mystery_service){
+        if(live_mystery_service.chan.is_on_sling){
+            var slingService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'SlingTV'});
+            live_mystery_service.description = slingService.description;
+            live_mystery_service.price = slingService.price;
+            live_mystery_service.subscriptionLink = slingService.subscriptionLink;
+            
+        }
+        else if(live_mystery_service.chan.is_over_the_air){
+            var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
+            live_mystery_service.description = otaService.description;
+            live_mystery_service.price = otaService.price;
+            live_mystery_service.subscriptionLink = otaService.subscriptionLink;
+        }
+    };
     $scope.removeService = function(service,serviceArray) {
         if(serviceArray == 'ota'){
            _.pull($scope.list.ota,service);
@@ -1470,16 +1586,35 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
         }
         PackageFactory.setListOfServices($scope.list);
     };
-
+    $scope.openTab = function(servicePurchase){
+        $scope.url = servicePurchase.subscriptionLink;
+    }
     $scope.$watchCollection(function () {
         return PackageFactory.getPackage().data.content
 
     }, function () {
         $scope.package = PackageFactory.getPackage();
         $scope.list = PackageFactory.getListOfServices();
+        _.forEach($scope.list.not_ota, function(not_ota_service){
+            if(not_ota_service != undefined){
+                $scope.notOtaServiceDetail(not_ota_service);
+            }
+
+        } );
+        _.forEach($scope.list.ota, function(ota_service){
+            if(ota_service != undefined){
+                $scope.otaServiceDetail(ota_service);
+            }
+        })
     })
    
 
+    
+    
+    
+    
+    
+    
 });
 
 /**
@@ -1749,28 +1884,28 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
         var ssPackage = PackageFactory.getPackage();
+        if(suggestion !== undefined) {
+            if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
+                growl.warning('You already added ' + suggestion.title + ' to your package!');
+                $scope.suggestions = [];
+                return
+            }
 
-        if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
-            growl.warning('You already added ' + suggestion.title + ' to your package!');
-            $scope.suggestions = [];
-            return
+
+            if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+                //debugger;
+                $scope.loading = true
+
+                suggestion.justAdded = true;
+
+                ssPackage.data.content.push(suggestion);
+
+                PackageFactory.setPackage(ssPackage);
+
+                $scope.loading = false
+            }
+
         }
-
-
-        if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-            //debugger;
-            $scope.loading = true
-
-            suggestion.justAdded = true;
-
-            ssPackage.data.content.push(suggestion);
-
-            PackageFactory.setPackage(ssPackage);
-
-            $scope.loading = false
-        }
-
-
         $scope.searchText = '';
         $scope.suggestions = [];
 
@@ -1862,7 +1997,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     var ssPackage = PackageFactory.getPackage();
     $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes'];
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
 
     function check_if_on_sling(obj) {
@@ -1996,9 +2131,9 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
 
-    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw'];
-    var onDemandServices = ['hulu_plus', 'nbc'];
-    var bingeServices = ['netflix', 'amazon_prime'];
+    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw','showtime_subscription','hbo_now'];
+    var onDemandServices = ['hulu_plus', 'nbc', 'starz','showtime_subscription'];
+    var bingeServices = ['netflix', 'amazon_prime','seeso','tubitv', 'starz','showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
     var openingDetail = false
@@ -2016,7 +2151,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
                 var x = _($scope.cs.channel)
-                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
                     .map(function (elem) {
 
                         if (elem.guidebox_data != undefined) {
@@ -2066,8 +2201,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             else if (service.source == 'showtime_subscription') {
                                 services.on_demand.push(service);
                                 service.binge.push(service);
+                                service.live.push(service);
                             }
-
+                            else if (service.source == 'starz'){
+                                service.binge.push(service);
+                                service.on_demand.push(service);
+                            }
                         })
 
                         if (services.live) {
@@ -2108,7 +2247,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
 
 
-                        debugger;
                         $scope.sortedServices = Object.keys(services)
                             .sort();
 
@@ -2174,6 +2312,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
+        
+        $('#search-and-shows').addClass('no-scroll');
 
         // var el = angular.element('show-detail');
         //
@@ -2206,7 +2346,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
         window.scrollTo(0, 0);
-        $('body').css('overflow', 'hidden');
+        // $('body').css('overflow', 'hidden');
 
         PackageFactory.setChosenShow(item);
 
@@ -2235,6 +2375,11 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             })
             .then(function (v) {
                 $('show-detail').addClass('fade-in');
+                var showDetailTop = $('show-detail').offset().top,
+                    scrolledDistance = $('#search-and-shows').scrollTop()
+                $('show-detail').css({top: 55 + scrolledDistance })
+                
+                // $('show-detail').
                 //$('show-detail').removeClass('fade');
             })
 
@@ -2246,7 +2391,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }, 50);
 
     $scope.hideDetail = function (ev, attrs) {
-        debugger
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
@@ -2267,14 +2411,11 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             })
             .then(function (v) {
                 //debugger;
-                $('body').css('overflow', 'scroll');
+                // $('body').css('overflow', 'scroll');
                 $(scaleItem).removeAttr('id')
                 $(positionItem).removeAttr('id')
 
-                var el = angular.element('show-detail');
-                // var osn = angular.element('otaSlingNetfilx');
-                // $compile(el)($scope);
-
+                $('#search-and-shows').removeClass('no-scroll');
 
             })
 

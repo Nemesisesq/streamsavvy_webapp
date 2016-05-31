@@ -62,7 +62,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
         return window.pageXOffset || docElem.scrollLeft;
     }
     scrollY = function () {
-        return window.pageYOffset || docElem.scrollTop;
+        return $('#search-and-shows').scrollTop()
     }
 
 

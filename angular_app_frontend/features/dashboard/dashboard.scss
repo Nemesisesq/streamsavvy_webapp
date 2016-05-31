@@ -28,7 +28,7 @@
 
   }
   .ss_nav {
-    position:fixed;
+    position: fixed;
     width: 75%;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -38,7 +38,7 @@
   .search-and-shows {
     //padding-left: 40px;
     //padding-right: 40px;
-    padding-left:0;
+    padding-left: 0;
     height: 100vh;
     overflow: scroll;
     .search-bar {
@@ -50,7 +50,11 @@
       margin-bottom: 10px;
       float: left;
       color: $warm-grey;
-      padding-left:0;
+      padding-left: 0;
+    }
+
+    &.no-scroll {
+      overflow: hidden;
     }
   }
   .services-hardware {
@@ -71,24 +75,16 @@
 
   show-detail {
 
-    &.fade{
+    &.fade {
 
-    pointer-events: none;
+      pointer-events: none;
 
-      &.fade-in{
+      &.fade-in {
         pointer-events: all;
       }
     }
 
-
-
-
-
-
   }
-
-
-
 
 }
 
