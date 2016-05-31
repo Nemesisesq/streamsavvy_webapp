@@ -74,7 +74,7 @@ app.directive('otaSlingNetflix', function () {
         restrict: 'A',
 
         link: function (scope, element, attrs) {
-
+debugger
 
             if (element.scope().$parent.key == 'binge') {
                 if (scope.cs.on_netflix && !_.some(scope.detailSources.binge, ['source', 'netflix'])) {

@@ -652,7 +652,7 @@ app.directive('otaSlingNetflix', function () {
         restrict: 'A',
 
         link: function (scope, element, attrs) {
-
+debugger
 
             if (element.scope().$parent.key == 'binge') {
                 if (scope.cs.on_netflix && !_.some(scope.detailSources.binge, ['source', 'netflix'])) {
@@ -2131,9 +2131,9 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
 
-    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw','showtime_subscription','hbo_now'];
-    var onDemandServices = ['hulu_plus', 'nbc', 'starz','showtime_subscription'];
-    var bingeServices = ['netflix', 'amazon_prime','seeso','tubitv', 'starz','showtime_subscription'];
+    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now'];
+    var onDemandServices = ['hulu_plus', 'nbc', 'starz', 'showtime_subscription'];
+    var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubitv', 'starz', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
     var openingDetail = false
@@ -2151,7 +2151,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
                 var x = _($scope.cs.channel)
-                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
                     .map(function (elem) {
 
                         if (elem.guidebox_data != undefined) {
@@ -2203,7 +2203,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                 service.binge.push(service);
                                 service.live.push(service);
                             }
-                            else if (service.source == 'starz'){
+                            else if (service.source == 'starz') {
                                 service.binge.push(service);
                                 service.on_demand.push(service);
                             }
@@ -2215,13 +2215,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                                 if (elem.is_over_the_air) {
 
-                                    if (elem.source = 'thecw') {
-                                        var new_elem = _.cloneDeep(elem)
-                                        new_elem.source = 'ota'
-
-                                        services.live.push(new_elem)
-                                        return elem
-                                    }
                                     elem.source = 'ota'
                                 }
 
@@ -2235,6 +2228,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                 return elem
 
                             })
+                        }
+
+                        if ($scope.cs.on_netflix) {
+                            if ( !services.hasOwnProperty('binge')){
+                                services.binge = []
+
+                            }
+
+                            services.binge.push({source: 'netflix'})
                         }
 
 
@@ -2312,30 +2314,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
-        
+
         $('#search-and-shows').addClass('no-scroll');
-
-        // var el = angular.element('show-detail');
-        //
-        // var parent = el.parent()
-        //
-        // // el.$destroy()
-        // el.remove()
-        //
-        // el = document.createElement('show-detail')
-        // el.className +='container fade'
-        //
-        // $compile(el)($scope);
-        //
-        // parent.append(el);
-
-
-        // var osn = angular.element('otaSlingNetfilx');
-
-
-        // el = document.getElement('show-detail')
-        //
-        // parent = el.parent()
 
 
         if (openingDetail || !_.isEmpty($('.placeholder'))) {
@@ -2377,8 +2357,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 $('show-detail').addClass('fade-in');
                 var showDetailTop = $('show-detail').offset().top,
                     scrolledDistance = $('#search-and-shows').scrollTop()
-                $('show-detail').css({top: 55 + scrolledDistance })
-                
+                $('show-detail').css({top: 55 + scrolledDistance})
+
                 // $('show-detail').
                 //$('show-detail').removeClass('fade');
             })
