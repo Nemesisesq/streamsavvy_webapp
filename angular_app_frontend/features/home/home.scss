@@ -26,5 +26,43 @@
   background-color: black;
   opacity: .4;
   display: none;
-
 }
+
+.easy-123 {
+  max-width: calc(100vw - 30px);
+}
+
+.header-logo {
+}
+
+@media (max-width: 768px) {
+  div#mainPage {
+    margin-left: 0;
+    min-height: 100vh;
+  }
+}
+
+@media (max-width: 456px) {
+  .content-wrapper .h1-row .h1-col h1.white {
+    font-size: 2em;
+
+    & span {
+      display: none;
+    }
+
+  }
+
+  .header-logo {
+    width: calc(100vw - 10%);
+  }
+
+  .lets-do-this-row {
+    position: absolute;
+    bottom: 75px;
+
+    a {
+      width: calc(100vw - 30px);
+    }
+  }
+}
+

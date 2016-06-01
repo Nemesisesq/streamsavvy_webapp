@@ -2444,6 +2444,27 @@ ul[id^='typeahead-'], .suggestions-list {
   opacity: .4;
   display: none; }
 
+.easy-123 {
+  max-width: calc(100vw - 30px); }
+
+@media (max-width: 768px) {
+  div#mainPage {
+    margin-left: 0;
+    min-height: 100vh; } }
+
+@media (max-width: 456px) {
+  .content-wrapper .h1-row .h1-col h1.white {
+    font-size: 2em; }
+    .content-wrapper .h1-row .h1-col h1.white span {
+      display: none; }
+  .header-logo {
+    width: calc(100vw - 10%); }
+  .lets-do-this-row {
+    position: absolute;
+    bottom: 75px; }
+    .lets-do-this-row a {
+      width: calc(100vw - 30px); } }
+
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;
   padding-left: 15px;
