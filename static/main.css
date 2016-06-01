@@ -182,7 +182,7 @@ span.glyphicon.glyphicon-ok-sign.glyphicon-background.blue-glyphicon.selected {
     right: 7%; } }
 
 body {
-  min-height: 100vh; }
+  min-height: 101vh; }
 
 .background {
   background: linear-gradient(rgba(21, 25, 27, 0.65), rgba(21, 25, 27, 0.65)), linear-gradient(to bottom, rgba(0, 162, 255, 0.4), rgba(225, 0, 25, 0.35)), url(https://s3.amazonaws.com/streamsavvy/ss_background.jpg) no-repeat 50% 50% fixed;
@@ -2449,8 +2449,7 @@ ul[id^='typeahead-'], .suggestions-list {
 
 @media (max-width: 768px) {
   div#mainPage {
-    margin-left: 0;
-    min-height: 100vh; } }
+    margin-left: 0; } }
 
 @media (max-width: 456px) {
   .content-wrapper .h1-row .h1-col h1.white {

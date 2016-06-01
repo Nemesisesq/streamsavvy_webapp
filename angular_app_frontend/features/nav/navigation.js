@@ -1,8 +1,16 @@
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, classie) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
+
+
+    $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
+
     $scope.isHomePage = $state.current.data.isHomePage;
+
+    $timeout(function(){
+        $scope.isHomePage && $('div#mainPage').css({'min-height':'100vh'});
+    }, 0)
 
     $scope.isActive = function (hash) {
         return document.location.hash == hash;
@@ -38,7 +46,9 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
         //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
         // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
         // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
-        $('#menu-mask').fadeToggle()
+
+        $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut()
+
 
         $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
 
