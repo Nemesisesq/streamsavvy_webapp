@@ -2503,6 +2503,9 @@ ul[id^='typeahead-'], .suggestions-list {
   .dashboard show-detail.fade.fade-in {
     pointer-events: all; }
 
+.dashboard show-detail .background {
+  overflow: scroll; }
+
 div#dashPage {
   margin-left: 0;
   margin-right: 0; }
