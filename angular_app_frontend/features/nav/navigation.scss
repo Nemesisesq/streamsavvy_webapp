@@ -154,3 +154,12 @@ a.active {
   color: white;
   text-decoration: none !important;
 }
+
+/* Mobile Styles*/
+
+@media (max-width: 767px) {
+  .dashboard .ss_nav {
+    width: 100%;
+  }
+}
+

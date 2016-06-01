@@ -40,3 +40,35 @@
 span.pull-right.footer-right {
   color: $warm-grey;
 }
+
+@media (max-width: 884px) {
+  .footer-right{
+    font-size: 12px;
+  }
+
+  .ss_mark {
+    width: 175px;
+  }
+
+}
+
+
+@media (max-width: 774px) {
+  .footer-right{
+    font-size: 10px;
+  }
+
+
+
+}
+
+
+@media (max-width: 425px) {
+  .footer-right{
+    font-size: 8px;
+  }
+
+
+
+
+}

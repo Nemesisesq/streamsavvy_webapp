@@ -2473,7 +2473,6 @@ ul[id^='typeahead-'], .suggestions-list {
   transition: all 0.3s ease; }
 
 .dashboard .search-and-shows {
-  padding-left: 0;
   height: 100vh;
   overflow: scroll; }
   .dashboard .search-and-shows .search-bar {
@@ -2660,6 +2659,20 @@ div#dashPage {
 span.pull-right.footer-right {
   color: #9b9b9b; }
 
+@media (max-width: 884px) {
+  .footer-right {
+    font-size: 12px; }
+  .ss_mark {
+    width: 175px; } }
+
+@media (max-width: 774px) {
+  .footer-right {
+    font-size: 10px; } }
+
+@media (max-width: 425px) {
+  .footer-right {
+    font-size: 8px; } }
+
 .service-panel.ng-scope {
   min-height: 60vh;
   max-height: calc(100vh - 46px);
@@ -2762,7 +2775,8 @@ span.pull-right.footer-right {
   color: #9b9b9b; }
 
 #theGrid {
-  padding-left: 0; }
+  padding-left: 0;
+  padding-right: 0; }
 
 .pointer {
   cursor: pointer; }
@@ -2817,6 +2831,18 @@ span.pull-right.footer-right {
 
 .hardware-collapsed {
   height: 100vh; }
+
+@media (max-width: 1023px) {
+  .not-ready {
+    width: calc(25vw - 10px);
+    min-width: 10vw;
+    margin-left: .5em;
+    margin-right: .5em;
+    font-size: .875em;
+    padding-top: .875em;
+    padding-bottom: .875em;
+    padding-left: 1.5em;
+    padding-right: 1.5em; } }
 
 show-detail {
   text-transform: none;
@@ -3161,6 +3187,11 @@ a.active {
   border-left: 3px solid #e7021e;
   color: white;
   text-decoration: none !important; }
+
+/* Mobile Styles*/
+@media (max-width: 767px) {
+  .dashboard .ss_nav {
+    width: 100%; } }
 
 html,
 button,

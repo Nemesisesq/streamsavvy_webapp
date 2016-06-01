@@ -81,3 +81,20 @@
 .hardware-collapsed {
   height: 100vh;
 }
+
+@media (max-width: 1023px){
+  .not-ready {
+    //height: inherit;
+    width: calc(25vw - 10px) ;
+    min-width: 10vw;
+    margin-left: .5em;
+    margin-right: .5em;
+    font-size: .875em;
+    padding-top: .875em;
+    padding-bottom: .875em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
+
+
+}
