@@ -2464,6 +2464,16 @@ ul[id^='typeahead-'], .suggestions-list {
     .lets-do-this-row a {
       width: calc(100vw - 30px); } }
 
+mobile-tabs {
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  width: 100%;
+  background: #15191b;
+  color: #ed1c24;
+  height: 60px;
+  text-align: center; }
+
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;
   padding-left: 15px;
@@ -2508,7 +2518,6 @@ ul[id^='typeahead-'], .suggestions-list {
     overflow: hidden; }
 
 .dashboard .services-hardware {
-  position: fixed;
   right: 0;
   z-index: 1;
   max-height: 100vh;
@@ -2528,6 +2537,25 @@ ul[id^='typeahead-'], .suggestions-list {
 div#dashPage {
   margin-left: 0;
   margin-right: 0; }
+
+@media (max-width: 767px) {
+  body.background.container.ng-scope.no-scroll.gradient-background {
+    overflow: scroll; }
+  .dashboard .search-and-shows {
+    height: inherit;
+    overflow: inherit; }
+  .dashboard .services-hardware {
+    position: relative;
+    overflow: inherit;
+    max-height: none;
+    height: inherit; }
+    .dashboard .services-hardware .service-panel {
+      min-height: 100vh; }
+    .dashboard .services-hardware .hardware-panel {
+      min-height: 100vh;
+      margin-bottom: 60px; }
+  .footer {
+    display: none; } }
 
 .ss_checkout {
   background-color: rgba(21, 25, 27, 0.98);
@@ -2612,8 +2640,7 @@ div#dashPage {
         .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .btn-remove, .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected .btn-purchase, .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .selected a {
           display: none; }
     .col-sm-12 .checkoutList .service-title.row .ss_show-list {
-      list-style: none;
-      margin-bottom: 32px; }
+      list-style: none; }
       .col-sm-12 .checkoutList .service-title.row .ss_show-list .ss_show.row {
         font-size: 14px;
         letter-spacing: 0.6px;
@@ -2654,7 +2681,7 @@ div#dashPage {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 160px;
+  height: 60px;
   opacity: 0.9;
   background-image: linear-gradient(to bottom, transparent, #000000);
   pointer-events: none; }

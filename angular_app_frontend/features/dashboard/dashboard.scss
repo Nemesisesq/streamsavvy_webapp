@@ -57,7 +57,7 @@
     }
   }
   .services-hardware {
-    position: fixed;
+    //position: fixed;
     right: 0;
     z-index: 1;
     max-height: 100vh;
@@ -94,4 +94,41 @@
 div#dashPage {
   margin-left: 0;
   margin-right: 0;
+}
+
+.show-service-hardware-tabs {
+}
+
+@media(max-width: 767px) {
+  body.background.container.ng-scope.no-scroll.gradient-background {
+    overflow: scroll;
+  }
+
+  .dashboard {
+    .search-and-shows {
+      height: inherit;
+      overflow: inherit;
+    }
+    .services-hardware {
+      position: relative;
+      overflow: inherit;
+      max-height: none;
+      height: inherit;
+
+      .service-panel {
+        min-height: 100vh;
+      }
+
+      .hardware-panel {
+        min-height: 100vh;
+
+        margin-bottom: 60px;
+      }
+
+    }
+  }
+
+  .footer {
+        display: none;
+      }
 }

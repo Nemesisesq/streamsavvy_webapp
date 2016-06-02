@@ -66,3 +66,15 @@
   }
 }
 
+mobile-tabs{
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  width: 100%;
+  background : $dark;
+  color: $action_red;
+  height: 60px;
+  text-align: center;
+
+}
+

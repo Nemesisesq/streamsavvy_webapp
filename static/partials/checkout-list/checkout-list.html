@@ -1,28 +1,7 @@
-<!--<div class="service-title row">
-        <div class="ss_image-purchase row">
-          <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/google_play"/>
-          <div class="service-options" ng-class="{'selected': isSelected==true}">
-            <a href="" ng-click="addRemoveService()">
-                I Have This Service Already
-            </a>
-            <button class="btn btn-remove">Remove</button>
-            <button class="btn btn-purchase">Purchase</button>
 
-            <img src="https://s3.amazonaws.com/streamsavvy/big-check.svg"/>
-            <span class="add-succesful">Added Succesfully</span>
-            <span class="keep-going">Keep Going!</span>
-          </div>
-        </div>
-          <ul class="list-group ss_show-list">
-            <li class="ss_show row" >This is a really really really long show name that's probably some anime or some shit</li>
-              <li class="ss_show row" >This is a really really really long show name that's probably some anime or some shit</li>
-              <li class="ss_show row" >This is a really really really long show name that's probably some anime or some shit</li>
-          </ul>
-</div>
--->
-<div class="service-title row" ng-repeat="service in list.ota"><!--ng-repeat="service in listOfServices"-->
+<div class="service-title row" ng-show="list.ota.length > 0" ><!--ng-repeat="service in listOfServices"-->
         <div class="ss_image-purchase row">
-          <img class="service-image" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.chan.source }}"/>
+          <img class="service-image" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/ota"/>
           <span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ service.description }}"   tooltip-placement="right"
                   tooltip-class="vw-tooltip"></span>
             <div class="service-options"  ng-class="{'selected': service.added==true}">
@@ -43,12 +22,42 @@
             <a href="" ng-click="removeService(service,'ota')" class="remove-cross"><img src="https://s3.amazonaws.com/streamsavvy/small-x-copy-4.svg"></a>
           </div>
         </div>
-          <ul class="list-group ss_show-list">
+          <ul class="list-group ss_show-list" ng-repeat="service in list.ota">
             <li class="ss_show row" ng-repeat="show in service.shows">{{ show.title }}</li>
           </ul>
 </div>
 
-<div class="service-title row" ng-repeat="service in list.not_ota"><!--ng-repeat="service in listOfServices"-->
+<div class="service-title row"  ng-show="list.sling.length > 0">
+        <div class="ss_image-purchase row">
+          <img class="service-image" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sling-tv.svg"/>
+          <span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ list.sling[1].chan.description }}"   tooltip-placement="right"
+                  tooltip-class="vw-tooltip"></span>
+            <div class="service-options"  ng-class="{'selected': service.added==true}">
+            <a href="" ng-click="addService(service)">
+              I Have This Service Already
+            </a>
+            <button class="btn btn-remove">Remove</button>
+            <button class="btn btn-purchase" onclick="window.open('https://www.sling.com/?var=zipOnly', '_blank');">Purchase</button>
+
+            <div class="added">
+               <img class="green-check" src="https://s3.amazonaws.com/streamsavvy/big-check.svg"/>
+                <div class="going-successful">
+                    <div class="add-successful">Added Successfully</div>
+                    <div class="keep-going">Keep Going!</div>
+                </div>
+            </div>
+
+            <a href="" ng-click="removeService(service,'ota')" class="remove-cross"><img src="https://s3.amazonaws.com/streamsavvy/small-x-copy-4.svg"></a>
+          </div>
+        </div>
+          <ul class="list-group ss_show-list" ng-repeat="service in list.sling">
+            <li class="ss_show row" ng-repeat="show in service.shows">{{ show.title }}</li>
+          </ul>
+</div>
+
+
+
+<div class="service-title row" ng-show="list.not_ota.length >0" ng-repeat="service in list.not_ota | unwantedChannels"><!--ng-repeat="service in listOfServices"-->
         <div class="ss_image-purchase row">
           <img class="service-image"  ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.chan.source }}"/>
             <span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ service.description }}"
@@ -79,3 +88,60 @@
           </ul>
 </div>
 
+
+<div class="service-title row"  ng-repeat="service in list.ppv" ng-show="list.ppv.length > 0">
+        <div class="ss_image-purchase row">
+          <img class="service-image" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.chan.source }}"/>
+          <span class="glyphicon glyphicon-info-sign" uib-tooltip="list.ppv[0].chan.description"  tooltip-placement="right"
+                  tooltip-class="vw-tooltip"></span>
+            <div class="service-options"  ng-class="{'selected': service.added==true}">
+            <a href="" ng-click="addService(service)">
+              I Have This Service Already
+            </a>
+            <button class="btn btn-remove">Remove</button>
+            <a class="btn btn-purchase" target="_blank" ng-href="{{ url }}" ng-mousedown="openTab(service)">Purchase</a>
+
+            <div class="added">
+               <img class="green-check" src="https://s3.amazonaws.com/streamsavvy/big-check.svg"/>
+                <div class="going-successful">
+                    <div class="add-successful">Added Successfully</div>
+                    <div class="keep-going">Keep Going!</div>
+                </div>
+            </div>
+
+            <a href="" ng-click="removeService(service,'ota')" class="remove-cross"><img src="https://s3.amazonaws.com/streamsavvy/small-x-copy-4.svg"></a>
+          </div>
+        </div>
+          <ul class="list-group ss_show-list" >
+            <li class="ss_show row" ng-repeat="show in service.shows">{{ show.title }}</li>
+          </ul>
+</div>
+
+
+<div class="service-title row"  ng-if="(package.data.content | onNetflix).length > 0">
+        <div class="ss_image-purchase row">
+          <img class="service-image" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/netflix"/>
+          <span class="glyphicon glyphicon-info-sign" uib-tooltip="list.ppv[0].chan.description"  tooltip-placement="right"
+                  tooltip-class="vw-tooltip"></span>
+            <div class="service-options"  ng-class="{'selected': service.added==true}">
+            <a href="" ng-click="addService(service)">
+              I Have This Service Already
+            </a>
+            <button class="btn btn-remove">Remove</button>
+            <button class="btn btn-purchase" onclick="window.open('http://netflix.com/', '_blank');">Purchase</button>
+
+            <div class="added">
+               <img class="green-check" src="https://s3.amazonaws.com/streamsavvy/big-check.svg"/>
+                <div class="going-successful">
+                    <div class="add-successful">Added Successfully</div>
+                    <div class="keep-going">Keep Going!</div>
+                </div>
+            </div>
+
+            <a href="" ng-click="removeService(service,'ota')" class="remove-cross"><img src="https://s3.amazonaws.com/streamsavvy/small-x-copy-4.svg"></a>
+          </div>
+        </div>
+          <ul class="list-group ss_show-list">
+            <li class="ss_show row" ng-repeat="show in package.data.content | onNetflix">{{ show.title }}</li>
+          </ul>
+</div>
