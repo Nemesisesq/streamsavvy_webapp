@@ -83,7 +83,7 @@ app.filter('unwantedChannels', function () {
         171,  //DirecTV
         169, //Dish
         234, 70, //Food Network
-        // 36, //HBO
+         36, //HBO
         12, 54, //USA
         32, //FX
         170, //AT&T U-verse
@@ -100,7 +100,8 @@ app.filter('unwantedChannels', function () {
         10, 48, 59, //Comedy Central
         133, //Starz
         21, 241, 239, //VH1
-        // 18, 123, //History Channel
+         18, 123, //History Channel,
+        795,//channel 4
         121, 190, //Esquire, Esquire Network
         // 14, 267 //Showtime
 
@@ -168,3 +169,8 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
         }
 
     })
+app.filter('unique', function() {
+    return function (arr, field) {
+        return _.uniq(arr, function(a) { return a[field]; });
+    };
+});

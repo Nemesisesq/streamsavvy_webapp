@@ -1,4 +1,4 @@
-app.controller('CheckoutController', function ($scope, $http, $timeout, PackageFactory, SERVICE_PRICE_LIST) {
+app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
 
 
@@ -58,7 +58,11 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, PackageF
         PackageFactory.setListOfServices($scope.list);
     };
     $scope.openTab = function(servicePurchase){
-        $scope.url = servicePurchase.subscriptionLink;
+        if(servicePurchase != undefined)
+        {
+           $scope.url = servicePurchase.subscriptionLink;
+        }
+
     }
     $scope.$watchCollection(function () {
         return PackageFactory.getPackage().data.content
