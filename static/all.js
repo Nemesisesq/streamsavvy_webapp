@@ -1699,10 +1699,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
  */
 
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by Nem on 12/29/15.
  */
 
@@ -1716,6 +1712,10 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
 /**
  * Created by chirag on 8/3/15.
  */
@@ -1745,6 +1745,88 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
+
+
+    $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
+
+    $scope.isHomePage = $state.current.data.isHomePage;
+
+    $timeout(function(){
+        $scope.isHomePage && $('div#mainPage').css({'min-height':'100vh'});
+    }, 0)
+
+    $scope.isActive = function (hash) {
+        return document.location.hash == hash;
+
+
+    }
+
+
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.logout = function () {
+        $location.path(CONFIG.URL + '/django_auth/logout/');
+        //.success(function () {
+        //    $rootScope.logged_in = false;
+        //    console.log($rootScope.logged_in)
+        //})
+    }
+
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+        mainPage = document.getElementById('mainPage'),
+        showLeftPush = document.getElementById('showLeftPush'),
+        body = document.body;
+
+
+    $scope.showLeftPush = function () {
+        //classie.toggle(this, 'active')
+        $scope.menuOpen = !$scope.menuOpen;
+
+        //debugger;
+        //classie.toggle(body, 'cbp-spmenu-push-toright');
+        //classie.toggle(menuLeft, 'cbp-spmenu-open');
+        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
+        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
+        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+
+        $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut()
+
+
+        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+
+
+        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
+
+        //disableOther('showLeftPush');
+    };
+
+
+});
+
+app.run(function ($rootScope) {
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
+    console.log($rootScope.logged_in)
+
+})
+
+$(document).ready(function () {
+
+
+
+    //function disableOther(button) {
+    //    if (button !== 'showLeftPush') {
+    //        classie.toggle(showLeftPush, 'disabled');
+    //    }
+    //
+    //}
+});
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -1840,88 +1922,6 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 });
 
 
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
-
-
-    $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
-
-    $scope.isHomePage = $state.current.data.isHomePage;
-
-    $timeout(function(){
-        $scope.isHomePage && $('div#mainPage').css({'min-height':'100vh'});
-    }, 0)
-
-    $scope.isActive = function (hash) {
-        return document.location.hash == hash;
-
-
-    }
-
-
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.logout = function () {
-        $location.path(CONFIG.URL + '/django_auth/logout/');
-        //.success(function () {
-        //    $rootScope.logged_in = false;
-        //    console.log($rootScope.logged_in)
-        //})
-    }
-
-    var menuLeft = document.getElementById('cbp-spmenu-s1'),
-        mainPage = document.getElementById('mainPage'),
-        showLeftPush = document.getElementById('showLeftPush'),
-        body = document.body;
-
-
-    $scope.showLeftPush = function () {
-        //classie.toggle(this, 'active')
-        $scope.menuOpen = !$scope.menuOpen;
-
-        //debugger;
-        //classie.toggle(body, 'cbp-spmenu-push-toright');
-        //classie.toggle(menuLeft, 'cbp-spmenu-open');
-        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
-        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
-        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
-        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
-
-        $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut()
-
-
-        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-
-
-        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
-        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
-
-        //disableOther('showLeftPush');
-    };
-
-
-});
-
-app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
-    console.log($rootScope.logged_in)
-
-})
-
-$(document).ready(function () {
-
-
-
-    //function disableOther(button) {
-    //    if (button !== 'showLeftPush') {
-    //        classie.toggle(showLeftPush, 'disabled');
-    //    }
-    //
-    //}
-});
 /**
  * Created by Nem on 7/18/15.
  */
@@ -2102,7 +2102,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     // $scope.payPerShows = [];
     var updateServices = function () {
 
-        debugger;
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
             $scope.listOfServices = _
@@ -2178,7 +2177,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     return elem.chan.source != "netflix"
                 })
                 .groupBy(function (elem) {
-                    debugger
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
@@ -2197,10 +2195,24 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 .thru(function (list) {
                     debugger
 
+                    var showsOta = _.map(list.ota, function (elem) {
+                        return elem.shows
+                    })
+
                     if (list.ota && list.ota.length > 1) {
-                        list.ota[0].shows = _.union(list.ota[0].shows, list.ota[1].shows)
-                    list.ota = [list.ota[0]]
+                        list.ota[0].shows = _.flatten(_.unionBy(showsOta, 'url'));
+                        list.ota = [list.ota[0]];
                     }
+
+                    var showsPpv = _.map(list.ppv, function (elem) {
+                        return elem.shows
+                    })
+
+                    if (list.ppv && list.ppv.length > 1) {
+                        list.ppv[0].shows = _.flatten(_.unionBy(showsPpv, 'url'));
+                        list.ppv = [list.ppv[0]];
+                    }
+
 
                     return list
 
@@ -2208,7 +2220,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                 .value();
 
-            $scope.listOfServices = _.forEach($scope.listOfServices,function(val, key){
+            $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
                 $scope.listOfServices[key].open = true
             })
 
