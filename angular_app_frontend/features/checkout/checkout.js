@@ -9,9 +9,11 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
     var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
 
     $scope.addService = function (service) {
-        
-        $scope.list.added.push(service.chan.source);
-        service.added = true;
+        if(service != undefined){
+            $scope.list.added.push(service.chan.source);
+            service.added = true;
+        }
+
     };
     $scope.notOtaServiceDetail = function(mystery_service) {
         if(_.some(payPerServices,mystery_service.chan.source)){
