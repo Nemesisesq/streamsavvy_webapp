@@ -2200,7 +2200,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     })
 
                     if (list.ota && list.ota.length > 1) {
-                        list.ota[0].shows = _.flatten(_.unionBy(showsOta, 'url'));
+                        list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
                         list.ota = [list.ota[0]];
                     }
 
@@ -2209,7 +2209,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     })
 
                     if (list.ppv && list.ppv.length > 1) {
-                        list.ppv[0].shows = _.flatten(_.unionBy(showsPpv, 'url'));
+                        list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
                         list.ppv = [list.ppv[0]];
                     }
 
@@ -2247,7 +2247,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
     var onDemandServices = ['hulu_plus', 'nbc', 'starz', 'showtime_subscription'];
-    var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubitv', 'starz', 'showtime_subscription'];
+    var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubitv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
     var openingDetail = false
@@ -2267,7 +2267,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
                 var x = _($scope.cs.channel)
-                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
                     .map(function (elem) {
 
                         if (elem.guidebox_data != undefined) {
@@ -2280,7 +2280,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return elem.guidebox_data.is_over_the_air
                         }
 
-                        if (elem.source == 'hulu_free' || elem.source == 'starz_tveverywhere') {
+                        if (elem.source == 'hulu_free') {
                             return false
                         }
 
@@ -2289,6 +2289,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     .uniqBy('source')
                     .groupBy(function (service) {
+                        debugger;
                         if (liveServices.includes(service.source)) {
                             return 'live'
                         }
@@ -2329,8 +2330,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             _.map(services.live, function (elem) {
                                 // debugger
 
-                                if (elem.is_over_the_air || elem.guidebox_data.is_over_the_air) {
+                                if (elem.is_over_the_air) {
 
+                                    elem.source = 'ota'
+                                }
+
+                                if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air ){
                                     elem.source = 'ota'
                                 }
 
@@ -2886,6 +2891,56 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
+/**
+ * Created by Nem on 11/25/15.
+ */
+app.controller('StepTwoController', function ($scope, http, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    var hardwareColl = $scope.package.hardware;
+
+    http.getHardware()
+        .then(function (data) {
+            $scope.hardware = data.results;
+        });
+
+    $scope.itemSelected = function (item) {
+        var hardwareColl = $scope.package.hardware;
+        var x = _.some(hardwareColl, 'url', item.url);
+        return x
+    };
+
+
+    $scope.addRemoveHardware = function (item) {
+        if (item.hasOwnProperty('selected')) {
+            delete item['selected']
+        }
+
+
+        var hardwareColl = $scope.package.hardware;
+        if (_.some(hardwareColl, 'url', item.url)) {
+            _.remove(hardwareColl, function(n){
+
+                return n.url == item.url
+
+            });
+
+        } else {
+            //item.selected = true;
+            hardwareColl.push(item);
+        }
+
+        PackageFactory.setPackage($scope.package)
+    };
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+
+});
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();
@@ -2993,54 +3048,3 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
 
 
 })
-
-/**
- * Created by Nem on 11/25/15.
- */
-app.controller('StepTwoController', function ($scope, http, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    var hardwareColl = $scope.package.hardware;
-
-    http.getHardware()
-        .then(function (data) {
-            $scope.hardware = data.results;
-        });
-
-    $scope.itemSelected = function (item) {
-        var hardwareColl = $scope.package.hardware;
-        var x = _.some(hardwareColl, 'url', item.url);
-        return x
-    };
-
-
-    $scope.addRemoveHardware = function (item) {
-        if (item.hasOwnProperty('selected')) {
-            delete item['selected']
-        }
-
-
-        var hardwareColl = $scope.package.hardware;
-        if (_.some(hardwareColl, 'url', item.url)) {
-            _.remove(hardwareColl, function(n){
-
-                return n.url == item.url
-
-            });
-
-        } else {
-            //item.selected = true;
-            hardwareColl.push(item);
-        }
-
-        PackageFactory.setPackage($scope.package)
-    };
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-
-});
