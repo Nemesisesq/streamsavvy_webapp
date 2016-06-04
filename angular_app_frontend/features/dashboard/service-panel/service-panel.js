@@ -22,7 +22,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     // $scope.payPerShows = [];
     var updateServices = function () {
 
-        debugger;
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
             $scope.listOfServices = _
@@ -98,7 +97,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     return elem.chan.source != "netflix"
                 })
                 .groupBy(function (elem) {
-                    debugger
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
@@ -117,24 +115,24 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 .thru(function (list) {
                     debugger
 
-                    var showsOta = _.map(list.ota, function(elem){
+                    var showsOta = _.map(list.ota, function (elem) {
                         return elem.shows
                     })
 
                     if (list.ota && list.ota.length > 1) {
                         list.ota[0].shows = _.flatten(_.unionBy(showsOta, 'url'));
-                    list.ota = [list.ota[0]];
+                        list.ota = [list.ota[0]];
                     }
 
-                    var showsPpv = _.map(list.ppv, function(elem){
+                    var showsPpv = _.map(list.ppv, function (elem) {
                         return elem.shows
                     })
 
-                    if(list.ppv && list.ppv > 1) {
-                        list.ppv[0].shows = _.unionBy(showsPpv, 'url');
+                    if (list.ppv && list.ppv.length > 1) {
+                        list.ppv[0].shows = _.flatten(_.unionBy(showsPpv, 'url'));
+                        list.ppv = [list.ppv[0]];
                     }
 
-                    list.ppv = [list.ppv[0]];
 
                     return list
 
@@ -142,7 +140,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                 .value();
 
-            $scope.listOfServices = _.forEach($scope.listOfServices,function(val, key){
+            $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
                 $scope.listOfServices[key].open = true
             })
 
