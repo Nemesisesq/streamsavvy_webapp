@@ -2,7 +2,7 @@
   .checkoutList {
 
     margin-top: 30px;
-    height: 94vh;
+    height: 100%;
     .service-title.row {
       margin-top: 36px;
       border-bottom: solid 2px rgba(155, 155, 155, .1);
@@ -26,6 +26,9 @@
             letter-spacing: .5px;
             color: $warm-grey;
             text-decoration: underline;
+            .mobile-got-serv{
+              display: none;
+            }
           }
           .add-successful{
             display: none;
@@ -113,6 +116,7 @@
   padding-bottom: 8px;
 
   margin-left: 25px;
+
 }
 
 
@@ -130,4 +134,32 @@
   background-color: #11b2e6;
   min-width: 100px;
   min-height: 35px;
+  .mobile-purch{
+    display: none;
+  }
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+/* Styles */
+  .btn-remove{
+    display: none;
+  }
+
+  .btn-purchase{
+    min-width:20px;
+    .purch{
+      display: none;
+    }
+    .mobile-purch{
+      display: inline !important;
+    }
+  }
+
+  .got-serv{
+    display: none;
+  }
+  .mobile-got-serv{
+    display: inline !important;
+  }
+
 }

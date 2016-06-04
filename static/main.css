@@ -2581,7 +2581,8 @@ div#dashPage {
   background-image: linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), linear-gradient(#15191b, #15191b); }
 
 .col-sm-12 .checkoutList {
-  margin-top: 30px; }
+  margin-top: 30px;
+  height: 100%; }
   .col-sm-12 .checkoutList .service-title.row {
     margin-top: 36px;
     border-bottom: solid 2px rgba(155, 155, 155, 0.1); }
@@ -2602,6 +2603,8 @@ div#dashPage {
           letter-spacing: .5px;
           color: #9b9b9b;
           text-decoration: underline; }
+          .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options a .mobile-got-serv {
+            display: none; }
         .col-sm-12 .checkoutList .service-title.row .ss_image-purchase.row .service-options .add-successful {
           display: none;
           font-size: 14px;
@@ -2676,6 +2679,23 @@ div#dashPage {
   background-color: #11b2e6;
   min-width: 100px;
   min-height: 35px; }
+  .btn-purchase .mobile-purch {
+    display: none; }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  /* Styles */
+  .btn-remove {
+    display: none; }
+  .btn-purchase {
+    min-width: 20px; }
+    .btn-purchase .purch {
+      display: none; }
+    .btn-purchase .mobile-purch {
+      display: inline !important; }
+  .got-serv {
+    display: none; }
+  .mobile-got-serv {
+    display: inline !important; } }
 
 .row.footer {
   position: absolute;

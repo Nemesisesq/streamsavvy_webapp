@@ -20,7 +20,10 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
             console.log('this is the payperview service ' + mystery_service.chan.source);
             mystery_service.description = SERVICE_PRICE_LIST[0].description;
             mystery_service.price = SERVICE_PRICE_LIST[0].price;
-            mystery_service.link = SERVICE_PRICE_LIST[0].subscriptionLink;
+            //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
+            //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
+            
+            
         }
         else{
             var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
@@ -31,6 +34,8 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
                 mystery_service.description = serviceMatch.description;
                 mystery_service.price = serviceMatch.price;
                 mystery_service.subscriptionLink = serviceMatch.subscriptionLink;
+                mystery_service.gPlayLink = serviceMatch.gPlayLink;
+                mystery_service.iOSAppStoreLink = serviceMatch.iOSAppStoreLink;
             }
         }
     };
@@ -41,6 +46,8 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
             live_mystery_service.description = slingService.description;
             live_mystery_service.price = slingService.price;
             live_mystery_service.subscriptionLink = slingService.subscriptionLink;
+            live_mystery_service.gPlayLink = slingService.gPlayLink;
+            live_mystery_service.iOSAppStoreLink = slingService.iOSAppStoreLink;
             
         }
         else if(live_mystery_service.chan.is_over_the_air){
@@ -48,6 +55,8 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
             live_mystery_service.description = otaService.description;
             live_mystery_service.price = otaService.price;
             live_mystery_service.subscriptionLink = otaService.subscriptionLink;
+            live_mystery_service.gPlayLink = otaService.gPlayLink;
+            live_mystery_service.iOSAppStoreLink = otaService.iOSAppStoreLink;
         }
     };
     $scope.removeService = function(service,serviceArray) {

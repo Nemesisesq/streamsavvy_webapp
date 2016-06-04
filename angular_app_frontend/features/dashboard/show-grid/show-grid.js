@@ -17,7 +17,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.detailSources = (function () {
 
             if ($scope.cs.guidebox_data != undefined) {
-                debugger;
+                //debugger;
 
 
 
@@ -44,7 +44,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     .uniqBy('source')
                     .groupBy(function (service) {
-                        debugger;
+                        //debugger;
                         if (liveServices.includes(service.source)) {
                             return 'live'
                         }
