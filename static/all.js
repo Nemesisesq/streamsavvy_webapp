@@ -2200,7 +2200,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     })
 
                     if (list.ota && list.ota.length > 1) {
-                        list.ota[0].shows = _.flatten(_.unionBy(showsOta, 'url'));
+                        list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
                         list.ota = [list.ota[0]];
                     }
 
@@ -2209,7 +2209,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     })
 
                     if (list.ppv && list.ppv.length > 1) {
-                        list.ppv[0].shows = _.flatten(_.unionBy(showsPpv, 'url'));
+                        list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
                         list.ppv = [list.ppv[0]];
                     }
 
