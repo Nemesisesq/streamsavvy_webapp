@@ -27,7 +27,7 @@
         <div ng-repeat="service in listOfServices.ppv" uib-collapse="ppv.open">
             <!--<img ng-src=""/>-->
             <ul class="list-group ss_show-list">
-                <li class="list-group-item ss_show" hide-duplicate
+                <li class="list-group-item ss_show"
                     ng-repeat="show in service.shows">{{ show.title }}</li>
             </ul>
         </div>
@@ -56,7 +56,9 @@
         <div ng-repeat="service in listOfServices.sling" uib-collapse="sling.open">
             <!--<img ng-src=""/>-->
             <ul class="list-group ss_show-list">
-                <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
+                <li class="list-group-item ss_show" ng-repeat="show in service.shows">
+                    {{ show.title }}
+                </li>
             </ul>
         </div>
     </div>
