@@ -1,6 +1,6 @@
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
 
-    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now'];
+    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
     var onDemandServices = ['hulu_plus', 'nbc', 'starz', 'showtime_subscription'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubitv', 'starz', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
@@ -17,6 +17,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.detailSources = (function () {
 
             if ($scope.cs.guidebox_data != undefined) {
+                debugger;
+
 
 
                 var x = _($scope.cs.channel)
