@@ -3,16 +3,63 @@
  */
 app.directive('servicePanelItem', function sPanelItem() {
     return {
-        itemList: '&=',
-        templateUrl: '/static/partials/service-panel/panel-item',
+        scope: {
+            value: '=',
+            key: '=',
+        },
+
+        templateUrl: '/static/partials/service-panel/panel-item.html',
         link: function (scope) {
+
+            var titles = {
+                'ppv':'Pay Per View',
+                'ota': 'Over The Air',
+                'not_ota': "",
+
+            }
+            
+            scope.open = false;
+
+            scope.formatServiceTitle = function (key) {
+                return titles[key]
+
+            }
 
         }
     }
 })
+    .directive('serviceList', function(){
+        return {
+        scope: {
+            value: '=',
+            key: '=',
+        },
+
+        templateUrl: '/static/partials/service-panel/service-list.html',
+        link: function (scope) {
+
+            var titles = {
+                'ppv':'Pay Per View',
+                'ota': 'Over The Air',
+                'not_ota': "",
+
+            }
+            
+            scope.open = false;
+
+            scope.formatServiceTitle = function (key) {
+                return titles[key]
+
+            }
+
+        }
+    }
+        
+    })
     .directive('hideDuplicate', function (_) {
 
         function checkPrevious(element) {
+            debugger;
             var dupeCollection = _.initial(angular.element('[hide-duplicate]'));
             if (dupeCollection.length > 0) {
                 var res = _.some(dupeCollection, function (elem) {

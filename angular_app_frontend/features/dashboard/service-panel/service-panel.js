@@ -21,7 +21,10 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     // $scope.payPerShows = [];
     var updateServices = function () {
+
+        debugger;
         if ('data' in ssPackage) {
+            $scope.listOfServices = undefined;
             $scope.listOfServices = _
                 .chain(ssPackage.data.content)
                 .map(function (elem) {
@@ -45,30 +48,30 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return elem
                     }
                 })
-                .thru(function (list) {
-                    var clean = _.filter(list, function (elem) {
-                        // debugger;
-
-                        var res = !_.some(list, function (mem) {
-
-                            if (mem != elem) {
-                                // debugger;
-                                if (RegExp(elem.display_name).test(mem.display_name)) {
-                                    // debugger;
-                                    return mem.is_over_the_air && !elem.is_on_sling
-                                }
-
-                            }
-                            return false
-                        })
-
-                        return res
-
-
-                    });
-                    //debugger;
-                    return clean
-                })
+                // .thru(function (list) {
+                //     var clean = _.filter(list, function (elem) {
+                //         // debugger;
+                //
+                //         var res = !_.some(list, function (mem) {
+                //
+                //             if (mem != elem) {
+                //                 // debugger;
+                //                 if (RegExp(elem.display_name).test(mem.display_name)) {
+                //                     // debugger;
+                //                     return mem.is_over_the_air && !elem.is_on_sling
+                //                 }
+                //
+                //             }
+                //             return false
+                //         })
+                //
+                //         return res
+                //
+                //
+                //     });
+                //     //debugger;
+                //     return clean
+                // })
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -109,6 +112,14 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     else {
                         return 'not_ota'
                     }
+                })
+                .thru(function (list) {
+                    debugger
+                    list.ota[0].shows = _.union(list.ota[0].shows, list.ota[1].shows)
+                    list.ota = list.ota[0]
+
+                    return list
+
                 })
 
                 .value();

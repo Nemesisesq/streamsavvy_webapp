@@ -526,16 +526,63 @@ app.directive('mobileTabs', function ($location, $anchorScroll) {
  */
 app.directive('servicePanelItem', function sPanelItem() {
     return {
-        itemList: '&=',
-        templateUrl: '/static/partials/service-panel/panel-item',
+        scope: {
+            value: '=',
+            key: '=',
+        },
+
+        templateUrl: '/static/partials/service-panel/panel-item.html',
         link: function (scope) {
+
+            var titles = {
+                'ppv':'Pay Per View',
+                'ota': 'Over The Air',
+                'not_ota': "",
+
+            }
+            
+            scope.open = false;
+
+            scope.formatServiceTitle = function (key) {
+                return titles[key]
+
+            }
 
         }
     }
 })
+    .directive('serviceList', function(){
+        return {
+        scope: {
+            value: '=',
+            key: '=',
+        },
+
+        templateUrl: '/static/partials/service-panel/service-list.html',
+        link: function (scope) {
+
+            var titles = {
+                'ppv':'Pay Per View',
+                'ota': 'Over The Air',
+                'not_ota': "",
+
+            }
+            
+            scope.open = false;
+
+            scope.formatServiceTitle = function (key) {
+                return titles[key]
+
+            }
+
+        }
+    }
+        
+    })
     .directive('hideDuplicate', function (_) {
 
         function checkPrevious(element) {
+            debugger;
             var dupeCollection = _.initial(angular.element('[hide-duplicate]'));
             if (dupeCollection.length > 0) {
                 var res = _.some(dupeCollection, function (elem) {
@@ -1666,6 +1713,10 @@ app.controller('FeedbackCtrl', function ($scope) {
     }
 })
 /**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -1693,10 +1744,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 
 });
-
-/**
- * Created by Nem on 10/7/15.
- */
 
 /**
  * Created by Nem on 6/28/15.
@@ -2054,7 +2101,10 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     // $scope.payPerShows = [];
     var updateServices = function () {
+
+        debugger;
         if ('data' in ssPackage) {
+            $scope.listOfServices = undefined;
             $scope.listOfServices = _
                 .chain(ssPackage.data.content)
                 .map(function (elem) {
@@ -2078,30 +2128,30 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return elem
                     }
                 })
-                .thru(function (list) {
-                    var clean = _.filter(list, function (elem) {
-                        // debugger;
-
-                        var res = !_.some(list, function (mem) {
-
-                            if (mem != elem) {
-                                // debugger;
-                                if (RegExp(elem.display_name).test(mem.display_name)) {
-                                    // debugger;
-                                    return mem.is_over_the_air && !elem.is_on_sling
-                                }
-
-                            }
-                            return false
-                        })
-
-                        return res
-
-
-                    });
-                    //debugger;
-                    return clean
-                })
+                // .thru(function (list) {
+                //     var clean = _.filter(list, function (elem) {
+                //         // debugger;
+                //
+                //         var res = !_.some(list, function (mem) {
+                //
+                //             if (mem != elem) {
+                //                 // debugger;
+                //                 if (RegExp(elem.display_name).test(mem.display_name)) {
+                //                     // debugger;
+                //                     return mem.is_over_the_air && !elem.is_on_sling
+                //                 }
+                //
+                //             }
+                //             return false
+                //         })
+                //
+                //         return res
+                //
+                //
+                //     });
+                //     //debugger;
+                //     return clean
+                // })
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -2142,6 +2192,14 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     else {
                         return 'not_ota'
                     }
+                })
+                .thru(function (list) {
+                    debugger
+                    list.ota[0].shows = _.union(list.ota[0].shows, list.ota[1].shows)
+                    list.ota = list.ota[0]
+
+                    return list
+
                 })
 
                 .value();

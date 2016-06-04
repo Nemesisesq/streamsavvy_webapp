@@ -1,12 +1,11 @@
-<div class="ss_panel-body" ng-repeat="service in listOfServices.not_ota | unwantedChannels">
-    <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}
-        <span ng-if="service.chan.on_sling"> Sling TV</span>
-    </a>
-    <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
-    <div uib-collapse="service.open">
-        <ul class="list-group ss_show-list">
-            <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
-        </ul>
+<div class="ss_service">
+
+    <div style="color : #337ab7; cursor:pointer" ng-click="open = !open">
+        {{ formatServiceTitle(key) }}
     </div>
-    <div class="row-buffer"></div>
+
+    <div uib-collapse="open">
+        <service-list key="key" value="value"></service-list>
+
+    </div>
 </div>
