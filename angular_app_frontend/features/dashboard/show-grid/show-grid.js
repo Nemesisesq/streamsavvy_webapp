@@ -2,7 +2,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
     var onDemandServices = ['hulu_plus', 'nbc', 'starz', 'showtime_subscription'];
-    var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubitv', 'starz', 'showtime_subscription'];
+    var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubitv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
     var openingDetail = false
@@ -22,7 +22,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
                 var x = _($scope.cs.channel)
-                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
                     .map(function (elem) {
 
                         if (elem.guidebox_data != undefined) {
@@ -35,7 +35,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return elem.guidebox_data.is_over_the_air
                         }
 
-                        if (elem.source == 'hulu_free' || elem.source == 'starz_tveverywhere') {
+                        if (elem.source == 'hulu_free') {
                             return false
                         }
 
@@ -44,6 +44,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     .uniqBy('source')
                     .groupBy(function (service) {
+                        debugger;
                         if (liveServices.includes(service.source)) {
                             return 'live'
                         }
@@ -84,8 +85,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             _.map(services.live, function (elem) {
                                 // debugger
 
-                                if (elem.is_over_the_air || elem.guidebox_data.is_over_the_air) {
+                                if (elem.is_over_the_air) {
 
+                                    elem.source = 'ota'
+                                }
+
+                                if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air ){
                                     elem.source = 'ota'
                                 }
 
