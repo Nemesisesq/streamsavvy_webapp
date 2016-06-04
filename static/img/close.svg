@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="21px" height="21px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>Close</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Show_Selected" transform="translate(-1105.000000, -71.000000)" fill="#D0011B">
+            <g id="Close" transform="translate(1105.000000, 71.000000)">
+                <rect id="Rectangle-3" transform="translate(10.253048, 10.253048) rotate(-315.000000) translate(-10.253048, -10.253048) " x="-3.24695167" y="9.25304833" width="27" height="2" rx="100"></rect>
+                <path d="M-3.24695167,10.2530483 C-3.24695167,9.70076358 -2.80084305,9.25304833 -2.25398623,9.25304833 L22.7600829,9.25304833 C23.3084826,9.25304833 23.7530483,9.69691315 23.7530483,10.2530483 L23.7530483,10.2530483 C23.7530483,10.8053331 23.3030759,11.2530483 22.7487948,11.2530483 L21.8472989,11.2530483 L-2.2565689,11.2530483 C-2.8035422,11.2530483 -3.24695167,10.8091835 -3.24695167,10.2530483 L-3.24695167,10.2530483 Z" id="Rectangle-3" transform="translate(10.253048, 10.253048) rotate(-225.000000) translate(-10.253048, -10.253048) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,28 @@
+<div class="dashboard">
+
+
+    <!--
+
+     <div ui-view="progress" class="journey-one-status"></div> -->
+    <div id="dashPage" class="container cbp-spmenu-push">
+
+        <div id="search-and-shows" class=" col-sm-9 search-and-shows">
+            <div ui-view="navigation" id="ss-navigation-view"></div>
+            <div ui-view="search" ng-class="{'search_transparent': !showSearchView}" class="row ss_search"></div>
+            <div ui-view="shows" class="show-grid"></div>
+            <show-detail class="container fade"></show-detail>
+            <div ui-view="footer" class="footer"></div>
+        </div>
+
+        <div id="ss-panel-right" class="col-sm-3 services-hardware">
+            <div id="services" ui-view="services" class="row service-panel"></div>
+            <div id="hardware" ui-view="hardware" class="row hardware-panel"></div>
+        </div>
+        <mobile-tabs></mobile-tabs>
+
+
+
+        <div ui-view="modal" class="journey-one"></div>
+    </div>
+
+</div>

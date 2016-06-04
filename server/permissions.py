@@ -1,6 +1,6 @@
 __author__ = 'Nem'
 
-from rest_framework.permissions import BasePermission, SAFE_METHODS
+from rest_framework.permissions import BasePermission, SAFE_METHODS, IsAuthenticated
 
 
 class IsOwner(BasePermission):
@@ -18,3 +18,8 @@ class IsAdminOrReadOnly(BasePermission):
         return user.is_staff
 
 
+class IsAuthenticatedOrCreate(IsAuthenticated):
+    def has_permission(self, request, view):
+        if request.method == 'POST':
+            return True
+        return super(IsAuthenticatedOrCreate, self).has_permission(request, view)

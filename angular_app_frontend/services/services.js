@@ -16,16 +16,6 @@ app.factory('N', function () {
     }
 })
 
-app.run(function ($http, Fuse, N) {
-
-    $http.get('netflixable/')
-        .then(function (data) {
-
-            N.setShows(data.data)
-        })
-})
-
-
 app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($http, $q, VIEW_WINDOWS, _) {
     // ;
 
@@ -35,9 +25,22 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
     var _test = 1;
 
+    var _chosenShow = {};
+    
+    var _listOfServices = [];
+
 
     return {
+        setChosenShow: function(show){
+            _chosenShow = show
+        },
+
+        getChosenShow: function () {
+            return _chosenShow;
+        },
+
         setPackage: function (ssPackage) {
+
 
             _package = ssPackage;
 
@@ -48,9 +51,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         postPackage: function (ssPackage) {
-
-            //debugger;
-            $http.post('/json-package/', ssPackage);
+            $http.put(ssPackage.url, ssPackage);
         },
 
         getPackage: function () {
@@ -94,7 +95,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 chans = _.flatten(chans)
 
-                debugger;
+                //debugger;
 
                 chans = _.uniq(chans, function (elem) {
 
@@ -116,7 +117,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             var t = 0;
 
             var pkg = _package;
-            if (pkg.content.length > 0) {
+            if (true) {
 
                 t = _.map(pkg.providers, function (elem) {
                     return elem.price;
@@ -159,6 +160,14 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             return t
 
 
+        },
+
+        getListOfServices: function() {
+
+            return _listOfServices;
+        },
+        setListOfServices: function(listOfServices) {
+            _listOfServices = listOfServices;
         }
     }
 
@@ -166,21 +175,16 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 }]);
 
 
-
 app.run(function (PackageFactory, $http, http, $rootScope) {
-    $http.get('/json-package/')
+    $http.get('/api/package/')
         .then(function (data) {
-            $rootScope.env = data.data.env
+            //debugger
+            //$rootScope.env = data.data.env
 
             console.log(data);
 
-            if (data.data == "") {
-                http.getPackage()
-                    .then(function (data) {
-                        PackageFactory.setPackage(data)
-                    })
-            } else {
-                PackageFactory.setPackage(data.data)
-            }
+            data = data.data.results[0]
+            PackageFactory.setPackage(data)
+
         })
 });

@@ -1,71 +1,162 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick',"angular-send-feedback", 'angular-growl'])
-    .constant('CONFIG', {
-        'URL': location.origin
-    })
-    .constant('VIEW_WINDOWS', [
-        {type: 'live', headerText: 'Live Over the Air.', toolTip: 'get your content as soon as it dropped.'},
-        {type: 'onDemand', headerText: 'On Demand Subscription.', toolTip: 'day/+ after live airing.'},
-        {type: 'fullseason', headerText: 'Binge Watch Full Seasons', toolTip: 'season behind.'},
-        {type: 'alacarte', headerText: 'Watch Current Season or Episodes for a fee', toolTip: 'day/+ after live airing with no committment'}
-    ])
-    .constant('BANNED_CHANNELS', ['HBO Go',
-        'Guidebox',
-        'MSNBC',
-        'HBO',
-        'Dish',
-        'DirecTV',
-        'AT&T U-verse',
-        'FX',
-        'Xfinity',
-        'Showtime Anytime',
-        'STARZ Play'])
+var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick', "angular-send-feedback", 'angular-growl'])
+        .constant('CONFIG', {
+            'URL': location.origin
+        })
+        .constant('VIEW_WINDOWS', [
+            {type: 'live', headerText: 'Live Over the Air.', toolTip: 'get your content as soon as it dropped.'},
+            {type: 'onDemand', headerText: 'On Demand Subscription.', toolTip: 'day/+ after live airing.'},
+            {type: 'fullseason', headerText: 'Binge Watch Full Seasons', toolTip: 'season behind.'},
+            {
+                type: 'alacarte',
+                headerText: 'Watch Current Season or Episodes for a fee',
+                toolTip: 'day/+ after live airing with no committment'
+            }
+        ])
+        .constant('BANNED_CHANNELS', ['HBO Go',
+            'Guidebox',
+            'MSNBC',
+            'HBO',
+            'Dish',
+            'DirecTV',
+            'AT&T U-verse',
+            'FX',
+            'Xfinity',
+            // 'Showtime Anytime',
+            'STARZ Play'])
 
-    .constant('SERVICE_PRICE_LIST', [
-        {name: 'Netflix', price: 9.99},
-        {name: 'Hulu', price: 7.99},
-        {name: 'Amazon Prime', price: 8.25},
-        {name: 'HBO Now', price: 14.99},
-        {name: 'SlingTV', price: 20.00},
-        {name: 'Over The Air', price: 0.00},
-        {name: 'Showtime', price: 10.99},
-        {name: 'CBS All Access', price: 5.99},
-        {name: 'NBC App', price: 0.00},
-        {name: 'CW Seed', price: 0.00},
-        {name: 'PBS App', price: 0.00}
-    ])
+        .constant('SERVICE_PRICE_LIST', [
+            {
+                name: 'Pay Per View',
+                price: 0.00,
+                description: 'If a subscription service is not for you, these apps allow you to purchase a show at a time.' +
+                ' Or you can purchase an entire season once it has finished airing.',
+                subscriptionLink: 'https://play.google.com/store/movies/category/TV?hl=en'
+            },
+            {
+                name: 'netflix', price: 9.99, description: 'Best described as a "binge watch" service. ' +
+            'Typically, full seasons are launched all at once and a season behind what is currently showing on TV. Netflix also offers original programming now.' +
+            ' This is also released a full season at a time.',
+                subscriptionLink: 'https://www.netflix.com/'
+            },
+            {
+                name: 'hulu_plus',
+                price: 7.99,
+                description: 'An on-demand service (think DVR) that offers shows from certain networks (ABC, limited NBC, FOX, CW, etc)' +
+                ' a day after they air. Subscription prices depend on whether or not you purchase an ad-free package or not.',
+                subscriptionLink: 'http://www.hulu.com/start'
+            },
+            {
+                name: 'amazon_prime',
+                price: 8.25,
+                description: 'An on-demand and binge combo. Some programming is offered in full-season format and some is on-demand after it airs live.' +
+                ' Some shows are free while others are not. Amazon is also building a strong offering of original shows. ' +
+                'It comes free with an annual Prime membership.',
+                subscriptionLink: 'http://www.amazon.com/gp/video/getstarted'
+            },
+            {
+                name: 'hbo_now',
+                price: 14.99,
+                description: 'Watch HBO shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.',
+                subscriptionLink: 'https://order.hbonow.com/'
+            },
+            {
+                name: 'sling-tv', price: 20.00,
+                description: 'Live streaming service that makes shows available as they simultaneously air on cable.' +
+                ' The main Sling package gives you a "skinny bundle" of some of the most popular cable channels (ESPN, CNN, HGTV, etc.) ' +
+                'with the option to add extra mini packages on top of your main Sling package.',
+                subscriptionLink: 'https://www.sling.com/'
+            },
+            {
+                name: 'Over The Air',
+                price: 0.00,
+                description: 'Watching over the air (OTA) is like watching live television.' +
+                ' There is no monthly cost, but a digital antenna is needed to pull in the signal.',
+                subscriptionLink: 'http://amzn.com/B00X4RA74A'
+            },
+            {
+                name: 'showtime',
+                price: 10.99,
+                description: 'Watch Showtime shows the moment they air, on-demand, or binge. They also offer all back seasons of episodes.',
+                subscriptionLink: 'http://www.sho.com/order?source=acq_shoanytime_about'
+            },
+            {
+                name: 'cbs',
+                price: 5.99,
+                description: 'New CBS episodes on demand the day after they air and almost all past seasons of CBS shows for binging.' +
+                ' In select markets, you can stream CBS live.',
+                subscriptionLink: 'https://www.cbs.com/all-access/'
+            },
+            {
+                name: 'nbc',
+                price: 0.00,
+                description: 'A DVR-like, on-demand app that offers shows from NBC a day after they air. You do have to watch commercials, but it\'s free.',
+                subscriptionLink: 'http://www.nbc.com/video'
+            },
+            {
+                name: 'thecw',
+                price: 0.00,
+                description: 'An on-demand and binge combo for classic CW shows and some new original content.',
+                subscriptionLink: 'http://www.cwseed.com/'
+            },
+            {
+                name: 'PBS App',
+                price: 0.00,
+                description: 'A streaming App for PBS.',
+                subscriptionLink: 'http://www.pbs.org/video/'
+            },
+            {
+                name: 'starz',
+                price: 8.99,
+                description: 'Download and watch past episodes and seasons of your favorite Starz shows. Unlike HBO Now and Showtime,' +
+                ' you can\'t watch shows as they air. They do let you download shows to watch at a later time when you may not have access to wifi.',
+                subscriptionLink: 'https://www.starz.com/buy-starz/?TID='
+            },
+            {
+                name: 'Seeso',
+                price: 3.99,
+                description: 'NBC\'s binge watching app for classic and hard-to-find comedy as well as original content. No commercials.',
+                subscriptionLink: 'https://www.seeso.com/'
+            },
+            {
+                name: 'tubi_tv', price: 0.00, description: 'Free binge watching app for unique and classic content.',
+                subscriptionLink: 'https://tubitv.com/'
+            }
 
-    .constant('MAJOR_NETWORKS', [
-        'ABC'
-    ])
+        ])
 
-    .constant('SLING_CHANNELS', ['ESPN',
-        'ESPN2',
-        'AMC',
-        'Food Network',
-        'A & E',
-        'History',
-        'TNT',
-        'El Rey',
-        'HGTV',
-        'IFC',
-        'Disney Channel',
-        'Polaris +',
-        'Maker',
-        'TBS',
-        'Travel Channel',
-        'Adult Swim',
-        'CNN',
-        'H2',
-        'Cartoon Network',
-        'ABC Family',
-        'Lifetime',
-        'Galavision',
-        'Bloomberg Television']);
+        .constant('MAJOR_NETWORKS', [
+            'ABC'
+        ])
 
-app.config(['growlProvider','$httpProvider', function(growlProvider, $httpProvider){
+        .constant('SLING_CHANNELS', ['ESPN',
+            'ESPN2',
+            'AMC',
+            'Food Network',
+            'A & E',
+            'History',
+            'TNT',
+            'El Rey',
+            'HGTV',
+            'IFC',
+            'Disney Channel',
+            'Polaris +',
+            'Maker',
+            'TBS',
+            'Travel Channel',
+            'Adult Swim',
+            'CNN',
+            'H2',
+            'Cartoon Network',
+            'ABC Family',
+            'Lifetime',
+            'Galavision',
+            'Bloomberg Television'])
+    ;
+
+app.config(['growlProvider', '$httpProvider', function (growlProvider, $httpProvider) {
     growlProvider.globalReversedOrder(true);
     growlProvider.globalTimeToLive(2000);
     growlProvider.globalDisableCloseButton(true)
@@ -98,7 +189,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                     controller: 'ModalController'
                 },
                 'home': {
-                    templateUrl: 'static/partials/home.html'
+                    templateUrl: 'static/partials/home.html',
+                    controller: 'HomeController'
                 },
                 'footer': {
                     templateUrl: 'static/partials/footer.html'
@@ -167,12 +259,85 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('login', {
             url: '/login',
-            template : 'Hello world'
+            template: 'Hello world'
         })
         .state('journey-one', {
             abstract: true,
             templateUrl: "/static/partials/journey-one.html",
             data: {hmdcActive: true}
+        })
+        .state('dash', {
+            templateUrl: '/static/partials/dashboard.html',
+            abstract: true
+        })
+
+        .state('check', {
+            templateUrl: '/static/partials/checkout.html',
+            abstract: true
+        })
+        .state('check.out', {
+            url: '/checkout',
+            data: {
+                checkout: true
+            },
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                checkoutList: {
+                    templateUrl: "static/partials/checkout-list/checkout-list.html",
+                    controller: 'CheckoutController'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            }
+        })
+
+        .state('dash.dashboard', {
+            url: '/dashboard',
+            data: {
+                dashboard: true
+            },
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'progress': {
+                    templateUrl: 'static/partials/progress.html',
+                    controller: 'ProgressController'
+                },
+                'search': {
+                    templateUrl: 'static/partials/search.html',
+                    controller: 'search'
+                },
+                'shows': {
+                    templateUrl: '/static/partials/show-grid/show-grid.html',
+                    controller: 'ShowGridController'
+                },
+                'services': {
+                    templateUrl: '/static/partials/service-panel/service-panel.html',
+                    controller: 'ServicePanelController'
+                },
+                'hardware': {
+                    templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
+                    controller: 'HardwareController'
+                },
+                'select': {
+                    templateUrl: '/static/partials/selected-show/select.html'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+            },
+            onEnter: function () {
+               $('body').addClass('no-scroll')
+            },
+            onExit: function () {
+                $('body').removeClass('no-scroll')
+            }
         })
         .state('journey-one.step-one', {
             url: '/getting-started/step/1',
@@ -280,6 +445,10 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
 
 });
+
+app.controller('HomeController', function () {
+    $('body').attr('id', 'background')
+})
 /**
  * Created by Nem on 9/18/15.
  */
@@ -331,6 +500,241 @@ app.directive('ssImageBlock', function (http, $rootScope) {
 
     }
 })
+/**
+ * Created by Nem on 6/1/16.
+ */
+app.directive('mobileTabs', function ($location, $anchorScroll) {
+    return {
+        // restrict: 'E',
+        templateUrl: 'static/partials/mobile-toolbar.html',
+
+        link: function (scope) {
+
+            scope.scrollTo = function (tag) {
+                var old=$location.hash()
+                $location.hash(tag);
+                $anchorScroll();
+                $location.hash(old)
+
+            }
+
+        }
+    }
+})
+/**
+ * Created by Nem on 5/11/16.
+ */
+app.directive('servicePanelItem', function sPanelItem() {
+    return {
+        scope: {
+            value: '=',
+            key: '=',
+        },
+
+        templateUrl: '/static/partials/service-panel/panel-item.html',
+        link: function (scope) {
+
+            var titles = {
+                'ppv':'Pay Per View',
+                'ota': 'Over The Air',
+                'not_ota': "",
+
+            }
+            
+            scope.open = false;
+
+            scope.formatServiceTitle = function (key) {
+                return titles[key]
+
+            }
+
+        }
+    }
+})
+    .directive('serviceList', function(){
+        return {
+        scope: {
+            value: '=',
+            key: '=',
+        },
+
+        templateUrl: '/static/partials/service-panel/service-list.html',
+        link: function (scope) {
+
+            var titles = {
+                'ppv':'Pay Per View',
+                'ota': 'Over The Air',
+                'not_ota': "",
+
+            }
+            
+            scope.open = false;
+
+            scope.formatServiceTitle = function (key) {
+                return titles[key]
+
+            }
+
+        }
+    }
+        
+    })
+    .directive('hideDuplicate', function (_) {
+
+        function checkPrevious(element) {
+            debugger;
+            var dupeCollection = _.initial(angular.element('[hide-duplicate]'));
+            if (dupeCollection.length > 0) {
+                var res = _.some(dupeCollection, function (elem) {
+                    elem = angular.element(elem);
+                    return elem.scope().show.title == element.scope().show.title
+                })
+
+                return res
+            }
+
+            return res
+
+        }
+
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs, controller) {
+                // debugger;
+
+                if (checkPrevious(element)) {
+                    element.remove()
+
+                }
+            }
+
+        }
+
+    })
+    .directive('combineShowtime', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs, controller) {
+                scope.$watchCollection('pkg.data.content', function () {
+                    $timeout(function () {
+                        var re = new RegExp(/showtime/i);
+                        var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
+                            .filter(function (index) {
+                                return re.test(index.chan.display_name)
+                            })
+                            .reduce(function (sum, n) {
+                                sum.shows = _.chain(sum.shows)
+                                    .concat(n.shows)
+                                    .uniqBy('title')
+                                    .value();
+                                return sum
+                            })
+                            .value();
+
+                        var nonShowtimeServices = _.chain(scope.listOfServices.not_ota)
+                            .filter(function (index) {
+                                return !re.test(index.chan.display_name)
+                            }).value()
+
+                        scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
+                    }, 0)
+                })
+
+            }
+        }
+    })
+
+/**
+ * Created by Nem on 3/7/16.
+ */
+
+app.directive('showDetail', function (PackageFactory, $q) {
+    return {
+        restrict: 'E',
+        templateUrl: '/static/partials/selected-show/select.html',
+        controller: 'ShowGridController',
+
+        link: function (scope) {
+
+
+
+            scope.formatDate = function (dateString) {
+                // debugger
+                return moment(dateString).format('MMMM D, Y')
+            }
+
+            scope.fixTitle = function (key) {
+                if (key == 'misc') {
+                    return 'MISC'
+                }
+
+                if (key == 'binge') {
+                    return 'BINGE'
+                }
+
+                if (key == 'on_demand') {
+                    return 'ON DEMAND'
+                }
+
+                if (key == 'live') {
+                    return 'LIVE'
+                }
+
+                if (key == 'pay_per_view') {
+
+                    return 'PAY PER EPISODE / SEASON'
+                }
+            }
+
+
+
+        }
+    }
+})
+
+
+app.directive('openDetail', function ($timeout) {
+    return {
+        restrict: 'A',
+
+        link: function (scope, element, attrs) {
+            // alert('Hello World');
+            $timeout(function () {
+                // debugger;
+                if (scope.$last && scope.show.justAdded) {
+                    var ev = {};
+                    ev.currentTarget = element[0];
+                    ev.target = element.context.children[0];
+                    scope.showDetail(scope.show, ev);
+                    scope.show.justAdded = false
+                }
+            }, 1000)
+
+
+        }
+    }
+})
+
+app.directive('otaSlingNetflix', function () {
+    return {
+        restrict: 'A',
+
+        link: function (scope, element, attrs) {
+debugger
+
+            if (element.scope().$parent.key == 'binge') {
+                if (scope.cs.on_netflix && !_.some(scope.detailSources.binge, ['source', 'netflix'])) {
+
+                    element.append('<div class="col-sm-4"><img class="" src="https://s3.amazonaws.com/streamsavvy/service_logos/netflix"></div>')
+                }
+
+            }
+
+        }
+    }
+
+})
+
 /**
  * Created by Nem on 9/18/15.
  */
@@ -481,9 +885,9 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
  * Created by Nem on 11/17/15.
  */
 
-function isLive(elem){
+function isLive(elem) {
     if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele' ) || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
     }
 
 
@@ -491,15 +895,15 @@ function isLive(elem){
 
 function isOnDemand(elem) {
 
-    if(elem.source == 'netflix'){
+    if (elem.source == 'netflix') {
         return false
     }
 
-    if(elem.source == 'hulu_free'){
+    if (elem.source == 'hulu_free') {
         return false
     }
 
-    return  _.includes(elem.type, 'sub')
+    return _.includes(elem.type, 'sub')
 }
 
 app.filter('channel', function () {
@@ -507,16 +911,16 @@ app.filter('channel', function () {
 
 
         var list = _.filter(input, function (elem) {
-            if(type == 'live'){
+            if (type == 'live') {
                 return isLive(elem);
             }
-            if(type == 'onDemand'){
+            if (type == 'onDemand') {
                 return isOnDemand(elem)
             }
-            if(type == 'fullseason'){
+            if (type == 'fullseason') {
                 return _.includes(elem.type, 'sub')
             }
-            if(type == 'alacarte'){
+            if (type == 'alacarte') {
                 //debugger
                 return _.includes(elem.type, 'purchase')
             }
@@ -532,6 +936,8 @@ app.filter('onDemand', function () {
         var list = _.filter(input, function (elem) {
             return elem.name != 'Netflix';
         })
+        console.log(list)
+        console.log('list')
 
         return list
     }
@@ -550,6 +956,106 @@ app.filter('fullSeason', function () {
         return list
     }
 
+});
+
+app.filter('unwantedChannels', function () {
+    var unwantedChannelIDs = [
+        150,//150
+        26,
+        157,
+        171,  //DirecTV
+        169, //Dish
+        234, 70, //Food Network
+         36, //HBO
+        12, 54, //USA
+        32, //FX
+        170, //AT&T U-verse
+        // 281, //Hulu with Showtime
+        69, //Cinemax
+        // 141, ///Showtime Freeview
+        67, //TV Guide
+        // 1, //Hulu_Free
+        235, 16, //Watch HGTV
+        22, 237, 240, //MTV
+        31, //Bravo
+        // 17, //A&E
+        20, 101, //Syfy
+        10, 48, 59, //Comedy Central
+        133, //Starz
+        21, 241, 239, //VH1
+         18, 123, //History Channel,
+        795,//channel 4
+        121, 190, //Esquire, Esquire Network
+        // 14, 267 //Showtime
+
+    ];
+    return function (input) {
+        var list = _.filter(input, function (elem) {
+            var res = _.some(unwantedChannelIDs, function (x) {
+                if (elem !== undefined) {
+                    if (elem.chan.id !== undefined) {
+                        return x === elem.chan.id;
+                    } else {
+                        return x === elem.chan.guidebox_data.id
+                    }
+                }
+            })
+            return !res
+        })
+        return list
+    }
+})
+
+app.filter('onSling', function (Fuse, SLING_CHANNELS) {
+    return function (input, bool) {
+        return _.filter(input, function (elem) {
+
+
+            var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
+
+            if (elem.diplay_name != undefined && sling_fuse.search(elem.display_name)) {
+                return true == bool
+            }
+            if (elem.name != undefined && !_.isEmpty(sling_fuse.search(elem.name))) {
+                return true == bool
+            }
+
+            if (elem.is_on_sling) {
+
+                return true == bool
+            }
+            if (elem.on_sling) {
+
+                return true == bool
+            }
+
+            if (elem.guidebox_data) {
+                if (elem.guidebox_data.on_sling) {
+                    return true == bool
+                }
+            }
+
+            if (elem.name == 'Netflix') {
+                return false
+            }
+
+            return false == bool
+
+        })
+    }
+})
+
+    .filter('onNetflix', function (_) {
+        // debugger;
+        return function (array) {
+            return _.filter(array, 'on_netflix')
+        }
+
+    })
+app.filter('unique', function() {
+    return function (arr, field) {
+        return _.uniq(arr, function(a) { return a[field]; });
+    };
 });
 app.factory('http', function ($http, $log, $q) {
     return {
@@ -629,7 +1135,7 @@ app.factory('http', function ($http, $log, $q) {
             var deffered = $q.defer();
             $http({
                 method: 'POST',
-                url: "login/",
+                url: "o/token",
                 data:credentials
 
             })
@@ -664,31 +1170,54 @@ app.factory('http', function ($http, $log, $q) {
  */
 
 
+//angular.module('streamsavvy')
 
-app.config(function ($httpProvider, $provide) {
-    
-    
-    $provide.factory('s3FeedbackInterceptor', function ($q) {
+  app.factory('s3FeedbackInterceptor', function ($q) {
 
-        return {
-            'request' : function (config) {
-                var x = config
-                return config
-            },
+      return {
+        'request': function (config) {
+          var x = config
+          return config
+        },
 
-            'response' : function (response) {
+        'response': function (response) {
 
 
-
-                return response
-            }
+          return response
         }
-        
+      }
+
     })
 
-    $httpProvider.interceptors.push('s3FeedbackInterceptor');
-})
+  .factory('TokenAuthInterceptor', function ($window, $q) {
+      return {
+        'request': function (config) {
+          config.headers = config.headers || {}
+          if ($window.sessionStorage.token) {
+            config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+          }
 
+          return config
+        },
+        response: function (response) {
+          if (response.status === 401) {
+            // handle the case where the user is not authenticated
+          }
+          return response || $q.when(response);
+        }
+      }
+    })
+
+  .config(function ($httpProvider, $provide, $windowProvider) {
+    $httpProvider.interceptors.push('s3FeedbackInterceptor');
+    $httpProvider.interceptors.push('TokenAuthInterceptor')
+
+  })
+
+/* Modernizr 2.6.2 (Custom Build) | MIT & BSD
+ * Build: http://modernizr.com/download/#-shiv-cssclasses-load
+ */
+window.Modernizr=function(a,b,c){function u(a){j.cssText=a}function v(a,b){return u(prefixes.join(a+";")+(b||""))}function w(a,b){return typeof a===b}function x(a,b){return!!~(""+a).indexOf(b)}function y(a,b,d){for(var e in a){var f=b[a[e]];if(f!==c)return d===!1?a[e]:w(f,"function")?f.bind(d||b):f}return!1}var d="2.6.2",e={},f=!0,g=b.documentElement,h="modernizr",i=b.createElement(h),j=i.style,k,l={}.toString,m={},n={},o={},p=[],q=p.slice,r,s={}.hasOwnProperty,t;!w(s,"undefined")&&!w(s.call,"undefined")?t=function(a,b){return s.call(a,b)}:t=function(a,b){return b in a&&w(a.constructor.prototype[b],"undefined")},Function.prototype.bind||(Function.prototype.bind=function(b){var c=this;if(typeof c!="function")throw new TypeError;var d=q.call(arguments,1),e=function(){if(this instanceof e){var a=function(){};a.prototype=c.prototype;var f=new a,g=c.apply(f,d.concat(q.call(arguments)));return Object(g)===g?g:f}return c.apply(b,d.concat(q.call(arguments)))};return e});for(var z in m)t(m,z)&&(r=z.toLowerCase(),e[r]=m[z](),p.push((e[r]?"":"no-")+r));return e.addTest=function(a,b){if(typeof a=="object")for(var d in a)t(a,d)&&e.addTest(d,a[d]);else{a=a.toLowerCase();if(e[a]!==c)return e;b=typeof b=="function"?b():b,typeof f!="undefined"&&f&&(g.className+=" "+(b?"":"no-")+a),e[a]=b}return e},u(""),i=k=null,function(a,b){function k(a,b){var c=a.createElement("p"),d=a.getElementsByTagName("head")[0]||a.documentElement;return c.innerHTML="x<style>"+b+"</style>",d.insertBefore(c.lastChild,d.firstChild)}function l(){var a=r.elements;return typeof a=="string"?a.split(" "):a}function m(a){var b=i[a[g]];return b||(b={},h++,a[g]=h,i[h]=b),b}function n(a,c,f){c||(c=b);if(j)return c.createElement(a);f||(f=m(c));var g;return f.cache[a]?g=f.cache[a].cloneNode():e.test(a)?g=(f.cache[a]=f.createElem(a)).cloneNode():g=f.createElem(a),g.canHaveChildren&&!d.test(a)?f.frag.appendChild(g):g}function o(a,c){a||(a=b);if(j)return a.createDocumentFragment();c=c||m(a);var d=c.frag.cloneNode(),e=0,f=l(),g=f.length;for(;e<g;e++)d.createElement(f[e]);return d}function p(a,b){b.cache||(b.cache={},b.createElem=a.createElement,b.createFrag=a.createDocumentFragment,b.frag=b.createFrag()),a.createElement=function(c){return r.shivMethods?n(c,a,b):b.createElem(c)},a.createDocumentFragment=Function("h,f","return function(){var n=f.cloneNode(),c=n.createElement;h.shivMethods&&("+l().join().replace(/\w+/g,function(a){return b.createElem(a),b.frag.createElement(a),'c("'+a+'")'})+");return n}")(r,b.frag)}function q(a){a||(a=b);var c=m(a);return r.shivCSS&&!f&&!c.hasCSS&&(c.hasCSS=!!k(a,"article,aside,figcaption,figure,footer,header,hgroup,nav,section{display:block}mark{background:#FF0;color:#000}")),j||p(a,c),a}var c=a.html5||{},d=/^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i,e=/^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i,f,g="_html5shiv",h=0,i={},j;(function(){try{var a=b.createElement("a");a.innerHTML="<xyz></xyz>",f="hidden"in a,j=a.childNodes.length==1||function(){b.createElement("a");var a=b.createDocumentFragment();return typeof a.cloneNode=="undefined"||typeof a.createDocumentFragment=="undefined"||typeof a.createElement=="undefined"}()}catch(c){f=!0,j=!0}})();var r={elements:c.elements||"abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video",shivCSS:c.shivCSS!==!1,supportsUnknownElements:j,shivMethods:c.shivMethods!==!1,type:"default",shivDocument:q,createElement:n,createDocumentFragment:o};a.html5=r,q(b)}(this,b),e._version=d,g.className=g.className.replace(/(^|\s)no-js(\s|$)/,"$1$2")+(f?" js "+p.join(" "):""),e}(this,this.document),function(a,b,c){function d(a){return"[object Function]"==o.call(a)}function e(a){return"string"==typeof a}function f(){}function g(a){return!a||"loaded"==a||"complete"==a||"uninitialized"==a}function h(){var a=p.shift();q=1,a?a.t?m(function(){("c"==a.t?B.injectCss:B.injectJs)(a.s,0,a.a,a.x,a.e,1)},0):(a(),h()):q=0}function i(a,c,d,e,f,i,j){function k(b){if(!o&&g(l.readyState)&&(u.r=o=1,!q&&h(),l.onload=l.onreadystatechange=null,b)){"img"!=a&&m(function(){t.removeChild(l)},50);for(var d in y[c])y[c].hasOwnProperty(d)&&y[c][d].onload()}}var j=j||B.errorTimeout,l=b.createElement(a),o=0,r=0,u={t:d,s:c,e:f,a:i,x:j};1===y[c]&&(r=1,y[c]=[]),"object"==a?l.data=c:(l.src=c,l.type=a),l.width=l.height="0",l.onerror=l.onload=l.onreadystatechange=function(){k.call(this,r)},p.splice(e,0,u),"img"!=a&&(r||2===y[c]?(t.insertBefore(l,s?null:n),m(k,j)):y[c].push(l))}function j(a,b,c,d,f){return q=0,b=b||"j",e(a)?i("c"==b?v:u,a,b,this.i++,c,d,f):(p.splice(this.i++,0,a),1==p.length&&h()),this}function k(){var a=B;return a.loader={load:j,i:0},a}var l=b.documentElement,m=a.setTimeout,n=b.getElementsByTagName("script")[0],o={}.toString,p=[],q=0,r="MozAppearance"in l.style,s=r&&!!b.createRange().compareNode,t=s?l:n.parentNode,l=a.opera&&"[object Opera]"==o.call(a.opera),l=!!b.attachEvent&&!l,u=r?"object":l?"script":"img",v=l?"script":u,w=Array.isArray||function(a){return"[object Array]"==o.call(a)},x=[],y={},z={timeout:function(a,b){return b.length&&(a.timeout=b[0]),a}},A,B;B=function(a){function b(a){var a=a.split("!"),b=x.length,c=a.pop(),d=a.length,c={url:c,origUrl:c,prefixes:a},e,f,g;for(f=0;f<d;f++)g=a[f].split("="),(e=z[g.shift()])&&(c=e(c,g));for(f=0;f<b;f++)c=x[f](c);return c}function g(a,e,f,g,h){var i=b(a),j=i.autoCallback;i.url.split(".").pop().split("?").shift(),i.bypass||(e&&(e=d(e)?e:e[a]||e[g]||e[a.split("/").pop().split("?")[0]]),i.instead?i.instead(a,e,f,g,h):(y[i.url]?i.noexec=!0:y[i.url]=1,f.load(i.url,i.forceCSS||!i.forceJS&&"css"==i.url.split(".").pop().split("?").shift()?"c":c,i.noexec,i.attrs,i.timeout),(d(e)||d(j))&&f.load(function(){k(),e&&e(i.origUrl,h,g),j&&j(i.origUrl,h,g),y[i.url]=2})))}function h(a,b){function c(a,c){if(a){if(e(a))c||(j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}),g(a,j,b,0,h);else if(Object(a)===a)for(n in m=function(){var b=0,c;for(c in a)a.hasOwnProperty(c)&&b++;return b}(),a)a.hasOwnProperty(n)&&(!c&&!--m&&(d(j)?j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}:j[n]=function(a){return function(){var b=[].slice.call(arguments);a&&a.apply(this,b),l()}}(k[n])),g(a[n],j,b,n,h))}else!c&&l()}var h=!!a.test,i=a.load||a.both,j=a.callback||f,k=j,l=a.complete||f,m,n;c(h?a.yep:a.nope,!!i),i&&c(i)}var i,j,l=this.yepnope.loader;if(e(a))g(a,0,l,0);else if(w(a))for(i=0;i<a.length;i++)j=a[i],e(j)?g(j,0,l,0):w(j)?B(j):Object(j)===j&&h(j,l);else Object(a)===a&&h(a,l)},B.addPrefix=function(a,b){z[a]=b},B.addFilter=function(a){x.push(a)},B.errorTimeout=1e4,null==b.readyState&&b.addEventListener&&(b.readyState="loading",b.addEventListener("DOMContentLoaded",A=function(){b.removeEventListener("DOMContentLoaded",A,0),b.readyState="complete"},0)),a.yepnope=k(),a.yepnope.executeStack=h,a.yepnope.injectJs=function(a,c,d,e,i,j){var k=b.createElement("script"),l,o,e=e||B.errorTimeout;k.src=a;for(o in d)k.setAttribute(o,d[o]);c=j?h:c||f,k.onreadystatechange=k.onload=function(){!l&&g(k.readyState)&&(l=1,c(),k.onload=k.onreadystatechange=null)},m(function(){l||(l=1,c(1))},e),i?k.onload():n.parentNode.insertBefore(k,n)},a.yepnope.injectCss=function(a,c,d,e,g,i){var e=b.createElement("link"),j,c=i?h:c||f;e.href=a,e.rel="stylesheet",e.type="text/css";for(j in d)e.setAttribute(j,d[j]);g||(n.parentNode.insertBefore(e,n),m(c,0))}}(this,document),Modernizr.load=function(){yepnope.apply(window,[].slice.call(arguments,0))};
 /**
  * Created by Nem on 6/27/15.
  */
@@ -707,16 +1236,6 @@ app.factory('N', function () {
     }
 })
 
-app.run(function ($http, Fuse, N) {
-
-    $http.get('netflixable/')
-        .then(function (data) {
-
-            N.setShows(data.data)
-        })
-})
-
-
 app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($http, $q, VIEW_WINDOWS, _) {
     // ;
 
@@ -726,9 +1245,22 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
     var _test = 1;
 
+    var _chosenShow = {};
+    
+    var _listOfServices = [];
+
 
     return {
+        setChosenShow: function(show){
+            _chosenShow = show
+        },
+
+        getChosenShow: function () {
+            return _chosenShow;
+        },
+
         setPackage: function (ssPackage) {
+
 
             _package = ssPackage;
 
@@ -739,9 +1271,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         postPackage: function (ssPackage) {
-
-            //debugger;
-            $http.post('/json-package/', ssPackage);
+            $http.put(ssPackage.url, ssPackage);
         },
 
         getPackage: function () {
@@ -785,7 +1315,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 chans = _.flatten(chans)
 
-                debugger;
+                //debugger;
 
                 chans = _.uniq(chans, function (elem) {
 
@@ -807,7 +1337,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             var t = 0;
 
             var pkg = _package;
-            if (pkg.content.length > 0) {
+            if (true) {
 
                 t = _.map(pkg.providers, function (elem) {
                     return elem.price;
@@ -850,6 +1380,14 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             return t
 
 
+        },
+
+        getListOfServices: function() {
+
+            return _listOfServices;
+        },
+        setListOfServices: function(listOfServices) {
+            _listOfServices = listOfServices;
         }
     }
 
@@ -857,31 +1395,308 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 }]);
 
 
-
 app.run(function (PackageFactory, $http, http, $rootScope) {
-    $http.get('/json-package/')
+    $http.get('/api/package/')
         .then(function (data) {
-            $rootScope.env = data.data.env
+            //debugger
+            //$rootScope.env = data.data.env
 
             console.log(data);
 
-            if (data.data == "") {
-                http.getPackage()
-                    .then(function (data) {
-                        PackageFactory.setPackage(data)
-                    })
-            } else {
-                PackageFactory.setPackage(data.data)
-            }
+            data = data.data.results[0]
+            PackageFactory.setPackage(data)
+
         })
 });
-app.factory('_', function($window){
+app.factory('_', function ($window) {
     return $window._;
 })
 
 app.factory('Fuse', function ($window) {
     return $window.Fuse
 })
+
+app.factory('Fuzzy', function ($window) {
+    return $window.fuzzy
+})
+
+app.factory('classie', function ($window) {
+    return $window.classie
+})
+
+app.factory('ShowDetailAnimate', function ($timeout, $q) {
+    //debugger;
+
+    var bodyEl = document.body,
+        gridEl = $('#theGrid')[0],
+        sidebarEl = document.getElementById('theSidebar'),
+        gridItemsContainer = gridEl.querySelector('div.row'),
+    //contentItemsContainer = gridEl.querySelector('section.content'),
+    //gridItems = gridItemsContainer.querySelectorAll('.grid__item'),
+    //contentItems = contentItemsContainer.querySelectorAll('.content__item'),
+    //closeCtrl = contentItemsContainer.querySelector('.close-button'),
+        current = -1,
+        lockScroll = false,
+        xscroll = "",
+        yscroll = "",
+        isAnimating = false,
+    //menuCtrl = document.getElementById('menu-toggle'),
+    //menuCloseCtrl = sidebarEl.querySelector('.close-button'),
+        docElem = window.document.documentElement,
+        support = {transitions: Modernizr.csstransitions},
+    // transition end event name
+        transEndEventNames = {
+            'WebkitTransition': 'webkitTransitionEnd',
+            'MozTransition': 'transitionend',
+            'OTransition': 'oTransitionEnd',
+            'msTransition': 'MSTransitionEnd',
+            'transition': 'transitionend'
+
+        },
+    //transEndEventName = transEndEventNames[Modernizr.prefixed('transition')];
+
+        getViewport = function (axis) {
+            var client, inner;
+            if (axis === 'x') {
+                client = docElem['clientWidth'];
+                inner = window['innerWidth'];
+            }
+            else if (axis === 'y') {
+                client = docElem['clientHeight'];
+                inner = window['innerHeight'];
+            }
+
+            return client < inner ? inner : client;
+        }
+    scrollX = function () {
+        return window.pageXOffset || docElem.scrollLeft;
+    }
+    scrollY = function () {
+        return $('#search-and-shows').scrollTop()
+    }
+
+
+    onEndTransition = function (el, callback) {
+        var onEndCallbackFn = function (ev) {
+            if (support.transitions) {
+                if (ev.target != this) return;
+                this.removeEventListener(transEndEventName, onEndCallbackFn);
+            }
+            if (callback && typeof callback === 'function') {
+                callback.call(this);
+            }
+        };
+        if (support.transitions) {
+            el.addEventListener(transEndEventName, onEndCallbackFn);
+        }
+        else {
+            onEndCallbackFn();
+        }
+    }
+
+    return {
+        loadContent: function (positionItem, scaleItem, container) {
+            // add expanding element/placeholder
+            var dummy = document.createElement('div');
+            dummy.className = 'placeholder';
+
+            // set the width/heigth and position
+            dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
+            dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
+
+            // add transition class
+            classie.add(dummy, 'placeholder--trans-in');
+
+            // insert it after all the grid items
+            container.appendChild(dummy);
+
+            // body overlay
+            classie.add(bodyEl, 'view-single');
+            //
+            return $timeout(function () {
+
+                // expands the placeholder
+                dummy.style.WebkitTransform = 'translate3d(0, ' + (scrollY() + 50) + 'px, 0px)';
+                dummy.style.transform = 'translate3d(0, ' + (scrollY() + 50) + 'px, 0px)';
+                // disallow scroll
+                window.addEventListener('scroll', this.noscroll);
+                onEndTransition(dummy, function () {
+                    // add transition class
+                    classie.remove(dummy, 'placeholder--trans-in');
+                    classie.add(dummy, 'placeholder--trans-out');
+                    // position the content container
+                    //contentItemsContainer.style.top = scrollY() + 'px';
+                    // show the main content container
+                    //classie.add(contentItemsContainer, 'content--show');
+                    // show content item:
+                    //classie.add(contentItems[current], 'content__item--show');
+                    // show close control
+                    //classie.add(closeCtrl, 'close-button--show');
+                    // sets overflow hidden to the body and allows the switch to the content scroll
+                    classie.addClass(bodyEl, 'noscroll');
+
+                    isAnimating = false;
+                });
+            }, 25);
+
+        },
+
+        hideContent: function (positionItem, scaleItem, container) {
+            //var gridItem = gridItems[current], contentItem = contentItems[current];
+            //debugger;
+
+            //classie.remove(contentItem, 'content__item--show');
+            //classie.remove(contentItemsContainer, 'content--show');
+            //classie.remove(closeCtrl, 'close-button--show');
+            classie.remove(bodyEl, 'view-single');
+
+            return $timeout(function () {
+                // debugger;
+
+                var dummy = container.querySelector('.placeholder');
+
+                function firstStep() {
+                    // debugger;
+                    classie.removeClass(bodyEl, 'noscroll');
+                    return 'hello first'
+                }
+
+                $q.when(firstStep())
+                    .then(function (data) {
+                        dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
+                        dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
+                        return "hello world"
+                    }).then(function (data) {
+                    return $timeout(function () {
+                        onEndTransition(dummy, function () {
+                            // reset content scroll..
+                            positionItem.parentNode.scrollTop = 0;
+                            container.removeChild(dummy);
+                            //classie.remove(gridItem, 'grid__item--loading');
+                            //classie.remove(gridItem, 'grid__item--animate');
+                            lockScroll = false;
+                            window.removeEventListener('scroll', this.noscroll);
+                        })
+                        current = -1;
+                    }, 400)
+                })
+
+                //debugger;
+
+
+                // reset current
+            }, 25);
+        },
+        noscroll: function () {
+            if (!lockScroll) {
+                lockScroll = true;
+                xscroll = scrollX();
+                yscroll = scrollY();
+            }
+            window.scrollTo(xscroll, yscroll);
+        }
+
+    }
+});
+
+
+app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
+
+
+
+    $scope.package = PackageFactory.getPackage();
+    $scope.list = PackageFactory.getListOfServices();
+    $scope.list.added = [];
+    
+    var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
+
+    $scope.addService = function (service) {
+        
+        $scope.list.added.push(service.chan.source);
+        service.added = true;
+    };
+    $scope.notOtaServiceDetail = function(mystery_service) {
+        if(_.some(payPerServices,mystery_service.chan.source)){
+            console.log('this is the payperview service ' + mystery_service.chan.source);
+            mystery_service.description = SERVICE_PRICE_LIST[0].description;
+            mystery_service.price = SERVICE_PRICE_LIST[0].price;
+            mystery_service.link = SERVICE_PRICE_LIST[0].subscriptionLink;
+        }
+        else{
+            var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
+                return elem.name == mystery_service.chan.source;
+            });
+            if(serviceMatch != undefined){
+
+                mystery_service.description = serviceMatch.description;
+                mystery_service.price = serviceMatch.price;
+                mystery_service.subscriptionLink = serviceMatch.subscriptionLink;
+            }
+        }
+    };
+
+    $scope.otaServiceDetail = function(live_mystery_service){
+        if(live_mystery_service.chan.is_on_sling){
+            var slingService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'SlingTV'});
+            live_mystery_service.description = slingService.description;
+            live_mystery_service.price = slingService.price;
+            live_mystery_service.subscriptionLink = slingService.subscriptionLink;
+            
+        }
+        else if(live_mystery_service.chan.is_over_the_air){
+            var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
+            live_mystery_service.description = otaService.description;
+            live_mystery_service.price = otaService.price;
+            live_mystery_service.subscriptionLink = otaService.subscriptionLink;
+        }
+    };
+    $scope.removeService = function(service,serviceArray) {
+        if(serviceArray == 'ota'){
+           _.pull($scope.list.ota,service);
+        }
+        else{
+           _.pull($scope.list.not_ota,service);
+        }
+        PackageFactory.setListOfServices($scope.list);
+    };
+    $scope.openTab = function(servicePurchase){
+        if(servicePurchase != undefined)
+        {
+           $scope.url = servicePurchase.subscriptionLink;
+        }
+
+    }
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
+
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+        $scope.list = PackageFactory.getListOfServices();
+        _.forEach($scope.list.not_ota, function(not_ota_service){
+            if(not_ota_service != undefined){
+                $scope.notOtaServiceDetail(not_ota_service);
+            }
+
+        } );
+        _.forEach($scope.list.ota, function(ota_service){
+            if(ota_service != undefined){
+                $scope.otaServiceDetail(ota_service);
+            }
+        })
+    })
+   
+
+    
+    
+    
+    
+    
+    
+});
+
+/**
+ * Created by chirag on 3/28/16.
+ */
 
 /**
  * Created by Nem on 12/29/15.
@@ -933,28 +1748,85 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
+
+
+    $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
+
     $scope.isHomePage = $state.current.data.isHomePage;
+
+    $timeout(function(){
+        $scope.isHomePage && $('div#mainPage').css({'min-height':'100vh'});
+    }, 0)
+
+    $scope.isActive = function (hash) {
+        return document.location.hash == hash;
+
+
+    }
+
 
     $scope.hmdc = $state.current.data.hmdcActive;
 
     $scope.logout = function () {
-        debugger
-        $location.path(CONFIG.URL +'/django_auth/logout/');
-            //.success(function () {
-            //    $rootScope.logged_in = false;
-            //    console.log($rootScope.logged_in)
-            //})
+        $location.path(CONFIG.URL + '/django_auth/logout/');
+        //.success(function () {
+        //    $rootScope.logged_in = false;
+        //    console.log($rootScope.logged_in)
+        //})
     }
+
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+        mainPage = document.getElementById('mainPage'),
+        showLeftPush = document.getElementById('showLeftPush'),
+        body = document.body;
+
+
+    $scope.showLeftPush = function () {
+        //classie.toggle(this, 'active')
+        $scope.menuOpen = !$scope.menuOpen;
+
+        //debugger;
+        //classie.toggle(body, 'cbp-spmenu-push-toright');
+        //classie.toggle(menuLeft, 'cbp-spmenu-open');
+        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
+        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
+        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+
+        $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut()
+
+
+        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+
+
+        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
+
+        //disableOther('showLeftPush');
+    };
 
 
 });
 
 app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
     console.log($rootScope.logged_in)
 
 })
+
+$(document).ready(function () {
+
+
+
+    //function disableOther(button) {
+    //    if (button !== 'showLeftPush') {
+    //        classie.toggle(showLeftPush, 'disabled');
+    //    }
+    //
+    //}
+});
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -1050,15 +1922,11 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 });
 
 
-function slingInProviders(suggestion) {
-    return _.some(suggestion.content_provider, 'name', 'SlingTv');
-}
 /**
  * Created by Nem on 7/18/15.
  */
 app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
 
-    var nShows = [];
 
     $scope.modelOptions = {
         debounce: {
@@ -1068,53 +1936,12 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         getterSetter: true
     };
 
-
-    var nChannel = {
-        display_name: "Netflix",
-        id: 0000,
-        source: "netflix",
-        type: "subcription"
-    }
-
-
-    //TODO make this a constant in the angular app
-    //$http.get('netflixable/')
-    //    .then(function (data) {
-    //
-    //        nShows = new Fuse(data.data, {threshold: .2});
-    //    })
-
-    function isOnNetFlix(show) {
-
-        var shows = N.getShows();
-        if (shows.search(show.title).length > 0) {
-            return true;
-        }
-    }
-
-    function checkNextLetter() {
-        var s = $scope.searchText,
-            r = $scope.searchResult;
-
-        if (s && r) {
-            // ;
-            if (_.last(s) !== r[s.length - 1]) {
-                $scope.searchResult = ''
-            }
-        }
-    }
-
     $scope.suggestions = [];
     $scope.selectedIndex = -1;
 
-
-    var switchCase = function (char) {
-        if (char == char.toUpperCase()) {
-            return char.toLowerCase();
-        } else {
-            return char.toUpperCase();
-        }
-    }
+    $('#searchInput').bind('input', function () {
+        $(this).val().length > 0 ? $('.floating-label').addClass('float') : $('.floating-label').removeClass('float')
+    })
 
 
     $scope.checkMatched = function () {
@@ -1123,37 +1950,17 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $scope.search = function (val) {
         if (val) {
-            //$scope.suggestions = [];
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
-                    debugger;
-
-                    //var res = _.min(data.results, function (elem) {
-                    //    return elem.title.length
-                    //
-                    //})
-
-                    //var searchResult = matchCase($scope.searchText, res.title);
-
-                    //if (_.includes(searchResult, $scope.searchText)) {
-                    //    $scope.searchResult = searchResult;
-                    //
-                    //}
-
+                    //debugger;
                     var sorted = _.sortBy(data.data.results, function (elem) {
-
-
                         return elem.title.length
-
                     })
 
                     if (data.data.searchText == val) {
                         $scope.suggestions = sorted;
-                        //$scope.loading = false;
-
                         return sorted
                     }
-
                     $scope.selectedIndex = -1
                 });
         } else {
@@ -1163,141 +1970,29 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     };
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
-
-
         var ssPackage = PackageFactory.getPackage();
-        debugger;
-
-        if (_.some(ssPackage.content, 'title', suggestion.title)) {
-            growl.warning('You already added ' + suggestion.title + ' to your package!')
-            return
-        }
-
-        function addSling() {
-            var slingObj = {
-                display_name: "Sling TV",
-                id: 147,
-                source: "sling_tv",
-                type: "live_online_tv"
+        if(suggestion !== undefined) {
+            if (_.some(ssPackage.data.content, ['title', suggestion.title])) {
+                growl.warning('You already added ' + suggestion.title + ' to your package!');
+                $scope.suggestions = [];
+                return
             }
 
 
-            if (slingInProviders(suggestion)) {
-                suggestion.channels.web.episodes.all_sources.push(slingObj)
-            }
-        }
+            if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+                //debugger;
+                $scope.loading = true
 
-        var slingChannels = new Fuse(SLING_CHANNELS, {threshold: .3});
+                suggestion.justAdded = true;
 
+                ssPackage.data.content.push(suggestion);
 
-        function isNetworkShow(n) {
-            return _.includes(MAJOR_NETWORKS, n)
-        }
+                PackageFactory.setPackage(ssPackage);
 
-        if (suggestion.guidebox_id !== undefined && typeof suggestion.guidebox_id === 'number') {
-            $scope.loading = true
-            $http.get('/channels/' + suggestion.guidebox_id)
-                .then(function (data) {
-
-                    var opts = {
-                        keys: ['name'],
-                        threshold: .2
-
-                    }
-
-                    sPrices = new Fuse(SERVICE_PRICE_LIST, opts);
-
-                    var cleanedChannels = data.data.results
-
-                    var chans = _.uniq(cleanedChannels.web.episodes.all_sources, 'display_name')
-
-                    chans = _.uniq(chans.concat(suggestion.content_provider), function (elem) {
-                        var x;
-
-                        elem.display_name == undefined ? x = elem.name : x = elem.display_name;
-
-                        return x;
-
-                    })
-
-                    chans = _.map(chans, function (elem) {
-                        if (elem.name != undefined) {
-                            elem.display_name = elem.name;
-                            elem.type = elem.channel_type;
-                        }
-
-
-                        return elem
-                    })
-
-                    var b = _.map(BANNED_CHANNELS, function (elem) {
-                        return elem.toLowerCase().replace(' ', '')
-                    })
-                    chans = _.filter(chans, function (elem) {
-
-                        //debugger
-
-
-                        var e = elem.display_name.toLowerCase().replace(' ', '');
-
-                        return !_.includes(b, e)
-                    })
-
-                    if (isOnNetFlix(suggestion)) {
-                        chans.push(nChannel)
-                    }
-
-                    chans = _.map(chans, function (elem) {
-                        //debugger;
-                        if (isLive(elem) && slingChannels.search(elem.display_name).length == 0 && !_.includes(elem.display_name.toLowerCase(), 'now') || isNetworkShow(elem.display_name)) {
-                            elem.display_name = elem.display_name + ' Over the Air'
-
-                            return elem
-
-                        }
-
-                        if (slingChannels.search(elem.display_name).length > 0 && elem.type != 'free') {
-                            //TODO remove this and change the way this is done.
-                            //debugger;
-                            elem.display_name = 'Sling TV (' + elem.display_name + ')'
-                            elem.service = 'sling_tv'
-                            elem.price = 20.00;
-
-                            debugger
-
-                            return elem
-
-                        }
-
-                        if (!_.isEmpty(sPrices.search(elem.display_name))) {
-                            var res = sPrices.search(elem.display_name)
-                            elem.price = res[0].price
-                        }
-
-                        return elem;
-                    })
-
-                    cleanedChannels.web.episodes.all_sources = chans
-
-                    suggestion.channels = cleanedChannels;
-
-                    suggestion.isOpen = true;
-                    ssPackage.content.push(suggestion);
-                    PackageFactory.setPackage(ssPackage);
-
-                    $scope.loading = false
-                })
-        } else {
-            if (suggestion.channels === undefined) {
-                suggestion.channels = {web: {episodes: {all_sources: []}}}
+                $scope.loading = false
             }
 
-            addSling();
-
-            ssPackage.content.push(suggestion);
-            PackageFactory.setPackage(ssPackage);
         }
-
         $scope.searchText = '';
         $scope.suggestions = [];
 
@@ -1331,17 +2026,518 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         }
     });
 
-    $scope.$watch('searchText', function (val) {
-        // ;
-        if (val !== -1) {
-            checkNextLetter();
+
+})
+;
+
+
+/**
+ * Created by Nem on 5/24/16.
+ */
+app.controller('HardwareController', function ($scope, PackageFactory) {
+    
+    $scope.pkg = PackageFactory.getPackage();
+
+  /*  $('.service-panel').on('scroll', function () {
+        $('.not-ready').fadeOut()
+    })
+
+    $('.service-panel').on('scroll', function () {
+        debugger
+        _.debounce(function () {
+
+            $('.not-ready').fadeIn()
+        }, 100)()
+    })*/
+    $scope.collapseHardware = true;
+    var serviceHeight = $(window).height() - 46;
+
+    if ($scope.collapseHardware) {
+        $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
+
+    }
+
+    $scope.toggleHardwarePanel = function () {
+
+
+        if (!$scope.collapseHardware) {
+            $('.service-panel.ng-scope').animate({'height': serviceHeight + 'px'});
+            $('.hardware-panel.ng-scope').animate({'height': '46px'});
+        } else {
+            $('.hardware-body').animate({height: '40vh'});
+            $('.hardware-panel.ng-scope').animate({'height': '40vh'});
+            $('.service-panel.ng-scope').animate({height: '60vh'});
 
         }
+        $scope.collapseHardware = !$scope.collapseHardware;
+
+    }
+    $scope.servicesGT0 = function () {
+        return !_.isEmpty(PackageFactory.getListOfServices())
+    }
+
+});
+
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        debugger;
+        if ('data' in ssPackage) {
+            $scope.listOfServices = undefined;
+            $scope.listOfServices = _
+                .chain(ssPackage.data.content)
+                .map(function (elem) {
+                    _.forEach(elem.channel, function (c) {
+                        // debugger;
+                        c.source = c.guidebox_data.short_name
+                    })
+                    var list
+                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
+                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
+                    return list
+                })
+                .flatten()
+                .uniqBy('source')
+                .map(function (elem) {
+                    //debugger
+                    if (elem.guidebox_data != undefined) {
+                        elem.display_name = elem.guidebox_data.name
+                        return elem
+                    } else {
+                        return elem
+                    }
+                })
+                // .thru(function (list) {
+                //     var clean = _.filter(list, function (elem) {
+                //         // debugger;
+                //
+                //         var res = !_.some(list, function (mem) {
+                //
+                //             if (mem != elem) {
+                //                 // debugger;
+                //                 if (RegExp(elem.display_name).test(mem.display_name)) {
+                //                     // debugger;
+                //                     return mem.is_over_the_air && !elem.is_on_sling
+                //                 }
+                //
+                //             }
+                //             return false
+                //         })
+                //
+                //         return res
+                //
+                //
+                //     });
+                //     //debugger;
+                //     return clean
+                // })
+                .map(function (elem) {
+                    var o = {chan: elem}
+                    o.shows = _.filter(ssPackage.data.content, function (show) {
+                        if (show.guidebox_data.sources) {
+                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                        } else {
+                            source_check = false
+                        }
+
+                        var url_check = _.some(show.channel, ['url', elem.url]);
+                        return url_check || source_check
+                    })
+
+                    if (o.chan.guidebox_data) {
+                        if (o.chan.guidebox_data.is_over_the_air) {
+                            o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
+                        }
+                    }
+
+                    return o
+
+                })
+                .filter(function (elem) {
+                    return elem.chan.source != "netflix"
+                })
+                .groupBy(function (elem) {
+                    if (elem.chan.is_over_the_air) {
+                        return 'ota'
+                    }
+                    if (check_if_on_sling(elem)) {
+                        return 'sling'
+                    }
+
+                    if (_.includes(payPerServices, elem.chan.source)) {
+                        return 'ppv'
+
+                    }
+                    else {
+                        return 'not_ota'
+                    }
+                })
+                .thru(function (list) {
+                    debugger
+
+                    if (list.ota && list.ota.length > 1) {
+                        list.ota[0].shows = _.union(list.ota[0].shows, list.ota[1].shows)
+                    list.ota = list.ota[0]
+                    }
+
+                    return list
+
+                })
+
+                .value();
+
+            $scope.listOfServices = _.forEach($scope.listOfServices,function(val, key){
+                $scope.listOfServices[key].open = true
+            })
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
     })
 
 
 });
 
+
+app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
+
+    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
+    var onDemandServices = ['hulu_plus', 'nbc', 'starz', 'showtime_subscription'];
+    var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubitv', 'starz', 'showtime_subscription'];
+    var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
+
+    var openingDetail = false
+
+    $scope.$watch(function () {
+        return PackageFactory.getChosenShow();
+    }, function () {
+
+
+        $scope.cs = PackageFactory.getChosenShow();
+
+        $scope.detailSources = (function () {
+
+            if ($scope.cs.guidebox_data != undefined) {
+                debugger;
+
+
+
+                var x = _($scope.cs.channel)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .map(function (elem) {
+
+                        if (elem.guidebox_data != undefined) {
+                            elem.source = elem.guidebox_data.short_name
+                        }
+                        return elem
+                    }).filter(function (elem) {
+
+                        if (elem.hasOwnProperty('guidebox_data')) {
+                            return elem.guidebox_data.is_over_the_air
+                        }
+
+                        if (elem.source == 'hulu_free' || elem.source == 'starz_tveverywhere') {
+                            return false
+                        }
+
+                        return true
+                    })
+
+                    .uniqBy('source')
+                    .groupBy(function (service) {
+                        if (liveServices.includes(service.source)) {
+                            return 'live'
+                        }
+                        if (service.is_on_sling) {
+                            return 'live'
+                        }
+                        if (onDemandServices.includes(service.source)) {
+                            return 'on_demand'
+                        }
+                        if (bingeServices.includes(service.source)) {
+                            return 'binge'
+                        }
+                        if (payPerServices.includes(service.source)) {
+                            return 'pay_per_view'
+                        }
+
+                        return 'misc'
+                    })
+                    .thru(function (services) {
+                        _.forEach(services.misc, function (service) {
+                            if (service.source == 'hbo_now') {
+                                services.live.push(service);
+                                services.on_demand.push(service);
+                                services.binge.push(service);
+                            }
+                            else if (service.source == 'showtime_subscription') {
+                                services.on_demand.push(service);
+                                service.binge.push(service);
+                                service.live.push(service);
+                            }
+                            else if (service.source == 'starz') {
+                                service.binge.push(service);
+                                service.on_demand.push(service);
+                            }
+                        })
+
+                        if (services.live) {
+                            _.map(services.live, function (elem) {
+                                // debugger
+
+                                if (elem.is_over_the_air || elem.guidebox_data.is_over_the_air) {
+
+                                    elem.source = 'ota'
+                                }
+
+                                if (elem.is_on_sling) {
+                                    elem.source = 'sling-tv.svg'
+                                }
+
+
+                                //
+
+                                return elem
+
+                            })
+                        }
+
+                        if ($scope.cs.on_netflix) {
+                            if ( !services.hasOwnProperty('binge')){
+                                services.binge = []
+
+                            }
+
+                            services.binge.push({source: 'netflix'})
+                        }
+
+
+                        if (!Object.keys) Object.prototype.keys = function (o) {
+                            if (o !== Object(o))
+                                throw new TypeError('Object.keys called on a non-object');
+                            var k = [], p;
+                            for (p in o) if (Object.prototype.hasOwnProperty.call(o, p)) k.push(p);
+                            return k;
+                        }
+
+
+                        $scope.sortedServices = Object.keys(services)
+                            .sort();
+
+
+                        return services
+                    })
+                    .value();
+                return x;
+            }
+        })()
+
+    })
+
+
+    //$rootScope.showDetailDirective = false;
+
+
+    $scope.hello = 'clear package';
+
+    $scope.clearContent = function () {
+        // debugger;
+        var pkg = PackageFactory.getPackage()
+
+        pkg.data.content = []
+
+        PackageFactory.setPackage(pkg)
+    }
+    function verifySelectedShowDetails() {
+        var chosen = PackageFactory.getChosenShow()
+        if (chosen.detail == undefined) {
+            $http.get(chosen.url)
+                .then(function (res) {
+                    PackageFactory.setChosenShow(res.data)
+                })
+
+        }
+    }
+
+    $rootScope.showSearchView = true
+
+
+    $('body').removeAttr('id');
+    $('body').addClass('gradient-background');
+
+
+    $scope.popularShows = null;
+
+    $http.get('api/popular-shows')
+        .success(function (data) {
+            $scope.popularShows = data.results;
+            return data
+        })
+        .then(function () {
+            // ;
+            //$('.popular-shows').slick();
+        });
+
+
+    $scope.delete = function (content) {
+        _.remove($scope.package.content, content);
+        $scope.savePackage()
+        PackageFactory.updatePackageChannels($scope)
+    }
+
+    $scope.showDetail = _.debounce(function (item, ev, attrs) {
+
+        $('#search-and-shows').addClass('no-scroll');
+
+
+        if (openingDetail || !_.isEmpty($('.placeholder'))) {
+            return
+        }
+
+        openingDetail = true;
+
+
+        window.scrollTo(0, 0);
+        // $('body').css('overflow', 'hidden');
+
+        PackageFactory.setChosenShow(item);
+
+        verifySelectedShowDetails()
+        // debugger;
+        var positionItem = ev.currentTarget,
+            scaleItem = ev.target,
+            container = document.getElementById('search-and-shows');
+        $(scaleItem).attr('id', 'scaled-from')
+        $(positionItem).attr('id', 'is-opened')
+        //debugger;
+        $rootScope.showSearchView = false;
+        $rootScope.$broadcast('save_package');
+        ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
+            .then(function (v) {
+                return $timeout(function () {
+                    //debugger;
+
+                    // var detail = angular.element(document.createElement('show-detail'));
+
+                    // $rootScope.showDetailDirective = true;
+                    //debugger;
+
+                }, 500)
+
+            })
+            .then(function (v) {
+                $('show-detail').addClass('fade-in');
+                var showDetailTop = $('show-detail').offset().top,
+                    scrolledDistance = $('#search-and-shows').scrollTop()
+                $('show-detail').css({top: 55 + scrolledDistance})
+
+                // $('show-detail').
+                //$('show-detail').removeClass('fade');
+            })
+
+        $('.show-grid').addClass('blur-and-fill');
+
+        openingDetail = false
+
+
+    }, 50);
+
+    $scope.hideDetail = function (ev, attrs) {
+        var positionItem = document.getElementById('is-opened'),
+            scaleItem = document.getElementById('scaled-from'),
+            container = document.getElementById('search-and-shows');
+        $q.when($('show-detail').removeClass('fade-in'))
+            .then(function () {
+
+
+                $rootScope.showDetailDirective = false
+            })
+            .then(ShowDetailAnimate.hideContent.bind(null, positionItem, scaleItem, container))
+            .then(function (v) {
+                return $timeout(function () {
+                    // debugger;
+
+                    $rootScope.showSearchView = true;
+                    $('.show-grid').removeClass('blur-and-fill');
+                }, 500)
+            })
+            .then(function (v) {
+                //debugger;
+                // $('body').css('overflow', 'scroll');
+                $(scaleItem).removeAttr('id')
+                $(positionItem).removeAttr('id')
+
+                $('#search-and-shows').removeClass('no-scroll');
+
+            })
+
+
+    };
+
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+    $scope.$watch(function () {
+        return PackageFactory.getChosenShow()
+    }, function () {
+        $scope.cs = PackageFactory.getChosenShow();
+        // $scope.getRatings = function () {
+        //     $http.get($scope.cs.url + '/ratings')
+        // }
+
+
+    })
+
+
+    $scope.savePackage = function () {
+        PackageFactory.setPackage($scope.package)
+    }
+
+    $scope.$on('save_package', function () {
+        PackageFactory.setPackage($scope.package)
+    });
+
+    $scope.$watchCollection('package.data.content', function () {
+        PackageFactory.setPackage($scope.package)
+    })
+
+
+});
 
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
@@ -1352,7 +2548,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
-        //debugger;
+
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',
@@ -1401,7 +2597,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
 
     $scope.login = function (credentials) {
-        debugger;
         //credentials.next = "/api/";
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
@@ -1481,13 +2676,13 @@ app.controller('AccordionController', function ($scope) {
 
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
-    $scope.clearContent = function () {
-        var pkg = PackageFactory.getPackage()
-
-        pkg.content = []
-
-        PackageFactory.setPackage(pkg)
-    }
+    // $scope.clearContent = function () {
+    //     var pkg = PackageFactory.getPackage()
+    //
+    //     pkg.content = []
+    //
+    //     PackageFactory.setPackage(pkg)
+    // }
 
     $scope.showTotal = function (content) {
 
@@ -1633,7 +2828,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
     $scope.delete = function (content) {
-        debugger;
         _.remove($scope.package.content, content);
         $scope.savePackage()
         PackageFactory.updatePackageChannels($scope)
@@ -1681,108 +2875,108 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
 });
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
-    $scope.package = PackageFactory.getPackage();
-    $scope.hardwareTotal = PackageFactory.totalHardwareCost();
-    $scope.servicesTotal = PackageFactory.totalServiceCost();
-    //$scope.packageTotal = getPackageTotal();
-    $scope.$addProviderUrls = function () {
-        for (var i = 0; i < $scope.package.providers.length; i++) {
-            var providerName = $scope.package.providers[i].display_name;
-            switch (providerName) {
-                case "Yahoo Screen Over the Air":
-                    $scope.package.providers[i].home_url = "https://www.yahoo.com/tv/tagged/originals";
-                    break;
-                case "Netflix":
-                    $scope.package.providers[i].home_url = "https://www.netflix.com/";
-                    break;
-                case "HBO NOW":
-                    $scope.package.providers[i].home_url = "https://order.hbonow.com/";
-                    break;
-                case "Sling TV (ESPN)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (CNN)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (ABC Family)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Slin" +
-                "g TV (AMC)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (TNT)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (TBS)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (The CW)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Sling TV (Travel)":
-                    $scope.package.providers[i].home_url = "http://www.sling.com/";
-                    break;
-                case "Amazon Prime":
-                    $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
-                    break;
-                case "Amazon":
-                    $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
-                    break;
-                case "Showtime":
-                    $scope.package.providers[i].home_url = "http://www.sho.com/sho/showtime-anytime";
-                    break;
-                case "Showtime FREEview Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.sho.com/sho/free-preview/1";
-                    break;
-                case "Hulu":
-                    $scope.package.providers[i].home_url = "http://www.hulu.com/welcome";
-                    break;
-                case "Hulu with Showtime":
-                    $scope.package.providers[i].home_url = "http://www.hulu.com/getshowtime";
-                    break;
-                case "CBS All Access":
-                    $scope.package.providers[i].home_url = "http://www.cbs.com/all-access/";
-                    break;
-                case "VUDU":
-                    $scope.package.providers[i].home_url = "http://www.vudu.com/";
-                    break;
-                case "Google Play":
-                    $scope.package.providers[i].home_url = "https://play.google.com/store/movies?hl=en";
-                    break;
-                case "iTunes":
-                    $scope.package.providers[i].home_url = "https://www.apple.com/itunes/download/";
-                    break;
-                case "YouTube":
-                    $scope.package.providers[i].home_url = "https://www.youtube.com/user/YouTubeShowsUS/featured";
-                    break;
-                case "NBC Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.nbc.com/schedule";
-                    break;
-                case "CBS Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.cbs.com/schedule/";
-                    break;
-                case "FOX Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.fox.com/schedule";
-                    break;
-                case "ABC Over the Air":
-                    $scope.package.providers[i].home_url = "http://abc.go.com/schedule";
-                    break;
-                case "The CW Over the Air":
-                    $scope.package.providers[i].home_url = "http://www.cwtv.com/schedule/";
-                    break;
-                default:
-                    $scope.package.providers[i].home_url = "http://www.guidebox.com/";
-                    break;
-            }
-        }
-    };
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-        $scope.$addProviderUrls();
-    });
+    //$scope.package = PackageFactory.getPackage();
+    //$scope.hardwareTotal = PackageFactory.totalHardwareCost();
+    //$scope.servicesTotal = PackageFactory.totalServiceCost();
+    ////$scope.packageTotal = getPackageTotal();
+    //$scope.$addProviderUrls = function () {
+    //    for (var i = 0; i < $scope.package.providers.length; i++) {
+    //        var providerName = $scope.package.providers[i].display_name;
+    //        switch (providerName) {
+    //            case "Yahoo Screen Over the Air":
+    //                $scope.package.providers[i].home_url = "https://www.yahoo.com/tv/tagged/originals";
+    //                break;
+    //            case "Netflix":
+    //                $scope.package.providers[i].home_url = "https://www.netflix.com/";
+    //                break;
+    //            case "HBO NOW":
+    //                $scope.package.providers[i].home_url = "https://order.hbonow.com/";
+    //                break;
+    //            case "Sling TV (ESPN)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (CNN)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (ABC Family)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Slin" +
+    //            "g TV (AMC)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (TNT)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (TBS)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (The CW)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Sling TV (Travel)":
+    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
+    //                break;
+    //            case "Amazon Prime":
+    //                $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
+    //                break;
+    //            case "Amazon":
+    //                $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
+    //                break;
+    //            case "Showtime":
+    //                $scope.package.providers[i].home_url = "http://www.sho.com/sho/showtime-anytime";
+    //                break;
+    //            case "Showtime FREEview Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.sho.com/sho/free-preview/1";
+    //                break;
+    //            case "Hulu":
+    //                $scope.package.providers[i].home_url = "http://www.hulu.com/welcome";
+    //                break;
+    //            case "Hulu with Showtime":
+    //                $scope.package.providers[i].home_url = "http://www.hulu.com/getshowtime";
+    //                break;
+    //            case "CBS All Access":
+    //                $scope.package.providers[i].home_url = "http://www.cbs.com/all-access/";
+    //                break;
+    //            case "VUDU":
+    //                $scope.package.providers[i].home_url = "http://www.vudu.com/";
+    //                break;
+    //            case "Google Play":
+    //                $scope.package.providers[i].home_url = "https://play.google.com/store/movies?hl=en";
+    //                break;
+    //            case "iTunes":
+    //                $scope.package.providers[i].home_url = "https://www.apple.com/itunes/download/";
+    //                break;
+    //            case "YouTube":
+    //                $scope.package.providers[i].home_url = "https://www.youtube.com/user/YouTubeShowsUS/featured";
+    //                break;
+    //            case "NBC Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.nbc.com/schedule";
+    //                break;
+    //            case "CBS Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.cbs.com/schedule/";
+    //                break;
+    //            case "FOX Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.fox.com/schedule";
+    //                break;
+    //            case "ABC Over the Air":
+    //                $scope.package.providers[i].home_url = "http://abc.go.com/schedule";
+    //                break;
+    //            case "The CW Over the Air":
+    //                $scope.package.providers[i].home_url = "http://www.cwtv.com/schedule/";
+    //                break;
+    //            default:
+    //                $scope.package.providers[i].home_url = "http://www.guidebox.com/";
+    //                break;
+    //        }
+    //    }
+    //};
+    //$scope.$watch(function () {
+    //    return PackageFactory.getPackage()
+    //}, function () {
+    //    $scope.package = PackageFactory.getPackage();
+    //    $scope.$addProviderUrls();
+    //});
 
 
 })
