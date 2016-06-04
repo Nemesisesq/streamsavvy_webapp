@@ -115,8 +115,11 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                 })
                 .thru(function (list) {
                     debugger
-                    list.ota[0].shows = _.union(list.ota[0].shows, list.ota[1].shows)
+
+                    if (list.ota && list.ota.length > 1) {
+                        list.ota[0].shows = _.union(list.ota[0].shows, list.ota[1].shows)
                     list.ota = list.ota[0]
+                    }
 
                     return list
 

@@ -235,7 +235,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         g = GuideBox()
 
         if 'detail' in obj.guidebox_data:
-            # obj = g.process_content_for_sling_ota_banned_channels(obj)
+            obj = g.process_content_for_sling_ota_banned_channels(obj)
             return obj
 
         else:
@@ -246,7 +246,7 @@ class ContentViewSet(viewsets.ModelViewSet):
 
             obj.save()
 
-            # obj = g.process_content_for_sling_ota_banned_channels(obj)
+            obj = g.process_content_for_sling_ota_banned_channels(obj)
 
             return obj
 

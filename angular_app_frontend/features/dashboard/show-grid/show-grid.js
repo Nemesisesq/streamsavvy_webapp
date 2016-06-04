@@ -32,7 +32,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                     }).filter(function (elem) {
 
                         if (elem.hasOwnProperty('guidebox_data')) {
-                            return !elem.guidebox_data.is_over_the_air
+                            return elem.guidebox_data.is_over_the_air
                         }
 
                         if (elem.source == 'hulu_free' || elem.source == 'starz_tveverywhere') {
@@ -84,7 +84,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             _.map(services.live, function (elem) {
                                 // debugger
 
-                                if (elem.is_over_the_air) {
+                                if (elem.is_over_the_air || elem.guidebox_data.is_over_the_air) {
 
                                     elem.source = 'ota'
                                 }
