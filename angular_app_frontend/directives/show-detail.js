@@ -2,14 +2,13 @@
  * Created by Nem on 3/7/16.
  */
 
-app.directive('showDetail', function (PackageFactory, $q) {
+app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
     return {
         restrict: 'E',
         templateUrl: '/static/partials/selected-show/select.html',
         controller: 'ShowGridController',
 
         link: function (scope) {
-
 
 
             scope.formatDate = function (dateString) {
@@ -40,6 +39,17 @@ app.directive('showDetail', function (PackageFactory, $q) {
                 }
             }
 
+            scope.hasOwnApp = function (key,item) {
+                debugger
+
+                servicesWithApps = ['ABC' , 'CBS' , 'NBC', 'HBO', 'Showtime', 'Starz','History Channel'];
+                if (key == 'live' && item.name != 'Sling' && item.name!= 'OTA') {
+                    return _.some(servicesWithApps, item.display_name)
+
+                }
+
+                return true
+            }
 
 
         }
@@ -74,7 +84,7 @@ app.directive('otaSlingNetflix', function () {
         restrict: 'A',
 
         link: function (scope, element, attrs) {
-debugger
+            debugger
 
             if (element.scope().$parent.key == 'binge') {
                 if (scope.cs.on_netflix && !_.some(scope.detailSources.binge, ['source', 'netflix'])) {

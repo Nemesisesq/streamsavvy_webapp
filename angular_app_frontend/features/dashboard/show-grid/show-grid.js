@@ -20,7 +20,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 //debugger;
 
 
-
                 var x = _($scope.cs.channel)
                     .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
                     .map(function (elem) {
@@ -48,7 +47,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         if (liveServices.includes(service.source)) {
                             return 'live'
                         }
-                        if (service.is_on_sling) {
+                        if (service.is_on_sling || service.on_sling) {
                             return 'live'
                         }
                         if (onDemandServices.includes(service.source)) {
@@ -86,16 +85,33 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                 // debugger
 
                                 if (elem.is_over_the_air) {
+                                    var elemCopy = _.cloneDeep(elem);
+                                    elemCopy.name = 'OTA'
 
-                                    elem.source = 'ota'
+                                    elemCopy.source = 'ota'
+
+                                    services.live.push(elemCopy)
+                                }
+                                debugger
+
+                                if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {
+                                    var elemCopy = _.cloneDeep(elem);
+
+                                    elemCopy.name = 'OTA'
+
+                                    elemCopy.source = 'ota'
+
+                                    services.live.push(elemCopy)
                                 }
 
-                                if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air ){
-                                    elem.source = 'ota'
-                                }
+                                if (elem.is_on_sling || elem.on_sling) {
+                                    var elemCopy = _.cloneDeep(elem);
 
-                                if (elem.is_on_sling) {
-                                    elem.source = 'sling-tv.svg'
+                                    elemCopy.name = 'Sling'
+
+                                    elemCopy.source = 'sling-tv.svg';
+
+                                    services.live.push(elemCopy)
                                 }
 
 
@@ -107,7 +123,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
 
                         if ($scope.cs.on_netflix) {
-                            if ( !services.hasOwnProperty('binge')){
+                            if (!services.hasOwnProperty('binge')) {
                                 services.binge = []
 
                             }
