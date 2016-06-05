@@ -2465,6 +2465,7 @@ ul[id^='typeahead-'], .suggestions-list {
       width: calc(100vw - 30px); } }
 
 mobile-tabs {
+  display: none;
   position: fixed;
   bottom: 0;
   z-index: 100;
@@ -2473,6 +2474,10 @@ mobile-tabs {
   color: #ed1c24;
   height: 60px;
   text-align: center; }
+
+@media (max-width: 767px) {
+  mobile-tabs {
+    display: block; } }
 
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;

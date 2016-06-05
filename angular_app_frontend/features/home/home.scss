@@ -67,6 +67,7 @@
 }
 
 mobile-tabs{
+  display: none;
   position: fixed;
   bottom: 0;
   z-index: 100;
@@ -76,5 +77,13 @@ mobile-tabs{
   height: 60px;
   text-align: center;
 
+}
+
+@media (max-width: 767px) {
+
+  mobile-tabs {
+    display: block;
+  }
+  
 }
 
