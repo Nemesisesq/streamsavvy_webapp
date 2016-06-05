@@ -87,6 +87,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                 if (elem.is_over_the_air) {
                                     var elemCopy = _.cloneDeep(elem);
                                     elemCopy.name = 'OTA'
+                                    delete elemCopy['id']
 
                                     elemCopy.source = 'ota'
 
@@ -98,6 +99,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                     var elemCopy = _.cloneDeep(elem);
 
                                     elemCopy.name = 'OTA'
+                                    delete elemCopy['id']
 
                                     elemCopy.source = 'ota'
 
@@ -108,6 +110,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                     var elemCopy = _.cloneDeep(elem);
 
                                     elemCopy.name = 'Sling'
+                                    delete elemCopy['id']
 
                                     elemCopy.source = 'sling-tv.svg';
 
