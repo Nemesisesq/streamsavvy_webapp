@@ -1,8 +1,8 @@
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
-    var onDemandServices = ['hulu_plus', 'nbc', 'starz', 'showtime_subscription'];
-    var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubitv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
+    var onDemandServices = ['hulu_plus', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
+    var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
     var openingDetail = false
@@ -43,7 +43,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     .uniqBy('source')
                     .groupBy(function (service) {
-                        //debugger;
+                        debugger;
                         if (liveServices.includes(service.source)) {
                             return 'live'
                         }
@@ -86,22 +86,24 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                                 if (elem.is_over_the_air) {
                                     var elemCopy = _.cloneDeep(elem);
-                                    elemCopy.name = 'OTA'
-                                    delete elemCopy['id']
+                                    elemCopy.name = 'OTA';
+                                    delete elemCopy['id'];
+                                    delete elemCopy['$$hashKey'];
 
-                                    elemCopy.source = 'ota'
+                                    elemCopy.source = 'ota';
 
                                     services.live.push(elemCopy)
                                 }
-                                debugger
+                                debugger;
 
                                 if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {
                                     var elemCopy = _.cloneDeep(elem);
 
-                                    elemCopy.name = 'OTA'
-                                    delete elemCopy['id']
+                                    elemCopy.name = 'OTA';
+                                    delete elemCopy['id'];
+                                    delete elemCopy['$$hashKey'];
 
-                                    elemCopy.source = 'ota'
+                                    elemCopy.source = 'ota';
 
                                     services.live.push(elemCopy)
                                 }
@@ -109,8 +111,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                 if (elem.is_on_sling || elem.on_sling) {
                                     var elemCopy = _.cloneDeep(elem);
 
-                                    elemCopy.name = 'Sling'
-                                    delete elemCopy['id']
+                                    elemCopy.name = 'Sling';
+                                    delete elemCopy['id'];
+                                    delete elemCopy['$$hashKey'];
 
                                     elemCopy.source = 'sling-tv.svg';
 

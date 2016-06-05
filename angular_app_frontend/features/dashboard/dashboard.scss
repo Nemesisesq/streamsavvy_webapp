@@ -111,12 +111,13 @@ div#dashPage {
     }
     .services-hardware {
       position: relative;
-      overflow: inherit;
+      overflow: scroll;
       max-height: none;
       height: inherit;
 
       .service-panel {
         min-height: 100vh;
+        display:none;
       }
 
       .hardware-panel {

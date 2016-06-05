@@ -2546,11 +2546,12 @@ div#dashPage {
     overflow: inherit; }
   .dashboard .services-hardware {
     position: relative;
-    overflow: inherit;
+    overflow: scroll;
     max-height: none;
     height: inherit; }
     .dashboard .services-hardware .service-panel {
-      min-height: 100vh; }
+      min-height: 100vh;
+      display: none; }
     .dashboard .services-hardware .hardware-panel {
       min-height: 100vh;
       margin-bottom: 60px; }

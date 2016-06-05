@@ -47,30 +47,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                         return elem
                     }
                 })
-                // .thru(function (list) {
-                //     var clean = _.filter(list, function (elem) {
-                //         // debugger;
-                //
-                //         var res = !_.some(list, function (mem) {
-                //
-                //             if (mem != elem) {
-                //                 // debugger;
-                //                 if (RegExp(elem.display_name).test(mem.display_name)) {
-                //                     // debugger;
-                //                     return mem.is_over_the_air && !elem.is_on_sling
-                //                 }
-                //
-                //             }
-                //             return false
-                //         })
-                //
-                //         return res
-                //
-                //
-                //     });
-                //     //debugger;
-                //     return clean
-                // })
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {

@@ -1,6 +1,21 @@
 /**
  * Created by Nem on 6/27/15.
  */
+
+function check_if_on_sling(obj) {
+
+    if (obj.chan.on_sling) {
+        return true
+    } else if (obj.chan.is_on_sling) {
+        return true
+    } else {
+        return false
+    }
+
+}
+
+var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
 app.factory('N', function () {
     var _netflix_shows = []
 
@@ -26,12 +41,12 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
     var _test = 1;
 
     var _chosenShow = {};
-    
+
     var _listOfServices = [];
 
 
     return {
-        setChosenShow: function(show){
+        setChosenShow: function (show) {
             _chosenShow = show
         },
 
@@ -162,12 +177,114 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         },
 
-        getListOfServices: function() {
+        getListOfServices: function () {
 
             return _listOfServices;
         },
-        setListOfServices: function(listOfServices) {
+        setListOfServices: function (listOfServices) {
             _listOfServices = listOfServices;
+        },
+
+        createListOfServices: function () {
+
+            var ssPackage = this.getPackage();
+            if ('data' in ssPackage) {
+                var list = _
+                    .chain(ssPackage.data.content)
+                    .map(function (elem) {
+                        _.forEach(elem.channel, function (c) {
+                            // debugger;
+                            c.source = c.guidebox_data.short_name
+                        })
+                        var list
+                        elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
+                        //list = elem.guidebox_data.sources.web.episodes.all_sources;
+                        return list
+                    })
+                    .flatten()
+                    .uniqBy('source')
+                    .map(function (elem) {
+                        //debugger
+                        if (elem.guidebox_data != undefined) {
+                            elem.display_name = elem.guidebox_data.name
+                            return elem
+                        } else {
+                            return elem
+                        }
+                    })
+                    .map(function (elem) {
+                        var o = {chan: elem}
+                        o.shows = _.filter(ssPackage.data.content, function (show) {
+                            if (show.guidebox_data.sources) {
+                                var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                            } else {
+                                source_check = false
+                            }
+
+                            var url_check = _.some(show.channel, ['url', elem.url]);
+                            return url_check || source_check
+                        })
+
+                        if (o.chan.guidebox_data) {
+                            if (o.chan.guidebox_data.is_over_the_air) {
+                                o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
+                            }
+                        }
+
+                        return o
+
+                    })
+                    .filter(function (elem) {
+                        return elem.chan.source != "netflix"
+                    })
+                    .groupBy(function (elem) {
+                        if (elem.chan.is_over_the_air) {
+                            return 'ota'
+                        }
+                        if (check_if_on_sling(elem)) {
+                            return 'sling'
+                        }
+
+                        if (_.includes(payPerServices, elem.chan.source)) {
+                            return 'ppv'
+
+                        }
+                        else {
+                            return 'not_ota'
+                        }
+                    })
+                    .thru(function (list) {
+                        debugger
+
+                        var showsOta = _.map(list.ota, function (elem) {
+                            return elem.shows
+                        })
+
+                        if (list.ota && list.ota.length > 1) {
+                            list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
+                            list.ota = [list.ota[0]];
+                        }
+
+                        var showsPpv = _.map(list.ppv, function (elem) {
+                            return elem.shows
+                        })
+
+                        if (list.ppv && list.ppv.length > 1) {
+                            list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
+                            list.ppv = [list.ppv[0]];
+                        }
+
+
+                        return list
+
+
+                    })
+
+                    .value();
+                this.setListOfServices(list)
+
+                return list
+            }
         }
     }
 

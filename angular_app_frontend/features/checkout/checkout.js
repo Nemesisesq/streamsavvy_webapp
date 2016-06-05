@@ -1,9 +1,12 @@
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
-
-
-
+    
     $scope.package = PackageFactory.getPackage();
-    $scope.list = PackageFactory.getListOfServices();
+    debugger;
+    $scope.listP = PackageFactory.createListOfServices();
+
+    $scope.list = {}
+    debugger
+
     $scope.list.added = [];
     
     var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
@@ -30,12 +33,10 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
                 return elem.name == mystery_service.chan.source;
             });
             if(serviceMatch != undefined){
+                debugger;
 
-                mystery_service.description = serviceMatch.description;
-                mystery_service.price = serviceMatch.price;
-                mystery_service.subscriptionLink = serviceMatch.subscriptionLink;
-                mystery_service.gPlayLink = serviceMatch.gPlayLink;
-                mystery_service.iOSAppStoreLink = serviceMatch.iOSAppStoreLink;
+                _.assignIn(mystery_service, serviceMatch);
+
             }
         }
     };
@@ -43,20 +44,13 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
     $scope.otaServiceDetail = function(live_mystery_service){
         if(live_mystery_service.chan.is_on_sling){
             var slingService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'SlingTV'});
-            live_mystery_service.description = slingService.description;
-            live_mystery_service.price = slingService.price;
-            live_mystery_service.subscriptionLink = slingService.subscriptionLink;
-            live_mystery_service.gPlayLink = slingService.gPlayLink;
-            live_mystery_service.iOSAppStoreLink = slingService.iOSAppStoreLink;
-            
+            _.assignIn(live_mystery_service, slingService);
+
         }
         else if(live_mystery_service.chan.is_over_the_air){
             var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
-            live_mystery_service.description = otaService.description;
-            live_mystery_service.price = otaService.price;
-            live_mystery_service.subscriptionLink = otaService.subscriptionLink;
-            live_mystery_service.gPlayLink = otaService.gPlayLink;
-            live_mystery_service.iOSAppStoreLink = otaService.iOSAppStoreLink;
+            debugger
+             _.assignIn(live_mystery_service, otaService);
         }
     };
     $scope.removeService = function(service,serviceArray) {
