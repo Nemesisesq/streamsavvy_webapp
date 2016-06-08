@@ -3039,6 +3039,15 @@ show-detail {
 .available {
   opacity: 1 !important; }
 
+.fixed {
+  position: fixed;
+  z-index: 1000;
+  top: 50px;
+  width: 100%;
+  background: rgba(21, 25, 27, 0.98); }
+  .fixed + div {
+    margin-top: 10px; }
+
 /* General styles for all menus */
 .cbp-spmenu {
   background: #47a3da;

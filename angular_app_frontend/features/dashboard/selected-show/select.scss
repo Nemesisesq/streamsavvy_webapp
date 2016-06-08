@@ -23,20 +23,18 @@ show-detail {
     object-fit: contain;
     opacity: 100;
   }
-  .ss_pic-column{
+  .ss_pic-column {
     margin-bottom: 20px;
     img.show-pic {
-    width: 100%;
-    //width: 741px;
-    margin-left: 13px;
-    border-radius: 2.7%;
-    //height: 399px;
-    object-fit: contain;
-    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.5);
+      width: 100%;
+      //width: 741px;
+      margin-left: 13px;
+      border-radius: 2.7%;
+      //height: 399px;
+      object-fit: contain;
+      box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.5);
     }
   }
-
-
 
   .s-e-l-e-c-t-e-d-s-h-o-w {
     width: 105px;
@@ -73,9 +71,9 @@ show-detail {
     opacity: 10;
     margin-top: 10px;
   }
-  .ss_source{
+  .ss_source {
     margin-top: 15px;
-    a{
+    a {
       color: white;
     }
   }
@@ -84,38 +82,38 @@ show-detail {
     display: table-cell;
     vertical-align: bottom;
     //padding-top: 10px;
-    .window.row.live{
+    .window.row.live {
       margin-left: 2px
     }
-    .window-label{
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
-    .window-service{
-      display:inline-flex;
+    .window-label {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .window-service {
+      display: inline-flex;
     }
     div {
       object-fit: contain;
       margin-bottom: 3%;
       height: auto;
 
-      img{
+      img {
         width: 100%;
 
       }
-}
-      //@include top-n-bottom-margin(5px);
+    }
+    //@include top-n-bottom-margin(5px);
 
   }
-  .add-another{
-    margin-top:20px;
+  .add-another {
+    margin-top: 20px;
   }
   .fresh {
     width: 20px;
     height: 21px;
     object-fit: contain;
   }
-  .title-with-ratings{
+  .title-with-ratings {
     margin-top: 10px;
     margin-bottom: 10px;
   }
@@ -129,7 +127,7 @@ show-detail {
     letter-spacing: 0.4px;
     color: $white;
   }
-  .network-title-logo{
+  .network-title-logo {
     height: 24px;
     vertical-align: top;
     padding-left: 10px;
@@ -147,12 +145,12 @@ show-detail {
     opacity: 100;
   }
 
-  .ratings{
+  .ratings {
     line-height: 33px;
   }
 
   .synopsis {
-    margin-left:33px;
+    margin-left: 33px;
     font-family: Lato;
     font-size: 14px;
     line-height: 1.4;
@@ -174,6 +172,20 @@ show-detail {
 
 }
 
-.available{
-  opacity:  1 !important;
+.available {
+  opacity: 1 !important;
 }
+
+
+
+  .fixed {
+    position: fixed;
+    z-index:1000;
+    top:50px;
+    width:100%;
+    background: $dark-98;
+
+    & + div {
+      margin-top: 10px;
+    }
+  }

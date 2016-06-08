@@ -10,6 +10,17 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 
         link: function (scope) {
 
+            // $('.background').scroll(function () {
+            //     // console.log($('#sticky').offset().top)
+            //     if($('#sticky').offset().top <= 51){
+            //         $('#sticky').addClass('fixed')
+            //     }
+            //
+            //     if($('.scrolling-part').offset().top >= 80){
+            //         $('#sticky').removeClass('fixed')
+            //     }
+            // })
+
 
             scope.formatDate = function (dateString) {
                 // debugger
@@ -39,11 +50,11 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
                 }
             }
 
-            scope.hasOwnApp = function (key,item) {
+            scope.hasOwnApp = function (key, item) {
                 debugger
 
-                servicesWithApps = ['ABC' , 'CBS' , 'NBC', 'HBO', 'Showtime', 'Starz','History Channel'];
-                if (key == 'live' && item.name != 'Sling' && item.name!= 'OTA') {
+                servicesWithApps = ['ABC', 'CBS', 'NBC', 'HBO', 'Showtime', 'Starz', 'History Channel'];
+                if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
                     return _.some(servicesWithApps, item.display_name)
 
                 }

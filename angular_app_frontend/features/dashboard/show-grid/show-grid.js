@@ -213,6 +213,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
+        $('body').css({'overflow':  'hidden'})
         $('#search-and-shows').addClass('no-scroll');
 
 
@@ -294,6 +295,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 $(positionItem).removeAttr('id')
 
                 $('#search-and-shows').removeClass('no-scroll');
+
+                if($('window').width < 768){
+                      $('body').css({'overflow':  'scroll'})
+                }
 
             })
 
