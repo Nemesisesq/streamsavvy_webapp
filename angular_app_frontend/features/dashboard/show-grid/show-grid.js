@@ -239,6 +239,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         //debugger;
         $rootScope.showSearchView = false;
         $rootScope.$broadcast('save_package');
+        $('mobile-tabs').fadeOut();
         ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
             .then(function (v) {
                 return $timeout(function () {
@@ -295,6 +296,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 $(positionItem).removeAttr('id')
 
                 $('#search-and-shows').removeClass('no-scroll');
+                $('mobile-tabs').fadeIn();
 
                 if($('window').width < 768){
                       $('body').css({'overflow':  'scroll'})
