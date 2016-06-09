@@ -134,3 +134,11 @@ div#dashPage {
       }
 }
 
+mobile-tabs {
+  .fa{
+    font-size: 25px;
+  }
+  & > div {
+    margin-top: 10px;
+  }
+}

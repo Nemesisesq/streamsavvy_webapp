@@ -2563,6 +2563,12 @@ div#dashPage {
   .footer {
     display: none; } }
 
+mobile-tabs .fa {
+  font-size: 25px; }
+
+mobile-tabs > div {
+  margin-top: 10px; }
+
 .ss_checkout {
   background-color: rgba(21, 25, 27, 0.98);
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.07);
