@@ -25,6 +25,7 @@ var paths = {
         './angular_app_frontend/features/home/*.html',
         './angular_app_frontend/features/journey_one/**/*.html',
         './angular_app_frontend/features/dashboard/**/*.html',
+        './angular_app_frontend/features/mobile/**/*.html',
         './angular_app_frontend/features/nav/*.html',
         './angular_app_frontend/features/progress/*.html',
         './angular_app_frontend/features/checkout/**/*.html',

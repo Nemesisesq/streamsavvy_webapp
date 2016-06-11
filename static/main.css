@@ -2543,12 +2543,17 @@ div#dashPage {
   margin-left: 0;
   margin-right: 0; }
 
+mobile-tabs {
+  display: none; }
+
 @media (max-width: 767px) {
   body.background.container.ng-scope.no-scroll.gradient-background {
     overflow: scroll; }
+  mobile-tabs {
+    display: inline; }
   .dashboard .search-and-shows {
     height: inherit;
-    overflow: inherit; }
+    overflow: visible; }
   .dashboard .services-hardware {
     position: relative;
     overflow: scroll;

@@ -296,7 +296,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 $(positionItem).removeAttr('id')
 
                 $('#search-and-shows').removeClass('no-scroll');
-                $('mobile-tabs').fadeIn();
+                if($('window.width') >767){
+                    ('mobile-tabs').fadeIn();
+                }
 
                 if($('window').width < 768){
                       $('body').css({'overflow':  'scroll'})

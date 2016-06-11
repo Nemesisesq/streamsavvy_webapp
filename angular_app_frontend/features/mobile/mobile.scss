@@ -1,0 +1,46 @@
+@media(max-width: 767px) {
+  body.background.container.ng-scope.no-scroll.gradient-background {
+    overflow: scroll;
+  }
+  mobile-tabs{
+  display: inline;
+}
+
+  .dashboard {
+    .search-and-shows {
+      height: inherit;
+      overflow: visible;
+    }
+    .services-hardware {
+      position: relative;
+      overflow: scroll;
+      max-height: none;
+      height: inherit;
+
+      .service-panel {
+        min-height: 100vh;
+        display:none;
+      }
+
+      .hardware-panel {
+        min-height: 100vh;
+
+        margin-bottom: 60px;
+      }
+
+    }
+  }
+
+  .footer {
+        display: none;
+      }
+}
+
+mobile-tabs {
+  .fa{
+    font-size: 25px;
+  }
+  & > div {
+    margin-top: 10px;
+  }
+}

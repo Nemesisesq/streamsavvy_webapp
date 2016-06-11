@@ -302,7 +302,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         })
 
         .state('check', {
-            templateUrl: '/static/partials/checkout.html',
+            templateUrl: '/static/partials/ch eckout.html',
             abstract: true
         })
         .state('check.out', {
@@ -363,17 +363,84 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             },
             onEnter: function () {
-               $('body').addClass('no-scroll')
+                $('body').addClass('no-scroll')
             },
             onExit: function () {
                 $('body').removeClass('no-scroll')
             }
         })
+        .state('mobile', {
+            abstract: true,
+            templateUrl: 'static/partials/mobile.html'
+
+        })
+        .state('mobile.shows', {
+            url: '/m/shows',
+            data: {},
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'search': {
+                    templateUrl: 'static/partials/search.html',
+                    controller: 'search'
+                },
+                'shows': {
+                    templateUrl: '/static/partials/show-grid/show-grid.html',
+                    controller: 'ShowGridController'
+                },
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+
+            }
+        })
+        .state('mobile.services', {
+            url: '/m/services',
+            data: {},
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'services': {
+                    templateUrl: "static/partials/checkout-list/checkout-list.html",
+                    controller: 'CheckoutController'
+                },
+
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+
+            }
+        })
+        .state('mobile.hardware', {
+            url: '/m/hardware',
+            data: {},
+            views: {
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+                'hardware': {
+                    templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
+                    controller: 'HardwareController'
+                },
+
+                'footer': {
+                    templateUrl: 'static/partials/footer.html'
+                }
+
+            }
+        })
+
 
     $urlRouterProvider.otherwise("/")
 
 
-});
+})
+;
 
 app.controller('HomeController', function () {
     $('body').attr('id', 'background')
@@ -2639,7 +2706,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 $(positionItem).removeAttr('id')
 
                 $('#search-and-shows').removeClass('no-scroll');
-                $('mobile-tabs').fadeIn();
+                if($('window.width') >767){
+                    ('mobile-tabs').fadeIn();
+                }
 
                 if($('window').width < 768){
                       $('body').css({'overflow':  'scroll'})
