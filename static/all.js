@@ -446,15 +446,15 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
 
 //TODO uncomment this after developingt the mobile checkout page
 
-app.run(function($window, $state){
-    $($window).resize(function(){
-        if (this.innerWidth > 767){
-            $state.go('dash.dashboard')
-        } else {
-            $state.go('mobile.shows')
-        }
-    })
-})
+// app.run(function($window, $state){
+//     $($window).resize(function(){
+//         if (this.innerWidth > 767){
+//             $state.go('dash.dashboard')
+//         } else {
+//             $state.go('mobile.shows')
+//         }
+//     })
+// })
 
 app.controller('HomeController', function () {
     $('body').attr('id', 'background')
