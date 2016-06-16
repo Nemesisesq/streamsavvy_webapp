@@ -72,23 +72,6 @@
 
   }
 
-  show-detail {
-
-    &.fade {
-
-      pointer-events: none;
-
-      &.fade-in {
-        pointer-events: all;
-      }
-    }
-
-    .background {
-      overflow: scroll;
-    }
-
-  }
-
 }
 
 div#dashPage {
@@ -99,7 +82,7 @@ div#dashPage {
 .show-service-hardware-tabs {
 }
 
-mobile-tabs{
+mobile-tabs {
   display: none;
 }
 
@@ -107,9 +90,9 @@ mobile-tabs{
   body.background.container.ng-scope.no-scroll.gradient-background {
     overflow: scroll;
   }
-  mobile-tabs{
-  display: inline;
-}
+  mobile-tabs {
+    display: inline;
+  }
 
   .dashboard {
     .search-and-shows {
@@ -124,7 +107,7 @@ mobile-tabs{
 
       .service-panel {
         min-height: 100vh;
-        display:none;
+        display: none;
       }
 
       .hardware-panel {
@@ -137,15 +120,32 @@ mobile-tabs{
   }
 
   .footer {
-        display: none;
-      }
+    display: none;
+  }
 }
 
 mobile-tabs {
-  .fa{
+  .fa {
     font-size: 25px;
   }
   & > div {
     margin-top: 10px;
   }
+}
+
+show-detail {
+
+  &.fade {
+
+    pointer-events: none;
+
+    &.fade-in {
+      pointer-events: all;
+    }
+  }
+
+  .background {
+    overflow: scroll;
+  }
+
 }

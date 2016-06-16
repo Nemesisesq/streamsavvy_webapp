@@ -1,5 +1,10 @@
-<img class="service-image" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.chan.source }}"/>
-<span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ service.description }}" tooltip-placement="right"
-      tooltip-class="vw-tooltip"></span>
+<div class="col-xs-11">
+    <div class="service-image" ng-class="processServiceUrl(service.chan.source, key)" ></div>
+</div>
+<div class="col-xs-1 checkout-info">
+    <span class="glyphicon glyphicon-info-sign "
+          uib-tooltip="{{ service.description }}"
+          tooltip-placement="right"
+          tooltip-class="vw-tooltip"></span>
+</div>
 
-hello world

@@ -1,4 +1,4 @@
-app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate) {
+app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
     var onDemandServices = ['hulu_plus', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
@@ -213,7 +213,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
-        $('body').css({'overflow':  'hidden'})
+        $('body').css({'overflow': 'hidden'})
         $('#search-and-shows').addClass('no-scroll');
 
 
@@ -296,12 +296,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 $(positionItem).removeAttr('id')
 
                 $('#search-and-shows').removeClass('no-scroll');
-                if($('window.width') >767){
-                    ('mobile-tabs').fadeIn();
-                }
 
-                if($('window').width < 768){
-                      $('body').css({'overflow':  'scroll'})
+
+                if ($window.innerWidth < 768) {
+                    $('body').css({'overflow': 'scroll'})
+
+                    $('mobile-tabs').fadeIn();
                 }
 
             })

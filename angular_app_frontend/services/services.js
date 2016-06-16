@@ -234,9 +234,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         return o
 
                     })
-                    .filter(function (elem) {
-                        return elem.chan.source != "netflix"
-                    })
                     .groupBy(function (elem) {
                         if (elem.chan.is_over_the_air) {
                             return 'ota'
@@ -245,16 +242,12 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return 'sling'
                         }
 
-                        if (_.includes(payPerServices, elem.chan.source)) {
-                            return 'ppv'
 
-                        }
                         else {
                             return 'not_ota'
                         }
                     })
                     .thru(function (list) {
-                        debugger
 
                         var showsOta = _.map(list.ota, function (elem) {
                             return elem.shows

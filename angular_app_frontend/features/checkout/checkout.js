@@ -1,21 +1,17 @@
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
-    debugger;
     $scope.listP = PackageFactory.createListOfServices();
 
     $scope.list = {}
-    debugger
 
     $scope.list.added = [];
     
     var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
 
     $scope.addService = function (service) {
-        if(service != undefined){
-            $scope.list.added.push(service.chan.source);
-            service.added = true;
-        }
+        debugger;
+        _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
 
     };
     $scope.notOtaServiceDetail = function(mystery_service) {
@@ -33,7 +29,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
                 return elem.name == mystery_service.chan.source;
             });
             if(serviceMatch != undefined){
-                debugger;
 
                 _.assignIn(mystery_service, serviceMatch);
 
@@ -49,7 +44,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
         }
         else if(live_mystery_service.chan.is_over_the_air){
             var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
-            debugger
              _.assignIn(live_mystery_service, otaService);
         }
     };
@@ -69,6 +63,16 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
         }
 
     }
+    
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.services
+
+    }, function () {
+        PackageFactory.setPackage($scope.package)
+    })
+    
+    
+    //TODO remove this nonsense
     $scope.$watchCollection(function () {
         return PackageFactory.getPackage().data.content
 

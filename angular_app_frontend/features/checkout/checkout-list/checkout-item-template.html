@@ -1,27 +1,31 @@
-hello world
-{{ key }}
-
-<div class="service-title row" ng-repeat="service in value">
-    <div class="ss_image-purchase row">
-        <checkout-image-block service="service"></checkout-image-block>
-        <div class="service-options" ng-class="{'selected': service.added==true}">
-            <a href="" ng-click="addService(service)">
-                <span class="got-serv">Already Have A Digital Antenna</span><span class="mobile-got-serv">Buy Antenna</span>
-            </a>
-            <button class="btn btn-remove">Remove</button>
-            <button class="btn btn-purchase"
-                    onclick="window.open('http://www.amazon.com/gp/product/B00DHKKI16/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00DHKKI16&linkCode=as2&tag=stream06-20&linkId=3OKXSTXXFWZ3UEEM', '_blank');">
-                <span class="purch">Purchase Digital Antenna</span><span class="mobile-purch">$</span></button>
+<div class="row" ng-repeat="service in value">
+    <div class="col-xs-12 service-row">
+        <checkout-image-block class="col-sm-3" key="key" service="service"></checkout-image-block>
 
 
-            <added-block service="service"></added-block>
-
-            <a href="" ng-click="removeService(service,'ota')" class="remove-cross">
-                <img src="https://s3.amazonaws.com/streamsavvy/small-x-copy-4.svg">
-            </a>
+        <div ng-if="windowWidth >= 768">
+            <action-block class=" col-sm-offset-3 col-sm-6" service="service" package="package"></action-block>
         </div>
+
+        <div class="remove-cross">
+            <img ng-click="removeElementFromDom()" class="pull-right"
+                 src="https://s3.amazonaws.com/streamsavvy/small-x-copy-4.svg">
+        </div>
+
     </div>
-    <ul class="list-group ss_show-list">
-        <li class="ss_show row" ng-repeat="show in service.shows">{{ show.title }}</li>
-    </ul>
+
+    <div class="row">
+        <ul class="ss_show-list">
+            <li class="ss_show row" ng-repeat="show in service.shows">
+                <div class="checkout-show-title col-sm-2 col-xs-6"> {{ show.title }}</div>
+                <span class="checkout-remove-show col-sm-2 col-xs-6">REMOVE</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row" ng-if="windowWidth < 768">
+        <action-block class=" col-sm-offset-3 col-sm-6" service="service" package="package"></action-block>
+    </div>
+
+
 </div>

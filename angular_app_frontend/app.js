@@ -194,7 +194,7 @@ app.config(['growlProvider', '$httpProvider', function (growlProvider, $httpProv
 
 }]);
 
-app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
+app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowProvider) {
 
 
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -298,11 +298,18 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('dash', {
             templateUrl: '/static/partials/dashboard.html',
-            abstract: true
+            abstract: true,
+            onEnter: function ($state) {
+
+                $window = $windowProvider.$get();
+                if($window.innerWidth< 767){
+                    $state.go('mobile.shows')
+                }
+            }
         })
 
         .state('check', {
-            templateUrl: '/static/partials/ch eckout.html',
+            templateUrl: '/static/partials/checkout.html',
             abstract: true
         })
         .state('check.out', {
@@ -363,7 +370,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
                 }
             },
             onEnter: function () {
-                $('body').addClass('no-scroll')
+                $('body').addClass('no-scroll');
+
             },
             onExit: function () {
                 $('body').removeClass('no-scroll')
@@ -400,18 +408,13 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
             url: '/m/services',
             data: {},
             views: {
-                'navigation': {
-                    templateUrl: "/static/partials/navigation.html",
-                    controller: 'navigation'
-                },
+
                 'services': {
-                    templateUrl: "static/partials/checkout-list/checkout-list.html",
+                    templateUrl: "static/partials/mobile-checkout.html",
                     controller: 'CheckoutController'
                 },
 
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
+
 
             }
         })
@@ -439,8 +442,19 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/")
 
 
-})
-;
+});
+
+//TODO uncomment this after developingt the mobile checkout page
+
+// app.run(function($window, $state){
+//     $($window).resize(function(){
+//         if (this.innerWidth > 767){
+//             $state.go('dash.dashboard')
+//         } else {
+//             $state.go('mobile.shows')
+//         }
+//     })
+// })
 
 app.controller('HomeController', function () {
     $('body').attr('id', 'background')

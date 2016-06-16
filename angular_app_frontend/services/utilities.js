@@ -18,9 +18,9 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     //debugger;
 
     var bodyEl = document.body,
-        gridEl = $('#theGrid')[0],
-        sidebarEl = document.getElementById('theSidebar'),
-        gridItemsContainer = gridEl.querySelector('div.row'),
+        // gridEl = $('#theGrid')[0],
+        // sidebarEl = document.getElementById('theSidebar'),
+        // gridItemsContainer = gridEl.querySelector('div.row'),
     //contentItemsContainer = gridEl.querySelector('section.content'),
     //gridItems = gridItemsContainer.querySelectorAll('.grid__item'),
     //contentItems = contentItemsContainer.querySelectorAll('.content__item'),
