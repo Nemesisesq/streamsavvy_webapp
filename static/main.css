@@ -2788,16 +2788,22 @@ show-detail .background {
   background-position-y: 95%; }
 
 .google_play_sprite {
-  background-position-y: 61%; }
+  background-position-y: 61.5%; }
 
 .youtube_purchase_sprite {
   background-position-y: 78%; }
 
 .ota_sprite {
-  background-position-y: 4%; }
+  background-position-y: 5%;
+  height: 60px; }
 
 .netflix_sprite {
   background-position-y: 66%; }
+
+@media (min-width: 767px) {
+  .sprite, .amazon_sprite, .amazon_prime_sprite, .hulu_plus_sprite, .itunes_sprite, .vudu_sprite, .google_play_sprite, .youtube_purchase_sprite, .ota_sprite, .netflix_sprite {
+    background-size: 100%, 100px;
+    height: 45px; } }
 
 .row.footer {
   height: 60px;
