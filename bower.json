@@ -19,9 +19,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular-ui-router": "~0.2.15",
-    "bootstrap": "~3.3.4",
-    "prefixfree": "prefix-free#gh-pages"
+    "font-awesome": "^4.6.3"
   },
   "devDependencies": {
     "angular-cookies": "~1.4.5",
@@ -31,7 +29,6 @@
     "angular-slick": "~0.2.1",
     "fuse.js": "fuse#~1.3.1",
     "angular-animate": "~1.5.0",
-    "angular-send-feedback": "^1.0.2",
     "classie": "^1.0.1",
     "angular-growl": "^0.4.0",
     "angular-growl-v2": "^0.7.9",
