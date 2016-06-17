@@ -215,6 +215,10 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         filter_results = list(filter(self.filter_content_by_guidebox_id, filter_results))
 
+        # banned content
+
+        filter_results = [show for show in  filter_results if show.id != 15296]
+
         filter_results = [GuideBox().process_content_for_sling_ota_banned_channels(show) for show in filter_results]
 
         assert cache
