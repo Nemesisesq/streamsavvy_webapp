@@ -107,7 +107,6 @@ app.filter('unwantedChannels', function () {
 
     ];
     return function (input) {
-        debugger;
         var list = _.filter(input, function (elem) {
             var res = _.some(unwantedChannelIDs, function (x) {
                 if (elem !== undefined) {

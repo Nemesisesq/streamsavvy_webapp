@@ -14,6 +14,12 @@ function check_if_on_sling(obj) {
 
 }
 
+function interceptor(obj) {
+    debugger
+    console.log(obj)
+
+}
+
 var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
 app.factory('N', function () {
@@ -283,6 +289,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         catagorizeShowsByService: function (ssPackage) {
             return _.chain(ssPackage.data.content)
                 .map(function (elem) {
+                    debugger
                     _.forEach(elem.channel, function (c) {
                         // debugger;
                         c.source = c.guidebox_data.short_name
@@ -292,8 +299,26 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     //list = elem.guidebox_data.sources.web.episodes.all_sources;
                     return list
                 })
+                // .map(function (elem) {
+                //     debugger;
+                //
+                //     if (elem.guidebox_data != undefined) {
+                //         elem.source = elem.guidebox_data.short_name
+                //     }
+                //     return elem
+                // })
                 .flatten()
                 .uniqBy('source')
+                .tap(interceptor)
+                .map(function (elem) {
+                    if (elem.source == 'hulu_free') {
+                        elem.source = 'hulu_plus';
+                        elem.id = 10
+                        return elem
+                    }
+
+                    return elem;
+                })
                 .map(function (elem) {
                     //debugger
                     if (elem.guidebox_data != undefined) {
@@ -303,6 +328,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         return elem
                     }
                 })
+                .tap(interceptor)
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -328,6 +354,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 .filter(function (elem) {
                     return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows'
                 })
+                .tap(interceptor)
+                .uniqBy(function (elem) {
+                    return elem.chan.source
+                })
                 .groupBy(function (elem) {
 
                     if (elem.chan.is_over_the_air) {
@@ -345,6 +375,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         return 'not_ota'
                     }
                 })
+                .tap(interceptor)
                 .thru(function (list) {
 
                     var showsOta = _.map(list.ota, function (elem) {
@@ -368,15 +399,15 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     if (_.some(list.ota, function (item) {
                             return item.chan.source == 'nbc'
                         })) {
-                            var nbc =_.takeWhile(list.ota, function(item){
-                                return item.chan.source == 'nbc'
-                            })
+                        var nbc = _.takeWhile(list.ota, function (item) {
+                            return item.chan.source == 'nbc'
+                        })
 
-                            if(list.not_ota == undefined){
-                                list.not_ota = nbc
-                            } else {
-                               list.not_ota =  _.concat(list.not_ota, nbc)
-                            }
+                        if (list.not_ota == undefined) {
+                            list.not_ota = nbc
+                        } else {
+                            list.not_ota = _.concat(list.not_ota, nbc)
+                        }
                     }
 
 
