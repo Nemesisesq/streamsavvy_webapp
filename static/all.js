@@ -986,7 +986,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             scope.hasOwnApp = function (key, item) {
                 debugger
 
-                servicesWithApps = ['ABC', 'CBS', 'NBC', 'HBO', 'Showtime', 'Starz', 'History Channel'];
+                servicesWithApps = [ 'CBS', 'NBC', 'HBO', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
 
                     if (item.hasOwnProperty('display_name')){
@@ -998,7 +998,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 
 
                 }
-                
+
 
                 return true
             }
