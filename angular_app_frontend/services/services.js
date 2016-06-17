@@ -329,6 +329,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows'
                 })
                 .groupBy(function (elem) {
+
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
@@ -362,6 +363,21 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     if (list.ppv && list.ppv.length > 1) {
                         list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
                         list.ppv = [list.ppv[0]];
+                    }
+                    debugger;
+
+                    if (_.some(list.ota, function (item) {
+                            return item.chan.source == 'nbc'
+                        })) {
+                            var nbc =_.takeWhile(list.ota, function(item){
+                                return item.chan.source == 'nbc'
+                            })
+
+                            if(list.not_ota == undefined){
+                                list.not_ota = nbc
+                            } else {
+                                _.concat(list.not_ota, nbc)
+                            }
                     }
 
 

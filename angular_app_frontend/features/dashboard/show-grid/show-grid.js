@@ -17,7 +17,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.detailSources = (function () {
 
             if ($scope.cs.guidebox_data != undefined) {
-                debugger;
 
 
                 var x = _($scope.cs.channel)
@@ -29,7 +28,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
                         return elem
                     }).filter(function (elem) {
-                        debugger;
 
                         // if (elem.hasOwnProperty('guidebox_data')) {
                         //     return elem.guidebox_data.is_over_the_air

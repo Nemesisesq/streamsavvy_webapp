@@ -51,7 +51,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             }
 
             scope.hasOwnApp = function (key, item) {
-                debugger;
+                // debugger;
 
                 servicesWithApps = [ 'CBS', 'NBC', 'HBO', 'HBO NOW', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {

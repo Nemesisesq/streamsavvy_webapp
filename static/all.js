@@ -983,7 +983,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             }
 
             scope.hasOwnApp = function (key, item) {
-                debugger;
+                // debugger;
 
                 servicesWithApps = [ 'CBS', 'NBC', 'HBO', 'HBO NOW', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
@@ -1867,6 +1867,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows'
                 })
                 .groupBy(function (elem) {
+
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
@@ -1900,6 +1901,21 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     if (list.ppv && list.ppv.length > 1) {
                         list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
                         list.ppv = [list.ppv[0]];
+                    }
+                    debugger;
+
+                    if (_.some(list.ota, function (item) {
+                            return item.chan.source == 'nbc'
+                        })) {
+                            var nbc =_.takeWhile(list.ota, function(item){
+                                return item.chan.source == 'nbc'
+                            })
+
+                            if(list.not_ota == undefined){
+                                list.not_ota = nbc
+                            } else {
+                                _.concat(list.not_ota, nbc)
+                            }
                     }
 
 
@@ -2640,6 +2656,8 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
             $scope.listOfServices = undefined;
             $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
 
+            debugger;
+
             $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
                 $scope.listOfServices[key].open = true
             })
@@ -2682,7 +2700,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.detailSources = (function () {
 
             if ($scope.cs.guidebox_data != undefined) {
-                debugger;
 
 
                 var x = _($scope.cs.channel)
@@ -2694,7 +2711,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
                         return elem
                     }).filter(function (elem) {
-                        debugger;
 
                         // if (elem.hasOwnProperty('guidebox_data')) {
                         //     return elem.guidebox_data.is_over_the_air
