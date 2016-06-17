@@ -22,6 +22,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 var x = _($scope.cs.channel)
                     .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
                     .map(function (elem) {
+                        debugger;
 
                         if (elem.guidebox_data != undefined) {
                             elem.source = elem.guidebox_data.short_name
@@ -146,12 +147,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         var nbc = _.remove(services.live, function(item){
                             return item.source == 'nbc';
                         })
+                        debugger
 
-                        if (services.on_demand == undefined){
-                            services.on_demand = nbc
-                        } else {
+                        if (nbc.length > 0) {
+                            if (services.on_demand == undefined) {
+                                services.on_demand = nbc
+                            } else {
 
-                        _.concat(services.on_demand, nbc)
+                                _.concat(services.on_demand, nbc)
+                            }
                         }
 
                         if (!Object.keys) Object.prototype.keys = function (o) {

@@ -196,21 +196,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         search_results = content_search(self.request)
         filter_results = self.filter_query([165], search_results)
 
-        if len(filter_results) == 0:
-            g = GuideBox()
-
-            if ('q' in self.request.GET) and self.request.GET['q'].strip():
-                result = g.get_show_by_title(query_string)
-
-                result = result['results']
-
-                result_list = []
-
-                for show in result:
-                    result_list.append(g.save_content(show))
-
-                filter_results = self.filter_query([165], result_list)
-
+        filter_results = self.check_guidebox_for_query(filter_results, query_string)
         # filter_results['search_term'] = self
 
         filter_results = list(filter(self.filter_content_by_guidebox_id, filter_results))
@@ -226,6 +212,26 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
             cache.set(query_string, filter_results)
         except:
             pass
+
+        filter_results = self.check_guidebox_for_query(filter_results, query_string)
+
+        return filter_results
+
+    def check_guidebox_for_query(self, filter_results, query_string):
+        if len(filter_results) == 0:
+            g = GuideBox()
+
+            if ('q' in self.request.GET) and self.request.GET['q'].strip():
+                result = g.get_show_by_title(query_string)
+
+                result = result['results']
+
+                result_list = []
+
+                for show in result:
+                    result_list.append(g.save_content(show))
+
+                filter_results = self.filter_query([165], result_list)
 
         return filter_results
 
