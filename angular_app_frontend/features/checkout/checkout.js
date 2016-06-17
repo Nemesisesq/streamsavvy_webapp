@@ -10,7 +10,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
     var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
 
     $scope.addService = function (service) {
-        debugger;
         _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
 
     };

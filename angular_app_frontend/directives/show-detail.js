@@ -51,7 +51,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             }
 
             scope.hasOwnApp = function (key, item) {
-                debugger
+                debugger;
 
                 servicesWithApps = [ 'CBS', 'NBC', 'HBO', 'HBO NOW', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
@@ -63,7 +63,9 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
                         })
                     }
 
-                    return _.some(servicesWithApps, item.name)
+                    return _.some(servicesWithApps,  function(elem){
+                            return elem == item.name;
+                        })
 
 
                 }
@@ -105,7 +107,6 @@ app.directive('otaSlingNetflix', function () {
         restrict: 'A',
 
         link: function (scope, element, attrs) {
-            debugger
 
             if (element.scope().$parent.key == 'binge') {
                 if (scope.cs.on_netflix && !_.some(scope.detailSources.binge, ['source', 'netflix'])) {

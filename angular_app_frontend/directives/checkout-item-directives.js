@@ -202,7 +202,6 @@ app.directive('actionBlock', function () {
             scope.isServiceAdded = function (service) {
 
                 return _.some(scope.package.data.services, function (elem) {
-                    debugger;
                     return _.includes(elem.chan, service.chan.source)
                 })
             }

@@ -44,7 +44,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     .uniqBy('source')
                     .groupBy(function (service) {
-                        debugger;
                         if (liveServices.includes(service.source)) {
                             return 'live'
                         }
@@ -95,7 +94,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                                     services.live.push(elemCopy)
                                 }
-                                debugger;
 
                                 if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {
                                     var elemCopy = _.cloneDeep(elem);

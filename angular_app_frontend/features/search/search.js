@@ -48,7 +48,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
         var ssPackage = PackageFactory.getPackage();
         if (suggestion !== undefined) {
-            debugger;
             if (_.some(ssPackage.data.content, ['url', suggestion.url])) {
                 growl.warning('You already added ' + suggestion.title + ' to your package!');
                 $scope.suggestions = [];
@@ -89,7 +88,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                 $scope.selectedIndex--
             }
         } else if (event.keyCode === 13) {
-            debugger
             if($scope.selectedIndex > -1){
 
                 $scope.addToSelectedShows($scope.suggestions[$scope.selectedIndex]);
