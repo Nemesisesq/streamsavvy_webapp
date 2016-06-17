@@ -70,7 +70,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                 })
                 .filter(function (elem) {
-                    return elem.chan.source != "netflix"
+                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows'
                 })
                 .groupBy(function (elem) {
                     if (elem.chan.is_over_the_air) {
