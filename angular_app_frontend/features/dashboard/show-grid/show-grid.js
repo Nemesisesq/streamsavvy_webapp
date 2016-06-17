@@ -29,14 +29,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
                         return elem
                     }).filter(function (elem) {
+                        debugger;
 
                         // if (elem.hasOwnProperty('guidebox_data')) {
                         //     return elem.guidebox_data.is_over_the_air
                         // }
 
-                        if (elem.source == 'hulu_free') {
-                            return false
-                        }
+                        // if (elem.source == 'hulu_free') {
+                        //     return false
+                        // }
 
                         return true
                     })
@@ -119,7 +120,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                                     services.live.push(elemCopy)
 
-                                    
+
                                 }
 
 
