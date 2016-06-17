@@ -446,15 +446,15 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
 
 //TODO uncomment this after developingt the mobile checkout page
 
-// app.run(function($window, $state){
-//     $($window).resize(function(){
-//         if (this.innerWidth > 767){
-//             $state.go('dash.dashboard')
-//         } else {
-//             $state.go('mobile.shows')
-//         }
-//     })
-// })
+app.run(function($window, $state){
+    $($window).resize(function(){
+        if (this.innerWidth > 767){
+            $state.go('dash.dashboard')
+        } else {
+            $state.go('mobile.shows')
+        }
+    })
+})
 
 app.controller('HomeController', function () {
     $('body').attr('id', 'background')
@@ -988,9 +988,17 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 
                 servicesWithApps = ['ABC', 'CBS', 'NBC', 'HBO', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
-                    return _.some(servicesWithApps, item.display_name)
+
+                    if (item.hasOwnProperty('display_name')){
+
+                        return _.some(servicesWithApps, item.display_name)
+                    }
+
+                    return _.some(servicesWithApps, item.name)
+
 
                 }
+                
 
                 return true
             }
@@ -2665,7 +2673,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.detailSources = (function () {
 
             if ($scope.cs.guidebox_data != undefined) {
-                //debugger;
+                debugger;
 
 
                 var x = _($scope.cs.channel)
@@ -2678,9 +2686,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         return elem
                     }).filter(function (elem) {
 
-                        if (elem.hasOwnProperty('guidebox_data')) {
-                            return elem.guidebox_data.is_over_the_air
-                        }
+                        // if (elem.hasOwnProperty('guidebox_data')) {
+                        //     return elem.guidebox_data.is_over_the_air
+                        // }
 
                         if (elem.source == 'hulu_free') {
                             return false
@@ -2766,6 +2774,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                     elemCopy.source = 'sling-tv.svg';
 
                                     services.live.push(elemCopy)
+
+                                    
                                 }
 
 
@@ -3325,56 +3335,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
-/**
- * Created by Nem on 11/25/15.
- */
-app.controller('StepTwoController', function ($scope, http, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    var hardwareColl = $scope.package.hardware;
-
-    http.getHardware()
-        .then(function (data) {
-            $scope.hardware = data.results;
-        });
-
-    $scope.itemSelected = function (item) {
-        var hardwareColl = $scope.package.hardware;
-        var x = _.some(hardwareColl, 'url', item.url);
-        return x
-    };
-
-
-    $scope.addRemoveHardware = function (item) {
-        if (item.hasOwnProperty('selected')) {
-            delete item['selected']
-        }
-
-
-        var hardwareColl = $scope.package.hardware;
-        if (_.some(hardwareColl, 'url', item.url)) {
-            _.remove(hardwareColl, function(n){
-
-                return n.url == item.url
-
-            });
-
-        } else {
-            //item.selected = true;
-            hardwareColl.push(item);
-        }
-
-        PackageFactory.setPackage($scope.package)
-    };
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-
-});
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();
@@ -3482,3 +3442,54 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
 
 
 })
+
+/**
+ * Created by Nem on 11/25/15.
+ */
+app.controller('StepTwoController', function ($scope, http, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    var hardwareColl = $scope.package.hardware;
+
+    http.getHardware()
+        .then(function (data) {
+            $scope.hardware = data.results;
+        });
+
+    $scope.itemSelected = function (item) {
+        var hardwareColl = $scope.package.hardware;
+        var x = _.some(hardwareColl, 'url', item.url);
+        return x
+    };
+
+
+    $scope.addRemoveHardware = function (item) {
+        if (item.hasOwnProperty('selected')) {
+            delete item['selected']
+        }
+
+
+        var hardwareColl = $scope.package.hardware;
+        if (_.some(hardwareColl, 'url', item.url)) {
+            _.remove(hardwareColl, function(n){
+
+                return n.url == item.url
+
+            });
+
+        } else {
+            //item.selected = true;
+            hardwareColl.push(item);
+        }
+
+        PackageFactory.setPackage($scope.package)
+    };
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+
+});

@@ -55,9 +55,17 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 
                 servicesWithApps = ['ABC', 'CBS', 'NBC', 'HBO', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
-                    return _.some(servicesWithApps, item.display_name)
+
+                    if (item.hasOwnProperty('display_name')){
+
+                        return _.some(servicesWithApps, item.display_name)
+                    }
+
+                    return _.some(servicesWithApps, item.name)
+
 
                 }
+                
 
                 return true
             }

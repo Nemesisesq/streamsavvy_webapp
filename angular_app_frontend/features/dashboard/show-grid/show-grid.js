@@ -17,7 +17,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.detailSources = (function () {
 
             if ($scope.cs.guidebox_data != undefined) {
-                //debugger;
+                debugger;
 
 
                 var x = _($scope.cs.channel)
@@ -30,9 +30,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         return elem
                     }).filter(function (elem) {
 
-                        if (elem.hasOwnProperty('guidebox_data')) {
-                            return elem.guidebox_data.is_over_the_air
-                        }
+                        // if (elem.hasOwnProperty('guidebox_data')) {
+                        //     return elem.guidebox_data.is_over_the_air
+                        // }
 
                         if (elem.source == 'hulu_free') {
                             return false
@@ -118,6 +118,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                     elemCopy.source = 'sling-tv.svg';
 
                                     services.live.push(elemCopy)
+
+                                    
                                 }
 
 

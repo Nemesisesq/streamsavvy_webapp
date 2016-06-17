@@ -13,7 +13,7 @@
             <img class="show-pic" ng-src="{{ cs.guidebox_data.artwork_608x342 }}">
         </div>
         <div class="service-options col-md-4">
-            <span class="please-select-how-yo ">Please select how you would like to watch this show</span>
+            <span class="please-select-how-yo ">Here's heres how you can watch {{ cs.title }}</span>
             <!--<div class="col-sm-4" ng-if="cs.channel[0].guidebox_data.is_over_the_air">
                 <img class="" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/ota">
             </div>
@@ -29,7 +29,7 @@
             <div class="window row live" ota-sling-netflix ng-repeat="key in sortedServices"
                  ng-if="key !== 'misc'">
                 <div class="window-label">{{ fixTitle(key) }}</div>
-                <div class="col-sm-4 window-service" ng-repeat="service in detailSources[key]" ng-if="hasOwnApp(key, service)">
+                <div class="col-sm-4 window-service" ng-hide="service.hide" ng-repeat="service in detailSources[key]" ng-if="hasOwnApp(key, service)">
                     <img ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/{{ service.source }}"/>
                 </div>
 
