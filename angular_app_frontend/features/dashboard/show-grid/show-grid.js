@@ -1,7 +1,7 @@
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
-    var onDemandServices = ['hulu_plus','nbc', 'starz', 'showtime_subscription', 'crackle'];
+    var onDemandServices = ['hulu_plus', 'hulu_free','nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
@@ -28,7 +28,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = elem.guidebox_data.short_name
                         }
                         return elem
-                    }).filter(function (elem) {
+                    }).map(function(elem){
+                        if(elem.source == 'hulu_free'){
+                            elem.source ='hulu_plus';
+                            return elem
+                        }
+
+                        return elem;
+                    })
+                    .filter(function (elem) {
 
                         // if (elem.hasOwnProperty('guidebox_data')) {
                         //     return elem.guidebox_data.is_over_the_air

@@ -2628,10 +2628,64 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
 
 });
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if ('data' in ssPackage) {
+            $scope.listOfServices = undefined;
+            debugger;
+            $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
+
+            debugger;
+
+            $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                $scope.listOfServices[key].open = true
+            })
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        return PackageFactory.getPackage().data.content
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
-    var onDemandServices = ['hulu_plus','nbc', 'starz', 'showtime_subscription', 'crackle'];
+    var onDemandServices = ['hulu_plus', 'hulu_free','nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
@@ -2658,7 +2712,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = elem.guidebox_data.short_name
                         }
                         return elem
-                    }).filter(function (elem) {
+                    }).map(function(elem){
+                        if(elem.source == 'hulu_free'){
+                            elem.source ='hulu_plus';
+                            return elem
+                        }
+
+                        return elem;
+                    })
+                    .filter(function (elem) {
 
                         // if (elem.hasOwnProperty('guidebox_data')) {
                         //     return elem.guidebox_data.is_over_the_air
@@ -2993,60 +3055,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
-
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if ('data' in ssPackage) {
-            $scope.listOfServices = undefined;
-            debugger;
-            $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
-
-            debugger;
-
-            $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                $scope.listOfServices[key].open = true
-            })
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data.content
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
 
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
