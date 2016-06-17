@@ -2025,6 +2025,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2131,7 +2132,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -2407,6 +2407,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
         var ssPackage = PackageFactory.getPackage();
         if(suggestion !== undefined) {
+            debugger;
             if (_.some(ssPackage.data.content, ['url', suggestion.url])) {
                 growl.warning('You already added ' + suggestion.title + ' to your package!');
                 $scope.suggestions = [];
