@@ -6,12 +6,13 @@ import urllib
 import urllib.error
 import urllib.request
 # from queue import Queue
-
+from django.core.cache import cache
 from fuzzywuzzy import fuzz
 
 from server.constants import sling_channels, broadcast_channels, banned_channels
 from server.models import Content, Channel, Images, ChannelImages
 from server.shortcuts import try_catch
+
 
 
 def is_banned_channel(i, m):
@@ -185,10 +186,11 @@ class GuideBox(object):
         return c
 
     def check_for_sources_date_last_checked(self, c):
-        if 'sources' not in c.guidebox_data:
+        if 'sources' not in c.guidebox_data or not cache.get(c.id):
             c = self.add_additional_channels_for_show(c)
             # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
             c.save()
+            cache.set(c.id, "checked", timeout=7 * 24 * 60 * 60 )
         return c
 
     def add_additional_channels_for_show(self, shows):
