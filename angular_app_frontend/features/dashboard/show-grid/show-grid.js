@@ -139,6 +139,23 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
 
 
+
+
+
+                        return services
+                    })
+                    .thru(function(services){
+                        var nbc = _.remove(services.live, function(item){
+                            return item.source == 'nbc';
+                        })
+
+                        if (services.on_demand == undefined){
+                            services.on_demand = nbc
+                        } else {
+
+                        _.concat(services.on_demand, nbc)
+                        }
+
                         if (!Object.keys) Object.prototype.keys = function (o) {
                             if (o !== Object(o))
                                 throw new TypeError('Object.keys called on a non-object');
@@ -151,8 +168,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         $scope.sortedServices = Object.keys(services)
                             .sort();
 
-
                         return services
+
+
                     })
                     .value();
                 return x;
