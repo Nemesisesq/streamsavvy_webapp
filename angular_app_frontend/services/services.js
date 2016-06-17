@@ -376,7 +376,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             if(list.not_ota == undefined){
                                 list.not_ota = nbc
                             } else {
-                                _.concat(list.not_ota, nbc)
+                               list.not_ota =  _.concat(list.not_ota, nbc)
                             }
                     }
 

@@ -1914,7 +1914,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             if(list.not_ota == undefined){
                                 list.not_ota = nbc
                             } else {
-                                _.concat(list.not_ota, nbc)
+                               list.not_ota =  _.concat(list.not_ota, nbc)
                             }
                     }
 
@@ -2654,6 +2654,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
+            debugger;
             $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
 
             debugger;
