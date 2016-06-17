@@ -97,7 +97,7 @@ app.filter('unwantedChannels', function () {
         31, //Bravo
         // 17, //A&E
         20, 101, //Syfy
-        10, 48, 59, //Comedy Central
+        48, 59, //Comedy Central
         133, //Starz
         21, 241, 239, //VH1
          18, 123, //History Channel,
@@ -107,6 +107,7 @@ app.filter('unwantedChannels', function () {
 
     ];
     return function (input) {
+        debugger;
         var list = _.filter(input, function (elem) {
             var res = _.some(unwantedChannelIDs, function (x) {
                 if (elem !== undefined) {

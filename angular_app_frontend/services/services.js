@@ -364,7 +364,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
                         list.ppv = [list.ppv[0]];
                     }
-                    debugger;
 
                     if (_.some(list.ota, function (item) {
                             return item.chan.source == 'nbc'
