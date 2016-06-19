@@ -2,8 +2,10 @@
  * Created by Nem on 5/24/16.
  */
 app.controller('HardwareController', function ($scope, PackageFactory) {
-    
+
     $scope.pkg = PackageFactory.getPackage();
+
+
 
   /*  $('.service-panel').on('scroll', function () {
         $('.not-ready').fadeOut()
@@ -42,5 +44,19 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
     $scope.servicesGT0 = function () {
         return !_.isEmpty(PackageFactory.getListOfServices())
     }
+
+    $scope.$watchCollection(function(){
+
+
+            if (PackageFactory.getPackage().data) {
+                return PackageFactory.getPackage().data.content
+            }
+    },
+    function() {
+        if(PackageFactory.getPackage().data){
+
+        $scope.pkgHasContent = PackageFactory.getPackage().data.content.length > 0
+        }
+    })
 
 });
