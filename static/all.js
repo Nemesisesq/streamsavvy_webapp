@@ -905,7 +905,7 @@ app.directive('servicePanelItem', function sPanelItem() {
                     $timeout(function () {
                         debugger
                         if (scope.listOfServices) {
-                            scope.listOfServices = _.compact(scope.listOfServices.not_ota);
+                            scope.listOfServices.not_ota = _.compact(scope.listOfServices.not_ota);
                             var re = new RegExp(/showtime/i);
                             var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
                                 .filter(function (index) {
@@ -2157,6 +2157,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2262,7 +2263,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.

@@ -95,7 +95,7 @@ app.directive('servicePanelItem', function sPanelItem() {
                     $timeout(function () {
                         debugger
                         if (scope.listOfServices) {
-                            scope.listOfServices = _.compact(scope.listOfServices.not_ota);
+                            scope.listOfServices.not_ota = _.compact(scope.listOfServices.not_ota);
                             var re = new RegExp(/showtime/i);
                             var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
                                 .filter(function (index) {
