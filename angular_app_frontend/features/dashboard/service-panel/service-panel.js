@@ -39,7 +39,12 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
     updateServices()
     $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data.content
+        var _data =  PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
 
     }, function () {
         ssPackage = PackageFactory.getPackage();

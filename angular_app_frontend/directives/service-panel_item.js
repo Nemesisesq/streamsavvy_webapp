@@ -93,10 +93,13 @@ app.directive('servicePanelItem', function sPanelItem() {
             link: function (scope, element, attrs, controller) {
                 scope.$watchCollection('pkg.data.content', function () {
                     $timeout(function () {
+                        debugger
                         if (scope.listOfServices) {
+                            scope.listOfServices = _.compact(scope.listOfServices.not_ota);
                             var re = new RegExp(/showtime/i);
                             var combinedShowtimeServices = _.chain(scope.listOfServices.not_ota)
                                 .filter(function (index) {
+
                                     return re.test(index.chan.display_name)
                                 })
                                 .reduce(function (sum, n) {

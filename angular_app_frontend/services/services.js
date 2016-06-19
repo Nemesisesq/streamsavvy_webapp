@@ -51,6 +51,33 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
     var _listOfServices = [];
 
 
+    function getBaseShowServiceCatagories(ssPackage) {
+        return _.chain(ssPackage.data.content)
+            .map(function (elem) {
+                debugger
+                _.forEach(elem.channel, function (c) {
+                    // debugger;
+                    c.source = c.guidebox_data.short_name
+                })
+                var list
+                elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
+                //list = elem.guidebox_data.sources.web.episodes.all_sources;
+                return list
+            })
+            .flatten()
+            .uniqBy('source')
+            .tap(interceptor)
+            .map(function (elem) {
+                if (elem.source == 'hulu_free') {
+                    elem.source = 'hulu_plus';
+                    elem.id = 10
+                    return elem
+                }
+
+                return elem;
+            });
+    }
+
     return {
         setChosenShow: function (show) {
             _chosenShow = show
@@ -195,29 +222,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
-                var list = _
-                    .chain(ssPackage.data.content)
-                    .map(function (elem) {
-                        _.forEach(elem.channel, function (c) {
-                            // debugger;
-                            c.source = c.guidebox_data.short_name
-                        })
-                        var list
-                        elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
-                        //list = elem.guidebox_data.sources.web.episodes.all_sources;
-                        return list
-                    })
-                    .flatten()
-                    .uniqBy('source')
-                    .map(function (elem) {
-                        //debugger
-                        if (elem.guidebox_data != undefined) {
-                            elem.display_name = elem.guidebox_data.name
-                            return elem
-                        } else {
-                            return elem
-                        }
-                    })
+                var list = getBaseShowServiceCatagories(ssPackage)
+
                     .map(function (elem) {
                         var o = {chan: elem}
                         o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -287,38 +293,16 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         catagorizeShowsByService: function (ssPackage) {
-            return _.chain(ssPackage.data.content)
-                .map(function (elem) {
-                    debugger
-                    _.forEach(elem.channel, function (c) {
-                        // debugger;
-                        c.source = c.guidebox_data.short_name
-                    })
-                    var list
-                    elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
-                    //list = elem.guidebox_data.sources.web.episodes.all_sources;
-                    return list
-                })
-                // .map(function (elem) {
-                //     debugger;
-                //
-                //     if (elem.guidebox_data != undefined) {
-                //         elem.source = elem.guidebox_data.short_name
-                //     }
-                //     return elem
-                // })
-                .flatten()
-                .uniqBy('source')
-                .tap(interceptor)
-                .map(function (elem) {
-                    if (elem.source == 'hulu_free') {
-                        elem.source = 'hulu_plus';
-                        elem.id = 10
-                        return elem
-                    }
+            return getBaseShowServiceCatagories(ssPackage)
+            // .map(function (elem) {
+            //     debugger;
+            //
+            //     if (elem.guidebox_data != undefined) {
+            //         elem.source = elem.guidebox_data.short_name
+            //     }
+            //     return elem
+            // })
 
-                    return elem;
-                })
                 .map(function (elem) {
                     //debugger
                     if (elem.guidebox_data != undefined) {
@@ -402,6 +386,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         var nbc = _.takeWhile(list.ota, function (item) {
                             return item.chan.source == 'nbc'
                         })
+
+                        debugger;
 
                         if (list.not_ota == undefined) {
                             list.not_ota = nbc
