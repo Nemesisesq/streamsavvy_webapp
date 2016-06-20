@@ -12,12 +12,12 @@ app.directive('servicePanelItem', function sPanelItem() {
         link: function (scope) {
 
             var titles = {
-                'ppv':'Pay Per View',
+                'ppv': 'Pay Per View',
                 'ota': 'Over The Air',
                 'not_ota': "",
 
             }
-            
+
             scope.open = false;
 
             scope.formatServiceTitle = function (key) {
@@ -28,33 +28,33 @@ app.directive('servicePanelItem', function sPanelItem() {
         }
     }
 })
-    .directive('serviceList', function(){
+    .directive('serviceList', function () {
         return {
-        scope: {
-            value: '=',
-            key: '=',
-        },
+            scope: {
+                value: '=',
+                key: '=',
+            },
 
-        templateUrl: '/static/partials/service-panel/service-list.html',
-        link: function (scope) {
+            templateUrl: '/static/partials/service-panel/service-list.html',
+            link: function (scope) {
 
-            var titles = {
-                'ppv':'Pay Per View',
-                'ota': 'Over The Air',
-                'not_ota': "",
+                var titles = {
+                    'ppv': 'Pay Per View',
+                    'ota': 'Over The Air',
+                    'not_ota': "",
+
+                }
+
+                scope.open = false;
+
+                scope.formatServiceTitle = function (key) {
+                    return titles[key]
+
+                }
 
             }
-            
-            scope.open = false;
-
-            scope.formatServiceTitle = function (key) {
-                return titles[key]
-
-            }
-
         }
-    }
-        
+
     })
     .directive('hideDuplicate', function (_) {
 
@@ -116,7 +116,11 @@ app.directive('servicePanelItem', function sPanelItem() {
                                     return !re.test(index.chan.display_name)
                                 }).value()
 
-                            scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
+                            scope.listOfServices.not_ota = _
+                                .chain(nonShowtimeServices)
+                                .concat(combinedShowtimeServices)
+                                .compact()
+                                .value()
                         }
                     }, 0)
                 })

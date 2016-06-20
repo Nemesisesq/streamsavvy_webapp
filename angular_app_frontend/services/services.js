@@ -15,7 +15,6 @@ function check_if_on_sling(obj) {
 }
 
 function interceptor(obj) {
-    debugger
     console.log(obj)
 
 }
@@ -54,14 +53,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
     function getBaseShowServiceCatagories(ssPackage) {
         return _.chain(ssPackage.data.content)
             .map(function (elem) {
-                debugger
                 _.forEach(elem.channel, function (c) {
-                    // debugger;
                     c.source = c.guidebox_data.short_name
                 })
                 var list
                 elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
-                //list = elem.guidebox_data.sources.web.episodes.all_sources;
                 return list
             })
             .flatten()
@@ -319,7 +315,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         return elem
                     }
                 })
-                .tap(interceptor)
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -345,10 +340,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 .filter(function (elem) {
                     return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows'
                 })
-                .tap(interceptor)
                 .uniqBy(function (elem) {
                     return elem.chan.source
                 })
+                .tap(interceptor)
                 .groupBy(function (elem) {
 
                     if (elem.chan.is_over_the_air) {

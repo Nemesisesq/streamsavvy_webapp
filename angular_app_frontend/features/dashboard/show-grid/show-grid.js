@@ -1,5 +1,4 @@
 function interceptor(obj) {
-    debugger;
     console.log(obj)
 
 }

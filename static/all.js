@@ -822,12 +822,12 @@ app.directive('servicePanelItem', function sPanelItem() {
         link: function (scope) {
 
             var titles = {
-                'ppv':'Pay Per View',
+                'ppv': 'Pay Per View',
                 'ota': 'Over The Air',
                 'not_ota': "",
 
             }
-            
+
             scope.open = false;
 
             scope.formatServiceTitle = function (key) {
@@ -838,33 +838,33 @@ app.directive('servicePanelItem', function sPanelItem() {
         }
     }
 })
-    .directive('serviceList', function(){
+    .directive('serviceList', function () {
         return {
-        scope: {
-            value: '=',
-            key: '=',
-        },
+            scope: {
+                value: '=',
+                key: '=',
+            },
 
-        templateUrl: '/static/partials/service-panel/service-list.html',
-        link: function (scope) {
+            templateUrl: '/static/partials/service-panel/service-list.html',
+            link: function (scope) {
 
-            var titles = {
-                'ppv':'Pay Per View',
-                'ota': 'Over The Air',
-                'not_ota': "",
+                var titles = {
+                    'ppv': 'Pay Per View',
+                    'ota': 'Over The Air',
+                    'not_ota': "",
+
+                }
+
+                scope.open = false;
+
+                scope.formatServiceTitle = function (key) {
+                    return titles[key]
+
+                }
 
             }
-            
-            scope.open = false;
-
-            scope.formatServiceTitle = function (key) {
-                return titles[key]
-
-            }
-
         }
-    }
-        
+
     })
     .directive('hideDuplicate', function (_) {
 
@@ -926,7 +926,11 @@ app.directive('servicePanelItem', function sPanelItem() {
                                     return !re.test(index.chan.display_name)
                                 }).value()
 
-                            scope.listOfServices.not_ota = _.concat(nonShowtimeServices, combinedShowtimeServices)
+                            scope.listOfServices.not_ota = _
+                                .chain(nonShowtimeServices)
+                                .concat(combinedShowtimeServices)
+                                .compact()
+                                .value()
                         }
                     }, 0)
                 })
@@ -1558,7 +1562,6 @@ function check_if_on_sling(obj) {
 }
 
 function interceptor(obj) {
-    debugger
     console.log(obj)
 
 }
@@ -1597,14 +1600,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
     function getBaseShowServiceCatagories(ssPackage) {
         return _.chain(ssPackage.data.content)
             .map(function (elem) {
-                debugger
                 _.forEach(elem.channel, function (c) {
-                    // debugger;
                     c.source = c.guidebox_data.short_name
                 })
                 var list
                 elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
-                //list = elem.guidebox_data.sources.web.episodes.all_sources;
                 return list
             })
             .flatten()
@@ -1862,7 +1862,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         return elem
                     }
                 })
-                .tap(interceptor)
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -1888,10 +1887,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 .filter(function (elem) {
                     return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows'
                 })
-                .tap(interceptor)
                 .uniqBy(function (elem) {
                     return elem.chan.source
                 })
+                .tap(interceptor)
                 .groupBy(function (elem) {
 
                     if (elem.chan.is_over_the_air) {
@@ -2699,15 +2698,10 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
-            debugger;
             $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
-
-            debugger;
-
             $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
                 $scope.listOfServices[key].open = true
             })
-
             PackageFactory.setListOfServices($scope.listOfServices);
         }
     }
@@ -2733,7 +2727,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 
 function interceptor(obj) {
-    debugger;
     console.log(obj)
 
 }
