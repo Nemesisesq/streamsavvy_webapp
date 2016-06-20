@@ -50,6 +50,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     .uniqBy('source')
                     .groupBy(function (service) {
+                        debugger;
                         if (liveServices.includes(service.source)) {
                             return 'live'
                         }
@@ -214,7 +215,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return k;
                         }
 
-                        debugger;
                         $scope.sortedServices = _.sortBy(Object.keys(services), function (elem) {
                             return elem.length
                         })
