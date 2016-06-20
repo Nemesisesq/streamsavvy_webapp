@@ -56,7 +56,8 @@ urlpatterns = [
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^api/guide/(?P<zip>\d{5})', RoviChannelGridView.as_view(), name='rovi_channel_grid_view'),
-    url(r'^api/channel_images/(?P<channel_id>\d+)', ChannelImagesView.as_view(), name='channel_images')
+    url(r'^api/channel_images/(?P<channel_id>\d+)', ChannelImagesView.as_view(), name='channel_images'),
+    url(r'haystack', include('haystack.urls')),
     # url(r'^guide/', GuideTestView.as_view(), name='guide_test'),
     # url(r'^guide_reciever/', guide_reciever, name='reciever')
     # url(r'test/', TemplateView.as_view(template_name='test.html')),

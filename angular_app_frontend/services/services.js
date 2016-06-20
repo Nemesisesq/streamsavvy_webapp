@@ -51,19 +51,28 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 
     function getBaseShowServiceCatagories(ssPackage) {
+        debugger;
         return _.chain(ssPackage.data.content)
             .map(function (elem) {
                 _.forEach(elem.channel, function (c) {
                     c.source = c.guidebox_data.short_name
                 })
                 var list
-                elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
+                elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources, elem.guidebox_data.sources.ios.episodes.all_sources);
                 return list
             })
             .flatten()
             .uniqBy('source')
-            .uniqBy(function(elem){
-                if(elem.display_name){
+            .thru(function (services) {
+                debugger;
+                if (checkForHuluWithShowtime(services)) {
+                    services = removeHuluIfShowtimeContent(services)
+                }
+
+                return services
+            })
+            .uniqBy(function (elem) {
+                if (elem.display_name) {
                     return elem.display_name
                 } else {
                     return elem.name
@@ -396,14 +405,12 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             list.not_ota = _.concat(list.not_ota, nbc)
                         }
                     }
-                    
-                    
 
 
                     return list
 
                 })
-               
+
 
                 .value();
         }

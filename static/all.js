@@ -1598,19 +1598,28 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 
     function getBaseShowServiceCatagories(ssPackage) {
+        debugger;
         return _.chain(ssPackage.data.content)
             .map(function (elem) {
                 _.forEach(elem.channel, function (c) {
                     c.source = c.guidebox_data.short_name
                 })
                 var list
-                elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources);
+                elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources, elem.guidebox_data.sources.ios.episodes.all_sources);
                 return list
             })
             .flatten()
             .uniqBy('source')
-            .uniqBy(function(elem){
-                if(elem.display_name){
+            .thru(function (services) {
+                debugger;
+                if (checkForHuluWithShowtime(services)) {
+                    services = removeHuluIfShowtimeContent(services)
+                }
+
+                return services
+            })
+            .uniqBy(function (elem) {
+                if (elem.display_name) {
                     return elem.display_name
                 } else {
                     return elem.name
@@ -1943,14 +1952,12 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             list.not_ota = _.concat(list.not_ota, nbc)
                         }
                     }
-                    
-                    
 
 
                     return list
 
                 })
-               
+
 
                 .value();
         }
@@ -2165,6 +2172,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2270,7 +2278,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -2731,14 +2738,43 @@ function interceptor(obj) {
 
 }
 
+function checkForHuluWithShowtime(services) {
+    return _.some(services, function (elem) {
+        return elem.source == "hulu_with_showtime";
+    });
+}
+
+function removeHuluIfShowtimeContent(services) {
+    return _.filter(services, function (elem) {
+        if (elem.source == "hulu_with_showtime") {
+            return false
+        }
+
+        if (elem.source == "showtime_free") {
+            return false
+        }
+
+        if (elem.source == "hulu_free") {
+            return false
+        }
+
+        if (elem.source == "hulu_plus") {
+            return false
+        }
+
+        return true
+    });
+}
+
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
-    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
+    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox'];
     var onDemandServices = ['hulu_plus', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
     var openingDetail = false
+
 
     $scope.$watch(function () {
         return PackageFactory.getChosenShow();
@@ -2768,23 +2804,19 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                         return elem;
                     })
-                    .filter(function (elem) {
+                    .thru(function (services) {
+                        debugger;
+                        if (checkForHuluWithShowtime(services)) {
+                            services = removeHuluIfShowtimeContent(services)
+                        }
 
-                        // if (elem.hasOwnProperty('guidebox_data')) {
-                        //     return elem.guidebox_data.is_over_the_air
-                        // }
-
-                        // if (elem.source == 'hulu_free') {
-                        //     return false
-                        // }
-
-                        return true
+                        return services
                     })
                     .tap(interceptor)
 
                     .uniqBy('source')
-                    .uniqBy(function(elem){
-                        if (elem.display_name){
+                    .uniqBy(function (elem) {
+                        if (elem.display_name) {
                             return elem.display_name
 
                         } else {
@@ -2793,7 +2825,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                     })
                     .tap(interceptor)
                     .groupBy(function (service) {
-                        debugger;
                         if (liveServices.includes(service.source)) {
                             return 'live'
                         }
@@ -2898,8 +2929,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                                     services.on_demand.push(elem)
                                 }
+                                debugger;
 
-                                if (elem.source == "showtime_subscription") {
+                                if (elem.source == "showtime_subscription" || elem.source == "showtime") {
 
                                     if (!services.binge) {
                                         services.binge = []
