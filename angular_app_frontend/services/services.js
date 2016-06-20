@@ -394,6 +394,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             list.not_ota = _.concat(list.not_ota, nbc)
                         }
                     }
+                    
+                    
 
 
                     return list

@@ -22,7 +22,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 var x = _($scope.cs.channel)
                     .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
                     .map(function (elem) {
-                        debugger;
 
                         if (elem.guidebox_data != undefined) {
                             elem.source = elem.guidebox_data.short_name
@@ -130,7 +129,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                                 if (elem.source == "cbs") {
 
-                                    debugger;
 
                                     if (!services.binge) {
                                         services.binge = []
@@ -179,7 +177,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
 
                         if ($scope.cs.on_netflix) {
-                            debugger;
                             if (!services.hasOwnProperty('binge')) {
                                 services.binge = []
 
@@ -199,7 +196,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         var nbc = _.remove(services.live, function (item) {
                             return item.source == 'nbc';
                         })
-                        debugger
 
                         if (nbc.length > 0) {
                             if (services.on_demand == undefined) {
@@ -218,9 +214,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return k;
                         }
 
-
-                        $scope.sortedServices = Object.keys(services)
-                            .sort();
+                        debugger;
+                        $scope.sortedServices = _.sortBy(Object.keys(services), function (elem) {
+                            return elem.length
+                        })
 
                         return services
 
