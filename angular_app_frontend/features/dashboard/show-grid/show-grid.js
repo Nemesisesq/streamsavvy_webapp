@@ -1,3 +1,9 @@
+function interceptor(obj) {
+    debugger;
+    console.log(obj)
+
+}
+
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
@@ -47,8 +53,18 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                         return true
                     })
+                    .tap(interceptor)
 
                     .uniqBy('source')
+                    .uniqBy(function(elem){
+                        if (elem.display_name){
+                            return elem.display_name
+
+                        } else {
+                            return elem.name
+                        }
+                    })
+                    .tap(interceptor)
                     .groupBy(function (service) {
                         debugger;
                         if (liveServices.includes(service.source)) {

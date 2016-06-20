@@ -66,6 +66,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             })
             .flatten()
             .uniqBy('source')
+            .uniqBy(function(elem){
+                if(elem.display_name){
+                    return elem.display_name
+                } else {
+                    return elem.name
+                }
+            })
             .tap(interceptor)
             .map(function (elem) {
                 if (elem.source == 'hulu_free') {

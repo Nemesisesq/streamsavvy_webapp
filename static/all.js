@@ -1609,6 +1609,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             })
             .flatten()
             .uniqBy('source')
+            .uniqBy(function(elem){
+                if(elem.display_name){
+                    return elem.display_name
+                } else {
+                    return elem.name
+                }
+            })
             .tap(interceptor)
             .map(function (elem) {
                 if (elem.source == 'hulu_free') {
@@ -2159,7 +2166,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2265,6 +2271,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.
@@ -2725,6 +2732,12 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 });
 
 
+function interceptor(obj) {
+    debugger;
+    console.log(obj)
+
+}
+
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
@@ -2774,8 +2787,18 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                         return true
                     })
+                    .tap(interceptor)
 
                     .uniqBy('source')
+                    .uniqBy(function(elem){
+                        if (elem.display_name){
+                            return elem.display_name
+
+                        } else {
+                            return elem.name
+                        }
+                    })
+                    .tap(interceptor)
                     .groupBy(function (service) {
                         debugger;
                         if (liveServices.includes(service.source)) {

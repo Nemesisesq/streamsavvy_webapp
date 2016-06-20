@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'corsheaders',
     'oauth2_provider',
+    'whoosh',
+    'haystack'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -310,5 +312,13 @@ RQ_QUEUES = {
     'low': {
         'URL': os.getenv('REDIS_URL', 'redis://localhost:6379'),
         'DB': 0,
+    }
+}
+WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh')
+
+HAYSTACK_CONNECTIONS = {
+    'default' : {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH' : 'WHOOSH_INDEX'
     }
 }
