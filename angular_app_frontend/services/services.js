@@ -387,7 +387,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return item.chan.source == 'nbc'
                         })
 
-                        debugger;
 
                         if (list.not_ota == undefined) {
                             list.not_ota = nbc
@@ -400,6 +399,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     return list
 
                 })
+               
 
                 .value();
         }

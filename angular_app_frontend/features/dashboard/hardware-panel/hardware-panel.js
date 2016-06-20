@@ -6,18 +6,17 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
     $scope.pkg = PackageFactory.getPackage();
 
 
+    /*  $('.service-panel').on('scroll', function () {
+     $('.not-ready').fadeOut()
+     })
 
-  /*  $('.service-panel').on('scroll', function () {
-        $('.not-ready').fadeOut()
-    })
+     $('.service-panel').on('scroll', function () {
+     debugger
+     _.debounce(function () {
 
-    $('.service-panel').on('scroll', function () {
-        debugger
-        _.debounce(function () {
-
-            $('.not-ready').fadeIn()
-        }, 100)()
-    })*/
+     $('.not-ready').fadeIn()
+     }, 100)()
+     })*/
     $scope.collapseHardware = true;
     var serviceHeight = $(window).height() - 46;
 
@@ -45,18 +44,18 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
         return !_.isEmpty(PackageFactory.getListOfServices())
     }
 
-    $scope.$watchCollection(function(){
+    $scope.$watchCollection(function () {
 
 
             if (PackageFactory.getPackage().data) {
                 return PackageFactory.getPackage().data.content
             }
-    },
-    function() {
-        if(PackageFactory.getPackage().data){
+        },
+        function () {
+            if (PackageFactory.getPackage().data) {
 
-        $scope.pkgHasContent = PackageFactory.getPackage().data.content.length > 0
-        }
-    })
+                $scope.pkgHasContent = PackageFactory.getPackage().data.content.length > 0
+            }
+        })
 
 });

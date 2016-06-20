@@ -1930,7 +1930,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return item.chan.source == 'nbc'
                         })
 
-                        debugger;
 
                         if (list.not_ota == undefined) {
                             list.not_ota = nbc
@@ -1943,6 +1942,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     return list
 
                 })
+               
 
                 .value();
         }
@@ -2265,6 +2265,10 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
  */
 
 /**
+ * Created by Nem on 10/7/15.
+ */
+
+/**
  * Created by Nem on 12/29/15.
  */
 
@@ -2278,10 +2282,6 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
-/**
- * Created by Nem on 10/7/15.
- */
-
 /**
  * Created by chirag on 8/3/15.
  */
@@ -2610,18 +2610,17 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
     $scope.pkg = PackageFactory.getPackage();
 
 
+    /*  $('.service-panel').on('scroll', function () {
+     $('.not-ready').fadeOut()
+     })
 
-  /*  $('.service-panel').on('scroll', function () {
-        $('.not-ready').fadeOut()
-    })
+     $('.service-panel').on('scroll', function () {
+     debugger
+     _.debounce(function () {
 
-    $('.service-panel').on('scroll', function () {
-        debugger
-        _.debounce(function () {
-
-            $('.not-ready').fadeIn()
-        }, 100)()
-    })*/
+     $('.not-ready').fadeIn()
+     }, 100)()
+     })*/
     $scope.collapseHardware = true;
     var serviceHeight = $(window).height() - 46;
 
@@ -2649,19 +2648,19 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
         return !_.isEmpty(PackageFactory.getListOfServices())
     }
 
-    $scope.$watchCollection(function(){
+    $scope.$watchCollection(function () {
 
 
             if (PackageFactory.getPackage().data) {
                 return PackageFactory.getPackage().data.content
             }
-    },
-    function() {
-        if(PackageFactory.getPackage().data){
+        },
+        function () {
+            if (PackageFactory.getPackage().data) {
 
-        $scope.pkgHasContent = PackageFactory.getPackage().data.content.length > 0
-        }
-    })
+                $scope.pkgHasContent = PackageFactory.getPackage().data.content.length > 0
+            }
+        })
 
 });
 
@@ -2727,7 +2726,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
-    var onDemandServices = ['hulu_plus', 'hulu_free','nbc', 'starz', 'showtime_subscription', 'crackle'];
+    var onDemandServices = ['hulu_plus', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
@@ -2754,9 +2753,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = elem.guidebox_data.short_name
                         }
                         return elem
-                    }).map(function(elem){
-                        if(elem.source == 'hulu_free'){
-                            elem.source ='hulu_plus';
+                    }).map(function (elem) {
+                        if (elem.source == 'hulu_free') {
+                            elem.source = 'hulu_plus';
                             return elem
                         }
 
@@ -2854,6 +2853,34 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                                 }
 
+                                if (elem.source == "cbs") {
+
+                                    debugger;
+
+                                    if (!services.binge) {
+                                        services.binge = []
+                                    }
+                                    services.binge.push(elem);
+
+                                    if (!services.on_demand) {
+                                        services.on_demand = []
+                                    }
+                                    services.on_demand.push(elem)
+                                }
+
+                                if (elem.source == "hbo_now") {
+
+                                    if (!services.binge) {
+                                        services.binge = []
+                                    }
+                                    services.binge.push(elem)
+
+                                    if (!services.on_demand) {
+                                        services.on_demand = []
+                                    }
+
+                                    services.on_demand.push(elem)
+                                }
 
                                 //
 
@@ -2872,13 +2899,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
 
 
-
-
-
                         return services
                     })
-                    .thru(function(services){
-                        var nbc = _.remove(services.live, function(item){
+                    .thru(function (services) {
+                        var nbc = _.remove(services.live, function (item) {
                             return item.source == 'nbc';
                         })
                         debugger

@@ -1,7 +1,7 @@
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'fox'];
-    var onDemandServices = ['hulu_plus', 'hulu_free','nbc', 'starz', 'showtime_subscription', 'crackle'];
+    var onDemandServices = ['hulu_plus', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
@@ -28,9 +28,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = elem.guidebox_data.short_name
                         }
                         return elem
-                    }).map(function(elem){
-                        if(elem.source == 'hulu_free'){
-                            elem.source ='hulu_plus';
+                    }).map(function (elem) {
+                        if (elem.source == 'hulu_free') {
+                            elem.source = 'hulu_plus';
                             return elem
                         }
 
@@ -128,6 +128,34 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                                 }
 
+                                if (elem.source == "cbs") {
+
+                                    debugger;
+
+                                    if (!services.binge) {
+                                        services.binge = []
+                                    }
+                                    services.binge.push(elem);
+
+                                    if (!services.on_demand) {
+                                        services.on_demand = []
+                                    }
+                                    services.on_demand.push(elem)
+                                }
+
+                                if (elem.source == "hbo_now") {
+
+                                    if (!services.binge) {
+                                        services.binge = []
+                                    }
+                                    services.binge.push(elem)
+
+                                    if (!services.on_demand) {
+                                        services.on_demand = []
+                                    }
+
+                                    services.on_demand.push(elem)
+                                }
 
                                 //
 
@@ -146,13 +174,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
 
 
-
-
-
                         return services
                     })
-                    .thru(function(services){
-                        var nbc = _.remove(services.live, function(item){
+                    .thru(function (services) {
+                        var nbc = _.remove(services.live, function (item) {
                             return item.source == 'nbc';
                         })
                         debugger
