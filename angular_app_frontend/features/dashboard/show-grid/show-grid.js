@@ -27,6 +27,10 @@ function removeHuluIfShowtimeContent(services) {
             return false
         }
 
+        if (elem.display_name == "Showtime Anytime"){
+            return false
+        }
+
         return true
     });
 }
