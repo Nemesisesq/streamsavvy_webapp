@@ -157,6 +157,20 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                     services.on_demand.push(elem)
                                 }
 
+                                if (elem.source == "showtime_subscription") {
+
+                                    if (!services.binge) {
+                                        services.binge = []
+                                    }
+                                    services.binge.push(elem)
+
+                                    if (!services.on_demand) {
+                                        services.on_demand = []
+                                    }
+
+                                    services.on_demand.push(elem)
+                                }
+
                                 //
 
                                 return elem

@@ -2157,7 +2157,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2264,9 +2263,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
  * Created by chirag on 3/28/16.
  */
 
-/**
- * Created by Nem on 10/7/15.
- */
 
 /**
  * Created by Nem on 12/29/15.
@@ -2282,6 +2278,10 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
 /**
  * Created by chirag on 8/3/15.
  */
@@ -2869,6 +2869,20 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                 }
 
                                 if (elem.source == "hbo_now") {
+
+                                    if (!services.binge) {
+                                        services.binge = []
+                                    }
+                                    services.binge.push(elem)
+
+                                    if (!services.on_demand) {
+                                        services.on_demand = []
+                                    }
+
+                                    services.on_demand.push(elem)
+                                }
+
+                                if (elem.source == "showtime_subscription") {
 
                                     if (!services.binge) {
                                         services.binge = []
