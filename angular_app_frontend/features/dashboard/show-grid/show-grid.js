@@ -179,12 +179,17 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
 
                         if ($scope.cs.on_netflix) {
+                            debugger;
                             if (!services.hasOwnProperty('binge')) {
                                 services.binge = []
 
                             }
 
-                            services.binge.push({source: 'netflix'})
+                            var netflix_channel = _.some(services.binge, ['source', 'netflix']);
+
+                            if (!netflix_channel) {
+                                services.binge.push({source: 'netflix'})
+                            }
                         }
 
 

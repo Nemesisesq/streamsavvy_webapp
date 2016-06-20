@@ -2157,6 +2157,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2262,7 +2263,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -2904,12 +2904,17 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
 
                         if ($scope.cs.on_netflix) {
+                            debugger;
                             if (!services.hasOwnProperty('binge')) {
                                 services.binge = []
 
                             }
 
-                            services.binge.push({source: 'netflix'})
+                            var netflix_channel = _.some(services.binge, ['source', 'netflix']);
+
+                            if (!netflix_channel) {
+                                services.binge.push({source: 'netflix'})
+                            }
                         }
 
 
