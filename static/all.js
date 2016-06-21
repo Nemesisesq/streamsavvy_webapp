@@ -619,6 +619,17 @@ app.directive('checkoutItem', function () {
         link: function (scope, element) {
             scope.windowWidth = window.innerWidth;
 
+            scope.removeServiceFromPackage = function (service) {
+
+                scope.package.data.services.pop(service)
+            }
+
+            scope.removeElementFromDom = function () {
+                debugger;
+
+                element.remove()
+            }
+
         }
     }
 })
@@ -635,8 +646,8 @@ app.directive('checkoutImageBlock', function () {
 
         link: function (scope, element) {
 
-            scope.processServiceUrl = function(service){
-                if(scope.key == 'ota') {
+            scope.processServiceUrl = function (service) {
+                if (scope.key == 'ota') {
                     return 'ota_sprite'
                 }
 
@@ -670,6 +681,7 @@ app.directive('actionBlock', function () {
 
             scope.addService = function (service) {
 
+
                 scope.isServiceAdded(service) || scope.package.data.services.push(service)
 
             }
@@ -680,7 +692,8 @@ app.directive('actionBlock', function () {
             }
 
             scope.removeElementFromDom = function () {
-              
+                debugger;
+
                 element.parent().parent().remove()
             }
 

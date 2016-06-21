@@ -2602,6 +2602,9 @@ show-detail .background {
   letter-spacing: 0.5px;
   color: #9b9b9b; }
 
+.service-tooltip {
+  width: 200px; }
+
 .checkoutList {
   margin-top: 30px;
   min-height: 100%; }
