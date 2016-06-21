@@ -974,20 +974,20 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
                 }
 
                 if (key == 'binge') {
-                    return 'BINGE'
+                    return 'Binge Subscription'
                 }
 
                 if (key == 'on_demand') {
-                    return 'ON DEMAND'
+                    return 'On Demand Subscription'
                 }
 
                 if (key == 'live') {
-                    return 'LIVE'
+                    return 'Live Subscription'
                 }
 
                 if (key == 'pay_per_view') {
 
-                    return 'PAY PER EPISODE / SEASON'
+                    return 'Pay Per Episode or Season'
                 }
             }
 
