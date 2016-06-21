@@ -619,16 +619,7 @@ app.directive('checkoutItem', function () {
         link: function (scope, element) {
             scope.windowWidth = window.innerWidth;
 
-            scope.removeServiceFromPackage = function (service) {
 
-                scope.package.data.services.pop(service)
-            }
-
-            scope.removeElementFromDom = function () {
-                debugger;
-
-                element.remove()
-            }
 
         }
     }
@@ -738,6 +729,29 @@ app.directive('checkoutShows', function () {
 
         link: function (scope, element) {
 
+        }
+    }
+})
+
+app.directive('checkoutService', function(){
+    return {
+        restrict: 'E',
+        templateUrl: 'static/partials/checkout-list/checkout-service-template.html',
+        scope: {
+            service: '=',
+            key: '='
+        },
+        link: function(scope, element, attrs) {
+            scope.removeServiceFromPackage = function (service) {
+
+                scope.package.data.services.pop(service)
+            }
+
+            scope.removeElementFromDom = function (service) {
+                debugger;
+
+                element.remove()
+            }
         }
     }
 })
