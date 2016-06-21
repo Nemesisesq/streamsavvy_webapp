@@ -18,20 +18,15 @@ q = django_rq.get_queue('high')
 
 
 def run_initial_netflix_population():
-    n = Netflixable(' http://usa.netflixable.com/2016/01/complete-alphabetical-list-wed-jan-27.html')
+    n = Netflixable('http://usa.netflixable.com/2016/06/complete-alphabetical-list-wed-jun-15.html')
     soup = n.get_shows_from_soup()
     # [all_channels[i:i + 5] for i in range(0, len(all_channels), 5)]
     for i in soup:
         print('Hello world')
-
-
-
         q.enqueue(process_show_dict, json.dumps(i), n)
-
-
-
-
     return('Initial Netflix Check Completed')
+
+
 #
 # def process_show_dict_list(n_shows_list, n):
 #     for x in n_shows_list:
@@ -101,3 +96,5 @@ def run_initial_netflix_population():
 #
 #     return title
 #
+
+
