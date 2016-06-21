@@ -2172,6 +2172,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2277,7 +2278,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -2973,6 +2973,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         return services
                     })
                     .thru(function (services) {
+                        debugger;
                         var nbc = _.remove(services.live, function (item) {
                             return item.source == 'nbc';
                         })
@@ -2982,7 +2983,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                 services.on_demand = nbc
                             } else {
 
-                                _.concat(services.on_demand, nbc)
+                                services.on_demand = _.concat(services.on_demand, nbc)
                             }
                         }
 

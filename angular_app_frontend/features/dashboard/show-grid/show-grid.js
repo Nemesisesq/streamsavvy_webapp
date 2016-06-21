@@ -238,6 +238,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         return services
                     })
                     .thru(function (services) {
+                        debugger;
                         var nbc = _.remove(services.live, function (item) {
                             return item.source == 'nbc';
                         })
@@ -247,7 +248,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                 services.on_demand = nbc
                             } else {
 
-                                _.concat(services.on_demand, nbc)
+                                services.on_demand = _.concat(services.on_demand, nbc)
                             }
                         }
 
