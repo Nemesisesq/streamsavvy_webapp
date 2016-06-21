@@ -279,9 +279,11 @@ app.directive('checkoutService', function(){
         templateUrl: 'static/partials/checkout-list/checkout-service-template.html',
         scope: {
             service: '=',
-            key: '='
+            key: '=',
+            package: '='
         },
         link: function(scope, element, attrs) {
+            scope.windowWidth = window.innerWidth;
             scope.removeServiceFromPackage = function (service) {
 
                 scope.package.data.services.pop(service)
