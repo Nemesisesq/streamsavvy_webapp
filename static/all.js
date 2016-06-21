@@ -626,7 +626,7 @@ app.directive('checkoutItem', function () {
 })
 
 
-app.directive('checkoutImageBlock', function () {
+app.directive('checkoutImageBlock', function ($http) {
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/checkout-image-block.html',
@@ -636,6 +636,8 @@ app.directive('checkoutImageBlock', function () {
         },
 
         link: function (scope, element) {
+
+            $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
 
             scope.processServiceUrl = function (service) {
                 if (scope.key == 'ota') {
