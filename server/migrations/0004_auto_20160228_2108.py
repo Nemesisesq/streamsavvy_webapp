@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AlterField(
-            model_name='content',
+            model_name='server',
             name='channel',
             field=models.ManyToManyField(blank=True, to='server.Channel'),
         ),

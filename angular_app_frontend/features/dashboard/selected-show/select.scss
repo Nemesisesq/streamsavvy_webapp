@@ -175,16 +175,18 @@ show-detail {
   opacity: 1 !important;
 }
 
+.fixed {
+  position: fixed;
+  z-index: 1000;
+  top: 50px;
+  width: 100%;
+  background: $dark-98;
 
-
-  .fixed {
-    position: fixed;
-    z-index:1000;
-    top:50px;
-    width:100%;
-    background: $dark-98;
-
-    & + div {
-      margin-top: 10px;
-    }
+  & + div {
+    margin-top: 10px;
   }
+}
+
+.synopsis-with-info {
+  padding-bottom: 5%;
+}

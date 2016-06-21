@@ -21,7 +21,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
         // gridEl = $('#theGrid')[0],
         // sidebarEl = document.getElementById('theSidebar'),
         // gridItemsContainer = gridEl.querySelector('div.row'),
-    //contentItemsContainer = gridEl.querySelector('section.content'),
+    //contentItemsContainer = gridEl.querySelector('section.server'),
     //gridItems = gridItemsContainer.querySelectorAll('.grid__item'),
     //contentItems = contentItemsContainer.querySelectorAll('.content__item'),
     //closeCtrl = contentItemsContainer.querySelector('.close-button'),
@@ -114,15 +114,15 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
                     // add transition class
                     classie.remove(dummy, 'placeholder--trans-in');
                     classie.add(dummy, 'placeholder--trans-out');
-                    // position the content container
+                    // position the server container
                     //contentItemsContainer.style.top = scrollY() + 'px';
-                    // show the main content container
-                    //classie.add(contentItemsContainer, 'content--show');
-                    // show content item:
+                    // show the main server container
+                    //classie.add(contentItemsContainer, 'server--show');
+                    // show server item:
                     //classie.add(contentItems[current], 'content__item--show');
                     // show close control
                     //classie.add(closeCtrl, 'close-button--show');
-                    // sets overflow hidden to the body and allows the switch to the content scroll
+                    // sets overflow hidden to the body and allows the switch to the server scroll
                     classie.addClass(bodyEl, 'noscroll');
 
                     isAnimating = false;
@@ -136,7 +136,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
             //debugger;
 
             //classie.remove(contentItem, 'content__item--show');
-            //classie.remove(contentItemsContainer, 'content--show');
+            //classie.remove(contentItemsContainer, 'server--show');
             //classie.remove(closeCtrl, 'close-button--show');
             classie.remove(bodyEl, 'view-single');
 
@@ -159,7 +159,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
                     }).then(function (data) {
                     return $timeout(function () {
                         onEndTransition(dummy, function () {
-                            // reset content scroll..
+                            // reset server scroll..
                             positionItem.parentNode.scrollTop = 0;
                             container.removeChild(dummy);
                             //classie.remove(gridItem, 'grid__item--loading');

@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='package',
             name='data',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default={'content': [], 'hardware': [], 'services': []}, null=True),
+            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, default={'server': [], 'hardware': [], 'services': []}, null=True),
         ),
     ]

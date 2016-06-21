@@ -62,7 +62,7 @@ class PackageDetailSerializer(serializers.HyperlinkedModelSerializer):
         model = Package
         fields = (
             'url',
-            'content',
+            'server',
             'hardware',
             'providers'
         )

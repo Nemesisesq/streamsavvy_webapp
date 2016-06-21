@@ -3146,6 +3146,9 @@ show-detail {
   .fixed + div {
     margin-top: 10px; }
 
+.synopsis-with-info {
+  padding-bottom: 5%; }
+
 /* General styles for all menus */
 .cbp-spmenu {
   background: #47a3da;

@@ -8,6 +8,7 @@ from django.core.cache import cache
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views.generic import View
+from haystack.generic_views import SearchView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
@@ -19,7 +20,7 @@ from server.models import *
 from server.permissions import IsAdminOrReadOnly
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer, ChannelImagesSerializer
-
+from haystack.query import SearchQuerySet
 
 def flatten(l):
     out = []
@@ -201,7 +202,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         filter_results = list(filter(self.filter_content_by_guidebox_id, filter_results))
 
-        # banned content
+        # banned server
 
         filter_results = [show for show in  filter_results if show.id != 15296]
 
@@ -435,3 +436,16 @@ class ChannelImagesView(APIView):
             serializer = ChannelImagesSerializer(img_obj)
 
             return Response(serializer.data)
+
+
+class HaystackSearchView(SearchView):
+
+    def get_queryset(self):
+        queryset = super(HaystackSearchView, self).get_queryset()
+        # further filter queryset based on some set of criteria
+        return queryset.filter(title=self.request.GET['q'])
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(HaystackSearchView, self).get_context_data(*args, **kwargs)
+        # do something
+        return context

@@ -112,7 +112,7 @@ class Netflixable():
 
                             # c_tuple = Content.objects.get_or_create(guidebox_data__id=found_show['id'])
                             #
-                            # content = c_tuple[0]
+                            # server = c_tuple[0]
 
                             content = self.g.save_content(found_show)
 
