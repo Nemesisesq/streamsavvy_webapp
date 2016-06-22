@@ -1,4 +1,5 @@
 function interceptor(obj) {
+    debugger
     console.log(obj)
 
 }
@@ -74,7 +75,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         return elem;
                     })
                     .thru(function (services) {
-                        debugger;
                         if (checkForHuluWithShowtime(services)) {
                             services = removeHuluIfShowtimeContent(services)
                         }
@@ -84,6 +84,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                     .tap(interceptor)
 
                     .uniqBy('source')
+                    .tap(interceptor)
                     .uniqBy(function (elem) {
                         if (elem.display_name) {
                             return elem.display_name
@@ -134,16 +135,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             _.map(services.live, function (elem) {
                                 // debugger
 
-                                if (elem.is_over_the_air) {
-                                    var elemCopy = _.cloneDeep(elem);
-                                    elemCopy.name = 'OTA';
-                                    delete elemCopy['id'];
-                                    delete elemCopy['$$hashKey'];
 
-                                    elemCopy.source = 'ota';
-
-                                    services.live.push(elemCopy)
-                                }
 
                                 if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {
                                     var elemCopy = _.cloneDeep(elem);
@@ -269,6 +261,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                     })
                     .value();
+
+
                 return x;
             }
         })()
