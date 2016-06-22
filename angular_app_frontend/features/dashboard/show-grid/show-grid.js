@@ -345,7 +345,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setChosenShow(item);
 
-        verifySelectedShowDetails()
+        // verifySelectedShowDetails()
         // debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,
