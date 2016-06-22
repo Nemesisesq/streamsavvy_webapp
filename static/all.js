@@ -1637,7 +1637,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 
     function getBaseShowServiceCatagories(ssPackage) {
-        debugger;
         return _.chain(ssPackage.data.content)
             .map(function (elem) {
                 _.forEach(elem.channel, function (c) {
@@ -1650,7 +1649,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             .flatten()
             .uniqBy('source')
             .thru(function (services) {
-                debugger;
                 if (checkForHuluWithShowtime(services)) {
                     services = removeHuluIfShowtimeContent(services)
                 }
@@ -1821,7 +1819,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 var list = getBaseShowServiceCatagories(ssPackage)
-
                     .map(function (elem) {
                         var o = {chan: elem}
                         o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -1863,9 +1860,17 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return elem.shows
                         })
 
-                        if (list.ota && list.ota.length > 1) {
-                            list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
-                            list.ota = [list.ota[0]];
+                        debugger;
+
+                        if (list.ota) {
+                            if (list.ota.length > 1) {
+
+                                list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
+                                list.ota = [list.ota[0]];
+                            } else {
+                                list.ota[0].chan.source = 'ota';
+
+                            }
                         }
 
                         var showsPpv = _.map(list.ppv, function (elem) {
@@ -2211,7 +2216,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2317,6 +2321,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.
