@@ -222,11 +222,7 @@ app.directive('actionBlock', function () {
                 scope.package.data.services.pop(service)
             }
 
-            scope.removeElementFromDom = function () {
-                debugger;
-
-                element.parent().parent().remove()
-            }
+            // scope.
 
         }
     }

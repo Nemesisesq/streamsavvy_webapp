@@ -29,9 +29,17 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
                     //debugger;
-                    var sorted = _.sortBy(data.data.results, function (elem) {
-                        return elem.title.length
-                    })
+
+
+                    var sorted = _.chain(data.data.results)
+                        .remove(function (elem) {
+                            return elem.title == null
+                        })
+                        .sortBy(function (elem) {
+
+                            return elem.title.length
+                        })
+                        .value()
 
                     if (data.data.searchText == val) {
                         $scope.suggestions = sorted;
@@ -88,7 +96,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                 $scope.selectedIndex--
             }
         } else if (event.keyCode === 13) {
-            if($scope.selectedIndex > -1){
+            if ($scope.selectedIndex > -1) {
 
                 $scope.addToSelectedShows($scope.suggestions[$scope.selectedIndex]);
             }
@@ -105,8 +113,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
         }
     });
-
-
 
 
 });
