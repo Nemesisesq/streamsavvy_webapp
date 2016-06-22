@@ -3070,17 +3070,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setPackage(pkg)
     }
-    function verifySelectedShowDetails() {
-        var chosen = PackageFactory.getChosenShow()
-        if (chosen.detail == undefined) {
-            debugger;
-            $http.get(chosen.url)
-                .then(function (res) {
-                    PackageFactory.setChosenShow(res.data)
-                })
-
-        }
-    }
 
     $rootScope.showSearchView = true
 
