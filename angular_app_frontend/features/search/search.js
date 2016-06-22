@@ -32,7 +32,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 
                     var sorted = _.chain(data.data.results)
-                        .remove(function (elem) {
+                        .filter(function (elem) {
                             return elem.title !== null
                         })
                         .sortBy(function (elem) {
