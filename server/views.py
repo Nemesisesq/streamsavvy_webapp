@@ -210,7 +210,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         filter_results = self.check_guidebox_for_query(filter_results, query_string)
 
-        if len(query_string.split()) > 1:
+        if len(query_string.split()) == 1:
             single_word_shows =  Content.objects.filter(title__istartswith=query_string).extra(select={'length':'Length(title)'}).order_by('length')[:5]
 
             filter_results = list(single_word_shows) + filter_results[:5]
