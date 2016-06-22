@@ -6,7 +6,7 @@ import time
 from django.contrib.auth.models import Group
 from django.core.cache import cache
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.generic import View
 from haystack.generic_views import SearchView
 from rest_framework.response import Response
@@ -208,13 +208,18 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         filter_results = [GuideBox().process_content_for_sling_ota_banned_channels(show) for show in filter_results]
 
+        filter_results = self.check_guidebox_for_query(filter_results, query_string)
+
+        if len(query_string) > 1:
+            single_word_shows =  Content.objects.filter(title__istartswith='lov').extra(select={'length':'Length(title)'}).order_by('length')[:5]
+
+            filter_results = list(single_word_shows) + filter_results[:5]
+
         assert cache
         try:
             cache.set(query_string, filter_results)
         except:
             pass
-
-        filter_results = self.check_guidebox_for_query(filter_results, query_string)
 
         return filter_results
 
@@ -449,3 +454,13 @@ class HaystackSearchView(SearchView):
         context = super(HaystackSearchView, self).get_context_data(*args, **kwargs)
         # do something
         return context
+
+def autocomplete(request):
+    sqs = SearchQuerySet().autocomplete(content_auto=request.GET.get('q', ''))[:5]
+    suggestions = [result.object for result in sqs]
+    # Make sure you return a JSON object, not a bare list.
+    # Otherwise, you could be vulnerable to an XSS attack.
+    # the_data = json.dumps({
+    #     'results': suggestions
+    # })
+    return HttpResponse(suggestions, content_type='application/json')

@@ -637,7 +637,7 @@ app.directive('checkoutImageBlock', function ($http) {
 
         link: function (scope, element) {
 
-            $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
+
 
             scope.processServiceUrl = function (service) {
                 if (scope.key == 'ota') {
@@ -735,7 +735,7 @@ app.directive('checkoutShows', function () {
     }
 })
 
-app.directive('checkoutService', function(){
+app.directive('checkoutService', function($http){
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/checkout-service-template.html',
@@ -745,6 +745,14 @@ app.directive('checkoutService', function(){
             package: '='
         },
         link: function(scope, element, attrs) {
+
+               $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
+                   .then(function(data){
+                       debugger;
+                       scope.service_description = data
+                       console.log(data)
+
+                   })
             scope.windowWidth = window.innerWidth;
             scope.removeServiceFromPackage = function (service) {
 
@@ -2203,7 +2211,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2309,6 +2316,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.
