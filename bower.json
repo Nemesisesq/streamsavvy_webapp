@@ -19,7 +19,8 @@
     "tests"
   ],
   "dependencies": {
-    "font-awesome": "^4.6.3"
+    "font-awesome": "^4.6.3",
+    "jquery": "2.2.4"
   },
   "devDependencies": {
     "angular-cookies": "~1.4.5",
