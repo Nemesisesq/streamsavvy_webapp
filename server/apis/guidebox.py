@@ -130,7 +130,8 @@ class GuideBox(object):
             return False
 
     @try_catch
-    def process_content_for_sling_ota_banned_channels(self, c):
+    def process_content_for_sling_ota_banned_channels(self, c, search_query=False):
+
         c = self.check_for_sources_date_last_checked(c)
 
         c = self.remove_banned_channels(c)
@@ -186,11 +187,11 @@ class GuideBox(object):
         return c
 
     def check_for_sources_date_last_checked(self, c):
-        if 'sources' not in c.guidebox_data or not cache.get(c.id):
+        if 'sources' not in c.guidebox_data:
             c = self.add_additional_channels_for_show(c)
             # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
             c.save()
-            cache.set(c.id, "checked", timeout=7 * 24 * 60 * 60 )
+            c
         return c
 
     def add_additional_channels_for_show(self, shows):
