@@ -3073,6 +3073,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     function verifySelectedShowDetails() {
         var chosen = PackageFactory.getChosenShow()
         if (chosen.detail == undefined) {
+            debugger;
             $http.get(chosen.url)
                 .then(function (res) {
                     PackageFactory.setChosenShow(res.data)
