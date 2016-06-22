@@ -164,7 +164,7 @@ app.directive('checkoutItem', function () {
 })
 
 
-app.directive('checkoutImageBlock', function () {
+app.directive('checkoutImageBlock', function ($http) {
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/checkout-image-block.html',
@@ -174,6 +174,8 @@ app.directive('checkoutImageBlock', function () {
         },
 
         link: function (scope, element) {
+
+
 
             scope.processServiceUrl = function (service) {
                 if (scope.key == 'ota') {
@@ -271,15 +273,25 @@ app.directive('checkoutShows', function () {
     }
 })
 
-app.directive('checkoutService', function(){
+app.directive('checkoutService', function($http){
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/checkout-service-template.html',
         scope: {
             service: '=',
-            key: '='
+            key: '=',
+            package: '='
         },
         link: function(scope, element, attrs) {
+
+               $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
+                   .then(function(data){
+                       debugger;
+                       scope.service_description = data
+                       console.log(data)
+
+                   })
+            scope.windowWidth = window.innerWidth;
             scope.removeServiceFromPackage = function (service) {
 
                 scope.package.data.services.pop(service)

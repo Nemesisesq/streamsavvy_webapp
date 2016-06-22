@@ -186,11 +186,11 @@ class GuideBox(object):
         return c
 
     def check_for_sources_date_last_checked(self, c):
-        if 'sources' not in c.guidebox_data or not cache.get(c.id):
-            c = self.add_additional_channels_for_show(c)
-            # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
-            c.save()
-            cache.set(c.id, "checked", timeout=7 * 24 * 60 * 60 )
+        # if 'sources' not in c.guidebox_data or not cache.get(c.id):
+        #     c = self.add_additional_channels_for_show(c)
+        #     # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
+        #     c.save()
+        #     cache.set(c.id, "checked", timeout=7 * 24 * 60 * 60 )
         return c
 
     def add_additional_channels_for_show(self, shows):
