@@ -1958,7 +1958,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 })
                 .tap(interceptor)
                 .thru(function (list) {
-                    debugger;
 
                     if (_.some(list.ota, function (item) {
                             return item.chan.source == 'nbc'
@@ -2814,7 +2813,7 @@ function removeHuluIfShowtimeContent(services) {
             return false
         }
 
-        if (elem.display_name == "Showtime Anytime"){
+        if (elem.display_name == "Showtime Anytime") {
             return false
         }
 
@@ -2824,7 +2823,7 @@ function removeHuluIfShowtimeContent(services) {
 
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
-    var liveServices = ['sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox'];
+    var liveServices = ['pbs', 'sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox'];
     var onDemandServices = ['hulu_plus', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
@@ -2878,6 +2877,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         }
                     })
                     .groupBy(function (service) {
+                        debugger;
                         if (liveServices.includes(service.source)) {
                             return 'live'
                         }
@@ -2917,7 +2917,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         if (services.live) {
                             _.map(services.live, function (elem) {
                                 // debugger
-
 
 
                                 if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {

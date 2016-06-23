@@ -379,7 +379,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 })
                 .tap(interceptor)
                 .thru(function (list) {
-                    debugger;
 
                     if (_.some(list.ota, function (item) {
                             return item.chan.source == 'nbc'
