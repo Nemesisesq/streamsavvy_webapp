@@ -230,9 +230,21 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
         createListOfServices: function () {
 
+
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 var list = getBaseShowServiceCatagories(ssPackage)
+                    .thru(function (list) {
+                        debugger;
+                        if (_.some(ssPackage.data.content, 'on_netflix')) {
+                            if (!_.some(list, ['source', 'netflix'])) {
+                                list.push({display_name: 'Netflix', source: 'netflix'})
+                            }
+                        }
+
+                        return list
+
+                    })
                     .map(function (elem) {
                         if (elem.source == 'hulu_free') {
                             elem.source = 'hulu_plus';
@@ -252,11 +264,16 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     .map(function (elem) {
                         var o = {chan: elem}
                         o.shows = _.filter(ssPackage.data.content, function (show) {
+                            if(show.on_netflix && elem.source == 'netflix') {
+                                return true
+                            }
                             if (show.guidebox_data.sources) {
                                 var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                            } else {
+                            }else{
                                 source_check = false
                             }
+
+
 
                             var url_check = _.some(show.channel, ['url', elem.url]);
                             return url_check || source_check

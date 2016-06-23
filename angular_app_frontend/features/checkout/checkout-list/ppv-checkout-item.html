@@ -4,12 +4,18 @@
 
             If subscription apps aren' your thing, you can payfor individual episodes or seasons with these apps
         </div>
-        <div ng-if="windowWidth >= 768">
-            <action-block class=" col-sm-6" service="{}" package="package"></action-block>
-        </div>
     </div>
-    <checkout-image-block ng-repeat="service in value" class="col-sm-2" key="key"
-                          service="service"></checkout-image-block>
+    <div class="row">
+        <div class=" ppv-checkout-image-block col-sm-3" ng-repeat="service in value">
+            <checkout-image-block key="key"
+                                  service="service"></checkout-image-block>
+
+            <div class="row">
+                <button class="btn-purchase" ng-click="linkToAffiliate(service)">Purchase</button>
+            </div>
+        </div>
+
+    </div>
 
     <div class="remove-cross" ng-click="removeElementFromDom()">
         <img ng-click="removeElementFromDom()" class="pull-right"
@@ -25,8 +31,4 @@
             <!--<span class="checkout-remove-show col-sm-2 col-xs-6">REMOVE</span>-->
         </li>
     </ul>
-</div>
-
-<div class="row" ng-if="windowWidth < 768">
-    <action-block class=" col-sm-offset-3 col-sm-6" service="service" package="package"></action-block>
 </div>

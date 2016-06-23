@@ -223,7 +223,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                             })
                         }
-
+    
                         if ($scope.cs.on_netflix) {
                             if (!services.hasOwnProperty('binge')) {
                                 services.binge = []
