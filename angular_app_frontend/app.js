@@ -302,7 +302,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             onEnter: function ($state) {
 
                 $window = $windowProvider.$get();
-                if($window.innerWidth< 767){
+                if ($window.innerWidth < 767) {
                     $state.go('mobile.shows')
                 }
             }
@@ -415,7 +415,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 },
 
 
-
             }
         })
         .state('mobile.hardware', {
@@ -446,12 +445,37 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
 
 //TODO uncomment this after developingt the mobile checkout page
 
-app.run(function($window, $state){
-    $($window).resize(function(){
-        if (this.innerWidth > 767){
-            $state.go('dash.dashboard')
+app.run(function ($window, $state) {
+    $($window).resize(function () {
+        var curr = $state.current.name
+
+        var d_state = RegExp('dash').test(curr) ? true : false
+        var m_state = RegExp('mobile').test(curr) ? true : false
+        debugger;
+        if (this.innerWidth > 767) {
+            if (m_state) {
+
+                if (/services/.test(curr)) {
+                    $state.go('check.out')
+                } else {
+
+                    $state.go('dash.dashboard')
+                }
+
+            }
         } else {
-            $state.go('mobile.shows')
+            if (!m_state) {
+
+                if (/dashboard/.test(curr)) {
+                    $state.go('mobile.shows')
+
+                }
+
+                if (/check/.test(curr)) {
+                    $state.go('mobile.services')
+                }
+
+            }
         }
     })
 })
