@@ -311,6 +311,9 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         catagorizeShowsByService: function (ssPackage) {
+            if(_.isEmpty(ssPackage.data.content)){
+                return []
+            }
             return getBaseShowServiceCatagories(ssPackage)
             // .map(function (elem) {
             //     debugger;
@@ -419,9 +422,9 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 
                     return list
+                 
 
                 })
-                .compact()
                 .tap(interceptor)
 
 
