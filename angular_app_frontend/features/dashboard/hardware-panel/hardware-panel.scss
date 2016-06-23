@@ -3,7 +3,7 @@
   @extend %side-panel;
   .row {
 
-    margin-left: 11px;
+
     .hardware-name, .hardware-cost {
       color: $dark-sky-blue;
     }
@@ -14,9 +14,9 @@
     }
 
     img {
-      margin-top: 20px;
-      margin-bottom: 10px;
-      border-radius: 8px;
+      //margin-top: 20px;
+      //margin-bottom: 10px;
+      //border-radius: 8px;
     }
 
   }
@@ -97,4 +97,17 @@
   }
 
 
+}
+
+.hardware-img{
+  margin-top: 15px;
+
+
+  .img-responsive {
+   width:auto;
+height:auto;
+
+    max-width: 120px;
+    max-height: 120px;
+  }
 }

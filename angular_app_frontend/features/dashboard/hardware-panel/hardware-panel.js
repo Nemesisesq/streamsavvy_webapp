@@ -3,6 +3,19 @@
  */
 app.controller('HardwareController', function ($scope, PackageFactory) {
 
+    $scope.devices = [
+        {
+            name: 'Roku',
+            image: '',
+            price: 43.20
+        },
+        {
+            name: 'Mohu Le',
+            image: '',
+            price: 43.20
+        }
+    ]
+
     $scope.pkg = PackageFactory.getPackage();
 
 

@@ -2968,17 +2968,12 @@ span.pull-right.footer-right {
 .pointer {
   cursor: pointer; }
 
-.ss-hardware-panel .row {
-  margin-left: 11px; }
-  .ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
-    color: #45a7e5; }
-  .ss-hardware-panel .row .hardware-other {
-    color: #45a7e5;
-    margin-top: 90px; }
-  .ss-hardware-panel .row img {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    border-radius: 8px; }
+.ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
+  color: #45a7e5; }
+
+.ss-hardware-panel .row .hardware-other {
+  color: #45a7e5;
+  margin-top: 90px; }
 
 .ss-hardware-panel .hardware-header {
   margin-top: -55px; }
@@ -3030,6 +3025,14 @@ span.pull-right.footer-right {
     padding-bottom: .875em;
     padding-left: 1.5em;
     padding-right: 1.5em; } }
+
+.hardware-img {
+  margin-top: 15px; }
+  .hardware-img .img-responsive {
+    width: auto;
+    height: auto;
+    max-width: 120px;
+    max-height: 120px; }
 
 show-detail {
   text-transform: none;

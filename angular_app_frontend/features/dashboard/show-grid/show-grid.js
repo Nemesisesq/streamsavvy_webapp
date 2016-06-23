@@ -71,6 +71,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return elem
                         }
 
+                        if (elem.source == 'starz_tveverywhere') {
+                            elem.source = 'starz'
+                        }
+
                         return elem;
                     })
                     .thru(function (services) {
@@ -111,6 +115,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         return 'misc'
                     })
                     .thru(function (services) {
+
                         _.forEach(services.misc, function (service) {
                             if (service.source == 'hbo_now') {
                                 services.live.push(service);
@@ -119,14 +124,20 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             }
                             else if (service.source == 'showtime_subscription') {
                                 services.on_demand.push(service);
-                                service.binge.push(service);
-                                service.live.push(service);
+                                services.binge.push(service);
+                                services.live.push(service);
                             }
-                            else if (service.source == 'starz') {
-                                service.binge.push(service);
-                                service.on_demand.push(service);
-                            }
+
                         })
+                        debugger;
+                        if (_.some(services.on_demand, ['source', 'starz'])) {
+
+                            if (services.binge == undefined) {
+                                services.binge = []
+                            }
+                            services.binge.push(_.takeWhile(services.on_demand, {'source' :'starz'})[0]);
+
+                        }
 
                         if (services.live) {
                             _.map(services.live, function (elem) {
@@ -308,7 +319,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         $('body').css({'overflow': 'hidden'})
 
-        if($window.innerWidth < 768){
+        if ($window.innerWidth < 768) {
             $('body').addClass('black-mobile-bg')
             $('#search-and-shows').fadeOut()
         }
@@ -396,7 +407,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 if ($window.innerWidth < 768) {
                     $('body').css({'overflow': 'scroll'})
                     $('body').removeClass('black-mobile-bg')
-                     $('#search-and-shows').fadeIn()
+                    $('#search-and-shows').fadeIn()
 
                     $('mobile-tabs').fadeIn();
                 }
