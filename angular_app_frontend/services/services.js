@@ -268,7 +268,14 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                                 return true
                             }
                             if (show.guidebox_data.sources) {
-                                var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                                var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, function (show) {
+                                    var showRe = new RegExp(show.source)
+                                    var elemRe = new RegExp(elem.source)
+
+                                    return showRe.test(elem.source) || elemRe.test(show.source)
+
+
+                                })
                             } else {
                                 source_check = false
                             }
@@ -402,8 +409,16 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
                         if (show.guidebox_data.sources) {
-                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                        } else {
+                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, function (show) {
+                                var showRe = new RegExp(show.source)
+                                var elemRe = new RegExp(elem.source)
+
+                                return showRe.test(elem.source) || elemRe.test(show.source)
+
+
+                            })
+                        }
+                        else {
                             source_check = false
                         }
                         var url_check = _.some(show.channel, ['url', elem.url]);
