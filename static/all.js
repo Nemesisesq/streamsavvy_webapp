@@ -1433,7 +1433,6 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
 
         // debugger;
         return function (array) {
-            debugger;
             return _.filter(array, function(elem){
                 var res = elem.on_netflix || _.some(elem.channel, ['source', 'netflix']) || _.some(elem.channel, ['source', 'netflix'])
 
@@ -2909,7 +2908,7 @@ function removeHuluIfShowtimeContent(services) {
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['cw', 'pbs', 'sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox'];
-    var onDemandServices = ['hulu_plus', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
+    var onDemandServices = ['hulu_plus', 'hulu','hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
@@ -2924,6 +2923,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.cs = PackageFactory.getChosenShow();
 
         $scope.detailSources = (function () {
+            debugger;
 
             if ($scope.cs.guidebox_data != undefined) {
 

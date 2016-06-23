@@ -166,7 +166,6 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
 
         // debugger;
         return function (array) {
-            debugger;
             return _.filter(array, function(elem){
                 var res = elem.on_netflix || _.some(elem.channel, ['source', 'netflix']) || _.some(elem.channel, ['source', 'netflix'])
 
