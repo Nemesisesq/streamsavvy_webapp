@@ -2968,17 +2968,17 @@ span.pull-right.footer-right {
 .pointer {
   cursor: pointer; }
 
-.ss-hardware-panel .row {
-  margin-left: 11px; }
-  .ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
-    color: #45a7e5; }
-  .ss-hardware-panel .row .hardware-other {
-    color: #45a7e5;
-    margin-top: 90px; }
-  .ss-hardware-panel .row img {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    border-radius: 8px; }
+.ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
+  color: #45a7e5; }
+
+.ss-hardware-panel .row .hardware-other {
+  color: #45a7e5;
+  margin-top: 90px; }
+
+.ss-hardware-panel .row img {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-radius: 8px; }
 
 .ss-hardware-panel .hardware-header {
   margin-top: -55px; }
@@ -3031,6 +3031,9 @@ span.pull-right.footer-right {
     padding-left: 1.5em;
     padding-right: 1.5em; } }
 
+.hardware-img img {
+  width: 100%; }
+
 show-detail {
   text-transform: none;
   font-family: AvenirNext-Bold;
@@ -3067,7 +3070,6 @@ show-detail {
     color: white; }
   show-detail .please-select-how-yo {
     text-transform: none;
-    width: 310px;
     height: 16px;
     display: block;
     font-size: 12px;
@@ -3106,7 +3108,11 @@ show-detail {
       show-detail .service-options div img {
         width: 100%; }
   show-detail .add-another {
-    margin-top: 20px; }
+    margin-top: 20px;
+    width: 100%; }
+    show-detail .add-another .btn {
+      min-width: 100px;
+      width: 100%; }
   show-detail .fresh {
     width: 20px;
     height: 21px;
@@ -3162,6 +3168,20 @@ show-detail {
 
 .synopsis-with-info {
   padding-bottom: 5%; }
+
+@media (max-width: 767px) {
+  .placeholder {
+    background: black; }
+  .black-mobile-bg {
+    background: black; }
+  #sticky {
+    padding: 10px;
+    height: 41px;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.4); } }
 
 /* General styles for all menus */
 .cbp-spmenu {

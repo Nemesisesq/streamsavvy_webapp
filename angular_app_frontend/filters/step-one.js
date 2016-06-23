@@ -98,7 +98,7 @@ app.filter('unwantedChannels', function () {
         // 17, //A&E
         20, 101, //Syfy
         48, 59, //Comedy Central
-        133, //Starz
+        // 133, //Starz
         21, 241, 239, //VH1
          18, 123, //History Channel,
         795,//channel 4
@@ -163,9 +163,15 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
 })
 
     .filter('onNetflix', function (_) {
+
         // debugger;
         return function (array) {
-            return _.filter(array, 'on_netflix')
+            debugger;
+            return _.filter(array, function(elem){
+                var res = elem.on_netflix || _.some(elem.channel, ['source', 'netflix']) || _.some(elem.channel, ['source', 'netflix'])
+
+                return res
+            })
         }
 
     })

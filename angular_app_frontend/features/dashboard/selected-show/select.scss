@@ -46,7 +46,7 @@ show-detail {
 
   .please-select-how-yo {
     text-transform: none;
-    width: 310px;
+    //width: 310px;
     height: 16px;
     display: block;
     font-size: 12px;
@@ -106,6 +106,12 @@ show-detail {
   }
   .add-another {
     margin-top: 20px;
+    width: 100%;
+
+    .btn {
+      min-width: 100px;
+      width: 100%;
+    }
   }
   .fresh {
     width: 20px;
@@ -189,4 +195,24 @@ show-detail {
 
 .synopsis-with-info {
   padding-bottom: 5%;
+}
+
+@media (max-width: 767px){
+  .placeholder{
+    background: black;
+  }
+
+  .black-mobile-bg {
+    background: black;
+  }
+
+  #sticky{
+    padding: 10px;
+    height: 41px;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0px;
+    background: rgba(0,0,0,.4);
+  }
 }

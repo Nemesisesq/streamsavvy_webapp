@@ -51,7 +51,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
 
     function getBaseShowServiceCatagories(ssPackage) {
-        debugger;
         return _.chain(ssPackage.data.content)
             .map(function (elem) {
                 _.forEach(elem.channel, function (c) {
@@ -64,7 +63,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             .flatten()
             .uniqBy('source')
             .thru(function (services) {
-                debugger;
                 if (checkForHuluWithShowtime(services)) {
                     services = removeHuluIfShowtimeContent(services)
                 }
@@ -231,11 +229,27 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         createListOfServices: function () {
+            debugger;
 
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 var list = getBaseShowServiceCatagories(ssPackage)
+                    .map(function (elem) {
+                        if (elem.source == 'hulu_free') {
+                            elem.source = 'hulu_plus';
+                            return elem
+                        }
 
+                        if (elem.source == 'starz_tveverywhere') {
+                            elem.source = 'starz'
+                        }
+
+                        if (elem.source == 'showtime_subscription') {
+                            elem.source = 'showtime'
+                        }
+
+                        return elem;
+                    })
                     .map(function (elem) {
                         var o = {chan: elem}
                         o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -258,6 +272,9 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         return o
 
                     })
+                    .filter(function (elem) {
+                        return  elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
+                    })
                     .groupBy(function (elem) {
                         if (elem.chan.is_over_the_air) {
                             return 'ota'
@@ -277,9 +294,33 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return elem.shows
                         })
 
-                        if (list.ota && list.ota.length > 1) {
-                            list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
-                            list.ota = [list.ota[0]];
+                        var showsSling = _.map(list.sling, function (elem) {
+                            return elem.shows
+                        })
+
+
+                        if (list.ota) {
+                            if (list.ota.length > 1) {
+
+                                list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
+                                list.ota = [list.ota[0]];
+                                list.ota[0].chan.source = 'ota';
+                            } else {
+                                list.ota[0].chan.source = 'ota';
+
+                            }
+                        }
+
+                        if (list.sling) {
+                            if (list.sling.length > 1) {
+
+                                list.sling[0].shows = _.uniqBy(_.flatten(showsSling), 'url');
+                                list.sling = [list.sling[0]];
+                                list.sling[0].chan.source = 'sling_tv';
+                            } else {
+                                list.sling[0].chan.source = 'sling_tv';
+
+                            }
                         }
 
                         var showsPpv = _.map(list.ppv, function (elem) {
@@ -305,18 +346,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         catagorizeShowsByService: function (ssPackage) {
+            if (_.isEmpty(ssPackage.data.content)) {
+                return []
+            }
             return getBaseShowServiceCatagories(ssPackage)
-            // .map(function (elem) {
-            //     debugger;
-            //
-            //     if (elem.guidebox_data != undefined) {
-            //         elem.source = elem.guidebox_data.short_name
-            //     }
-            //     return elem
-            // })
-
                 .map(function (elem) {
-                    //debugger
                     if (elem.guidebox_data != undefined) {
                         elem.display_name = elem.guidebox_data.name
                         return elem
@@ -332,36 +366,29 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         } else {
                             source_check = false
                         }
-
                         var url_check = _.some(show.channel, ['url', elem.url]);
                         return url_check || source_check
                     })
-
                     if (o.chan.guidebox_data) {
                         if (o.chan.guidebox_data.is_over_the_air) {
                             o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
                         }
                     }
-
                     return o
-
                 })
                 .filter(function (elem) {
-                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO"
+                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
                 })
                 .uniqBy(function (elem) {
                     return elem.chan.source
                 })
-                .tap(interceptor)
                 .groupBy(function (elem) {
-
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
                     if (check_if_on_sling(elem)) {
                         return 'sling'
                     }
-
                     if (_.includes(payPerServices, elem.chan.source)) {
                         return 'ppv'
 
@@ -373,45 +400,38 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 .tap(interceptor)
                 .thru(function (list) {
 
-                    var showsOta = _.map(list.ota, function (elem) {
-                        return elem.shows
-                    })
-
-                    if (list.ota && list.ota.length > 1) {
-                        list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
-                        list.ota = [list.ota[0]];
-                    }
-
-                    var showsPpv = _.map(list.ppv, function (elem) {
-                        return elem.shows
-                    })
-
-                    if (list.ppv && list.ppv.length > 1) {
-                        list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
-                        list.ppv = [list.ppv[0]];
-                    }
-
                     if (_.some(list.ota, function (item) {
                             return item.chan.source == 'nbc'
                         })) {
-                        var nbc = _.takeWhile(list.ota, function (item) {
-                            return item.chan.source == 'nbc'
-                        })
-
-
+                        var nbc = _.chain(list.ota)
+                            .takeWhile(function (item) {
+                                return item.chan.source == 'nbc'
+                            })
+                            .cloneDeep()
+                            .value()
                         if (list.not_ota == undefined) {
                             list.not_ota = nbc
                         } else {
                             list.not_ota = _.concat(list.not_ota, nbc)
                         }
                     }
-
-
+                    debugger;
+                    var showsOta = _.map(list.ota, function (elem) {
+                        return elem.shows
+                    })
+                    if (list.ota && list.ota.length > 1) {
+                        list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
+                        list.ota = [list.ota[0]];
+                    }
+                    var showsPpv = _.map(list.ppv, function (elem) {
+                        return elem.shows
+                    })
+                    if (list.ppv && list.ppv.length > 1) {
+                        list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
+                        list.ppv = [list.ppv[0]];
+                    }
                     return list
-
                 })
-
-
                 .value();
         }
     }

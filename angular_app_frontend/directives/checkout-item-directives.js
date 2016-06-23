@@ -190,7 +190,7 @@ app.directive('checkoutImageBlock', function ($http) {
     }
 })
 
-app.directive('actionBlock', function () {
+app.directive('actionBlock', function ($window) {
 
     return {
         restrict: 'E',
@@ -201,6 +201,11 @@ app.directive('actionBlock', function () {
         },
 
         link: function (scope, element) {
+            
+            scope.linkToAffiliate = function (service){
+                debugger;
+                $window.open(service.service_description.subscription_link)
+            }
 
 
             scope.isServiceAdded = function (service) {
@@ -222,11 +227,7 @@ app.directive('actionBlock', function () {
                 scope.package.data.services.pop(service)
             }
 
-            scope.removeElementFromDom = function () {
-                debugger;
-
-                element.parent().parent().remove()
-            }
+            // scope.
 
         }
     }
@@ -273,7 +274,7 @@ app.directive('checkoutShows', function () {
     }
 })
 
-app.directive('checkoutService', function($http){
+app.directive('checkoutService', function($http, $window){
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/checkout-service-template.html',
@@ -287,10 +288,11 @@ app.directive('checkoutService', function($http){
                $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
                    .then(function(data){
                        debugger;
-                       scope.service_description = data
+                       scope.service.service_description = data.data
                        console.log(data)
 
                    })
+            
             scope.windowWidth = window.innerWidth;
             scope.removeServiceFromPackage = function (service) {
 

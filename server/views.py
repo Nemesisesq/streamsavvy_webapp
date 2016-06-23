@@ -210,7 +210,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         filter_results = self.check_guidebox_for_query(filter_results, query_string)
 
-        if len(query_string) > 1:
+        if len(query_string.split()) == 1:
             single_word_shows =  Content.objects.filter(title__istartswith=query_string).extra(select={'length':'Length(title)'}).order_by('length')[:5]
 
             filter_results = list(single_word_shows) + filter_results[:5]
@@ -251,7 +251,8 @@ class ContentViewSet(viewsets.ModelViewSet):
         g = GuideBox()
 
         if 'detail' in obj.guidebox_data:
-            obj = g.process_content_for_sling_ota_banned_channels(obj)
+            obj = g.process_content_for_sling_ota_banned_channels(obj, True)
+            obj.save()
             return obj
 
         else:
@@ -260,10 +261,10 @@ class ContentViewSet(viewsets.ModelViewSet):
 
             obj.guidebox_data['detail'] = detail
 
+
+            obj = g.process_content_for_sling_ota_banned_channels(obj, True)
+
             obj.save()
-
-            obj = g.process_content_for_sling_ota_banned_channels(obj)
-
             return obj
 
 

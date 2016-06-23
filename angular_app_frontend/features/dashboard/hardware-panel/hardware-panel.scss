@@ -3,7 +3,7 @@
   @extend %side-panel;
   .row {
 
-    margin-left: 11px;
+    //margin-left: 11px;
     .hardware-name, .hardware-cost {
       color: $dark-sky-blue;
     }
@@ -30,6 +30,7 @@
   .hardware-body {
     transition: height 0.3s ease;
     margin-top: 55px;
+    //width: 100%;
   }
 }
 
@@ -97,4 +98,11 @@
   }
 
 
+}
+
+.hardware-img{
+  img {
+    width: 100%
+
+  }
 }

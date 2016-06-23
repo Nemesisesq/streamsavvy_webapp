@@ -23,7 +23,6 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 
 
             scope.formatDate = function (dateString) {
-                // debugger
                 return moment(dateString).format('MMMM D, Y')
             }
 
@@ -51,8 +50,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             }
 
             scope.hasOwnApp = function (key, item) {
-                // debugger;
-
+                
                 servicesWithApps = [ 'CBS', 'NBC', 'HBO', 'HBO NOW', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
 
@@ -87,7 +85,6 @@ app.directive('openDetail', function ($timeout) {
         link: function (scope, element, attrs) {
             // alert('Hello World');
             $timeout(function () {
-                // debugger;
                 if (scope.$last && scope.show.justAdded) {
                     var ev = {};
                     ev.currentTarget = element[0];
