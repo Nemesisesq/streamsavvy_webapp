@@ -229,6 +229,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         createListOfServices: function () {
+            debugger;
 
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
@@ -272,7 +273,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                     })
                     .filter(function (elem) {
-                        return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
+                        return  elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
                     })
                     .groupBy(function (elem) {
                         if (elem.chan.is_over_the_air) {
