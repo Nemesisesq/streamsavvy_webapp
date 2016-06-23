@@ -663,6 +663,8 @@ app.directive('actionBlock', function ($window) {
         },
 
         link: function (scope, element) {
+            debugger;
+
             
             scope.linkToAffiliate = function (service){
                 debugger;
@@ -766,6 +768,23 @@ app.directive('checkoutService', function($http, $window){
 
                 element.remove()
             }
+        }
+    }
+})
+
+app.directive('ppvCheckoutItem', function($window){
+    return {
+        restrict : 'E',
+        templateUrl:  'static/partials/checkout-list/ppv-checkout-item.html',
+        scope: {
+            key: '=',
+            value: '=',
+            package: '='
+        },
+        link: function(scope, element, attrs) {
+
+            scope.windowWidth = $window.innerWidth
+
         }
     }
 })
@@ -1820,7 +1839,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         createListOfServices: function () {
-            debugger;
 
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
@@ -1864,7 +1882,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                     })
                     .filter(function (elem) {
-                        return  elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
+                        return elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
                     })
                     .groupBy(function (elem) {
                         if (elem.chan.is_over_the_air) {
@@ -1872,6 +1890,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         }
                         if (check_if_on_sling(elem)) {
                             return 'sling'
+                        }
+
+                        if (_.includes(payPerServices, elem.chan.source)) {
+                            return 'ppv'
+
                         }
 
 
@@ -1914,20 +1937,24 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             }
                         }
 
-                        var showsPpv = _.map(list.ppv, function (elem) {
-                            return elem.shows
-                        })
-
-                        if (list.ppv && list.ppv.length > 1) {
-                            list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
-                            list.ppv = [list.ppv[0]];
-                        }
-
-
                         return list
-
-
                     })
+                    // .thru(function (services) {
+                    //     debugger
+                    //     var showsPpv = _.map(list.ppv, function (elem) {
+                    //         return elem.shows
+                    //     })
+                    //
+                    //     if (list.ppv && list.ppv.length > 1) {
+                    //         list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
+                    //         list.ppv = [list.ppv[0]];
+                    //     }
+                    //
+                    //
+                    //
+                    //
+                    //
+                    // })
 
                     .value();
                 this.setListOfServices(list)

@@ -201,6 +201,8 @@ app.directive('actionBlock', function ($window) {
         },
 
         link: function (scope, element) {
+            debugger;
+
             
             scope.linkToAffiliate = function (service){
                 debugger;
@@ -304,6 +306,23 @@ app.directive('checkoutService', function($http, $window){
 
                 element.remove()
             }
+        }
+    }
+})
+
+app.directive('ppvCheckoutItem', function($window){
+    return {
+        restrict : 'E',
+        templateUrl:  'static/partials/checkout-list/ppv-checkout-item.html',
+        scope: {
+            key: '=',
+            value: '=',
+            package: '='
+        },
+        link: function(scope, element, attrs) {
+
+            scope.windowWidth = $window.innerWidth
+
         }
     }
 })

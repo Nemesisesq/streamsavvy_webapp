@@ -2818,6 +2818,12 @@ show-detail .background {
   .service-image {
     max-width: 70px; } }
 
+.consolidated-checkout-ppv {
+  color: white; }
+
+.checkout-service-price {
+  color: white; }
+
 .row.footer {
   position: absolute;
   bottom: 0;
