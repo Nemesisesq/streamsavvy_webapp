@@ -196,3 +196,9 @@ show-detail {
 .synopsis-with-info {
   padding-bottom: 5%;
 }
+
+@media (max-width: 767px){
+  .placeholder{
+    background: black;
+  }
+}

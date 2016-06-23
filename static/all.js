@@ -2019,7 +2019,7 @@ app.factory('classie', function ($window) {
     return $window.classie
 })
 
-app.factory('ShowDetailAnimate', function ($timeout, $q) {
+app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     //debugger;
 
     var bodyEl = document.body,
@@ -2096,6 +2096,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
             dummy.className = 'placeholder';
 
             // set the width/heigth and position
+
             dummy.style.WebkitTransform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
             dummy.style.transform = 'translate3d(' + (positionItem.offsetLeft + 14) + 'px, ' + (positionItem.offsetTop ) + 'px, 0px) scale3d(' + (scaleItem.offsetWidth / container.offsetWidth) + ',' + scaleItem.offsetHeight / getViewport('y') + ',1)';
 
@@ -2111,8 +2112,14 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
             return $timeout(function () {
 
                 // expands the placeholder
+                if ($window.innerWidth < 768) {
+                    dummy.style.WebkitTransform = 'translate3d(0, ' + (scrollY()) + 'px, 0px)';
+                    dummy.style.transform = 'translate3d(0, ' + (scrollY()) + 'px, 0px)';
+                } else {
+
                 dummy.style.WebkitTransform = 'translate3d(0, ' + (scrollY() + 50) + 'px, 0px)';
                 dummy.style.transform = 'translate3d(0, ' + (scrollY() + 50) + 'px, 0px)';
+                }
                 // disallow scroll
                 window.addEventListener('scroll', this.noscroll);
                 onEndTransition(dummy, function () {
@@ -2193,6 +2200,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q) {
 
     }
 });
+
 
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
@@ -2299,7 +2307,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
