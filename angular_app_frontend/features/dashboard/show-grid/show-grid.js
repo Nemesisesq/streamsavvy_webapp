@@ -152,7 +152,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                                     delete elemCopy['id'];
                                     delete elemCopy['$$hashKey'];
 
-                                    elemCopy.source = 'sling-tv.svg';
+                                    elemCopy.source = 'sling_tv';
 
                                     services.live.push(elemCopy)
 
