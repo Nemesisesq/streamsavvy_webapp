@@ -21,6 +21,11 @@ banned_channels = ['HBO Go',
                    'MTV',
                    'Hulu with Showtime',
                    'TV Guide',
-                   'BBC'
+                   'BBC',
+                   'BBC America',
+                   'ShareTv',
+                   'Watch HGTV',
+                   'E',
+                   'E!'
                    # 'ClevverTV',
                    ]
