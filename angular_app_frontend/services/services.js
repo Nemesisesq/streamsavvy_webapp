@@ -264,15 +264,14 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     .map(function (elem) {
                         var o = {chan: elem}
                         o.shows = _.filter(ssPackage.data.content, function (show) {
-                            if(show.on_netflix && elem.source == 'netflix') {
+                            if (show.on_netflix && elem.source == 'netflix') {
                                 return true
                             }
                             if (show.guidebox_data.sources) {
                                 var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                            }else{
+                            } else {
                                 source_check = false
                             }
-
 
 
                             var url_check = _.some(show.channel, ['url', elem.url]);
@@ -310,6 +309,22 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         }
                     })
                     .thru(function (list) {
+
+                        if (_.some(list.ota, function (item) {
+                                return item.chan.source == 'nbc'
+                            })) {
+                            var nbc = _.chain(list.ota)
+                                .takeWhile(function (item) {
+                                    return item.chan.source == 'nbc'
+                                })
+                                .cloneDeep()
+                                .value()
+                            if (list.not_ota == undefined) {
+                                list.not_ota = nbc
+                            } else {
+                                list.not_ota = _.concat(list.not_ota, nbc)
+                            }
+                        }
 
                         var showsOta = _.map(list.ota, function (elem) {
                             return elem.shows
