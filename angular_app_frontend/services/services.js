@@ -237,6 +237,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         var o = {chan: elem}
                         o.shows = _.filter(ssPackage.data.content, function (show) {
                             if (show.guidebox_data.sources) {
+                                debugger;
                                 var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
                             } else {
                                 source_check = false
@@ -329,6 +330,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         return elem
                     }
                 })
+                .tap(interceptor)
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -377,6 +379,26 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 })
                 .tap(interceptor)
                 .thru(function (list) {
+                    debugger;
+
+                    if (_.some(list.ota, function (item) {
+                            return item.chan.source == 'nbc'
+                        })) {
+                        var nbc = _.chain(list.ota)
+                            .takeWhile(function (item) {
+                                return item.chan.source == 'nbc'
+                            })
+                            .cloneDeep()
+                            .value()
+
+
+                    }
+
+                    if (list.not_ota == undefined) {
+                        list.not_ota = nbc
+                    } else {
+                        list.not_ota = _.concat(list.not_ota, nbc)
+                    }
 
                     var showsOta = _.map(list.ota, function (elem) {
                         return elem.shows
@@ -396,25 +418,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         list.ppv = [list.ppv[0]];
                     }
 
-                    if (_.some(list.ota, function (item) {
-                            return item.chan.source == 'nbc'
-                        })) {
-                        var nbc = _.takeWhile(list.ota, function (item) {
-                            return item.chan.source == 'nbc'
-                        })
-
-
-                        if (list.not_ota == undefined) {
-                            list.not_ota = nbc
-                        } else {
-                            list.not_ota = _.concat(list.not_ota, nbc)
-                        }
-                    }
-
 
                     return list
 
                 })
+                .tap(interceptor)
 
 
                 .value();

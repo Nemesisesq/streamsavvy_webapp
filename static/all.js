@@ -999,7 +999,6 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 
 
             scope.formatDate = function (dateString) {
-                // debugger
                 return moment(dateString).format('MMMM D, Y')
             }
 
@@ -1027,8 +1026,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             }
 
             scope.hasOwnApp = function (key, item) {
-                // debugger;
-
+                
                 servicesWithApps = [ 'CBS', 'NBC', 'HBO', 'HBO NOW', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
 
@@ -1063,7 +1061,6 @@ app.directive('openDetail', function ($timeout) {
         link: function (scope, element, attrs) {
             // alert('Hello World');
             $timeout(function () {
-                // debugger;
                 if (scope.$last && scope.show.justAdded) {
                     var ev = {};
                     ev.currentTarget = element[0];
@@ -1819,6 +1816,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         var o = {chan: elem}
                         o.shows = _.filter(ssPackage.data.content, function (show) {
                             if (show.guidebox_data.sources) {
+                                debugger;
                                 var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
                             } else {
                                 source_check = false
@@ -1911,6 +1909,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         return elem
                     }
                 })
+                .tap(interceptor)
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -1959,6 +1958,26 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 })
                 .tap(interceptor)
                 .thru(function (list) {
+                    debugger;
+
+                    if (_.some(list.ota, function (item) {
+                            return item.chan.source == 'nbc'
+                        })) {
+                        var nbc = _.chain(list.ota)
+                            .takeWhile(function (item) {
+                                return item.chan.source == 'nbc'
+                            })
+                            .cloneDeep()
+                            .value()
+
+
+                    }
+
+                    if (list.not_ota == undefined) {
+                        list.not_ota = nbc
+                    } else {
+                        list.not_ota = _.concat(list.not_ota, nbc)
+                    }
 
                     var showsOta = _.map(list.ota, function (elem) {
                         return elem.shows
@@ -1978,25 +1997,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         list.ppv = [list.ppv[0]];
                     }
 
-                    if (_.some(list.ota, function (item) {
-                            return item.chan.source == 'nbc'
-                        })) {
-                        var nbc = _.takeWhile(list.ota, function (item) {
-                            return item.chan.source == 'nbc'
-                        })
-
-
-                        if (list.not_ota == undefined) {
-                            list.not_ota = nbc
-                        } else {
-                            list.not_ota = _.concat(list.not_ota, nbc)
-                        }
-                    }
-
 
                     return list
 
                 })
+                .tap(interceptor)
 
 
                 .value();
@@ -2752,6 +2757,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
             $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
+            debugger;
             $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
                 $scope.listOfServices[key].open = true
             })
@@ -2780,7 +2786,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 
 function interceptor(obj) {
-    debugger
     console.log(obj)
 
 }
@@ -2862,10 +2867,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                         return services
                     })
-                    .tap(interceptor)
 
                     .uniqBy('source')
-                    .tap(interceptor)
                     .uniqBy(function (elem) {
                         if (elem.display_name) {
                             return elem.display_name
@@ -2874,7 +2877,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return elem.name
                         }
                     })
-                    .tap(interceptor)
                     .groupBy(function (service) {
                         if (liveServices.includes(service.source)) {
                             return 'live'
@@ -3011,7 +3013,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         return services
                     })
                     .thru(function (services) {
-                        debugger;
                         var nbc = _.remove(services.live, function (item) {
                             return item.source == 'nbc';
                         })
@@ -3057,7 +3058,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.hello = 'clear package';
 
     $scope.clearContent = function () {
-        // debugger;
         var pkg = PackageFactory.getPackage()
 
         pkg.data.content = []
@@ -3110,25 +3110,21 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setChosenShow(item);
 
         // verifySelectedShowDetails()
-        // debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,
             container = document.getElementById('search-and-shows');
         $(scaleItem).attr('id', 'scaled-from')
         $(positionItem).attr('id', 'is-opened')
-        //debugger;
         $rootScope.showSearchView = false;
         $rootScope.$broadcast('save_package');
         $('mobile-tabs').fadeOut();
         ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
             .then(function (v) {
                 return $timeout(function () {
-                    //debugger;
 
                     // var detail = angular.element(document.createElement('show-detail'));
 
                     // $rootScope.showDetailDirective = true;
-                    //debugger;
 
                 }, 500)
 

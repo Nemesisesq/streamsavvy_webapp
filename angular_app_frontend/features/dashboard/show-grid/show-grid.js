@@ -1,5 +1,4 @@
 function interceptor(obj) {
-    debugger
     console.log(obj)
 
 }
@@ -81,10 +80,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                         return services
                     })
-                    .tap(interceptor)
 
                     .uniqBy('source')
-                    .tap(interceptor)
                     .uniqBy(function (elem) {
                         if (elem.display_name) {
                             return elem.display_name
@@ -93,7 +90,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return elem.name
                         }
                     })
-                    .tap(interceptor)
                     .groupBy(function (service) {
                         if (liveServices.includes(service.source)) {
                             return 'live'
@@ -230,7 +226,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                         return services
                     })
                     .thru(function (services) {
-                        debugger;
                         var nbc = _.remove(services.live, function (item) {
                             return item.source == 'nbc';
                         })
@@ -276,7 +271,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.hello = 'clear package';
 
     $scope.clearContent = function () {
-        // debugger;
         var pkg = PackageFactory.getPackage()
 
         pkg.data.content = []
@@ -329,25 +323,21 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setChosenShow(item);
 
         // verifySelectedShowDetails()
-        // debugger;
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,
             container = document.getElementById('search-and-shows');
         $(scaleItem).attr('id', 'scaled-from')
         $(positionItem).attr('id', 'is-opened')
-        //debugger;
         $rootScope.showSearchView = false;
         $rootScope.$broadcast('save_package');
         $('mobile-tabs').fadeOut();
         ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
             .then(function (v) {
                 return $timeout(function () {
-                    //debugger;
 
                     // var detail = angular.element(document.createElement('show-detail'));
 
                     // $rootScope.showDetailDirective = true;
-                    //debugger;
 
                 }, 500)
 
