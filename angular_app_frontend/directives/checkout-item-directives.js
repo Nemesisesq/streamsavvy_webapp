@@ -201,6 +201,11 @@ app.directive('actionBlock', function () {
         },
 
         link: function (scope, element) {
+            
+            scope.linkToAffiliate = function (){
+                debugger;
+                $window.open(scope.service_description.url)
+            }
 
 
             scope.isServiceAdded = function (service) {
@@ -269,7 +274,7 @@ app.directive('checkoutShows', function () {
     }
 })
 
-app.directive('checkoutService', function($http){
+app.directive('checkoutService', function($http, $window){
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/checkout-service-template.html',
@@ -283,10 +288,11 @@ app.directive('checkoutService', function($http){
                $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
                    .then(function(data){
                        debugger;
-                       scope.service_description = data
+                       scope.service_description = data.data
                        console.log(data)
 
                    })
+            
             scope.windowWidth = window.innerWidth;
             scope.removeServiceFromPackage = function (service) {
 

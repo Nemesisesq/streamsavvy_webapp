@@ -315,17 +315,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 return []
             }
             return getBaseShowServiceCatagories(ssPackage)
-            // .map(function (elem) {
-            //     debugger;
-            //
-            //     if (elem.guidebox_data != undefined) {
-            //         elem.source = elem.guidebox_data.short_name
-            //     }
-            //     return elem
-            // })
-
                 .map(function (elem) {
-                    //debugger
                     if (elem.guidebox_data != undefined) {
                         elem.display_name = elem.guidebox_data.name
                         return elem
@@ -333,7 +323,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         return elem
                     }
                 })
-                .tap(interceptor)
                 .map(function (elem) {
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
@@ -342,19 +331,15 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                         } else {
                             source_check = false
                         }
-
                         var url_check = _.some(show.channel, ['url', elem.url]);
                         return url_check || source_check
                     })
-
                     if (o.chan.guidebox_data) {
                         if (o.chan.guidebox_data.is_over_the_air) {
                             o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
                         }
                     }
-
                     return o
-
                 })
                 .filter(function (elem) {
                     return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO"
@@ -362,16 +347,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                 .uniqBy(function (elem) {
                     return elem.chan.source
                 })
-                .tap(interceptor)
                 .groupBy(function (elem) {
-
                     if (elem.chan.is_over_the_air) {
                         return 'ota'
                     }
                     if (check_if_on_sling(elem)) {
                         return 'sling'
                     }
-
                     if (_.includes(payPerServices, elem.chan.source)) {
                         return 'ppv'
 
@@ -392,42 +374,28 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             })
                             .cloneDeep()
                             .value()
-
-
                     }
-
                     if (list.not_ota == undefined) {
                         list.not_ota = nbc
                     } else {
                         list.not_ota = _.concat(list.not_ota, nbc)
                     }
-
                     var showsOta = _.map(list.ota, function (elem) {
                         return elem.shows
                     })
-
                     if (list.ota && list.ota.length > 1) {
                         list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
                         list.ota = [list.ota[0]];
                     }
-
                     var showsPpv = _.map(list.ppv, function (elem) {
                         return elem.shows
                     })
-
                     if (list.ppv && list.ppv.length > 1) {
                         list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
                         list.ppv = [list.ppv[0]];
                     }
-
-
                     return list
-                 
-
                 })
-                .tap(interceptor)
-
-
                 .value();
         }
     }
