@@ -24,6 +24,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
+            debugger;
             $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
             debugger;
             $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
