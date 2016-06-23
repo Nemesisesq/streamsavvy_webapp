@@ -6,13 +6,10 @@
         </div>
     </div>
     <div class="row">
-        <div class=" ppv-checkout-image-block col-sm-3" ng-repeat="service in value">
+        <div class=" ppv-checkout-image-block col-sm-3" ng-repeat="service in value" ng-click="linkToAffiliate(service)">
             <checkout-image-block key="key"
                                   service="service"></checkout-image-block>
-
-            <div class="row">
-                <button class="btn-purchase" ng-click="linkToAffiliate(service)">Purchase</button>
-            </div>
+            
         </div>
 
     </div>
