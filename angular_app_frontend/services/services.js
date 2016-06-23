@@ -408,13 +408,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             })
                             .cloneDeep()
                             .value()
+                        if (list.not_ota == undefined) {
+                            list.not_ota = nbc
+                        } else {
+                            list.not_ota = _.concat(list.not_ota, nbc)
+                        }
                     }
                     debugger;
-                    if (list.not_ota == undefined) {
-                        list.not_ota = nbc
-                    } else {
-                        list.not_ota = _.concat(list.not_ota, nbc)
-                    }
                     var showsOta = _.map(list.ota, function (elem) {
                         return elem.shows
                     })
