@@ -307,6 +307,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
         $('body').css({'overflow': 'hidden'})
+
+        if($window.innerWidth < 768){
+            $('body').addClass('black-mobile-bg')
+            $('#search-and-shows').fadeOut()
+        }
+
         $('#search-and-shows').addClass('no-scroll');
 
 
@@ -389,6 +395,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                 if ($window.innerWidth < 768) {
                     $('body').css({'overflow': 'scroll'})
+                    $('body').removeClass('black-mobile-bg')
+                     $('#search-and-shows').fadeIn()
 
                     $('mobile-tabs').fadeIn();
                 }

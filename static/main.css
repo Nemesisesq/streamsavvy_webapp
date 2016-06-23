@@ -3168,6 +3168,8 @@ show-detail {
 
 @media (max-width: 767px) {
   .placeholder {
+    background: black; }
+  .black-mobile-bg {
     background: black; } }
 
 /* General styles for all menus */

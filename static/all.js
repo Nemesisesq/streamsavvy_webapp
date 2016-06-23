@@ -2201,7 +2201,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2307,6 +2306,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.
@@ -2652,6 +2652,62 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 });
 
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if ('data' in ssPackage) {
+            $scope.listOfServices = undefined;
+            debugger;
+            $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
+            debugger;
+            $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                $scope.listOfServices[key].open = true
+            })
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data =  PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 /**
  * Created by Nem on 5/24/16.
  */
@@ -2713,62 +2769,6 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
         })
 
 });
-
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if ('data' in ssPackage) {
-            $scope.listOfServices = undefined;
-            debugger;
-            $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
-            debugger;
-            $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                $scope.listOfServices[key].open = true
-            })
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data =  PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
 
 function interceptor(obj) {
     console.log(obj)
@@ -3079,6 +3079,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
         $('body').css({'overflow': 'hidden'})
+
+        if($window.innerWidth < 768){
+            $('body').addClass('black-mobile-bg')
+            $('#search-and-shows').fadeOut()
+        }
+
         $('#search-and-shows').addClass('no-scroll');
 
 
@@ -3161,6 +3167,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                 if ($window.innerWidth < 768) {
                     $('body').css({'overflow': 'scroll'})
+                    $('body').removeClass('black-mobile-bg')
+                     $('#search-and-shows').fadeIn()
 
                     $('mobile-tabs').fadeIn();
                 }
