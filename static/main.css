@@ -3067,7 +3067,6 @@ show-detail {
     color: white; }
   show-detail .please-select-how-yo {
     text-transform: none;
-    width: 310px;
     height: 16px;
     display: block;
     font-size: 12px;
@@ -3106,7 +3105,11 @@ show-detail {
       show-detail .service-options div img {
         width: 100%; }
   show-detail .add-another {
-    margin-top: 20px; }
+    margin-top: 20px;
+    width: 100%; }
+    show-detail .add-another .btn {
+      min-width: 100px;
+      width: 100%; }
   show-detail .fresh {
     width: 20px;
     height: 21px;

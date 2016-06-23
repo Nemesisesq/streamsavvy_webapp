@@ -190,7 +190,7 @@ app.directive('checkoutImageBlock', function ($http) {
     }
 })
 
-app.directive('actionBlock', function () {
+app.directive('actionBlock', function ($window) {
 
     return {
         restrict: 'E',
@@ -202,9 +202,9 @@ app.directive('actionBlock', function () {
 
         link: function (scope, element) {
             
-            scope.linkToAffiliate = function (){
+            scope.linkToAffiliate = function (service){
                 debugger;
-                $window.open(scope.service_description.url)
+                $window.open(service.service_description.subscription_link)
             }
 
 
@@ -288,7 +288,7 @@ app.directive('checkoutService', function($http, $window){
                $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
                    .then(function(data){
                        debugger;
-                       scope.service_description = data.data
+                       scope.service.service_description = data.data
                        console.log(data)
 
                    })
