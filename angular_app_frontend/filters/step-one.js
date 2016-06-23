@@ -98,7 +98,7 @@ app.filter('unwantedChannels', function () {
         // 17, //A&E
         20, 101, //Syfy
         48, 59, //Comedy Central
-        133, //Starz
+        // 133, //Starz
         21, 241, 239, //VH1
          18, 123, //History Channel,
         795,//channel 4
