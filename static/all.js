@@ -2309,10 +2309,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
  */
 
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by Nem on 12/29/15.
  */
 
@@ -2326,6 +2322,10 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
 /**
  * Created by chirag on 8/3/15.
  */
@@ -2660,12 +2660,12 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
     $scope.devices = [
         {
             name: 'Roku',
-            image: '',
+            image: 'https://s3.amazonaws.com/streamsavvy/Roku4.png',
             price: 43.20
         },
         {
-            name: 'Mohu Le',
-            image: '',
+            name: 'Mohu Leaf',
+            image: 'https://s3.amazonaws.com/streamsavvy/Mohu.png',
             price: 43.20
         }
     ]

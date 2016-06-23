@@ -6,12 +6,12 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
     $scope.devices = [
         {
             name: 'Roku',
-            image: '',
+            image: 'https://s3.amazonaws.com/streamsavvy/Roku4.png',
             price: 43.20
         },
         {
-            name: 'Mohu Le',
-            image: '',
+            name: 'Mohu Leaf',
+            image: 'https://s3.amazonaws.com/streamsavvy/Mohu.png',
             price: 43.20
         }
     ]

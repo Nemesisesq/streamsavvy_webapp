@@ -2975,6 +2975,11 @@ span.pull-right.footer-right {
   color: #45a7e5;
   margin-top: 90px; }
 
+.ss-hardware-panel .row img {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-radius: 8px; }
+
 .ss-hardware-panel .hardware-header {
   margin-top: -55px; }
 
@@ -3026,13 +3031,8 @@ span.pull-right.footer-right {
     padding-left: 1.5em;
     padding-right: 1.5em; } }
 
-.hardware-img {
-  margin-top: 15px; }
-  .hardware-img .img-responsive {
-    width: auto;
-    height: auto;
-    max-width: 120px;
-    max-height: 120px; }
+.hardware-img img {
+  width: 100%; }
 
 show-detail {
   text-transform: none;
