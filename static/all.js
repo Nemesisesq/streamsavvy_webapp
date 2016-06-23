@@ -2860,6 +2860,10 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = 'starz'
                         }
 
+                        if(elem.source == 'showtime_subscription'){
+                            elem.source = 'showtime'
+                        }
+
                         return elem;
                     })
                     .thru(function (services) {
