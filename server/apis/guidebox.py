@@ -14,7 +14,6 @@ from server.models import Content, Channel, Images, ChannelImages
 from server.shortcuts import try_catch
 
 
-
 def is_banned_channel(i, m):
     if type(i) == dict:
         return fuzz.token_sort_ratio(i['display_name'], m) >= 90
@@ -180,6 +179,16 @@ class GuideBox(object):
     def remove_banned_channels(self, c):
         c.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in
                                                                         c.guidebox_data['sources']['web']['episodes'][
+                                                                            'all_sources'] if
+                                                                        self.check_for_banned_service(i)]
+
+        c.guidebox_data['sources']['ios']['episodes']['all_sources'] = [i for i in
+                                                                        c.guidebox_data['sources']['ios']['episodes'][
+                                                                            'all_sources'] if
+                                                                        self.check_for_banned_service(i)]
+
+        c.guidebox_data['sources']['android']['episodes']['all_sources'] = [i for i in
+                                                                        c.guidebox_data['sources']['android']['episodes'][
                                                                             'all_sources'] if
                                                                         self.check_for_banned_service(i)]
 

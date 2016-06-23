@@ -25,6 +25,7 @@ banned_channels = ['HBO Go',
                    'BBC America',
                    'ShareTv',
                    'Watch HGTV',
+                   'HGTV',
                    'E',
                    'E!',
                    'Bravo'
