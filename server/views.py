@@ -186,6 +186,7 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         return response
 
+
     def get_queryset(self):
         query_string = self.request.GET['q']
         try:
@@ -198,12 +199,13 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         filter_results = self.filter_query([165], search_results)
 
         if len(query_string.split()) == 1:
-            single_word_show = Content.objects.filter(title__istartswith=query_string).extra(
-                select={'length': 'Length(title)'}).order_by('length')[0]
+            single_word_shows = Content.objects.filter(title__istartswith=query_string).extra(
+                select={'length': 'Length(title)'}).order_by('length')
 
-            if single_word_show not in filter_results:
 
-                filter_results = list(single_word_show) + filter_results
+            if single_word_shows and single_word_shows[0] not in filter_results:
+
+                filter_results = list(single_word_shows[0]) + filter_results
 
 
         filter_results = self.check_guidebox_for_query(filter_results, query_string)
