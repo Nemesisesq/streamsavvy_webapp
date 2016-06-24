@@ -321,6 +321,12 @@ app.directive('ppvCheckoutItem', function ($window) {
 
             scope.windowWidth = $window.innerWidth
 
+            scope.removeElementFromDom = function (service) {
+                debugger;
+
+                element.remove()
+            }
+
         }
     }
 })
