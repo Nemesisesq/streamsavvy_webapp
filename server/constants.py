@@ -28,6 +28,6 @@ banned_channels = ['HBO Go',
                    'HGTV',
                    'E',
                    'E!',
-                   'Bravo'
+                   'Bravo',
                    # 'ClevverTV',
                    ]

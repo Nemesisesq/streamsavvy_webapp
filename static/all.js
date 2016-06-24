@@ -1942,7 +1942,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                     })
                     .filter(function (elem) {
-                        return elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
+                        return elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv' && elem.chan.source != 'showtime_free'
                     })
                     .groupBy(function (elem) {
                         if (elem.chan.is_over_the_air) {
@@ -2062,7 +2062,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     return o
                 })
                 .filter(function (elem) {
-                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
+                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv' && elem.chan.source != 'showtime_free'
                 })
                 .uniqBy(function (elem) {
                     return elem.chan.source
