@@ -1,11 +1,11 @@
 // Karma configuration
-// Generated on Sun Jul 12 2015 19:54:02 GMT-0400 (EDT)
+// Generated on Thu Feb 25 2016 21:20:13 GMT-0500 (EST)
 
 module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '../',
+        basePath: '',
 
 
         // frameworks to use
@@ -15,19 +15,29 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            '../StreamSavvy-Server/bower_components/jquery/dist/jquery.js',
+
+            'bower_components/jquery/dist/jquery.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-mocks/angular-mocks.js',
             'bower_components/angular-resource/angular-resource.js',
-            'bower_components/angular-ui-router/release/angular-ui-router.js',
-            'bower_components/lodash/lodash.js',
-            'static/dist/*.js',
-            'static/test/**/*.js'
+            'bower_components/angular-*/**/*.js',
+            'bower_components/fuse.js/**/*.js',
+            'bower_components/lodash/**/*.js',
+            'bower_components/angular-send-feedback/dist/angular-send-feedback.js',
+
+
+            'angular_app_frontend/**/*.js',
+            'test/**/*.js'
         ],
 
 
         // list of files to exclude
-        exclude: [],
+        exclude: [
+            'bower_components/**/index.js',
+            'bower_components/**/*Mock*.js',
+            'bower_components/bootstrap/**/*',
+            'bower_components/angular-send-feedback/test/**/*.js'
+        ],
 
 
         // preprocess matching files before serving them to the browser
@@ -65,6 +75,10 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false
+        singleRun: false,
+
+        // Concurrency level
+        // how many browser should be started simultaneous
+        concurrency: Infinity
     })
 }

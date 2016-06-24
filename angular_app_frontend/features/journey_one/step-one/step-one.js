@@ -1,12 +1,12 @@
 app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
-    $scope.clearContent = function () {
-        var pkg = PackageFactory.getPackage()
-
-        pkg.content = []
-
-        PackageFactory.setPackage(pkg)
-    }
+    // $scope.clearContent = function () {
+    //     var pkg = PackageFactory.getPackage()
+    //
+    //     pkg.content = []
+    //
+    //     PackageFactory.setPackage(pkg)
+    // }
 
     $scope.showTotal = function (content) {
 
@@ -152,7 +152,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     }
 
     $scope.delete = function (content) {
-        debugger;
         _.remove($scope.package.content, content);
         $scope.savePackage()
         PackageFactory.updatePackageChannels($scope)

@@ -1,1 +1,1 @@
-postgres_url: 'postgres://Nem:prelude@localhost:5432/streamsavvy3'
+postgres_url: 'postgres://postgres:streamsavvy@localhost:5432/streamsavvy3'

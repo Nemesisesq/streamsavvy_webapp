@@ -1,0 +1,108 @@
+.ss-hardware-panel {
+
+  @extend %side-panel;
+  .row {
+
+    //margin-left: 11px;
+    .hardware-name, .hardware-cost {
+      color: $dark-sky-blue;
+    }
+
+    .hardware-other {
+      color: $dark-sky-blue;
+      margin-top: 90px;
+    }
+
+    img {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+
+  }
+  .hardware-header {
+    @extend %ss-panel-header;
+
+    margin-top: -55px;
+
+  }
+
+  .hardware-body {
+    transition: height 0.3s ease;
+    margin-top: 55px;
+    //width: 100%;
+  }
+}
+
+.hardware-panel {
+
+  height: 46px;
+  overflow: scroll;
+  transition: height 1s ease;
+}
+
+.service-center {
+
+  margin-top: -130px;
+  display: table;
+  //padding-top: 5px;
+  //padding-bottom: 5px;
+  //padding-left: 45px;
+  //background-color: $dark-98;
+  //box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  //font-size: 12px;
+  //letter-spacing: 0.5px;
+  color: $warm-grey;
+  //height: 46px;
+  //line-height: 46px;
+  position: fixed;
+  z-index: 100;
+  width: 25vw;
+}
+
+.not-ready {
+  margin: 0 auto;
+  display: block;
+  width: 243px;
+  height: 60px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  text-align: center;
+  color: #9b9b9b;
+  font-weight: 300;
+
+  &.ready-for-checkout {
+    background-color: #3fc23f;
+    color: #ffffff;
+  }
+}
+
+.hardware-collapsed {
+  height: 100vh;
+}
+
+@media (max-width: 1023px){
+  .not-ready {
+    //height: inherit;
+    width: calc(25vw - 10px) ;
+    min-width: 10vw;
+    margin-left: .5em;
+    margin-right: .5em;
+    font-size: .875em;
+    padding-top: .875em;
+    padding-bottom: .875em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
+
+
+}
+
+.hardware-img{
+  img {
+    width: 100%
+
+  }
+}

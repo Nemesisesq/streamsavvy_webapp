@@ -1,0 +1,26 @@
+<button id="clear-content" ng-click="clearContent()">{{ hello }}</button>
+
+
+<div id='theGrid' class="container-fluid">
+    <div class="row show-grid-container">
+        <div class=" col-sm-12 grid-title" ng-if="package.data.content.length > 0"> SHOWS I'VE ADDED </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 show-title" ng-repeat="show in package.data.content" open-detail
+             ng-click="showDetail(show, $event)" ng-disabled="true">
+            <img class="pointer" ng-src="{{ show.guidebox_data.artwork_208x117 }}">
+        </div>
+    </div>
+    <div class="row">
+        <hr align="center" ng-hide="package.data.content<1">
+    </div>
+    <div class="row">
+        <div class="col-sm-12 grid-title"> POPULAR SHOW SEARCHES </div>
+
+
+        <div class="col-sm-4" ng-repeat="show in popularShows" ng-click="addToSelectedShows(show)">
+            <img class="pointer" ng-src="{{ show.guidebox_data.artwork_304x171 }}"/>
+        </div>
+    </div>
+</div>
+
+
+
