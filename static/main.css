@@ -221,7 +221,8 @@ body {
     color: #ff5750; }
 
 .content-wrapper {
-  position: relative; }
+  position: relative;
+  margin-bottom: 100px; }
   .content-wrapper .logo-row {
     padding-top: 3%;
     padding-bottom: 5%; }
