@@ -309,8 +309,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return 'ppv'
 
                         }
-
-
+                            
                         else {
                             return 'not_ota'
                         }
@@ -365,27 +364,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                             }
                         }
-
+                        
                         return list
                     })
-                    // .thru(function (services) {
-                    //     debugger
-                    //     var showsPpv = _.map(list.ppv, function (elem) {
-                    //         return elem.shows
-                    //     })
-                    //
-                    //     if (list.ppv && list.ppv.length > 1) {
-                    //         list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
-                    //         list.ppv = [list.ppv[0]];
-                    //     }
-                    //
-                    //
-                    //
-                    //
-                    //
-                    // })
-
                     .value();
+                
                 this.setListOfServices(list)
 
                 return list

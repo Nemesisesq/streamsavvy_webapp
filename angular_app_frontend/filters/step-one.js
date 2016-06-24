@@ -179,3 +179,16 @@ app.filter('unique', function() {
         return _.uniq(arr, function(a) { return a[field]; });
     };
 });
+
+app.filter('customSorter', function(){
+    return function(list){
+        debugger;
+        var newPpv = list.ppv;
+
+        delete list['ppv']
+
+        list.ppv = newPpv;
+
+        return list
+    }
+})

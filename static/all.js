@@ -644,7 +644,6 @@ app.directive('checkoutItem', function () {
             scope.windowWidth = window.innerWidth;
 
 
-
         }
     }
 })
@@ -660,7 +659,6 @@ app.directive('checkoutImageBlock', function ($http) {
         },
 
         link: function (scope, element) {
-
 
 
             scope.processServiceUrl = function (service) {
@@ -689,8 +687,8 @@ app.directive('actionBlock', function ($window) {
         link: function (scope, element) {
             debugger;
 
-            
-            scope.linkToAffiliate = function (service){
+
+            scope.linkToAffiliate = function (service) {
                 debugger;
                 $window.open(service.service_description.subscription_link)
             }
@@ -762,7 +760,7 @@ app.directive('checkoutShows', function () {
     }
 })
 
-app.directive('checkoutService', function($http, $window){
+app.directive('checkoutService', function ($http, $window) {
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/checkout-service-template.html',
@@ -771,16 +769,16 @@ app.directive('checkoutService', function($http, $window){
             key: '=',
             package: '='
         },
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
 
-               $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
-                   .then(function(data){
-                       debugger;
-                       scope.service.service_description = data.data
-                       console.log(data)
+            $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
+                .then(function (data) {
+                    debugger;
+                    scope.service.service_description = data.data
+                    console.log(data)
 
-                   })
-            
+                })
+
             scope.windowWidth = window.innerWidth;
             scope.removeServiceFromPackage = function (service) {
 
@@ -796,22 +794,25 @@ app.directive('checkoutService', function($http, $window){
     }
 })
 
-app.directive('ppvCheckoutItem', function($window){
+app.directive('ppvCheckoutItem', function ($window) {
     return {
-        restrict : 'E',
-        templateUrl:  'static/partials/checkout-list/ppv-checkout-item.html',
+        restrict: 'E',
+        templateUrl: 'static/partials/checkout-list/ppv-checkout-item.html',
         scope: {
             key: '=',
             value: '=',
             package: '='
         },
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
 
             scope.windowWidth = $window.innerWidth
 
         }
     }
 })
+
+
+
 
 $(document).ready(function () {
     _.sortBy($('.checkout-show-title'), function () {
@@ -1470,6 +1471,19 @@ app.filter('unique', function() {
         return _.uniq(arr, function(a) { return a[field]; });
     };
 });
+
+app.filter('customSorter', function(){
+    return function(list){
+        debugger;
+        var newPpv = list.ppv;
+
+        delete list['ppv']
+
+        list.ppv = newPpv;
+
+        return list
+    }
+})
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -1942,8 +1956,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return 'ppv'
 
                         }
-
-
+                            
                         else {
                             return 'not_ota'
                         }
@@ -1998,27 +2011,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                             }
                         }
-
+                        
                         return list
                     })
-                    // .thru(function (services) {
-                    //     debugger
-                    //     var showsPpv = _.map(list.ppv, function (elem) {
-                    //         return elem.shows
-                    //     })
-                    //
-                    //     if (list.ppv && list.ppv.length > 1) {
-                    //         list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
-                    //         list.ppv = [list.ppv[0]];
-                    //     }
-                    //
-                    //
-                    //
-                    //
-                    //
-                    // })
-
                     .value();
+                
                 this.setListOfServices(list)
 
                 return list

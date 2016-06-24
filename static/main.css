@@ -2822,7 +2822,10 @@ show-detail .background {
   color: white; }
 
 .checkout-service-price {
-  color: white; }
+  color: white;
+  margin-left: 5px;
+  font-weight: 200;
+  margin-top: 5px; }
 
 .ppv-checkout-image-block {
   height: 100px; }

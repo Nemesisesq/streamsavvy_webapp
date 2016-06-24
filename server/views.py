@@ -197,6 +197,15 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
         search_results = content_search(self.request)
         filter_results = self.filter_query([165], search_results)
 
+        if len(query_string.split()) == 1:
+            single_word_show = Content.objects.filter(title__istartswith=query_string).extra(
+                select={'length': 'Length(title)'}).order_by('length')[0]
+
+            if single_word_show not in filter_results:
+
+                filter_results = list(single_word_show) + filter_results
+
+
         filter_results = self.check_guidebox_for_query(filter_results, query_string)
         # filter_results['search_term'] = self
 
@@ -210,10 +219,6 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         filter_results = self.check_guidebox_for_query(filter_results, query_string)
 
-        if len(query_string.split()) == 1:
-            single_word_shows =  Content.objects.filter(title__istartswith=query_string).extra(select={'length':'Length(title)'}).order_by('length')[:5]
-
-            filter_results = list(single_word_shows) + filter_results[:5]
 
         assert cache
         try:
