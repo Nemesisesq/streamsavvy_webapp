@@ -16,7 +16,6 @@ django-cors-headers==1.1.0
 django-debug-toolbar==1.4
 django-extensions==1.6.1
 django-filter==0.10.0
-django-haystack==2.4.1
 django-nose==1.4.3
 django-oauth-toolkit==0.10.0
 django-redis==4.3.0
@@ -88,5 +87,4 @@ virtualenv-clone==0.2.6
 virtualenvwrapper==4.7.1
 Werkzeug==0.11.5
 whitenoise==2.0.2
-Whoosh==2.7.4
 yolk3k==0.8.7

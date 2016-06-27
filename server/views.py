@@ -8,7 +8,6 @@ from django.core.cache import cache
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.views.generic import View
-from haystack.generic_views import SearchView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
@@ -20,7 +19,6 @@ from server.models import *
 from server.permissions import IsAdminOrReadOnly
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer, ChannelImagesSerializer
-from haystack.query import SearchQuerySet
 
 def flatten(l):
     out = []
@@ -451,24 +449,3 @@ class ChannelImagesView(APIView):
             return Response(serializer.data)
 
 
-class HaystackSearchView(SearchView):
-
-    def get_queryset(self):
-        queryset = super(HaystackSearchView, self).get_queryset()
-        # further filter queryset based on some set of criteria
-        return queryset.filter(title=self.request.GET['q'])
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(HaystackSearchView, self).get_context_data(*args, **kwargs)
-        # do something
-        return context
-
-def autocomplete(request):
-    sqs = SearchQuerySet().autocomplete(content_auto=request.GET.get('q', ''))[:5]
-    suggestions = [result.object for result in sqs]
-    # Make sure you return a JSON object, not a bare list.
-    # Otherwise, you could be vulnerable to an XSS attack.
-    # the_data = json.dumps({
-    #     'results': suggestions
-    # })
-    return HttpResponse(suggestions, content_type='application/json')

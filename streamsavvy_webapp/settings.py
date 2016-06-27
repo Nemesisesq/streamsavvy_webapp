@@ -52,8 +52,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'corsheaders',
     'oauth2_provider',
-    'whoosh',
-    'haystack'
+
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -236,24 +235,6 @@ credentials = SettingsVars(BASE_DIR)
 #############################
 #  FACEBOOK                 #
 #############################
-SOCIAL_AUTH_FACEBOOK_KEY = credentials.facebook['app_id']
-SOCIAL_AUTH_FACEBOOK_SECRET = credentials.facebook['secret']
-
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-
-#############################
-#  INSTAGRAM                #
-#############################
-SOCIAL_AUTH_INSTAGRAM_KEY = 'f0ac789e2ee5470aa5183e34e6ab614c'
-SOCIAL_AUTH_INSTAGRAM_SECRET = '9fc740b480d842d791f5ac1e46dcaa9f'
-
-SOCIAL_AUTH_INSTAGRAM_AUTH_EXTRA_ARGUMENTS = {}
-
-#############################
-#  TWITTER                  #
-#############################
-SOCIAL_AUTH_TWITTER_KEY = 'cLVR8wg1x7lEcKUyrCzq9sSyb'
-SOCIAL_AUTH_TWITTER_SECRET = 'iBBWHGbMcSty45cK9RQwEXNhdmgzbTonQkZ8cBqKJmYlhPUyFI'
 
 #############################
 #  LOGGING                  #
@@ -312,13 +293,5 @@ RQ_QUEUES = {
     'low': {
         'URL': os.getenv('REDIS_URL', 'redis://localhost:6379'),
         'DB': 0,
-    }
-}
-WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh')
-
-HAYSTACK_CONNECTIONS = {
-    'default' : {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH' : WHOOSH_INDEX
     }
 }

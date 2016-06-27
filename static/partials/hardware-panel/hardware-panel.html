@@ -1,6 +1,6 @@
 <div class="ss-hardware-panel">
     <div class="service-center">
-        <button class="btn btn-red not-ready " onclick="location.href='#/checkout';"
+        <button class="btn btn-red not-ready" ng-click="mixpanelTrackReadyToCutCord()" onclick="location.href='#/checkout';"
                 ng-class="{'ready-for-checkout': pkgHasContent}">
 
             <span ng-if="!pkgHasContent">Add shows or services</span>
