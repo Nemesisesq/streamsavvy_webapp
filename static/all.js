@@ -302,7 +302,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             onEnter: function ($state) {
 
                 $window = $windowProvider.$get();
-                if($window.innerWidth< 767){
+                if ($window.innerWidth < 767) {
                     $state.go('mobile.shows')
                 }
             }
@@ -415,7 +415,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 },
 
 
-
             }
         })
         .state('mobile.hardware', {
@@ -446,12 +445,37 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
 
 //TODO uncomment this after developingt the mobile checkout page
 
-app.run(function($window, $state){
-    $($window).resize(function(){
-        if (this.innerWidth > 767){
-            $state.go('dash.dashboard')
+app.run(function ($window, $state) {
+    $($window).resize(function () {
+        var curr = $state.current.name
+
+        var d_state = RegExp('dash').test(curr) ? true : false
+        var m_state = RegExp('mobile').test(curr) ? true : false
+        debugger;
+        if (this.innerWidth > 767) {
+            if (m_state) {
+
+                if (/services/.test(curr)) {
+                    $state.go('check.out')
+                } else {
+
+                    $state.go('dash.dashboard')
+                }
+
+            }
         } else {
-            $state.go('mobile.shows')
+            if (!m_state) {
+
+                if (/dashboard/.test(curr)) {
+                    $state.go('mobile.shows')
+
+                }
+
+                if (/check/.test(curr)) {
+                    $state.go('mobile.services')
+                }
+
+            }
         }
     })
 })
@@ -620,7 +644,6 @@ app.directive('checkoutItem', function () {
             scope.windowWidth = window.innerWidth;
 
 
-
         }
     }
 })
@@ -636,7 +659,6 @@ app.directive('checkoutImageBlock', function ($http) {
         },
 
         link: function (scope, element) {
-
 
 
             scope.processServiceUrl = function (service) {
@@ -663,8 +685,10 @@ app.directive('actionBlock', function ($window) {
         },
 
         link: function (scope, element) {
-            
-            scope.linkToAffiliate = function (service){
+            debugger;
+
+
+            scope.linkToAffiliate = function (service) {
                 debugger;
                 $window.open(service.service_description.subscription_link)
             }
@@ -736,7 +760,7 @@ app.directive('checkoutShows', function () {
     }
 })
 
-app.directive('checkoutService', function($http, $window){
+app.directive('checkoutService', function ($http, $window) {
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/checkout-service-template.html',
@@ -745,16 +769,16 @@ app.directive('checkoutService', function($http, $window){
             key: '=',
             package: '='
         },
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
 
-               $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
-                   .then(function(data){
-                       debugger;
-                       scope.service.service_description = data.data
-                       console.log(data)
+            $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
+                .then(function (data) {
+                    debugger;
+                    scope.service.service_description = data.data
+                    console.log(data)
 
-                   })
-            
+                })
+
             scope.windowWidth = window.innerWidth;
             scope.removeServiceFromPackage = function (service) {
 
@@ -769,6 +793,26 @@ app.directive('checkoutService', function($http, $window){
         }
     }
 })
+
+app.directive('ppvCheckoutItem', function ($window) {
+    return {
+        restrict: 'E',
+        templateUrl: 'static/partials/checkout-list/ppv-checkout-item.html',
+        scope: {
+            key: '=',
+            value: '=',
+            package: '='
+        },
+        link: function (scope, element, attrs) {
+
+            scope.windowWidth = $window.innerWidth
+
+        }
+    }
+})
+
+
+
 
 $(document).ready(function () {
     _.sortBy($('.checkout-show-title'), function () {
@@ -1414,7 +1458,6 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
 
         // debugger;
         return function (array) {
-            debugger;
             return _.filter(array, function(elem){
                 var res = elem.on_netflix || _.some(elem.channel, ['source', 'netflix']) || _.some(elem.channel, ['source', 'netflix'])
 
@@ -1428,6 +1471,19 @@ app.filter('unique', function() {
         return _.uniq(arr, function(a) { return a[field]; });
     };
 });
+
+app.filter('customSorter', function(){
+    return function(list){
+        debugger;
+        var newPpv = list.ppv;
+
+        delete list['ppv']
+
+        list.ppv = newPpv;
+
+        return list
+    }
+})
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -1820,11 +1876,22 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         createListOfServices: function () {
-            debugger;
+
 
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 var list = getBaseShowServiceCatagories(ssPackage)
+                    .thru(function (list) {
+                        debugger;
+                        if (_.some(ssPackage.data.content, 'on_netflix')) {
+                            if (!_.some(list, ['source', 'netflix'])) {
+                                list.push({display_name: 'Netflix', source: 'netflix'})
+                            }
+                        }
+
+                        return list
+
+                    })
                     .map(function (elem) {
                         if (elem.source == 'hulu_free') {
                             elem.source = 'hulu_plus';
@@ -1844,11 +1911,22 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     .map(function (elem) {
                         var o = {chan: elem}
                         o.shows = _.filter(ssPackage.data.content, function (show) {
+                            if (show.on_netflix && elem.source == 'netflix') {
+                                return true
+                            }
                             if (show.guidebox_data.sources) {
-                                var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                                var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, function (show) {
+                                    var showRe = new RegExp(show.source)
+                                    var elemRe = new RegExp(elem.source)
+
+                                    return showRe.test(elem.source) || elemRe.test(show.source)
+
+
+                                })
                             } else {
                                 source_check = false
                             }
+
 
                             var url_check = _.some(show.channel, ['url', elem.url]);
                             return url_check || source_check
@@ -1864,7 +1942,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                     })
                     .filter(function (elem) {
-                        return  elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
+                        return elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv' && elem.chan.source != 'showtime_free'
                     })
                     .groupBy(function (elem) {
                         if (elem.chan.is_over_the_air) {
@@ -1874,12 +1952,32 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return 'sling'
                         }
 
+                        if (_.includes(payPerServices, elem.chan.source)) {
+                            return 'ppv'
 
+                        }
+                            
                         else {
                             return 'not_ota'
                         }
                     })
                     .thru(function (list) {
+
+                        if (_.some(list.ota, function (item) {
+                                return item.chan.source == 'nbc'
+                            })) {
+                            var nbc = _.chain(list.ota)
+                                .takeWhile(function (item) {
+                                    return item.chan.source == 'nbc'
+                                })
+                                .cloneDeep()
+                                .value()
+                            if (list.not_ota == undefined) {
+                                list.not_ota = nbc
+                            } else {
+                                list.not_ota = _.concat(list.not_ota, nbc)
+                            }
+                        }
 
                         var showsOta = _.map(list.ota, function (elem) {
                             return elem.shows
@@ -1913,23 +2011,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                             }
                         }
-
-                        var showsPpv = _.map(list.ppv, function (elem) {
-                            return elem.shows
-                        })
-
-                        if (list.ppv && list.ppv.length > 1) {
-                            list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
-                            list.ppv = [list.ppv[0]];
-                        }
-
-
+                        
                         return list
-
-
                     })
-
                     .value();
+                
                 this.setListOfServices(list)
 
                 return list
@@ -1953,8 +2039,16 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
                         if (show.guidebox_data.sources) {
-                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                        } else {
+                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, function (show) {
+                                var showRe = new RegExp(show.source)
+                                var elemRe = new RegExp(elem.source)
+
+                                return showRe.test(elem.source) || elemRe.test(show.source)
+
+
+                            })
+                        }
+                        else {
                             source_check = false
                         }
                         var url_check = _.some(show.channel, ['url', elem.url]);
@@ -1968,7 +2062,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     return o
                 })
                 .filter(function (elem) {
-                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
+                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv' && elem.chan.source != 'showtime_free'
                 })
                 .uniqBy(function (elem) {
                     return elem.chan.source
@@ -2865,7 +2959,7 @@ function removeHuluIfShowtimeContent(services) {
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['cw', 'pbs', 'sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox'];
-    var onDemandServices = ['hulu_plus', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
+    var onDemandServices = ['acorntv','cwseed', 'hulu_plus', 'hulu','hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
@@ -2880,6 +2974,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.cs = PackageFactory.getChosenShow();
 
         $scope.detailSources = (function () {
+            debugger;
 
             if ($scope.cs.guidebox_data != undefined) {
 
@@ -3050,7 +3145,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                             })
                         }
-
+    
                         if ($scope.cs.on_netflix) {
                             if (!services.hasOwnProperty('binge')) {
                                 services.binge = []

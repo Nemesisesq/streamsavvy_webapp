@@ -158,7 +158,6 @@ app.directive('checkoutItem', function () {
             scope.windowWidth = window.innerWidth;
 
 
-
         }
     }
 })
@@ -174,7 +173,6 @@ app.directive('checkoutImageBlock', function ($http) {
         },
 
         link: function (scope, element) {
-
 
 
             scope.processServiceUrl = function (service) {
@@ -201,8 +199,10 @@ app.directive('actionBlock', function ($window) {
         },
 
         link: function (scope, element) {
-            
-            scope.linkToAffiliate = function (service){
+            debugger;
+
+
+            scope.linkToAffiliate = function (service) {
                 debugger;
                 $window.open(service.service_description.subscription_link)
             }
@@ -274,7 +274,7 @@ app.directive('checkoutShows', function () {
     }
 })
 
-app.directive('checkoutService', function($http, $window){
+app.directive('checkoutService', function ($http, $window) {
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/checkout-service-template.html',
@@ -283,16 +283,16 @@ app.directive('checkoutService', function($http, $window){
             key: '=',
             package: '='
         },
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
 
-               $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
-                   .then(function(data){
-                       debugger;
-                       scope.service.service_description = data.data
-                       console.log(data)
+            $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
+                .then(function (data) {
+                    debugger;
+                    scope.service.service_description = data.data
+                    console.log(data)
 
-                   })
-            
+                })
+
             scope.windowWidth = window.innerWidth;
             scope.removeServiceFromPackage = function (service) {
 
@@ -307,6 +307,26 @@ app.directive('checkoutService', function($http, $window){
         }
     }
 })
+
+app.directive('ppvCheckoutItem', function ($window) {
+    return {
+        restrict: 'E',
+        templateUrl: 'static/partials/checkout-list/ppv-checkout-item.html',
+        scope: {
+            key: '=',
+            value: '=',
+            package: '='
+        },
+        link: function (scope, element, attrs) {
+
+            scope.windowWidth = $window.innerWidth
+
+        }
+    }
+})
+
+
+
 
 $(document).ready(function () {
     _.sortBy($('.checkout-show-title'), function () {

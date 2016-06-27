@@ -166,7 +166,6 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
 
         // debugger;
         return function (array) {
-            debugger;
             return _.filter(array, function(elem){
                 var res = elem.on_netflix || _.some(elem.channel, ['source', 'netflix']) || _.some(elem.channel, ['source', 'netflix'])
 
@@ -180,3 +179,16 @@ app.filter('unique', function() {
         return _.uniq(arr, function(a) { return a[field]; });
     };
 });
+
+app.filter('customSorter', function(){
+    return function(list){
+        debugger;
+        var newPpv = list.ppv;
+
+        delete list['ppv']
+
+        list.ppv = newPpv;
+
+        return list
+    }
+})

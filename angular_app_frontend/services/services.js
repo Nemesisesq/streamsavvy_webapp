@@ -229,11 +229,22 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         },
 
         createListOfServices: function () {
-            debugger;
+
 
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 var list = getBaseShowServiceCatagories(ssPackage)
+                    .thru(function (list) {
+                        debugger;
+                        if (_.some(ssPackage.data.content, 'on_netflix')) {
+                            if (!_.some(list, ['source', 'netflix'])) {
+                                list.push({display_name: 'Netflix', source: 'netflix'})
+                            }
+                        }
+
+                        return list
+
+                    })
                     .map(function (elem) {
                         if (elem.source == 'hulu_free') {
                             elem.source = 'hulu_plus';
@@ -253,11 +264,22 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     .map(function (elem) {
                         var o = {chan: elem}
                         o.shows = _.filter(ssPackage.data.content, function (show) {
+                            if (show.on_netflix && elem.source == 'netflix') {
+                                return true
+                            }
                             if (show.guidebox_data.sources) {
-                                var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
+                                var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, function (show) {
+                                    var showRe = new RegExp(show.source)
+                                    var elemRe = new RegExp(elem.source)
+
+                                    return showRe.test(elem.source) || elemRe.test(show.source)
+
+
+                                })
                             } else {
                                 source_check = false
                             }
+
 
                             var url_check = _.some(show.channel, ['url', elem.url]);
                             return url_check || source_check
@@ -273,7 +295,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                     })
                     .filter(function (elem) {
-                        return  elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
+                        return elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv' && elem.chan.source != 'showtime_free'
                     })
                     .groupBy(function (elem) {
                         if (elem.chan.is_over_the_air) {
@@ -283,12 +305,32 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return 'sling'
                         }
 
+                        if (_.includes(payPerServices, elem.chan.source)) {
+                            return 'ppv'
 
+                        }
+                            
                         else {
                             return 'not_ota'
                         }
                     })
                     .thru(function (list) {
+
+                        if (_.some(list.ota, function (item) {
+                                return item.chan.source == 'nbc'
+                            })) {
+                            var nbc = _.chain(list.ota)
+                                .takeWhile(function (item) {
+                                    return item.chan.source == 'nbc'
+                                })
+                                .cloneDeep()
+                                .value()
+                            if (list.not_ota == undefined) {
+                                list.not_ota = nbc
+                            } else {
+                                list.not_ota = _.concat(list.not_ota, nbc)
+                            }
+                        }
 
                         var showsOta = _.map(list.ota, function (elem) {
                             return elem.shows
@@ -322,23 +364,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                             }
                         }
-
-                        var showsPpv = _.map(list.ppv, function (elem) {
-                            return elem.shows
-                        })
-
-                        if (list.ppv && list.ppv.length > 1) {
-                            list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
-                            list.ppv = [list.ppv[0]];
-                        }
-
-
+                        
                         return list
-
-
                     })
-
                     .value();
+                
                 this.setListOfServices(list)
 
                 return list
@@ -362,8 +392,16 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     var o = {chan: elem}
                     o.shows = _.filter(ssPackage.data.content, function (show) {
                         if (show.guidebox_data.sources) {
-                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, ['source', elem.source])
-                        } else {
+                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, function (show) {
+                                var showRe = new RegExp(show.source)
+                                var elemRe = new RegExp(elem.source)
+
+                                return showRe.test(elem.source) || elemRe.test(show.source)
+
+
+                            })
+                        }
+                        else {
                             source_check = false
                         }
                         var url_check = _.some(show.channel, ['url', elem.url]);
@@ -377,7 +415,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                     return o
                 })
                 .filter(function (elem) {
-                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv'
+                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv' && elem.chan.source != 'showtime_free'
                 })
                 .uniqBy(function (elem) {
                     return elem.chan.source

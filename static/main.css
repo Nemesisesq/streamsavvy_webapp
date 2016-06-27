@@ -2822,6 +2822,22 @@ show-detail .background {
   .service-image {
     max-width: 70px; } }
 
+.consolidated-checkout-ppv {
+  color: white; }
+
+.checkout-service-price {
+  color: white;
+  margin-left: 5px;
+  font-weight: 200;
+  margin-top: 5px; }
+
+.ppv-checkout-image-block {
+  height: 100px; }
+  .ppv-checkout-image-block .image-block {
+    height: 50px; }
+  .ppv-checkout-image-block button {
+    width: 100px; }
+
 .row.footer {
   position: absolute;
   bottom: 0;

@@ -4,7 +4,11 @@
         <button class="btn-already-have" ng-click="addService(service)">Already have this service</button>
     </div>
     <div class="col-sm-4">
-        <button class="btn-purchase" ng-click="linkToAffiliate(service)">Purchase</button>
+        <button class="btn-purchase" ng-click="linkToAffiliate(service)">
+
+            <span ng-if="key != 'ota'">Subscribe</span>
+            <span ng-if="key == 'ota'">Purchase</span>
+        </button>
     </div>
 </div>
 <div ng-if="isServiceAdded(service)" class="col-xs-11 show-added">
