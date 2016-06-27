@@ -31,7 +31,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                     //debugger;
 
 
-                    var sorted = _.chain(data.data.results)
+                    var sorted = _.chain(data.data)
                         .filter(function (elem) {
                             return elem.title !== null
                         })
@@ -41,7 +41,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                         })
                         .value()
 
-                    if (data.data.searchText == val) {
+                    if (true) {
                         $scope.suggestions = sorted;
                         return sorted
                     }

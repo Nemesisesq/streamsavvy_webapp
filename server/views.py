@@ -1,5 +1,10 @@
 import json
 import logging
+import urllib
+import urllib.request
+import urllib.parse
+from streamsavvy_webapp.settings import get_env_variable
+
 import re
 import time
 
@@ -28,6 +33,8 @@ def flatten(l):
         else:
             out.append(item)
     return out
+
+
 
 
 class NetFlixListView(View):
@@ -449,3 +456,12 @@ class ChannelImagesView(APIView):
             return Response(serializer.data)
 
 
+def call_search_microservice(request):
+    if request.GET['q']:
+        query_url = "{base}/search/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),params = urllib.parse.urlencode({'q': request.GET['q']}))
+        try:
+
+            with urllib.request.urlopen(query_url) as response:
+                return HttpResponse(response)
+        except:
+            pass

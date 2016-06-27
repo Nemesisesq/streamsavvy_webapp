@@ -31,7 +31,7 @@ router = routers.DefaultRouter()
 router.register(r'hardware', HardwareViewSet)
 router.register(r'services', ChannelViewSet)
 router.register(r'content', ContentViewSet)
-router.register(r'search', ContentSearchViewSet, 'search')
+# router.register(r'search', ContentSearchViewSet, 'search')
 router.register(r'packageobj', PackageDetailViewSet, 'packageobj')
 router.register(r'package', PackagesViewSet, 'package')
 router.register(r'popular-shows', PopularShowsViewSet, 'popular_shows')
@@ -57,6 +57,7 @@ urlpatterns = [
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^api/guide/(?P<zip>\d{5})', RoviChannelGridView.as_view(), name='rovi_channel_grid_view'),
     url(r'^api/channel_images/(?P<channel_id>\d+)', ChannelImagesView.as_view(), name='channel_images'),
+    url(r'search', call_search_microservice, name='search')
     # url(r'haystack_search', autocomplete, name='autocomplete'),
     # url(r'^guide/', GuideTestView.as_view(), name='guide_test'),
     # url(r'^guide_reciever/', guide_reciever, name='reciever')
