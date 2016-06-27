@@ -65,7 +65,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
             if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
                 //debugger;
-                $scope.loading = true
+                $scope.loading = true;
 
                 suggestion.justAdded = true;
 
@@ -73,7 +73,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
                 PackageFactory.setPackage(ssPackage);
 
-                $scope.loading = false
+                $scope.loading = false;
+                mixpanel.track( "Show added", {"Show Title": suggestion.title});
             }
 
         }
