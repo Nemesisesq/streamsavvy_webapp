@@ -3026,11 +3026,11 @@ span.pull-right.footer-right {
   width: 243px;
   height: 60px;
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #3fc23f;
   font-size: 14px;
   letter-spacing: 0.6px;
   text-align: center;
-  color: #9b9b9b;
+  color: #ffffff;
   font-weight: 300; }
   .not-ready.ready-for-checkout {
     background-color: #3fc23f;
