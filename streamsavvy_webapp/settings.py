@@ -229,7 +229,6 @@ AUTHENTICATION_BACKENDS = (
 #     'social.apps.django_app.context_processors.login_redirect',
 # )
 
-credentials = SettingsVars(BASE_DIR)
 
 # TODO set up environment variables for the purposes of testing
 #############################
