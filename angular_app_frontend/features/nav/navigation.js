@@ -3,6 +3,12 @@
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
 
+    $http.get('/social_endpoint/twitter')
+        .then(function(data){
+            debugger;
+
+    })
+
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
 
