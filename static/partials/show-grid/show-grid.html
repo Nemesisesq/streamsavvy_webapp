@@ -7,7 +7,7 @@
         <div class="col-lg-3 col-md-4 col-sm-6 show-title" ng-repeat="show in package.data.content" open-detail
              ng-click="showDetail(show, $event)" ng-disabled="true">
             <img class="pointer" ng-src="{{ show.guidebox_data.artwork_208x117 }}">
-            <i class="fa fa-times-circle remove-show" ng-click="removeShow(show)"></i>
+            <i class="fa fa-times-circle remove-show" ng-click="removeShow(show, $event)"></i>
         </div>
     </div>
     <div class="row">
