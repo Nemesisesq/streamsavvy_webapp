@@ -2497,6 +2497,95 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
+/**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
+
+    $http.get('/social_endpoint/twitter')
+        .then(function(data){
+            debugger;
+
+    })
+
+
+    $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
+
+    $scope.isHomePage = $state.current.data.isHomePage;
+
+    $timeout(function(){
+        $scope.isHomePage && $('div#mainPage').css({'min-height':'100vh'});
+    }, 0)
+
+    $scope.isActive = function (hash) {
+        return document.location.hash == hash;
+
+
+    }
+
+
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.logout = function () {
+        $location.path(CONFIG.URL + '/django_auth/logout/');
+        //.success(function () {
+        //    $rootScope.logged_in = false;
+        //    console.log($rootScope.logged_in)
+        //})
+    }
+
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+        mainPage = document.getElementById('mainPage'),
+        showLeftPush = document.getElementById('showLeftPush'),
+        body = document.body;
+
+
+    $scope.showLeftPush = function () {
+        //classie.toggle(this, 'active')
+        $scope.menuOpen = !$scope.menuOpen;
+
+        //debugger;
+        //classie.toggle(body, 'cbp-spmenu-push-toright');
+        //classie.toggle(menuLeft, 'cbp-spmenu-open');
+        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
+        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
+        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+
+        $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut()
+
+
+        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+
+
+        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
+
+        //disableOther('showLeftPush');
+    };
+
+
+});
+
+app.run(function ($rootScope) {
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
+    console.log($rootScope.logged_in)
+
+})
+
+$(document).ready(function () {
+
+
+
+    //function disableOther(button) {
+    //    if (button !== 'showLeftPush') {
+    //        classie.toggle(showLeftPush, 'disabled');
+    //    }
+    //
+    //}
+});
+
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -2591,95 +2680,6 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
     }
 });
 
-
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
-
-    $http.get('/social_endpoint/twitter')
-        .then(function(data){
-            debugger;
-
-    })
-
-
-    $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
-
-    $scope.isHomePage = $state.current.data.isHomePage;
-
-    $timeout(function(){
-        $scope.isHomePage && $('div#mainPage').css({'min-height':'100vh'});
-    }, 0)
-
-    $scope.isActive = function (hash) {
-        return document.location.hash == hash;
-
-
-    }
-
-
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.logout = function () {
-        $location.path(CONFIG.URL + '/django_auth/logout/');
-        //.success(function () {
-        //    $rootScope.logged_in = false;
-        //    console.log($rootScope.logged_in)
-        //})
-    }
-
-    var menuLeft = document.getElementById('cbp-spmenu-s1'),
-        mainPage = document.getElementById('mainPage'),
-        showLeftPush = document.getElementById('showLeftPush'),
-        body = document.body;
-
-
-    $scope.showLeftPush = function () {
-        //classie.toggle(this, 'active')
-        $scope.menuOpen = !$scope.menuOpen;
-
-        //debugger;
-        //classie.toggle(body, 'cbp-spmenu-push-toright');
-        //classie.toggle(menuLeft, 'cbp-spmenu-open');
-        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
-        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
-        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
-        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
-
-        $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut()
-
-
-        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-
-
-        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
-        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
-
-        //disableOther('showLeftPush');
-    };
-
-
-});
-
-app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
-    console.log($rootScope.logged_in)
-
-})
-
-$(document).ready(function () {
-
-
-
-    //function disableOther(button) {
-    //    if (button !== 'showLeftPush') {
-    //        classie.toggle(showLeftPush, 'disabled');
-    //    }
-    //
-    //}
-});
 
 /**
  * Created by Nem on 7/18/15.
@@ -2982,11 +2982,30 @@ function removeHuluIfShowtimeContent(services) {
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['cw', 'pbs', 'sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox'];
-    var onDemandServices = ['acorntv','cwseed', 'hulu_plus', 'hulu','hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
+    var onDemandServices = ['acorntv', 'cwseed', 'hulu_plus', 'hulu', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
     var openingDetail = false
+
+    $scope.removeShow = function (show, $event) {
+        var pkg = PackageFactory.getPackage()
+
+        debugger;
+        $q.when($($event.currentTarget).parent().fadeOut)
+            .then(function () {
+
+                debugger;
+                pkg.data.content = _.filter(pkg.data.content, function (elem) {
+                    return elem != show;
+                })
+
+                PackageFactory.setPackage(pkg)
+
+            })
+
+
+    }
 
 
     $scope.$watch(function () {
@@ -3020,7 +3039,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = 'starz'
                         }
 
-                        if(elem.source == 'showtime_subscription'){
+                        if (elem.source == 'showtime_subscription') {
                             elem.source = 'showtime'
                         }
 
@@ -3084,7 +3103,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             if (services.binge == undefined) {
                                 services.binge = []
                             }
-                            services.binge.push(_.takeWhile(services.on_demand, {'source' :'starz'})[0]);
+                            services.binge.push(_.takeWhile(services.on_demand, {'source': 'starz'})[0]);
 
                         }
 
@@ -3168,7 +3187,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                             })
                         }
-    
+
                         if ($scope.cs.on_netflix) {
                             if (!services.hasOwnProperty('binge')) {
                                 services.binge = []

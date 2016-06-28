@@ -207,12 +207,9 @@ import dj_database_url
 
 DATABASES = {}
 
-if os.environ.get('HEROKU', None):
-    pass
-else:
-    DATABASE_URL = DBurl(BASE_DIR).url
 
-DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
+
+DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy3')
 # DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 #############################

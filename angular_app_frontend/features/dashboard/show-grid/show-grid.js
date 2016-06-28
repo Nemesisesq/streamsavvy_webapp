@@ -38,11 +38,30 @@ function removeHuluIfShowtimeContent(services) {
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
     var liveServices = ['cw', 'pbs', 'sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox'];
-    var onDemandServices = ['acorntv','cwseed', 'hulu_plus', 'hulu','hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
+    var onDemandServices = ['acorntv', 'cwseed', 'hulu_plus', 'hulu', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
 
     var openingDetail = false
+
+    $scope.removeShow = function (show, $event) {
+        var pkg = PackageFactory.getPackage()
+
+        debugger;
+        $q.when($($event.currentTarget).parent().fadeOut)
+            .then(function () {
+
+                debugger;
+                pkg.data.content = _.filter(pkg.data.content, function (elem) {
+                    return elem != show;
+                })
+
+                PackageFactory.setPackage(pkg)
+
+            })
+
+
+    }
 
 
     $scope.$watch(function () {
@@ -76,7 +95,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = 'starz'
                         }
 
-                        if(elem.source == 'showtime_subscription'){
+                        if (elem.source == 'showtime_subscription') {
                             elem.source = 'showtime'
                         }
 
@@ -140,7 +159,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             if (services.binge == undefined) {
                                 services.binge = []
                             }
-                            services.binge.push(_.takeWhile(services.on_demand, {'source' :'starz'})[0]);
+                            services.binge.push(_.takeWhile(services.on_demand, {'source': 'starz'})[0]);
 
                         }
 
@@ -224,7 +243,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                             })
                         }
-    
+
                         if ($scope.cs.on_netflix) {
                             if (!services.hasOwnProperty('binge')) {
                                 services.binge = []

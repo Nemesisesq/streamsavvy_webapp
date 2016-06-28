@@ -2983,7 +2983,21 @@ span.pull-right.footer-right {
   padding-right: 0; }
 
 .pointer {
-  cursor: pointer; }
+  cursor: pointer;
+  transition: all .25s ease-out; }
+
+.remove-show {
+  color: red;
+  opacity: 0;
+  position: absolute;
+  top: -10px;
+  right: 5px;
+  font-size: 25px;
+  transition: opacity .1s ease-in-out; }
+  .remove-show:hover {
+    opacity: .5; }
+  .remove-show:active {
+    opacity: 1; }
 
 .ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
   color: #45a7e5; }
