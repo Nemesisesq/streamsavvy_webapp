@@ -3008,15 +3008,16 @@ span.pull-right.footer-right {
   transition: all .25s ease-out; }
 
 .remove-show {
-  color: red;
-  opacity: 0;
+  opacity: .2;
+  color: #9b9b9b;
   position: absolute;
   top: -10px;
   right: 5px;
   font-size: 25px;
-  transition: opacity .1s ease-in-out; }
+  transition: all .3s ease-in-out; }
   .remove-show:hover {
-    opacity: .5; }
+    color: #ed1c24;
+    opacity: .7; }
   .remove-show:active {
     opacity: 1; }
 
