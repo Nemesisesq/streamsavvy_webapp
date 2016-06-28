@@ -2480,6 +2480,10 @@ mobile-tabs {
   mobile-tabs {
     display: block; } }
 
+.lets-do-this-row .btn-red:hover {
+  background-color: #660000;
+  color: #9d9d9d; }
+
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;
   padding-left: 15px;
@@ -2599,12 +2603,29 @@ show-detail .background {
 .f-i-n-a-l-i-z-e-y-o-u-r-s-e-r-v-i-c {
   margin: 5px;
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 25px;
   letter-spacing: 0.5px;
   color: #9b9b9b; }
 
 .service-tooltip {
   width: 200px; }
+
+.back-btn {
+  background-color: transparent;
+  color: #ffffff;
+  border: 0px;
+  padding: 15px; }
+
+.back-btn:hover {
+  width: auto;
+  color: #6B7C93; }
+
+.glyphicon-arrow-left {
+  font-size: 24px;
+  transform: translateY(3px); }
+
+#checkout-back-btn-area {
+  padding: 10px; }
 
 .checkoutList {
   margin-top: 30px;
@@ -3037,11 +3058,11 @@ span.pull-right.footer-right {
   width: 243px;
   height: 60px;
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #3fc23f;
   font-size: 14px;
   letter-spacing: 0.6px;
   text-align: center;
-  color: #9b9b9b;
+  color: #ffffff;
   font-weight: 300; }
   .not-ready.ready-for-checkout {
     background-color: #3fc23f;
