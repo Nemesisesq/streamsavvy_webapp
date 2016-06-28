@@ -44,6 +44,17 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     var openingDetail = false
 
+    $scope.removeShow = function (show) {
+        var pkg = PackageFactory.getPackage()
+
+        pkg.data.content = _.filter(pkg.data.content, function(elem){
+            return elem != show;
+        })
+        
+        PackageFactory.setPackage(pkg)
+
+    }
+
 
     $scope.$watch(function () {
         return PackageFactory.getChosenShow();
@@ -224,7 +235,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                             })
                         }
-    
+
                         if ($scope.cs.on_netflix) {
                             if (!services.hasOwnProperty('binge')) {
                                 services.binge = []
