@@ -6,21 +6,20 @@
     <!-- specific meta tags from Bootstrap -->
     <!-- these tags must come first in the head -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 
     <!-- SCROLLS -->
     <!-- load bootstrap  -->
-    <link href="{% static 'bootstrap/dist/css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/bootstrap/dist/css/bootstrap.css' %}" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600,700' rel="stylesheet" type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lato:400,100,300,900,700' rel='stylesheet' type='text/css'>
-    <link href="{% static 'angular-bootstrap/ui-bootstrap-csp.css' %}">
+    <link href="{% static 'lib/angular-bootstrap/ui-bootstrap-csp.css' %}">
     <link href="{% static 'main.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.css"/>
-    <link href="{% static 'angular-send-feedback/dist/angular-send-feedback.css' %}" rel="stylesheet"/>
     <link rel="shortcut icon" href="https://s3.amazonaws.com/streamsavvy/SS_Mark_red.png">
-    <link rel="stylesheet" type="text/css" href="{% static 'angular-growl-v2/build/angular-growl.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/angular-growl-v2/build/angular-growl.css' %}"/>
 
     <!-- SPELLS -->
     <!-- load angular and angular route via CDN -->
@@ -32,42 +31,25 @@
 
 <base href="/">
 
-<body ng-app='myApp' class="container">
+<body id="background" ng-app='myApp' class="background container ">
 <div class="body-wrapper">
 
 
-    <script>
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '123769897967344',
-                xfbml: true,
-                version: 'v2.4'
-            });
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-
     <!-- MAIN CONTENT AND INJECTED VIEWS -->
     <div ui-view autoscroll="true"></div>
+
     <div growl></div>
+    <div id="menu-mask" class="dim-on-open-menu"></div>
 
     <!-- feed back form-->
-    <div ng-controller="FeedbackCtrl">
+    <!--<<div ng-controller="FeedbackCtrl">
 
-        <div ng-if="isMobile"><angular-feedback options="options"></angular-feedback></div>
-    </div>
+        div ng-if="isMobile">
+            <angular-feedback options="options"></angular-feedback>
+        </div>
+    </div>-->
 
-
+    <!--
     <a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
     <a id="instagram_login" href="{% url 'social:begin' 'instagram' %}?next={{ request.path }}">login to instagram</a>
     <a id="twitter_login" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">login to twitter</a>
@@ -79,27 +61,29 @@
             data-width="450"
             data-show-faces="true">
     </div>
+-->
 
-
-    <script src="{% static 'jquery/dist/jquery.js' %}"></script>
-    <script src="{% static 'angular/angular.js' %}"></script>
-    <script src="{% static 'angular-mocks/angular-mocks.js' %}"></script>
-    <script src="{% static 'angular-resource/angular-resource.js' %}"></script>
-    <script src="{% static 'angular-ui-router/release/angular-ui-router.js' %}"></script>
-    <script src="{% static 'angular-cookies/angular-cookies.js' %}"></script>
-    <script src="{% static 'slick-carousel/slick/slick.js' %}"></script>
-    <script src="{% static 'angular-slick/dist/slick.js' %}"></script>
+    <script src="{% static 'lib/jquery/dist/jquery.js' %}"></script>
+    <script src="{% static 'lib/angular/angular.js' %}"></script>
+    <script src="{% static 'lib/angular-mocks/angular-mocks.js' %}"></script>
+    <script src="{% static 'lib/angular-resource/angular-resource.js' %}"></script>
+    <script src="{% static 'lib/angular-ui-router/release/angular-ui-router.js' %}"></script>
+    <script src="{% static 'lib/angular-cookies/angular-cookies.js' %}"></script>
+    <script src="{% static 'lib/slick-carousel/slick/slick.js' %}"></script>
+    <script src="{% static 'lib/angular-slick/dist/slick.js' %}"></script>
     <script src="{% static 'all.js' %}"></script>
-    <script src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
-    <script src="{% static 'lodash/lodash.js' %}"></script>
-    <script src="{% static 'angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
-    <script src="{% static 'angular-animate/angular-animate.js' %}"></script>
-    <script src="{% static 'fuse.js/src/fuse.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap/dist/js/bootstrap.js' %}"></script>
+    <script src="{% static 'lib/lodash/lodash.js' %}"></script>
+    <script src="{% static 'lib/angular-bootstrap/ui-bootstrap-tpls.js' %}"></script>
+    <script src="{% static 'lib/angular-animate/angular-animate.js' %}"></script>
+    <script src="{% static 'lib/fuse.js/src/fuse.min.js' %}"></script>
+    <script src="{% static 'lib/moment/min/moment.min.js' %}"></script>
     <script src="https://use.fonticons.com/b92fc55f.js"></script>
-    <script src="{% static 'angular-send-feedback/dist/angular-send-feedback.js' %}"></script>
-    <script src="{% static 'html2canvas/build/html2canvas.js' %}"></script>
-    <script src="{% static 'angular-growl-v2/build/angular-growl.js' %}"></script>
-
+    <script src="{% static 'lib/angular-growl-v2/build/angular-growl.js' %}"></script>
+    <script src="{% static 'lib/classie/classie.js' %}"></script>
+    <!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+mixpanel.init("7b9e7403b856c31013a21fb12e504c74");</script><!-- end Mixpanel -->
 
 </div>
 {#<div>{{ request.user|slugify}} </div>#}

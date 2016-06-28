@@ -9,38 +9,61 @@ Feature: guidebox api feature
 #    When get_shows is called
 #    Then json is returned
 
-  Scenario: Grabbing shows from guidebox in multiple calls
-    Given repeat 3 times
-    When populate_content is called
-    Then there are 750 results
-#
-  Scenario: Getting a show's details from guidbox
-    Given show id 2625 and name Homeland
-    When get_content_detail method is called
-    Then json is returned with an object of show id 2625 and name Homeland
+  Scenario: Getting a list of content from the guidebox api and saving the content
+    Given an index of 0
+    When a list of content is requested from guidebox
+    Then json is returned
+    Then we save the content
 
-  Scenario: Test detail population single show
-    When single detail population is called
-    Then True
+  Scenario: We get a list of channels from the guidebox api and save the channels
+    Given an index of 0
+    When a list of channels is requested from guidebox
+    Then json is returned
+    Then we save the channels
 
-  Scenario: Test the population of additional details for a show
-    When I call to populate extra provider information
-    Then True
+  Scenario: We test the task that adds show to the queue to be saved
+    Given a total number of shows
+    When we call the populate shows task
+    Then there are a total number of shows in the queue
 
-  Scenario: Testing Mult   i threading
-    When show_detail_multithreading is called
-    Then shows have a description
-
-  Scenario: Testing Additional Provider acq
-    When show_detail_multithreading_extra is called
-    Then we just pass True here
+  Scenario: We test the task that adds channels to the queue to be saved
+    Given a total number of channels
+    When we call the populate channel task
+    Then there are a total number of channels in the queue
 
 
-  Scenario: Adding Netflixable shows
-    When I call netflixable
-    Then I get shows
+  Scenario: We Test the method that connects shows to channels using guidebox data
+    Given a list of channels from the database
+    When we process that list
+    Then the content now has channels
 
 
-  Scenario: Searching for shows based on service provider
-    When I search by service provider
-    Then I get shows by service provider
+  Scenario: We test the task that connects shows and channels
+    Given a list of channels from the database
+    When we call the connect channel to content task
+    Then there are a total number of jobs in the low queue
+
+  Scenario: we test the method that adds sources to shows
+    Given a show Orange is the new black
+    When we add available content to the show
+    Then the show now has sources
+
+  Scenario: we test the task that adds available content to shows
+    When we call the add available content task
+    Then there are a total number of jobs in the high queue
+
+  Scenario: We test getting and saving detials for shows
+    Given the show orange is the new black
+    When we call guidebox for detail about the show
+    And we save the show
+    Then orange is the new black has details
+
+  Scenario: we test the task that connects show and channels
+    Given we call the the add details task
+    Then there are a total number of jobs in the low queue
+
+  @real_db
+  Scenario: Test sling over the air processor
+    Given a the show Game of Thrones
+    When We call sling over the air processor
+    Then Xfinity is removed

@@ -7,7 +7,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
-        //debugger;
+
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',
@@ -56,7 +56,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
 
     $scope.login = function (credentials) {
-        debugger;
         //credentials.next = "/api/";
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";

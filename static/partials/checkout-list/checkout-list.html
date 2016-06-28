@@ -1,0 +1,8 @@
+<!--<checkout-item ng-repeat="(key,value) in listP" key="key" value="value"> </checkout-item>-->
+
+<div class="container mobile-checkout-container" >
+    <div class="f-i-n-a-l-i-z-e-y-o-u-r-s-e-r-v-i-c">Manage Your Streaming Services</div>
+     <checkout-item ng-repeat="(key, value) in list | customSorter" key="key" value="value" package="package"></checkout-item>
+
+</div>
+

@@ -7,11 +7,14 @@
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
+
+    user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+
+
   cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -133,7 +136,7 @@
 
     
 }*/
-
+/*
 .show {
   position: relative;
   display: inline !important;
@@ -142,7 +145,7 @@
   border-width: .5px;
   min-width: 10px;
   max-width: 500px;
-  white-space: normal;/*weird little workaround that does word wrapping past max width*/
+  white-space: normal;/*weird little workaround that does word wrapping past max width
 //  font-size: 200%;
   font-weight: 700;
   line-height: 1.5;
@@ -150,7 +153,7 @@
   -webkit-box-shadow: 0 0 5px 2px gray;
     -moz-box-shadow: 0 0 5px 2px gray;
     box-shadow: 0 0 5px 2px gray;
-}
+}*/
 .glyphicon-background {
     position: absolute;
     border-radius: 100%;
