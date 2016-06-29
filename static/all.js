@@ -2594,6 +2594,101 @@ $(document).ready(function () {
     //}
 });
 
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
+
+
+        return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
+});
+
+
 /**
  * Created by Nem on 7/18/15.
  */
@@ -2712,101 +2807,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     });
 
 
-});
-
-
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
 });
 
 
@@ -2961,9 +2961,9 @@ function checkForHuluWithShowtime(services) {
             return elem.source == "hulu_with_showtime";
         }
 
-        catch(e) {
+        catch (e) {
 
-           return false
+            return false
         }
     });
 }
@@ -3034,8 +3034,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             if ($scope.cs.guidebox_data != undefined) {
 
 
-                var x = _($scope.cs.guidebox_data.sources.web.episodes.all_sources)
-                    .concat($scope.cs.guidebox_data.sources.ios.episodes.all_sources)
+                var x = _($scope.cs.channel)
+                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
                     .map(function (elem) {
 
                         if (elem.guidebox_data != undefined) {
@@ -3780,56 +3780,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
-/**
- * Created by Nem on 11/25/15.
- */
-app.controller('StepTwoController', function ($scope, http, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    var hardwareColl = $scope.package.hardware;
-
-    http.getHardware()
-        .then(function (data) {
-            $scope.hardware = data.results;
-        });
-
-    $scope.itemSelected = function (item) {
-        var hardwareColl = $scope.package.hardware;
-        var x = _.some(hardwareColl, 'url', item.url);
-        return x
-    };
-
-
-    $scope.addRemoveHardware = function (item) {
-        if (item.hasOwnProperty('selected')) {
-            delete item['selected']
-        }
-
-
-        var hardwareColl = $scope.package.hardware;
-        if (_.some(hardwareColl, 'url', item.url)) {
-            _.remove(hardwareColl, function(n){
-
-                return n.url == item.url
-
-            });
-
-        } else {
-            //item.selected = true;
-            hardwareColl.push(item);
-        }
-
-        PackageFactory.setPackage($scope.package)
-    };
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-
-});
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();
@@ -3937,3 +3887,54 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
 
 
 })
+
+/**
+ * Created by Nem on 11/25/15.
+ */
+app.controller('StepTwoController', function ($scope, http, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    var hardwareColl = $scope.package.hardware;
+
+    http.getHardware()
+        .then(function (data) {
+            $scope.hardware = data.results;
+        });
+
+    $scope.itemSelected = function (item) {
+        var hardwareColl = $scope.package.hardware;
+        var x = _.some(hardwareColl, 'url', item.url);
+        return x
+    };
+
+
+    $scope.addRemoveHardware = function (item) {
+        if (item.hasOwnProperty('selected')) {
+            delete item['selected']
+        }
+
+
+        var hardwareColl = $scope.package.hardware;
+        if (_.some(hardwareColl, 'url', item.url)) {
+            _.remove(hardwareColl, function(n){
+
+                return n.url == item.url
+
+            });
+
+        } else {
+            //item.selected = true;
+            hardwareColl.push(item);
+        }
+
+        PackageFactory.setPackage($scope.package)
+    };
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+
+});
