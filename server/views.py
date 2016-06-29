@@ -313,18 +313,18 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
 
 class PackageDetailViewSet(viewsets.ModelViewSet):
     serializer_class = PackageDetailSerializer
-
+    queryset = Package.objects.all()
     logger = logging.getLogger('cuthecord')
 
     # permission_classes = (IsOwner,)
 
-    def get_queryset(self):
-        try:
-            user = get_user(self)
-            return get_packages(user)
-
-        except Exception as e:
-            self.logger.debug(e)
+    # def get_queryset(self):
+    #     try:
+    #         user = get_user(self)
+    #         return get_packages(user)
+    #
+    #     except Exception as e:
+    #         self.logger.debug(e)
 
 
 def get_user(self):
