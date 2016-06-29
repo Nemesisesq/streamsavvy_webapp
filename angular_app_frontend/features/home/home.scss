@@ -30,6 +30,13 @@
 
 .easy-123 {
   max-width: calc(100vw - 30px);
+  transform: translateX(15px);
+}
+
+@media (max-width: 600px) {
+  .easy-123 {
+    transform: translateX(0px);
+  }
 }
 
 .header-logo {

@@ -288,7 +288,7 @@ body {
 
 .fa {
   display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2446,7 +2446,12 @@ ul[id^='typeahead-'], .suggestions-list {
   display: none; }
 
 .easy-123 {
-  max-width: calc(100vw - 30px); }
+  max-width: calc(100vw - 30px);
+  transform: translateX(15px); }
+
+@media (max-width: 600px) {
+  .easy-123 {
+    transform: translateX(0px); } }
 
 @media (max-width: 768px) {
   div#mainPage {
