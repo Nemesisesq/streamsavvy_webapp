@@ -60,7 +60,7 @@ def connect_content_channel_task():
             q_low.enqueue(g.connect_channels_shows, i)
 
 
-def add_available_content_to_shows():
+def add_available_sources_to_shows():
     g = GuideBox()
     q_high = django_rq.get_queue('high')
 
