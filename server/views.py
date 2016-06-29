@@ -25,6 +25,7 @@ from server.permissions import IsAdminOrReadOnly
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer, ChannelImagesSerializer
 
+
 def flatten(l):
     out = []
     for item in l:
@@ -33,8 +34,6 @@ def flatten(l):
         else:
             out.append(item)
     return out
-
-
 
 
 class NetFlixListView(View):
@@ -191,7 +190,6 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         return response
 
-
     def get_queryset(self):
         query_string = self.request.GET['q']
         try:
@@ -207,11 +205,8 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
             single_word_shows = Content.objects.filter(title__istartswith=query_string).extra(
                 select={'length': 'Length(title)'}).order_by('length')
 
-
             if single_word_shows and single_word_shows[0] not in filter_results:
-
                 filter_results = list(single_word_shows[0]) + filter_results
-
 
         filter_results = self.check_guidebox_for_query(filter_results, query_string)
         # filter_results['search_term'] = self
@@ -220,12 +215,11 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         # banned server
 
-        filter_results = [show for show in  filter_results if show.id != 15296]
+        filter_results = [show for show in filter_results if show.id != 15296]
 
         filter_results = [GuideBox().process_content_for_sling_ota_banned_channels(show) for show in filter_results]
 
         filter_results = self.check_guidebox_for_query(filter_results, query_string)
-
 
         assert cache
         try:
@@ -273,7 +267,6 @@ class ContentViewSet(viewsets.ModelViewSet):
 
             obj.guidebox_data['detail'] = detail
 
-
             obj = g.process_content_for_sling_ota_banned_channels(obj, True)
 
             obj.save()
@@ -313,18 +306,18 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
 
 class PackageDetailViewSet(viewsets.ModelViewSet):
     serializer_class = PackageDetailSerializer
-
+    queryset = Package.objects.all()
     logger = logging.getLogger('cuthecord')
 
     # permission_classes = (IsOwner,)
 
-    def get_queryset(self):
-        try:
-            user = get_user(self)
-            return get_packages(user)
-
-        except Exception as e:
-            self.logger.debug(e)
+    # def get_queryset(self):
+    #     try:
+    #         user = get_user(self)
+    #         return get_packages(user)
+    #
+    #     except Exception as e:
+    #         self.logger.debug(e)
 
 
 def get_user(self):
@@ -456,12 +449,24 @@ class ChannelImagesView(APIView):
             return Response(serializer.data)
 
 
+def eval_string(d):
+    d['guidebox_data'] = eval(d['guidebox_data'])
+
+    return d
+
+
 def call_search_microservice(request):
+    from tornado import escape
+
     if request.GET['q']:
-        query_url = "{base}/search/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),params = urllib.parse.urlencode({'q': request.GET['q']}))
+        query_url = "{base}/search/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
+                                                     params=urllib.parse.urlencode({'q': request.GET['q']}))
         try:
 
             with urllib.request.urlopen(query_url) as response:
-                return HttpResponse(response)
+
+                x = json.loads(response.read().decode())
+                xx = [eval_string(d) for d in x]
+                return JsonResponse(x, safe=False)
         except:
             pass

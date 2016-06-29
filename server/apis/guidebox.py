@@ -230,7 +230,7 @@ class GuideBox(object):
         return x
 
     def check_for_sources_date_last_checked(self, c):
-        if 'sources' not in c.guidebox_data:
+        if not 'sources' not in c.guidebox_data:
             c = self.add_additional_channels_for_show(c)
             # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
             c.save()
@@ -240,6 +240,9 @@ class GuideBox(object):
     def add_additional_channels_for_show(self, shows):
 
         def execute(c):
+            if type(c) is int:
+                c = Content.objects.get(id=c)
+
             if c.guidebox_data:
                 available_sources = json.loads(self.get_available_content_for_show(c.guidebox_data['id']))
                 try:

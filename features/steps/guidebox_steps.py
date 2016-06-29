@@ -6,7 +6,7 @@ from behave import given, when, then, step
 
 from server.models import Content, Channel
 from server.tasks import inital_database_population_of_content, inital_database_population_of_channels, \
-    connect_content_channel_task, add_available_content_to_shows, add_detail_to_shows
+    connect_content_channel_task, add_available_sources_to_shows, add_detail_to_shows
 
 __author__ = 'Nem'
 
@@ -161,7 +161,7 @@ def step_impl(context):
 
 @when("we call the add available content task")
 def step_impl(context):
-    add_available_content_to_shows()
+    add_available_sources_to_shows()
 
 
 @given("the show {show}")

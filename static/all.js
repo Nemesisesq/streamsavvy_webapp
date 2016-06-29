@@ -685,7 +685,6 @@ app.directive('actionBlock', function ($window) {
         },
 
         link: function (scope, element) {
-            debugger;
 
 
             scope.linkToAffiliate = function (service) {
@@ -773,7 +772,6 @@ app.directive('checkoutService', function ($http, $window) {
 
             $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
                 .then(function (data) {
-                    debugger;
                     scope.service.service_description = data.data
                     console.log(data)
 
@@ -808,8 +806,7 @@ app.directive('ppvCheckoutItem', function ($window) {
             scope.windowWidth = $window.innerWidth
 
             scope.removeElementFromDom = function (service) {
-                debugger;
-
+                
                 element.remove()
             }
 
@@ -994,7 +991,6 @@ app.directive('servicePanelItem', function sPanelItem() {
             link: function (scope, element, attrs, controller) {
                 scope.$watchCollection('pkg.data.content', function () {
                     $timeout(function () {
-                        debugger
                         if (scope.listOfServices) {
                             scope.listOfServices.not_ota = _.compact(scope.listOfServices.not_ota);
                             var re = new RegExp(/showtime/i);
@@ -1480,7 +1476,6 @@ app.filter('unique', function() {
 
 app.filter('customSorter', function(){
     return function(list){
-        debugger;
         var newPpv = list.ppv;
 
         delete list['ppv']
@@ -1490,6 +1485,7 @@ app.filter('customSorter', function(){
         return list
     }
 })
+
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -1722,7 +1718,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 return services
             })
+            .compact()
             .uniqBy(function (elem) {
+
+
                 if (elem.display_name) {
                     return elem.display_name
                 } else {
@@ -1881,6 +1880,16 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             _listOfServices = listOfServices;
         },
 
+        // createListOfServices: function(){
+        //     var ssPackage = this.getPackage();
+        //     if ('data' in ssPackage){
+        //         $http.post('http://localhost:5000/d', ssPackage)
+        //             .then(function(data){
+        //                 console.log(data)
+        //             })
+        //     }
+        // },
+
         createListOfServices: function () {
 
 
@@ -1962,7 +1971,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return 'ppv'
 
                         }
-                            
+
                         else {
                             return 'not_ota'
                         }
@@ -2017,11 +2026,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                             }
                         }
-                        
+
                         return list
                     })
                     .value();
-                
+
                 this.setListOfServices(list)
 
                 return list
@@ -2504,7 +2513,6 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
     $http.get('/social_endpoint/twitter')
         .then(function(data){
-            debugger;
 
     })
 
@@ -2689,8 +2697,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $scope.modelOptions = {
         debounce: {
-            default: 500,
-            blur: 250
+            default: 100,
+            blur: 50
         },
         getterSetter: true
     };
@@ -2720,7 +2728,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                         })
                         .sortBy(function (elem) {
 
-                            return elem.title.length
+                            return 0
                         })
                         .value()
 
@@ -2912,7 +2920,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
-            debugger;
             $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
             debugger;
             $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
@@ -2944,12 +2951,20 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 function interceptor(obj) {
     console.log(obj)
-
+    return obj
 }
 
 function checkForHuluWithShowtime(services) {
     return _.some(services, function (elem) {
-        return elem.source == "hulu_with_showtime";
+        try {
+
+            return elem.source == "hulu_with_showtime";
+        }
+
+        catch (e) {
+
+            return false
+        }
     });
 }
 
@@ -2981,7 +2996,7 @@ function removeHuluIfShowtimeContent(services) {
 
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
-    var liveServices = ['cw', 'pbs', 'sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox'];
+    var liveServices = ['cw', 'pbs', 'sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox', 'fox_tveverywhere'];
     var onDemandServices = ['acorntv', 'cwseed', 'hulu_plus', 'hulu', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
@@ -2991,7 +3006,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.removeShow = function (show, $event) {
         var pkg = PackageFactory.getPackage()
 
-        debugger;
         $q.when($($event.currentTarget).parent().fadeOut)
             .then(function () {
 
@@ -3016,7 +3030,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.cs = PackageFactory.getChosenShow();
 
         $scope.detailSources = (function () {
-            debugger;
 
             if ($scope.cs.guidebox_data != undefined) {
 
@@ -3029,7 +3042,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = elem.guidebox_data.short_name
                         }
                         return elem
-                    }).map(function (elem) {
+                    })
+                    .map(function (elem) {
                         if (elem.source == 'hulu_free') {
                             elem.source = 'hulu_plus';
                             return elem
@@ -3062,6 +3076,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return elem.name
                         }
                     })
+                    .tap(interceptor)
                     .groupBy(function (service) {
                         debugger;
                         if (liveServices.includes(service.source)) {
@@ -3082,6 +3097,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                         return 'misc'
                     })
+                    .tap(interceptor)
                     .thru(function (services) {
 
                         _.forEach(services.misc, function (service) {
@@ -3097,7 +3113,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             }
 
                         })
-                        debugger;
                         if (_.some(services.on_demand, ['source', 'starz'])) {
 
                             if (services.binge == undefined) {
@@ -3113,6 +3128,18 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
                                 if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {
+                                    var elemCopy = _.cloneDeep(elem);
+
+                                    elemCopy.name = 'OTA';
+                                    delete elemCopy['id'];
+                                    delete elemCopy['$$hashKey'];
+
+                                    elemCopy.source = 'ota';
+
+                                    services.live.push(elemCopy)
+                                }
+
+                                if (elem.is_over_the_air) {
                                     var elemCopy = _.cloneDeep(elem);
 
                                     elemCopy.name = 'OTA';

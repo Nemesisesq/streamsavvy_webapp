@@ -69,7 +69,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 return services
             })
+            .compact()
             .uniqBy(function (elem) {
+
+
                 if (elem.display_name) {
                     return elem.display_name
                 } else {
@@ -228,6 +231,16 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             _listOfServices = listOfServices;
         },
 
+        // createListOfServices: function(){
+        //     var ssPackage = this.getPackage();
+        //     if ('data' in ssPackage){
+        //         $http.post('http://localhost:5000/d', ssPackage)
+        //             .then(function(data){
+        //                 console.log(data)
+        //             })
+        //     }
+        // },
+
         createListOfServices: function () {
 
 
@@ -309,7 +322,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return 'ppv'
 
                         }
-                            
+
                         else {
                             return 'not_ota'
                         }
@@ -364,11 +377,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                             }
                         }
-                        
+
                         return list
                     })
                     .value();
-                
+
                 this.setListOfServices(list)
 
                 return list

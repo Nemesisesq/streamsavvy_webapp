@@ -47,7 +47,7 @@ Feature: guidebox api feature
     Given a show Orange is the new black
     When we add available content to the show
     Then the show now has sources
-
+  @real_db
   Scenario: we test the task that adds available content to shows
     When we call the add available content task
     Then there are a total number of jobs in the high queue
