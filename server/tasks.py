@@ -65,7 +65,8 @@ def add_available_sources_to_shows():
     q_high = django_rq.get_queue('high')
 
     # all_shows = Content.objects.all()
-    all_shows = Content.objects.filter(guidebox_data__sources='null')
+    all_shows = Content.objects.all()
+    print(all_shows)
     for show in [all_shows[i: i + 20]  for i in range(0, len(all_shows), 20)]:
         q_high.enqueue(g.add_additional_channels_for_show, show)
 
