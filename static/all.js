@@ -2699,8 +2699,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $scope.modelOptions = {
         debounce: {
-            default: 500,
-            blur: 250
+            default: 250,
+            blur: 100
         },
         getterSetter: true
     };
