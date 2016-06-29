@@ -93,7 +93,6 @@ app.directive('servicePanelItem', function sPanelItem() {
             link: function (scope, element, attrs, controller) {
                 scope.$watchCollection('pkg.data.content', function () {
                     $timeout(function () {
-                        debugger
                         if (scope.listOfServices) {
                             scope.listOfServices.not_ota = _.compact(scope.listOfServices.not_ota);
                             var re = new RegExp(/showtime/i);

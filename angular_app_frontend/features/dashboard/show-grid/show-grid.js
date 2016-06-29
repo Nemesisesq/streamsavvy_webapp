@@ -1,6 +1,6 @@
 function interceptor(obj) {
     console.log(obj)
-
+    return obj
 }
 
 function checkForHuluWithShowtime(services) {
@@ -55,7 +55,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.removeShow = function (show, $event) {
         var pkg = PackageFactory.getPackage()
 
-        debugger;
         $q.when($($event.currentTarget).parent().fadeOut)
             .then(function () {
 
@@ -80,7 +79,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $scope.cs = PackageFactory.getChosenShow();
 
         $scope.detailSources = (function () {
-            debugger;
 
             if ($scope.cs.guidebox_data != undefined) {
 
@@ -93,7 +91,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             elem.source = elem.guidebox_data.short_name
                         }
                         return elem
-                    }).map(function (elem) {
+                    })
+                    .map(function (elem) {
                         if (elem.source == 'hulu_free') {
                             elem.source = 'hulu_plus';
                             return elem
@@ -126,6 +125,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             return elem.name
                         }
                     })
+                    .tap(interceptor)
                     .groupBy(function (service) {
                         debugger;
                         if (liveServices.includes(service.source)) {
@@ -146,6 +146,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                         return 'misc'
                     })
+                    .tap(interceptor)
                     .thru(function (services) {
 
                         _.forEach(services.misc, function (service) {
@@ -161,7 +162,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                             }
 
                         })
-                        debugger;
                         if (_.some(services.on_demand, ['source', 'starz'])) {
 
                             if (services.binge == undefined) {
@@ -177,6 +177,18 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
                                 if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {
+                                    var elemCopy = _.cloneDeep(elem);
+
+                                    elemCopy.name = 'OTA';
+                                    delete elemCopy['id'];
+                                    delete elemCopy['$$hashKey'];
+
+                                    elemCopy.source = 'ota';
+
+                                    services.live.push(elemCopy)
+                                }
+                                
+                                if (elem.is_over_the_air) {
                                     var elemCopy = _.cloneDeep(elem);
 
                                     elemCopy.name = 'OTA';

@@ -199,7 +199,6 @@ app.directive('actionBlock', function ($window) {
         },
 
         link: function (scope, element) {
-            debugger;
 
 
             scope.linkToAffiliate = function (service) {
@@ -287,7 +286,6 @@ app.directive('checkoutService', function ($http, $window) {
 
             $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
                 .then(function (data) {
-                    debugger;
                     scope.service.service_description = data.data
                     console.log(data)
 
@@ -322,7 +320,6 @@ app.directive('ppvCheckoutItem', function ($window) {
             scope.windowWidth = $window.innerWidth
 
             scope.removeElementFromDom = function (service) {
-                debugger;
 
                 element.remove()
             }

@@ -182,7 +182,6 @@ app.filter('unique', function() {
 
 app.filter('customSorter', function(){
     return function(list){
-        debugger;
         var newPpv = list.ppv;
 
         delete list['ppv']
