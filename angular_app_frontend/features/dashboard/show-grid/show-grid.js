@@ -5,7 +5,15 @@ function interceptor(obj) {
 
 function checkForHuluWithShowtime(services) {
     return _.some(services, function (elem) {
-        return elem.source == "hulu_with_showtime";
+        try {
+
+            return elem.source == "hulu_with_showtime";
+        }
+
+        catch(e) {
+
+           return false
+        }
     });
 }
 
@@ -77,8 +85,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             if ($scope.cs.guidebox_data != undefined) {
 
 
-                var x = _($scope.cs.channel)
-                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
+                var x = _($scope.cs.guidebox_data.sources.web.episodes.all_sources)
+                    .concat($scope.cs.guidebox_data.sources.ios.episodes.all_sources)
                     .map(function (elem) {
 
                         if (elem.guidebox_data != undefined) {
