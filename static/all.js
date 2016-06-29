@@ -1722,7 +1722,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 return services
             })
+            .compact()
             .uniqBy(function (elem) {
+
+
                 if (elem.display_name) {
                     return elem.display_name
                 } else {
@@ -2353,7 +2356,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2459,6 +2461,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
 /**
  * Created by chirag on 3/28/16.
  */
+
 
 /**
  * Created by Nem on 12/29/15.

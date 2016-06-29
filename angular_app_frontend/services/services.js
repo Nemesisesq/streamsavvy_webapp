@@ -69,7 +69,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 return services
             })
+            .compact()
             .uniqBy(function (elem) {
+
+
                 if (elem.display_name) {
                     return elem.display_name
                 } else {
