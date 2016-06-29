@@ -240,6 +240,9 @@ class GuideBox(object):
     def add_additional_channels_for_show(self, shows):
 
         def execute(c):
+            if type(c) is int:
+                c = Content.objects.get(id=c)
+
             if c.guidebox_data:
                 available_sources = json.loads(self.get_available_content_for_show(c.guidebox_data['id']))
                 try:
