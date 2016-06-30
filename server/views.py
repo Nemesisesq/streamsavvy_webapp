@@ -3,7 +3,10 @@ import logging
 import urllib
 import urllib.request
 import urllib.parse
+
+from server.shortcuts import api_json_post
 from streamsavvy_webapp.settings import get_env_variable
+import requests
 
 import re
 import time
@@ -470,3 +473,22 @@ def call_search_microservice(request):
                 return JsonResponse(x, safe=False)
         except:
             pass
+@api_json_post
+def get_service_list(request, the_json, path):
+
+
+
+        query_url = ""
+
+        if path == 'servicelist':
+            query_url = "{base}/service_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
+
+        if path  == 'checkoutlist':
+            query_url = "{base}/checkout_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
+
+        try:
+            headers = {'Content-Type': 'application/json'}
+            r = requests.post(query_url, data=json.dumps(the_json), headers=headers)
+            return JsonResponse(r.json(), safe=False)
+        except Exception as e :
+            print(e)

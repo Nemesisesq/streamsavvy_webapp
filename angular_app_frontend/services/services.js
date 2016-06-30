@@ -236,8 +236,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
             var ssPackage = this.getPackage();
             if ('data' in ssPackage){
                 debugger;
-                var url = envService.read('serviceListUrl')
-                return $http.post(url, ssPackage)
+                // var url = envService.read('serviceListUrl')
+                return $http.post('/node-data/servicelist', ssPackage)
             }
         },
         
