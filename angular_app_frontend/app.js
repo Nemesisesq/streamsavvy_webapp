@@ -1,7 +1,45 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick', 'angular-growl'])
+var app = angular.module('myApp', [
+        "ui.router",
+        "ngCookies",
+        "ui.bootstrap",
+        "ngAnimate",
+        'slick',
+        'angular-growl',
+        'environment',
+    ])
+    .config(function(envServiceProvider){
+        envServiceProvider.config({
+            domains: {
+                development: ['localhost', '127.0.01'],
+                production: ['streamsavvy.com'],
+                staging: ['herokuapp.com']
+            },
+
+            vars: {
+                development: {
+                    serviceListUrl : '//localhost:5000/service_list',
+                    checkoutListUrl : '//localhost:5000/checkout_list',
+                    nodeDetailUrl : '//localhost:5000/viewing_windows'
+                },
+
+                staging : {
+                    nodeShowsUrl : '//ss-node-data-staging/service_list',
+                    nodeDetailUrl : '//ss-node-data-staging/viewing_windows'
+
+                },
+                production: {
+                    nodeShowsUrl : '//ss-node-data-staging/service_list',
+                    nodeDetailUrl : '//ss-node-data-staging/viewing_windows'
+
+                }
+            }
+        });
+
+        envServiceProvider.check();
+    })
         .constant('CONFIG', {
             'URL': location.origin
         })

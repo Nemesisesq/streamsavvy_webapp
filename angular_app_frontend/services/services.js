@@ -21,7 +21,7 @@ function interceptor(obj) {
 
 var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
-app.factory('N', function () {
+app.factory('N', function (envService) {
     var _netflix_shows = []
 
     return {
@@ -36,7 +36,7 @@ app.factory('N', function () {
     }
 })
 
-app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($http, $q, VIEW_WINDOWS, _) {
+app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService', function ($http, $q, VIEW_WINDOWS, _, envService) {
     // ;
 
     var _package = {};
@@ -54,7 +54,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         return _.chain(ssPackage.data.content)
             .map(function (elem) {
                 _.forEach(elem.channel, function (c) {
-                    c.source = c.guidebox_data.short_name
+                    // debugger;
+                    c.source = c.name.toLowerCase();
                 })
                 var list
                 elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources, elem.guidebox_data.sources.ios.episodes.all_sources);
@@ -231,17 +232,25 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             _listOfServices = listOfServices;
         },
 
-        // createListOfServices: function(){
-        //     var ssPackage = this.getPackage();
-        //     if ('data' in ssPackage){
-        //         $http.post('http://localhost:5000/d', ssPackage)
-        //             .then(function(data){
-        //                 console.log(data)
-        //             })
-        //     }
-        // },
+        getServicePanelList: function(){
+            var ssPackage = this.getPackage();
+            if ('data' in ssPackage){
+                debugger;
+                var url = envService.read('serviceListUrl')
+                return $http.post(url, ssPackage)
+            }
+        },
+        
+        getCheckoutPanelList: function(){
+            var ssPackage = this.getPackage();
+            if ('data' in ssPackage){
+                debugger;
+                var url = envService.read('checkoutListUrl')
+                return $http.post(url, ssPackage)
+            }
+        },
 
-        createListOfServices: function () {
+        createListOfServices2: function () {
 
 
             var ssPackage = this.getPackage();

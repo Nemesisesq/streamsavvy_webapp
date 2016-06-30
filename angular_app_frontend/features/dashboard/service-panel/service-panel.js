@@ -24,18 +24,35 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
-            $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    debugger;
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    debugger
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+                    debugger;
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
             debugger;
-            $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                $scope.listOfServices[key].open = true
-            })
+
             PackageFactory.setListOfServices($scope.listOfServices);
         }
     }
 
     updateServices()
     $scope.$watchCollection(function () {
-        var _data =  PackageFactory.getPackage().data;
+        var _data = PackageFactory.getPackage().data;
         if (_data != undefined) {
             return _data.content
         } else {

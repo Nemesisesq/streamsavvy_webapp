@@ -1,7 +1,45 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick', 'angular-growl'])
+var app = angular.module('myApp', [
+        "ui.router",
+        "ngCookies",
+        "ui.bootstrap",
+        "ngAnimate",
+        'slick',
+        'angular-growl',
+        'environment',
+    ])
+    .config(function(envServiceProvider){
+        envServiceProvider.config({
+            domains: {
+                development: ['localhost', '127.0.01'],
+                production: ['streamsavvy.com'],
+                staging: ['herokuapp.com']
+            },
+
+            vars: {
+                development: {
+                    serviceListUrl : '//localhost:5000/service_list',
+                    checkoutListUrl : '//localhost:5000/checkout_list',
+                    nodeDetailUrl : '//localhost:5000/viewing_windows'
+                },
+
+                staging : {
+                    nodeShowsUrl : '//ss-node-data-staging/service_list',
+                    nodeDetailUrl : '//ss-node-data-staging/viewing_windows'
+
+                },
+                production: {
+                    nodeShowsUrl : '//ss-node-data-staging/service_list',
+                    nodeDetailUrl : '//ss-node-data-staging/viewing_windows'
+
+                }
+            }
+        });
+
+        envServiceProvider.check();
+    })
         .constant('CONFIG', {
             'URL': location.origin
         })
@@ -1670,7 +1708,7 @@ function interceptor(obj) {
 
 var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
-app.factory('N', function () {
+app.factory('N', function (envService) {
     var _netflix_shows = []
 
     return {
@@ -1685,7 +1723,7 @@ app.factory('N', function () {
     }
 })
 
-app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($http, $q, VIEW_WINDOWS, _) {
+app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService', function ($http, $q, VIEW_WINDOWS, _, envService) {
     // ;
 
     var _package = {};
@@ -1703,7 +1741,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         return _.chain(ssPackage.data.content)
             .map(function (elem) {
                 _.forEach(elem.channel, function (c) {
-                    c.source = c.guidebox_data.short_name
+                    // debugger;
+                    c.source = c.name.toLowerCase();
                 })
                 var list
                 elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources, elem.guidebox_data.sources.ios.episodes.all_sources);
@@ -1880,17 +1919,25 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             _listOfServices = listOfServices;
         },
 
-        // createListOfServices: function(){
-        //     var ssPackage = this.getPackage();
-        //     if ('data' in ssPackage){
-        //         $http.post('http://localhost:5000/d', ssPackage)
-        //             .then(function(data){
-        //                 console.log(data)
-        //             })
-        //     }
-        // },
+        getServicePanelList: function(){
+            var ssPackage = this.getPackage();
+            if ('data' in ssPackage){
+                debugger;
+                var url = envService.read('serviceListUrl')
+                return $http.post(url, ssPackage)
+            }
+        },
+        
+        getCheckoutPanelList: function(){
+            var ssPackage = this.getPackage();
+            if ('data' in ssPackage){
+                debugger;
+                var url = envService.read('checkoutListUrl')
+                return $http.post(url, ssPackage)
+            }
+        },
 
-        createListOfServices: function () {
+        createListOfServices2: function () {
 
 
             var ssPackage = this.getPackage();
@@ -2353,36 +2400,41 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 });
 
 
-app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
+app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
-    $scope.listP = PackageFactory.createListOfServices();
+    debugger;
+    PackageFactory.getCheckoutPanelList()
+        .then(function (data) {
+
+            $scope.list = data.data
+        });
 
     $scope.list = {}
 
     $scope.list.added = [];
-    
-    var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
+
+    var payPerServices = ['google_play', 'itunes', 'youtube_purchase', 'vudu', 'amazon_buy'];
 
     $scope.addService = function (service) {
         _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
 
     };
-    $scope.notOtaServiceDetail = function(mystery_service) {
-        if(_.some(payPerServices,mystery_service.chan.source)){
+    $scope.notOtaServiceDetail = function (mystery_service) {
+        if (_.some(payPerServices, mystery_service.chan.source)) {
             console.log('this is the payperview service ' + mystery_service.chan.source);
             mystery_service.description = SERVICE_PRICE_LIST[0].description;
             mystery_service.price = SERVICE_PRICE_LIST[0].price;
             //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
             //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
-            
-            
+
+
         }
-        else{
-            var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
+        else {
+            var serviceMatch = _.find(SERVICE_PRICE_LIST, function (elem) {
                 return elem.name == mystery_service.chan.source;
             });
-            if(serviceMatch != undefined){
+            if (serviceMatch != undefined) {
 
                 _.assignIn(mystery_service, serviceMatch);
 
@@ -2390,42 +2442,25 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
         }
     };
 
-    $scope.otaServiceDetail = function(live_mystery_service){
-        if(live_mystery_service.chan.is_on_sling){
-            var slingService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'SlingTV'});
-            _.assignIn(live_mystery_service, slingService);
+    // $scope.removeService = function (service, serviceArray) {
+    //     if (serviceArray == 'ota') {
+    //         _.pull($scope.list.ota, service);
+    //     }
+    //     else {
+    //         _.pull($scope.list.not_ota, service);
+    //     }
+    //     PackageFactory.setListOfServices($scope.list);
+    // };
 
-        }
-        else if(live_mystery_service.chan.is_over_the_air){
-            var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
-             _.assignIn(live_mystery_service, otaService);
-        }
-    };
-    $scope.removeService = function(service,serviceArray) {
-        if(serviceArray == 'ota'){
-           _.pull($scope.list.ota,service);
-        }
-        else{
-           _.pull($scope.list.not_ota,service);
-        }
-        PackageFactory.setListOfServices($scope.list);
-    };
-    $scope.openTab = function(servicePurchase){
-        if(servicePurchase != undefined)
-        {
-           $scope.url = servicePurchase.subscriptionLink;
-        }
 
-    }
-    
-    $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data.services
+    // $scope.$watchCollection(function () {
+    //     return PackageFactory.getPackage().data.services
+    //
+    // }, function () {
+    //     PackageFactory.setPackage($scope.package)
+    // })
 
-    }, function () {
-        PackageFactory.setPackage($scope.package)
-    })
-    
-    
+
     //TODO remove this nonsense
     $scope.$watchCollection(function () {
         return PackageFactory.getPackage().data.content
@@ -2433,26 +2468,20 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
     }, function () {
         $scope.package = PackageFactory.getPackage();
         $scope.list = PackageFactory.getListOfServices();
-        _.forEach($scope.list.not_ota, function(not_ota_service){
-            if(not_ota_service != undefined){
+        _.forEach($scope.list.not_ota, function (not_ota_service) {
+            if (not_ota_service != undefined) {
                 $scope.notOtaServiceDetail(not_ota_service);
             }
 
-        } );
-        _.forEach($scope.list.ota, function(ota_service){
-            if(ota_service != undefined){
+        });
+        _.forEach($scope.list.ota, function (ota_service) {
+            if (ota_service != undefined) {
                 $scope.otaServiceDetail(ota_service);
             }
         })
     })
-   
 
-    
-    
-    
-    
-    
-    
+
 });
 
 /**
@@ -2920,18 +2949,35 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
-            $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    debugger;
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    debugger
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+                    debugger;
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
             debugger;
-            $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                $scope.listOfServices[key].open = true
-            })
+
             PackageFactory.setListOfServices($scope.listOfServices);
         }
     }
 
     updateServices()
     $scope.$watchCollection(function () {
-        var _data =  PackageFactory.getPackage().data;
+        var _data = PackageFactory.getPackage().data;
         if (_data != undefined) {
             return _data.content
         } else {
