@@ -19,6 +19,7 @@ from server.shortcuts import SettingsVars, DBurl
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 def get_env_variable(var_name, default=False):
     """
     Get the environment variable or return exception
@@ -52,7 +53,6 @@ def get_env_variable(var_name, default=False):
             error_msg = "Either set the env variable '{var}' or place it in your " \
                         "{env_file} file as '{var} = VALUE'"
             raise ImproperlyConfigured(error_msg.format(var=var_name, env_file=env_file))
-
 
 
 # Quick-start development settings - unsuitable for production
@@ -178,7 +178,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -206,8 +206,6 @@ TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'
 import dj_database_url
 
 DATABASES = {}
-
-
 
 DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy3')
 # DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
@@ -327,3 +325,4 @@ RQ_QUEUES = {
         'DB': 0,
     }
 }
+
