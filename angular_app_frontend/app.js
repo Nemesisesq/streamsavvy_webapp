@@ -26,13 +26,15 @@ var app = angular.module('myApp', [
                 },
 
                 staging : {
-                    nodeShowsUrl : '//ss-node-data-staging/service_list',
-                    nodeDetailUrl : '//ss-node-data-staging/viewing_windows'
+                    serviceListUrl : '//ss-node-data-staging.herokuapp.com/service_list',
+                    checkoutListUrl : '//ss-node-data-staging.herokuapp.com/checkout_list',
+                    nodeDetailUrl : '//ss-node-data-staging.herokuapp.com/viewing_windows'
 
                 },
                 production: {
-                    nodeShowsUrl : '//ss-node-data-staging/service_list',
-                    nodeDetailUrl : '//ss-node-data-staging/viewing_windows'
+                    serviceListUrl : '//enigmatic-garden-37567.herokuapp.com/service_list',
+                    checkoutListUrl : '/enigmatic-garden-37567.herokuapp.com/checkout_list',
+                    nodeDetailUrl : '//enigmatic-garden-37567.herokuapp.com/viewing_windows'
 
                 }
             }
