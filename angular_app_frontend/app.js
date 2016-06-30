@@ -14,8 +14,8 @@ var app = angular.module('myApp', [
         envServiceProvider.config({
             domains: {
                 development: ['localhost', '127.0.01'],
-                production: ['streamsavvy.com'],
-                staging: ['herokuapp.com']
+                production: ['streamsavvy.com/#/'],
+                staging: ['herokuapp.com/#/']
             },
 
             vars: {
@@ -23,6 +23,7 @@ var app = angular.module('myApp', [
                     serviceListUrl : '//localhost:5000/service_list',
                     checkoutListUrl : '//localhost:5000/checkout_list',
                     nodeDetailUrl : '//localhost:5000/viewing_windows'
+
                 },
 
                 staging : {
@@ -39,7 +40,7 @@ var app = angular.module('myApp', [
                 }
             }
         });
-
+        debugger;
         envServiceProvider.check();
     })
         .constant('CONFIG', {

@@ -14,8 +14,8 @@ var app = angular.module('myApp', [
         envServiceProvider.config({
             domains: {
                 development: ['localhost', '127.0.01'],
-                production: ['streamsavvy.com'],
-                staging: ['herokuapp.com']
+                production: ['streamsavvy.com/#/'],
+                staging: ['herokuapp.com/#/']
             },
 
             vars: {
@@ -23,6 +23,7 @@ var app = angular.module('myApp', [
                     serviceListUrl : '//localhost:5000/service_list',
                     checkoutListUrl : '//localhost:5000/checkout_list',
                     nodeDetailUrl : '//localhost:5000/viewing_windows'
+
                 },
 
                 staging : {
@@ -39,7 +40,7 @@ var app = angular.module('myApp', [
                 }
             }
         });
-
+        debugger;
         envServiceProvider.check();
     })
         .constant('CONFIG', {
@@ -2925,6 +2926,78 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
 
 });
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if ('data' in ssPackage) {
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    debugger;
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    debugger
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+                    debugger;
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+            debugger;
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 function interceptor(obj) {
     console.log(obj)
     return obj
@@ -3421,78 +3494,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
-
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if ('data' in ssPackage) {
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    debugger;
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    debugger
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-                    debugger;
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-            debugger;
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
 
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
