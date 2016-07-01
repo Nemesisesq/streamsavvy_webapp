@@ -95,7 +95,6 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'server.middleware.access_management.BlockLiveSiteFromNonAdminUsers',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
@@ -104,6 +103,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'server.middleware.anon_user_middleware.ProcessAnonUser',
+    'server.middleware.access_management.BlockLiveSiteFromNonAdminUsers',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
