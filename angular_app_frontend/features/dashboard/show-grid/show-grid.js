@@ -390,7 +390,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         if(item==$scope.cs){
             debugger;
-            $http.post('/node-data/detailsources', cs)
+            $http.post('/node-data/detailsources', $scope.cs)
             .then(function(data){
                 $scope.detailSources = data.data
             })
