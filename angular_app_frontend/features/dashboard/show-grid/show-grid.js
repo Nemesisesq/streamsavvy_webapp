@@ -388,6 +388,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setChosenShow(item);
 
+        if(item==$scope.cs){
+            debugger;
+            $http.post('/node-data/detailsources', cs)
+            .then(function(data){
+                $scope.detailSources = data.data
+            })
+        }
+
+
         // verifySelectedShowDetails()
         var positionItem = ev.currentTarget,
             scaleItem = ev.target,

@@ -2404,6 +2404,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2491,7 +2492,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
 /**
  * Created by chirag on 3/28/16.
  */
-
 
 /**
  * Created by Nem on 12/29/15.
@@ -3389,6 +3389,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         // $('body').css('overflow', 'hidden');
 
         PackageFactory.setChosenShow(item);
+
+        if(item==$scope.cs){
+            debugger;
+            $http.post('/node-data/detailsources', cs)
+            .then(function(data){
+                $scope.detailSources = data.data
+            })
+        }
+
 
         // verifySelectedShowDetails()
         var positionItem = ev.currentTarget,

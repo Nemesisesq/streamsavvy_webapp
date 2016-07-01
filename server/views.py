@@ -11,15 +11,15 @@ import requests
 import re
 import time
 
-from django.contrib.auth.models import Group
 from django.core.cache import cache
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
+from rest_framework import viewsets
 from django.views.generic import View
 from rest_framework.response import Response
-from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
+from django.contrib.auth.models import Group
 
 from server.apis.guidebox import GuideBox
 from server.apis.netflixable import Netflixable
@@ -38,52 +38,212 @@ def flatten(l):
             out.append(item)
     return out
 
+def get_user(self):
+    if self.request.user.is_anonymous():
+        if not self.request.session.get('has_session'):
+            self.request.session['has_session'] = True
+            self.request.session.save()
+        try:
+            user = AnonymousUser.objects.get(session=self.request.session.session_key)
+        except:
+            user = AnonymousUser(session=self.request.session.session_key)
+            user.username = time.time()
 
-class NetFlixListView(View):
-    def get(self, request):
-
-        n_show_list = cache.get('netflix_show_list')
-        if n_show_list:
-            return JsonResponse(n_show_list, safe=False)
-        else:
-            # host = 'http://usa.netflixable.com'
-            #
-            # with urllib.request.urlopen(host) as response:
-            #     soup = BeautifulSoup(response, 'html.parser')
-            #
-            # def alpha_list(href):
-            #     return href and re.compile("alphabetical-list").search(href)
-            #
-            # ref_list = soup.find_all(href=alpha_list)
-
-            url = 'http://usa.netflixable.com/2016/01/complete-alphabetical-list-sat-jan-23.html'
-
-            n = Netflixable(url)
-
-            n_show_list = n.get_shows_from_soup()
-
-            n_show_list = flatten(n_show_list)
-
-            cache.set('netflix_show_list', n_show_list, timeout=24 * 60 * 60)
-
-            return JsonResponse(n_show_list, safe=False)
+        user.save()
 
 
-class ShowChannelsView(View):
-    def get(self, request, show_id):
-        channel_key = "channel_set_{}".format(show_id)
-        if cache.get(channel_key):
-            channel_set = cache.get(channel_key)
+    else:
+        user = self.request.user
 
-            return JsonResponse(channel_set, safe=False)
+    return user
 
+
+def get_packages(user):
+    package = Package.objects.filter(owner=user)
+
+    if not package:
+        Package(owner=user).save()
+        package = Package.objects.filter(owner=user)
+
+    return package
+
+class AdminPermMixin(object):
+    permission_classes = (IsAdminOrReadOnly,)
+
+class HardwareViewSet(viewsets.ModelViewSet):
+    queryset = Hardware.objects.all()
+    serializer_class = HardwareSerializer
+
+
+class ChannelViewSet(viewsets.ModelViewSet):
+    queryset = Channel.objects.all()
+    serializer_class = ChannelSerializer
+    http_method_names = ['get']
+
+class ContentViewSet(viewsets.ModelViewSet):
+    queryset = Content.objects.all()
+    serializer_class = ContentSerializer
+    http_method_names = ['get']
+
+    def get_object(self):
+        obj = super(ContentViewSet, self).get_object()
         g = GuideBox()
 
-        channel_set = json.loads(g.get_channels(show_id))
+        if 'detail' in obj.guidebox_data:
+            obj = g.process_content_for_sling_ota_banned_channels(obj, True)
+            obj.save()
+            return obj
 
-        cache.set(channel_key, channel_set)
+        else:
+            detail = g.get_content_detail(obj.guidebox_data['id'])
+            detail = json.loads(detail)
 
-        return JsonResponse(channel_set, safe=False)
+            obj.guidebox_data['detail'] = detail
+
+            obj = g.process_content_for_sling_ota_banned_channels(obj, True)
+
+            obj.save()
+            return obj
+
+
+class PopularShowsViewSet(viewsets.ModelViewSet):
+    # queryset = get_popular_shows()
+    serializer_class = ContentSerializer
+    http_method_names = ['get']
+
+    def get_popular_shows(self):
+        shows = ["Community",
+                 "Comedians in Cars Getting Coffee",
+                 "Transparent", "Happy Valley",
+                 "House of Cards",
+                 "Deadbeat",
+                 "Bosch",
+                 "The Mindy Project",
+                 "Orange is the New Black"]
+        q = None
+
+        for show in shows:
+
+            query = Q(title__iexact=show)
+
+            if q is None:
+                q = query
+
+            else:
+                q = q | query
+
+        return q
+
+    def get_queryset(self):
+        return Content.objects.filter(self.get_popular_shows())
+
+class PackagesViewSet(viewsets.ModelViewSet):
+    serializer_class = PackagesSerializer
+    http_method_names = ['get', 'put']
+
+    # permission_classes = (IsOwner,)
+
+    def get_queryset(self):
+        user = get_user(self)
+
+        package = get_packages(user)
+
+        return package
+
+
+
+
+def eval_string(d):
+    d['guidebox_data'] = eval(d['guidebox_data'])
+
+    return d
+
+
+def call_search_microservice(request):
+    from tornado import escape
+
+    if request.GET['q']:
+        query_url = "{base}/search/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
+                                                     params=urllib.parse.urlencode({'q': request.GET['q']}))
+        try:
+
+            with urllib.request.urlopen(query_url) as response:
+
+                x = json.loads(response.read().decode())
+                xx = [eval_string(d) for d in x]
+                return JsonResponse(x, safe=False)
+        except:
+            pass
+@api_json_post
+def get_service_list(request, the_json, path):
+
+
+
+        query_url = ""
+
+        if path == 'servicelist':
+            query_url = "{base}/service_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
+
+        if path  == 'checkoutlist':
+            query_url = "{base}/checkout_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
+
+        if path == 'detailsources':
+            query_url = "{base}/detail_sources".format(base=get_env_variable('NODE_DATA_SERVICE'))
+
+
+        try:
+            headers = {'Content-Type': 'application/json'}
+            r = requests.post(query_url, data=json.dumps(the_json), headers=headers)
+            return JsonResponse(r.json(), safe=False)
+        except Exception as e :
+            print(e)
+
+
+# class NetFlixListView(View):
+#     def get(self, request):
+#
+#         n_show_list = cache.get('netflix_show_list')
+#         if n_show_list:
+#             return JsonResponse(n_show_list, safe=False)
+#         else:
+#             # host = 'http://usa.netflixable.com'
+#             #
+#             # with urllib.request.urlopen(host) as response:
+#             #     soup = BeautifulSoup(response, 'html.parser')
+#             #
+#             # def alpha_list(href):
+#             #     return href and re.compile("alphabetical-list").search(href)
+#             #
+#             # ref_list = soup.find_all(href=alpha_list)
+#
+#             url = 'http://usa.netflixable.com/2016/01/complete-alphabetical-list-sat-jan-23.html'
+#
+#             n = Netflixable(url)
+#
+#             n_show_list = n.get_shows_from_soup()
+#
+#             n_show_list = flatten(n_show_list)
+#
+#             cache.set('netflix_show_list', n_show_list, timeout=24 * 60 * 60)
+#
+#             return JsonResponse(n_show_list, safe=False)
+
+#
+# class ShowChannelsView(View):
+#     def get(self, request, show_id):
+#         channel_key = "channel_set_{}".format(show_id)
+#         if cache.get(channel_key):
+#             channel_set = cache.get(channel_key)
+#
+#             return JsonResponse(channel_set, safe=False)
+#
+#         g = GuideBox()
+#
+#         channel_set = json.loads(g.get_channels(show_id))
+#
+#         cache.set(channel_key, channel_set)
+#
+#         return JsonResponse(channel_set, safe=False)
 
 
 # class JsonPackageView(View):
@@ -129,30 +289,14 @@ class ShowChannelsView(View):
 #     else:
 #         return HttpResponseNotAllowed(['POST'])
 
-
-class AdminPermMixin(object):
-    permission_classes = (IsAdminOrReadOnly,)
-
-
-class UserViewSet(IsAdminUser, viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# class UserViewSet(IsAdminUser, viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
-
-class HardwareViewSet(viewsets.ModelViewSet):
-    queryset = Hardware.objects.all()
-    serializer_class = HardwareSerializer
-
-
-class ChannelViewSet(viewsets.ModelViewSet):
-    queryset = Channel.objects.all()
-    serializer_class = ChannelSerializer
-
+# class GroupViewSet(viewsets.ModelViewSet):
+#     queryset = Group.objects.all()
+#     serializer_class = GroupSerializer
 
 class ContentSearchViewSet(viewsets.ModelViewSet):
     params = None
@@ -250,249 +394,87 @@ class ContentSearchViewSet(viewsets.ModelViewSet):
 
         return filter_results
 
-
-class ContentViewSet(viewsets.ModelViewSet):
-    queryset = Content.objects.all()
-    serializer_class = ContentSerializer
-
-    def get_object(self):
-        obj = super(ContentViewSet, self).get_object()
-        g = GuideBox()
-
-        if 'detail' in obj.guidebox_data:
-            obj = g.process_content_for_sling_ota_banned_channels(obj, True)
-            obj.save()
-            return obj
-
-        else:
-            detail = g.get_content_detail(obj.guidebox_data['id'])
-            detail = json.loads(detail)
-
-            obj.guidebox_data['detail'] = detail
-
-            obj = g.process_content_for_sling_ota_banned_channels(obj, True)
-
-            obj.save()
-            return obj
-
-
-class PopularShowsViewSet(viewsets.ModelViewSet):
-    # queryset = get_popular_shows()
-    serializer_class = ContentSerializer
-
-    def get_popular_shows(self):
-        shows = ["Community",
-                 "Comedians in Cars Getting Coffee",
-                 "Transparent", "Happy Valley",
-                 "House of Cards",
-                 "Deadbeat",
-                 "Bosch",
-                 "The Mindy Project",
-                 "Orange is the New Black"]
-        q = None
-
-        for show in shows:
-
-            query = Q(title__iexact=show)
-
-            if q is None:
-                q = query
-
-            else:
-                q = q | query
-
-        return q
-
-    def get_queryset(self):
-        return Content.objects.filter(self.get_popular_shows())
-
-
-class PackageDetailViewSet(viewsets.ModelViewSet):
-    serializer_class = PackageDetailSerializer
-    queryset = Package.objects.all()
-    logger = logging.getLogger('cuthecord')
-
-    # permission_classes = (IsOwner,)
-
-    # def get_queryset(self):
-    #     try:
-    #         user = get_user(self)
-    #         return get_packages(user)
-    #
-    #     except Exception as e:
-    #         self.logger.debug(e)
-
-
-def get_user(self):
-    if self.request.user.is_anonymous():
-        if not self.request.session.get('has_session'):
-            self.request.session['has_session'] = True
-            self.request.session.save()
-        try:
-            user = AnonymousUser.objects.get(session=self.request.session.session_key)
-        except:
-            user = AnonymousUser(session=self.request.session.session_key)
-            user.username = time.time()
-
-        user.save()
-
-
-    else:
-        user = self.request.user
-
-    return user
-
-
-def get_packages(user):
-    package = Package.objects.filter(owner=user)
-
-    if not package:
-        Package(owner=user).save()
-        package = Package.objects.filter(owner=user)
-
-    return package
-
-
-class PackagesViewSet(viewsets.ModelViewSet):
-    serializer_class = PackagesSerializer
-
-    # permission_classes = (IsOwner,)
-
-    def get_queryset(self):
-        user = get_user(self)
-
-        package = get_packages(user)
-
-        return package
-
-
-def normalize_query(query_string,
-                    findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
-                    normspace=re.compile(r'\s{2,}').sub):
-    ''' Splits the query string in invidual keywords, getting rid of unecessary spaces
-        and grouping quoted words together.
-        Example:
-
-        >>> normalize_query('  some random  words "with   quotes  " and   spaces')
-        ['some', 'random', 'words', 'with quotes', 'and', 'spaces']
-
-    '''
-    return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
-
-
-def get_query(query_string, search_fields):
-    ''' Returns a query, that is a combination of Q objects. That combination
-        aims to search keywords within a model by testing the given search fields.
-
-    '''
-    query = None  # Query to search for every search term
-    terms = normalize_query(query_string)
-    for term in terms:
-        or_query = None  # Query to search for a given term in each field
-        for field_name in search_fields:
-            q = Q(**{"%s__icontains" % field_name: term})
-            if or_query is None:
-                or_query = q
-            else:
-                or_query = or_query | q
-        if query is None:
-            query = or_query
-        else:
-            query = query & or_query
-    return query
-
-
-def content_search(request):
-    query_string = ''
-    found_entries = None
-    if ('q' in request.GET) and request.GET['q'].strip():
-        query_string = request.GET['q']
-
-        # if cache.get(query_string):
-        #     return cache.get(query_string)
-
-        entry_query = get_query(query_string, ['title'])
-
-        found_entries = Content.objects.filter(entry_query)[:10]
-        # cache.set(query_string, found_entries)
-
-        # for entry in found_entries:
-        #     pass
-
-        # data = []
-        # for i in found_entries:
-        # data.append({
-        # 'title': i.title,
-        # 'description': i.description,
-        #         'image': i.image_url,
-        #         'home': i.home_url
-        #     })
-
-        # return JsonResponse(data, safe=False)
-        return found_entries
-
-
-class ChannelImagesView(APIView):
-    def get(self, request, channel_id):
-
-        try:
-            img_obj = ChannelImages.objects.get(guidebox_id=channel_id)
-            serializer = ChannelImagesSerializer(img_obj)
-
-            return Response(serializer.data)
-
-        except:
-
-            g = GuideBox()
-
-            img_obj = g.process_channels_for_images(channel_id)
-
-            serializer = ChannelImagesSerializer(img_obj)
-
-            return Response(serializer.data)
-
-
-def eval_string(d):
-    d['guidebox_data'] = eval(d['guidebox_data'])
-
-    return d
-
-
-def call_search_microservice(request):
-    from tornado import escape
-
-    if request.GET['q']:
-        query_url = "{base}/search/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
-                                                     params=urllib.parse.urlencode({'q': request.GET['q']}))
-        try:
-
-            with urllib.request.urlopen(query_url) as response:
-
-                x = json.loads(response.read().decode())
-                xx = [eval_string(d) for d in x]
-                return JsonResponse(x, safe=False)
-        except:
-            pass
-@api_json_post
-def get_service_list(request, the_json, path):
-
-
-
-        query_url = ""
-
-        if path == 'servicelist':
-            query_url = "{base}/service_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
-
-        if path  == 'checkoutlist':
-            query_url = "{base}/checkout_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
-
-        if path == 'detailsources':
-            query_url = "{base}/detail_sources".format(base=get_env_variable('NODE_DATA_SERVICE'))
-
-
-        try:
-            headers = {'Content-Type': 'application/json'}
-            r = requests.post(query_url, data=json.dumps(the_json), headers=headers)
-            return JsonResponse(r.json(), safe=False)
-        except Exception as e :
-            print(e)
+# def normalize_query(query_string,
+#                     findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
+#                     normspace=re.compile(r'\s{2,}').sub):
+#     ''' Splits the query string in invidual keywords, getting rid of unecessary spaces
+#         and grouping quoted words together.
+#         Example:
+#
+#         >>> normalize_query('  some random  words "with   quotes  " and   spaces')
+#         ['some', 'random', 'words', 'with quotes', 'and', 'spaces']
+#
+#     '''
+#     return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
+#
+#
+# def get_query(query_string, search_fields):
+#     ''' Returns a query, that is a combination of Q objects. That combination
+#         aims to search keywords within a model by testing the given search fields.
+#
+#     '''
+#     query = None  # Query to search for every search term
+#     terms = normalize_query(query_string)
+#     for term in terms:
+#         or_query = None  # Query to search for a given term in each field
+#         for field_name in search_fields:
+#             q = Q(**{"%s__icontains" % field_name: term})
+#             if or_query is None:
+#                 or_query = q
+#             else:
+#                 or_query = or_query | q
+#         if query is None:
+#             query = or_query
+#         else:
+#             query = query & or_query
+#     return query
+#
+#
+# def content_search(request):
+#     query_string = ''
+#     found_entries = None
+#     if ('q' in request.GET) and request.GET['q'].strip():
+#         query_string = request.GET['q']
+#
+#         # if cache.get(query_string):
+#         #     return cache.get(query_string)
+#
+#         entry_query = get_query(query_string, ['title'])
+#
+#         found_entries = Content.objects.filter(entry_query)[:10]
+#         # cache.set(query_string, found_entries)
+#
+#         # for entry in found_entries:
+#         #     pass
+#
+#         # data = []
+#         # for i in found_entries:
+#         # data.append({
+#         # 'title': i.title,
+#         # 'description': i.description,
+#         #         'image': i.image_url,
+#         #         'home': i.home_url
+#         #     })
+#
+#         # return JsonResponse(data, safe=False)
+#         return found_entries
+
+#
+# class ChannelImagesView(APIView):
+#     def get(self, request, channel_id):
+#
+#         try:
+#             img_obj = ChannelImages.objects.get(guidebox_id=channel_id)
+#             serializer = ChannelImagesSerializer(img_obj)
+#
+#             return Response(serializer.data)
+#
+#         except:
+#
+#             g = GuideBox()
+#
+#             img_obj = g.process_channels_for_images(channel_id)
+#
+#             serializer = ChannelImagesSerializer(img_obj)
+#
+#             return Response(serializer.data)

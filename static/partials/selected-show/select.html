@@ -26,7 +26,7 @@
             </div>
         -->
 
-            <div class="window row live" ota-sling-netflix ng-repeat="key in sortedServices"
+            <div class="window row live" ota-sling-netflix ng-repeat="key in detailSources.sortedServices"
                  ng-if="key !== 'misc'">
                 <div class="window-label">{{ fixTitle(key) }}</div>
                 <div class="col-xs-4 window-service" ng-hide="service.hide" ng-repeat="service in detailSources[key]" ng-if="hasOwnApp(key, service)">

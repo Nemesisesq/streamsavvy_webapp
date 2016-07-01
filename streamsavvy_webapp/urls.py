@@ -26,39 +26,39 @@ from server.views import *
 # from titan.views import GuideTestView, guide_reciever
 
 router = routers.DefaultRouter()
-# router.register(r'users', UserViewSet)
-# router.register(r'groups', GroupViewSet)
 router.register(r'hardware', HardwareViewSet)
 router.register(r'services', ChannelViewSet)
 router.register(r'content', ContentViewSet)
-# router.register(r'search', ContentSearchViewSet, 'search')
-# router.register(r'packageobj', PackageDetailViewSet, 'packageobj')
 router.register(r'package', PackagesViewSet, 'package')
 router.register(r'popular-shows', PopularShowsViewSet, 'popular_shows')
+# router.register(r'users', UserViewSet)
+# router.register(r'groups', GroupViewSet)
+# router.register(r'search', ContentSearchViewSet, 'search')
+# router.register(r'packageobj', PackageDetailViewSet, 'packageobj')
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
     url(r'^login/', login_view, name='server.auth.login'),
-    # url(r'^search/', content_search, name='search'),
     url(r'^register/', register_user, name='register'),
-    url(r'^channels/([0-9]{1,10})', ShowChannelsView.as_view(), name='show_channels'),
     url(r'^django_auth/', include('django.contrib.auth.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^social', include('social.apps.django_app.urls', namespace='social')),
     url(r'^django-rq', include('django_rq.urls')),
-    # TODO remove this endpoint when the api package can get and post.
-    # url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
-    url(r'^netflixable/', NetFlixListView.as_view(), name='netflixable'),
-    url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
-    url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^api/guide/(?P<zip>\d{5})', RoviChannelGridView.as_view(), name='rovi_channel_grid_view'),
-    url(r'^api/channel_images/(?P<channel_id>\d+)', ChannelImagesView.as_view(), name='channel_images'),
     url(r'^api/search', call_search_microservice, name='search'),
     url(r'^node-data/(?P<path>\w+)', get_service_list, name='service_list')
+    # url(r'^channels/([0-9]{1,10})', ShowChannelsView.as_view(), name='show_channels'),
+    # url(r'^api/channel_images/(?P<channel_id>\d+)', ChannelImagesView.as_view(), name='channel_images'),
+    # url(r'^search/', content_search, name='search'),
+    # TODO remove this endpoint when the api package can get and post.
+    # url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
+    # url(r'^netflixable/', NetFlixListView.as_view(), name='netflixable'),
+    # url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
+    # url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),
     # url(r'haystack_search', autocomplete, name='autocomplete'),
     # url(r'^guide/', GuideTestView.as_view(), name='guide_test'),
     # url(r'^guide_reciever/', guide_reciever, name='reciever')
