@@ -286,9 +286,11 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, element, attrs) {
 
+            debugger;
+
             $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
                 .then(function (data) {
-                    scope.service.service_description = data.data
+                    scope.service.details = data.data
                     console.log(data)
 
                 })
@@ -322,7 +324,7 @@ app.directive('ppvCheckoutItem', function ($window) {
             scope.windowWidth = $window.innerWidth
 
             scope.removeElementFromDom = function (service) {
-                
+
                 element.remove()
             }
 
