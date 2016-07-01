@@ -730,7 +730,9 @@ app.directive('actionBlock', function ($window) {
 
             scope.linkToAffiliate = function (service) {
                 debugger;
-                $window.open(service.service_description.subscription_link)
+
+                $window.open(service.service_description.subscription_link);
+                mixpanel.track("Subscribe to Service",{"service name": service.chan.display_name});
             }
 
 
@@ -743,8 +745,8 @@ app.directive('actionBlock', function ($window) {
 
             scope.addService = function (service) {
 
-
-                scope.isServiceAdded(service) || scope.package.data.services.push(service)
+                scope.isServiceAdded(service) || scope.package.data.services.push(service);
+                mixpanel.track("Already Have Service",{"service name": service.chan.display_name});
 
             }
 
@@ -1930,13 +1932,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
                 return $http.post('/node-data/servicelist', ssPackage)
             }
         },
-        
+
         getCheckoutPanelList: function(){
             var ssPackage = this.getPackage();
             if ('data' in ssPackage){
                 debugger;
-                var url = envService.read('checkoutListUrl')
-                return $http.post(url, ssPackage)
+                // var url = envService.read('checkoutListUrl')
+                return $http.post('/node-data/checkoutlist ', ssPackage)
             }
         },
 

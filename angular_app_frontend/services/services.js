@@ -240,13 +240,13 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
                 return $http.post('/node-data/servicelist', ssPackage)
             }
         },
-        
+
         getCheckoutPanelList: function(){
             var ssPackage = this.getPackage();
             if ('data' in ssPackage){
                 debugger;
-                var url = envService.read('checkoutListUrl')
-                return $http.post(url, ssPackage)
+                // var url = envService.read('checkoutListUrl')
+                return $http.post('/node-data/checkoutlist ', ssPackage)
             }
         },
 
