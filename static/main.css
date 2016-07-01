@@ -2698,6 +2698,10 @@ show-detail .background {
   padding-bottom: 8px;
   width: 100%; }
 
+.btn-already-have:hover {
+  background-color: #6B7C93;
+  color: #FFFFFF; }
+
 .btn-purchase {
   border-radius: 8px;
   border: none;
@@ -2715,6 +2719,10 @@ show-detail .background {
   width: 100%; }
   .btn-purchase .mobile-purch {
     display: none; }
+
+.btn-purchase:hover {
+  background-color: #285e8e;
+  color: #aeb6bb; }
 
 .service-row {
   border-bottom: solid 1px rgba(155, 155, 155, 0.1);

@@ -93,6 +93,11 @@
 
 }
 
+.btn-already-have:hover {
+  background-color: #6B7C93;
+  color: #FFFFFF;
+}
+
 .btn-purchase {
   border-radius: 8px;
   border: none;
@@ -113,6 +118,11 @@
   .mobile-purch {
     display: none;
   }
+}
+
+.btn-purchase:hover {
+  background-color: #285e8e;
+  color: #aeb6bb;
 }
 
 .service-row {
