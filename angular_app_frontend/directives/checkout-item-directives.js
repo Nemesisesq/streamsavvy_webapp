@@ -203,7 +203,9 @@ app.directive('actionBlock', function ($window) {
 
             scope.linkToAffiliate = function (service) {
                 debugger;
-                $window.open(service.service_description.subscription_link)
+
+                $window.open(service.service_description.subscription_link);
+                mixpanel.track("Subscribe to Service",{"service name": service.chan.display_name});
             }
 
 
@@ -216,8 +218,8 @@ app.directive('actionBlock', function ($window) {
 
             scope.addService = function (service) {
 
-
-                scope.isServiceAdded(service) || scope.package.data.services.push(service)
+                scope.isServiceAdded(service) || scope.package.data.services.push(service);
+                mixpanel.track("Already Have Service",{"service name": service.chan.display_name});
 
             }
 
