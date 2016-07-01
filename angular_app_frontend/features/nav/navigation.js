@@ -5,7 +5,6 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
     $http.get('/social_endpoint/twitter')
         .then(function(data){
-            debugger;
 
     })
 

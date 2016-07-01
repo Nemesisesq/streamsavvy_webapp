@@ -288,7 +288,7 @@ body {
 
 .fa {
   display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
+  font: normal normal normal 14px / 1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3248,6 +3248,9 @@ show-detail {
     z-index: 1;
     top: 0px;
     background: rgba(0, 0, 0, 0.4); } }
+
+.col-xs-4.window-service.ng-scope {
+  height: 30px; }
 
 /* General styles for all menus */
 .cbp-spmenu {

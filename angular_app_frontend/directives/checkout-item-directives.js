@@ -199,12 +199,13 @@ app.directive('actionBlock', function ($window) {
         },
 
         link: function (scope, element) {
-            debugger;
 
 
             scope.linkToAffiliate = function (service) {
                 debugger;
-                $window.open(service.service_description.subscription_link)
+
+                $window.open(service.service_description.subscription_link);
+                mixpanel.track("Subscribe to Service",{"service name": service.chan.display_name});
             }
 
 
@@ -217,8 +218,8 @@ app.directive('actionBlock', function ($window) {
 
             scope.addService = function (service) {
 
-
-                scope.isServiceAdded(service) || scope.package.data.services.push(service)
+                scope.isServiceAdded(service) || scope.package.data.services.push(service);
+                mixpanel.track("Already Have Service",{"service name": service.chan.display_name});
 
             }
 
@@ -285,10 +286,11 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, element, attrs) {
 
+            debugger;
+
             $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
                 .then(function (data) {
-                    debugger;
-                    scope.service.service_description = data.data
+                    scope.service.details = data.data
                     console.log(data)
 
                 })
@@ -322,7 +324,6 @@ app.directive('ppvCheckoutItem', function ($window) {
             scope.windowWidth = $window.innerWidth
 
             scope.removeElementFromDom = function (service) {
-                debugger;
 
                 element.remove()
             }

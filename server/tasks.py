@@ -60,14 +60,16 @@ def connect_content_channel_task():
             q_low.enqueue(g.connect_channels_shows, i)
 
 
-def add_available_content_to_shows():
+def add_available_sources_to_shows():
     g = GuideBox()
     q_high = django_rq.get_queue('high')
 
     # all_shows = Content.objects.all()
-    all_shows = Content.objects.filter(guidebox_data__sources='null')
+    all_shows = Content.objects.all()
+    # print(all_shows)
     for show in [all_shows[i: i + 20]  for i in range(0, len(all_shows), 20)]:
-        q_high.enqueue(g.add_additional_channels_for_show, show)
+        shows = [x.id for x in show]
+        q_high.enqueue(g.add_additional_channels_for_show, shows)
 
 def add_detail_to_shows():
     g = GuideBox()

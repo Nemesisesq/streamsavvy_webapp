@@ -1,7 +1,48 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick', 'angular-growl'])
+var app = angular.module('myApp', [
+        "ui.router",
+        "ngCookies",
+        "ui.bootstrap",
+        "ngAnimate",
+        'slick',
+        'angular-growl',
+        'environment',
+    ])
+    .config(function(envServiceProvider){
+        envServiceProvider.config({
+            domains: {
+                development: ['localhost', '127.0.01'],
+                production: ['streamsavvy.com/#/'],
+                staging: ['herokuapp.com/#/']
+            },
+
+            vars: {
+                development: {
+                    serviceListUrl : '//localhost:5000/service_list',
+                    checkoutListUrl : '//localhost:5000/checkout_list',
+                    nodeDetailUrl : '//localhost:5000/viewing_windows'
+
+                },
+
+                staging : {
+                    serviceListUrl : '//ss-node-data-staging.herokuapp.com/service_list',
+                    checkoutListUrl : '//ss-node-data-staging.herokuapp.com/checkout_list',
+                    nodeDetailUrl : '//ss-node-data-staging.herokuapp.com/viewing_windows'
+
+                },
+                production: {
+                    serviceListUrl : '//enigmatic-garden-37567.herokuapp.com/service_list',
+                    checkoutListUrl : '/enigmatic-garden-37567.herokuapp.com/checkout_list',
+                    nodeDetailUrl : '//enigmatic-garden-37567.herokuapp.com/viewing_windows'
+
+                }
+            }
+        });
+        debugger;
+        envServiceProvider.check();
+    })
         .constant('CONFIG', {
             'URL': location.origin
         })

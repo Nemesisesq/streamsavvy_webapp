@@ -1,7 +1,48 @@
 /**
  * Created by Nem on 6/12/15.
  */
-var app = angular.module('myApp', ["ui.router", "ngCookies", "ui.bootstrap", "ngAnimate", 'slick', 'angular-growl'])
+var app = angular.module('myApp', [
+        "ui.router",
+        "ngCookies",
+        "ui.bootstrap",
+        "ngAnimate",
+        'slick',
+        'angular-growl',
+        'environment',
+    ])
+    .config(function(envServiceProvider){
+        envServiceProvider.config({
+            domains: {
+                development: ['localhost', '127.0.01'],
+                production: ['streamsavvy.com/#/'],
+                staging: ['herokuapp.com/#/']
+            },
+
+            vars: {
+                development: {
+                    serviceListUrl : '//localhost:5000/service_list',
+                    checkoutListUrl : '//localhost:5000/checkout_list',
+                    nodeDetailUrl : '//localhost:5000/viewing_windows'
+
+                },
+
+                staging : {
+                    serviceListUrl : '//ss-node-data-staging.herokuapp.com/service_list',
+                    checkoutListUrl : '//ss-node-data-staging.herokuapp.com/checkout_list',
+                    nodeDetailUrl : '//ss-node-data-staging.herokuapp.com/viewing_windows'
+
+                },
+                production: {
+                    serviceListUrl : '//enigmatic-garden-37567.herokuapp.com/service_list',
+                    checkoutListUrl : '/enigmatic-garden-37567.herokuapp.com/checkout_list',
+                    nodeDetailUrl : '//enigmatic-garden-37567.herokuapp.com/viewing_windows'
+
+                }
+            }
+        });
+        debugger;
+        envServiceProvider.check();
+    })
         .constant('CONFIG', {
             'URL': location.origin
         })
@@ -685,12 +726,13 @@ app.directive('actionBlock', function ($window) {
         },
 
         link: function (scope, element) {
-            debugger;
 
 
             scope.linkToAffiliate = function (service) {
                 debugger;
-                $window.open(service.service_description.subscription_link)
+
+                $window.open(service.service_description.subscription_link);
+                mixpanel.track("Subscribe to Service",{"service name": service.chan.display_name});
             }
 
 
@@ -703,8 +745,8 @@ app.directive('actionBlock', function ($window) {
 
             scope.addService = function (service) {
 
-
-                scope.isServiceAdded(service) || scope.package.data.services.push(service)
+                scope.isServiceAdded(service) || scope.package.data.services.push(service);
+                mixpanel.track("Already Have Service",{"service name": service.chan.display_name});
 
             }
 
@@ -771,10 +813,11 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, element, attrs) {
 
+            debugger;
+
             $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
                 .then(function (data) {
-                    debugger;
-                    scope.service.service_description = data.data
+                    scope.service.details = data.data
                     console.log(data)
 
                 })
@@ -808,7 +851,6 @@ app.directive('ppvCheckoutItem', function ($window) {
             scope.windowWidth = $window.innerWidth
 
             scope.removeElementFromDom = function (service) {
-                debugger;
 
                 element.remove()
             }
@@ -994,7 +1036,6 @@ app.directive('servicePanelItem', function sPanelItem() {
             link: function (scope, element, attrs, controller) {
                 scope.$watchCollection('pkg.data.content', function () {
                     $timeout(function () {
-                        debugger
                         if (scope.listOfServices) {
                             scope.listOfServices.not_ota = _.compact(scope.listOfServices.not_ota);
                             var re = new RegExp(/showtime/i);
@@ -1480,7 +1521,6 @@ app.filter('unique', function() {
 
 app.filter('customSorter', function(){
     return function(list){
-        debugger;
         var newPpv = list.ppv;
 
         delete list['ppv']
@@ -1490,6 +1530,7 @@ app.filter('customSorter', function(){
         return list
     }
 })
+
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -1674,7 +1715,7 @@ function interceptor(obj) {
 
 var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
-app.factory('N', function () {
+app.factory('N', function (envService) {
     var _netflix_shows = []
 
     return {
@@ -1689,7 +1730,7 @@ app.factory('N', function () {
     }
 })
 
-app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($http, $q, VIEW_WINDOWS, _) {
+app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService', function ($http, $q, VIEW_WINDOWS, _, envService) {
     // ;
 
     var _package = {};
@@ -1707,7 +1748,8 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
         return _.chain(ssPackage.data.content)
             .map(function (elem) {
                 _.forEach(elem.channel, function (c) {
-                    c.source = c.guidebox_data.short_name
+                    // debugger;
+                    c.source = c.name.toLowerCase();
                 })
                 var list
                 elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources, elem.guidebox_data.sources.ios.episodes.all_sources);
@@ -1722,7 +1764,10 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                 return services
             })
+            .compact()
             .uniqBy(function (elem) {
+
+
                 if (elem.display_name) {
                     return elem.display_name
                 } else {
@@ -1881,7 +1926,25 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
             _listOfServices = listOfServices;
         },
 
-        createListOfServices: function () {
+        getServicePanelList: function(){
+            var ssPackage = this.getPackage();
+            if ('data' in ssPackage){
+                debugger;
+                // var url = envService.read('serviceListUrl')
+                return $http.post('/node-data/servicelist', ssPackage)
+            }
+        },
+
+        getCheckoutPanelList: function(){
+            var ssPackage = this.getPackage();
+            if ('data' in ssPackage){
+                debugger;
+                // var url = envService.read('checkoutListUrl')
+                return $http.post('/node-data/checkoutlist ', ssPackage)
+            }
+        },
+
+        createListOfServices2: function () {
 
 
             var ssPackage = this.getPackage();
@@ -1962,7 +2025,7 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
                             return 'ppv'
 
                         }
-                            
+
                         else {
                             return 'not_ota'
                         }
@@ -2017,11 +2080,11 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', function ($ht
 
                             }
                         }
-                        
+
                         return list
                     })
                     .value();
-                
+
                 this.setListOfServices(list)
 
                 return list
@@ -2344,36 +2407,41 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 });
 
 
-app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, PackageFactory, SERVICE_PRICE_LIST) {
+app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
-    $scope.listP = PackageFactory.createListOfServices();
+    debugger;
+    PackageFactory.getCheckoutPanelList()
+        .then(function (data) {
+
+            $scope.list = data.data
+        });
 
     $scope.list = {}
 
     $scope.list.added = [];
-    
-    var payPerServices = ['google_play','itunes','youtube_purchase','vudu','amazon_buy'];
+
+    var payPerServices = ['google_play', 'itunes', 'youtube_purchase', 'vudu', 'amazon_buy'];
 
     $scope.addService = function (service) {
         _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
 
     };
-    $scope.notOtaServiceDetail = function(mystery_service) {
-        if(_.some(payPerServices,mystery_service.chan.source)){
+    $scope.notOtaServiceDetail = function (mystery_service) {
+        if (_.some(payPerServices, mystery_service.chan.source)) {
             console.log('this is the payperview service ' + mystery_service.chan.source);
             mystery_service.description = SERVICE_PRICE_LIST[0].description;
             mystery_service.price = SERVICE_PRICE_LIST[0].price;
             //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
             //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
-            
-            
+
+
         }
-        else{
-            var serviceMatch = _.find(SERVICE_PRICE_LIST,function(elem){
+        else {
+            var serviceMatch = _.find(SERVICE_PRICE_LIST, function (elem) {
                 return elem.name == mystery_service.chan.source;
             });
-            if(serviceMatch != undefined){
+            if (serviceMatch != undefined) {
 
                 _.assignIn(mystery_service, serviceMatch);
 
@@ -2381,42 +2449,25 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
         }
     };
 
-    $scope.otaServiceDetail = function(live_mystery_service){
-        if(live_mystery_service.chan.is_on_sling){
-            var slingService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'SlingTV'});
-            _.assignIn(live_mystery_service, slingService);
+    // $scope.removeService = function (service, serviceArray) {
+    //     if (serviceArray == 'ota') {
+    //         _.pull($scope.list.ota, service);
+    //     }
+    //     else {
+    //         _.pull($scope.list.not_ota, service);
+    //     }
+    //     PackageFactory.setListOfServices($scope.list);
+    // };
 
-        }
-        else if(live_mystery_service.chan.is_over_the_air){
-            var otaService = _.find(SERVICE_PRICE_LIST,function(elem){ return elem.name == 'Over The Air'});
-             _.assignIn(live_mystery_service, otaService);
-        }
-    };
-    $scope.removeService = function(service,serviceArray) {
-        if(serviceArray == 'ota'){
-           _.pull($scope.list.ota,service);
-        }
-        else{
-           _.pull($scope.list.not_ota,service);
-        }
-        PackageFactory.setListOfServices($scope.list);
-    };
-    $scope.openTab = function(servicePurchase){
-        if(servicePurchase != undefined)
-        {
-           $scope.url = servicePurchase.subscriptionLink;
-        }
 
-    }
-    
-    $scope.$watchCollection(function () {
-        return PackageFactory.getPackage().data.services
+    // $scope.$watchCollection(function () {
+    //     return PackageFactory.getPackage().data.services
+    //
+    // }, function () {
+    //     PackageFactory.setPackage($scope.package)
+    // })
 
-    }, function () {
-        PackageFactory.setPackage($scope.package)
-    })
-    
-    
+
     //TODO remove this nonsense
     $scope.$watchCollection(function () {
         return PackageFactory.getPackage().data.content
@@ -2424,26 +2475,20 @@ app.controller('CheckoutController', function ($scope, $http, $timeout,$filter, 
     }, function () {
         $scope.package = PackageFactory.getPackage();
         $scope.list = PackageFactory.getListOfServices();
-        _.forEach($scope.list.not_ota, function(not_ota_service){
-            if(not_ota_service != undefined){
+        _.forEach($scope.list.not_ota, function (not_ota_service) {
+            if (not_ota_service != undefined) {
                 $scope.notOtaServiceDetail(not_ota_service);
             }
 
-        } );
-        _.forEach($scope.list.ota, function(ota_service){
-            if(ota_service != undefined){
+        });
+        _.forEach($scope.list.ota, function (ota_service) {
+            if (ota_service != undefined) {
                 $scope.otaServiceDetail(ota_service);
             }
         })
     })
-   
 
-    
-    
-    
-    
-    
-    
+
 });
 
 /**
@@ -2495,95 +2540,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
     }
 
 
-});
-
-/**
- * Created by Nem on 6/28/15.
- */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
-
-    $http.get('/social_endpoint/twitter')
-        .then(function(data){
-            debugger;
-
-    })
-
-
-    $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
-
-    $scope.isHomePage = $state.current.data.isHomePage;
-
-    $timeout(function(){
-        $scope.isHomePage && $('div#mainPage').css({'min-height':'100vh'});
-    }, 0)
-
-    $scope.isActive = function (hash) {
-        return document.location.hash == hash;
-
-
-    }
-
-
-    $scope.hmdc = $state.current.data.hmdcActive;
-
-    $scope.logout = function () {
-        $location.path(CONFIG.URL + '/django_auth/logout/');
-        //.success(function () {
-        //    $rootScope.logged_in = false;
-        //    console.log($rootScope.logged_in)
-        //})
-    }
-
-    var menuLeft = document.getElementById('cbp-spmenu-s1'),
-        mainPage = document.getElementById('mainPage'),
-        showLeftPush = document.getElementById('showLeftPush'),
-        body = document.body;
-
-
-    $scope.showLeftPush = function () {
-        //classie.toggle(this, 'active')
-        $scope.menuOpen = !$scope.menuOpen;
-
-        //debugger;
-        //classie.toggle(body, 'cbp-spmenu-push-toright');
-        //classie.toggle(menuLeft, 'cbp-spmenu-open');
-        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
-        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
-        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
-        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
-
-        $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut()
-
-
-        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-
-
-        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
-        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
-        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
-
-        //disableOther('showLeftPush');
-    };
-
-
-});
-
-app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
-    console.log($rootScope.logged_in)
-
-})
-
-$(document).ready(function () {
-
-
-
-    //function disableOther(button) {
-    //    if (button !== 'showLeftPush') {
-    //        classie.toggle(showLeftPush, 'disabled');
-    //    }
-    //
-    //}
 });
 
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
@@ -2682,6 +2638,94 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 
 
 /**
+ * Created by Nem on 6/28/15.
+ */
+app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
+
+    $http.get('/social_endpoint/twitter')
+        .then(function(data){
+
+    })
+
+
+    $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
+
+    $scope.isHomePage = $state.current.data.isHomePage;
+
+    $timeout(function(){
+        $scope.isHomePage && $('div#mainPage').css({'min-height':'100vh'});
+    }, 0)
+
+    $scope.isActive = function (hash) {
+        return document.location.hash == hash;
+
+
+    }
+
+
+    $scope.hmdc = $state.current.data.hmdcActive;
+
+    $scope.logout = function () {
+        $location.path(CONFIG.URL + '/django_auth/logout/');
+        //.success(function () {
+        //    $rootScope.logged_in = false;
+        //    console.log($rootScope.logged_in)
+        //})
+    }
+
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+        mainPage = document.getElementById('mainPage'),
+        showLeftPush = document.getElementById('showLeftPush'),
+        body = document.body;
+
+
+    $scope.showLeftPush = function () {
+        //classie.toggle(this, 'active')
+        $scope.menuOpen = !$scope.menuOpen;
+
+        //debugger;
+        //classie.toggle(body, 'cbp-spmenu-push-toright');
+        //classie.toggle(menuLeft, 'cbp-spmenu-open');
+        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
+        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
+        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+
+        $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut()
+
+
+        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+
+
+        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
+
+        //disableOther('showLeftPush');
+    };
+
+
+});
+
+app.run(function ($rootScope) {
+    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
+    console.log($rootScope.logged_in)
+
+})
+
+$(document).ready(function () {
+
+
+
+    //function disableOther(button) {
+    //    if (button !== 'showLeftPush') {
+    //        classie.toggle(showLeftPush, 'disabled');
+    //    }
+    //
+    //}
+});
+
+/**
  * Created by Nem on 7/18/15.
  */
 app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
@@ -2689,8 +2733,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $scope.modelOptions = {
         debounce: {
-            default: 500,
-            blur: 250
+            default: 100,
+            blur: 50
         },
         getterSetter: true
     };
@@ -2720,7 +2764,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                         })
                         .sortBy(function (elem) {
 
-                            return elem.title.length
+                            return 0
                         })
                         .value()
 
@@ -2912,19 +2956,35 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
         if ('data' in ssPackage) {
             $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    debugger;
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    debugger
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+                    debugger;
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
             debugger;
-            $scope.listOfServices = PackageFactory.catagorizeShowsByService(ssPackage);
-            debugger;
-            $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                $scope.listOfServices[key].open = true
-            })
+
             PackageFactory.setListOfServices($scope.listOfServices);
         }
     }
 
     updateServices()
     $scope.$watchCollection(function () {
-        var _data =  PackageFactory.getPackage().data;
+        var _data = PackageFactory.getPackage().data;
         if (_data != undefined) {
             return _data.content
         } else {
@@ -2944,12 +3004,20 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 function interceptor(obj) {
     console.log(obj)
-
+    return obj
 }
 
 function checkForHuluWithShowtime(services) {
     return _.some(services, function (elem) {
-        return elem.source == "hulu_with_showtime";
+        try {
+
+            return elem.source == "hulu_with_showtime";
+        }
+
+        catch (e) {
+
+            return false
+        }
     });
 }
 
@@ -2981,7 +3049,7 @@ function removeHuluIfShowtimeContent(services) {
 
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, VIEW_WINDOWS, $compile, ShowDetailAnimate, $window) {
 
-    var liveServices = ['cw', 'pbs', 'sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox'];
+    var liveServices = ['cw', 'pbs', 'sling', 'cbs', 'nbc', 'abc', 'thecw', 'showtime_subscription', 'hbo_now', 'showtime', 'fox', 'fox_tveverywhere'];
     var onDemandServices = ['acorntv', 'cwseed', 'hulu_plus', 'hulu', 'hulu_free', 'nbc', 'starz', 'showtime_subscription', 'crackle'];
     var bingeServices = ['netflix', 'amazon_prime', 'seeso', 'tubi_tv', 'starz', 'starz_tveverywhere', 'showtime_subscription'];
     var payPerServices = ['google_play', 'itunes', 'amazon_buy', 'youtube_purchase', 'vudu'];
@@ -2991,7 +3059,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.removeShow = function (show, $event) {
         var pkg = PackageFactory.getPackage()
 
-        debugger;
         $q.when($($event.currentTarget).parent().fadeOut)
             .then(function () {
 
@@ -3013,233 +3080,251 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }, function () {
 
 
-        $scope.cs = PackageFactory.getChosenShow();
+        var cs = PackageFactory.getChosenShow();
 
-        $scope.detailSources = (function () {
-            debugger;
+        $http.post('/node-data/detailsources', cs)
+            .then(function(data){
+                $scope.detailSources = data.data
+            })
 
-            if ($scope.cs.guidebox_data != undefined) {
-
-
-                var x = _($scope.cs.channel)
-                    .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
-                    .map(function (elem) {
-
-                        if (elem.guidebox_data != undefined) {
-                            elem.source = elem.guidebox_data.short_name
-                        }
-                        return elem
-                    }).map(function (elem) {
-                        if (elem.source == 'hulu_free') {
-                            elem.source = 'hulu_plus';
-                            return elem
-                        }
-
-                        if (elem.source == 'starz_tveverywhere') {
-                            elem.source = 'starz'
-                        }
-
-                        if (elem.source == 'showtime_subscription') {
-                            elem.source = 'showtime'
-                        }
-
-                        return elem;
-                    })
-                    .thru(function (services) {
-                        if (checkForHuluWithShowtime(services)) {
-                            services = removeHuluIfShowtimeContent(services)
-                        }
-
-                        return services
-                    })
-
-                    .uniqBy('source')
-                    .uniqBy(function (elem) {
-                        if (elem.display_name) {
-                            return elem.display_name
-
-                        } else {
-                            return elem.name
-                        }
-                    })
-                    .groupBy(function (service) {
-                        debugger;
-                        if (liveServices.includes(service.source)) {
-                            return 'live'
-                        }
-                        if (service.is_on_sling || service.on_sling) {
-                            return 'live'
-                        }
-                        if (onDemandServices.includes(service.source)) {
-                            return 'on_demand'
-                        }
-                        if (bingeServices.includes(service.source)) {
-                            return 'binge'
-                        }
-                        if (payPerServices.includes(service.source)) {
-                            return 'pay_per_view'
-                        }
-
-                        return 'misc'
-                    })
-                    .thru(function (services) {
-
-                        _.forEach(services.misc, function (service) {
-                            if (service.source == 'hbo_now') {
-                                services.live.push(service);
-                                services.on_demand.push(service);
-                                services.binge.push(service);
-                            }
-                            else if (service.source == 'showtime_subscription') {
-                                services.on_demand.push(service);
-                                services.binge.push(service);
-                                services.live.push(service);
-                            }
-
-                        })
-                        debugger;
-                        if (_.some(services.on_demand, ['source', 'starz'])) {
-
-                            if (services.binge == undefined) {
-                                services.binge = []
-                            }
-                            services.binge.push(_.takeWhile(services.on_demand, {'source': 'starz'})[0]);
-
-                        }
-
-                        if (services.live) {
-                            _.map(services.live, function (elem) {
-                                // debugger
-
-
-                                if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {
-                                    var elemCopy = _.cloneDeep(elem);
-
-                                    elemCopy.name = 'OTA';
-                                    delete elemCopy['id'];
-                                    delete elemCopy['$$hashKey'];
-
-                                    elemCopy.source = 'ota';
-
-                                    services.live.push(elemCopy)
-                                }
-
-                                if (elem.is_on_sling || elem.on_sling) {
-                                    var elemCopy = _.cloneDeep(elem);
-
-                                    elemCopy.name = 'Sling';
-                                    delete elemCopy['id'];
-                                    delete elemCopy['$$hashKey'];
-
-                                    elemCopy.source = 'sling_tv';
-
-                                    services.live.push(elemCopy)
-
-
-                                }
-
-                                if (elem.source == "cbs") {
-
-
-                                    if (!services.binge) {
-                                        services.binge = []
-                                    }
-                                    services.binge.push(elem);
-
-                                    if (!services.on_demand) {
-                                        services.on_demand = []
-                                    }
-                                    services.on_demand.push(elem)
-                                }
-
-                                if (elem.source == "hbo_now") {
-
-                                    if (!services.binge) {
-                                        services.binge = []
-                                    }
-                                    services.binge.push(elem)
-
-                                    if (!services.on_demand) {
-                                        services.on_demand = []
-                                    }
-
-                                    services.on_demand.push(elem)
-                                }
-                                debugger;
-
-                                if (elem.source == "showtime_subscription" || elem.source == "showtime") {
-
-                                    if (!services.binge) {
-                                        services.binge = []
-                                    }
-                                    services.binge.push(elem)
-
-                                    if (!services.on_demand) {
-                                        services.on_demand = []
-                                    }
-
-                                    services.on_demand.push(elem)
-                                }
-
-                                //
-
-                                return elem
-
-                            })
-                        }
-
-                        if ($scope.cs.on_netflix) {
-                            if (!services.hasOwnProperty('binge')) {
-                                services.binge = []
-
-                            }
-
-                            var netflix_channel = _.some(services.binge, ['source', 'netflix']);
-
-                            if (!netflix_channel) {
-                                services.binge.push({source: 'netflix'})
-                            }
-                        }
-
-
-                        return services
-                    })
-                    .thru(function (services) {
-                        var nbc = _.remove(services.live, function (item) {
-                            return item.source == 'nbc';
-                        })
-
-                        if (nbc.length > 0) {
-                            if (services.on_demand == undefined) {
-                                services.on_demand = nbc
-                            } else {
-
-                                services.on_demand = _.concat(services.on_demand, nbc)
-                            }
-                        }
-
-                        if (!Object.keys) Object.prototype.keys = function (o) {
-                            if (o !== Object(o))
-                                throw new TypeError('Object.keys called on a non-object');
-                            var k = [], p;
-                            for (p in o) if (Object.prototype.hasOwnProperty.call(o, p)) k.push(p);
-                            return k;
-                        }
-
-                        $scope.sortedServices = _.sortBy(Object.keys(services), function (elem) {
-                            return elem.length
-                        })
-
-                        return services
-
-
-                    })
-                    .value();
-
-
-                return x;
-            }
-        })()
+        // $scope.detailSources = (function () {
+        //
+        //     if ($scope.cs.guidebox_data != undefined) {
+        //
+        //
+        //         var x = _($scope.cs.channel)
+        //             .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
+        //             .map(function (elem) {
+        //
+        //                 if (elem.guidebox_data != undefined) {
+        //                     elem.source = elem.guidebox_data.short_name
+        //                 }
+        //                 return elem
+        //             })
+        //             .map(function (elem) {
+        //                 if (elem.source == 'hulu_free') {
+        //                     elem.source = 'hulu_plus';
+        //                     return elem
+        //                 }
+        //
+        //                 if (elem.source == 'starz_tveverywhere') {
+        //                     elem.source = 'starz'
+        //                 }
+        //
+        //                 if (elem.source == 'showtime_subscription') {
+        //                     elem.source = 'showtime'
+        //                 }
+        //
+        //                 return elem;
+        //             })
+        //             .thru(function (services) {
+        //                 if (checkForHuluWithShowtime(services)) {
+        //                     services = removeHuluIfShowtimeContent(services)
+        //                 }
+        //
+        //                 return services
+        //             })
+        //
+        //             .uniqBy('source')
+        //             .uniqBy(function (elem) {
+        //                 if (elem.display_name) {
+        //                     return elem.display_name
+        //
+        //                 } else {
+        //                     return elem.name
+        //                 }
+        //             })
+        //             .tap(interceptor)
+        //             .groupBy(function (service) {
+        //                 debugger;
+        //                 if (liveServices.includes(service.source)) {
+        //                     return 'live'
+        //                 }
+        //                 if (service.is_on_sling || service.on_sling) {
+        //                     return 'live'
+        //                 }
+        //                 if (onDemandServices.includes(service.source)) {
+        //                     return 'on_demand'
+        //                 }
+        //                 if (bingeServices.includes(service.source)) {
+        //                     return 'binge'
+        //                 }
+        //                 if (payPerServices.includes(service.source)) {
+        //                     return 'pay_per_view'
+        //                 }
+        //
+        //                 return 'misc'
+        //             })
+        //             .tap(interceptor)
+        //             .thru(function (services) {
+        //
+        //                 _.forEach(services.misc, function (service) {
+        //                     if (service.source == 'hbo_now') {
+        //                         services.live.push(service);
+        //                         services.on_demand.push(service);
+        //                         services.binge.push(service);
+        //                     }
+        //                     else if (service.source == 'showtime_subscription') {
+        //                         services.on_demand.push(service);
+        //                         services.binge.push(service);
+        //                         services.live.push(service);
+        //                     }
+        //
+        //                 })
+        //                 if (_.some(services.on_demand, ['source', 'starz'])) {
+        //
+        //                     if (services.binge == undefined) {
+        //                         services.binge = []
+        //                     }
+        //                     services.binge.push(_.takeWhile(services.on_demand, {'source': 'starz'})[0]);
+        //
+        //                 }
+        //
+        //                 if (services.live) {
+        //                     _.map(services.live, function (elem) {
+        //                         // debugger
+        //
+        //
+        //                         if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {
+        //                             var elemCopy = _.cloneDeep(elem);
+        //
+        //                             elemCopy.name = 'OTA';
+        //                             delete elemCopy['id'];
+        //                             delete elemCopy['$$hashKey'];
+        //
+        //                             elemCopy.source = 'ota';
+        //
+        //                             services.live.push(elemCopy)
+        //                         }
+        //
+        //                         if (elem.is_over_the_air) {
+        //                             var elemCopy = _.cloneDeep(elem);
+        //
+        //                             elemCopy.name = 'OTA';
+        //                             delete elemCopy['id'];
+        //                             delete elemCopy['$$hashKey'];
+        //
+        //                             elemCopy.source = 'ota';
+        //
+        //                             services.live.push(elemCopy)
+        //                         }
+        //
+        //                         if (elem.is_on_sling || elem.on_sling) {
+        //                             var elemCopy = _.cloneDeep(elem);
+        //
+        //                             elemCopy.name = 'Sling';
+        //                             delete elemCopy['id'];
+        //                             delete elemCopy['$$hashKey'];
+        //
+        //                             elemCopy.source = 'sling_tv';
+        //
+        //                             services.live.push(elemCopy)
+        //
+        //
+        //                         }
+        //
+        //                         if (elem.source == "cbs") {
+        //
+        //
+        //                             if (!services.binge) {
+        //                                 services.binge = []
+        //                             }
+        //                             services.binge.push(elem);
+        //
+        //                             if (!services.on_demand) {
+        //                                 services.on_demand = []
+        //                             }
+        //                             services.on_demand.push(elem)
+        //                         }
+        //
+        //                         if (elem.source == "hbo_now") {
+        //
+        //                             if (!services.binge) {
+        //                                 services.binge = []
+        //                             }
+        //                             services.binge.push(elem)
+        //
+        //                             if (!services.on_demand) {
+        //                                 services.on_demand = []
+        //                             }
+        //
+        //                             services.on_demand.push(elem)
+        //                         }
+        //                         debugger;
+        //
+        //                         if (elem.source == "showtime_subscription" || elem.source == "showtime") {
+        //
+        //                             if (!services.binge) {
+        //                                 services.binge = []
+        //                             }
+        //                             services.binge.push(elem)
+        //
+        //                             if (!services.on_demand) {
+        //                                 services.on_demand = []
+        //                             }
+        //
+        //                             services.on_demand.push(elem)
+        //                         }
+        //
+        //                         //
+        //
+        //                         return elem
+        //
+        //                     })
+        //                 }
+        //
+        //                 if ($scope.cs.on_netflix) {
+        //                     if (!services.hasOwnProperty('binge')) {
+        //                         services.binge = []
+        //
+        //                     }
+        //
+        //                     var netflix_channel = _.some(services.binge, ['source', 'netflix']);
+        //
+        //                     if (!netflix_channel) {
+        //                         services.binge.push({source: 'netflix'})
+        //                     }
+        //                 }
+        //
+        //
+        //                 return services
+        //             })
+        //             .thru(function (services) {
+        //                 var nbc = _.remove(services.live, function (item) {
+        //                     return item.source == 'nbc';
+        //                 })
+        //
+        //                 if (nbc.length > 0) {
+        //                     if (services.on_demand == undefined) {
+        //                         services.on_demand = nbc
+        //                     } else {
+        //
+        //                         services.on_demand = _.concat(services.on_demand, nbc)
+        //                     }
+        //                 }
+        //
+        //                 if (!Object.keys) Object.prototype.keys = function (o) {
+        //                     if (o !== Object(o))
+        //                         throw new TypeError('Object.keys called on a non-object');
+        //                     var k = [], p;
+        //                     for (p in o) if (Object.prototype.hasOwnProperty.call(o, p)) k.push(p);
+        //                     return k;
+        //                 }
+        //
+        //                 $scope.sortedServices = _.sortBy(Object.keys(services), function (elem) {
+        //                     return elem.length
+        //                 })
+        //
+        //                 return services
+        //
+        //
+        //             })
+        //             .value();
+        //
+        //
+        //         return x;
+        //     }
+        // })()
 
     })
 
@@ -3306,6 +3391,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         // $('body').css('overflow', 'hidden');
 
         PackageFactory.setChosenShow(item);
+
+        if(item==$scope.cs){
+            debugger;
+            $http.post('/node-data/detailsources', cs)
+            .then(function(data){
+                $scope.detailSources = data.data
+            })
+        }
+
 
         // verifySelectedShowDetails()
         var positionItem = ev.currentTarget,
@@ -3753,6 +3847,56 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
+/**
+ * Created by Nem on 11/25/15.
+ */
+app.controller('StepTwoController', function ($scope, http, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    var hardwareColl = $scope.package.hardware;
+
+    http.getHardware()
+        .then(function (data) {
+            $scope.hardware = data.results;
+        });
+
+    $scope.itemSelected = function (item) {
+        var hardwareColl = $scope.package.hardware;
+        var x = _.some(hardwareColl, 'url', item.url);
+        return x
+    };
+
+
+    $scope.addRemoveHardware = function (item) {
+        if (item.hasOwnProperty('selected')) {
+            delete item['selected']
+        }
+
+
+        var hardwareColl = $scope.package.hardware;
+        if (_.some(hardwareColl, 'url', item.url)) {
+            _.remove(hardwareColl, function(n){
+
+                return n.url == item.url
+
+            });
+
+        } else {
+            //item.selected = true;
+            hardwareColl.push(item);
+        }
+
+        PackageFactory.setPackage($scope.package)
+    };
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+
+});
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();
@@ -3860,54 +4004,3 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
 
 
 })
-
-/**
- * Created by Nem on 11/25/15.
- */
-app.controller('StepTwoController', function ($scope, http, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    var hardwareColl = $scope.package.hardware;
-
-    http.getHardware()
-        .then(function (data) {
-            $scope.hardware = data.results;
-        });
-
-    $scope.itemSelected = function (item) {
-        var hardwareColl = $scope.package.hardware;
-        var x = _.some(hardwareColl, 'url', item.url);
-        return x
-    };
-
-
-    $scope.addRemoveHardware = function (item) {
-        if (item.hasOwnProperty('selected')) {
-            delete item['selected']
-        }
-
-
-        var hardwareColl = $scope.package.hardware;
-        if (_.some(hardwareColl, 'url', item.url)) {
-            _.remove(hardwareColl, function(n){
-
-                return n.url == item.url
-
-            });
-
-        } else {
-            //item.selected = true;
-            hardwareColl.push(item);
-        }
-
-        PackageFactory.setPackage($scope.package)
-    };
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-
-});

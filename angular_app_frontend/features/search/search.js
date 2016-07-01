@@ -6,8 +6,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     $scope.modelOptions = {
         debounce: {
-            default: 500,
-            blur: 250
+            default: 100,
+            blur: 50
         },
         getterSetter: true
     };
@@ -37,7 +37,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                         })
                         .sortBy(function (elem) {
 
-                            return elem.title.length
+                            return 0
                         })
                         .value()
 
