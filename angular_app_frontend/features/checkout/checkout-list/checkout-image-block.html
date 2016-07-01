@@ -2,9 +2,7 @@
     <img class="service-image" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ service.chan.source }}"/>
     <span ng-if="key != 'ppv' && key != 'ota' " class="checkout-service-price">
 
-    <span ng-if="service.price > 0">Average Cost ${{ service.price }}</span>
-
-    <span ng-if="service.price <= 0">Free </span>
+    Average Cost ${{ service.price }}
     </span>
 </div>
 

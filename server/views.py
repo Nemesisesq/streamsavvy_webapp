@@ -486,6 +486,10 @@ def get_service_list(request, the_json, path):
         if path  == 'checkoutlist':
             query_url = "{base}/checkout_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
 
+        if path == 'detailsources':
+            query_url = "{base}/detail_sources".format(base=get_env_variable('NODE_DATA_SERVICE'))
+
+
         try:
             headers = {'Content-Type': 'application/json'}
             r = requests.post(query_url, data=json.dumps(the_json), headers=headers)
