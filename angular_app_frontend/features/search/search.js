@@ -95,9 +95,13 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                 return
             }
 
-            suggestion.url = suggestion.url.replace('http', 'https');
+            // suggestion.url = suggestion.url.replace('http', 'https');
+            debugger;
+            var parser = document.createElement('a');
+            parser.href = suggestion.url
+            var url = '/api' + parser.pathname;
 
-            $http.get(suggestion.url)
+            $http.get(url)
                 .then(function (data) {
                     debugger;
 
