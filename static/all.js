@@ -2771,6 +2771,39 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         }
     };
 
+
+
+    var cleanString = function (s) {
+        s = s.replace(/\\n/g, "\\n")
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\f/g, "\\f")
+            .replace(RegExp(/None/g), '"false"');
+
+        // remove non-printable and other non-valid JSON chars
+        s = s.replace(/[\u0000-\u0019]+/g, "");
+
+
+        return s
+
+    }
+
+    var fixGuideboxData =  function (c) {
+        if (typeof c.guidebox_data == 'string') {
+            var jsonString = c.guidebox_data.replace(/'/g, '"');
+            jsonString = this.cleanString(jsonString)
+            c.guidebox_data = JSON.parse(jsonString)
+        }
+
+
+        return c
+
+    }
+
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
         var ssPackage = PackageFactory.getPackage();
         if (suggestion !== undefined) {
@@ -2787,13 +2820,16 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                     debugger;
 
 
+                    suggestion = fixGuideboxData(data.data)
+
+
                     if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
                         debugger;
                         $scope.loading = true;
 
                         suggestion.justAdded = true;
 
-                        ssPackage.data.content.push(data.data);
+                        ssPackage.data.content.push(suggestion);
 
                         PackageFactory.setPackage(ssPackage);
 
