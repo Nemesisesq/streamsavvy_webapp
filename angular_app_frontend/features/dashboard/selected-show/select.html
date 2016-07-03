@@ -27,7 +27,7 @@
         -->
 
             <div class="window row live" ota-sling-netflix ng-repeat="key in detailSources.sortedServices"
-                 ng-if="key !== 'misc'">
+                 ng-if="detailSources[key].length > 0 && key !== 'misc'">
                 <div class="window-label">{{ fixTitle(key) }}</div>
                 <div class="col-xs-4 window-service" ng-hide="service.hide" ng-repeat="service in detailSources[key]" >
                     <img ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ service.source }}"/>
