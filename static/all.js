@@ -2795,7 +2795,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     var fixGuideboxData =  function (c) {
         if (typeof c.guidebox_data == 'string') {
             var jsonString = c.guidebox_data.replace(/'/g, '"');
-            jsonString = this.cleanString(jsonString)
+            jsonString = cleanString(jsonString)
             c.guidebox_data = JSON.parse(jsonString)
         }
 
