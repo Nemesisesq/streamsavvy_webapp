@@ -2487,10 +2487,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
  */
 
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by Nem on 12/29/15.
  */
 
@@ -2504,6 +2500,10 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
 /**
  * Created by chirag on 8/3/15.
  */
@@ -2779,6 +2779,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                 $scope.suggestions = [];
                 return
             }
+
+            suggestion.url = suggestion.url.replace('http', 'https');
 
             $http.get(suggestion.url)
                 .then(function (data) {

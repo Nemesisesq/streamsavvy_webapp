@@ -62,6 +62,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                 return
             }
 
+            suggestion.url = suggestion.url.replace('http', 'https');
+
             $http.get(suggestion.url)
                 .then(function (data) {
                     debugger;
