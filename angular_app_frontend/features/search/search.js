@@ -62,21 +62,26 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                 return
             }
 
+            $http.get(suggestion.url)
+                .then(function (data) {
+                    debugger;
 
-            if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-                //debugger;
-                $scope.loading = true;
 
-                suggestion.justAdded = true;
+                    if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+                        debugger;
+                        $scope.loading = true;
 
-                ssPackage.data.content.push(suggestion);
+                        suggestion.justAdded = true;
 
-                PackageFactory.setPackage(ssPackage);
+                        ssPackage.data.content.push(data.data);
 
-                $scope.loading = false;
-                mixpanel.track( "Show added", {"Show Title": suggestion.title});
-            }
+                        PackageFactory.setPackage(ssPackage);
 
+                        $scope.loading = false;
+                        mixpanel.track("Show added", {"Show Title": suggestion.title});
+                    }
+
+                })
         }
         $scope.searchText = '';
         $scope.suggestions = [];

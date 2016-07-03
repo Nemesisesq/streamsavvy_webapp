@@ -235,7 +235,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
         getServicePanelList: function(){
             var ssPackage = this.getPackage();
             if ('data' in ssPackage){
-                debugger;
                 // var url = envService.read('serviceListUrl')
                 return $http.post('/node-data/servicelist', ssPackage)
             }
@@ -244,7 +243,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
         getCheckoutPanelList: function(){
             var ssPackage = this.getPackage();
             if ('data' in ssPackage){
-                debugger;
                 // var url = envService.read('checkoutListUrl')
                 return $http.post('/node-data/checkoutlist ', ssPackage)
             }
@@ -475,7 +473,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
                             list.not_ota = _.concat(list.not_ota, nbc)
                         }
                     }
-                    debugger;
                     var showsOta = _.map(list.ota, function (elem) {
                         return elem.shows
                     })

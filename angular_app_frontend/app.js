@@ -40,7 +40,6 @@ var app = angular.module('myApp', [
                 }
             }
         });
-        debugger;
         envServiceProvider.check();
     })
         .constant('CONFIG', {
@@ -492,7 +491,6 @@ app.run(function ($window, $state) {
 
         var d_state = RegExp('dash').test(curr) ? true : false
         var m_state = RegExp('mobile').test(curr) ? true : false
-        debugger;
         if (this.innerWidth > 767) {
             if (m_state) {
 

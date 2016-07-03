@@ -1,7 +1,6 @@
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
-    debugger;
     PackageFactory.getCheckoutPanelList()
         .then(function (data) {
 
