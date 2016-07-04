@@ -1078,6 +1078,8 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 
         link: function (scope) {
 
+            $
+
             // $('.background').scroll(function () {
             //     // console.log($('#sticky').offset().top)
             //     if($('#sticky').offset().top <= 51){
@@ -1118,7 +1120,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             }
 
             scope.hasOwnApp = function (key, item) {
-                
+
                 servicesWithApps = [ 'CBS', 'NBC', 'HBO', 'HBO NOW', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
 
@@ -2370,7 +2372,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
                         onEndTransition(dummy, function () {
                             // reset server scroll..
                             positionItem.parentNode.scrollTop = 0;
-                            container.removeChild(dummy);
+                            dummy.remove()
                             //classie.remove(gridItem, 'grid__item--loading');
                             //classie.remove(gridItem, 'grid__item--animate');
                             lockScroll = false;
@@ -3401,6 +3403,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.updatePackageChannels($scope)
     }
 
+    var openingDetail;
+
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
         $('body').css({'overflow': 'hidden'})
@@ -3469,6 +3473,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
     }, 50);
+
+    $(document).keyup(function (event) {
+        debugger
+        var keyCode = event.which || event.keyCode;
+        if (keyCode == 27  ){
+            $scope.hideDetail()
+        }
+
+    })
 
     $scope.hideDetail = function (ev, attrs) {
         var positionItem = document.getElementById('is-opened'),

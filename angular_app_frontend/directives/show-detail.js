@@ -10,6 +10,8 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 
         link: function (scope) {
 
+            $
+
             // $('.background').scroll(function () {
             //     // console.log($('#sticky').offset().top)
             //     if($('#sticky').offset().top <= 51){
@@ -50,7 +52,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             }
 
             scope.hasOwnApp = function (key, item) {
-                
+
                 servicesWithApps = [ 'CBS', 'NBC', 'HBO', 'HBO NOW', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
 

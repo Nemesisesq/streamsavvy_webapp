@@ -254,13 +254,13 @@ class GuideBox(object):
         return x
 
     def check_for_sources_date_last_checked(self, c):
-        if cache.get(c.id):
-            return c
-        c = self.add_additional_channels_for_show(c)
-        # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
-        c.save()
-
-        cache.set(c.id, c.title)
+        # if cache.get(c.id):
+        #     return c
+        # c = self.add_additional_channels_for_show(c)
+        # # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
+        # c.save()
+        #
+        # cache.set(c.id, c.title)
 
         return c
 

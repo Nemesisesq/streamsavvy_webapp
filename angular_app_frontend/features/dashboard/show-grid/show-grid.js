@@ -363,6 +363,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.updatePackageChannels($scope)
     }
 
+    var openingDetail;
+
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
         $('body').css({'overflow': 'hidden'})
@@ -431,6 +433,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
     }, 50);
+
+    $(document).keyup(function (event) {
+        debugger
+        var keyCode = event.which || event.keyCode;
+        if (keyCode == 27  ){
+            $scope.hideDetail()
+        }
+
+    })
 
     $scope.hideDetail = function (ev, attrs) {
         var positionItem = document.getElementById('is-opened'),
