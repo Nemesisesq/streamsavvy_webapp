@@ -3127,6 +3127,7 @@ show-detail {
     letter-spacing: 0.5px;
     color: white; }
   show-detail .please-select-how-yo {
+    word-wrap: normal;
     text-transform: none;
     height: 16px;
     display: block;
