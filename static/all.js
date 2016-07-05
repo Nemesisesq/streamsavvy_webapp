@@ -2510,10 +2510,6 @@ app.controller('FeedbackCtrl', function ($scope) {
     }
 })
 /**
- * Created by Nem on 10/7/15.
- */
-
-/**
  * Created by chirag on 8/3/15.
  */
 app.controller('home', function ($scope, $http, http, $cookies, $location) {
@@ -2542,100 +2538,9 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
-});
-
+/**
+ * Created by Nem on 10/7/15.
+ */
 
 /**
  * Created by Nem on 6/28/15.
@@ -2846,6 +2751,101 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 });
 
 
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
+
+
+        return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
+});
+
+
 /**
  * Created by Nem on 5/24/16.
  */
@@ -2929,78 +2929,6 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
         })
 
 });
-
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if ('data' in ssPackage) {
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    debugger;
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    debugger
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-                    debugger;
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-            debugger;
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
 
 function interceptor(obj) {
     console.log(obj)
@@ -3513,6 +3441,78 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 });
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if ('data' in ssPackage) {
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    debugger;
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    debugger
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+                    debugger;
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+            debugger;
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
@@ -3847,56 +3847,6 @@ app.controller('StepOneController', function ($scope, $http, $timeout, PackageFa
     //    PackageFactory.setPackage($scope.package)
     //})
 });
-/**
- * Created by Nem on 11/25/15.
- */
-app.controller('StepTwoController', function ($scope, http, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    var hardwareColl = $scope.package.hardware;
-
-    http.getHardware()
-        .then(function (data) {
-            $scope.hardware = data.results;
-        });
-
-    $scope.itemSelected = function (item) {
-        var hardwareColl = $scope.package.hardware;
-        var x = _.some(hardwareColl, 'url', item.url);
-        return x
-    };
-
-
-    $scope.addRemoveHardware = function (item) {
-        if (item.hasOwnProperty('selected')) {
-            delete item['selected']
-        }
-
-
-        var hardwareColl = $scope.package.hardware;
-        if (_.some(hardwareColl, 'url', item.url)) {
-            _.remove(hardwareColl, function(n){
-
-                return n.url == item.url
-
-            });
-
-        } else {
-            //item.selected = true;
-            hardwareColl.push(item);
-        }
-
-        PackageFactory.setPackage($scope.package)
-    };
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
-
-
-});
 app.controller('StepThreeController', function ($scope, PackageFactory) {
 
     //$scope.package = PackageFactory.getPackage();
@@ -4004,3 +3954,54 @@ app.controller('StepThreeController', function ($scope, PackageFactory) {
 
 
 })
+
+/**
+ * Created by Nem on 11/25/15.
+ */
+app.controller('StepTwoController', function ($scope, http, PackageFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+    var hardwareColl = $scope.package.hardware;
+
+    http.getHardware()
+        .then(function (data) {
+            $scope.hardware = data.results;
+        });
+
+    $scope.itemSelected = function (item) {
+        var hardwareColl = $scope.package.hardware;
+        var x = _.some(hardwareColl, 'url', item.url);
+        return x
+    };
+
+
+    $scope.addRemoveHardware = function (item) {
+        if (item.hasOwnProperty('selected')) {
+            delete item['selected']
+        }
+
+
+        var hardwareColl = $scope.package.hardware;
+        if (_.some(hardwareColl, 'url', item.url)) {
+            _.remove(hardwareColl, function(n){
+
+                return n.url == item.url
+
+            });
+
+        } else {
+            //item.selected = true;
+            hardwareColl.push(item);
+        }
+
+        PackageFactory.setPackage($scope.package)
+    };
+
+    $scope.$watch(function () {
+        return PackageFactory.getPackage()
+    }, function () {
+        $scope.package = PackageFactory.getPackage();
+    });
+
+
+});

@@ -288,7 +288,7 @@ body {
 
 .fa {
   display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3380,6 +3380,7 @@ show-detail {
     position: relative; } }
 
 .navbar-fixed-top {
+  background-color: #15191b;
   min-height: 50px; }
   .dashboard .navbar-fixed-top {
     background-color: #15191b; }
