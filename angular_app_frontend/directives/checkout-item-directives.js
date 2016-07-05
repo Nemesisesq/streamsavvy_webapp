@@ -285,8 +285,8 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, element, attrs) {
 
-
-            $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
+            
+            $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
                     scope.service.details = data.data
                     console.log(data)
