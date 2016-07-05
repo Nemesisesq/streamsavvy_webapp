@@ -174,6 +174,7 @@ class GuideBox(object):
         else:
             if 'display_name' in s and s['display_name'] in sling_channels:
                 s['on_sling'] = 'true'
+
                 return s
         return s
 

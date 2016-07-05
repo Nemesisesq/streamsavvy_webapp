@@ -2774,7 +2774,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     };
 
 
-
     var cleanString = function (s) {
         s = s.replace(/\\n/g, "\\n")
             .replace(/\\'/g, "\\'")
@@ -2794,7 +2793,7 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
     }
 
-    var fixGuideboxData =  function (c) {
+    var fixGuideboxData = function (c) {
         if (typeof c.guidebox_data == 'string') {
             var jsonString = c.guidebox_data.replace(/'/g, '"');
             jsonString = cleanString(jsonString)
@@ -2819,8 +2818,8 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             debugger;
             var parser = document.createElement('a');
             parser.href = suggestion.url
-            var url = '/api' + parser.pathname;
 
+            url = /api/.test(parser.pathname)? parser.pathname : '/api' + parser.pathname
             $http.get(url)
                 .then(function (data) {
                     debugger;
