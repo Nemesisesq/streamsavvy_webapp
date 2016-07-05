@@ -65,17 +65,17 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
     }, function () {
         $scope.package = PackageFactory.getPackage();
         $scope.list = PackageFactory.getListOfServices();
-        _.forEach($scope.list.not_ota, function (not_ota_service) {
-            if (not_ota_service != undefined) {
-                $scope.notOtaServiceDetail(not_ota_service);
-            }
-
-        });
-        _.forEach($scope.list.ota, function (ota_service) {
-            if (ota_service != undefined) {
-                $scope.otaServiceDetail(ota_service);
-            }
-        })
+        // _.forEach($scope.list.not_ota, function (not_ota_service) {
+        //     if (not_ota_service != undefined) {
+        //         $scope.notOtaServiceDetail(not_ota_service);
+        //     }
+        //
+        // });
+        // _.forEach($scope.list.ota, function (ota_service) {
+        //     if (ota_service != undefined) {
+        //         $scope.otaServiceDetail(ota_service);
+        //     }
+        // })
     })
 
 

@@ -10,10 +10,11 @@
             <a href="#/error/coming-soon">Blog</a>
         </div> -->
 
-        <!-- <div class="ss-menu-auth">
-            <a id="sign-up" href="#" class="sign-up">Sign Up</a>
-            <a href="http://localhost:8002/login/twitter/?next=http://localhost:8000/#/dashboard" >Login With Twitter</a>
-        </div> -->
+        <div class="ss-menu-auth">
+{#            <a id="sign-up" href="#" class="sign-up">Sign Up</a>#}
+            <a ng-href="{{ auth.facebook }}" >Login With Twitter</a>
+            <a ng-href="{{ auth.facebook }}" >Login With Facebook</a>
+        </div>
     </nav>
 
     <div ui-view="modal"></div>

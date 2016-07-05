@@ -3,7 +3,7 @@
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
 
-    $http.get('/social_endpoint/twitter')
+    $http.get('/social_endpoints/')
         .then(function(data){
 
     })

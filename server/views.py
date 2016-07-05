@@ -209,7 +209,8 @@ def get_service_description(request, service):
         except Exception as e:
             print(e)
 
-
+def social_endpoints(request, network):
+    pass
 # class NetFlixListView(View):
 #     def get(self, request):
 #
