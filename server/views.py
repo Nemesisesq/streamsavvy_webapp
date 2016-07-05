@@ -4,6 +4,11 @@ import urllib
 import urllib.request
 import urllib.parse
 
+from django.views.decorators.csrf import csrf_exempt
+from social.actions import do_complete
+from social.apps.django_app.utils import strategy
+from social.apps.django_app.views import _do_login
+
 from server.shortcuts import api_json_post
 from streamsavvy_webapp.settings import get_env_variable
 import requests
@@ -27,6 +32,10 @@ from server.models import *
 from server.permissions import IsAdminOrReadOnly
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer, ChannelImagesSerializer
+
+from social.actions import do_complete
+from social.apps.django_app.utils import strategy
+from social.apps.django_app.views import _do_login
 
 
 def flatten(l):
@@ -209,8 +218,14 @@ def get_service_description(request, service):
         except Exception as e:
             print(e)
 
-def social_endpoints(request, network):
-    pass
+
+
+@csrf_exempt
+@strategy('social:complete')
+def complete(request, backend, *args, **kwargs):
+    """Override this method so we can force user to be logged out."""
+    return do_complete(request.social_strategy, _do_login, user=None,
+                       redirect_name='/', *args, **kwargs)
 # class NetFlixListView(View):
 #     def get(self, request):
 #

@@ -31,7 +31,7 @@ def get_env_variable(var_name, default=False):
     except KeyError:
         import io
         import configparser
-        env_file = os.environ.get('PROJECT_ENV_FILE', os.path.join(BASE_DIR, "/.env"))
+        env_file = os.environ.get('PROJECT_ENV_FILE', os.path.join(BASE_DIR, ".env"))
         try:
             config = io.StringIO()
             config.write("[DATA]\n")
@@ -256,6 +256,19 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+
+
+SOCIAL_AUTH_TWITTER_KEY = get_env_variable('TWITTER_KEY')
+SOCIAL_AUTH_TWITTER_SECRET = get_env_variable('TWITTER_SECRET')
+
+SOCIAL_AUTH_FACEBOOK_KEY = get_env_variable('FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = get_env_variable('FACEBOOK_SECRET')
+
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_env_variable('SOCIAL_REDIRECT')
+# SOCIAL_AUTH_USER_MODEL = 'django.contrib.auth.User'
+
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 # TEMPLATE_CONTEXT_PROCESSORS = (
 #     'social.apps.django_app.context_processors.backends',
 #     'social.apps.django_app.context_processors.login_redirect',

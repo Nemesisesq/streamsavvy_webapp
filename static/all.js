@@ -2420,27 +2420,27 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
 
     };
-    $scope.notOtaServiceDetail = function (mystery_service) {
-        if (_.some(payPerServices, mystery_service.chan.source)) {
-            console.log('this is the payperview service ' + mystery_service.chan.source);
-            mystery_service.description = SERVICE_PRICE_LIST[0].description;
-            mystery_service.price = SERVICE_PRICE_LIST[0].price;
-            //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
-            //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
-
-
-        }
-        else {
-            var serviceMatch = _.find(SERVICE_PRICE_LIST, function (elem) {
-                return elem.name == mystery_service.chan.source;
-            });
-            if (serviceMatch != undefined) {
-
-                _.assignIn(mystery_service, serviceMatch);
-
-            }
-        }
-    };
+    // $scope.notOtaServiceDetail = function (mystery_service) {
+    //     if (_.some(payPerServices, mystery_service.chan.source)) {
+    //         console.log('this is the payperview service ' + mystery_service.chan.source);
+    //         mystery_service.description = SERVICE_PRICE_LIST[0].description;
+    //         mystery_service.price = SERVICE_PRICE_LIST[0].price;
+    //         //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
+    //         //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
+    //
+    //
+    //     }
+    //     else {
+    //         var serviceMatch = _.find(SERVICE_PRICE_LIST, function (elem) {
+    //             return elem.name == mystery_service.chan.source;
+    //         });
+    //         if (serviceMatch != undefined) {
+    //
+    //             _.assignIn(mystery_service, serviceMatch);
+    //
+    //         }
+    //     }
+    // };
 
     // $scope.removeService = function (service, serviceArray) {
     //     if (serviceArray == 'ota') {
@@ -2540,10 +2540,11 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
 
-    $http.get('/social_endpoints/')
-        .then(function(data){
-
-    })
+    $scope.auth = {
+        twitter : $('#twitter_login').attr('href'),
+        facebook : $('#facebook_login').attr('href'),
+        instagram: $('#instagram_login').attr('href')
+    }
 
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();

@@ -49,11 +49,10 @@
         </div>
     </div>-->
 
-    <!--
-    <a id="facebook_login" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">login to facebook</a>
-    <a id="instagram_login" href="{% url 'social:begin' 'instagram' %}?next={{ request.path }}">login to instagram</a>
-    <a id="twitter_login" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">login to twitter</a>
-    {#{% url "socialauth_disconnect" %}#}
+
+    <a id="twitter_login" hidden href="{% url 'social:begin' 'twitter' %}">login to twitter</a>
+    <a id="facebook_login" hidden href="{% url 'social:begin' 'facebook' %}">login to facebook</a>
+{#    {% url "socialauth_disconnect" %}#}
 
     <div
             class="fb-like"
@@ -61,7 +60,7 @@
             data-width="450"
             data-show-faces="true">
     </div>
--->
+
 
     <script src="{% static 'lib/jquery/dist/jquery.js' %}"></script>
     <script src="{% static 'lib/angular/angular.js' %}"></script>
