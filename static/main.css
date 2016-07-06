@@ -3239,7 +3239,7 @@ show-detail {
     width: 100%;
     position: fixed;
     z-index: 1;
-    top: 0px;
+    top: 0;
     background: rgba(0, 0, 0, 0.4); } }
 
 .col-xs-4.window-service.ng-scope {
