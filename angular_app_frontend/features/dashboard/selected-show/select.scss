@@ -224,3 +224,10 @@ show-detail {
 
 #overlay-icons {
 }
+
+@media(max-width: 991px){
+  img{
+    //height: 100%;
+    //width: auto;
+  }
+}
