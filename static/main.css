@@ -3472,6 +3472,29 @@ a.active {
   .dashboard .ss_nav {
     width: 100%; } }
 
+a.social-icons {
+  border: none; }
+  a.social-icons:active {
+    background: transparent;
+    color: transparent; }
+  a.social-icons:hover {
+    color: transparent; }
+  a.social-icons.active {
+    border: none; }
+  a.social-icons i {
+    font-size: 50px;
+    transition: color .2s ease-in-out; }
+    a.social-icons i.fa-twitter-square:hover {
+      color: #55acee; }
+    a.social-icons i.fa-twitter-square:active {
+      color: #55acee; }
+    a.social-icons i.fa-facebook-square:active {
+      color: #3B5998; }
+    a.social-icons i.fa-facebook-square:hover {
+      color: #3B5998; }
+  a.social-icons:hover {
+    border: none; }
+
 @media (max-width: 767px) {
   body.background.container.ng-scope.no-scroll.gradient-background {
     overflow: scroll; }

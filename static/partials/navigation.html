@@ -2,7 +2,7 @@
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left ss-menu" id="cbp-spmenu-s1">
         <div>
             <a ng-class="{active: isActive('#/') }" href="#">Home</a>
-            <a ng-class="{active: isActive('#/dashboard')}" href="#/dashboard">Cut the cord</a>
+            <a ng-class="{active: isActive('#/dashboard')}" href="#/dashboard">Search Shows</a>
         </div>
         <!-- <div class="ss-small-menu-options">
             <a href="#/error/coming-soon">Learn More</a>
@@ -10,11 +10,19 @@
             <a href="#/error/coming-soon">Blog</a>
         </div> -->
 
-        <div class="ss-menu-auth">
+        <div class="row ss-menu-auth">
             <!-- <a id="sign-up" href="#" class="sign-up">Sign Up</a> -->
-            <a ng-href="{{ auth.twitter }}">Twitter</a>
-            <a ng-href="{{ auth.facebook }}">Facebook</a>
-            <a ng-href="{{ auth.instagram }}">Instgram</a>
+            <div class="col-xs-3">
+                <a class="social-icons" ng-href="{{ auth.twitter }}">
+                    <i class="fa fa-twitter-square" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-xs-3">
+                <a class="social-icons" ng-href="{{ auth.facebook }}">
+                    <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                </a>
+            </div>
+
 
         </div>
     </nav>
