@@ -64,8 +64,7 @@ SECRET_KEY = 'u9kg9y#t5a=uc86bsob9#o5n6*d=k^f--1t_l(-sh@7mrs#y*a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if get_env_variable('ENVIRONMENT') == 'PRODUCTION' else True
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = ['.streamsavvy.tv', '.herokuapp.com'] if get_env_variable("ENVIRONMENT") == "PRODUCTION" else ['*']
 # Application definition
 
 INSTALLED_APPS = [
