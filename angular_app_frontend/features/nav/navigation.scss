@@ -2,7 +2,6 @@
   .dashboard & {
     background-color: $dashboard-dark;
   }
-  background-color: $dashboard-dark;
   min-height: 50px;
 
   #showLeftPush {
@@ -16,7 +15,7 @@
     margin-left: 15px;
     border: none;
     background: none;
-    width: 75px;
+    width: 150px;
     img {
       //margin-right: 15px;
     }
@@ -149,11 +148,28 @@
   }
 }
 
+.staying-inline {
+  cursor: pointer;
+}
+
 a.active {
   background-color: inherit;
   border-left: 3px solid $button_hover;
   color: white;
   text-decoration: none !important;
+}
+
+.fa-chevron-left {
+  font-size: 23px;
+}
+
+.skinny {
+  font-weight: 100;
+}
+
+.text-shift {
+  position: relative;
+  top: -3px;
 }
 
 /* Mobile Styles*/

@@ -53,6 +53,38 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
         }
     };
 
+
+    var cleanString = function (s) {
+        s = s.replace(/\\n/g, "\\n")
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\f/g, "\\f")
+            .replace(RegExp(/None/g), '"false"');
+
+        // remove non-printable and other non-valid JSON chars
+        s = s.replace(/[\u0000-\u0019]+/g, "");
+
+
+        return s
+
+    }
+
+    var fixGuideboxData = function (c) {
+        if (typeof c.guidebox_data == 'string') {
+            var jsonString = c.guidebox_data.replace(/'/g, '"');
+            jsonString = cleanString(jsonString)
+            c.guidebox_data = JSON.parse(jsonString)
+        }
+
+
+        return c
+
+    }
+
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
         var ssPackage = PackageFactory.getPackage();
         if (suggestion !== undefined) {
@@ -62,21 +94,35 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
                 return
             }
 
+            // suggestion.url = suggestion.url.replace('http', 'https');
+            debugger;
+            var parser = document.createElement('a');
+            parser.href = suggestion.url
 
-            if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-                //debugger;
-                $scope.loading = true;
+            url = /api/.test(parser.pathname)? parser.pathname : '/api' + parser.pathname
+            $http.get(url)
+                .then(function (data) {
+                    debugger;
 
-                suggestion.justAdded = true;
 
-                ssPackage.data.content.push(suggestion);
+                    suggestion = fixGuideboxData(data.data)
 
-                PackageFactory.setPackage(ssPackage);
 
-                $scope.loading = false;
-                mixpanel.track( "Show added", {"Show Title": suggestion.title});
-            }
+                    if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+                        debugger;
+                        $scope.loading = true;
 
+                        suggestion.justAdded = true;
+
+                        ssPackage.data.content.push(suggestion);
+
+                        PackageFactory.setPackage(ssPackage);
+
+                        $scope.loading = false;
+                        mixpanel.track("Show added", {"Show Title": suggestion.title});
+                    }
+
+                })
         }
         $scope.searchText = '';
         $scope.suggestions = [];

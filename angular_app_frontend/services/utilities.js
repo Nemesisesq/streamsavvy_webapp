@@ -168,7 +168,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
                         onEndTransition(dummy, function () {
                             // reset server scroll..
                             positionItem.parentNode.scrollTop = 0;
-                            container.removeChild(dummy);
+                            dummy.remove()
                             //classie.remove(gridItem, 'grid__item--loading');
                             //classie.remove(gridItem, 'grid__item--animate');
                             lockScroll = false;

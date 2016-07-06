@@ -58,7 +58,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $q.when($($event.currentTarget).parent().fadeOut)
             .then(function () {
 
-                debugger;
                 pkg.data.content = _.filter(pkg.data.content, function (elem) {
                     return elem != show;
                 })
@@ -364,6 +363,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.updatePackageChannels($scope)
     }
 
+    var openingDetail;
+
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
         $('body').css({'overflow': 'hidden'})
@@ -389,8 +390,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setChosenShow(item);
 
         if(item==$scope.cs){
-            debugger;
-            $http.post('/node-data/detailsources', cs)
+            $http.post('/node-data/detailsources', $scope.cs)
             .then(function(data){
                 $scope.detailSources = data.data
             })
@@ -433,6 +433,15 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
     }, 50);
+
+    $(document).keyup(function (event) {
+        debugger
+        var keyCode = event.which || event.keyCode;
+        if (keyCode == 27  ){
+            $scope.hideDetail()
+        }
+
+    })
 
     $scope.hideDetail = function (ev, attrs) {
         var positionItem = document.getElementById('is-opened'),

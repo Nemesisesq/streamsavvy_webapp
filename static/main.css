@@ -2589,7 +2589,8 @@ show-detail .background {
   z-index: 100;
   width: 100%;
   height: 100vh;
-  overflow: scroll; }
+  overflow: scroll;
+  margin-top: 15px; }
   .ss_checkout .finalize {
     letter-spacing: 0.5px;
     color: #9b9b9b;
@@ -2631,6 +2632,9 @@ show-detail .background {
 
 #checkout-back-btn-area {
   padding: 10px; }
+
+.ss_checkout .ss_nav {
+  background-color: #15191b; }
 
 .checkoutList {
   margin-top: 30px;
@@ -3135,6 +3139,7 @@ show-detail {
     letter-spacing: 0.5px;
     color: white; }
   show-detail .please-select-how-yo {
+    word-wrap: normal;
     text-transform: none;
     height: 16px;
     display: block;
@@ -3380,7 +3385,6 @@ show-detail {
     position: relative; } }
 
 .navbar-fixed-top {
-  background-color: #15191b;
   min-height: 50px; }
   .dashboard .navbar-fixed-top {
     background-color: #15191b; }
@@ -3392,7 +3396,7 @@ show-detail {
     margin-left: 15px;
     border: none;
     background: none;
-    width: 75px; }
+    width: 150px; }
 
 .menu-background {
   -webkit-backdrop-filter: blur(9.9px);
@@ -3469,11 +3473,24 @@ show-detail {
   #sign-up:hover {
     color: white; }
 
+.staying-inline {
+  cursor: pointer; }
+
 a.active {
   background-color: inherit;
   border-left: 3px solid #e7021e;
   color: white;
   text-decoration: none !important; }
+
+.fa-chevron-left {
+  font-size: 23px; }
+
+.skinny {
+  font-weight: 100; }
+
+.text-shift {
+  position: relative;
+  top: -3px; }
 
 /* Mobile Styles*/
 @media (max-width: 767px) {

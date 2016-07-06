@@ -8,9 +8,9 @@ import urllib.error
 import urllib.request
 # from queue import Queue
 from django.core.cache import cache
-from fuzzywuzzy import fuzz
+from fuzzywuzzy import fuzz, process
 
-from server.constants import sling_channels, broadcast_channels, banned_channels
+from server.constants import sling_channels, broadcast_channels, banned_channels, allowed_services
 from server.models import Content, Channel, Images, ChannelImages
 from server.shortcuts import try_catch
 
@@ -174,6 +174,7 @@ class GuideBox(object):
         else:
             if 'display_name' in s and s['display_name'] in sling_channels:
                 s['on_sling'] = 'true'
+
                 return s
         return s
 
@@ -183,38 +184,62 @@ class GuideBox(object):
             if re.match(value, i[key]):
                 return True
 
+    @try_catch
     def remove_banned_channels(self, c):
 
         web_sources = c.guidebox_data['sources']['web']['episodes']['all_sources']
         ios_sources = c.guidebox_data['sources']['ios']['episodes']['all_sources']
         android_sources = c.guidebox_data['sources']['android']['episodes']['all_sources']
 
-        for source in [web_sources, ios_sources, android_sources]:
+        source = {
+            'w': web_sources,
+            'i': ios_sources,
+            'a': android_sources
+        }
 
-            x = self.filter_hulu_if_showtime(source, web_sources)
+        for key in ['w', 'i', 'a']:
 
-            if source == web_sources:
+            x = self.filter_hulu_if_showtime(source[key], web_sources)
+
+            if key == 'w':
                 web_sources = x
-            if source == ios_sources:
-                web_sources = x
-            if source == android_sources:
-                web_sources = x
+            if key == 'i':
+                ios_sources = x
+            if key == 'a':
+                android_sources = x
 
-        c.guidebox_data['sources']['web']['episodes']['all_sources'] = [i for i in web_sources
-                                                                        if
-                                                                        self.check_for_banned_service(i)]
+        c.guidebox_data['sources']['web']['episodes']['all_sources'] = []
+        for i in web_sources:
+            if type(i) is dict and i['display_name'] not in banned_channels:
+                c.guidebox_data['sources']['web']['episodes']['all_sources'].append(i)
 
-        c.guidebox_data['sources']['ios']['episodes']['all_sources'] = [i for i in
-                                                                        ios_sources if
-                                                                        self.check_for_banned_service(i)]
+        c.guidebox_data['sources']['ios']['episodes']['all_sources'] = []
+        for i in ios_sources:
+            if type(i) is dict and i['display_name'] not in banned_channels:
+                c.guidebox_data['sources']['ios']['episodes']['all_sources'].append(i)
 
-        c.guidebox_data['sources']['android']['episodes']['all_sources'] = [i for i in
-                                                                            android_sources if
-                                                                            self.check_for_banned_service(i)]
+        c.guidebox_data['sources']['android']['episodes']['all_sources'] = []
+        for i in android_sources:
+            if type(i) is dict and i['display_name'] not in banned_channels:
+                c.guidebox_data['sources']['android']['episodes']['all_sources'].append(i)
 
         c.channel = [i for i in c.channel.all() if self.check_for_banned_service(i)]
+        c.guidebox_data['sources']['web']['episodes']['all_sources'] = self.check_for_allowed_channels(
+            c.guidebox_data['sources']['web']['episodes']['all_sources'])
 
         return c
+
+    @try_catch
+    def check_for_allowed_channels(self, list):
+
+        res = []
+        for i in list:
+            x = [e for e in process.extract(i['display_name'], allowed_services) if e[1] > 80]
+
+            if len(x) > 0:
+                res.append(i)
+
+        return res
 
     def filter_hulu_if_showtime(self, source, web_sources):
         x = []
@@ -230,11 +255,14 @@ class GuideBox(object):
         return x
 
     def check_for_sources_date_last_checked(self, c):
-        if not 'sources' not in c.guidebox_data:
-            c = self.add_additional_channels_for_show(c)
-            # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
-            c.save()
-            c
+        # if cache.get(c.id):
+        #     return c
+        # c = self.add_additional_channels_for_show(c)
+        # # c.channels_last_checked = datetime.datetime.now(datetime.timezone.utc)
+        # c.save()
+        #
+        # cache.set(c.id, c.title)
+
         return c
 
     def add_additional_channels_for_show(self, shows):

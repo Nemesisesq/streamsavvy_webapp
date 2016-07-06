@@ -26,12 +26,10 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
             $scope.listOfServices = undefined;
             PackageFactory.getServicePanelList(ssPackage)
                 .then(function (data) {
-                    debugger;
                     $scope.listOfServices = data.data
                     return data
                 })
                 .then(function (data) {
-                    debugger
                     $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
                         $scope.listOfServices[key].open = true
                     })
@@ -40,11 +38,9 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                 })
                 .then(function (data) {
-                    debugger;
 
                     PackageFactory.setListOfServices($scope.listOfServices);
                 });
-            debugger;
 
             PackageFactory.setListOfServices($scope.listOfServices);
         }

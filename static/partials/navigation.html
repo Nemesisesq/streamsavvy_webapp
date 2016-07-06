@@ -4,28 +4,35 @@
             <a ng-class="{active: isActive('#/') }" href="#">Home</a>
             <a ng-class="{active: isActive('#/dashboard')}" href="#/dashboard">Cut the cord</a>
         </div>
-        <div class="ss-small-menu-options">
+        <!-- <div class="ss-small-menu-options">
             <a href="#/error/coming-soon">Learn More</a>
             <a href="#/error/coming-soon">About Us</a>
             <a href="#/error/coming-soon">Blog</a>
-        </div>
+        </div> -->
 
-        <div class="ss-menu-auth">
+        <!-- <div class="ss-menu-auth">
             <a id="sign-up" href="#" class="sign-up">Sign Up</a>
             <a href="http://localhost:8002/login/twitter/?next=http://localhost:8000/#/dashboard" >Login With Twitter</a>
-        </div>
+        </div> -->
     </nav>
 
-    <div ui-view="modal"></div>
-    <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-click="showLeftPush()">
-        <div ng-if="!menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
-            <!-- Menu -->
+        {{ locaton.hash }}
+    <div>
+        <div ui-view="modal"></div>
+        <div ng-if="isActive('#/checkout')" id="showLeftPush" class=" menu-buttons cbp-spmenu-push staying-inline" onclick="location.href='#/dashboard';">
+            <i class="fa fa-chevron-left skinny" aria-hidden="true"></i> &nbsp;&nbsp;&nbsp; <span class="text-shift">Add More Shows</span>
         </div>
+        <div ng-if="!isActive('#/checkout')" id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-click="showLeftPush()">
+            <div ng-if="!menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
+                <!-- Menu -->
+            </div>
 
-        <div ng-if="menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
-            <!-- Close -->
+            <div ng-if="menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
+                <!-- Close -->
+            </div>
         </div>
     </div>
+
 </div>
 <!--  home page-->
 <div ui-view="home" id="mainPage" class="main-page container-fluid content-wrapper cbp-spmenu-push"></div>

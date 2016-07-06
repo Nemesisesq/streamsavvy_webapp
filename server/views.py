@@ -38,6 +38,7 @@ def flatten(l):
             out.append(item)
     return out
 
+
 def get_user(self):
     if self.request.user.is_anonymous():
         if not self.request.session.get('has_session'):
@@ -67,8 +68,10 @@ def get_packages(user):
 
     return package
 
+
 class AdminPermMixin(object):
     permission_classes = (IsAdminOrReadOnly,)
+
 
 class HardwareViewSet(viewsets.ModelViewSet):
     queryset = Hardware.objects.all()
@@ -79,6 +82,7 @@ class ChannelViewSet(viewsets.ModelViewSet):
     queryset = Channel.objects.all()
     serializer_class = ChannelSerializer
     http_method_names = ['get']
+
 
 class ContentViewSet(viewsets.ModelViewSet):
     queryset = Content.objects.all()
@@ -137,6 +141,7 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Content.objects.filter(self.get_popular_shows())
 
+
 class PackagesViewSet(viewsets.ModelViewSet):
     serializer_class = PackagesSerializer
     http_method_names = ['get', 'put']
@@ -149,8 +154,6 @@ class PackagesViewSet(viewsets.ModelViewSet):
         package = get_packages(user)
 
         return package
-
-
 
 
 def eval_string(d):
@@ -174,28 +177,36 @@ def call_search_microservice(request):
                 return JsonResponse(x, safe=False)
         except:
             pass
+
+
 @api_json_post
 def get_service_list(request, the_json, path):
+    query_url = ""
+
+    if path == 'servicelist':
+        query_url = "{base}/service_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
+
+    if path == 'checkoutlist':
+        query_url = "{base}/checkout_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
+
+    if path == 'detailsources':
+        query_url = "{base}/detail_sources".format(base=get_env_variable('NODE_DATA_SERVICE'))
+
+    try:
+        headers = {'Content-Type': 'application/json'}
+        r = requests.post(query_url, data=json.dumps(the_json), headers=headers)
+        return JsonResponse(r.json(), safe=False)
+    except Exception as e:
+        print(e)
 
 
-
-        query_url = ""
-
-        if path == 'servicelist':
-            query_url = "{base}/service_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
-
-        if path  == 'checkoutlist':
-            query_url = "{base}/checkout_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
-
-        if path == 'detailsources':
-            query_url = "{base}/detail_sources".format(base=get_env_variable('NODE_DATA_SERVICE'))
-
-
+def get_service_description(request, service):
+    if request.method == 'GET':
+        query_url = "{base}{path}".format(base=get_env_variable('DATA_MICROSERVICE_URL'), path=request.path)
         try:
-            headers = {'Content-Type': 'application/json'}
-            r = requests.post(query_url, data=json.dumps(the_json), headers=headers)
+            r = requests.get(query_url)
             return JsonResponse(r.json(), safe=False)
-        except Exception as e :
+        except Exception as e:
             print(e)
 
 
@@ -298,102 +309,102 @@ def get_service_list(request, the_json, path):
 #     queryset = Group.objects.all()
 #     serializer_class = GroupSerializer
 
-class ContentSearchViewSet(viewsets.ModelViewSet):
-    params = None
-    # queryset = content_search()
-    serializer_class = ContentSerializer
-
-    def filter_by_content_provider(self, x):
-        f = x.channel.filter(self.params)
-        if len(f) > 0:
-            return False
-        else:
-            return True
-
-    def filter_content_by_guidebox_id(self, x):
-
-        if x.guidebox_data['id'] not in [3084, 31168, 31150, 15935]:
-            return True
-
-        return False
-
-    def filter_query(self, filtered_ids, entries):
-
-        for i in filtered_ids:
-            q = Q(guidebox_data__id=i)
-
-            if self.params:
-                self.params = self.params | q
-
-            else:
-                self.params = q
-
-        return list(filter(self.filter_by_content_provider, entries))
-
-    def list(self, request, *args, **kwargs):
-        response = super(ContentSearchViewSet, self).list(request, args, kwargs)
-
-        response.data['searchText'] = request.GET['q']
-
-        return response
-
-    def get_queryset(self):
-        query_string = self.request.GET['q']
-        try:
-            if cache.get(query_string):
-                return cache.get(query_string)
-        except Exception as e:
-            print(e)
-
-        search_results = content_search(self.request)
-        filter_results = self.filter_query([165], search_results)
-
-        if len(query_string.split()) == 1:
-            single_word_shows = Content.objects.filter(title__istartswith=query_string).extra(
-                select={'length': 'Length(title)'}).order_by('length')
-
-            if single_word_shows and single_word_shows[0] not in filter_results:
-                filter_results = list(single_word_shows[0]) + filter_results
-
-        filter_results = self.check_guidebox_for_query(filter_results, query_string)
-        # filter_results['search_term'] = self
-
-        filter_results = list(filter(self.filter_content_by_guidebox_id, filter_results))
-
-        # banned server
-
-        filter_results = [show for show in filter_results if show.id != 15296]
-
-        filter_results = [GuideBox().process_content_for_sling_ota_banned_channels(show) for show in filter_results]
-
-        filter_results = self.check_guidebox_for_query(filter_results, query_string)
-
-        assert cache
-        try:
-            cache.set(query_string, filter_results)
-        except:
-            pass
-
-        return filter_results
-
-    def check_guidebox_for_query(self, filter_results, query_string):
-        if len(filter_results) == 0:
-            g = GuideBox()
-
-            if ('q' in self.request.GET) and self.request.GET['q'].strip():
-                result = g.get_show_by_title(query_string)
-
-                result = result['results']
-
-                result_list = []
-
-                for show in result:
-                    result_list.append(g.save_content(show))
-
-                filter_results = self.filter_query([165], result_list)
-
-        return filter_results
-
+# class ContentSearchViewSet(viewsets.ModelViewSet):
+#     params = None
+#     # queryset = content_search()
+#     serializer_class = ContentSerializer
+#
+#     def filter_by_content_provider(self, x):
+#         f = x.channel.filter(self.params)
+#         if len(f) > 0:
+#             return False
+#         else:
+#             return True
+#
+#     def filter_content_by_guidebox_id(self, x):
+#
+#         if x.guidebox_data['id'] not in [3084, 31168, 31150, 15935]:
+#             return True
+#
+#         return False
+#
+#     def filter_query(self, filtered_ids, entries):
+#
+#         for i in filtered_ids:
+#             q = Q(guidebox_data__id=i)
+#
+#             if self.params:
+#                 self.params = self.params | q
+#
+#             else:
+#                 self.params = q
+#
+#         return list(filter(self.filter_by_content_provider, entries))
+#
+#     def list(self, request, *args, **kwargs):
+#         response = super(ContentSearchViewSet, self).list(request, args, kwargs)
+#
+#         response.data['searchText'] = request.GET['q']
+#
+#         return response
+#
+#     def get_queryset(self):
+#         query_string = self.request.GET['q']
+#         try:
+#             if cache.get(query_string):
+#                 return cache.get(query_string)
+#         except Exception as e:
+#             print(e)
+#
+#         search_results = content_search(self.request)
+#         filter_results = self.filter_query([165], search_results)
+#
+#         if len(query_string.split()) == 1:
+#             single_word_shows = Content.objects.filter(title__istartswith=query_string).extra(
+#                 select={'length': 'Length(title)'}).order_by('length')
+#
+#             if single_word_shows and single_word_shows[0] not in filter_results:
+#                 filter_results = list(single_word_shows[0]) + filter_results
+#
+#         filter_results = self.check_guidebox_for_query(filter_results, query_string)
+#         # filter_results['search_term'] = self
+#
+#         filter_results = list(filter(self.filter_content_by_guidebox_id, filter_results))
+#
+#         # banned server
+#
+#         filter_results = [show for show in filter_results if show.id != 15296]
+#
+#         filter_results = [GuideBox().process_content_for_sling_ota_banned_channels(show) for show in filter_results]
+#
+#         filter_results = self.check_guidebox_for_query(filter_results, query_string)
+#
+#         assert cache
+#         try:
+#             cache.set(query_string, filter_results)
+#         except:
+#             pass
+#
+#         return filter_results
+#
+#     def check_guidebox_for_query(self, filter_results, query_string):
+#         if len(filter_results) == 0:
+#             g = GuideBox()
+#
+#             if ('q' in self.request.GET) and self.request.GET['q'].strip():
+#                 result = g.get_show_by_title(query_string)
+#
+#                 result = result['results']
+#
+#                 result_list = []
+#
+#                 for show in result:
+#                     result_list.append(g.save_content(show))
+#
+#                 filter_results = self.filter_query([165], result_list)
+#
+#         return filter_results
+#
 # def normalize_query(query_string,
 #                     findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
 #                     normspace=re.compile(r'\s{2,}').sub):

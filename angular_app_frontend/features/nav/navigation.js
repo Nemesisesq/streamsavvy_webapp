@@ -18,6 +18,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
     }, 0)
 
     $scope.isActive = function (hash) {
+        debugger
         return document.location.hash == hash;
 
 

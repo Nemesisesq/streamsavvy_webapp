@@ -202,7 +202,6 @@ app.directive('actionBlock', function ($window) {
 
 
             scope.linkToAffiliate = function (service) {
-                debugger;
 
                 $window.open(service.service_description.subscription_link);
                 mixpanel.track("Subscribe to Service",{"service name": service.chan.display_name});
@@ -286,9 +285,8 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, element, attrs) {
 
-            debugger;
-
-            $http.get('https://streamsavvy-data.herokuapp.com/service_description/' + scope.service.chan.source)
+            
+            $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
                     scope.service.details = data.data
                     console.log(data)
@@ -302,7 +300,6 @@ app.directive('checkoutService', function ($http, $window) {
             }
 
             scope.removeElementFromDom = function (service) {
-                debugger;
 
                 element.remove()
             }
