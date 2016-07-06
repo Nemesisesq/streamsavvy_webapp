@@ -14,7 +14,7 @@
         </div>
         <div class="service-options col-md-4">
 
-            <div class="">Unfortunately this show is not available through streaming. Feel free to drop us an <a
+            <div ng-if="emptyServices()" class="">Unfortunately this show is not available through streaming. Feel free to drop us an <a
                     ng-href="mailto:info@streamsavvy.tv?Subject=We want {{ cs.title }}">email</a>, let us know you want
                 to stream this show, and we will work with the networks to make it available.
                 <a ng-href="mailto:info@streamsavvy.tv?Subject=We want {{ cs.title }}">

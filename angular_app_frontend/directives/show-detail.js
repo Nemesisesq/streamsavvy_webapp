@@ -23,6 +23,11 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             //     }
             // })
 
+            scope.emptyServices = (function(){
+                var res = $('#overlay-icons').children().length == 0;
+                return res
+            })
+
 
             scope.formatDate = function (dateString) {
                 return moment(dateString).format('MMMM D, Y')
