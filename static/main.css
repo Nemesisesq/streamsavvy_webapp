@@ -2745,6 +2745,7 @@ show-detail .background {
     color: red; }
 
 .remove-cross {
+  display: none;
   padding: 0;
   position: absolute;
   right: 25px;
@@ -2832,19 +2833,9 @@ show-detail .background {
 .netflix_sprite {
   background-position-y: 66%; }
 
-@media (min-width: 767px) {
-  .sprite, .amazon_sprite, .amazon_prime_sprite, .hulu_plus_sprite, .itunes_sprite, .vudu_sprite, .google_play_sprite, .youtube_purchase_sprite, .ota_sprite, .netflix_sprite {
-    background-size: 100%, 100px;
-    height: 45px;
-    width: 150px; } }
-
-@media (max-width: 1440px) {
+@media (max-width: 767px) {
   .service-image {
-    max-width: 75px; } }
-
-@media (max-width: 1024px) {
-  .service-image {
-    max-width: 70px; } }
+    max-width: 110px; } }
 
 .consolidated-checkout-ppv {
   color: white; }
@@ -2856,7 +2847,11 @@ show-detail .background {
   margin-top: 5px; }
 
 .ppv-checkout-image-block {
-  height: 100px; }
+  height: 100px;
+  width: 20%;
+  padding-left: 3px;
+  padding-right: 3px;
+  text-align: center; }
   .ppv-checkout-image-block .image-block {
     height: 50px; }
   .ppv-checkout-image-block button {

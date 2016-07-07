@@ -151,6 +151,7 @@
 }
 
 .remove-cross {
+  display: none;
   padding: 0;
   position: absolute;
   right: 25px;
@@ -289,23 +290,21 @@
 
 }
 
-@media (min-width: 767px) {
-  .sprite {
-    background-size: 100%, 100px;
-    height: 45px;
-    width: 150px;
+@media (max-width: 767px) {
+  .service-image {
+    max-width: 110px;
   }
 }
 
 @media (max-width: 1440px) {
   .service-image {
-    max-width: 75px;
+    //max-width: 75px;
   }
 }
 
 @media (max-width: 1024px) {
   .service-image {
-    max-width: 70px;
+    //max-width: 70px;
   }
 }
 
@@ -323,6 +322,10 @@
 
 .ppv-checkout-image-block {
   height: 100px;
+  width: 20%;
+  padding-left: 3px;
+  padding-right: 3px;
+  text-align: center;
 
   .image-block {
     height: 50px;
@@ -361,3 +364,5 @@ checkout-image-block.col-sm-2 {
 .checkout-show-img {
   width: 100%;
 }
+
+
