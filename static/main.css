@@ -2762,7 +2762,7 @@ show-detail .background {
 .service-image {
   margin-top: 10px;
   max-width: 100px;
-  width: 90%; }
+  width: 100%; }
 
 .ss_show-list {
   list-style: none;
@@ -2861,7 +2861,7 @@ show-detail .background {
     width: 100px; }
 
 .container .mobile-checkout-container {
-  width: 75%; }
+  width: 80%; }
 
 checkout-image-block.col-sm-2 {
   position: absolute;

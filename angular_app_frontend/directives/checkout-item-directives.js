@@ -203,7 +203,7 @@ app.directive('actionBlock', function ($window) {
 
             scope.linkToAffiliate = function (service) {
 
-                $window.open(service.detail.subscription_link);
+                $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service",{"service name": service.chan.display_name});
             }
 
