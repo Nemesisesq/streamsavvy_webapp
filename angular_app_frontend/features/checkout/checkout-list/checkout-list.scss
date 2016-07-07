@@ -350,6 +350,8 @@
 }
 
 checkout-image-block.col-sm-2 {
+  position: absolute;
+  bottom: 0;
   padding-left: 0;
   padding-right: 0;
 
@@ -375,8 +377,66 @@ checkout-image-block.col-sm-2 {
 .checkout-steps {
   font-size: 9px;
 
-  .step-numbers {
-    font-size: 24px;
+  div {
+    min-height: 24px;
   }
 
+  .step-numbers {
+    font-size: 24px;
+    //float: left;
+    //position: absolute;
+    //margin: 0 auto;
+    //left: 50%;
+    width: 24px;
+
+
+  }
+
+  .step-number {
+    width: 24px;
+    font-size: 15px;
+    //position: absolute;
+    //float:left;
+    color: $dark-sky-blue;
+    //left: 50%;
+
+  }
+
+}
+
+.step-numbers, .step-number {
+  line-height: 24px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+}
+
+
+.hide-service {
+  color: $warm-grey;
+  text-decoration: underline;
+}
+
+.service-row {
+  position: relative;
+}
+
+action-block.col-sm-10 {
+  position: absolute;
+  bottom: 0;
+  float: right;
+  margin-left: 100px;
+}
+
+button {
+  &.btn-purchase {
+    border-radius: 0;
+  }
+
+  &.btn-already-have {
+
+    border-radius: 0;
+  }
 }

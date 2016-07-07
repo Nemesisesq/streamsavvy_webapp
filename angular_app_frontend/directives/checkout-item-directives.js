@@ -330,6 +330,17 @@ app.directive('ppvCheckoutItem', function ($window) {
 })
 
 
+app.directive('checkoutInstructions', function () {
+    return {
+        templateUrl : 'static/partials/checkout-list/checkout-instructions.html',
+        restrict: 'E',
+        link : function (scope, element, attrs) {
+
+        }
+    }
+})
+
+
 
 
 $(document).ready(function () {

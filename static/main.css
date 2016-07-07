@@ -2864,6 +2864,8 @@ show-detail .background {
   width: 75%; }
 
 checkout-image-block.col-sm-2 {
+  position: absolute;
+  bottom: 0;
   padding-left: 0;
   padding-right: 0; }
   checkout-image-block.col-sm-2 .image-block {
@@ -2882,8 +2884,42 @@ checkout-image-block.col-sm-2 {
 
 .checkout-steps {
   font-size: 9px; }
+  .checkout-steps div {
+    min-height: 24px; }
   .checkout-steps .step-numbers {
-    font-size: 24px; }
+    font-size: 24px;
+    width: 24px; }
+  .checkout-steps .step-number {
+    width: 24px;
+    font-size: 15px;
+    color: #45a7e5; }
+
+.step-numbers, .step-number {
+  line-height: 24px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0; }
+
+.hide-service {
+  color: #9b9b9b;
+  text-decoration: underline; }
+
+.service-row {
+  position: relative; }
+
+action-block.col-sm-10 {
+  position: absolute;
+  bottom: 0;
+  float: right;
+  margin-left: 100px; }
+
+button.btn-purchase {
+  border-radius: 0; }
+
+button.btn-already-have {
+  border-radius: 0; }
 
 .row.footer {
   position: absolute;

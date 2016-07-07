@@ -3,20 +3,7 @@
         <div class="row">
             FINALIZE YOUR SERVICES
         </div>
-        <div class="row checkout-steps">
-            <div class="col-xs-4">
-                <i class="fa fa-circle step-numbers" aria-hidden="true">1</i>
-                Subscribe to new apps.
-            </div>
-            <div class="col-xs-4">
-                <i class="fa fa-circle step-numbers" aria-hidden="true">2</i>
-                Add apps you already have.
-            </div>
-            <div class="col-xs-4">
-                <i class="fa fa-circle step-numbers" aria-hidden="true">3</i>
-                Hide what you don't want.
-            </div>
-        </div>
+        <checkout-instructions></checkout-instructions>
     </div>
     <checkout-item ng-repeat="(key, value) in list | customSorter" key="key" value="value"
                    package="package"></checkout-item>
