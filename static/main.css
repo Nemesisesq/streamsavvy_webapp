@@ -2690,7 +2690,7 @@ show-detail .background {
   background-color: rgba(225, 225, 225, 0.1);
   letter-spacing: .6px;
   color: #9b9b9b;
-  font-size: 14px;
+  font-size: 10px;
   min-width: 100px;
   min-height: 35px;
   padding-left: 22px;
@@ -2793,12 +2793,18 @@ show-detail .background {
   padding: 0; }
 
 @media (max-width: 767px) {
+  .service-image {
+    max-width: 110px; }
   .btn-purchase {
+    font-size: 15px;
     height: 30px;
     border-radius: initial; }
   .btn-already-have {
+    font-size: 15px;
     height: 40px;
-    border-radius: initial; } }
+    border-radius: initial; }
+  .checkout-service-price {
+    font-size: 20px; } }
 
 .sprite, .amazon_sprite, .amazon_prime_sprite, .hulu_plus_sprite, .itunes_sprite, .vudu_sprite, .google_play_sprite, .youtube_purchase_sprite, .ota_sprite, .netflix_sprite {
   background: url("https://s3.amazonaws.com/streamsavvy/service_logos/desktop-sprite.png");
@@ -2833,12 +2839,9 @@ show-detail .background {
 .netflix_sprite {
   background-position-y: 66%; }
 
-@media (max-width: 767px) {
-  .service-image {
-    max-width: 110px; } }
-
 .consolidated-checkout-ppv {
-  color: white; }
+  color: white;
+  text-align: center; }
 
 .checkout-service-price {
   color: white;
@@ -2876,6 +2879,11 @@ checkout-image-block.col-sm-2 {
 
 .checkout-show-img {
   width: 100%; }
+
+.checkout-steps {
+  font-size: 9px; }
+  .checkout-steps .step-numbers {
+    font-size: 24px; }
 
 .row.footer {
   position: absolute;

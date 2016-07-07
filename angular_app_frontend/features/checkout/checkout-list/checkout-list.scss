@@ -81,7 +81,7 @@
 
   letter-spacing: .6px;
   color: $warm-grey;
-  font-size: 14px;
+  font-size: 10px;
   min-width: 100px;
   min-height: 35px;
 
@@ -221,14 +221,22 @@
 }
 
 @media (max-width: 767px) {
+  .service-image {
+    max-width: 110px;
+  }
   .btn-purchase {
+    font-size: 15px;
     height: 30px;
     border-radius: initial;
   }
 
   .btn-already-have {
+    font-size: 15px;
     height: 40px;
     border-radius: initial;
+  }
+  .checkout-service-price {
+    font-size: 20px;
   }
 }
 
@@ -291,9 +299,7 @@
 }
 
 @media (max-width: 767px) {
-  .service-image {
-    max-width: 110px;
-  }
+
 }
 
 @media (max-width: 1440px) {
@@ -310,6 +316,7 @@
 
 .consolidated-checkout-ppv {
   color: white;
+  text-align: center;
 }
 
 .checkout-service-price {
@@ -365,4 +372,11 @@ checkout-image-block.col-sm-2 {
   width: 100%;
 }
 
+.checkout-steps {
+  font-size: 9px;
 
+  .step-numbers {
+    font-size: 24px;
+  }
+
+}
