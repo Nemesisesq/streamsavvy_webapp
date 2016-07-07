@@ -2608,6 +2608,7 @@ show-detail .background {
 .f-i-n-a-l-i-z-e-y-o-u-r-s-e-r-v-i-c {
   margin: 5px;
   margin-top: 20px;
+  text-align: center;
   font-size: 25px;
   letter-spacing: 0.5px;
   color: #9b9b9b; }
@@ -2637,7 +2638,7 @@ show-detail .background {
   min-height: 100%; }
   .checkoutList .service-title.row {
     margin-top: 36px;
-    border-bottom: solid 2px rgba(155, 155, 155, 0.1); }
+    border-top: solid 2px rgba(155, 155, 155, 0.1); }
     .checkoutList .service-title.row .ss_image-purchase.row {
       padding-bottom: 15px; }
       .checkoutList .service-title.row .ss_image-purchase.row span.glyphicon.glyphicon-info-sign {
@@ -2708,16 +2709,16 @@ show-detail .background {
   padding-bottom: 8px;
   text-decoration: none !important;
   letter-spacing: .6px;
-  font-size: .9em;
+  font-size: 10px;
   background-color: #11b2e6;
-  min-width: 100px;
   min-height: 35px;
   width: 100%; }
   .btn-purchase .mobile-purch {
     display: none; }
 
 .service-row {
-  border-bottom: solid 1px rgba(155, 155, 155, 0.1);
+  border-top: solid 1px rgba(155, 155, 155, 0.1);
+  margin-top: 10px;
   padding-bottom: 5px;
   margin-bottom: 5px;
   min-height: 50px;
@@ -2860,6 +2861,26 @@ show-detail .background {
     height: 50px; }
   .ppv-checkout-image-block button {
     width: 100px; }
+
+.container .mobile-checkout-container {
+  width: 75%; }
+
+checkout-image-block.col-sm-2 {
+  padding-left: 0;
+  padding-right: 0; }
+  checkout-image-block.col-sm-2 .image-block {
+    padding-left: 0;
+    padding-right: 0; }
+
+.checkout-button-container {
+  padding-left: 0;
+  padding-right: 0; }
+
+.checkout-price {
+  text-align: right; }
+
+.checkout-show-img {
+  width: 100%; }
 
 .row.footer {
   position: absolute;
