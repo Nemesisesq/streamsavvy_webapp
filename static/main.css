@@ -649,7 +649,7 @@ footer {
 
 .fa, .step-one label .vw-info:after, .step-one .selected label:before, slick button.slick-prev:before, slick button.slick-next:after {
   display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
