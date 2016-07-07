@@ -1,0 +1,363 @@
+
+.checkoutList {
+
+  margin-top: 30px;
+  min-height: 100%;
+
+  .service-title.row {
+    margin-top: 36px;
+    border-top: solid 2px rgba(155, 155, 155, .1);
+    .ss_image-purchase.row {
+      padding-bottom: 15px;
+
+      span.glyphicon.glyphicon-info-sign {
+        color: white;
+        margin-left: 1%;
+      }
+      .service-options {
+        float: right;
+        a {
+          font-size: 12px;
+          letter-spacing: .5px;
+          color: $warm-grey;
+          text-decoration: underline;
+          .mobile-got-serv {
+            display: none;
+          }
+        }
+        .add-successful {
+          display: none;
+          font-size: 14px;
+          letter-spacing: 0.6px;
+          color: $leafy-green;
+        }
+        .keep-going {
+          display: none;
+          font-size: 12px;
+          letter-spacing: 0.5px;
+          color: $dark-sky-blue;
+        }
+        .going-successful {
+          display: inline;
+          margin-left: 14px;
+        }
+        .green-check {
+          display: none;
+        }
+        .added {
+          display: none;
+        }
+
+      }
+      .selected {
+
+        float: right;
+        .added {
+          display: inline-flex;
+          margin-top: 10px;
+          margin-right: 66px;
+        }
+        .add-successful, .keep-going {
+          display: block;
+        }
+        .green-check {
+          display: inline-block;
+          margin: 0;
+        }
+        .btn-remove, .btn-purchase, a {
+          display: none;
+        }
+      }
+
+    }
+
+  }
+}
+
+.btn-already-have {
+  border-radius: 8px;
+  border: none;
+  background-color: rgba(225, 225, 225, .1);
+
+  letter-spacing: .6px;
+  color: $warm-grey;
+  font-size: 14px;
+  min-width: 100px;
+  min-height: 35px;
+
+  padding-left: 22px;
+  padding-right: 22px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 100%;
+
+}
+
+.btn-purchase {
+  border-radius: 8px;
+  border: none;
+  color: white !important;
+  padding-left: 19px;
+  padding-right: 19px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-decoration: none !important;
+
+  letter-spacing: .6px;
+  font-size: 10px;
+  background-color: #11b2e6;
+  //min-width: 100px;
+  min-height: 35px;
+  width: 100%;
+
+  .mobile-purch {
+    display: none;
+  }
+}
+
+.service-row {
+  border-top: solid 1px rgba(155, 155, 155, 0.1);
+  margin-top: 10px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  min-height: 50px;
+  padding-top: 20px
+}
+
+.checkout-green {
+  color: $leafy-green
+}
+
+.checkout-blue {
+  color: $dark-sky-blue
+}
+
+.show-added {
+  position: relative;
+  text-align: right;
+
+  &::before {
+    background: url("https://s3.amazonaws.com/streamsavvy/big-check.svg");
+    -webkit-background-size: 42px 42px;
+    background-size: 42px 42px;
+    content: ' ';
+    height: 42px;
+    width: 42px;
+    position: absolute;
+    right: 125px;
+    color: red;
+
+  }
+}
+
+.remove-cross {
+  padding: 0;
+  position: absolute;
+  right: 25px;
+  top: 0
+
+}
+
+.checkoutList::after {
+  content: "";
+  display: block;
+
+}
+
+.action-block-buttons {
+  padding-right: 0;
+  margin-right: -30px;
+
+}
+
+.service-image {
+
+  margin-top: 10px;
+  //margin-left: 17px;
+  max-width: 100px;
+  width: 90%;
+}
+
+.ss_show-list {
+  list-style: none;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  color: #ffffff;
+
+  font-weight: 200;
+
+  .ss_show.row {
+    font-size: 14px;
+    letter-spacing: 0.6px;
+    color: white;
+    width: 100%;
+
+    margin-top: 18px;
+  }
+}
+
+.checkout-remove-show {
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-align: right;
+  color: $warm-grey;
+
+}
+
+.checkout-unsub {
+  & a {
+    color: grey;
+    text-decoration: underline;
+
+    &:active, &:visited, &.focus {
+      color: grey;
+    }
+  }
+}
+
+.checkout-info {
+  padding: 0;
+}
+
+@media (max-width: 767px) {
+  .btn-purchase {
+    height: 30px;
+    border-radius: initial;
+  }
+
+  .btn-already-have {
+    height: 40px;
+    border-radius: initial;
+  }
+}
+
+.sprite {
+  background: url('https://s3.amazonaws.com/streamsavvy/service_logos/desktop-sprite.png');
+  height: 85px;
+
+  background-repeat: no-repeat;
+
+}
+
+.amazon_sprite {
+  @extend .sprite;
+  background-position-y: 84%;
+
+}
+
+.amazon_prime_sprite {
+  @extend .sprite;
+  background-position-y: 50%;
+}
+
+.hulu_plus_sprite {
+  @extend .sprite;
+  background-position-y: 21%;
+}
+
+.itunes_sprite {
+  @extend .sprite;
+  background-position-y: 90%;
+}
+
+.vudu_sprite {
+  @extend .sprite;
+  background-position-y: 95%;
+}
+
+.google_play_sprite {
+  @extend .sprite;
+  background-position-y: 61.5%;
+
+}
+
+.youtube_purchase_sprite {
+  @extend .sprite;
+  background-position-y: 78%;
+}
+
+.ota_sprite {
+  @extend .sprite;
+  background-position-y: 5%;
+  height: 60px;
+
+}
+
+.netflix_sprite {
+  @extend .sprite;
+  background-position-y: 66%;
+
+}
+
+@media (min-width: 767px) {
+  .sprite {
+    background-size: 100%, 100px;
+    height: 45px;
+    width: 150px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .service-image {
+    max-width: 75px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .service-image {
+    max-width: 70px;
+  }
+}
+
+.consolidated-checkout-ppv {
+  color: white;
+}
+
+.checkout-service-price {
+  color: white;
+  margin-left: 5px;
+  font-weight: 200;
+  margin-top: 5px;
+
+}
+
+.ppv-checkout-image-block {
+  height: 100px;
+
+  .image-block {
+    height: 50px;
+
+  }
+
+  button {
+    width: 100px
+  }
+
+}
+
+.container .mobile-checkout-container {
+  width: 75%;
+}
+
+checkout-image-block.col-sm-2 {
+  padding-left: 0;
+  padding-right: 0;
+
+  .image-block {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.checkout-button-container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.checkout-price {
+  text-align: right;
+}
+
+.checkout-show-img {
+  width: 100%;
+}

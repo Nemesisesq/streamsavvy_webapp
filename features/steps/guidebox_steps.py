@@ -1,11 +1,15 @@
 import json
-from behave import given, when, then
-from server.populate_data.guidebox import *
+
+import django_rq
+from behave import given, when, then, step
 # import json
-from server.populate_data.netflixable import Netflixable
-from scripts import get_netflixable_shows
+
+from server.models import Content, Channel
+from server.tasks import inital_database_population_of_content, inital_database_population_of_channels, \
+    connect_content_channel_task, add_available_sources_to_shows, add_detail_to_shows
 
 __author__ = 'Nem'
+
 
 ############################
 ## Helpers
@@ -14,106 +18,196 @@ __author__ = 'Nem'
 ############################
 ## GIVEN
 ############################
+@given(u'an index of {index}')
+def test_add_index_to_context(context, index):
+    context.index = index
 
-@given(u'an index')
-def put_index(context):
-    context.index = 0
 
-@given(u'repeat {r} times')
-def set_repetitions(context, r):
-    context.repetitions = r
+@given(u'a total number of shows')
+def test_get_total_number_guidebox_shows(context):
+    context.total_shows = context.guidebox.get_total_number_of_shows()
+    assert type(context.total_shows) == int
+    assert context.total_shows > 0
 
-@given(u'show id {show_id} and name {show_name}')
-def set_show_id(context, show_id, show_name):
-    context.show_id = show_id
-    context.show_name = show_name
+
+@given(u'a total number of channels')
+def test_get_total_number_guidebox_shows(context):
+    context.total_channels = context.guidebox.get_total_number_of_channels()
+    assert type(context.total_channels) == int
+    assert context.total_shows > 0
 
 
 ############################
 ## WHEN
 ############################
-@when(u'I search by service provider')
-def search_by_provider(context):
-    get_shows_by_source()
+
+@when(u'a list of content is requested from guidebox')
+def test_request_content_from_guidebox(context):
+    shows = context.guidebox.get_content_list(context.index)
+    context.the_json = shows
+    assert type(shows) == str
 
 
-@when(u'I call netflixable')
-def test_call_netflixable(context):
-    # n = Netflixable('http://usa.netflixable.com/2015/10/complete-alphabetical-list-tue-oct-13.html')
-    # n.process_shows()
+@when(u'we call the populate shows task')
+def test_initial_population_of_shows(context):
+    result = inital_database_population_of_content()
+    assert result
 
-    get_netflixable_shows.run()
 
-@when(u'get_content is called')
-def test_get_content(context):
-    context.the_json = context.guidebox.get_content(context.index)
+@when(u'we call the populate channel task')
+def test_initial_population_of_channels(context):
+    results = inital_database_population_of_channels()
+    assert results
 
-@when(u'populate_content is called')
-def test_populate_shows(context):
-    context.show_count = context.guidebox.populate_content( )
 
-@when(u'get_content_detail method is called')
-def test_content_detail(context):
-    context.the_json = context.guidebox.get_content_detail(context.show_id)
+@when("a list of channels is requested from guidebox")
+def test_request_channels_from_guidebox(context):
+    channels = context.guidebox.get_channel_list('all', context.index)
+    context.the_json = channels
+    assert type(channels) == str
 
-@when(u'show_detail_multithreading is called')
-def test_multithreaded(context):
-    context.guidebox.populate_content_detail_multithreaded()
-
-@when(u'show_detail_multithreading_extra is called')
-def test_multithreaded(context):
-    context.guidebox.populate_content_detail_multithreaded_extra(context)
-
-@when(u'single detail population is called')
-def test_single_population(context):
-    c = Content.objects.get(guidebox_id=14461)
-    context.guidebox.single_content_detail(c)
-
-@when(u'I call to populate extra provider information')
-def test_extra_provider_population(context):
-    c = Content.objects.get(guidebox_id=14461)
-    context.guidebox.single_populate_additional_sources(c)
-
+    """
+    :type context: behave.runner.Context
+    """
+    pass
 
 
 ############################
 ## THEN
 ############################
 
-@then(u'I get shows')
-def check_for_shows(context):
-    assert True
-
 @then(u'json is returned')
-def check_json(context):
+def test_check_json(context):
     assert context.the_json
 
-@then(u'there are {number_of_results} results')
-def test_result_length(context, number_of_results):
-    assert context.show_count == int(number_of_results)
 
-@then(u'json is returned with an object of show id {show_id} and name {show_name}')
-def test_detail_result(context, show_id, show_name):
+@then(u'we save the content')
+def test_save_content(context):
+    # TODO write test to check for saved content in the database
+    sample_show = json.loads(context.the_json)['results'][0]
+    result = context.guidebox.save_content(sample_show)
+    assert result
 
-    context.the_json = json.loads(context.the_json)
 
-    var = context.the_json
+@then("we save the channels")
+def test_save_channels(context):
+    sample_channel = json.loads(context.the_json)['results'][0]
+    result = context.guidebox.save_channel(sample_channel)
+    assert result
 
-    assert context.the_json['id'] == int(show_id)
-    assert context.the_json['title'] == show_name
 
-@then(u'shows have a description')
-def test_show_descriptions(context):
-    assert True
+@then(u'there are a total number of shows in the queue')
+def test_total_number_of_jobs_queued(context):
+    q = django_rq.get_queue('low')
+    assert len(q.jobs) > 0
 
-@then(u'we just pass True here')
-def passing_true(context):
-    assert True
 
-@then(u'I get shows by service provider')
-def get_by_provider(context):
-    assert True
+@then(u'there are a total number of channels in the queue')
+def test_total_number_of_jobs_queued(context):
+    q = django_rq.get_queue('low')
+    assert len(q.jobs) > 0
 
-@then(u'True')
-def true(context):
-    assert True
+
+@then(u'there are channels in the database')
+def test_check_for_channels_in_db(context):
+    q = django_rq.get_queue('low')
+    assert len(q.jobs) > 0
+
+
+@given("a list of channels from the database")
+def step_impl(context):
+    context.sample_channels = Channel.objects.all()[:2]
+
+
+@when("we process that list")
+def step_impl(context):
+    context.guidebox.connect_channels_shows(context.sample_channels)
+
+
+@then("the content now has channels")
+def step_impl(context):
+    for elem in context.sample_channels:
+        c = Content.objects.filter(channel__id=elem.id)
+        if c:
+            assert len(c[0].channel.all()) > 0
+
+
+@when("we call the connect channel to content task")
+def step_impl(context):
+    connect_content_channel_task()
+
+
+@then("there are a total number of jobs in the {level} queue")
+def step_impl(context, level):
+    q = django_rq.get_queue(level)
+    assert len(q.jobs) > 0
+
+
+@given("a show Orange is the new black")
+def step_impl(context):
+    context.show = Content.objects.get(title__iexact='Orange is the new black')
+    assert context.show
+
+
+@when("we add available content to the show")
+def step_impl(context):
+    context.guidebox.add_additional_channels_for_show(context.show)
+
+
+@then("the show now has sources")
+def step_impl(context):
+    assert context.show.guidebox_data['sources']
+
+
+@when("we call the add available content task")
+def step_impl(context):
+    add_available_sources_to_shows()
+
+
+@given("the show {show}")
+def step_impl(context, show):
+    context.sample_show = Content.objects.get(title__iexact=show)
+    assert context.sample_show
+
+
+@when("we call guidebox for detail about the show")
+def step_impl(context):
+    context.the_detail = context.guidebox.get_content_detail(context.sample_show.guidebox_data['id'])
+    assert context.the_detail
+
+
+@step("we save the show")
+def step_impl(context):
+    assert context.guidebox.save_content_detail(context.the_detail)
+
+
+@then("{show} has details")
+def step_impl(context, show):
+    obj = Content.objects.get(title__iexact=show)
+    assert obj.guidebox_data['detail']
+
+
+@given("we call the the add details task")
+def step_impl(context):
+    add_detail_to_shows()
+
+
+@given("a the show Game of Thrones")
+def step_impl(context):
+    context.show = Content.objects.get(title='Game of Thrones')
+
+
+@when("We call sling over the air processor")
+def step_impl(context):
+    context.guidebox.process_content_for_sling_ota_banned_channels(context.show)
+    """
+    :type context: behave.runner.Context
+    """
+
+
+@then("Xfinity is removed")
+def step_impl(context):
+    show_list = [i for i in context.show.guidebox_data['sources']['web']['episodes']['all_sources'] if
+                 i['display_name'] == 'Xfinity']
+
+    assert len(show_list) == 0

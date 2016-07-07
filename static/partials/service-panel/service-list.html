@@ -1,0 +1,13 @@
+<div ng-repeat="service in value ">
+    <a href="" ng-click="open = !open">{{ (service.chan.name || service.chan.display_name) }}
+        <span ng-if="service.chan.on_sling"> Sling TV</span>
+    </a>
+    <!--<img ng-src=""/>-->
+    <ul class="list-group ss_show-list">
+        <li class="list-group-item ss_show"
+            ng-repeat="show in service.shows">
+            {{ show.title }}
+        </li>
+    </ul>
+
+</div>

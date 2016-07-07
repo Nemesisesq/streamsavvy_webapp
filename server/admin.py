@@ -9,8 +9,9 @@ class ContentAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(ContentProvider)
-class ContentProviderAdmin(admin.ModelAdmin):
+@admin.register(Channel)
+class ChannelAdmin(admin.ModelAdmin):
+    search_fields = ('name','is_on_sling')
     pass
 
 
@@ -23,10 +24,10 @@ class HardwareAdmin(admin.ModelAdmin):
 class PackageAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(JsonPackage)
-class JsonPackage(admin.ModelAdmin):
-    pass
-
 @admin.register(Feedback)
 class Feedback(admin.ModelAdmin):
+    pass
+
+@admin.register(ChannelImages)
+class ChannelImagesAdmin(admin.ModelAdmin):
     pass

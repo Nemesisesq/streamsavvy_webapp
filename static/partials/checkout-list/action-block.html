@@ -1,0 +1,29 @@
+<div class="col-sm-10 checkout-button-container">
+    <div class="row" ng-if="!isServiceAdded(service)">
+
+        <div class="col-sm-8">
+            <button class="btn-already-have" ng-click="addService(service)">Already have this service</button>
+        </div>
+        <div class="col-sm-4">
+            <button class="btn-purchase" ng-click="linkToAffiliate(service)">
+
+                <span ng-if="key != 'ota'">Subscribe</span>
+                <span ng-if="key == 'ota'">Purchase</span>
+            </button>
+        </div>
+    </div>
+    <div ng-if="isServiceAdded(service)" class="col-xs-11 show-added">
+        <div class="pull-right">
+            <div class="row checkout-green">Added Successfully</div>
+            <div class="row checkout-unsub"><a ng-click="removeServiceFromPackage(service)">unsubscribe</a></div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-2 checkout-price">
+    <div ng-if="key != 'ppv' && key != 'ota' " class="checkout-service-price">
+
+
+        <div ng-if="service.details.price > 0"> ${{ service.details.price }}*</div>
+        <div ng-if="service.details.price == 0"> FREE**</div>
+    </div>
+</div>

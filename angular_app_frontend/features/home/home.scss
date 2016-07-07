@@ -1,23 +1,101 @@
-.money{
-  background: white;
+.home-background {
+
+  background-image: #282537;
+  background-image: -o-linear-gradient(to bottom, rgba(69, 167, 229, .1), rgba(208, 2, 27, .1)), -o-linear-gradient(rgba(21, 25, 27, 1), rgba(21, 25, 27, 1));
+  background-image: -moz-linear-gradient(to bottom, rgba(69, 167, 229, .1), rgba(208, 2, 27, .1)), -moz-linear-gradient(rgba(21, 25, 27, 1), rgba(21, 25, 27, 1));
+  background-image: -ms-linear-gradient(to bottom, rgba(69, 167, 229, .1), rgba(208, 2, 27, .1)), -ms-linear-gradient(rgba(21, 25, 27, 1), rgba(21, 25, 27, 1));
+  background-image: -webkit-linear-gradient(to bottom, rgba(69, 167, 229, .1), rgba(208, 2, 27, .1)), -webkit-linear-gradient(rgba(21, 25, 27, 1), rgba(21, 25, 27, 1));
+  background-image: linear-gradient(to bottom, rgba(69, 167, 229, .1), rgba(208, 2, 27, .1)), linear-gradient(rgba(21, 25, 27, 1), rgba(21, 25, 27, 1))
 }
-.body-wrapper{
-  overflow: hidden;
+
+.h1-row {
+  margin-top: 73px;
 }
 
-@media(max-width:1198px){
 
-  .usr-path-right {
-    height: 8%;
+.home-imgs {
+  padding-top: 20px;
+}
 
-    div{
+.dim-on-open-menu {
+  position: fixed;
+  height: 100vh;
+  top:0;
 
+  width:100vw;
+  background-color: black;
+  opacity: .4;
+  display: none;
+}
 
-    //#watch{
-    //  height : 207px;
-    //}
-    }
+.easy-123 {
+  max-width: calc(100vw - 30px);
+  transform: translateX(15px);
+}
 
-
+@media (max-width: 600px) {
+  .easy-123 {
+    transform: translateX(0px);
   }
 }
+
+.header-logo {
+}
+
+@media (max-width: 768px) {
+  div#mainPage {
+    margin-left: 0;
+    //min-height: 100vh;
+  }
+}
+
+@media (max-width: 456px) {
+  .content-wrapper .h1-row .h1-col h1.white {
+    font-size: 2em;
+
+    & span {
+      display: none;
+    }
+
+  }
+
+  .header-logo {
+    width: calc(100vw - 10%);
+  }
+
+  .lets-do-this-row {
+    position: absolute;
+    bottom: 75px;
+
+    a {
+      width: calc(100vw - 30px);
+    }
+  }
+}
+
+mobile-tabs{
+  display: none;
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  width: 100%;
+  background : $dark;
+  color: $action_red;
+  height: 60px;
+  text-align: center;
+
+}
+
+@media (max-width: 767px) {
+
+  mobile-tabs {
+    display: block;
+  }
+  
+}
+
+.lets-do-this-row .btn-red:hover{
+  background-color: #660000;
+  color: #9d9d9d;
+}
+

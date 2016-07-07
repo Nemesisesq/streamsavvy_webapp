@@ -1,0 +1,76 @@
+@media(max-width: 767px) {
+  body.background.container.ng-scope.no-scroll.gradient-background {
+    overflow: scroll;
+  }
+  mobile-tabs {
+    display: inline;
+  }
+
+  #theGrid img {
+    width: 100%;
+    object-fit: contain;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+  }
+
+  #search-and-shows {
+    margin-bottom: 60px;
+    margin-top: 20px;
+  }
+
+  show-detail {
+
+    &.fade {
+
+      pointer-events: none;
+
+      &.fade-in {
+        pointer-events: all;
+      }
+    }
+
+    .background {
+      overflow: scroll;
+    }
+
+  }
+
+  .dashboard {
+    .search-and-shows {
+      height: inherit;
+      overflow: visible;
+    }
+    .services-hardware {
+      position: relative;
+      overflow: scroll;
+      max-height: none;
+      height: inherit;
+
+      .service-panel {
+        min-height: 100vh;
+        display: none;
+      }
+
+      .hardware-panel {
+        min-height: 100vh;
+
+        margin-bottom: 60px;
+
+      }
+
+    }
+  }
+
+  .footer {
+    display: none;
+  }
+}
+
+mobile-tabs {
+  .fa {
+    font-size: 25px;
+  }
+  & > div {
+    margin-top: 10px;
+  }
+}

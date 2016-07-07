@@ -1,4 +1,4 @@
-from server.models import Hardware, ContentProvider, Content, Package
+from server.models import Hardware, Channel, Content, Package, ChannelImages
 
 __author__ = 'Nem'
 
@@ -38,16 +38,17 @@ class HardwareSerializer(serializers.HyperlinkedModelSerializer):
         #           )
 
 
-class ContentProviderSerializer(serializers.HyperlinkedModelSerializer):
+class ChannelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = ContentProvider
+        model = Channel
+        depth = 3
         # 4
 
 
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Content
-        depth=3
+        depth = 3
         # fields = ('url',
         # 'title',
         # 'description',
@@ -61,7 +62,7 @@ class PackageDetailSerializer(serializers.HyperlinkedModelSerializer):
         model = Package
         fields = (
             'url',
-            'content',
+            'server',
             'hardware',
             'providers'
         )
@@ -73,7 +74,17 @@ class PackagesSerializer(serializers.HyperlinkedModelSerializer):
         model = Package
         fields = (
             'url',
-            'content',
-            'hardware',
-            'providers'
+            # 'owner',
+            'data',
         )
+
+
+class SignUpSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+        write_only_fields = ('password')
+
+class ChannelImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChannelImages
