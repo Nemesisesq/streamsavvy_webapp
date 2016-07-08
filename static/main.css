@@ -2971,7 +2971,7 @@ div[ui-view='footer'] {
   position: absolute;
   bottom: 0;
   width: 100vw;
-  padding: 0 15px 0 15px; }
+  padding: 0 15px 15px; }
 
 .service-panel.ng-scope {
   min-height: 60vh;
