@@ -336,17 +336,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             templateUrl: "/static/partials/journey-one.html",
             data: {hmdcActive: true}
         })
-        .state('dash', {
-            templateUrl: '/static/partials/dashboard.html',
-            abstract: true,
-            onEnter: function ($state) {
 
-                $window = $windowProvider.$get();
-                if ($window.innerWidth < 767) {
-                    $state.go('mobile.shows')
-                }
-            }
-        })
 
         .state('check', {
             templateUrl: '/static/partials/checkout.html',
@@ -372,12 +362,27 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             }
         })
 
+        .state('dash', {
+            templateUrl: '/static/partials/dashboard.html',
+            abstract: true,
+            onEnter: function ($state) {
+
+                $window = $windowProvider.$get();
+                if ($window.innerWidth < 767) {
+                    $state.go('mobile.shows')
+                }
+            }
+        })
         .state('dash.dashboard', {
             url: '/dashboard',
             data: {
                 dashboard: true
             },
             views: {
+                'modal': {
+                    templateUrl: 'static/partials/modal/modalContainer.html',
+                    controller: 'ModalController'
+                },
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
@@ -2539,11 +2544,7 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
 
-    $scope.auth = {
-        twitter : $('#twitter_login').attr('href'),
-        facebook : $('#facebook_login').attr('href'),
-        instagram: $('#instagram_login').attr('href')
-    }
+    
 
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
@@ -3597,6 +3598,11 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
     $scope.socialLogin = true;
 
+    $scope.auth = {
+        twitter : $('#twitter_login').attr('href'),
+        facebook : $('#facebook_login').attr('href'),
+    }
+
 
     //$scope.facebookAuth = function () {
     //
@@ -3651,6 +3657,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
 })
+
 /**
  * Created by Nem on 10/27/15.
  */

@@ -336,17 +336,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             templateUrl: "/static/partials/journey-one.html",
             data: {hmdcActive: true}
         })
-        .state('dash', {
-            templateUrl: '/static/partials/dashboard.html',
-            abstract: true,
-            onEnter: function ($state) {
 
-                $window = $windowProvider.$get();
-                if ($window.innerWidth < 767) {
-                    $state.go('mobile.shows')
-                }
-            }
-        })
 
         .state('check', {
             templateUrl: '/static/partials/checkout.html',
@@ -372,12 +362,27 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             }
         })
 
+        .state('dash', {
+            templateUrl: '/static/partials/dashboard.html',
+            abstract: true,
+            onEnter: function ($state) {
+
+                $window = $windowProvider.$get();
+                if ($window.innerWidth < 767) {
+                    $state.go('mobile.shows')
+                }
+            }
+        })
         .state('dash.dashboard', {
             url: '/dashboard',
             data: {
                 dashboard: true
             },
             views: {
+                'modal': {
+                    templateUrl: 'static/partials/modal/modalContainer.html',
+                    controller: 'ModalController'
+                },
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
