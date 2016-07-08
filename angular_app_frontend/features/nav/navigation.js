@@ -3,11 +3,7 @@
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
 
-    $scope.auth = {
-        twitter : $('#twitter_login').attr('href'),
-        facebook : $('#facebook_login').attr('href'),
-        instagram: $('#instagram_login').attr('href')
-    }
+    
 
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();

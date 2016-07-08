@@ -203,7 +203,7 @@ app.directive('actionBlock', function ($window) {
 
             scope.linkToAffiliate = function (service) {
 
-                $window.open(service.service_description.subscription_link);
+                $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service",{"service name": service.chan.display_name});
             }
 
@@ -285,7 +285,7 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, element, attrs) {
 
-            
+
             $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
                     scope.service.details = data.data
@@ -324,6 +324,17 @@ app.directive('ppvCheckoutItem', function ($window) {
 
                 element.remove()
             }
+
+        }
+    }
+})
+
+
+app.directive('checkoutInstructions', function () {
+    return {
+        templateUrl : 'static/partials/checkout-list/checkout-instructions.html',
+        restrict: 'E',
+        link : function (scope, element, attrs) {
 
         }
     }

@@ -336,17 +336,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             templateUrl: "/static/partials/journey-one.html",
             data: {hmdcActive: true}
         })
-        .state('dash', {
-            templateUrl: '/static/partials/dashboard.html',
-            abstract: true,
-            onEnter: function ($state) {
 
-                $window = $windowProvider.$get();
-                if ($window.innerWidth < 767) {
-                    $state.go('mobile.shows')
-                }
-            }
-        })
 
         .state('check', {
             templateUrl: '/static/partials/checkout.html',
@@ -372,12 +362,27 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             }
         })
 
+        .state('dash', {
+            templateUrl: '/static/partials/dashboard.html',
+            abstract: true,
+            onEnter: function ($state) {
+
+                $window = $windowProvider.$get();
+                if ($window.innerWidth < 767) {
+                    $state.go('mobile.shows')
+                }
+            }
+        })
         .state('dash.dashboard', {
             url: '/dashboard',
             data: {
                 dashboard: true
             },
             views: {
+                'modal': {
+                    templateUrl: 'static/partials/modal/modalContainer.html',
+                    controller: 'ModalController'
+                },
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
@@ -728,7 +733,7 @@ app.directive('actionBlock', function ($window) {
 
             scope.linkToAffiliate = function (service) {
 
-                $window.open(service.service_description.subscription_link);
+                $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service",{"service name": service.chan.display_name});
             }
 
@@ -810,7 +815,7 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, element, attrs) {
 
-            
+
             $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
                     scope.service.details = data.data
@@ -849,6 +854,17 @@ app.directive('ppvCheckoutItem', function ($window) {
 
                 element.remove()
             }
+
+        }
+    }
+})
+
+
+app.directive('checkoutInstructions', function () {
+    return {
+        templateUrl : 'static/partials/checkout-list/checkout-instructions.html',
+        restrict: 'E',
+        link : function (scope, element, attrs) {
 
         }
     }
@@ -2409,6 +2425,9 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
+
+
+
     PackageFactory.getCheckoutPanelList()
         .then(function (data) {
 
@@ -2425,37 +2444,15 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
 
     };
-    // $scope.notOtaServiceDetail = function (mystery_service) {
-    //     if (_.some(payPerServices, mystery_service.chan.source)) {
-    //         console.log('this is the payperview service ' + mystery_service.chan.source);
-    //         mystery_service.description = SERVICE_PRICE_LIST[0].description;
-    //         mystery_service.price = SERVICE_PRICE_LIST[0].price;
-    //         //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
-    //         //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
-    //
-    //
-    //     }
-    //     else {
-    //         var serviceMatch = _.find(SERVICE_PRICE_LIST, function (elem) {
-    //             return elem.name == mystery_service.chan.source;
-    //         });
-    //         if (serviceMatch != undefined) {
-    //
-    //             _.assignIn(mystery_service, serviceMatch);
-    //
-    //         }
-    //     }
-    // };
 
-    // $scope.removeService = function (service, serviceArray) {
-    //     if (serviceArray == 'ota') {
-    //         _.pull($scope.list.ota, service);
-    //     }
-    //     else {
-    //         _.pull($scope.list.not_ota, service);
-    //     }
-    //     PackageFactory.setListOfServices($scope.list);
-    // };
+
+    $scope.$watchCollection(function(){
+        return $scope.list
+    }, function(){
+        $scope.package.services = $scope.list
+
+
+    })
 
 
     // $scope.$watchCollection(function () {
@@ -2471,8 +2468,10 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         return PackageFactory.getPackage().data.content
 
     }, function () {
-        $scope.package = PackageFactory.getPackage();
-        $scope.list = PackageFactory.getListOfServices();
+        // $scope.package = PackageFactory.getPackage();
+        // $scope.list = PackageFactory.getListOfServices();
+
+
         // _.forEach($scope.list.not_ota, function (not_ota_service) {
         //     if (not_ota_service != undefined) {
         //         $scope.notOtaServiceDetail(not_ota_service);
@@ -2545,11 +2544,7 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
 
-    $scope.auth = {
-        twitter : $('#twitter_login').attr('href'),
-        facebook : $('#facebook_login').attr('href'),
-        instagram: $('#instagram_login').attr('href')
-    }
+    
 
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
@@ -3603,6 +3598,11 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
     $scope.socialLogin = true;
 
+    $scope.auth = {
+        twitter : $('#twitter_login').attr('href'),
+        facebook : $('#facebook_login').attr('href'),
+    }
+
 
     //$scope.facebookAuth = function () {
     //
@@ -3657,6 +3657,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
 })
+
 /**
  * Created by Nem on 10/27/15.
  */

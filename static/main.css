@@ -2459,9 +2459,13 @@ ul[id^='typeahead-'], .suggestions-list {
 
 @media (max-width: 456px) {
   .content-wrapper .h1-row .h1-col h1.white {
-    font-size: 2em; }
+    font-size: .8em;
+    font-weight: 200;
+    line-height: 1.1; }
     .content-wrapper .h1-row .h1-col h1.white span {
       display: none; }
+  .row.easy-row {
+    margin-top: 0; }
   .header-logo {
     width: calc(100vw - 10%); }
   .lets-do-this-row {
@@ -2690,7 +2694,7 @@ show-detail .background {
   background-color: rgba(225, 225, 225, 0.1);
   letter-spacing: .6px;
   color: #9b9b9b;
-  font-size: 14px;
+  font-size: 10px;
   min-width: 100px;
   min-height: 35px;
   padding-left: 22px;
@@ -2745,6 +2749,7 @@ show-detail .background {
     color: red; }
 
 .remove-cross {
+  display: none;
   padding: 0;
   position: absolute;
   right: 25px;
@@ -2761,7 +2766,7 @@ show-detail .background {
 .service-image {
   margin-top: 10px;
   max-width: 100px;
-  width: 90%; }
+  width: 100%; }
 
 .ss_show-list {
   list-style: none;
@@ -2792,12 +2797,18 @@ show-detail .background {
   padding: 0; }
 
 @media (max-width: 767px) {
+  .service-image {
+    max-width: 110px; }
   .btn-purchase {
+    font-size: 15px;
     height: 30px;
     border-radius: initial; }
   .btn-already-have {
+    font-size: 15px;
     height: 40px;
-    border-radius: initial; } }
+    border-radius: initial; }
+  .checkout-service-price {
+    font-size: 20px; } }
 
 .sprite, .amazon_sprite, .amazon_prime_sprite, .hulu_plus_sprite, .itunes_sprite, .vudu_sprite, .google_play_sprite, .youtube_purchase_sprite, .ota_sprite, .netflix_sprite {
   background: url("https://s3.amazonaws.com/streamsavvy/service_logos/desktop-sprite.png");
@@ -2832,22 +2843,9 @@ show-detail .background {
 .netflix_sprite {
   background-position-y: 66%; }
 
-@media (min-width: 767px) {
-  .sprite, .amazon_sprite, .amazon_prime_sprite, .hulu_plus_sprite, .itunes_sprite, .vudu_sprite, .google_play_sprite, .youtube_purchase_sprite, .ota_sprite, .netflix_sprite {
-    background-size: 100%, 100px;
-    height: 45px;
-    width: 150px; } }
-
-@media (max-width: 1440px) {
-  .service-image {
-    max-width: 75px; } }
-
-@media (max-width: 1024px) {
-  .service-image {
-    max-width: 70px; } }
-
 .consolidated-checkout-ppv {
-  color: white; }
+  color: white;
+  text-align: center; }
 
 .checkout-service-price {
   color: white;
@@ -2856,16 +2854,22 @@ show-detail .background {
   margin-top: 5px; }
 
 .ppv-checkout-image-block {
-  height: 100px; }
+  height: 100px;
+  width: 20%;
+  padding-left: 3px;
+  padding-right: 3px;
+  text-align: center; }
   .ppv-checkout-image-block .image-block {
     height: 50px; }
   .ppv-checkout-image-block button {
     width: 100px; }
 
 .container .mobile-checkout-container {
-  width: 75%; }
+  width: 80%; }
 
 checkout-image-block.col-sm-2 {
+  position: absolute;
+  bottom: 0;
   padding-left: 0;
   padding-right: 0; }
   checkout-image-block.col-sm-2 .image-block {
@@ -2881,6 +2885,44 @@ checkout-image-block.col-sm-2 {
 
 .checkout-show-img {
   width: 100%; }
+
+.checkout-steps {
+  font-size: 9px; }
+  .checkout-steps div {
+    min-height: 24px; }
+  .checkout-steps .step-numbers {
+    font-size: 24px;
+    width: 24px; }
+  .checkout-steps .step-number {
+    width: 24px;
+    font-size: 15px;
+    color: #45a7e5; }
+
+.step-numbers, .step-number {
+  line-height: 24px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0; }
+
+.hide-service {
+  color: #9b9b9b; }
+
+.service-row {
+  position: relative; }
+
+action-block.col-sm-10 {
+  position: absolute;
+  bottom: 0;
+  float: right;
+  margin-left: 100px; }
+
+button.btn-purchase {
+  border-radius: 0; }
+
+button.btn-already-have {
+  border-radius: 0; }
 
 .row.footer {
   position: absolute;

@@ -1,26 +1,16 @@
 <div class="row service-row">
     <div class="row">
-        <div class="col-sm-6 consolidated-checkout-ppv">
-
-            If subscription apps aren't your thing, you can pay for individual episodes or seasons with these apps.
+        <div class="col-sm-12 consolidated-checkout-ppv">
+            Purchase shows or seasons individually.
         </div>
     </div>
-    <div class="row">
-        <div class=" ppv-checkout-image-block col-sm-3" ng-repeat="service in value" ng-click="linkToAffiliate(service)">
+    <div class="">
+        <div class=" ppv-checkout-image-block col-xs-2" ng-repeat="service in value" ng-click="linkToAffiliate(service)">
             <checkout-image-block key="key"
                                   service="service"></checkout-image-block>
-
         </div>
-
     </div>
-
-    <div class="remove-cross" ng-click="removeElementFromDom()">
-        <img ng-click="removeElementFromDom()" class="pull-right"
-             src="https://s3.amazonaws.com/streamsavvy/small-x-copy-4.svg">
-    </div>
-
 </div>
-
 <div class="row">
     <ul class="ss_show-list">
         <li class="ss_show row" ng-repeat="show in service.shows">

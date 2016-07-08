@@ -38,6 +38,11 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
     $scope.socialLogin = true;
 
+    $scope.auth = {
+        twitter : $('#twitter_login').attr('href'),
+        facebook : $('#facebook_login').attr('href'),
+    }
+
 
     //$scope.facebookAuth = function () {
     //
