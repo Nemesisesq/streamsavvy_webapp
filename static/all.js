@@ -348,29 +348,29 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             }
         })
 
-        .state('check', {
-            templateUrl: '/static/partials/checkout.html',
-            abstract: true
-        })
-        .state('check.out', {
-            url: '/checkout',
-            data: {
-                checkout: true
-            },
-            views: {
-                'navigation': {
-                    templateUrl: "/static/partials/navigation.html",
-                    controller: 'navigation'
-                },
-                checkoutList: {
-                    templateUrl: "static/partials/checkout-list/checkout-list.html",
-                    controller: 'CheckoutController'
-                },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
-            }
-        })
+        // .state('check', {
+        //     templateUrl: '/static/partials/checkout.html',
+        //     abstract: true
+        // })
+        // .state('check.out', {
+        //     url: '/checkout',
+        //     data: {
+        //         checkout: true
+        //     },
+        //     views: {
+        //         'navigation': {
+        //             templateUrl: "/static/partials/navigation.html",
+        //             controller: 'navigation'
+        //         },
+        //         checkoutList: {
+        //             templateUrl: "static/partials/checkout-list/checkout-list.html",
+        //             controller: 'CheckoutController'
+        //         },
+        //         'footer': {
+        //             templateUrl: 'static/partials/footer.html'
+        //         }
+        //     }
+        // })
 
         .state('dash.dashboard', {
             url: '/dashboard',
@@ -2917,13 +2917,13 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
      $('.not-ready').fadeIn()
      }, 100)()
      })*/
-    $scope.collapseHardware = true;
+    // $scope.collapseHardware = true;
     var serviceHeight = $(window).height() - 46;
 
-    if ($scope.collapseHardware) {
-        $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
-
-    }
+    // if ($scope.collapseHardware) {
+    //     $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
+    //
+    // }
 
     $scope.mixpanelTrackReadyToCutCord = function() {
         var showList = [];

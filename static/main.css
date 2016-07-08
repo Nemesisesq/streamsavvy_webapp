@@ -2459,9 +2459,13 @@ ul[id^='typeahead-'], .suggestions-list {
 
 @media (max-width: 456px) {
   .content-wrapper .h1-row .h1-col h1.white {
-    font-size: 2em; }
+    font-size: .8em;
+    font-weight: 200;
+    line-height: 1.1; }
     .content-wrapper .h1-row .h1-col h1.white span {
       display: none; }
+  .row.easy-row {
+    margin-top: 0; }
   .header-logo {
     width: calc(100vw - 10%); }
   .lets-do-this-row {
