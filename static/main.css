@@ -2888,7 +2888,8 @@ checkout-image-block.col-sm-2 {
   width: 100%; }
 
 .checkout-steps {
-  font-size: 9px; }
+  font-size: 12px;
+  margin-top: 7px; }
   .checkout-steps div {
     min-height: 24px; }
   .checkout-steps .step-numbers {
