@@ -2421,7 +2421,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2492,6 +2491,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
  * Created by chirag on 3/28/16.
  */
 
+
 /**
  * Created by Nem on 12/29/15.
  */
@@ -2506,10 +2506,6 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
-/**
- * Created by Nem on 10/7/15.
- */
-
 /**
  * Created by chirag on 8/3/15.
  */
@@ -2538,6 +2534,63 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 
 });
+
+/**
+ * Created by Nem on 10/7/15.
+ */
+
+app.directive('positionFooter', function () {
+
+    return {
+        restrict: 'A',
+        link: function (scope, elemtnt, attrs) {
+
+            debugger;
+
+
+        }
+    }
+
+
+})
+
+
+function fixFooter() {
+    var footerHeight = $("div[ui-view='footer']").height()
+    var homeHeight = $("div[ui-view='home']").height()
+    var windowHeight = window.innerHeight
+    if (footerHeight && homeHeight && windowHeight) {
+        debugger;
+
+        if (homeHeight > (windowHeight - footerHeight)) {
+            var diff = windowHeight - homeHeight
+            $("div[ui-view='footer']").css({'bottom': diff})
+        } else {
+            $("div[ui-view='footer']").css({'bottom': 0})
+        }
+    }
+}
+
+$(document).ready(function () {
+
+    var target = document.querySelector("[ui-view]")
+
+    var config = {attributes: true, childList: true, characterData: true};
+
+    var observer = new MutationObserver(function (mutations) {
+        debugger;
+        fixFooter();
+        mutations.forEach(function (mutation) {
+            console.log(mutation)
+        })
+    })
+
+    observer.observe(target, config)
+
+
+    // debugger;
+
+})
 
 /**
  * Created by Nem on 6/28/15.
@@ -2895,11 +2948,13 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
         {
             name: 'Roku',
             image: 'https://s3.amazonaws.com/streamsavvy/Roku4.png',
+            url: '',
             price: 43.20
         },
         {
             name: 'Mohu Leaf',
             image: 'https://s3.amazonaws.com/streamsavvy/Mohu.png',
+            url: '',
             price: 43.20
         }
     ]
