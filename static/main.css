@@ -2973,6 +2973,18 @@ div[ui-view='footer'] {
   width: 100vw;
   padding: 0 15px 15px; }
 
+.footer-left i {
+  font-size: 30px;
+  margin-left: 10px; }
+  .footer-left i.fa-twitter:hover {
+    color: #55acee; }
+  .footer-left i.fa-twitter:active {
+    color: #55acee; }
+  .footer-left i.fa-facebook:active {
+    color: #3B5998; }
+  .footer-left i.fa-facebook:hover {
+    color: #3B5998; }
+
 .service-panel.ng-scope {
   min-height: 60vh;
   max-height: calc(100vh - 46px);

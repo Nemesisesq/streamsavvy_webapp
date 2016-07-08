@@ -73,3 +73,36 @@ div[ui-view='footer'] {
   padding: 0 15px 15px;
 
 }
+
+.footer-left {
+
+  i{
+    font-size: 30px ;
+    margin-left : 10px;
+
+    &.fa-twitter {
+      //color: #55acee;
+      &:hover {
+        color: #55acee;
+      }
+
+      &:active {
+        color: #55acee;
+
+      }
+    }
+
+    &.fa-facebook {
+
+      &:active {
+        color: #3B5998;
+
+      }
+
+      &:hover {
+        color: #3B5998;
+
+      }
+    }
+  }
+}
