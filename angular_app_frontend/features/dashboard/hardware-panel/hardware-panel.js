@@ -30,13 +30,13 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
      $('.not-ready').fadeIn()
      }, 100)()
      })*/
-    // $scope.collapseHardware = true;
+    $scope.collapseHardware = true;
     var serviceHeight = $(window).height() - 46;
 
-    // if ($scope.collapseHardware) {
-    //     $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
-    //
-    // }
+    if ($scope.collapseHardware) {
+        $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
+
+    }
 
     $scope.mixpanelTrackReadyToCutCord = function() {
         var showList = [];

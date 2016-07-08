@@ -51,18 +51,12 @@
 
 @media (max-width: 456px) {
   .content-wrapper .h1-row .h1-col h1.white {
-    font-size: .8em;
-    font-weight: 200;
-    line-height: 1.1;
+    font-size: 2em;
 
     & span {
       display: none;
     }
 
-  }
-
-  .row.easy-row{
-    margin-top: 0;
   }
 
   .header-logo {
@@ -97,7 +91,7 @@ mobile-tabs{
   mobile-tabs {
     display: block;
   }
-
+  
 }
 
 .lets-do-this-row .btn-red:hover{
