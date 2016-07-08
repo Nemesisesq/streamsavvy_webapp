@@ -2420,27 +2420,27 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
 
     };
-    $scope.notOtaServiceDetail = function (mystery_service) {
-        if (_.some(payPerServices, mystery_service.chan.source)) {
-            console.log('this is the payperview service ' + mystery_service.chan.source);
-            mystery_service.description = SERVICE_PRICE_LIST[0].description;
-            mystery_service.price = SERVICE_PRICE_LIST[0].price;
-            //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
-            //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
-
-
-        }
-        else {
-            var serviceMatch = _.find(SERVICE_PRICE_LIST, function (elem) {
-                return elem.name == mystery_service.chan.source;
-            });
-            if (serviceMatch != undefined) {
-
-                _.assignIn(mystery_service, serviceMatch);
-
-            }
-        }
-    };
+    // $scope.notOtaServiceDetail = function (mystery_service) {
+    //     if (_.some(payPerServices, mystery_service.chan.source)) {
+    //         console.log('this is the payperview service ' + mystery_service.chan.source);
+    //         mystery_service.description = SERVICE_PRICE_LIST[0].description;
+    //         mystery_service.price = SERVICE_PRICE_LIST[0].price;
+    //         //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
+    //         //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
+    //
+    //
+    //     }
+    //     else {
+    //         var serviceMatch = _.find(SERVICE_PRICE_LIST, function (elem) {
+    //             return elem.name == mystery_service.chan.source;
+    //         });
+    //         if (serviceMatch != undefined) {
+    //
+    //             _.assignIn(mystery_service, serviceMatch);
+    //
+    //         }
+    //     }
+    // };
 
     // $scope.removeService = function (service, serviceArray) {
     //     if (serviceArray == 'ota') {
@@ -2468,17 +2468,17 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
     }, function () {
         $scope.package = PackageFactory.getPackage();
         $scope.list = PackageFactory.getListOfServices();
-        _.forEach($scope.list.not_ota, function (not_ota_service) {
-            if (not_ota_service != undefined) {
-                $scope.notOtaServiceDetail(not_ota_service);
-            }
-
-        });
-        _.forEach($scope.list.ota, function (ota_service) {
-            if (ota_service != undefined) {
-                $scope.otaServiceDetail(ota_service);
-            }
-        })
+        // _.forEach($scope.list.not_ota, function (not_ota_service) {
+        //     if (not_ota_service != undefined) {
+        //         $scope.notOtaServiceDetail(not_ota_service);
+        //     }
+        //
+        // });
+        // _.forEach($scope.list.ota, function (ota_service) {
+        //     if (ota_service != undefined) {
+        //         $scope.otaServiceDetail(ota_service);
+        //     }
+        // })
     })
 
 
@@ -2486,10 +2486,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
 
 /**
  * Created by chirag on 3/28/16.
- */
-
-/**
- * Created by Nem on 10/7/15.
  */
 
 /**
@@ -2507,43 +2503,19 @@ app.controller('FeedbackCtrl', function ($scope) {
     }
 })
 /**
- * Created by chirag on 8/3/15.
+ * Created by Nem on 10/7/15.
  */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
-
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
 
 /**
  * Created by Nem on 6/28/15.
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
 
-    $http.get('/social_endpoint/twitter')
-        .then(function(data){
-
-    })
+    $scope.auth = {
+        twitter : $('#twitter_login').attr('href'),
+        facebook : $('#facebook_login').attr('href'),
+        instagram: $('#instagram_login').attr('href')
+    }
 
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
@@ -2720,6 +2692,35 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 
 
 /**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, $cookies, $location) {
+
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+
+/**
  * Created by Nem on 7/18/15.
  */
 app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
@@ -2885,90 +2886,6 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 });
 
-
-/**
- * Created by Nem on 5/24/16.
- */
-app.controller('HardwareController', function ($scope, PackageFactory) {
-
-    $scope.devices = [
-        {
-            name: 'Roku',
-            image: 'https://s3.amazonaws.com/streamsavvy/Roku4.png',
-            price: 43.20
-        },
-        {
-            name: 'Mohu Leaf',
-            image: 'https://s3.amazonaws.com/streamsavvy/Mohu.png',
-            price: 43.20
-        }
-    ]
-
-    $scope.pkg = PackageFactory.getPackage();
-
-
-    /*  $('.service-panel').on('scroll', function () {
-     $('.not-ready').fadeOut()
-     })
-
-     $('.service-panel').on('scroll', function () {
-     debugger
-     _.debounce(function () {
-
-     $('.not-ready').fadeIn()
-     }, 100)()
-     })*/
-    $scope.collapseHardware = true;
-    var serviceHeight = $(window).height() - 46;
-
-    if ($scope.collapseHardware) {
-        $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
-
-    }
-
-    $scope.mixpanelTrackReadyToCutCord = function() {
-        var showList = [];
-        _.forEach($scope.pkg.data.content,function (showObject) {
-            showList.push(showObject.title) ;
-        });
-        console.log(showList);
-        mixpanel.track("Proceeded to Checkout",{"Show List": showList});
-    }
-
-    $scope.toggleHardwarePanel = function () {
-
-
-        if (!$scope.collapseHardware) {
-            $('.service-panel.ng-scope').animate({'height': serviceHeight + 'px'});
-            $('.hardware-panel.ng-scope').animate({'height': '46px'});
-        } else {
-            $('.hardware-body').animate({height: '40vh'});
-            $('.hardware-panel.ng-scope').animate({'height': '40vh'});
-            $('.service-panel.ng-scope').animate({height: '60vh'});
-
-        }
-        $scope.collapseHardware = !$scope.collapseHardware;
-
-    }
-    $scope.servicesGT0 = function () {
-        return !_.isEmpty(PackageFactory.getListOfServices())
-    }
-
-    $scope.$watchCollection(function () {
-
-
-            if (PackageFactory.getPackage().data) {
-                return PackageFactory.getPackage().data.content
-            }
-        },
-        function () {
-            if (PackageFactory.getPackage().data) {
-
-                $scope.pkgHasContent = PackageFactory.getPackage().data.content.length > 0
-            }
-        })
-
-});
 
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
@@ -3555,6 +3472,90 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         PackageFactory.setPackage($scope.package)
     })
 
+
+});
+
+/**
+ * Created by Nem on 5/24/16.
+ */
+app.controller('HardwareController', function ($scope, PackageFactory) {
+
+    $scope.devices = [
+        {
+            name: 'Roku',
+            image: 'https://s3.amazonaws.com/streamsavvy/Roku4.png',
+            price: 43.20
+        },
+        {
+            name: 'Mohu Leaf',
+            image: 'https://s3.amazonaws.com/streamsavvy/Mohu.png',
+            price: 43.20
+        }
+    ]
+
+    $scope.pkg = PackageFactory.getPackage();
+
+
+    /*  $('.service-panel').on('scroll', function () {
+     $('.not-ready').fadeOut()
+     })
+
+     $('.service-panel').on('scroll', function () {
+     debugger
+     _.debounce(function () {
+
+     $('.not-ready').fadeIn()
+     }, 100)()
+     })*/
+    $scope.collapseHardware = true;
+    var serviceHeight = $(window).height() - 46;
+
+    if ($scope.collapseHardware) {
+        $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
+
+    }
+
+    $scope.mixpanelTrackReadyToCutCord = function() {
+        var showList = [];
+        _.forEach($scope.pkg.data.content,function (showObject) {
+            showList.push(showObject.title) ;
+        });
+        console.log(showList);
+        mixpanel.track("Proceeded to Checkout",{"Show List": showList});
+    }
+
+    $scope.toggleHardwarePanel = function () {
+
+
+        if (!$scope.collapseHardware) {
+            $('.service-panel.ng-scope').animate({'height': serviceHeight + 'px'});
+            $('.hardware-panel.ng-scope').animate({'height': '46px'});
+        } else {
+            $('.hardware-body').animate({height: '40vh'});
+            $('.hardware-panel.ng-scope').animate({'height': '40vh'});
+            $('.service-panel.ng-scope').animate({height: '60vh'});
+
+        }
+        $scope.collapseHardware = !$scope.collapseHardware;
+
+    }
+    $scope.servicesGT0 = function () {
+        return !_.isEmpty(PackageFactory.getListOfServices())
+    }
+
+    $scope.$watchCollection(function () {
+
+
+            if (PackageFactory.getPackage().data) {
+                return PackageFactory.getPackage().data.content
+            }
+        },
+        function () {
+            if (PackageFactory.getPackage().data) {
+
+                $scope.pkgHasContent = PackageFactory.getPackage().data.content.length > 0
+            }
+        })
 
 });
 

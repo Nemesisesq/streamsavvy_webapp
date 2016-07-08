@@ -11,7 +11,7 @@
             OVER THE AIR
         </div>
         <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-        <div ng-repeat="service in listOfServices.ota" uib-collapse="ota.open">
+        <div ng-repeat="service in listOfServices.ota">
             <!--<img ng-src=""/>-->
             <ul class="list-group ss_show-list">
                 <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    
+
 
     <div class="ss_service">
         <div style="color : #337ab7; cursor:pointer" ng-click="sling.open = !sling.open"
@@ -27,7 +27,7 @@
             SLING
         </div>
         <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-        <div ng-repeat="service in listOfServices.sling" uib-collapse="sling.open">
+        <div ng-repeat="service in listOfServices.sling" >
             <!--<img ng-src=""/>-->
             <ul class="list-group ss_show-list">
                 <li class="list-group-item ss_show" ng-repeat="show in service.shows">
@@ -44,7 +44,7 @@
             </a>
             <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
 
-            <div uib-collapse="service.open">
+            <div >
                 <ul class="list-group ss_show-list">
                     <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
                 </ul>
@@ -59,7 +59,7 @@
             Pay Per View
         </div>
         <!--<img src="https://s3.amazonaws.com/streamsavvy/channel+accounts/o-t-a.svg">-->
-        <div ng-repeat="service in listOfServices.ppv" uib-collapse="ppv.open">
+        <div ng-repeat="service in listOfServices.ppv" >
             <!--<img ng-src=""/>-->
             <ul class="list-group ss_show-list">
                 <li class="list-group-item ss_show"
