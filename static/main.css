@@ -2784,7 +2784,8 @@ show-detail .background {
 
 .service-viewing-window {
   color: #9b9b9b;
-  padding-bottom: 3%; }
+  padding-bottom: 4%;
+  margin-top: -15px; }
 
 .ss_show-list {
   list-style: none;
