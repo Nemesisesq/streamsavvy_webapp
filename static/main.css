@@ -2706,7 +2706,7 @@ show-detail .background {
   background-color: #45a7e5;
   letter-spacing: .6px;
   color: white !important;
-  font-size: 10px;
+  font-size: 12px;
   min-width: 100px;
   min-height: 35px;
   padding-left: 22px;
@@ -2725,7 +2725,7 @@ show-detail .background {
   padding-bottom: 8px;
   text-decoration: none !important;
   letter-spacing: .6px;
-  font-size: 10px;
+  font-size: 12px;
   background-color: #3fc23f;
   min-height: 35px;
   width: 100%; }
