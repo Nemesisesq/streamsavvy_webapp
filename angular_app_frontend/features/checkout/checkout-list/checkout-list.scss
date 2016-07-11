@@ -172,13 +172,17 @@
 }
 
 .service-image {
-
   margin-top: 10px;
   //margin-left: 17px;
   max-width: 60px;
   width: 100%;
   padding-bottom: 3%;
   float: left;
+}
+
+.service-viewing-window {
+  padding-left: 5px;
+  color: $warm-grey;
 }
 
 .ss_show-list {
