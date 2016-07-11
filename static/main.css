@@ -2649,6 +2649,12 @@ show-detail .background {
 .fa-minus-circle {
   color: #9b9b9b; }
 
+.service-disclaimer {
+  color: #9b9b9b;
+  margin-left: 9%;
+  width: 83%;
+  font-size: 10px; }
+
 .checkoutList {
   margin-top: 30px;
   min-height: 100%; }
