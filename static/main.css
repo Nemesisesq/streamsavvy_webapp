@@ -2647,7 +2647,7 @@ show-detail .background {
   color: #45a7e5; }
 
 .fa-minus-circle {
-  color: #d0021b; }
+  color: #9b9b9b; }
 
 .checkoutList {
   margin-top: 30px;
@@ -2705,7 +2705,7 @@ show-detail .background {
   border: none;
   background-color: #45a7e5;
   letter-spacing: .6px;
-  color: #9b9b9b;
+  color: white !important;
   font-size: 10px;
   min-width: 100px;
   min-height: 35px;
