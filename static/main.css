@@ -2637,6 +2637,18 @@ show-detail .background {
 #checkout-back-btn-area {
   padding: 10px; }
 
+.checkout-steps i {
+  font-size: 26px; }
+
+.fa-cloud-download {
+  color: #3fc23f; }
+
+.fa-plus-square {
+  color: #45a7e5; }
+
+.fa-minus-circle {
+  color: #d0021b; }
+
 .checkoutList {
   margin-top: 30px;
   min-height: 100%; }
