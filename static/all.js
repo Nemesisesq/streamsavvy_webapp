@@ -488,7 +488,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
 
 });
 
-//TODO uncomment this after developingt the mobile checkout page
+//TODO uncomment this after developing the mobile checkout page
 
 app.run(function ($window, $state) {
     $($window).resize(function () {
@@ -1664,47 +1664,67 @@ app.factory('http', function ($http, $log, $q) {
 
 //angular.module('streamsavvy')
 
-  app.factory('s3FeedbackInterceptor', function ($q) {
+app.factory('s3FeedbackInterceptor', function ($q) {
 
-      return {
+    return {
         'request': function (config) {
-          var x = config
-          return config
+            var x = config
+            return config
         },
 
         'response': function (response) {
 
 
-          return response
+            return response
         }
-      }
+    }
 
+})
+
+    .factory('LogoutInterceptor', function ($window) {
+        return {
+            response : function(config){
+                debugger
+
+                return config
+            }
+        }
     })
 
-  .factory('TokenAuthInterceptor', function ($window, $q) {
-      return {
-        'request': function (config) {
-          config.headers = config.headers || {}
-          if ($window.sessionStorage.token) {
-            config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
-          }
+    .factory('TokenAuthInterceptor', function ($window, $q) {
+        return {
+            request: function (config) {
+                debugger
+                config.headers = config.headers || {}
+                if ($window.sessionStorage.token) {
+                    config.headers.Authorization = 'JWT ' + $window.sessionStorage.token;
+                }
 
-          return config
-        },
-        response: function (response) {
-          if (response.status === 401) {
-            // handle the case where the user is not authenticated
-          }
-          return response || $q.when(response);
+
+                return config
+            },
+            response: function (response) {
+                if (response.status === 401) {
+                    // handle the case where the user is not authenticated
+                }
+
+
+                if (response.headers().token) {
+                    $window.sessionStorage.token = response.headers().token
+                }
+
+
+                return response || $q.when(response);
+            }
         }
-      }
     })
 
-  .config(function ($httpProvider, $provide, $windowProvider) {
-    $httpProvider.interceptors.push('s3FeedbackInterceptor');
-    $httpProvider.interceptors.push('TokenAuthInterceptor')
+    .config(function ($httpProvider, $provide, $windowProvider) {
+        $httpProvider.interceptors.push('s3FeedbackInterceptor');
+        $httpProvider.interceptors.push('LogoutInterceptor');
+        $httpProvider.interceptors.push('TokenAuthInterceptor')
 
-  })
+    })
 
 /* Modernizr 2.6.2 (Custom Build) | MIT & BSD
  * Build: http://modernizr.com/download/#-shiv-cssclasses-load
@@ -1748,7 +1768,17 @@ app.factory('N', function (envService) {
     }
 })
 
-app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService', function ($http, $q, VIEW_WINDOWS, _, envService) {
+app.service('loginEventService', function ($rootScope) {
+    this.broadcast = _.debounce(function () {
+        $rootScope.$broadcast("open_login")
+    }, 500)
+    this.listen = _.debounce(function (callback) {
+        $rootScope.$on("open_login", callback)
+
+    }, 500)
+})
+
+app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService', function ($http, $q, _, $window, loginEventService) {
     // ;
 
     var _package = {};
@@ -1761,49 +1791,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
 
     var _listOfServices = [];
 
-
-    function getBaseShowServiceCatagories(ssPackage) {
-        return _.chain(ssPackage.data.content)
-            .map(function (elem) {
-                _.forEach(elem.channel, function (c) {
-                    // debugger;
-                    c.source = c.name.toLowerCase();
-                })
-                var list
-                elem.guidebox_data.sources == undefined ? list = elem.channel : list = _.concat(elem.channel, elem.guidebox_data.sources.web.episodes.all_sources, elem.guidebox_data.sources.ios.episodes.all_sources);
-                return list
-            })
-            .flatten()
-            .uniqBy('source')
-            .thru(function (services) {
-                if (checkForHuluWithShowtime(services)) {
-                    services = removeHuluIfShowtimeContent(services)
-                }
-
-                return services
-            })
-            .compact()
-            .uniqBy(function (elem) {
-
-
-                if (elem.display_name) {
-                    return elem.display_name
-                } else {
-                    return elem.name
-                }
-            })
-            .tap(interceptor)
-            .map(function (elem) {
-                if (elem.source == 'hulu_free') {
-                    elem.source = 'hulu_plus';
-                    elem.id = 10
-                    return elem
-                }
-
-                return elem;
-            });
-    }
-
     return {
         setChosenShow: function (show) {
             _chosenShow = show
@@ -1814,19 +1801,27 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
         },
 
         setPackage: function (ssPackage) {
-
-
             _package = ssPackage;
 
             if (!_.isEmpty(ssPackage)) {
-                this.postPackage(ssPackage)
+                    this.postPackage(ssPackage)
             }
-
         },
 
-        postPackage: function (ssPackage) {
-            $http.put(ssPackage.url, ssPackage);
-        },
+        postPackage: _.debounce(function (ssPackage) {
+            
+            if($window.sessionStorage.token == undefined){
+                loginEventService.broadcast()
+            }
+            $http.put(ssPackage.url, ssPackage)
+                .then(function success(response){
+                    var h  = 'w';
+                }, function error (response){
+                    if (response.status == 403 && _package.data.content.length > 0 ) {
+                        loginEventService.broadcast()
+                    }
+                })
+        }, 1100),
 
         getPackage: function () {
             return _package;
@@ -1885,57 +1880,6 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
 
         },
 
-        totalServiceCost: function () {
-
-
-            var t = 0;
-
-            var pkg = _package;
-            if (true) {
-
-                t = _.map(pkg.providers, function (elem) {
-                    return elem.price;
-                })
-
-                t = _.compact(t);
-
-                t = _.reduce(t, function (total, n) {
-                    return total + n
-                })
-            }
-
-            t = _.round(t, 2)
-
-            return t
-
-
-        },
-        totalHardwareCost: function () {
-
-
-            var t = 0;
-
-            var pkg = _package;
-
-
-            t = _.map(pkg.hardware, function (elem) {
-                return elem.retail_cost;
-            })
-
-            t = _.compact(t);
-
-            t = _.reduce(t, function (total, n) {
-                return total + n
-            })
-
-
-            t = _.round(t, 2)
-
-            return t
-
-
-        },
-
         getListOfServices: function () {
 
             return _listOfServices;
@@ -1944,265 +1888,23 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
             _listOfServices = listOfServices;
         },
 
-        getServicePanelList: function(){
+        getServicePanelList: function () {
             var ssPackage = this.getPackage();
-            if ('data' in ssPackage){
+            if ('data' in ssPackage) {
                 // var url = envService.read('serviceListUrl')
                 return $http.post('/node-data/servicelist', ssPackage)
             }
         },
 
-        getCheckoutPanelList: function(){
+        getCheckoutPanelList: function () {
             var ssPackage = this.getPackage();
-            if ('data' in ssPackage){
+            if ('data' in ssPackage) {
                 // var url = envService.read('checkoutListUrl')
                 return $http.post('/node-data/checkoutlist ', ssPackage)
             }
         },
 
-        createListOfServices2: function () {
 
-
-            var ssPackage = this.getPackage();
-            if ('data' in ssPackage) {
-                var list = getBaseShowServiceCatagories(ssPackage)
-                    .thru(function (list) {
-                        debugger;
-                        if (_.some(ssPackage.data.content, 'on_netflix')) {
-                            if (!_.some(list, ['source', 'netflix'])) {
-                                list.push({display_name: 'Netflix', source: 'netflix'})
-                            }
-                        }
-
-                        return list
-
-                    })
-                    .map(function (elem) {
-                        if (elem.source == 'hulu_free') {
-                            elem.source = 'hulu_plus';
-                            return elem
-                        }
-
-                        if (elem.source == 'starz_tveverywhere') {
-                            elem.source = 'starz'
-                        }
-
-                        if (elem.source == 'showtime_subscription') {
-                            elem.source = 'showtime'
-                        }
-
-                        return elem;
-                    })
-                    .map(function (elem) {
-                        var o = {chan: elem}
-                        o.shows = _.filter(ssPackage.data.content, function (show) {
-                            if (show.on_netflix && elem.source == 'netflix') {
-                                return true
-                            }
-                            if (show.guidebox_data.sources) {
-                                var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, function (show) {
-                                    var showRe = new RegExp(show.source)
-                                    var elemRe = new RegExp(elem.source)
-
-                                    return showRe.test(elem.source) || elemRe.test(show.source)
-
-
-                                })
-                            } else {
-                                source_check = false
-                            }
-
-
-                            var url_check = _.some(show.channel, ['url', elem.url]);
-                            return url_check || source_check
-                        })
-
-                        if (o.chan.guidebox_data) {
-                            if (o.chan.guidebox_data.is_over_the_air) {
-                                o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
-                            }
-                        }
-
-                        return o
-
-                    })
-                    .filter(function (elem) {
-                        return elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv' && elem.chan.source != 'showtime_free'
-                    })
-                    .groupBy(function (elem) {
-                        if (elem.chan.is_over_the_air) {
-                            return 'ota'
-                        }
-                        if (check_if_on_sling(elem)) {
-                            return 'sling'
-                        }
-
-                        if (_.includes(payPerServices, elem.chan.source)) {
-                            return 'ppv'
-
-                        }
-
-                        else {
-                            return 'not_ota'
-                        }
-                    })
-                    .thru(function (list) {
-
-                        if (_.some(list.ota, function (item) {
-                                return item.chan.source == 'nbc'
-                            })) {
-                            var nbc = _.chain(list.ota)
-                                .takeWhile(function (item) {
-                                    return item.chan.source == 'nbc'
-                                })
-                                .cloneDeep()
-                                .value()
-                            if (list.not_ota == undefined) {
-                                list.not_ota = nbc
-                            } else {
-                                list.not_ota = _.concat(list.not_ota, nbc)
-                            }
-                        }
-
-                        var showsOta = _.map(list.ota, function (elem) {
-                            return elem.shows
-                        })
-
-                        var showsSling = _.map(list.sling, function (elem) {
-                            return elem.shows
-                        })
-
-
-                        if (list.ota) {
-                            if (list.ota.length > 1) {
-
-                                list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
-                                list.ota = [list.ota[0]];
-                                list.ota[0].chan.source = 'ota';
-                            } else {
-                                list.ota[0].chan.source = 'ota';
-
-                            }
-                        }
-
-                        if (list.sling) {
-                            if (list.sling.length > 1) {
-
-                                list.sling[0].shows = _.uniqBy(_.flatten(showsSling), 'url');
-                                list.sling = [list.sling[0]];
-                                list.sling[0].chan.source = 'sling_tv';
-                            } else {
-                                list.sling[0].chan.source = 'sling_tv';
-
-                            }
-                        }
-
-                        return list
-                    })
-                    .value();
-
-                this.setListOfServices(list)
-
-                return list
-            }
-        },
-
-        catagorizeShowsByService: function (ssPackage) {
-            if (_.isEmpty(ssPackage.data.content)) {
-                return []
-            }
-            return getBaseShowServiceCatagories(ssPackage)
-                .map(function (elem) {
-                    if (elem.guidebox_data != undefined) {
-                        elem.display_name = elem.guidebox_data.name
-                        return elem
-                    } else {
-                        return elem
-                    }
-                })
-                .map(function (elem) {
-                    var o = {chan: elem}
-                    o.shows = _.filter(ssPackage.data.content, function (show) {
-                        if (show.guidebox_data.sources) {
-                            var source_check = _.some(show.guidebox_data.sources.web.episodes.all_sources, function (show) {
-                                var showRe = new RegExp(show.source)
-                                var elemRe = new RegExp(elem.source)
-
-                                return showRe.test(elem.source) || elemRe.test(show.source)
-
-
-                            })
-                        }
-                        else {
-                            source_check = false
-                        }
-                        var url_check = _.some(show.channel, ['url', elem.url]);
-                        return url_check || source_check
-                    })
-                    if (o.chan.guidebox_data) {
-                        if (o.chan.guidebox_data.is_over_the_air) {
-                            o.chan.is_over_the_air = o.chan.guidebox_data.is_over_the_air;
-                        }
-                    }
-                    return o
-                })
-                .filter(function (elem) {
-                    return elem.chan.source != "netflix" && elem.chan.source != 'misc_shows' && elem.chan.display_name != "HBO GO" && elem.chan.source != 'mtv' && elem.chan.source != 'showtime_free'
-                })
-                .uniqBy(function (elem) {
-                    return elem.chan.source
-                })
-                .groupBy(function (elem) {
-                    if (elem.chan.is_over_the_air) {
-                        return 'ota'
-                    }
-                    if (check_if_on_sling(elem)) {
-                        return 'sling'
-                    }
-                    if (_.includes(payPerServices, elem.chan.source)) {
-                        return 'ppv'
-
-                    }
-                    else {
-                        return 'not_ota'
-                    }
-                })
-                .tap(interceptor)
-                .thru(function (list) {
-
-                    if (_.some(list.ota, function (item) {
-                            return item.chan.source == 'nbc'
-                        })) {
-                        var nbc = _.chain(list.ota)
-                            .takeWhile(function (item) {
-                                return item.chan.source == 'nbc'
-                            })
-                            .cloneDeep()
-                            .value()
-                        if (list.not_ota == undefined) {
-                            list.not_ota = nbc
-                        } else {
-                            list.not_ota = _.concat(list.not_ota, nbc)
-                        }
-                    }
-                    var showsOta = _.map(list.ota, function (elem) {
-                        return elem.shows
-                    })
-                    if (list.ota && list.ota.length > 1) {
-                        list.ota[0].shows = _.uniqBy(_.flatten(showsOta), 'url');
-                        list.ota = [list.ota[0]];
-                    }
-                    var showsPpv = _.map(list.ppv, function (elem) {
-                        return elem.shows
-                    })
-                    if (list.ppv && list.ppv.length > 1) {
-                        list.ppv[0].shows = _.uniqBy(_.flatten(showsPpv), 'url');
-                        list.ppv = [list.ppv[0]];
-                    }
-                    return list
-                })
-                .value();
-        }
     }
 
 
@@ -2210,14 +1912,14 @@ app.factory('PackageFactory', ['$http', '$q', 'VIEW_WINDOWS', '_', 'envService',
 
 
 app.run(function (PackageFactory, $http, http, $rootScope) {
+
     $http.get('/api/package/')
         .then(function (data) {
-            //debugger
             //$rootScope.env = data.data.env
 
             console.log(data);
 
-            data = data.data.results[0]
+            data = data.data.results[0];
             PackageFactory.setPackage(data)
 
         })
@@ -2491,7 +2193,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
  * Created by chirag on 3/28/16.
  */
 
-
 /**
  * Created by Nem on 12/29/15.
  */
@@ -2506,6 +2207,62 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by Nem on 10/7/15.
+ */
+
+app.directive('positionFooter', function () {
+
+    return {
+        restrict: 'A',
+        link: function (scope, elemtnt, attrs) {
+
+
+
+        }
+    }
+
+
+})
+
+
+function fixFooter() {
+    var footerHeight = $("div[ui-view='footer']").height()
+    var homeHeight = $("div[ui-view='home']").height()
+    var windowHeight = window.innerHeight
+    if (footerHeight && homeHeight && windowHeight) {
+        // debugger;
+
+        if (homeHeight > (windowHeight - footerHeight)) {
+            var diff = windowHeight - homeHeight
+            $("div[ui-view='footer']").css({'bottom': diff})
+        } else {
+            $("div[ui-view='footer']").css({'bottom': 0})
+        }
+    }
+}
+
+$(document).ready(function () {
+
+    var target = document.querySelector("[ui-view]")
+
+    var config = {attributes: true, childList: true, characterData: true};
+
+    var observer = new MutationObserver(function (mutations) {
+        // debugger;
+        fixFooter();
+        mutations.forEach(function (mutation) {
+            console.log(mutation)
+        })
+    })
+
+    observer.observe(target, config)
+
+
+    // debugger;
+
+})
+
 /**
  * Created by chirag on 8/3/15.
  */
@@ -2535,70 +2292,100 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
-/**
- * Created by Nem on 10/7/15.
- */
-
-app.directive('positionFooter', function () {
-
-    return {
-        restrict: 'A',
-        link: function (scope, elemtnt, attrs) {
-
-            debugger;
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope, loginEventService) {
 
 
-        }
+    //$scope.login = 'Click Here to Login'
+
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $rootScope.openLogInModal = function () {
+
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal/modal.html',
+            controller: 'ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selectedItem = selectedItem;
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
     }
 
+    loginEventService.listen($scope.openLogInModal)
+});
+
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
+
+    $scope.socialLogin = true;
+
+    $scope.auth = {
+        twitter : $('#twitter_login').attr('href'),
+        facebook : $('#facebook_login').attr('href'),
+    }
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $rootScope.logged_in = true;
+                $modalInstance.close();
+                growl.success('Login Successful', {
+                    onclose: function () {
+
+                        window.location.reload()
+                    },
+                    ttl : 1000,
+                    disableCountDown: true
+                })
+
+            })
+    };
+
+
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
 
 })
 
-
-function fixFooter() {
-    var footerHeight = $("div[ui-view='footer']").height()
-    var homeHeight = $("div[ui-view='home']").height()
-    var windowHeight = window.innerHeight
-    if (footerHeight && homeHeight && windowHeight) {
-        debugger;
-
-        if (homeHeight > (windowHeight - footerHeight)) {
-            var diff = windowHeight - homeHeight
-            $("div[ui-view='footer']").css({'bottom': diff})
-        } else {
-            $("div[ui-view='footer']").css({'bottom': 0})
-        }
-    }
-}
-
-$(document).ready(function () {
-
-    var target = document.querySelector("[ui-view]")
-
-    var config = {attributes: true, childList: true, characterData: true};
-
-    var observer = new MutationObserver(function (mutations) {
-        debugger;
-        fixFooter();
-        mutations.forEach(function (mutation) {
-            console.log(mutation)
-        })
-    })
-
-    observer.observe(target, config)
-
-
-    // debugger;
-
-})
 
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout) {
 
-    
 
+    $scope.logout = function(){
+        debugger
+        delete $window.sessionStorage['token']
+        location.pathname = '/logout/'
+
+    }
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
 
@@ -2617,13 +2404,13 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
     $scope.hmdc = $state.current.data.hmdcActive;
 
-    $scope.logout = function () {
-        $location.path(CONFIG.URL + '/django_auth/logout/');
-        //.success(function () {
-        //    $rootScope.logged_in = false;
-        //    console.log($rootScope.logged_in)
-        //})
-    }
+    // $scope.logout = function () {
+    //     $location.path(CONFIG.URL + '/django_auth/logout/');
+    //     //.success(function () {
+    //     //    $rootScope.logged_in = false;
+    //     //    console.log($rootScope.logged_in)
+    //     //})
+    // }
 
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
         mainPage = document.getElementById('mainPage'),
@@ -2775,7 +2562,7 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
+app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl, loginEventService) {
 
 
     $scope.modelOptions = {
@@ -2860,6 +2647,16 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     }
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
+
+        if (!$window.sessionStorage.token) {
+            growl.info("Please authenticate to use this application.")
+                .then(function () {
+
+                    loginEventService.broadcast()
+                })
+
+            return
+        }
         var ssPackage = PackageFactory.getPackage();
         if (suggestion !== undefined) {
             if (_.some(ssPackage.data.content, ['url', suggestion.url])) {
@@ -2869,21 +2666,19 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             }
 
             // suggestion.url = suggestion.url.replace('http', 'https');
-            debugger;
+            // debugger;
             var parser = document.createElement('a');
             parser.href = suggestion.url
 
-            url = /api/.test(parser.pathname)? parser.pathname : '/api' + parser.pathname
+            url = /api/.test(parser.pathname) ? parser.pathname : '/api' + parser.pathname
             $http.get(url)
                 .then(function (data) {
-                    debugger;
 
 
                     suggestion = fixGuideboxData(data.data)
 
 
                     if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-                        debugger;
                         $scope.loading = true;
 
                         suggestion.justAdded = true;
@@ -3173,249 +2968,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         var cs = PackageFactory.getChosenShow();
 
         $http.post('/node-data/detailsources', cs)
-            .then(function(data){
+            .then(function (data) {
                 $scope.detailSources = data.data
             })
-
-        // $scope.detailSources = (function () {
-        //
-        //     if ($scope.cs.guidebox_data != undefined) {
-        //
-        //
-        //         var x = _($scope.cs.channel)
-        //             .concat($scope.cs.guidebox_data.sources.web.episodes.all_sources, $scope.cs.guidebox_data.sources.ios.episodes.all_sources)
-        //             .map(function (elem) {
-        //
-        //                 if (elem.guidebox_data != undefined) {
-        //                     elem.source = elem.guidebox_data.short_name
-        //                 }
-        //                 return elem
-        //             })
-        //             .map(function (elem) {
-        //                 if (elem.source == 'hulu_free') {
-        //                     elem.source = 'hulu_plus';
-        //                     return elem
-        //                 }
-        //
-        //                 if (elem.source == 'starz_tveverywhere') {
-        //                     elem.source = 'starz'
-        //                 }
-        //
-        //                 if (elem.source == 'showtime_subscription') {
-        //                     elem.source = 'showtime'
-        //                 }
-        //
-        //                 return elem;
-        //             })
-        //             .thru(function (services) {
-        //                 if (checkForHuluWithShowtime(services)) {
-        //                     services = removeHuluIfShowtimeContent(services)
-        //                 }
-        //
-        //                 return services
-        //             })
-        //
-        //             .uniqBy('source')
-        //             .uniqBy(function (elem) {
-        //                 if (elem.display_name) {
-        //                     return elem.display_name
-        //
-        //                 } else {
-        //                     return elem.name
-        //                 }
-        //             })
-        //             .tap(interceptor)
-        //             .groupBy(function (service) {
-        //                 debugger;
-        //                 if (liveServices.includes(service.source)) {
-        //                     return 'live'
-        //                 }
-        //                 if (service.is_on_sling || service.on_sling) {
-        //                     return 'live'
-        //                 }
-        //                 if (onDemandServices.includes(service.source)) {
-        //                     return 'on_demand'
-        //                 }
-        //                 if (bingeServices.includes(service.source)) {
-        //                     return 'binge'
-        //                 }
-        //                 if (payPerServices.includes(service.source)) {
-        //                     return 'pay_per_view'
-        //                 }
-        //
-        //                 return 'misc'
-        //             })
-        //             .tap(interceptor)
-        //             .thru(function (services) {
-        //
-        //                 _.forEach(services.misc, function (service) {
-        //                     if (service.source == 'hbo_now') {
-        //                         services.live.push(service);
-        //                         services.on_demand.push(service);
-        //                         services.binge.push(service);
-        //                     }
-        //                     else if (service.source == 'showtime_subscription') {
-        //                         services.on_demand.push(service);
-        //                         services.binge.push(service);
-        //                         services.live.push(service);
-        //                     }
-        //
-        //                 })
-        //                 if (_.some(services.on_demand, ['source', 'starz'])) {
-        //
-        //                     if (services.binge == undefined) {
-        //                         services.binge = []
-        //                     }
-        //                     services.binge.push(_.takeWhile(services.on_demand, {'source': 'starz'})[0]);
-        //
-        //                 }
-        //
-        //                 if (services.live) {
-        //                     _.map(services.live, function (elem) {
-        //                         // debugger
-        //
-        //
-        //                         if (elem.hasOwnProperty('guidebox_data') && elem.guidebox_data.is_over_the_air) {
-        //                             var elemCopy = _.cloneDeep(elem);
-        //
-        //                             elemCopy.name = 'OTA';
-        //                             delete elemCopy['id'];
-        //                             delete elemCopy['$$hashKey'];
-        //
-        //                             elemCopy.source = 'ota';
-        //
-        //                             services.live.push(elemCopy)
-        //                         }
-        //
-        //                         if (elem.is_over_the_air) {
-        //                             var elemCopy = _.cloneDeep(elem);
-        //
-        //                             elemCopy.name = 'OTA';
-        //                             delete elemCopy['id'];
-        //                             delete elemCopy['$$hashKey'];
-        //
-        //                             elemCopy.source = 'ota';
-        //
-        //                             services.live.push(elemCopy)
-        //                         }
-        //
-        //                         if (elem.is_on_sling || elem.on_sling) {
-        //                             var elemCopy = _.cloneDeep(elem);
-        //
-        //                             elemCopy.name = 'Sling';
-        //                             delete elemCopy['id'];
-        //                             delete elemCopy['$$hashKey'];
-        //
-        //                             elemCopy.source = 'sling_tv';
-        //
-        //                             services.live.push(elemCopy)
-        //
-        //
-        //                         }
-        //
-        //                         if (elem.source == "cbs") {
-        //
-        //
-        //                             if (!services.binge) {
-        //                                 services.binge = []
-        //                             }
-        //                             services.binge.push(elem);
-        //
-        //                             if (!services.on_demand) {
-        //                                 services.on_demand = []
-        //                             }
-        //                             services.on_demand.push(elem)
-        //                         }
-        //
-        //                         if (elem.source == "hbo_now") {
-        //
-        //                             if (!services.binge) {
-        //                                 services.binge = []
-        //                             }
-        //                             services.binge.push(elem)
-        //
-        //                             if (!services.on_demand) {
-        //                                 services.on_demand = []
-        //                             }
-        //
-        //                             services.on_demand.push(elem)
-        //                         }
-        //                         debugger;
-        //
-        //                         if (elem.source == "showtime_subscription" || elem.source == "showtime") {
-        //
-        //                             if (!services.binge) {
-        //                                 services.binge = []
-        //                             }
-        //                             services.binge.push(elem)
-        //
-        //                             if (!services.on_demand) {
-        //                                 services.on_demand = []
-        //                             }
-        //
-        //                             services.on_demand.push(elem)
-        //                         }
-        //
-        //                         //
-        //
-        //                         return elem
-        //
-        //                     })
-        //                 }
-        //
-        //                 if ($scope.cs.on_netflix) {
-        //                     if (!services.hasOwnProperty('binge')) {
-        //                         services.binge = []
-        //
-        //                     }
-        //
-        //                     var netflix_channel = _.some(services.binge, ['source', 'netflix']);
-        //
-        //                     if (!netflix_channel) {
-        //                         services.binge.push({source: 'netflix'})
-        //                     }
-        //                 }
-        //
-        //
-        //                 return services
-        //             })
-        //             .thru(function (services) {
-        //                 var nbc = _.remove(services.live, function (item) {
-        //                     return item.source == 'nbc';
-        //                 })
-        //
-        //                 if (nbc.length > 0) {
-        //                     if (services.on_demand == undefined) {
-        //                         services.on_demand = nbc
-        //                     } else {
-        //
-        //                         services.on_demand = _.concat(services.on_demand, nbc)
-        //                     }
-        //                 }
-        //
-        //                 if (!Object.keys) Object.prototype.keys = function (o) {
-        //                     if (o !== Object(o))
-        //                         throw new TypeError('Object.keys called on a non-object');
-        //                     var k = [], p;
-        //                     for (p in o) if (Object.prototype.hasOwnProperty.call(o, p)) k.push(p);
-        //                     return k;
-        //                 }
-        //
-        //                 $scope.sortedServices = _.sortBy(Object.keys(services), function (elem) {
-        //                     return elem.length
-        //                 })
-        //
-        //                 return services
-        //
-        //
-        //             })
-        //             .value();
-        //
-        //
-        //         return x;
-        //     }
-        // })()
-
     })
 
 
@@ -3425,21 +2980,20 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.hello = 'clear package';
 
     $scope.clearContent = function () {
-        var pkg = PackageFactory.getPackage()
+        var pkg = PackageFactory.getPackage();
 
-        pkg.data.content = []
+        pkg.data.content = [];
 
         PackageFactory.setPackage(pkg)
-    }
+    };
 
-    $rootScope.showSearchView = true
+    $rootScope.showSearchView = true;
 
 
     $('body').removeAttr('id');
     $('body').addClass('gradient-background');
 
 
-    $scope.popularShows = null;
 
     $http.get('api/popular-shows')
         .success(function (data) {
@@ -3484,11 +3038,11 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         PackageFactory.setChosenShow(item);
 
-        if(item==$scope.cs){
+        if (item == $scope.cs) {
             $http.post('/node-data/detailsources', $scope.cs)
-            .then(function(data){
-                $scope.detailSources = data.data
-            })
+                .then(function (data) {
+                    $scope.detailSources = data.data
+                })
         }
 
 
@@ -3530,9 +3084,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     }, 50);
 
     $(document).keyup(function (event) {
-        debugger
         var keyCode = event.which || event.keyCode;
-        if (keyCode == 27  ){
+        if (keyCode == 27) {
             $scope.hideDetail()
         }
 
@@ -3560,16 +3113,16 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             .then(function (v) {
                 //debugger;
                 // $('body').css('overflow', 'scroll');
-                $(scaleItem).removeAttr('id')
-                $(positionItem).removeAttr('id')
+                $(scaleItem).removeAttr('id');
+                $(positionItem).removeAttr('id');
 
                 $('#search-and-shows').removeClass('no-scroll');
 
 
                 if ($window.innerWidth < 768) {
-                    $('body').css({'overflow': 'scroll'})
-                    $('body').removeClass('black-mobile-bg')
-                    $('#search-and-shows').fadeIn()
+                    $('body').css({'overflow': 'scroll'});
+                    $('body').removeClass('black-mobile-bg');
+                    $('#search-and-shows').fadeIn();
 
                     $('mobile-tabs').fadeIn();
                 }
@@ -3612,106 +3165,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
-
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
-
-
-    //$scope.login = 'Click Here to Login'
-
-
-    $scope.items = ['item1', 'item2', 'item3'];
-
-    $rootScope.openLogInModal = function () {
-
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: '/static/partials/modal/modal.html',
-            controller: 'ModalInstanceController',
-            size: 'sm',
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selectedItem = selectedItem;
-
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    }
-
-    //if ($rootScope.currentStep == 3) {
-    //    $rootScope.openLogInModal()
-    //}
-});
-
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
-
-    $scope.socialLogin = true;
-
-    $scope.auth = {
-        twitter : $('#twitter_login').attr('href'),
-        facebook : $('#facebook_login').attr('href'),
-    }
-
-
-    //$scope.facebookAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
-    //}
-    //
-    //$scope.instagramAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
-    //}
-    //
-    //$scope.twitterAuth = function () {
-    //
-    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
-    //}
-
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $rootScope.logged_in = true;
-                $modalInstance.close();
-                growl.success('Login Successful', {
-                    onclose: function () {
-
-                        window.location.reload()
-                    },
-                    ttl : 1000,
-                    disableCountDown: true
-                })
-
-            })
-    };
-
-
-    $scope.items = items;
-
-    $scope.selected = {
-        item: $scope.items[0]
-    }
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-    }
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel')
-    }
-
-})
 
 /**
  * Created by Nem on 10/27/15.

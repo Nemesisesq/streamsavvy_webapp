@@ -7,11 +7,13 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
         {
             name: 'Roku',
             image: 'https://s3.amazonaws.com/streamsavvy/Roku4.png',
+            url: '',
             price: 43.20
         },
         {
             name: 'Mohu Leaf',
             image: 'https://s3.amazonaws.com/streamsavvy/Mohu.png',
+            url: '',
             price: 43.20
         }
     ]

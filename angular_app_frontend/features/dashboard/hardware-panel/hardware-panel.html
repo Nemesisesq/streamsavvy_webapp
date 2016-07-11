@@ -19,7 +19,7 @@
     <div class="row hardware-body">
 
 
-        <div class="col-xs-6" ng-repeat="device in devices">
+        <div class="col-xs-6" ng-repeat="device in devices" on-click="window.open('device.url)">
 
             <div class="hardware-img" ng-click="addRemoveHardware(item)"
                  ng-class="{selected: itemSelected(item) }">
@@ -33,9 +33,6 @@
                               tooltip-class="vw-tooltip"></span>
             </div>
 
-            <div class="hardware-cost">
-               {{ device.price }}
-            </div>
         </div>
         <div class="col-sm-6">
             <div class="hardware-other">

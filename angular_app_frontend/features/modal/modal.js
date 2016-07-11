@@ -1,4 +1,4 @@
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope, loginEventService) {
 
 
     //$scope.login = 'Click Here to Login'
@@ -29,9 +29,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
         });
     }
 
-    //if ($rootScope.currentStep == 3) {
-    //    $rootScope.openLogInModal()
-    //}
+    loginEventService.listen($scope.openLogInModal)
 });
 
 app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
@@ -42,23 +40,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         twitter : $('#twitter_login').attr('href'),
         facebook : $('#facebook_login').attr('href'),
     }
-
-
-    //$scope.facebookAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
-    //}
-    //
-    //$scope.instagramAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
-    //}
-    //
-    //$scope.twitterAuth = function () {
-    //
-    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
-    //}
-
 
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
