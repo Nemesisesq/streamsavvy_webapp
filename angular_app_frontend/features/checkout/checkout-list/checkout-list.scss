@@ -77,7 +77,7 @@
 .btn-already-have {
   border-radius: 8px;
   border: none;
-  background-color: rgba(225, 225, 225, .1);
+  background-color: $dark-sky-blue;
 
   letter-spacing: .6px;
   color: $warm-grey;
@@ -105,7 +105,7 @@
 
   letter-spacing: .6px;
   font-size: 10px;
-  background-color: #11b2e6;
+  background-color: $leafy-green;
   //min-width: 100px;
   min-height: 35px;
   width: 100%;

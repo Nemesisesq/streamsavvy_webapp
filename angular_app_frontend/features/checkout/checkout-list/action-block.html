@@ -1,13 +1,14 @@
 <div class="col-lg-offset-3 col-md-offset-2 col-sm-offset-1 col-lg-8 col-md-9 col-sm-10 checkout-button-container">
     <div class="row" ng-if="!service.added">
-        <div class="col-sm-4">
-            <button class="btn-already-have" ng-click="service.added = true ">Have it</button>
-        </div>
+
         <div class="col-sm-4">
             <button class="btn-purchase" ng-click="linkToAffiliate(service)">
                 <span ng-if="key != 'ota'">Subscribe</span>
                 <span ng-if="key == 'ota'">Purchase</span>
             </button>
+        </div>
+        <div class="col-sm-4">
+            <button class="btn-already-have" ng-click="service.added = true ">Have it</button>
         </div>
         <div class="col-sm-1">
             <button class="btn-link hide-service ">

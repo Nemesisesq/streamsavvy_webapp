@@ -2703,7 +2703,7 @@ show-detail .background {
 .btn-already-have {
   border-radius: 8px;
   border: none;
-  background-color: rgba(225, 225, 225, 0.1);
+  background-color: #45a7e5;
   letter-spacing: .6px;
   color: #9b9b9b;
   font-size: 10px;
@@ -2726,7 +2726,7 @@ show-detail .background {
   text-decoration: none !important;
   letter-spacing: .6px;
   font-size: 10px;
-  background-color: #11b2e6;
+  background-color: #3fc23f;
   min-height: 35px;
   width: 100%; }
   .btn-purchase .mobile-purch {
