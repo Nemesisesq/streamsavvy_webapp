@@ -2933,10 +2933,10 @@ action-block.col-sm-10 {
   margin-left: 100px; }
 
 button.btn-purchase {
-  border-radius: 0; }
+  border-radius: 8px; }
 
 button.btn-already-have {
-  border-radius: 0; }
+  border-radius: 8px; }
 
 .row.footer {
   position: absolute;
