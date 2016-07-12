@@ -710,7 +710,7 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, elem, attrs) {
 
-            debugger;
+            // debugger;
 
             if (_.includes(scope.package.data.services.subscribed, elem)) {
                 scope.service.added = true
@@ -719,7 +719,6 @@ app.directive('checkoutService', function ($http, $window) {
             if (_.includes(scope.package.data.services.hidden, elem)) {
                 scope.service.hidden = true
             }
-
 
             $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
@@ -754,15 +753,18 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
         link: function (scope, element, attrs) {
 
             scope.windowWidth = $window.innerWidth
-            
+
             debugger
 
-            $http.get('/service_description/' + scope.service.chan.source)
+            _.map(scope.value, function(elem){
+                $http.get('/service_description/' + elem.chan.source)
                 .then(function (data) {
-                    scope.service.details = data.data;
+                    elem.details = data.data
                     // console.log(data)
 
                 })
+
+            })
 
         }
     }
@@ -1755,7 +1757,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
         },
 
         getCheckoutPanelList: function () {
-            debugger;
+            // debugger;
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 return $http.post('/node-data/checkoutlist', ssPackage)
@@ -1782,6 +1784,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
 
 
         })
+    
 });
 
 app.factory('_', function ($window) {
@@ -2179,7 +2182,9 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
         });
     }
 
-    loginEventService.listen($scope.openLogInModal)
+    //if ($rootScope.currentStep == 3) {
+    //    $rootScope.openLogInModal()
+    //}
 });
 
 app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
@@ -2191,13 +2196,30 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         facebook: $('#facebook_login').attr('href'),
     }
 
+
+    //$scope.facebookAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
+    //}
+    //
+    //$scope.instagramAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
+    //}
+    //
+    //$scope.twitterAuth = function () {
+    //
+    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
+    //}
+
+
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
         http.login(credentials)
             .then(function (data) {
-                // console.log(data);
+                console.log(data);
                 $rootScope.logged_in = true;
                 $modalInstance.close();
                 growl.success('Login Successful', {
@@ -2205,7 +2227,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                         window.location.reload()
                     },
-                    ttl: 1000,
+                    ttl : 1000,
                     disableCountDown: true
                 })
 

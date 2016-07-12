@@ -25,16 +25,21 @@
             <div ng-repeat="device in devices">
                 <div class="hardware-name">
                 {{ device.name }}
-                &nbsp;
+
+
+                    &nbsp;
                         <span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ item.description }}"
                               tooltip-placement="right"
                               tooltip-class="vw-tooltip"></span>
+
+
                 </div>
                 <div class="hardware-img" ng-click="addRemoveHardware(item)"
                  ng-class="{selected: itemSelected(item) }">
                     <img class="" ng-src="{{ device.image }}"/>
                 </div>
                 <div class="hardware-cost">
+                    Cost: $
                     {{ device.price }}
                 </div>
             </div>

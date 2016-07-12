@@ -42,7 +42,9 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
         });
     }
 
-    loginEventService.listen($scope.openLogInModal)
+    //if ($rootScope.currentStep == 3) {
+    //    $rootScope.openLogInModal()
+    //}
 });
 
 app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
@@ -54,13 +56,30 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         facebook: $('#facebook_login').attr('href'),
     }
 
+
+    //$scope.facebookAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
+    //}
+    //
+    //$scope.instagramAuth = function () {
+    //
+    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
+    //}
+    //
+    //$scope.twitterAuth = function () {
+    //
+    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
+    //}
+
+
     $scope.login = function (credentials) {
         //credentials.next = "/api/";
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
         http.login(credentials)
             .then(function (data) {
-                // console.log(data);
+                console.log(data);
                 $rootScope.logged_in = true;
                 $modalInstance.close();
                 growl.success('Login Successful', {
@@ -68,7 +87,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                         window.location.reload()
                     },
-                    ttl: 1000,
+                    ttl : 1000,
                     disableCountDown: true
                 })
 

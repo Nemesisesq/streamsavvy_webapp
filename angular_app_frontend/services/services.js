@@ -122,7 +122,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
         },
 
         getCheckoutPanelList: function () {
-            debugger;
+            // debugger;
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 return $http.post('/node-data/checkoutlist', ssPackage)
@@ -149,4 +149,5 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
 
 
         })
+    
 });

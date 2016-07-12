@@ -180,7 +180,7 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, elem, attrs) {
 
-            debugger;
+            // debugger;
 
             if (_.includes(scope.package.data.services.subscribed, elem)) {
                 scope.service.added = true
@@ -189,7 +189,6 @@ app.directive('checkoutService', function ($http, $window) {
             if (_.includes(scope.package.data.services.hidden, elem)) {
                 scope.service.hidden = true
             }
-
 
             $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
@@ -224,15 +223,18 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
         link: function (scope, element, attrs) {
 
             scope.windowWidth = $window.innerWidth
-            
+
             debugger
 
-            $http.get('/service_description/' + scope.service.chan.source)
+            _.map(scope.value, function(elem){
+                $http.get('/service_description/' + elem.chan.source)
                 .then(function (data) {
-                    scope.service.details = data.data;
+                    elem.details = data.data
                     // console.log(data)
 
                 })
+
+            })
 
         }
     }

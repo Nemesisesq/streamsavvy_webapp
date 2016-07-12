@@ -451,22 +451,26 @@ button {
 }
 
 .hardware-img {
-  float: left;
-  margin-left: 75px;
-  max-width: 25%;
+  height: 25px;
+  display: inline-block;
+  vertical-align: top;
+  horiz-align: right;
+  margin-bottom: 225px;
 }
 
 .center-block {
-  float: none !important;
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 600px;
+  margin-left: 30%;
 }
 
 .hardware-name {
-  font-size: 12px;
-  margin-bottom: 10px;
+  font-size: 16px;
+  padding-bottom: 10px;
+  float: left;
 }
 
 .hardware-cost {
   font-size: 14px;
+  float: right;
 }
