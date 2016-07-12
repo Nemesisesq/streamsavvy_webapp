@@ -47,7 +47,6 @@ app.service('refreshPackageService', function($rootScope){
     }, 500)
     this.listen = _.debounce(function (callback) {
         $rootScope.$on("refresh_package", callback)
-
     }, 500)
 })
 
@@ -94,7 +93,9 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
                     // debugger;
                     if ( _.includes(auth_denied, response.status)) {
                     console.log(new Date());
-                        loginEventService.broadcast()
+                        debugger
+
+                        location.pathname != '/' && loginEventService.broadcast()
                     }
                 })
         },0),
