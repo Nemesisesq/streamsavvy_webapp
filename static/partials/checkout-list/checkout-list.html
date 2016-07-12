@@ -15,3 +15,38 @@
 
 </div>
 
+<div class="container mobile-checkout-container" ng-controller="HardwareController">
+    <div class="f-i-n-a-l-i-z-e-y-o-u-r-s-e-r-v-i-c">
+        <div class="row">
+            MANAGE YOUR DEVICES
+        </div>
+        <div class="app-manager-description">
+            In addition to apps and services, you'll need the right devices. StreamSavvy recommends two devices to get you the most apps and live TV.
+        </div>
+        <div class="center-block">
+
+            <div ng-repeat="device in devices">
+
+                <div class="hardware-name">
+                {{ device.name }}
+                &nbsp;
+                        <span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ item.description }}"
+                              tooltip-placement="right"
+                              tooltip-class="vw-tooltip"></span>
+                </div>
+
+
+                <div class="hardware-img" ng-click="addRemoveHardware(item)"
+                 ng-class="{selected: itemSelected(item) }">
+                    <img class="" ng-src="{{ device.image }}"/>
+                </div>
+
+
+                <div class="hardware-cost">
+                    {{ device.price }}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

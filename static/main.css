@@ -2951,6 +2951,23 @@ button.btn-already-have {
   margin-bottom: 25px;
   font-size: 14px; }
 
+.hardware-img {
+  float: left;
+  margin-left: 75px;
+  max-width: 25%; }
+
+.center-block {
+  float: none !important;
+  width: 500px;
+  height: 500px; }
+
+.hardware-name {
+  font-size: 12px;
+  margin-bottom: 10px; }
+
+.hardware-cost {
+  font-size: 14px; }
+
 .row.footer {
   position: absolute;
   bottom: 0;
