@@ -1719,18 +1719,21 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
 
         postPackage: _.debounce(function (ssPackage) {
 
-            if($window.sessionStorage.token == undefined){
-                loginEventService.broadcast()
-            }
+            // if($window.sessionStorage.token == undefined){
+            //     loginEventService.broadcast()
+            // }
             $http.put(ssPackage.url, ssPackage)
                 .then(function success(response){
                     var h  = 'w';
                 }, function error (response){
-                    if (response.status == 403 && _package.data.content.length > 0 ) {
+                    auth_denied = [403, 401];
+                    // debugger;
+                    if ( _.includes(auth_denied, response.status)) {
+                    console.log(new Date());
                         loginEventService.broadcast()
                     }
                 })
-        }, 1100),
+        },0),
 
         getPackage: function () {
             return _package || "";
@@ -1739,54 +1742,6 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
         getSSTest: function () {
             // ;
             return _test;
-        },
-
-        updatePackageChannels: function (scope) {
-            //debugger;
-
-            if (scope.package.content.length == 0) {
-                scope.package.providers = [];
-            }
-
-
-            return $q(function (resolve, reject) {
-
-                var chans = _.map(scope.package.content, function (elem) {
-                    var x = []
-
-                    _.forEach(VIEW_WINDOWS, function (w) {
-
-                        if (elem.viewingWindows !== undefined && elem.viewingWindows[w.type] !== undefined) {
-                            var window = elem.viewingWindows[w.type];
-
-                            if (window.selected && window.channel !== undefined) {
-                                x.push(window.channel)
-                            }
-
-                        }
-
-                    })
-
-
-                    return x
-                })
-
-                chans = _.flatten(chans)
-
-                //debugger;
-
-                chans = _.uniq(chans, function (elem) {
-
-                    if (elem.service !== undefined) {
-                        return elem.service
-                    }
-                    return elem.source
-                })
-
-                scope.package.providers = chans
-            })
-
-
         },
 
         getListOfServices: function () {
@@ -2192,10 +2147,17 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
     //$scope.login = 'Click Here to Login'
 
+    var modalOpen = false
 
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
+        debugger
+        if(modalOpen){
+            return
+        }
+
+        modalOpen = true;
 
         var modalInstance = $modal.open({
             animation: true,
@@ -2215,6 +2177,8 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
+            modalOpen = false
+            // $log.info(modalOpen)
         });
     }
 

@@ -3,10 +3,17 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
     //$scope.login = 'Click Here to Login'
 
+    var modalOpen = false
 
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
+        debugger
+        if(modalOpen){
+            return
+        }
+
+        modalOpen = true;
 
         var modalInstance = $modal.open({
             animation: true,
@@ -26,6 +33,8 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
+            modalOpen = false
+            // $log.info(modalOpen)
         });
     }
 
