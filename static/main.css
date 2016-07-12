@@ -288,7 +288,7 @@ body {
 
 .fa {
   display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2637,6 +2637,24 @@ show-detail .background {
 #checkout-back-btn-area {
   padding: 10px; }
 
+.checkout-steps i {
+  font-size: 26px; }
+
+.fa-cloud-download {
+  color: #3fc23f; }
+
+.fa-plus-square {
+  color: #45a7e5; }
+
+.fa-minus-circle {
+  color: #9b9b9b; }
+
+.service-disclaimer {
+  color: #9b9b9b;
+  margin-left: 9%;
+  width: 83%;
+  font-size: 10px; }
+
 .checkoutList {
   margin-top: 30px;
   min-height: 100%; }
@@ -2691,10 +2709,10 @@ show-detail .background {
 .btn-already-have {
   border-radius: 8px;
   border: none;
-  background-color: rgba(225, 225, 225, 0.1);
+  background-color: #45a7e5;
   letter-spacing: .6px;
-  color: #9b9b9b;
-  font-size: 10px;
+  color: white !important;
+  font-size: 12px;
   min-width: 100px;
   min-height: 35px;
   padding-left: 22px;
@@ -2713,8 +2731,8 @@ show-detail .background {
   padding-bottom: 8px;
   text-decoration: none !important;
   letter-spacing: .6px;
-  font-size: 10px;
-  background-color: #11b2e6;
+  font-size: 12px;
+  background-color: #3fc23f;
   min-height: 35px;
   width: 100%; }
   .btn-purchase .mobile-purch {
@@ -2765,14 +2783,17 @@ show-detail .background {
 
 .service-image {
   margin-top: 10px;
-  max-width: 100px;
-  width: 100%; }
+  max-width: 60px;
+  width: 100%;
+  padding-bottom: 3%;
+  float: left; }
 
 .ss_show-list {
   list-style: none;
   font-size: 14px;
   letter-spacing: 0.6px;
   color: #ffffff;
+  margin-top: 15px;
   font-weight: 200; }
   .ss_show-list .ss_show.row {
     font-size: 14px;
@@ -2887,7 +2908,8 @@ checkout-image-block.col-sm-2 {
   width: 100%; }
 
 .checkout-steps {
-  font-size: 9px; }
+  font-size: 12px;
+  margin-top: 20px; }
   .checkout-steps div {
     min-height: 24px; }
   .checkout-steps .step-numbers {
@@ -2919,10 +2941,32 @@ action-block.col-sm-10 {
   margin-left: 100px; }
 
 button.btn-purchase {
-  border-radius: 0; }
+  border-radius: 8px; }
 
 button.btn-already-have {
-  border-radius: 0; }
+  border-radius: 8px; }
+
+.app-manager-description {
+  margin-top: 10px;
+  margin-bottom: 25px;
+  font-size: 14px; }
+
+.hardware-img {
+  float: left;
+  margin-left: 75px;
+  max-width: 25%; }
+
+.center-block {
+  float: none !important;
+  width: 500px;
+  height: 500px; }
+
+.hardware-name {
+  font-size: 12px;
+  margin-bottom: 10px; }
+
+.hardware-cost {
+  font-size: 14px; }
 
 .row.footer {
   position: absolute;

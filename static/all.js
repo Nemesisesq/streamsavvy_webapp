@@ -566,6 +566,14 @@ app.directive('checkoutImageBlock', function ($http) {
                 }
                 return service + "_sprite"
             }
+
+             scope.linkToAffiliate = function (service) {
+                 if (key == 'ppv'){
+                     $window.open(service.details.subscription_link);
+                     mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
+                     scope.subscribe(service)
+                 }
+            }
         }
     }
 })
@@ -734,7 +742,7 @@ app.directive('checkoutService', function ($http, $window) {
     }
 })
 
-app.directive('ppvCheckoutItem', function ($window) {
+app.directive('ppvCheckoutItem', function ($window, $http) {
     return {
         restrict: 'E',
         templateUrl: 'static/partials/checkout-list/ppv-checkout-item.html',
@@ -751,6 +759,13 @@ app.directive('ppvCheckoutItem', function ($window) {
 
                 element.remove()
             }
+
+            $http.get('/service_description/' + scope.service.chan.source)
+                .then(function (data) {
+                    scope.service.details = data.data;
+                    // console.log(data)
+
+                })
 
         }
     }
@@ -2019,6 +2034,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2070,7 +2086,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         $scope.list = PackageFactory.getListOfServices();
     })
 });
-
 
 
 /**
