@@ -754,6 +754,8 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
         link: function (scope, element, attrs) {
 
             scope.windowWidth = $window.innerWidth
+            
+            debugger
 
             $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
@@ -1721,12 +1723,9 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
                     var h  = 'w';
                 }, function error (response){
                     auth_denied = [403, 401];
-                    // debugger;
                     if ( _.includes(auth_denied, response.status)) {
                     console.log(new Date());
-                        debugger
-
-                        location.pathname != '/' && loginEventService.broadcast()
+                        location.hash != '#/' && loginEventService.broadcast()
                     }
                 })
         },0),
@@ -1751,7 +1750,6 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
         getServicePanelList: function () {
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
-                // var url = envService.read('serviceListUrl')
                 return $http.post('/node-data/servicelist', ssPackage)
             }
         },
@@ -1760,8 +1758,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
             debugger;
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
-                // var url = envService.read('checkoutListUrl')
-                return $http.post('/node-data/checkoutlist ', ssPackage)
+                return $http.post('/node-data/checkoutlist', ssPackage)
             }
         },
 
@@ -1779,7 +1776,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
 
 
             data = data.data.results[0];
-            PackageFactory.setPackage(data)
+            PackageFactory.setPackage(data);
 
             refreshPackageService.broadcast()
 
@@ -2138,7 +2135,7 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope, $timeout, loginEventService) {
+app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
 
 
     //$scope.login = 'Click Here to Login'
@@ -2155,7 +2152,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
         modalOpen = true;
 
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',
             controller: 'ModalInstanceController',

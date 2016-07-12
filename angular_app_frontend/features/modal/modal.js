@@ -1,4 +1,4 @@
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope, $timeout, loginEventService) {
+app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
 
 
     //$scope.login = 'Click Here to Login'
@@ -15,7 +15,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
         modalOpen = true;
 
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',
             controller: 'ModalInstanceController',

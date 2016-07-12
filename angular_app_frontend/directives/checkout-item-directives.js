@@ -224,6 +224,8 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
         link: function (scope, element, attrs) {
 
             scope.windowWidth = $window.innerWidth
+            
+            debugger
 
             $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
