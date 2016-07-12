@@ -2506,18 +2506,18 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
 
-        if (!$window.sessionStorage.token) {
-            growl.info("Please authenticate to use this application.")
-                .then(function () {
-
-                    loginEventService.broadcast()
-                })
-
-            return
-        }
+        // if (!$window.sessionStorage.token) {
+        //     growl.info("Please authenticate to use this application.")
+        //         .then(function () {
+        //
+        //             loginEventService.broadcast()
+        //         })
+        //
+        //     return
+        // }
         var ssPackage = PackageFactory.getPackage();
 
-        if (hidden in ssPackage.data.service) {
+        if ('hidden' in ssPackage.data.services) {
             ssPackage.data.services.hidden = [];
         }
 
