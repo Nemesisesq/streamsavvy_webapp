@@ -2142,7 +2142,7 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 
 });
 
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope, loginEventService) {
+app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope, $timeout, loginEventService) {
 
 
     //$scope.login = 'Click Here to Login'
@@ -2153,7 +2153,7 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
     $rootScope.openLogInModal = function () {
         debugger
-        if(modalOpen){
+        if (modalOpen) {
             return
         }
 
@@ -2177,7 +2177,11 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
-            modalOpen = false
+
+            $timeout(function () {
+
+                modalOpen = false
+            }, 1000)
             // $log.info(modalOpen)
         });
     }
@@ -2190,8 +2194,8 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     $scope.socialLogin = true;
 
     $scope.auth = {
-        twitter : $('#twitter_login').attr('href'),
-        facebook : $('#facebook_login').attr('href'),
+        twitter: $('#twitter_login').attr('href'),
+        facebook: $('#facebook_login').attr('href'),
     }
 
     $scope.login = function (credentials) {
@@ -2208,7 +2212,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                         window.location.reload()
                     },
-                    ttl : 1000,
+                    ttl: 1000,
                     disableCountDown: true
                 })
 
