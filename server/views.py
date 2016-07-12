@@ -22,7 +22,7 @@ from django.http import JsonResponse, HttpResponse
 from rest_framework import viewsets
 from django.views.generic import View
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from django.contrib.auth.models import Group
 
@@ -155,7 +155,7 @@ class PackagesViewSet(viewsets.ModelViewSet):
     serializer_class = PackagesSerializer
     http_method_names = ['get', 'put']
 
-    # permission_classes = (SaveFirstShowThenRequireAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         user = get_user(self)
