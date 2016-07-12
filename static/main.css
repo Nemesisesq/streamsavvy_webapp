@@ -3017,7 +3017,7 @@ span.pull-right.footer-right {
 
 .service-panel.ng-scope {
   min-height: 60vh;
-  max-height: calc(100vh - 46px);
+  max-height: 100vh;
   -webkit-backdrop-filter: blur(9.9px);
   backdrop-filter: blur(9.9px);
   overflow-y: scroll; }
