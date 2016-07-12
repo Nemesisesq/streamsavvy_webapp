@@ -509,4 +509,5 @@ app.run(function (PackageFactory, $http, http, $rootScope) {
             PackageFactory.setPackage(data)
 
         })
+    
 });

@@ -2422,6 +2422,77 @@ ul[id^='typeahead-'], .suggestions-list {
 .search_transparent {
   opacity: 0; }
 
+.modal-dialog {
+  text-align: center;
+  width: 560px; }
+  .modal-dialog .modal-body {
+    padding-top: 0; }
+    .modal-dialog .modal-body li {
+      float: left;
+      height: auto; }
+      .modal-dialog .modal-body li a {
+        margin-bottom: 0; }
+      .modal-dialog .modal-body li:active > a {
+        border-bottom: solid 1px white;
+        margin-bottom: 0; }
+      .modal-dialog .modal-body li:active {
+        border-bottom: none; }
+    .modal-dialog .modal-body .btn-row {
+      padding: 3px; }
+      .modal-dialog .modal-body .btn-row .btn {
+        width: 100%; }
+      .modal-dialog .modal-body .btn-row .twitter {
+        background-color: #00aced; }
+      .modal-dialog .modal-body .btn-row .facebook {
+        background-color: #3b5998; }
+      .modal-dialog .modal-body .btn-row .instagram {
+        background-color: #517fa4; }
+  .modal-dialog .modal-header {
+    margin: 0 auto; }
+    .modal-dialog .modal-header .modal-title {
+      font-size: 24px; }
+    .modal-dialog .modal-header .please-social {
+      font-size: 15px;
+      margin-top: 15px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid #9b9b9b;
+      margin-bottom: 25px; }
+  .modal-dialog .wait-minute {
+    color: black;
+    float: left;
+    font-size: 1.5em;
+    text-decoration: underline;
+    padding-left: 7%;
+    padding-top: 1.6%; }
+  .modal-dialog .lets-cut {
+    color: white;
+    border-radius: 5px;
+    margin-right: 8%; }
+  .modal-dialog .form-group {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    margin: 0; }
+    .modal-dialog .form-group .email-label {
+      float: left;
+      font-size: 15px;
+      font-weight: normal; }
+    .modal-dialog .form-group .div-for-an-or {
+      margin-top: 3%;
+      font-size: 15px; }
+
+.btn-login:hover {
+  color: #000088; }
+
+.modal-content {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px; }
+
+.modal-footer {
+  text-align: center; }
+  .modal-footer .log-in {
+    color: white; }
+
 .home-background {
   background-image: #282537;
   background-image: -o-linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), -o-linear-gradient(#15191b, #15191b);

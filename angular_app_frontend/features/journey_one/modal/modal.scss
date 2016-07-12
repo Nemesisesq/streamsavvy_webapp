@@ -1,7 +1,7 @@
 .modal-dialog {
   text-align: center;
   width: 560px;
-  border-top: solid 5px red;
+  // border-top: solid 5px red;
   .modal-body {
 
     li {
@@ -46,8 +46,15 @@
 
   .modal-header {
     margin: 0 auto;
+    .modal-title {
+      font-size: 24px;
+    }
     .please-social {
       font-size: 15px;
+      margin-top: 15px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid $warm-grey;
+      margin-bottom: 25px;
     }
   }
   .wait-minute {
@@ -85,14 +92,9 @@
   color: #000088;
 }
 
-.thick-modal-header {
-  font-size: 3em;
-  font-weight: 900;
-}
-
 .modal-content {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 .modal-footer {
   text-align: center;

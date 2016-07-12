@@ -32,6 +32,8 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
     //if ($rootScope.currentStep == 3) {
     //    $rootScope.openLogInModal()
     //}
+
+    $rootScope.openLogInModal()
 });
 
 app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
