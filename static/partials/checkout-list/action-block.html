@@ -1,7 +1,7 @@
 <div class="col-lg-offset-3 col-md-offset-2 col-sm-offset-1 col-lg-8 col-md-9 col-sm-10 checkout-button-container">
     <div class="row" ng-if="!service.added">
         <div class="col-sm-6">
-            <button class="btn-already-have" ng-click="service.added = true ">Already have this service</button>
+            <button class="btn-already-have" ng-click="subscribe(service)">Already have this service</button>
         </div>
         <div class="col-sm-4">
             <button class="btn-purchase" ng-click="linkToAffiliate(service)">
@@ -18,7 +18,7 @@
     <div ng-if="service.added" class="col-xs-11 show-added">
         <div class="pull-right">
             <div class="row checkout-green">Added Successfully</div>
-            <div class="row checkout-unsub"><a ng-click="service.added = false ">unsubscribe</a></div>
+            <div class="row checkout-unsub"><a ng-click="unsubscribe(service)">unsubscribe</a></div>
         </div>
     </div>
 </div>

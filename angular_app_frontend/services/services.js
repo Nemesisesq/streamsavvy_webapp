@@ -14,11 +14,6 @@ function check_if_on_sling(obj) {
 
 }
 
-function interceptor(obj) {
-    console.log(obj)
-
-}
-
 var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
 app.factory('N', function (envService) {
@@ -42,6 +37,16 @@ app.service('loginEventService', function ($rootScope) {
     }, 500)
     this.listen = _.debounce(function (callback) {
         $rootScope.$on("open_login", callback)
+
+    }, 500)
+})
+
+app.service('refreshPackageService', function($rootScope){
+    this.broadcast = _.debounce(function () {
+        $rootScope.$broadcast("refresh_package")
+    }, 500)
+    this.listen = _.debounce(function (callback) {
+        $rootScope.$on("refresh_package", callback)
 
     }, 500)
 })
@@ -77,7 +82,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
         },
 
         postPackage: _.debounce(function (ssPackage) {
-            
+
             if($window.sessionStorage.token == undefined){
                 loginEventService.broadcast()
             }
@@ -92,7 +97,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
         }, 1100),
 
         getPackage: function () {
-            return _package;
+            return _package || "";
         },
 
         getSSTest: function () {
@@ -165,6 +170,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
         },
 
         getCheckoutPanelList: function () {
+            debugger;
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 // var url = envService.read('checkoutListUrl')
@@ -179,16 +185,17 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
 }]);
 
 
-app.run(function (PackageFactory, $http, http, $rootScope) {
+app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService) {
 
     $http.get('/api/package/')
         .then(function (data) {
-            //$rootScope.env = data.data.env
 
-            console.log(data);
 
             data = data.data.results[0];
             PackageFactory.setPackage(data)
+
+            refreshPackageService.broadcast()
+
 
         })
 });

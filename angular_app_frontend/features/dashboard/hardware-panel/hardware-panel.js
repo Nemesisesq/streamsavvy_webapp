@@ -45,7 +45,7 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
         _.forEach($scope.pkg.data.content,function (showObject) {
             showList.push(showObject.title) ;
         });
-        console.log(showList);
+        // console.log(showList);
         mixpanel.track("Proceeded to Checkout",{"Show List": showList});
     }
 

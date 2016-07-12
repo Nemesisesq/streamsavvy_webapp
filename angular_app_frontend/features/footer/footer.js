@@ -43,7 +43,7 @@ $(document).ready(function () {
         // debugger;
         fixFooter();
         mutations.forEach(function (mutation) {
-            console.log(mutation)
+            // console.log(mutation)
         })
     })
 

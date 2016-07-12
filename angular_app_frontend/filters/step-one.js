@@ -53,8 +53,8 @@ app.filter('onDemand', function () {
         var list = _.filter(input, function (elem) {
             return elem.name != 'Netflix';
         })
-        console.log(list)
-        console.log('list')
+        // console.log(list)
+        // console.log('list')
 
         return list
     }

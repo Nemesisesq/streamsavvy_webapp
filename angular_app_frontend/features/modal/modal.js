@@ -47,7 +47,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         credentials.submit = "Log in";
         http.login(credentials)
             .then(function (data) {
-                console.log(data);
+                // console.log(data);
                 $rootScope.logged_in = true;
                 $modalInstance.close();
                 growl.success('Login Successful', {
