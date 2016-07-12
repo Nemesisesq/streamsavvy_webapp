@@ -225,11 +225,6 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
 
             scope.windowWidth = $window.innerWidth
 
-            scope.removeElementFromDom = function (service) {
-
-                element.remove()
-            }
-
             $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
                     scope.service.details = data.data;
