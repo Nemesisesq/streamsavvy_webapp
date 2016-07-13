@@ -226,7 +226,7 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
 
             debugger
 
-            _.map(scope.value, function(elem){
+            scope.value = _.map(scope.value, function(elem){
                 $http.get('/service_description/' + elem.chan.source)
                 .then(function (data) {
                     elem.details = data.data
@@ -234,7 +234,14 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
 
                 })
 
+                return elem
+
             })
+
+            scope.linkToAffiliate = function (service) {
+                $window.open(service.details.subscription_link);
+                mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
+            }
 
         }
     }
