@@ -2078,29 +2078,28 @@ app.controller('FeedbackCtrl', function ($scope) {
  * Created by Nem on 10/7/15.
  */
 
-app.directive('positionFooter', function () {
+app.directive('footer', function () {
 
     return {
-        restrict: 'A',
+        restrict: 'E',
+        templateUrl: 'static/partials/footer.html',
         link: function (scope, elemtnt, attrs) {
-
 
 
         }
     }
-
-
 })
 
 
 function fixFooter() {
+    debugger;
     var footerHeight = $("div[ui-view='footer']").height()
     var homeHeight = $("div[ui-view='home']").height()
     var windowHeight = window.innerHeight
     if (footerHeight && homeHeight && windowHeight) {
         // debugger;
 
-        if (homeHeight > (windowHeight - footerHeight)) {
+        if (homeHeight > windowHeight) {
             var diff = windowHeight - homeHeight
             $("div[ui-view='footer']").css({'bottom': diff})
         } else {
@@ -2111,19 +2110,7 @@ function fixFooter() {
 
 $(document).ready(function () {
 
-    var target = document.querySelector("[ui-view]")
 
-    var config = {attributes: true, childList: true, characterData: true};
-
-    var observer = new MutationObserver(function (mutations) {
-        // debugger;
-        fixFooter();
-        mutations.forEach(function (mutation) {
-            // console.log(mutation)
-        })
-    })
-
-    observer.observe(target, config)
 
 
     // debugger;
@@ -2724,6 +2711,74 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
 
 });
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if ('data' in ssPackage) {
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 function interceptor(obj) {
     console.log(obj)
     return obj
@@ -3001,71 +3056,3 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
-
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if ('data' in ssPackage) {
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
