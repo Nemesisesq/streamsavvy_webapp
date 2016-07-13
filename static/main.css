@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(lib/bootstrap-social/bootstrap-social.css);
 .btn {
   display: inline-block;
   margin-bottom: 0;
@@ -2492,6 +2493,16 @@ ul[id^='typeahead-'], .suggestions-list {
   text-align: center; }
   .modal-footer .log-in {
     color: white; }
+
+.modal-buttons {
+  width: 75%;
+  margin: 0 auto; }
+  .modal-buttons .btn-social {
+    height: 34px;
+    margin-top: 5px;
+    line-height: 8.5px; }
+  .modal-buttons .fa {
+    top: 2px; }
 
 .home-background {
   background-image: #282537;

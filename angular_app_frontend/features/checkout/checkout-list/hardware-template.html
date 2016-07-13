@@ -12,9 +12,9 @@
         <div class="col-sm-2" ng-repeat="device in devices" ng-class="{'col-sm-offset-4': $first}">
             <div class="hardware-name">
                 {{ device.name }}
-                        <span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ item.description }}"
+                        <!--<span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ item.description }}"
                               tooltip-placement="right"
-                              tooltip-class="vw-tooltip"></span>
+                              tooltip-class="vw-tooltip"></span> -->
             </div>
             <div class="hardware-img" ng-click="addRemoveHardware(item)"
                  ng-class="{selected: itemSelected(item) }">

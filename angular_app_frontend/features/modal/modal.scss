@@ -102,3 +102,19 @@
     color:white;
   }
 }
+
+.modal-buttons {
+  width: 75%;
+  margin: 0 auto;
+
+  .btn-social {
+    height: 34px;
+
+    margin-top: 5px;
+    line-height: 8.5px;
+  }
+
+  .fa {
+    top: 2px;
+  }
+}
