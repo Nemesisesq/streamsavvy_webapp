@@ -336,17 +336,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             templateUrl: "/static/partials/journey-one.html",
             data: {hmdcActive: true}
         })
-        .state('dash', {
-            templateUrl: '/static/partials/dashboard.html',
-            abstract: true,
-            onEnter: function ($state) {
 
-                $window = $windowProvider.$get();
-                if ($window.innerWidth < 767) {
-                    $state.go('mobile.shows')
-                }
-            }
-        })
 
         .state('check', {
             templateUrl: '/static/partials/checkout.html',
@@ -372,12 +362,27 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             }
         })
 
+        .state('dash', {
+            templateUrl: '/static/partials/dashboard.html',
+            abstract: true,
+            onEnter: function ($state) {
+
+                $window = $windowProvider.$get();
+                if ($window.innerWidth < 767) {
+                    $state.go('mobile.shows')
+                }
+            }
+        })
         .state('dash.dashboard', {
             url: '/dashboard',
             data: {
                 dashboard: true
             },
             views: {
+                'modal': {
+                    templateUrl: 'static/partials/modal/modalContainer.html',
+                    controller: 'ModalController'
+                },
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
@@ -728,7 +733,7 @@ app.directive('actionBlock', function ($window) {
 
             scope.linkToAffiliate = function (service) {
 
-                $window.open(service.service_description.subscription_link);
+                $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service",{"service name": service.chan.display_name});
             }
 
@@ -810,7 +815,7 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, element, attrs) {
 
-            
+
             $http.get('/service_description/' + scope.service.chan.source)
                 .then(function (data) {
                     scope.service.details = data.data
@@ -849,6 +854,17 @@ app.directive('ppvCheckoutItem', function ($window) {
 
                 element.remove()
             }
+
+        }
+    }
+})
+
+
+app.directive('checkoutInstructions', function () {
+    return {
+        templateUrl : 'static/partials/checkout-list/checkout-instructions.html',
+        restrict: 'E',
+        link : function (scope, element, attrs) {
 
         }
     }
@@ -1090,6 +1106,11 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
             //         $('#sticky').removeClass('fixed')
             //     }
             // })
+
+            scope.emptyServices = (function(){
+                var res = $('#overlay-icons').children().length == 0;
+                return res
+            })
 
 
             scope.formatDate = function (dateString) {
@@ -2404,6 +2425,9 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
+
+
+
     PackageFactory.getCheckoutPanelList()
         .then(function (data) {
 
@@ -2420,37 +2444,15 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
 
     };
-    // $scope.notOtaServiceDetail = function (mystery_service) {
-    //     if (_.some(payPerServices, mystery_service.chan.source)) {
-    //         console.log('this is the payperview service ' + mystery_service.chan.source);
-    //         mystery_service.description = SERVICE_PRICE_LIST[0].description;
-    //         mystery_service.price = SERVICE_PRICE_LIST[0].price;
-    //         //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
-    //         //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
-    //
-    //
-    //     }
-    //     else {
-    //         var serviceMatch = _.find(SERVICE_PRICE_LIST, function (elem) {
-    //             return elem.name == mystery_service.chan.source;
-    //         });
-    //         if (serviceMatch != undefined) {
-    //
-    //             _.assignIn(mystery_service, serviceMatch);
-    //
-    //         }
-    //     }
-    // };
 
-    // $scope.removeService = function (service, serviceArray) {
-    //     if (serviceArray == 'ota') {
-    //         _.pull($scope.list.ota, service);
-    //     }
-    //     else {
-    //         _.pull($scope.list.not_ota, service);
-    //     }
-    //     PackageFactory.setListOfServices($scope.list);
-    // };
+
+    $scope.$watchCollection(function(){
+        return $scope.list
+    }, function(){
+        $scope.package.services = $scope.list
+
+
+    })
 
 
     // $scope.$watchCollection(function () {
@@ -2466,8 +2468,10 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         return PackageFactory.getPackage().data.content
 
     }, function () {
-        $scope.package = PackageFactory.getPackage();
-        $scope.list = PackageFactory.getListOfServices();
+        // $scope.package = PackageFactory.getPackage();
+        // $scope.list = PackageFactory.getListOfServices();
+
+
         // _.forEach($scope.list.not_ota, function (not_ota_service) {
         //     if (not_ota_service != undefined) {
         //         $scope.notOtaServiceDetail(not_ota_service);
@@ -2507,15 +2511,40 @@ app.controller('FeedbackCtrl', function ($scope) {
  */
 
 /**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('home', function ($scope, $http, http, $cookies, $location) {
+
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+
+/**
  * Created by Nem on 6/28/15.
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
 
-    $scope.auth = {
-        twitter : $('#twitter_login').attr('href'),
-        facebook : $('#facebook_login').attr('href'),
-        instagram: $('#instagram_login').attr('href')
-    }
+    
 
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
@@ -2692,35 +2721,6 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 
 
 /**
- * Created by chirag on 8/3/15.
- */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
-
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
-
-/**
  * Created by Nem on 7/18/15.
  */
 app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
@@ -2886,6 +2886,90 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
 
 });
 
+
+/**
+ * Created by Nem on 5/24/16.
+ */
+app.controller('HardwareController', function ($scope, PackageFactory) {
+
+    $scope.devices = [
+        {
+            name: 'Roku',
+            image: 'https://s3.amazonaws.com/streamsavvy/Roku4.png',
+            price: 43.20
+        },
+        {
+            name: 'Mohu Leaf',
+            image: 'https://s3.amazonaws.com/streamsavvy/Mohu.png',
+            price: 43.20
+        }
+    ]
+
+    $scope.pkg = PackageFactory.getPackage();
+
+
+    /*  $('.service-panel').on('scroll', function () {
+     $('.not-ready').fadeOut()
+     })
+
+     $('.service-panel').on('scroll', function () {
+     debugger
+     _.debounce(function () {
+
+     $('.not-ready').fadeIn()
+     }, 100)()
+     })*/
+    $scope.collapseHardware = true;
+    var serviceHeight = $(window).height() - 46;
+
+    if ($scope.collapseHardware) {
+        $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
+
+    }
+
+    $scope.mixpanelTrackReadyToCutCord = function() {
+        var showList = [];
+        _.forEach($scope.pkg.data.content,function (showObject) {
+            showList.push(showObject.title) ;
+        });
+        console.log(showList);
+        mixpanel.track("Proceeded to Checkout",{"Show List": showList});
+    }
+
+    $scope.toggleHardwarePanel = function () {
+
+
+        if (!$scope.collapseHardware) {
+            $('.service-panel.ng-scope').animate({'height': serviceHeight + 'px'});
+            $('.hardware-panel.ng-scope').animate({'height': '46px'});
+        } else {
+            $('.hardware-body').animate({height: '40vh'});
+            $('.hardware-panel.ng-scope').animate({'height': '40vh'});
+            $('.service-panel.ng-scope').animate({height: '60vh'});
+
+        }
+        $scope.collapseHardware = !$scope.collapseHardware;
+
+    }
+    $scope.servicesGT0 = function () {
+        return !_.isEmpty(PackageFactory.getListOfServices())
+    }
+
+    $scope.$watchCollection(function () {
+
+
+            if (PackageFactory.getPackage().data) {
+                return PackageFactory.getPackage().data.content
+            }
+        },
+        function () {
+            if (PackageFactory.getPackage().data) {
+
+                $scope.pkgHasContent = PackageFactory.getPackage().data.content.length > 0
+            }
+        })
+
+});
 
 app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
 
@@ -3475,90 +3559,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 });
 
-/**
- * Created by Nem on 5/24/16.
- */
-app.controller('HardwareController', function ($scope, PackageFactory) {
-
-    $scope.devices = [
-        {
-            name: 'Roku',
-            image: 'https://s3.amazonaws.com/streamsavvy/Roku4.png',
-            price: 43.20
-        },
-        {
-            name: 'Mohu Leaf',
-            image: 'https://s3.amazonaws.com/streamsavvy/Mohu.png',
-            price: 43.20
-        }
-    ]
-
-    $scope.pkg = PackageFactory.getPackage();
-
-
-    /*  $('.service-panel').on('scroll', function () {
-     $('.not-ready').fadeOut()
-     })
-
-     $('.service-panel').on('scroll', function () {
-     debugger
-     _.debounce(function () {
-
-     $('.not-ready').fadeIn()
-     }, 100)()
-     })*/
-    $scope.collapseHardware = true;
-    var serviceHeight = $(window).height() - 46;
-
-    if ($scope.collapseHardware) {
-        $('.service-panel.ng-scope').css({'height': serviceHeight + 'px'});
-
-    }
-
-    $scope.mixpanelTrackReadyToCutCord = function() {
-        var showList = [];
-        _.forEach($scope.pkg.data.content,function (showObject) {
-            showList.push(showObject.title) ;
-        });
-        console.log(showList);
-        mixpanel.track("Proceeded to Checkout",{"Show List": showList});
-    }
-
-    $scope.toggleHardwarePanel = function () {
-
-
-        if (!$scope.collapseHardware) {
-            $('.service-panel.ng-scope').animate({'height': serviceHeight + 'px'});
-            $('.hardware-panel.ng-scope').animate({'height': '46px'});
-        } else {
-            $('.hardware-body').animate({height: '40vh'});
-            $('.hardware-panel.ng-scope').animate({'height': '40vh'});
-            $('.service-panel.ng-scope').animate({height: '60vh'});
-
-        }
-        $scope.collapseHardware = !$scope.collapseHardware;
-
-    }
-    $scope.servicesGT0 = function () {
-        return !_.isEmpty(PackageFactory.getListOfServices())
-    }
-
-    $scope.$watchCollection(function () {
-
-
-            if (PackageFactory.getPackage().data) {
-                return PackageFactory.getPackage().data.content
-            }
-        },
-        function () {
-            if (PackageFactory.getPackage().data) {
-
-                $scope.pkgHasContent = PackageFactory.getPackage().data.content.length > 0
-            }
-        })
-
-});
-
 app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
 
 
@@ -3598,6 +3598,11 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
 
     $scope.socialLogin = true;
+
+    $scope.auth = {
+        twitter : $('#twitter_login').attr('href'),
+        facebook : $('#facebook_login').attr('href'),
+    }
 
 
     //$scope.facebookAuth = function () {
@@ -3653,6 +3658,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
 })
+
 /**
  * Created by Nem on 10/27/15.
  */

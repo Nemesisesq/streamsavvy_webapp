@@ -6,7 +6,7 @@
 
   .service-title.row {
     margin-top: 36px;
-    border-bottom: solid 2px rgba(155, 155, 155, .1);
+    border-top: solid 2px rgba(155, 155, 155, .1);
     .ss_image-purchase.row {
       padding-bottom: 15px;
 
@@ -81,7 +81,7 @@
 
   letter-spacing: .6px;
   color: $warm-grey;
-  font-size: 14px;
+  font-size: 10px;
   min-width: 100px;
   min-height: 35px;
 
@@ -109,9 +109,9 @@
   text-decoration: none !important;
 
   letter-spacing: .6px;
-  font-size: .9em;
+  font-size: 10px;
   background-color: #11b2e6;
-  min-width: 100px;
+  //min-width: 100px;
   min-height: 35px;
   width: 100%;
 
@@ -126,7 +126,8 @@
 }
 
 .service-row {
-  border-bottom: solid 1px rgba(155, 155, 155, 0.1);
+  border-top: solid 1px rgba(155, 155, 155, 0.1);
+  margin-top: 10px;
   padding-bottom: 5px;
   margin-bottom: 5px;
   min-height: 50px;
@@ -160,6 +161,7 @@
 }
 
 .remove-cross {
+  display: none;
   padding: 0;
   position: absolute;
   right: 25px;
@@ -184,7 +186,7 @@
   margin-top: 10px;
   //margin-left: 17px;
   max-width: 100px;
-  width: 90%;
+  width: 100%;
 }
 
 .ss_show-list {
@@ -229,14 +231,22 @@
 }
 
 @media (max-width: 767px) {
+  .service-image {
+    max-width: 110px;
+  }
   .btn-purchase {
+    font-size: 15px;
     height: 30px;
     border-radius: initial;
   }
 
   .btn-already-have {
+    font-size: 15px;
     height: 40px;
     border-radius: initial;
+  }
+  .checkout-service-price {
+    font-size: 20px;
   }
 }
 
@@ -287,7 +297,7 @@
 
 .ota_sprite {
   @extend .sprite;
-  background-position-y:5%;
+  background-position-y: 5%;
   height: 60px;
 
 }
@@ -298,41 +308,41 @@
 
 }
 
-@media (min-width: 767px) {
-  .sprite {
-    background-size: 100%, 100px;
-    height: 45px;
-    width: 150px;
+@media (max-width: 767px) {
+
+}
+
+@media (max-width: 1440px) {
+  .service-image {
+    //max-width: 75px;
   }
 }
 
-
-@media (max-width : 1440px){
+@media (max-width: 1024px) {
   .service-image {
-    max-width: 75px;
-  }
-}
-
-@media (max-width : 1024px){
-  .service-image {
-    max-width: 70px;
+    //max-width: 70px;
   }
 }
 
 .consolidated-checkout-ppv {
   color: white;
+  text-align: center;
 }
 
 .checkout-service-price {
   color: white;
   margin-left: 5px;
   font-weight: 200;
-  margin-top : 5px;
+  margin-top: 5px;
 
 }
 
 .ppv-checkout-image-block {
   height: 100px;
+  width: 20%;
+  padding-left: 3px;
+  padding-right: 3px;
+  text-align: center;
 
   .image-block {
     height: 50px;
@@ -345,3 +355,98 @@
 
 }
 
+.container .mobile-checkout-container {
+  width: 80%;
+}
+
+checkout-image-block.col-sm-2 {
+  position: absolute;
+  bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+
+  .image-block {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.checkout-button-container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.checkout-price {
+  text-align: right;
+}
+
+.checkout-show-img {
+  width: 100%;
+}
+
+.checkout-steps {
+  font-size: 9px;
+
+  div {
+    min-height: 24px;
+  }
+
+  .step-numbers {
+    font-size: 24px;
+    //float: left;
+    //position: absolute;
+    //margin: 0 auto;
+    //left: 50%;
+    width: 24px;
+
+
+  }
+
+  .step-number {
+    width: 24px;
+    font-size: 15px;
+    //position: absolute;
+    //float:left;
+    color: $dark-sky-blue;
+    //left: 50%;
+
+  }
+
+}
+
+.step-numbers, .step-number {
+  line-height: 24px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+}
+
+
+.hide-service {
+  color: $warm-grey;
+  //text-decoration: underline;
+}
+
+.service-row {
+  position: relative;
+}
+
+action-block.col-sm-10 {
+  position: absolute;
+  bottom: 0;
+  float: right;
+  margin-left: 100px;
+}
+
+button {
+  &.btn-purchase {
+    border-radius: 0;
+  }
+
+  &.btn-already-have {
+
+    border-radius: 0;
+  }
+}

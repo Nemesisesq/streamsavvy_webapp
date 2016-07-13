@@ -2459,9 +2459,13 @@ ul[id^='typeahead-'], .suggestions-list {
 
 @media (max-width: 456px) {
   .content-wrapper .h1-row .h1-col h1.white {
-    font-size: 2em; }
+    font-size: .8em;
+    font-weight: 200;
+    line-height: 1.1; }
     .content-wrapper .h1-row .h1-col h1.white span {
       display: none; }
+  .row.easy-row {
+    margin-top: 0; }
   .header-logo {
     width: calc(100vw - 10%); }
   .lets-do-this-row {
@@ -2609,6 +2613,7 @@ show-detail .background {
 .f-i-n-a-l-i-z-e-y-o-u-r-s-e-r-v-i-c {
   margin: 5px;
   margin-top: 20px;
+  text-align: center;
   font-size: 25px;
   letter-spacing: 0.5px;
   color: #9b9b9b; }
@@ -2641,7 +2646,7 @@ show-detail .background {
   min-height: 100%; }
   .checkoutList .service-title.row {
     margin-top: 36px;
-    border-bottom: solid 2px rgba(155, 155, 155, 0.1); }
+    border-top: solid 2px rgba(155, 155, 155, 0.1); }
     .checkoutList .service-title.row .ss_image-purchase.row {
       padding-bottom: 15px; }
       .checkoutList .service-title.row .ss_image-purchase.row span.glyphicon.glyphicon-info-sign {
@@ -2693,7 +2698,7 @@ show-detail .background {
   background-color: rgba(225, 225, 225, 0.1);
   letter-spacing: .6px;
   color: #9b9b9b;
-  font-size: 14px;
+  font-size: 10px;
   min-width: 100px;
   min-height: 35px;
   padding-left: 22px;
@@ -2716,9 +2721,8 @@ show-detail .background {
   padding-bottom: 8px;
   text-decoration: none !important;
   letter-spacing: .6px;
-  font-size: .9em;
+  font-size: 10px;
   background-color: #11b2e6;
-  min-width: 100px;
   min-height: 35px;
   width: 100%; }
   .btn-purchase .mobile-purch {
@@ -2729,7 +2733,8 @@ show-detail .background {
   color: #aeb6bb; }
 
 .service-row {
-  border-bottom: solid 1px rgba(155, 155, 155, 0.1);
+  border-top: solid 1px rgba(155, 155, 155, 0.1);
+  margin-top: 10px;
   padding-bottom: 5px;
   margin-bottom: 5px;
   min-height: 50px;
@@ -2756,6 +2761,7 @@ show-detail .background {
     color: red; }
 
 .remove-cross {
+  display: none;
   padding: 0;
   position: absolute;
   right: 25px;
@@ -2772,7 +2778,7 @@ show-detail .background {
 .service-image {
   margin-top: 10px;
   max-width: 100px;
-  width: 90%; }
+  width: 100%; }
 
 .ss_show-list {
   list-style: none;
@@ -2803,12 +2809,18 @@ show-detail .background {
   padding: 0; }
 
 @media (max-width: 767px) {
+  .service-image {
+    max-width: 110px; }
   .btn-purchase {
+    font-size: 15px;
     height: 30px;
     border-radius: initial; }
   .btn-already-have {
+    font-size: 15px;
     height: 40px;
-    border-radius: initial; } }
+    border-radius: initial; }
+  .checkout-service-price {
+    font-size: 20px; } }
 
 .sprite, .amazon_sprite, .amazon_prime_sprite, .hulu_plus_sprite, .itunes_sprite, .vudu_sprite, .google_play_sprite, .youtube_purchase_sprite, .ota_sprite, .netflix_sprite {
   background: url("https://s3.amazonaws.com/streamsavvy/service_logos/desktop-sprite.png");
@@ -2843,22 +2855,9 @@ show-detail .background {
 .netflix_sprite {
   background-position-y: 66%; }
 
-@media (min-width: 767px) {
-  .sprite, .amazon_sprite, .amazon_prime_sprite, .hulu_plus_sprite, .itunes_sprite, .vudu_sprite, .google_play_sprite, .youtube_purchase_sprite, .ota_sprite, .netflix_sprite {
-    background-size: 100%, 100px;
-    height: 45px;
-    width: 150px; } }
-
-@media (max-width: 1440px) {
-  .service-image {
-    max-width: 75px; } }
-
-@media (max-width: 1024px) {
-  .service-image {
-    max-width: 70px; } }
-
 .consolidated-checkout-ppv {
-  color: white; }
+  color: white;
+  text-align: center; }
 
 .checkout-service-price {
   color: white;
@@ -2867,11 +2866,75 @@ show-detail .background {
   margin-top: 5px; }
 
 .ppv-checkout-image-block {
-  height: 100px; }
+  height: 100px;
+  width: 20%;
+  padding-left: 3px;
+  padding-right: 3px;
+  text-align: center; }
   .ppv-checkout-image-block .image-block {
     height: 50px; }
   .ppv-checkout-image-block button {
     width: 100px; }
+
+.container .mobile-checkout-container {
+  width: 80%; }
+
+checkout-image-block.col-sm-2 {
+  position: absolute;
+  bottom: 0;
+  padding-left: 0;
+  padding-right: 0; }
+  checkout-image-block.col-sm-2 .image-block {
+    padding-left: 0;
+    padding-right: 0; }
+
+.checkout-button-container {
+  padding-left: 0;
+  padding-right: 0; }
+
+.checkout-price {
+  text-align: right; }
+
+.checkout-show-img {
+  width: 100%; }
+
+.checkout-steps {
+  font-size: 9px; }
+  .checkout-steps div {
+    min-height: 24px; }
+  .checkout-steps .step-numbers {
+    font-size: 24px;
+    width: 24px; }
+  .checkout-steps .step-number {
+    width: 24px;
+    font-size: 15px;
+    color: #45a7e5; }
+
+.step-numbers, .step-number {
+  line-height: 24px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0; }
+
+.hide-service {
+  color: #9b9b9b; }
+
+.service-row {
+  position: relative; }
+
+action-block.col-sm-10 {
+  position: absolute;
+  bottom: 0;
+  float: right;
+  margin-left: 100px; }
+
+button.btn-purchase {
+  border-radius: 0; }
+
+button.btn-already-have {
+  border-radius: 0; }
 
 .row.footer {
   position: absolute;
@@ -2915,6 +2978,24 @@ span.pull-right.footer-right {
 @media (max-width: 425px) {
   .footer-right {
     font-size: 8px; } }
+
+div[ui-view='footer'] {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  padding: 0 15px 15px; }
+
+.footer-left i {
+  font-size: 30px;
+  margin-left: 10px; }
+  .footer-left i.fa-twitter:hover {
+    color: #55acee; }
+  .footer-left i.fa-twitter:active {
+    color: #55acee; }
+  .footer-left i.fa-facebook:active {
+    color: #3B5998; }
+  .footer-left i.fa-facebook:hover {
+    color: #3B5998; }
 
 .service-panel.ng-scope {
   min-height: 60vh;
@@ -3251,7 +3332,7 @@ show-detail {
     width: 100%;
     position: fixed;
     z-index: 1;
-    top: 0px;
+    top: 0;
     background: rgba(0, 0, 0, 0.4); } }
 
 .col-xs-4.window-service.ng-scope {
@@ -3496,6 +3577,29 @@ a.active {
 @media (max-width: 767px) {
   .dashboard .ss_nav {
     width: 100%; } }
+
+a.social-icons {
+  border: none; }
+  a.social-icons:active {
+    background: transparent;
+    color: transparent; }
+  a.social-icons:hover {
+    color: transparent; }
+  a.social-icons.active {
+    border: none; }
+  a.social-icons i {
+    font-size: 50px;
+    transition: color .2s ease-in-out; }
+    a.social-icons i.fa-twitter-square:hover {
+      color: #55acee; }
+    a.social-icons i.fa-twitter-square:active {
+      color: #55acee; }
+    a.social-icons i.fa-facebook-square:active {
+      color: #3B5998; }
+    a.social-icons i.fa-facebook-square:hover {
+      color: #3B5998; }
+  a.social-icons:hover {
+    border: none; }
 
 @media (max-width: 767px) {
   body.background.container.ng-scope.no-scroll.gradient-background {

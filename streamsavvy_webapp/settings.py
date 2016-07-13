@@ -62,16 +62,16 @@ def get_env_variable(var_name, default=False):
 SECRET_KEY = 'u9kg9y#t5a=uc86bsob9#o5n6*d=k^f--1t_l(-sh@7mrs#y*a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if get_env_variable('ENVIRONMENT') == 'PRODUCTION' else True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['.streamsavvy.tv', '.herokuapp.com'] if get_env_variable("ENVIRONMENT") == "PRODUCTION" else ['*']
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',

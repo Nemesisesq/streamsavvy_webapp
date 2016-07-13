@@ -1,6 +1,9 @@
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, SERVICE_PRICE_LIST) {
 
     $scope.package = PackageFactory.getPackage();
+
+
+
     PackageFactory.getCheckoutPanelList()
         .then(function (data) {
 
@@ -17,37 +20,15 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
 
     };
-    // $scope.notOtaServiceDetail = function (mystery_service) {
-    //     if (_.some(payPerServices, mystery_service.chan.source)) {
-    //         console.log('this is the payperview service ' + mystery_service.chan.source);
-    //         mystery_service.description = SERVICE_PRICE_LIST[0].description;
-    //         mystery_service.price = SERVICE_PRICE_LIST[0].price;
-    //         //mystery_service.subscriptionLink = SERVICE_PRICE_LIST[0].subscriptionLink;
-    //         //mystery_service.gPlayLink = SERVICE_PRICE_LIST[0].gPlayLink;
-    //
-    //
-    //     }
-    //     else {
-    //         var serviceMatch = _.find(SERVICE_PRICE_LIST, function (elem) {
-    //             return elem.name == mystery_service.chan.source;
-    //         });
-    //         if (serviceMatch != undefined) {
-    //
-    //             _.assignIn(mystery_service, serviceMatch);
-    //
-    //         }
-    //     }
-    // };
 
-    // $scope.removeService = function (service, serviceArray) {
-    //     if (serviceArray == 'ota') {
-    //         _.pull($scope.list.ota, service);
-    //     }
-    //     else {
-    //         _.pull($scope.list.not_ota, service);
-    //     }
-    //     PackageFactory.setListOfServices($scope.list);
-    // };
+
+    $scope.$watchCollection(function(){
+        return $scope.list
+    }, function(){
+        $scope.package.services = $scope.list
+
+
+    })
 
 
     // $scope.$watchCollection(function () {
@@ -63,8 +44,10 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         return PackageFactory.getPackage().data.content
 
     }, function () {
-        $scope.package = PackageFactory.getPackage();
-        $scope.list = PackageFactory.getListOfServices();
+        // $scope.package = PackageFactory.getPackage();
+        // $scope.list = PackageFactory.getListOfServices();
+
+
         // _.forEach($scope.list.not_ota, function (not_ota_service) {
         //     if (not_ota_service != undefined) {
         //         $scope.notOtaServiceDetail(not_ota_service);

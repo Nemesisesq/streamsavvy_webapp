@@ -2,11 +2,11 @@
  * Created by Nem on 3/7/16.
  */
 
-app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
+app.directive('showSportsDetail', function (PackageFactory, $q, SLING_CHANNELS) {
     return {
         restrict: 'E',
-        templateUrl: '/static/partials/selected-show/select.html',
-        controller: 'ShowGridController',
+        templateUrl: '/static/partials/selected-category/sports.html',
+        controller: 'ShowSportsGridController',
 
         link: function (scope) {
 
@@ -85,7 +85,7 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 })
 
 
-app.directive('openDetail', function ($timeout) {
+app.directive('openSportsDetail', function ($timeout) {
     return {
         restrict: 'A',
 
@@ -106,7 +106,7 @@ app.directive('openDetail', function ($timeout) {
     }
 })
 
-app.directive('otaSlingNetflix', function () {
+app.directive('otaSportsSlingNetflix', function () {
     return {
         restrict: 'A',
 

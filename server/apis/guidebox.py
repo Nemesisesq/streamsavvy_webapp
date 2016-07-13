@@ -146,6 +146,10 @@ class GuideBox(object):
         for s in c.channel.all():
             self.check_for_sling(s)
 
+        c.guidebox_data['detail']['channels'] = [self.check_for_sling(s) for s in c.guidebox_data['detail']['channels']]
+        c.guidebox_data['detail']['channels'] = [self.check_for_over_the_air(s) for s in c.guidebox_data['detail']['channels']]
+
+
         c.save()
         return c
 
@@ -159,6 +163,10 @@ class GuideBox(object):
         else:
 
             if 'display_name' in s and s['display_name'] in broadcast_channels:
+                s['is_over_the_air'] = 'true'
+                return s
+
+            if 'name' in s and s['name'] in broadcast_channels:
                 s['is_over_the_air'] = 'true'
                 return s
 
