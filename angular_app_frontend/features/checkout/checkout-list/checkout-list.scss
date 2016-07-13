@@ -317,8 +317,9 @@
 }
 
 .consolidated-checkout-ppv {
-  color: white;
+  color: $warm-grey;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .checkout-service-price {
@@ -479,4 +480,10 @@ button {
   color: $warm-grey;
 
   text-align: center;
+}
+.ppv-img{
+      margin: 0 auto;
+    display: block;
+    position: relative;
+    float: none;
 }
