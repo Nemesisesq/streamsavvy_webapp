@@ -1167,7 +1167,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
             scope.that = "hello world";
 
             var checkWindow = function () {
-                
+
                 var v = scope.content.viewingWindows[scope.id];
                 if (!v.selected) {
 
@@ -1184,8 +1184,8 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
 
                 PackageFactory.updatePackageChannels(scope);
-                
-                
+
+
                 PackageFactory.setPackage(scope.package)
             }
 
@@ -1803,7 +1803,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
 
 
         })
-    
+
 });
 
 app.factory('_', function ($window) {
@@ -2063,7 +2063,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
  */
 
 app.controller('FeedbackCtrl', function ($scope) {
-   
+
     $scope.isMobile = window.innerWidth > 540;
 
     $scope.options = {
@@ -2080,7 +2080,11 @@ app.directive('positionFooter', function () {
 
     return {
         restrict: 'A',
-        link: function (scope, elemtnt, attrs) {
+        link: function (scope, element, attrs) {
+
+            if(location.hash != '#/'){
+                element.remove() 
+            }
 
 
 
