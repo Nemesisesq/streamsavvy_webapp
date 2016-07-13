@@ -2061,6 +2061,53 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
 
 
 /**
+ * Created by Nem on 10/7/15.
+ */
+
+app.directive('footer', function () {
+
+    return {
+        restrict: 'E',
+        templateUrl: 'static/partials/footer.html',
+        link: function (scope, elemtnt, attrs) {
+
+            var target = document.querySelector("[ui-view]")
+
+            var config = {attributes: true, childList: true, characterData: true};
+
+            var observer = new MutationObserver(function (mutations) {
+                // debugger;
+                fixFooter();
+                mutations.forEach(function (mutation) {
+                    console.log(mutation)
+                })
+            })
+
+            observer.observe(target, config)
+            $(window).resize(fixFooter)
+
+
+        }
+    }
+
+
+})
+
+
+function fixFooter() {
+    $('div[ui-view="home"]').height(window.innerHeight)
+}
+
+$(document).ready(function () {
+
+
+
+
+    // debugger;
+
+})
+
+/**
  * Created by Nem on 12/29/15.
  */
 
@@ -2074,49 +2121,6 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
-/**
- * Created by Nem on 10/7/15.
- */
-
-app.directive('footer', function () {
-
-    return {
-        restrict: 'E',
-        templateUrl: 'static/partials/footer.html',
-        link: function (scope, elemtnt, attrs) {
-
-
-        }
-    }
-})
-
-
-function fixFooter() {
-    debugger;
-    var footerHeight = $("div[ui-view='footer']").height()
-    var homeHeight = $("div[ui-view='home']").height()
-    var windowHeight = window.innerHeight
-    if (footerHeight && homeHeight && windowHeight) {
-        // debugger;
-
-        if (homeHeight > windowHeight) {
-            var diff = windowHeight - homeHeight
-            $("div[ui-view='footer']").css({'bottom': diff})
-        } else {
-            $("div[ui-view='footer']").css({'bottom': 0})
-        }
-    }
-}
-
-$(document).ready(function () {
-
-
-
-
-    // debugger;
-
-})
-
 /**
  * Created by chirag on 8/3/15.
  */
