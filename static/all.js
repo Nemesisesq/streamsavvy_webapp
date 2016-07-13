@@ -254,10 +254,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 isHomePage: true
             },
             views: {
-                'modal': {
-                    templateUrl: 'static/partials/modal/modalContainer.html',
-                    controller: 'ModalController'
-                },
                 'home': {
                     templateUrl: 'static/partials/home.html',
                     controller: 'HomeController'
@@ -379,10 +375,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 dashboard: true
             },
             views: {
-                'modal': {
-                    templateUrl: 'static/partials/modal/modalContainer.html',
-                    controller: 'ModalController'
-                },
+               
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
@@ -627,11 +620,11 @@ app.directive('actionBlock', function ($window, PackageFactory) {
             }
 
             if (isServiceAdded(scope.service)) {
-                service.added = true
+                scope.service.added = true
             }
 
             if (isServiceHidden(scope.service)) {
-                service.hidde = true
+                scope.service.hidden = true
             }
 
             scope.subscribe = function (service) {
@@ -641,7 +634,7 @@ app.directive('actionBlock', function ($window, PackageFactory) {
                     scope.package.data.services = {subscribed: []}
                 }
 
-                if (isServiceAdded(service)) {
+                if (!isServiceAdded(service)) {
                     scope.package.data.services.subscribed.push(service.chan.source);
                     service.added = true;
                     mixpanel.track("Already Have Service", {"service name": service.chan.display_name});
@@ -662,6 +655,7 @@ app.directive('actionBlock', function ($window, PackageFactory) {
             }
 
             scope.hideService = function (service) {
+                debugger
                 if (scope.package.data.services.hidden == undefined) {
                     scope.package.data.services = {hidden: []}
                 }
@@ -797,6 +791,14 @@ app.directive('checkoutInstructions', function () {
         link: function (scope, element, attrs) {
 
         }
+    }
+})
+
+app.directive('hardwareRow', function(){
+    return {
+        templateUrl: 'static/partials/checkout-list/hardware-template.html',
+        restrict: 'E',
+        controller: 'HardwareController'
     }
 })
 
@@ -1167,7 +1169,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
             scope.that = "hello world";
 
             var checkWindow = function () {
-
+                
                 var v = scope.content.viewingWindows[scope.id];
                 if (!v.selected) {
 
@@ -1184,8 +1186,8 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
 
                 PackageFactory.updatePackageChannels(scope);
-
-
+                
+                
                 PackageFactory.setPackage(scope.package)
             }
 
@@ -1803,7 +1805,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
 
 
         })
-
+    
 });
 
 app.factory('_', function ($window) {
@@ -2063,7 +2065,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
  */
 
 app.controller('FeedbackCtrl', function ($scope) {
-
+   
     $scope.isMobile = window.innerWidth > 540;
 
     $scope.options = {
@@ -2080,11 +2082,7 @@ app.directive('positionFooter', function () {
 
     return {
         restrict: 'A',
-        link: function (scope, element, attrs) {
-
-            if(location.hash != '#/'){
-                element.remove() 
-            }
+        link: function (scope, elemtnt, attrs) {
 
 
 
@@ -2180,7 +2178,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
 
         var modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: '/static/partials/modal/modal.html',
+            templateUrl: '/static/partials/modal.html',
             controller: 'ModalInstanceController',
             size: 'sm',
             resolve: {
@@ -2205,7 +2203,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
         });
     }
 
-    loginEventService.listen($scope.openLogInModal)
+    loginEventService.listen($rootScope.openLogInModal)
     //if ($rootScope.currentStep == 3) {
     //    $rootScope.openLogInModal()
     //}
@@ -3068,405 +3066,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.$watchCollection('package.data.content', function () {
         PackageFactory.setPackage($scope.package)
     })
-
-
-});
-
-/**
- * Created by Nem on 10/27/15.
- */
-
-app.controller('AccordionController', function ($scope) {
-
-
-    $scope.viewingWindows = [
-        {
-            viewType: "onDemand",
-            description: "I want to watch this show with and <strong> On Demand Subscription. </strong>",
-            parenthetical: "(day/+ after live airing).",
-            dropdown: true,
-        },
-        {
-            viewType: "live",
-            description: "I want to watch this show <strong>Live Over the Air.</strong>",
-            parenthetical: "",
-            dropdown: false,
-        },
-        {
-            viewType: "fullseason",
-            description: " I want to watch this show using a <strong>Full Season Subscription.</strong>",
-            parenthetical: "(season behind).",
-            dropdown: true,
-        },
-        {
-            viewType: "I want to <strong>Pay Per Episode</strong> to watch this show.",
-            description: "",
-            parenthetical: "(day/+ after live airing).",
-            dropdown: false,
-        },
-        //{
-        //    viewType: "",
-        //    description: "",
-        //    parenthetical: "",
-        //    dropdown: false,
-        //}
-    ]
-});
-
-app.controller('StepOneController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    // $scope.clearContent = function () {
-    //     var pkg = PackageFactory.getPackage()
-    //
-    //     pkg.content = []
-    //
-    //     PackageFactory.setPackage(pkg)
-    // }
-
-    $scope.showTotal = function (content) {
-
-
-        var total = 0
-
-        var chans = _.map(VIEW_WINDOWS, function (w) {
-
-
-            if (content.viewingWindows !== undefined && content.viewingWindows[w.type] !== undefined) {
-                var window = content.viewingWindows[w.type];
-                if (window.channel !== undefined) {
-
-                    return window.channel;
-
-                }
-            }
-        })
-
-        chans = _.uniq(_.compact(chans), function (c) {
-            if (c.service !== undefined) {
-                return c.service
-            }
-            return c.source
-        })
-        var prices = _.map(chans, function (elem) {
-            return elem.price
-        })
-
-        total = _.reduce(prices, function (total, n) {
-            return total + n;
-        })
-
-
-        //_.forEach($scope.directiveVW, function (window) {
-        //
-        //    if (content.viewingWindows !== undefined && content.viewingWindows[window.type] !== undefined) {
-        //
-        //        var window = content.viewingWindows[window.type];
-        //        if (window.channel !== undefined && window.channel.price !== undefined) {
-        //
-        //            total += window.channel.price;
-        //
-        //        }
-        //
-        //    }
-        //})
-
-        content.totalCost = total
-
-
-        total = _.round(total, 2)
-
-        return total
-
-
-    }
-
-
-    $scope.totalServiceCost = PackageFactory.totalServiceCost;
-
-    //$scope.contentTotal = function () {
-    //
-    //
-    //    var t = 0
-    //
-    //    var package = $scope.package;
-    //    if (package.content.length > 0) {
-    //
-    //         t = _.map(package.providers, function(elem){
-    //            return elem.price;
-    //        })
-    //
-    //        t = _.compact(t);
-    //
-    //        t = _.reduce(t, function(total, n){
-    //            return total + n
-    //        })
-    //    }
-    //
-    //    t = _.round(t, 2)
-    //
-    //    return t
-    //
-    //
-    //}
-
-
-    $scope.directiveVW = [
-
-        {
-            type: 'live',
-            headerText: 'Live Over the Air.',
-            toolTip: 'get your content as soon as it dropped.'
-
-
-        },
-        {
-            type: 'onDemand',
-            headerText: 'On Demand Subscription.',
-            toolTip: 'day/+ after live airing.'
-
-
-        },
-        {
-            type: 'fullseason',
-            headerText: 'Binge Watch Full Seasons',
-            toolTip: 'season behind.'
-
-
-        },
-        {
-            type: 'alacarte',
-            headerText: 'Watch Current Season or Episodes for a fee',
-            toolTip: 'day/+ after live airing with no committment'
-
-
-        },
-
-
-    ]
-
-    $scope.popularShows = null;
-
-    $http.get('api/popular-shows')
-        .success(function (data) {
-            $scope.popularShows = data.results;
-            return data
-        })
-        .then(function () {
-            // ;
-            //$('.popular-shows').slick();
-        });
-
-
-    $scope.package = PackageFactory.getPackage();
-
-    $scope.onDemandLength = function (c) {
-
-        return _.filter(c, function (n) {
-                return n.name == 'Netflix'
-            }).length > 0
-    }
-
-    $scope.delete = function (content) {
-        _.remove($scope.package.content, content);
-        $scope.savePackage()
-        PackageFactory.updatePackageChannels($scope)
-    }
-
-    $scope.prePopulateWindowProvider = function (content, prop) {
-        var array = _.filter(content.content_provider, function (prov) {
-            return _.includes(_.map($scope.package.providers, function (elem) {
-                return elem.name
-            }), prov.name)
-        })
-
-        if (prop == 'onDemand') {
-
-            _.remove(array, function (n) {
-                return n.name == 'Netflix';
-            })
-        } else if (prop == 'fullSeason') {
-
-            _.remove(array, function (n) {
-                return n.name != 'Netflix';
-            })
-        }
-
-        return _.isEmpty(array) ? false : _.first(array).name;
-
-    }
-
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    })
-
-
-    $scope.savePackage = function () {
-        PackageFactory.setPackage($scope.package)
-    }
-
-    //$scope.$watchCollection('package.content', function () {
-    //
-    //    PackageFactory.setPackage($scope.package)
-    //})
-});
-app.controller('StepThreeController', function ($scope, PackageFactory) {
-
-    //$scope.package = PackageFactory.getPackage();
-    //$scope.hardwareTotal = PackageFactory.totalHardwareCost();
-    //$scope.servicesTotal = PackageFactory.totalServiceCost();
-    ////$scope.packageTotal = getPackageTotal();
-    //$scope.$addProviderUrls = function () {
-    //    for (var i = 0; i < $scope.package.providers.length; i++) {
-    //        var providerName = $scope.package.providers[i].display_name;
-    //        switch (providerName) {
-    //            case "Yahoo Screen Over the Air":
-    //                $scope.package.providers[i].home_url = "https://www.yahoo.com/tv/tagged/originals";
-    //                break;
-    //            case "Netflix":
-    //                $scope.package.providers[i].home_url = "https://www.netflix.com/";
-    //                break;
-    //            case "HBO NOW":
-    //                $scope.package.providers[i].home_url = "https://order.hbonow.com/";
-    //                break;
-    //            case "Sling TV (ESPN)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (CNN)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (ABC Family)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Slin" +
-    //            "g TV (AMC)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (TNT)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (TBS)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (The CW)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Sling TV (Travel)":
-    //                $scope.package.providers[i].home_url = "http://www.sling.com/";
-    //                break;
-    //            case "Amazon Prime":
-    //                $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
-    //                break;
-    //            case "Amazon":
-    //                $scope.package.providers[i].home_url = "http://www.amazon.com/gp/prime/pipeline/prime_gifting_landing/?ref_=assoc_tag_ph_1415183446617&ie=UTF8&camp=1789&creative=9325&linkCode=pf4&tag=strea03d-20&linkId=UBNDLZEPEGPD6JDJ";
-    //                break;
-    //            case "Showtime":
-    //                $scope.package.providers[i].home_url = "http://www.sho.com/sho/showtime-anytime";
-    //                break;
-    //            case "Showtime FREEview Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.sho.com/sho/free-preview/1";
-    //                break;
-    //            case "Hulu":
-    //                $scope.package.providers[i].home_url = "http://www.hulu.com/welcome";
-    //                break;
-    //            case "Hulu with Showtime":
-    //                $scope.package.providers[i].home_url = "http://www.hulu.com/getshowtime";
-    //                break;
-    //            case "CBS All Access":
-    //                $scope.package.providers[i].home_url = "http://www.cbs.com/all-access/";
-    //                break;
-    //            case "VUDU":
-    //                $scope.package.providers[i].home_url = "http://www.vudu.com/";
-    //                break;
-    //            case "Google Play":
-    //                $scope.package.providers[i].home_url = "https://play.google.com/store/movies?hl=en";
-    //                break;
-    //            case "iTunes":
-    //                $scope.package.providers[i].home_url = "https://www.apple.com/itunes/download/";
-    //                break;
-    //            case "YouTube":
-    //                $scope.package.providers[i].home_url = "https://www.youtube.com/user/YouTubeShowsUS/featured";
-    //                break;
-    //            case "NBC Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.nbc.com/schedule";
-    //                break;
-    //            case "CBS Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.cbs.com/schedule/";
-    //                break;
-    //            case "FOX Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.fox.com/schedule";
-    //                break;
-    //            case "ABC Over the Air":
-    //                $scope.package.providers[i].home_url = "http://abc.go.com/schedule";
-    //                break;
-    //            case "The CW Over the Air":
-    //                $scope.package.providers[i].home_url = "http://www.cwtv.com/schedule/";
-    //                break;
-    //            default:
-    //                $scope.package.providers[i].home_url = "http://www.guidebox.com/";
-    //                break;
-    //        }
-    //    }
-    //};
-    //$scope.$watch(function () {
-    //    return PackageFactory.getPackage()
-    //}, function () {
-    //    $scope.package = PackageFactory.getPackage();
-    //    $scope.$addProviderUrls();
-    //});
-
-
-})
-
-/**
- * Created by Nem on 11/25/15.
- */
-app.controller('StepTwoController', function ($scope, http, PackageFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-    var hardwareColl = $scope.package.hardware;
-
-    http.getHardware()
-        .then(function (data) {
-            $scope.hardware = data.results;
-        });
-
-    $scope.itemSelected = function (item) {
-        var hardwareColl = $scope.package.hardware;
-        var x = _.some(hardwareColl, 'url', item.url);
-        return x
-    };
-
-
-    $scope.addRemoveHardware = function (item) {
-        if (item.hasOwnProperty('selected')) {
-            delete item['selected']
-        }
-
-
-        var hardwareColl = $scope.package.hardware;
-        if (_.some(hardwareColl, 'url', item.url)) {
-            _.remove(hardwareColl, function(n){
-
-                return n.url == item.url
-
-            });
-
-        } else {
-            //item.selected = true;
-            hardwareColl.push(item);
-        }
-
-        PackageFactory.setPackage($scope.package)
-    };
-
-    $scope.$watch(function () {
-        return PackageFactory.getPackage()
-    }, function () {
-        $scope.package = PackageFactory.getPackage();
-    });
 
 
 });

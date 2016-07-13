@@ -254,10 +254,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 isHomePage: true
             },
             views: {
-                'modal': {
-                    templateUrl: 'static/partials/modal/modalContainer.html',
-                    controller: 'ModalController'
-                },
                 'home': {
                     templateUrl: 'static/partials/home.html',
                     controller: 'HomeController'
@@ -379,10 +375,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 dashboard: true
             },
             views: {
-                'modal': {
-                    templateUrl: 'static/partials/modal/modalContainer.html',
-                    controller: 'ModalController'
-                },
+               
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'

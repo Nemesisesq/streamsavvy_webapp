@@ -1,5 +1,5 @@
 <div ng-repeat="service in value"ng-if="key != 'ppv'" >
-    <checkout-service  service="service" key="key" package="package"></checkout-service>
+    <checkout-service  service="service" key="key" package="package" ng-hide="service.hidden"></checkout-service>
 </div>
    {{ fixWindow(key) }}
 

@@ -2594,7 +2594,7 @@ mobile-tabs {
 
 .dashboard .search-and-shows {
   height: 100vh;
-  overflow: scroll; }
+  overflow-x: scroll; }
   .dashboard .search-and-shows .search-bar {
     height: 50px;
     padding: 0; }
@@ -2721,6 +2721,7 @@ show-detail .background {
   color: #9b9b9b; }
 
 .service-disclaimer {
+  text-align: center;
   color: #9b9b9b;
   margin-left: 9%;
   width: 83%;
@@ -3042,6 +3043,10 @@ button.btn-already-have {
 .hardware-cost {
   font-size: 14px;
   float: right; }
+
+.mng-devices {
+  color: #9b9b9b;
+  text-align: center; }
 
 .row.footer {
   position: absolute;

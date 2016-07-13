@@ -97,11 +97,11 @@ app.directive('actionBlock', function ($window, PackageFactory) {
             }
 
             if (isServiceAdded(scope.service)) {
-                service.added = true
+                scope.service.added = true
             }
 
             if (isServiceHidden(scope.service)) {
-                service.hidde = true
+                scope.service.hidden = true
             }
 
             scope.subscribe = function (service) {
@@ -111,7 +111,7 @@ app.directive('actionBlock', function ($window, PackageFactory) {
                     scope.package.data.services = {subscribed: []}
                 }
 
-                if (isServiceAdded(service)) {
+                if (!isServiceAdded(service)) {
                     scope.package.data.services.subscribed.push(service.chan.source);
                     service.added = true;
                     mixpanel.track("Already Have Service", {"service name": service.chan.display_name});
@@ -132,6 +132,7 @@ app.directive('actionBlock', function ($window, PackageFactory) {
             }
 
             scope.hideService = function (service) {
+                debugger
                 if (scope.package.data.services.hidden == undefined) {
                     scope.package.data.services = {hidden: []}
                 }
@@ -267,6 +268,14 @@ app.directive('checkoutInstructions', function () {
         link: function (scope, element, attrs) {
 
         }
+    }
+})
+
+app.directive('hardwareRow', function(){
+    return {
+        templateUrl: 'static/partials/checkout-list/hardware-template.html',
+        restrict: 'E',
+        controller: 'HardwareController'
     }
 })
 

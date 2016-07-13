@@ -17,7 +17,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
 
         var modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: '/static/partials/modal/modal.html',
+            templateUrl: '/static/partials/modal.html',
             controller: 'ModalInstanceController',
             size: 'sm',
             resolve: {
@@ -42,7 +42,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
         });
     }
 
-    loginEventService.listen($scope.openLogInModal)
+    loginEventService.listen($rootScope.openLogInModal)
     //if ($rootScope.currentStep == 3) {
     //    $rootScope.openLogInModal()
     //}
