@@ -42,6 +42,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
         });
     }
 
+    loginEventService.listen($scope.openLogInModal)
     //if ($rootScope.currentStep == 3) {
     //    $rootScope.openLogInModal()
     //}

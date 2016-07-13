@@ -545,6 +545,30 @@ app.directive('checkoutItem', function () {
         link: function (scope, element) {
             scope.windowWidth = window.innerWidth;
 
+            scope.fixWindows = function (key) {
+                debugger
+                if (key == 'misc') {
+                    return 'MISC'
+                }
+
+                if (key == 'binge') {
+                    return 'Binge Subscription'
+                }
+
+                if (key == 'on_demand') {
+                    return 'On Demand Subscription'
+                }
+
+                if (key == 'ota') {
+                    return 'Live Subscription'
+                }
+
+                if (key == 'ppv') {
+
+                    return 'Pay Per Episode or Season'
+                }
+            }
+
 
         }
     }
@@ -567,13 +591,7 @@ app.directive('checkoutImageBlock', function ($http) {
                 return service + "_sprite"
             }
 
-             scope.linkToAffiliate = function (service) {
-                 if (key == 'ppv'){
-                     $window.open(service.details.subscription_link);
-                     mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
-                     scope.subscribe(service)
-                 }
-            }
+
         }
     }
 })
@@ -654,7 +672,6 @@ app.directive('actionBlock', function ($window, PackageFactory) {
             }
         }
     }
-
 
 
 })
@@ -756,23 +773,18 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
 
             debugger
 
-            scope.value = _.map(scope.value, function(elem){
+            scope.value = _.map(scope.value, function (elem) {
                 $http.get('/service_description/' + elem.chan.source)
-                .then(function (data) {
-                    elem.details = data.data
-                    // console.log(data)
-
-                })
-
+                    .then(function (data) {
+                        elem.details = data.data
+                    })
                 return elem
-
             })
 
             scope.linkToAffiliate = function (service) {
                 $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
             }
-
         }
     }
 })
@@ -2189,6 +2201,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
         });
     }
 
+    loginEventService.listen($scope.openLogInModal)
     //if ($rootScope.currentStep == 3) {
     //    $rootScope.openLogInModal()
     //}
