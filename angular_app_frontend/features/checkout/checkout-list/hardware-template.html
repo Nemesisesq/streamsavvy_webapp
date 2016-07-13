@@ -16,13 +16,13 @@
                               tooltip-placement="right"
                               tooltip-class="vw-tooltip"></span> -->
             </div>
-            <div class="hardware-img" ng-click="addRemoveHardware(item)"
+            <div class="hardware-img" ng-click="linkToAffiliate(device)"
                  ng-class="{selected: itemSelected(item) }">
                 <img class="" ng-src="{{ device.image }}"/>
             </div>
             <div class="hardware-cost">
                 Cost: $
-                {{ device.price }}
+                {{ device.price.toFixed(2) }}
             </div>
         </div>
     </div>

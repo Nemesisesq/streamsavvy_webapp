@@ -7,16 +7,21 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
         {
             name: 'Roku',
             image: 'https://s3.amazonaws.com/streamsavvy/Roku4.png',
-            url: '',
-            price: 43.20
+            url: 'http://www.dpbolvw.net/click-7926773-12551146-1459950711000',
+            price: 49.99
         },
         {
             name: 'Mohu Leaf',
             image: 'https://s3.amazonaws.com/streamsavvy/Mohu.png',
-            url: '',
-            price: 43.20
+            url: 'https://www.amazon.com/Mohu-Paper-thin-Reversible-Performance-MH-110583/dp/B004QK7HI8',
+            price: 39.00
         }
     ]
+
+    $scope.linkToAffiliate = function (device) {
+                $window.open(device.url);
+                mixpanel.track("Buy Device", {"service name": service.chan.display_name});
+            }
 
     $scope.pkg = PackageFactory.getPackage();
 

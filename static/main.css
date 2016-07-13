@@ -3035,11 +3035,9 @@ button.btn-already-have {
   font-size: 14px; }
 
 .hardware-img {
-  height: 25px;
   display: inline-block;
   vertical-align: top;
-  horiz-align: right;
-  margin-bottom: 225px; }
+  horiz-align: right; }
 
 .center-block {
   width: 400px;
