@@ -1,10 +1,15 @@
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $location, $state, $rootScope, CONFIG, $timeout) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout) {
 
-    
 
+    $scope.logout = function(){
+        debugger
+        delete $window.sessionStorage['token']
+        location.pathname = '/logout/'
+
+    }
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
 
@@ -23,13 +28,13 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
     $scope.hmdc = $state.current.data.hmdcActive;
 
-    $scope.logout = function () {
-        $location.path(CONFIG.URL + '/django_auth/logout/');
-        //.success(function () {
-        //    $rootScope.logged_in = false;
-        //    console.log($rootScope.logged_in)
-        //})
-    }
+    // $scope.logout = function () {
+    //     $location.path(CONFIG.URL + '/django_auth/logout/');
+    //     //.success(function () {
+    //     //    $rootScope.logged_in = false;
+    //     //    console.log($rootScope.logged_in)
+    //     //})
+    // }
 
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
         mainPage = document.getElementById('mainPage'),
@@ -67,7 +72,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $location,
 
 app.run(function ($rootScope) {
     angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
-    console.log($rootScope.logged_in)
+    // console.log($rootScope.logged_in)
 
 })
 

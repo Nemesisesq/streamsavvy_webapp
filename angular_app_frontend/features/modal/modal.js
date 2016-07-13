@@ -1,14 +1,21 @@
-app.controller('ModalController', function ($scope, http, $modal, $log, $rootScope) {
+app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
 
 
     //$scope.login = 'Click Here to Login'
 
+    var modalOpen = false
 
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
+        debugger
+        if (modalOpen) {
+            return
+        }
 
-        var modalInstance = $modal.open({
+        modalOpen = true;
+
+        var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: '/static/partials/modal/modal.html',
             controller: 'ModalInstanceController',
@@ -26,6 +33,12 @@ app.controller('ModalController', function ($scope, http, $modal, $log, $rootSco
 
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
+
+            $timeout(function () {
+
+                modalOpen = false
+            }, 1000)
+            // $log.info(modalOpen)
         });
     }
 
@@ -41,8 +54,8 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     $scope.socialLogin = true;
 
     $scope.auth = {
-        twitter : $('#twitter_login').attr('href'),
-        facebook : $('#facebook_login').attr('href'),
+        twitter: $('#twitter_login').attr('href'),
+        facebook: $('#facebook_login').attr('href'),
     }
 
 

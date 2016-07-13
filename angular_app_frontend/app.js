@@ -488,7 +488,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
 
 });
 
-//TODO uncomment this after developingt the mobile checkout page
+//TODO uncomment this after developing the mobile checkout page
 
 app.run(function ($window, $state) {
     $($window).resize(function () {

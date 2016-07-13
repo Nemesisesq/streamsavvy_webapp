@@ -288,7 +288,7 @@ body {
 
 .fa {
   display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
+  font: normal normal normal 14px / 1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3085,6 +3085,24 @@ span.pull-right.footer-right {
 @media (max-width: 425px) {
   .footer-right {
     font-size: 8px; } }
+
+div[ui-view='footer'] {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  padding: 0 15px 15px; }
+
+.footer-left i {
+  font-size: 30px;
+  margin-left: 10px; }
+  .footer-left i.fa-twitter:hover {
+    color: #55acee; }
+  .footer-left i.fa-twitter:active {
+    color: #55acee; }
+  .footer-left i.fa-facebook:active {
+    color: #3B5998; }
+  .footer-left i.fa-facebook:hover {
+    color: #3B5998; }
 
 .service-panel.ng-scope {
   min-height: 60vh;

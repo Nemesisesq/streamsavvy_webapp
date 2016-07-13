@@ -10,7 +10,7 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
         credentials.submit = "Log in";
         http.login(credentials)
             .then(function (data) {
-                console.log(data);
+                // console.log(data);
                 $location.url('search');
                 $scope.logged_in = true;
             })

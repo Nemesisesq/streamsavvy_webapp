@@ -48,7 +48,7 @@ urlpatterns = [
     url(r'^social/', include('social.apps.django_app.urls', namespace='social')),
     url(r'^django-rq', include('django_rq.urls')),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    # url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^api/guide/(?P<zip>\d{5})', RoviChannelGridView.as_view(), name='rovi_channel_grid_view'),
     url(r'^api/search', call_search_microservice, name='search'),
     url(r'^node-data/(?P<path>\w+)', get_service_list, name='service_list'),
