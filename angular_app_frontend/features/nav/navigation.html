@@ -12,8 +12,12 @@
 
 
 
-        <div class="ss-menu-auth">
+        <div class="ss-menu-auth" ng-controller="ModalController">
             <a id="sign-up" ng-click="openLogInModal()" class="sign-up">Sign Up</a>
+        </div>
+
+        <div>
+            <a ng-click="logout()">Logout</a>
         </div>
     </nav>
 
@@ -47,5 +51,4 @@
 <!--step one -->
 
 
-<!-- <div ui-view="footer" position-footer></div> -->    
 

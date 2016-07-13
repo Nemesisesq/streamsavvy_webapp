@@ -5,10 +5,13 @@
         <div ng-if="pkgHasContent">
             <button class="btn btn-red not-ready " onclick="location.href='#/checkout';">
                 <!-- <span ng-if="!pkgHasContent">Add shows or services</span> -->
-                <span>I'm ready to cut the cord</span>
+                <span>Subscribe and watch </span>
             </button>
         </div>
     </div>
+
+    <!--
+
     <div class="hardware-header row">
         <div class="col-xs-10">HARDWARE SUGGESTIONS</div>
         <div class="col-xs-2" ng-click="toggleHardwarePanel()">
@@ -16,10 +19,12 @@
             <i ng-if="collapseHardware==true" class="fa fa-chevron-up"></i>
         </div>
     </div>
+
+
     <div class="row hardware-body">
 
 
-        <div class="col-xs-6" ng-repeat="device in devices">
+        <div class="col-xs-6" ng-repeat="device in devices" on-click="window.open('device.url)">
 
             <div class="hardware-img" ng-click="addRemoveHardware(item)"
                  ng-class="{selected: itemSelected(item) }">
@@ -33,9 +38,6 @@
                               tooltip-class="vw-tooltip"></span>
             </div>
 
-            <div class="hardware-cost">
-               {{ device.price }}
-            </div>
         </div>
         <div class="col-sm-6">
             <div class="hardware-other">
@@ -44,6 +46,6 @@
             </div>
         </div>
     </div>
-</div>
+    -->
 </div>
 

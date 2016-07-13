@@ -38,19 +38,16 @@
 .service-tooltip {
   width: 200px;
 }
-
 .back-btn {
   background-color: transparent;
   color: #ffffff;
   border: 0px;
   padding: 15px;
 }
-
 .back-btn:hover {
   width: auto;
   color: #6B7C93;
 }
-
 .glyphicon-arrow-left {
   font-size: 24px;
   transform: translateY(3px);
@@ -59,16 +56,36 @@
 #checkout-back-btn-area {
   padding: 10px;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+.checkout-steps {
+  i {
+    font-size: 26px;
+  }
+}
+
+.fa-cloud-download {
+  color: $leafy-green;
+}
+
+.fa-plus-square {
+  color: $dark-sky-blue;
+}
+
+.fa-minus-circle {
+  color: $warm-grey;
+}
+
+.service-disclaimer {
+  text-align: center;
+  color: $warm-grey;
+  margin-left: 9%;
+  width: 83%;
+  font-size: 10px;
+}
 
 .ss_checkout {
   .ss_nav{
     background-color: $dashboard-dark;
   }
 }
-=======
->>>>>>> 437a352beb5e471fb56d2925655fe6f244a5dd92
-=======
 
->>>>>>> 92a2e53ec5be4f18644c842d96e6acd3e428b5e2

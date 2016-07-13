@@ -29,7 +29,7 @@ app.directive('ssImageBlock', function (http, $rootScope) {
                             })
 
 
-                            console.log(p)
+                            // console.log(p)
                         } else{
                             p.hardware.push(item.url)
                         }

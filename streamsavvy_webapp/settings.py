@@ -88,7 +88,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'corsheaders',
     'oauth2_provider',
-
+    # 'rest_framework_jwt',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -96,14 +96,12 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'server.middleware.anon_user_middleware.ProcessAnonUser',
-    'server.middleware.access_management.BlockLiveSiteFromNonAdminUsers',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
@@ -189,14 +187,14 @@ STATICFILES_FINDERS = (
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         # 'rest_framework.permissions.IsAdminUser'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework.authentication.BasicAuthentication',
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
 
     ),
     'PAGE_SIZE': 20
@@ -248,7 +246,7 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 AUTHENTICATION_BACKENDS = (
-    'oauth2_provider.backends.OAuth2Backend',
+    # 'oauth2_provider.backends.OAuth2Backend',
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.instagram.InstagramOAuth2',
     'social.backends.twitter.TwitterOAuth',
@@ -340,4 +338,6 @@ RQ_QUEUES = {
     }
 }
 
-
+# JWT_ALLOW_REFRESH = True
+#
+# JWT_VERIFY_EXPIRATION = False

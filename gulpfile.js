@@ -30,7 +30,8 @@ var paths = {
         './angular_app_frontend/features/progress/*.html',
         './angular_app_frontend/features/checkout/**/*.html',
         './angular_app_frontend/features/selected-show/*.html',
-        './angular_app_frontend/features/search/*.html'
+        './angular_app_frontend/features/search/*.html',
+        './angular_app_frontend/features/modal/*.html'
     ],
     images: ['./angular_app_frontend/img/*']
 

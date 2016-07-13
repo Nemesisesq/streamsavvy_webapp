@@ -77,11 +77,11 @@
 .btn-already-have {
   border-radius: 8px;
   border: none;
-  background-color: rgba(225, 225, 225, .1);
+  background-color: $dark-sky-blue;
 
   letter-spacing: .6px;
-  color: $warm-grey;
-  font-size: 10px;
+  color: white !important;
+  font-size: 12px;
   min-width: 100px;
   min-height: 35px;
 
@@ -109,8 +109,8 @@
   text-decoration: none !important;
 
   letter-spacing: .6px;
-  font-size: 10px;
-  background-color: #11b2e6;
+  font-size: 12px;
+  background-color: $leafy-green;
   //min-width: 100px;
   min-height: 35px;
   width: 100%;
@@ -182,11 +182,12 @@
 }
 
 .service-image {
-
   margin-top: 10px;
   //margin-left: 17px;
-  max-width: 100px;
+  max-width: 60px;
   width: 100%;
+  padding-bottom: 3%;
+  float: left;
 }
 
 .ss_show-list {
@@ -194,6 +195,7 @@
   font-size: 14px;
   letter-spacing: 0.6px;
   color: #ffffff;
+  margin-top: 15px;
 
   font-weight: 200;
 
@@ -385,7 +387,8 @@ checkout-image-block.col-sm-2 {
 }
 
 .checkout-steps {
-  font-size: 9px;
+  font-size: 12px;
+  margin-top: 20px;
 
   div {
     min-height: 24px;
@@ -442,11 +445,48 @@ action-block.col-sm-10 {
 
 button {
   &.btn-purchase {
-    border-radius: 0;
+    border-radius: 8px;
   }
 
   &.btn-already-have {
 
-    border-radius: 0;
+    border-radius: 8px;
   }
+}
+
+.app-manager-description {
+  margin-top: 10px;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+.hardware-img {
+  //height: 25px;
+  display: inline-block;
+  vertical-align: top;
+  horiz-align: right;
+  //margin-bottom: 225px;
+}
+
+.center-block {
+  width: 400px;
+  height: 600px;
+  margin-left: 30%;
+}
+
+.hardware-name {
+  font-size: 16px;
+  padding-bottom: 10px;
+  float: left;
+}
+
+.hardware-cost {
+  font-size: 14px;
+  float: right;
+}
+
+.mng-devices {
+  color: $warm-grey;
+
+  text-align: center;
 }

@@ -35,11 +35,13 @@
     "classie": "^1.0.1",
     "angular-growl": "^0.4.0",
     "angular-growl-v2": "^0.7.9",
-    "lodash": "^4.13.1"
+    "lodash": "^4.13.1",
+    "font-awesome": "fontawesome#^4.6.3",
+    "angular-environment": "^1.0.4"
   },
   "private": true,
   "resolutions": {
-    "angular": ">= 1.0.8",
+    "angular": "1.5.7",
     "angular-cookies": "~1.4.5"
   }
 }

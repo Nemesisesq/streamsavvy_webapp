@@ -1,0 +1,120 @@
+.modal-dialog {
+  text-align: center;
+  width: 560px;
+  // border-top: solid 5px red;
+  .modal-body {
+
+    li {
+      float : left;
+      height : auto;
+
+      & a {
+        margin-bottom: 0;
+      }
+
+      &:active > a {
+        border-bottom : solid 1px white;
+        margin-bottom: 0;
+      }
+
+      &:active {
+        border-bottom: none;
+      }
+
+    }
+
+    padding-top: 0;
+    .btn-row {
+      padding: 3px;
+
+      .btn {
+        width: 100%;
+      }
+
+      .twitter {
+        background-color: #00aced;
+      }
+      .facebook {
+        background-color: #3b5998;
+      }
+
+      .instagram {
+        background-color: #517fa4;
+      }
+    }
+  }
+
+  .modal-header {
+    margin: 0 auto;
+    .modal-title {
+      font-size: 24px;
+    }
+    .please-social {
+      font-size: 15px;
+      margin-top: 15px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid $warm-grey;
+      margin-bottom: 25px;
+    }
+  }
+  .wait-minute {
+    color: black;
+    float: left;
+    font-size: 1.5em;
+    text-decoration: underline;
+    padding-left: 7%;
+    padding-top: 1.6%;
+  }
+  .lets-cut {
+    color: white;
+    border-radius: 5px;
+    margin-right: 8%;
+  }
+  .form-group {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    margin: 0;
+    .email-label {
+      float: left;
+      font-size: 15px;
+      font-weight: normal;
+    }
+    .div-for-an-or {
+      margin-top: 3%;
+      font-size: 15px;
+    }
+  }
+
+}
+
+.btn-login:hover {
+  color: #000088;
+}
+
+.modal-content {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.modal-footer {
+  text-align: center;
+  .log-in{
+    color:white;
+  }
+}
+
+.modal-buttons {
+  width: 75%;
+  margin: 0 auto;
+
+  .btn-social {
+    height: 34px;
+
+    margin-top: 5px;
+    line-height: 8.5px;
+  }
+
+  .fa {
+    top: 2px;
+  }
+}

@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl) {
+app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, BANNED_CHANNELS, SLING_CHANNELS, SERVICE_PRICE_LIST, N, MAJOR_NETWORKS, growl, loginEventService) {
 
 
     $scope.modelOptions = {
@@ -86,7 +86,22 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
     }
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
+
+        // if (!$window.sessionStorage.token) {
+        //     growl.info("Please authenticate to use this application.")
+        //         .then(function () {
+        //
+        //             loginEventService.broadcast()
+        //         })
+        //
+        //     return
+        // }
         var ssPackage = PackageFactory.getPackage();
+
+        if ('hidden' in ssPackage.data.services) {
+            ssPackage.data.services.hidden = [];
+        }
+
         if (suggestion !== undefined) {
             if (_.some(ssPackage.data.content, ['url', suggestion.url])) {
                 growl.warning('You already added ' + suggestion.title + ' to your package!');
@@ -95,21 +110,19 @@ app.controller('search', function ($scope, $rootScope, $http, http, PackageFacto
             }
 
             // suggestion.url = suggestion.url.replace('http', 'https');
-            debugger;
+            // debugger;
             var parser = document.createElement('a');
             parser.href = suggestion.url
 
-            url = /api/.test(parser.pathname)? parser.pathname : '/api' + parser.pathname
+            url = /api/.test(parser.pathname) ? parser.pathname : '/api' + parser.pathname
             $http.get(url)
                 .then(function (data) {
-                    debugger;
 
 
                     suggestion = fixGuideboxData(data.data)
 
 
                     if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-                        debugger;
                         $scope.loading = true;
 
                         suggestion.justAdded = true;

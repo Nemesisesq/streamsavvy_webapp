@@ -22,14 +22,14 @@ from django.http import JsonResponse, HttpResponse
 from rest_framework import viewsets
 from django.views.generic import View
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from django.contrib.auth.models import Group
 
 from server.apis.guidebox import GuideBox
 from server.apis.netflixable import Netflixable
 from server.models import *
-from server.permissions import IsAdminOrReadOnly
+from server.permissions import IsAdminOrReadOnly, SaveFirstShowThenRequireAuthentication
 from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, PackageDetailSerializer, ChannelImagesSerializer
 
@@ -155,7 +155,7 @@ class PackagesViewSet(viewsets.ModelViewSet):
     serializer_class = PackagesSerializer
     http_method_names = ['get', 'put']
 
-    # permission_classes = (IsOwner,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         user = get_user(self)
