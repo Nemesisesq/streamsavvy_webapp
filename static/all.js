@@ -586,7 +586,9 @@ app.directive('checkoutImageBlock', function ($http) {
 
             $http.get('viewing_windows/'+scope.service.chan.source)
                 .then(function(data){
-                    scope.service.windows = data.data
+                    debugger;
+
+                    scope.service.windows = JSON.parse(data.data[0].windows)
                 })
 
 
@@ -643,7 +645,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             var save = function (s) {
                 PackageFactory.setPackage(s)
             }
-            debugger;
+
             if (isServiceAdded(scope.service)) {
                 scope.service.added = true
             }
@@ -678,7 +680,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
 
 
             scope.subscribe = function (service) {
-                debugger
 
                 if (scope.package.data.services.subscribed == undefined) {
                     scope.package.data.services = {subscribed: []}
@@ -692,7 +693,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 }
 
                 setPrice();
-                debugger;
 
 
             }
@@ -700,7 +700,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             scope.linkToAffiliate = function (service) {
                 $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
-                debugger;
                 scope.subscribe(service)
             }
 
@@ -714,7 +713,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             }
 
             scope.hideService = function (service) {
-                debugger
                 if (scope.package.data.services.hidden == undefined) {
                     scope.package.data.services = {hidden: []}
                 }
@@ -823,8 +821,6 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
         link: function (scope, element, attrs) {
 
             scope.windowWidth = $window.innerWidth
-
-            debugger
 
             scope.value = _.map(scope.value, function (elem) {
                 $http.get('/service_description/' + elem.chan.source)
@@ -2080,60 +2076,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 });
 
 
-app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST, ServiceTotalFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-
-    $scope.$on('subcribe', function (service) {
-        debugger;
-        $scope.package.services.subscribed.push(service)
-        service.added = true
-    })
-
-    $scope.$on('unsubscribe', function (service) {
-        _.remove($scope.package.services.subscribed, service)
-    })
-
-    $scope.$on('hide', function (service) {
-        $scope.package.services.hidden.push(service);
-        service.hidden = true
-    })
-
-
-    function get_service_list() {
-        $scope.package = PackageFactory.getPackage();
-        if ('data' in $scope.package) {
-            PackageFactory.getCheckoutPanelList()
-                .then(function (data) {
-                    $scope.list = data.data
-                    $scope.package = PackageFactory.getPackage()
-                    return data
-                })
-        }
-    }
-    
-    refreshPackageService.listen(get_service_list);
-    $scope.list = {}
-    $scope.list.added = [];
-    var payPerServices = ['google_play', 'itunes', 'youtube_purchase', 'vudu', 'amazon_buy'];
-    $scope.addService = function (service) {
-        _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
-    };
-
-    $scope.$watchCollection(function () {
-        try {
-            return PackageFactory.getPackage().data.content
-        }
-        catch (e) {
-            console.log(e)
-        }
-    }, function () {
-        get_service_list();
-        $scope.list = PackageFactory.getListOfServices();
-    })
-});
-
-
 /**
  * Created by Nem on 12/29/15.
  */
@@ -2200,6 +2142,60 @@ $(document).ready(function () {
     // debugger;
 
 })
+
+app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST, ServiceTotalFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+
+    $scope.$on('subcribe', function (service) {
+        debugger;
+        $scope.package.services.subscribed.push(service)
+        service.added = true
+    })
+
+    $scope.$on('unsubscribe', function (service) {
+        _.remove($scope.package.services.subscribed, service)
+    })
+
+    $scope.$on('hide', function (service) {
+        $scope.package.services.hidden.push(service);
+        service.hidden = true
+    })
+
+
+    function get_service_list() {
+        $scope.package = PackageFactory.getPackage();
+        if ('data' in $scope.package) {
+            PackageFactory.getCheckoutPanelList()
+                .then(function (data) {
+                    $scope.list = data.data
+                    $scope.package = PackageFactory.getPackage()
+                    return data
+                })
+        }
+    }
+    
+    refreshPackageService.listen(get_service_list);
+    $scope.list = {}
+    $scope.list.added = [];
+    var payPerServices = ['google_play', 'itunes', 'youtube_purchase', 'vudu', 'amazon_buy'];
+    $scope.addService = function (service) {
+        _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
+    };
+
+    $scope.$watchCollection(function () {
+        try {
+            return PackageFactory.getPackage().data.content
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }, function () {
+        get_service_list();
+        $scope.list = PackageFactory.getListOfServices();
+    })
+});
+
 
 /**
  * Created by chirag on 8/3/15.

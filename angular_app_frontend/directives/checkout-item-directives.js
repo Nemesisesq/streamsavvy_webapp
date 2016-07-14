@@ -63,7 +63,9 @@ app.directive('checkoutImageBlock', function ($http) {
 
             $http.get('viewing_windows/'+scope.service.chan.source)
                 .then(function(data){
-                    scope.service.windows = data.data
+                    debugger;
+
+                    scope.service.windows = JSON.parse(data.data[0].windows)
                 })
 
 
@@ -120,7 +122,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             var save = function (s) {
                 PackageFactory.setPackage(s)
             }
-            debugger;
+
             if (isServiceAdded(scope.service)) {
                 scope.service.added = true
             }
@@ -155,7 +157,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
 
 
             scope.subscribe = function (service) {
-                debugger
 
                 if (scope.package.data.services.subscribed == undefined) {
                     scope.package.data.services = {subscribed: []}
@@ -169,7 +170,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 }
 
                 setPrice();
-                debugger;
 
 
             }
@@ -177,7 +177,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             scope.linkToAffiliate = function (service) {
                 $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
-                debugger;
                 scope.subscribe(service)
             }
 
@@ -191,7 +190,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             }
 
             scope.hideService = function (service) {
-                debugger
                 if (scope.package.data.services.hidden == undefined) {
                     scope.package.data.services = {hidden: []}
                 }
@@ -300,8 +298,6 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
         link: function (scope, element, attrs) {
 
             scope.windowWidth = $window.innerWidth
-
-            debugger
 
             scope.value = _.map(scope.value, function (elem) {
                 $http.get('/service_description/' + elem.chan.source)
