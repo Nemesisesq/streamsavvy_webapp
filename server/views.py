@@ -223,6 +223,15 @@ def get_service_description(request, service):
             print(e)
 
 
+def get_viewing_windows(request, service):
+   if request.method == 'GET':
+        query_url = "{base}/window/?q={service}".format(base=get_env_variable('DATA_MICROSERVICE_URL'), service=service)
+        try:
+            r = requests.get(query_url)
+            return JsonResponse(r.json(), safe=False)
+        except Exception as e:
+            print(e)
+
 
 @csrf_exempt
 @strategy('social:complete')

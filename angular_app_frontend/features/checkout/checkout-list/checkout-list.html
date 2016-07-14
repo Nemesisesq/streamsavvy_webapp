@@ -1,4 +1,3 @@
-
 <div class="container mobile-checkout-container">
     <div class="f-i-n-a-l-i-z-e-y-o-u-r-s-e-r-v-i-c">
         <div class="row">
@@ -11,6 +10,9 @@
     </div>
     <checkout-item ng-repeat="(key, value) in list | customSorter" key="key" value="value"
                    package="package"></checkout-item>
-<hardware-row></hardware-row>
+    <div class="checkout-total">
+        {{ package.data.services.price.toFixed(2) }}
+    </div>
+    <hardware-row></hardware-row>
 </div>
 

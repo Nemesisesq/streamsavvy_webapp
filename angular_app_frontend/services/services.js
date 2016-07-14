@@ -50,6 +50,20 @@ app.service('refreshPackageService', function($rootScope){
     }, 500)
 })
 
+app.factory('ServiceTotalFactory', function(){
+    var _price = 0
+
+    return {
+        setPrice : function(s) {
+            _price += s
+        },
+
+        getPrice : function(){
+            return _price
+        }
+    }
+})
+
 app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService', function ($http, $q, _, $window, loginEventService) {
     // ;
 
@@ -149,5 +163,5 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
 
 
         })
-    
+
 });

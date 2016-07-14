@@ -1,14 +1,18 @@
 <div class="ss-hardware-panel">
-    <div class="service-center" ng-class="{'ready-for-checkout': pkgHasContent}">
+    <div class="service-center" ng-class="{'ready-for-checkout': pkgHasContent}" ng-if="state=='dash.dashboard'">
+
         <div ng-if="!pkgHasContent">
         </div>
         <div ng-if="pkgHasContent">
             <button class="btn btn-red not-ready " onclick="location.href='#/checkout';">
                 <!-- <span ng-if="!pkgHasContent">Add shows or services</span> -->
+
                 <span>Subscribe and watch </span>
             </button>
         </div>
     </div>
+
+    <hardware-row ng-if="state=='mobile.hardware'"></hardware-row>
 
     <!--
 

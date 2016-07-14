@@ -1,4 +1,4 @@
-app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST) {
+app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST, ServiceTotalFactory) {
 
     $scope.package = PackageFactory.getPackage();
 
@@ -12,10 +12,11 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         _.remove($scope.package.services.subscribed, service)
     })
 
-    $scope.$on('hide',function (service) {
+    $scope.$on('hide', function (service) {
         $scope.package.services.hidden.push(service);
         service.hidden = true
     })
+
 
     function get_service_list() {
         $scope.package = PackageFactory.getPackage();
@@ -25,10 +26,10 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                     $scope.list = data.data
                     $scope.package = PackageFactory.getPackage()
                     return data
-                });
+                })
         }
     }
-
+    
     refreshPackageService.listen(get_service_list);
     $scope.list = {}
     $scope.list.added = [];

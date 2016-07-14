@@ -82,3 +82,12 @@
   margin-top: 10px;
 }
 
+.checkout-total {
+  @extend .f-i-n-a-l-i-z-e-y-o-u-r-s-e-r-v-i-c;
+
+  text-align: right;
+  position: fixed;
+
+  top: 500px;
+  right: 100px;
+}

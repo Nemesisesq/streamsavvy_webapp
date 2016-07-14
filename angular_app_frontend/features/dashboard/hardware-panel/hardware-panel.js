@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 5/24/16.
  */
-app.controller('HardwareController', function ($scope, PackageFactory) {
+app.controller('HardwareController', function ($scope, PackageFactory, $state) {
 
     $scope.devices = [
         {
@@ -17,6 +17,8 @@ app.controller('HardwareController', function ($scope, PackageFactory) {
             price: 39.00
         }
     ]
+    
+    $scope.state = $state.current.name;
 
     $scope.linkToAffiliate = function (device) {
                 $window.open(device.url);

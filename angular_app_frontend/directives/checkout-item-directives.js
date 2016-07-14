@@ -61,12 +61,17 @@ app.directive('checkoutImageBlock', function ($http) {
                 return service + "_sprite"
             }
 
+            $http.get('viewing_windows/'+scope.service.chan.source)
+                .then(function(data){
+                    scope.service.windows = data.data
+                })
+
 
         }
     }
 })
 
-app.directive('actionBlock', function ($window, PackageFactory) {
+app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFactory) {
 
     return {
         restrict: 'E',
@@ -81,21 +86,41 @@ app.directive('actionBlock', function ($window, PackageFactory) {
             var isServiceAdded = function (service) {
 
                 return _.some(scope.package.data.services.subscribed, function (elem) {
-                    return elem == service.chan.source
+                    return elem.chan.source == service.chan.source
                 })
             }
 
             var isServiceHidden = function (service) {
 
                 return _.some(scope.package.data.services.hidden, function (elem) {
-                    return elem == service.chan.source
+                    return elem.chan.source == service.chan.source
                 })
+            }
+
+            var lastScrollTop = 0
+
+            $(window).scroll(function () {
+
+                debugger;
+
+                var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+                if (st > lastScrollTop) {
+                    $('.checkout-total').css({'top': $('.checkout-total').position().top - 10})
+                } else {
+                    $('.checkout-total').css({'top': $('.checkout-total').position().top + 10})
+                }
+                lastScrollTop = st;
+
+            })
+
+            var setPrice = function () {
+                scope.package.data.services.price = computePrice();
             }
 
             var save = function (s) {
                 PackageFactory.setPackage(s)
             }
-
+            debugger;
             if (isServiceAdded(scope.service)) {
                 scope.service.added = true
             }
@@ -103,6 +128,31 @@ app.directive('actionBlock', function ($window, PackageFactory) {
             if (isServiceHidden(scope.service)) {
                 scope.service.hidden = true
             }
+            if (scope.package.data.services.subscribed) {
+
+                setPrice();
+            }
+
+            function computePrice() {
+                return _.chain(scope.package.data.services.subscribed)
+                    .map(function (x) {
+                        return parseFloat(x.details.price)
+
+                    })
+                    .reduce(function (s, e) {
+                        return s += e
+                    }).thru(function (sum) {
+
+                        debugger;
+
+                        ServiceTotalFactory.setPrice(sum)
+
+                        return sum
+
+                    }).value()
+            }
+
+
 
             scope.subscribe = function (service) {
                 debugger
@@ -112,22 +162,31 @@ app.directive('actionBlock', function ($window, PackageFactory) {
                 }
 
                 if (!isServiceAdded(service)) {
-                    scope.package.data.services.subscribed.push(service.chan.source);
+                    scope.package.data.services.subscribed.push(service);
                     service.added = true;
                     mixpanel.track("Already Have Service", {"service name": service.chan.display_name});
                     save(scope.package)
                 }
+
+                setPrice();
+                debugger;
+
+
             }
 
             scope.linkToAffiliate = function (service) {
                 $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
+                debugger;
                 scope.subscribe(service)
             }
 
             scope.unsubscribe = function (service) {
-                scope.package.data.services.subscribed = _.remove(scope.package.data.services.subscribed, service.chan.source)
+                scope.package.data.services.subscribed = _.filter(scope.package.data.services.subscribed, function (elem) {
+                    return elem.chan.source != service.chan.source
+                })
                 service.added = false;
+                setPrice();
                 save(scope.package)
             }
 
@@ -271,7 +330,7 @@ app.directive('checkoutInstructions', function () {
     }
 })
 
-app.directive('hardwareRow', function(){
+app.directive('hardwareRow', function () {
     return {
         templateUrl: 'static/partials/checkout-list/hardware-template.html',
         restrict: 'E',

@@ -44,31 +44,12 @@ urlpatterns = [
     url(r'^register/', register_user, name='register'),
     url(r'^django_auth/', include('django.contrib.auth.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-# url(r'^social/complete/(?P<backend>[^/]+)/$', complete, name='complete'),
     url(r'^social/', include('social.apps.django_app.urls', namespace='social')),
     url(r'^django-rq', include('django_rq.urls')),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-    # url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^api/guide/(?P<zip>\d{5})', RoviChannelGridView.as_view(), name='rovi_channel_grid_view'),
     url(r'^api/search', call_search_microservice, name='search'),
     url(r'^node-data/(?P<path>\w+)', get_service_list, name='service_list'),
     url(r'^service_description/(?P<service>\w+)', get_service_description, name='service_description'),
-    # url(r'^channels/([0-9]{1,10})', ShowChannelsView.as_view(), name='show_channels'),
-    # url(r'^api/channel_images/(?P<channel_id>\d+)', ChannelImagesView.as_view(), name='channel_images'),
-    # url(r'^search/', content_search, name='search'),
-    # TODO remove this endpoint when the api package can get and post.
-    # url(r'^json-package/', JsonPackageView.as_view(), name='json_package'),
-    # url(r'^netflixable/', NetFlixListView.as_view(), name='netflixable'),
-    # url(r'^feedback/', FeedbackView.as_view(), name='feedback'),
-    # url(r'^beta/', 'django.contrib.auth.views.login', {'redirect_field_name': '/'}),
-    # url(r'haystack_search', autocomplete, name='autocomplete'),
-    # url(r'^guide/', GuideTestView.as_view(), name='guide_test'),
-    # url(r'^guide_reciever/', guide_reciever, name='reciever')
-    # url(r'test/', TemplateView.as_view(template_name='test.html')),
-    # url(r'^script/netflixable', get_netflixable_shows )
-    # url(r'^package/$', package_list),
-    # url(r'^package/(?P<pk>[0-9]+)/$', package_detail),
-    # url(r'^/static/partials/(?P<template>[-_\w]+/$)', PartialsView.as_view(), name='partials'),
-    # url(r'^.*$', TemplateView.as_view(template_name='index.html'))
-
+    url(r'^viewing_windows/(?P<service>\w+)', get_viewing_windows, name='viewing_windows')
 ]
