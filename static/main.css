@@ -2499,9 +2499,10 @@ ul[id^='typeahead-'], .suggestions-list {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px; }
 
-.modal-footer {
-  text-align: center; }
-  .modal-footer .log-in {
+.modal-dialog .modal-footer {
+  text-align: center;
+  padding-top: 10px; }
+  .modal-dialog .modal-footer .log-in {
     color: white; }
 
 .modal-buttons {

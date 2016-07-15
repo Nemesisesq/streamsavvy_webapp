@@ -114,8 +114,9 @@
   border-top-right-radius: 8px;
 }
 
-.modal-footer {
+.modal-dialog .modal-footer {
   text-align: center;
+  padding-top:10px;
   .log-in {
     color: white;
   }
