@@ -2484,16 +2484,17 @@ ul[id^='typeahead-'], .suggestions-list {
 .btn-login:hover {
   color: #000088; }
 
-.modal-header div {
-  float: right;
-  margin: 1px; }
-
-.modal-header i {
-  color: #ed1c24;
-  font-size: 35px;
-  opacity: 1; }
-  .modal-header i:hover {
+.modal-header {
+  padding: 5px; }
+  .modal-header div {
+    float: right;
+    margin: 1px; }
+  .modal-header i {
+    color: #ed1c24;
+    font-size: 35px;
     opacity: 1; }
+    .modal-header i:hover {
+      opacity: 1; }
 
 .modal-content {
   border-top-left-radius: 8px;
@@ -3243,7 +3244,7 @@ footer {
     margin-top: 8.5px;
     margin-bottom: 8.5px;
     position: relative; }
-  .show-grid .col-lg-3.col-md-4.col-sm-6.show-title.ng-scope {
+  .show-grid .show-title {
     margin-bottom: 15.5px; }
   .show-grid img {
     width: 100%;
