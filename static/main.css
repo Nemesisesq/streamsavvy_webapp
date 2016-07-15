@@ -2967,7 +2967,8 @@ show-detail .background {
   .btn-purchase {
     font-size: 15px;
     height: 30px;
-    border-radius: initial; }
+    border-radius: initial;
+    margin-bottom: 5px; }
   .btn-already-have {
     font-size: 15px;
     height: 40px;
@@ -3108,12 +3109,12 @@ button.btn-already-have {
 
 .hardware-name {
   font-size: 16px;
-  padding-bottom: 10px;
-  float: left; }
+  padding-bottom: 10px; }
 
 .hardware-cost {
   font-size: 14px;
-  float: right; }
+  margin-top: 5px;
+  margin-bottom: 5px; }
 
 .mng-devices {
   color: #9b9b9b;
@@ -3669,7 +3670,7 @@ show-detail {
 
 .navbar-fixed-top {
   min-height: 50px; }
-  .dashboard .navbar-fixed-top {
+  .dashboard .navbar-fixed-top, mobile-tabs + div .navbar-fixed-top {
     background-color: #15191b; }
   .navbar-fixed-top #showLeftPush {
     color: #ed1c24;
@@ -3798,14 +3799,18 @@ a.social-icons {
     overflow: scroll; }
   mobile-tabs {
     display: inline; }
+  .show-title, .popular-shows {
+    padding-bottom: 5px; }
   #theGrid img {
     width: 100%;
     object-fit: contain;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-    border-radius: 4px; }
+    border-radius: 4px;
+    padding-left: 5px;
+    padding-right: 5px; }
   #search-and-shows {
     margin-bottom: 60px;
-    margin-top: 20px; }
+    margin-top: 60px; }
   show-detail.fade {
     pointer-events: none; }
     show-detail.fade.fade-in {

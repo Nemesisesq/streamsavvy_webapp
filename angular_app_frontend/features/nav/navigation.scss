@@ -1,5 +1,5 @@
 .navbar-fixed-top {
-  .dashboard & {
+  .dashboard &, mobile-tabs + div & {
     background-color: $dashboard-dark;
   }
   min-height: 50px;

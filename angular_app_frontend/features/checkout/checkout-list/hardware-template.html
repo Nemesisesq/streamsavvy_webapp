@@ -4,25 +4,25 @@
     </div>
     <div class="app-manager-description">
         In addition to apps and services, you'll need the right devices. StreamSavvy recommends two devices
-        <br>
+
         to get you
         the
         most apps and live TV.
     </div>
 
     <div class="row">
-        <div class="col-sm-2" ng-repeat="device in devices" ng-class="{'col-sm-offset-4': $first}">
-            <div class="hardware-name">
+        <div class="col-sm-3" ng-repeat="device in devices" ng-class="{'col-sm-offset-3': $first}">
+            <div class="col-md-12 hardware-name">
                 {{ device.name }}
                         <!--<span class="glyphicon glyphicon-info-sign" uib-tooltip="{{ item.description }}"
                               tooltip-placement="right"
                               tooltip-class="vw-tooltip"></span> -->
             </div>
-            <div class="hardware-img" ng-click="linkToAffiliate(device)"
+            <div class="col-md-12 hardware-img" ng-click="linkToAffiliate(device)"
                  ng-class="{selected: itemSelected(item) }">
                 <img class="" ng-src="{{ device.image }}"/>
             </div>
-            <div class="hardware-cost">
+            <div class="col-md-12 hardware-cost">
                 Cost: $
                 {{ device.price.toFixed(2) }}
             </div>

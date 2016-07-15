@@ -230,6 +230,7 @@
     font-size: 15px;
     height: 30px;
     border-radius: initial;
+    margin-bottom: 5px;
   }
 
   .btn-already-have {
@@ -468,12 +469,14 @@ button {
 .hardware-name {
   font-size: 16px;
   padding-bottom: 10px;
-  float: left;
+  //float: left;
 }
 
 .hardware-cost {
   font-size: 14px;
-  float: right;
+  //float: right;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .mng-devices {
