@@ -1,28 +1,38 @@
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout, loginEventService, authEventService) {
 
-    $scope.goBack = function (){
+    $scope.goBack = function () {
         window.history.back();
     }
 
 
-    $scope.logout = function(){
-        debugger
-        delete $window.sessionStorage['token']
-        location.pathname = '/logout/'
+    loginEventService.listen(function () {
+        $scope.logged_in = false;
 
-    }
+    })
+
+    authEventService.listen(function(){
+        $scope.logged_in = true;
+    })
+
+
+    // $scope.logout = function () {
+    //     debugger
+    //     delete $window.sessionStorage['token']
+    //     location.pathname = '/logout/'
+    //
+    // }
     debugger;
     $scope.cp = $location.$$url == "/checkout";
 
-    $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
+    $scope.menuOpen ? $('#menu-mask').fadeIn() : $('#menu-mask').fadeOut();
 
     $scope.isHomePage = $state.current.data.isHomePage;
 
-    $timeout(function(){
-        $scope.isHomePage && $('div#mainPage').css({'min-height':'100vh'});
+    $timeout(function () {
+        $scope.isHomePage && $('div#mainPage').css({'min-height': '100vh'});
     }, 0)
 
     $scope.isActive = function (hash) {
@@ -60,7 +70,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
         // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
 
-        $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut()
+        $scope.menuOpen ? $('#menu-mask').fadeIn() : $('#menu-mask').fadeOut()
 
 
         $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');

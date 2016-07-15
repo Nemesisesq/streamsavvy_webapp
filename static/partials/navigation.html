@@ -12,27 +12,26 @@
 
 
         <div class="ss-menu-auth" ng-controller="ModalController">
-            <a id="sign-up" ng-click="openLogInModal()" class="sign-up">Sign Up</a>
+            <a ng-if="!logged_in" id="sign-up" ng-click="openLogInModal()" class="sign-up">Sign Up</a>
+            <a ng-if="logged_in" ng-click="logout()">Logout</a>
         </div>
 
-        <div>
-            <a ng-click="logout()">Logout</a>
-        </div>
     </nav>
 
     <div ui-view="modal"></div>
     <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-click="showLeftPush()" ng-if="!cp">
 
-            <div ng-if="!menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
-                <!-- Menu -->
-            </div>
+        <div ng-if="!menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
+            <!-- Menu -->
+        </div>
 
-            <div ng-if="menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
-                <!-- Close -->
-            </div>
+        <div ng-if="menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
+            <!-- Close -->
+        </div>
 
     </div>
-    <div id="showLeftPush" class="menu-buttons cbp-spmenu-push" ng-click="goBack()" ng-if="cp"><i class="material-icons checkout-back">chevron_left</i></div>
+    <div id="showLeftPush" class="menu-buttons cbp-spmenu-push" ng-click="goBack()" ng-if="cp"><i
+            class="material-icons checkout-back">chevron_left</i></div>
 </div>
 <!--  home page-->
 <div ui-view="home" id="mainPage" class="main-page container-fluid content-wrapper cbp-spmenu-push"></div>

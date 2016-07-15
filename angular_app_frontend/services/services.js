@@ -50,6 +50,17 @@ app.service('refreshPackageService', function($rootScope){
     }, 500)
 })
 
+app.service('authEventService', function($rootScope){
+    this.broadcast= _.debounce(function () {
+        $rootScope.$broadcast("logged-in")
+
+    })
+
+    this.listen = _.debounce(function (msg, callback) {
+        $rootScope.$on("logged-in", callback)
+    }, 500)
+})
+
 app.factory('ServiceTotalFactory', function(){
     var _price = 0
 
@@ -64,7 +75,7 @@ app.factory('ServiceTotalFactory', function(){
     }
 })
 
-app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService', function ($http, $q, _, $window, loginEventService) {
+app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService', 'authEventService', function ($http, $q, _, $window, loginEventService, authEventService) {
     // ;
 
     var _package = {};
@@ -101,7 +112,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
             // }
             $http.put(ssPackage.url, ssPackage)
                 .then(function success(response){
-                    var h  = 'w';
+                    authEventService.broadcast()
                 }, function error (response){
                     auth_denied = [403, 401];
                     if ( _.includes(auth_denied, response.status)) {

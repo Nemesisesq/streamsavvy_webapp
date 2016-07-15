@@ -47,7 +47,7 @@ span.pull-right.footer-right {
   }
 
   .ss_mark {
-    width: 175px;
+    width: 100%;
   }
 
 }
@@ -76,7 +76,7 @@ footer {
 .footer-left {
 
   i{
-    font-size: 30px ;
+    font-size: 1.5em ;
     margin-left : 10px;
 
     &.fa-twitter {
@@ -102,6 +102,21 @@ footer {
         color: #3B5998;
 
       }
+    }
+  }
+}
+
+@media (max-width: 420px){
+  .footer-left {
+    padding: 0;
+
+    div {
+      padding: 0;
+      text-align: center;
+    }
+
+    i {
+      margin-left: 3px;
     }
   }
 }

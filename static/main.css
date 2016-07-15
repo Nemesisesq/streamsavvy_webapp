@@ -2619,9 +2619,11 @@ mobile-tabs {
   height: 60px;
   text-align: center; }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   mobile-tabs {
-    display: block; } }
+    display: block; }
+  div[ui-view="home"] {
+    margin-bottom: 0; } }
 
 .lets-do-this-row .btn-red:hover {
   background-color: #660000;
@@ -3160,7 +3162,7 @@ span.pull-right.footer-right {
   .footer-right {
     font-size: 12px; }
   .ss_mark {
-    width: 175px; } }
+    width: 100%; } }
 
 @media (max-width: 774px) {
   .footer-right {
@@ -3177,7 +3179,7 @@ footer {
   padding: 0 15px 15px; }
 
 .footer-left i {
-  font-size: 30px;
+  font-size: 1.5em;
   margin-left: 10px; }
   .footer-left i.fa-twitter:hover {
     color: #55acee; }
@@ -3187,6 +3189,15 @@ footer {
     color: #3B5998; }
   .footer-left i.fa-facebook:hover {
     color: #3B5998; }
+
+@media (max-width: 420px) {
+  .footer-left {
+    padding: 0; }
+    .footer-left div {
+      padding: 0;
+      text-align: center; }
+    .footer-left i {
+      margin-left: 3px; } }
 
 .service-panel.ng-scope {
   min-height: 60vh;
