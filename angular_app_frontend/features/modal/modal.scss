@@ -2,18 +2,18 @@
   text-align: center;
   width: 560px;
   // border-top: solid 5px red;
-  .modal-body {
+  .modal-footer {
 
     li {
-      float : left;
-      height : auto;
+      float: left;
+      height: auto;
 
       & a {
         margin-bottom: 0;
       }
 
       &:active > a {
-        border-bottom : solid 1px white;
+        border-bottom: solid 1px white;
         margin-bottom: 0;
       }
 
@@ -44,7 +44,7 @@
     }
   }
 
-  .modal-header {
+  .modal-body {
     margin: 0 auto;
     .modal-title {
       font-size: 24px;
@@ -53,7 +53,7 @@
       font-size: 15px;
       margin-top: 15px;
       padding-bottom: 25px;
-      border-bottom: 1px solid $warm-grey;
+      //border-bottom: 1px solid $warm-grey;
       margin-bottom: 25px;
     }
   }
@@ -92,14 +92,32 @@
   color: #000088;
 }
 
+.modal-header {
+  div {
+    float: right;
+    margin: 1px;
+  }
+
+  i {
+    color: $action_red;
+    font-size: 35px;
+    opacity: 1;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
 .modal-content {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
+
 .modal-footer {
   text-align: center;
-  .log-in{
-    color:white;
+  .log-in {
+    color: white;
   }
 }
 
@@ -116,5 +134,76 @@
 
   .fa {
     top: 2px;
+  }
+}
+
+@media (max-width: 767px) {
+  .modal-dialog {
+    width: 75%;
+    margin: 100px auto;
+
+  }
+
+}
+
+@media (max-width: 534px) {
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+
+  }
+
+  .modal-content {
+    height: 100%
+  }
+
+  .modal-footer {
+    //height: 100%;
+    position: absolute;
+    bottom: 20px;
+
+  }
+}
+
+@media (max-width: 425px) {
+
+  .modal-footer {
+    padding: 2.5px;
+  }
+  .modal-buttons {
+    width: 100%;
+    border-radius: 0;
+
+    .btn {
+      height: 50px;
+
+    }
+
+    .btn-social {
+      line-height: 25px;
+      font-size: 20px;
+    }
+
+    .btn-social.btn-sm > :first-child, .fa {
+      font-size: 25px;
+      line-height: 50px;
+      width: 10%;
+    }
+  }
+}
+
+@media (max-height: 500px) {
+  .modal-dialog {
+    margin: 0 auto;
+  }
+
+  .modal-content {
+    height: 100vh;
+  }
+  .btn-social.btn-sm > :first-child, .fa, span.fa.fa-facebook {
+    //font-size: 25px;
+    //line-height: 50px;
+    width: 10%;
   }
 }

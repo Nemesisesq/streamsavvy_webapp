@@ -65,7 +65,9 @@ app.directive('checkoutImageBlock', function ($http) {
                 .then(function(data){
                     debugger;
 
-                    scope.service.windows = JSON.parse(data.data[0].windows)
+                    if (scope.key != 'ppv') {
+                        scope.service.windows = JSON.parse(data.data[0].windows)
+                    }
                 })
 
 
@@ -99,21 +101,8 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 })
             }
 
-            var lastScrollTop = 0
+         
 
-            $(window).scroll(function () {
-
-                debugger;
-
-                var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-                if (st > lastScrollTop) {
-                    $('.checkout-total').css({'top': $('.checkout-total').position().top - 10})
-                } else {
-                    $('.checkout-total').css({'top': $('.checkout-total').position().top + 10})
-                }
-                lastScrollTop = st;
-
-            })
 
             var setPrice = function () {
                 scope.package.data.services.price = computePrice();

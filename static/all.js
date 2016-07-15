@@ -10,38 +10,38 @@ var app = angular.module('myApp', [
         'angular-growl',
         'environment',
     ])
-    .config(function(envServiceProvider){
-        envServiceProvider.config({
-            domains: {
-                development: ['localhost', '127.0.01'],
-                production: ['streamsavvy.com/#/'],
-                staging: ['herokuapp.com/#/']
-            },
-
-            vars: {
-                development: {
-                    serviceListUrl : '//localhost:5000/service_list',
-                    checkoutListUrl : '//localhost:5000/checkout_list',
-                    nodeDetailUrl : '//localhost:5000/viewing_windows'
-
+        .config(function (envServiceProvider) {
+            envServiceProvider.config({
+                domains: {
+                    development: ['localhost', '127.0.01'],
+                    production: ['streamsavvy.com/#/'],
+                    staging: ['herokuapp.com/#/']
                 },
 
-                staging : {
-                    serviceListUrl : '//ss-node-data-staging.herokuapp.com/service_list',
-                    checkoutListUrl : '//ss-node-data-staging.herokuapp.com/checkout_list',
-                    nodeDetailUrl : '//ss-node-data-staging.herokuapp.com/viewing_windows'
+                vars: {
+                    development: {
+                        serviceListUrl: '//localhost:5000/service_list',
+                        checkoutListUrl: '//localhost:5000/checkout_list',
+                        nodeDetailUrl: '//localhost:5000/viewing_windows'
 
-                },
-                production: {
-                    serviceListUrl : '//enigmatic-garden-37567.herokuapp.com/service_list',
-                    checkoutListUrl : '/enigmatic-garden-37567.herokuapp.com/checkout_list',
-                    nodeDetailUrl : '//enigmatic-garden-37567.herokuapp.com/viewing_windows'
+                    },
 
+                    staging: {
+                        serviceListUrl: '//ss-node-data-staging.herokuapp.com/service_list',
+                        checkoutListUrl: '//ss-node-data-staging.herokuapp.com/checkout_list',
+                        nodeDetailUrl: '//ss-node-data-staging.herokuapp.com/viewing_windows'
+
+                    },
+                    production: {
+                        serviceListUrl: '//enigmatic-garden-37567.herokuapp.com/service_list',
+                        checkoutListUrl: '/enigmatic-garden-37567.herokuapp.com/checkout_list',
+                        nodeDetailUrl: '//enigmatic-garden-37567.herokuapp.com/viewing_windows'
+
+                    }
                 }
-            }
-        });
-        envServiceProvider.check();
-    })
+            });
+            envServiceProvider.check();
+        })
         .constant('CONFIG', {
             'URL': location.origin
         })
@@ -375,7 +375,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 dashboard: true
             },
             views: {
-               
+
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
@@ -436,9 +436,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                     templateUrl: '/static/partials/show-grid/show-grid.html',
                     controller: 'ShowGridController'
                 },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
+
 
             }
         })
@@ -447,7 +445,13 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             data: {},
             views: {
 
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+
                 'services': {
+
                     templateUrl: "static/partials/mobile-checkout.html",
                     controller: 'CheckoutController'
                 },
@@ -588,7 +592,9 @@ app.directive('checkoutImageBlock', function ($http) {
                 .then(function(data){
                     debugger;
 
-                    scope.service.windows = JSON.parse(data.data[0].windows)
+                    if (scope.key != 'ppv') {
+                        scope.service.windows = JSON.parse(data.data[0].windows)
+                    }
                 })
 
 
@@ -622,21 +628,8 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 })
             }
 
-            var lastScrollTop = 0
+         
 
-            $(window).scroll(function () {
-
-                debugger;
-
-                var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-                if (st > lastScrollTop) {
-                    $('.checkout-total').css({'top': $('.checkout-total').position().top - 10})
-                } else {
-                    $('.checkout-total').css({'top': $('.checkout-total').position().top + 10})
-                }
-                lastScrollTop = st;
-
-            })
 
             var setPrice = function () {
                 scope.package.data.services.price = computePrice();
@@ -2076,6 +2069,60 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 });
 
 
+app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST, ServiceTotalFactory) {
+
+    $scope.package = PackageFactory.getPackage();
+
+    $scope.$on('subcribe', function (service) {
+        debugger;
+        $scope.package.services.subscribed.push(service)
+        service.added = true
+    })
+
+    $scope.$on('unsubscribe', function (service) {
+        _.remove($scope.package.services.subscribed, service)
+    })
+
+    $scope.$on('hide', function (service) {
+        $scope.package.services.hidden.push(service);
+        service.hidden = true
+    })
+
+
+    function get_service_list() {
+        $scope.package = PackageFactory.getPackage();
+        if ('data' in $scope.package) {
+            PackageFactory.getCheckoutPanelList()
+                .then(function (data) {
+                    $scope.list = data.data
+                    $scope.package = PackageFactory.getPackage()
+                    return data
+                })
+        }
+    }
+    
+    refreshPackageService.listen(get_service_list);
+    $scope.list = {}
+    $scope.list.added = [];
+    var payPerServices = ['google_play', 'itunes', 'youtube_purchase', 'vudu', 'amazon_buy'];
+    $scope.addService = function (service) {
+        _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
+    };
+
+    $scope.$watchCollection(function () {
+        try {
+            return PackageFactory.getPackage().data.content
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }, function () {
+        get_service_list();
+        $scope.list = PackageFactory.getListOfServices();
+    })
+});
+
+
 /**
  * Created by Nem on 12/29/15.
  */
@@ -2142,60 +2189,6 @@ $(document).ready(function () {
     // debugger;
 
 })
-
-app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST, ServiceTotalFactory) {
-
-    $scope.package = PackageFactory.getPackage();
-
-    $scope.$on('subcribe', function (service) {
-        debugger;
-        $scope.package.services.subscribed.push(service)
-        service.added = true
-    })
-
-    $scope.$on('unsubscribe', function (service) {
-        _.remove($scope.package.services.subscribed, service)
-    })
-
-    $scope.$on('hide', function (service) {
-        $scope.package.services.hidden.push(service);
-        service.hidden = true
-    })
-
-
-    function get_service_list() {
-        $scope.package = PackageFactory.getPackage();
-        if ('data' in $scope.package) {
-            PackageFactory.getCheckoutPanelList()
-                .then(function (data) {
-                    $scope.list = data.data
-                    $scope.package = PackageFactory.getPackage()
-                    return data
-                })
-        }
-    }
-    
-    refreshPackageService.listen(get_service_list);
-    $scope.list = {}
-    $scope.list.added = [];
-    var payPerServices = ['google_play', 'itunes', 'youtube_purchase', 'vudu', 'amazon_buy'];
-    $scope.addService = function (service) {
-        _.includes($scope.package.data.services, service.display_name) || $scope.package.push(service)
-    };
-
-    $scope.$watchCollection(function () {
-        try {
-            return PackageFactory.getPackage().data.content
-        }
-        catch (e) {
-            console.log(e)
-        }
-    }, function () {
-        get_service_list();
-        $scope.list = PackageFactory.getListOfServices();
-    })
-});
-
 
 /**
  * Created by chirag on 8/3/15.
@@ -2352,6 +2345,8 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         location.pathname = '/logout/'
 
     }
+    debugger;
+    $scope.cp = $location.$$url == "/checkout";
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
 

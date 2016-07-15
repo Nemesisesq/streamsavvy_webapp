@@ -11,7 +11,6 @@
         </div> -->
 
 
-
         <div class="ss-menu-auth" ng-controller="ModalController">
             <a id="sign-up" ng-click="openLogInModal()" class="sign-up">Sign Up</a>
         </div>
@@ -23,13 +22,17 @@
 
     <div ui-view="modal"></div>
     <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-click="showLeftPush()">
-        <div ng-if="!menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
-            <!-- Menu -->
+        <div ng-if="!cp">
+            <div ng-if="!menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
+                <!-- Menu -->
+            </div>
+
+            <div ng-if="menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
+                <!-- Close -->
+            </div>
         </div>
 
-        <div ng-if="menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
-            <!-- Close -->
-        </div>
+        <div ng-if="cp"><i ng-click="goBack()" class="fa fa-chevron-left checkout-back"></i></div>
     </div>
 </div>
 <!--  home page-->

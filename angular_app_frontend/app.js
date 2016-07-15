@@ -10,38 +10,38 @@ var app = angular.module('myApp', [
         'angular-growl',
         'environment',
     ])
-    .config(function(envServiceProvider){
-        envServiceProvider.config({
-            domains: {
-                development: ['localhost', '127.0.01'],
-                production: ['streamsavvy.com/#/'],
-                staging: ['herokuapp.com/#/']
-            },
-
-            vars: {
-                development: {
-                    serviceListUrl : '//localhost:5000/service_list',
-                    checkoutListUrl : '//localhost:5000/checkout_list',
-                    nodeDetailUrl : '//localhost:5000/viewing_windows'
-
+        .config(function (envServiceProvider) {
+            envServiceProvider.config({
+                domains: {
+                    development: ['localhost', '127.0.01'],
+                    production: ['streamsavvy.com/#/'],
+                    staging: ['herokuapp.com/#/']
                 },
 
-                staging : {
-                    serviceListUrl : '//ss-node-data-staging.herokuapp.com/service_list',
-                    checkoutListUrl : '//ss-node-data-staging.herokuapp.com/checkout_list',
-                    nodeDetailUrl : '//ss-node-data-staging.herokuapp.com/viewing_windows'
+                vars: {
+                    development: {
+                        serviceListUrl: '//localhost:5000/service_list',
+                        checkoutListUrl: '//localhost:5000/checkout_list',
+                        nodeDetailUrl: '//localhost:5000/viewing_windows'
 
-                },
-                production: {
-                    serviceListUrl : '//enigmatic-garden-37567.herokuapp.com/service_list',
-                    checkoutListUrl : '/enigmatic-garden-37567.herokuapp.com/checkout_list',
-                    nodeDetailUrl : '//enigmatic-garden-37567.herokuapp.com/viewing_windows'
+                    },
 
+                    staging: {
+                        serviceListUrl: '//ss-node-data-staging.herokuapp.com/service_list',
+                        checkoutListUrl: '//ss-node-data-staging.herokuapp.com/checkout_list',
+                        nodeDetailUrl: '//ss-node-data-staging.herokuapp.com/viewing_windows'
+
+                    },
+                    production: {
+                        serviceListUrl: '//enigmatic-garden-37567.herokuapp.com/service_list',
+                        checkoutListUrl: '/enigmatic-garden-37567.herokuapp.com/checkout_list',
+                        nodeDetailUrl: '//enigmatic-garden-37567.herokuapp.com/viewing_windows'
+
+                    }
                 }
-            }
-        });
-        envServiceProvider.check();
-    })
+            });
+            envServiceProvider.check();
+        })
         .constant('CONFIG', {
             'URL': location.origin
         })
@@ -375,7 +375,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 dashboard: true
             },
             views: {
-               
+
                 'navigation': {
                     templateUrl: "/static/partials/navigation.html",
                     controller: 'navigation'
@@ -436,9 +436,7 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                     templateUrl: '/static/partials/show-grid/show-grid.html',
                     controller: 'ShowGridController'
                 },
-                'footer': {
-                    templateUrl: 'static/partials/footer.html'
-                }
+
 
             }
         })
@@ -447,7 +445,13 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
             data: {},
             views: {
 
+                'navigation': {
+                    templateUrl: "/static/partials/navigation.html",
+                    controller: 'navigation'
+                },
+
                 'services': {
+
                     templateUrl: "static/partials/mobile-checkout.html",
                     controller: 'CheckoutController'
                 },

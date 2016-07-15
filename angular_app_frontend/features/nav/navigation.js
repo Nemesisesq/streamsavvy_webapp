@@ -10,6 +10,8 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         location.pathname = '/logout/'
 
     }
+    debugger;
+    $scope.cp = $location.$$url == "/checkout";
 
     $scope.menuOpen ? $('#menu-mask').fadeIn(): $('#menu-mask').fadeOut();
 
