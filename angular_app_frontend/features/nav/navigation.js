@@ -3,6 +3,10 @@
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout) {
 
+    $scope.goBack = function (){
+        window.history.back();
+    }
+
 
     $scope.logout = function(){
         debugger

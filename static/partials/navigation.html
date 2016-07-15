@@ -21,8 +21,8 @@
     </nav>
 
     <div ui-view="modal"></div>
-    <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-click="showLeftPush()">
-        <div ng-if="!cp">
+    <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-click="showLeftPush()" ng-if="!cp">
+
             <div ng-if="!menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
                 <!-- Menu -->
             </div>
@@ -30,10 +30,9 @@
             <div ng-if="menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
                 <!-- Close -->
             </div>
-        </div>
 
-        <div ng-if="cp"><i ng-click="goBack()" class="fa fa-chevron-left checkout-back"></i></div>
     </div>
+    <div id="showLeftPush" class="menu-buttons cbp-spmenu-push" ng-click="goBack()" ng-if="cp"><i class="material-icons checkout-back">chevron_left</i></div>
 </div>
 <!--  home page-->
 <div ui-view="home" id="mainPage" class="main-page container-fluid content-wrapper cbp-spmenu-push"></div>

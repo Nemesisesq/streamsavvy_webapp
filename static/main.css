@@ -3777,9 +3777,8 @@ a.social-icons {
   a.social-icons:hover {
     border: none; }
 
-.checkout-back {
-  font-size: 25px;
-  font-weight: 100; }
+.material-icons.checkout-back {
+  font-size: 40px; }
 
 @media (max-width: 767px) {
   body.background.container.ng-scope.no-scroll.gradient-background {
