@@ -135,6 +135,7 @@
 .show-added {
   position: relative;
   text-align: right;
+  z-index: 1;
 
   &::before {
     background: url("https://s3.amazonaws.com/streamsavvy/big-check.svg");
@@ -372,6 +373,7 @@ checkout-image-block.col-sm-2 {
 
 .checkout-price {
   text-align: right;
+  
 }
 
 .checkout-show-img {

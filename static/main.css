@@ -2898,7 +2898,8 @@ show-detail .background {
 
 .show-added {
   position: relative;
-  text-align: right; }
+  text-align: right;
+  z-index: 1; }
   .show-added::before {
     background: url("https://s3.amazonaws.com/streamsavvy/big-check.svg");
     -webkit-background-size: 42px 42px;
