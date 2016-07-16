@@ -2079,7 +2079,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST, ServiceTotalFactory) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2132,6 +2131,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         $scope.list = PackageFactory.getListOfServices();
     })
 });
+
 
 
 /**
@@ -2358,18 +2358,19 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         $scope.logged_in = false;
 
     })
-debugger;
-    authEventService.listen(function(){
+    debugger;
+    authEventService.listen(function () {
         $scope.logged_in = true;
     })
 
 
-    // $scope.logout = function () {
-    //     debugger
-    //     delete $window.sessionStorage['token']
-    //     location.pathname = '/logout/'
-    //
-    // }
+    $scope.logout = function () {
+        debugger
+        delete $window.sessionStorage['token']
+        location.pathname = '/logout/'
+
+    }
+    
     debugger;
     $scope.cp = $location.$$url == "/checkout";
 
