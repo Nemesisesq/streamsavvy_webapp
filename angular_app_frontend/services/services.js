@@ -52,12 +52,12 @@ app.service('refreshPackageService', function($rootScope){
 
 app.service('authEventService', function($rootScope){
     this.broadcast= _.debounce(function () {
-        $rootScope.$broadcast("logged-in")
+        $rootScope.$broadcast("logged_in")
 
     }, 500)
 
-    this.listen = _.debounce(function (msg, callback) {
-        $rootScope.$on("logged-in", callback)
+    this.listen = _.debounce(function (callback) {
+        $rootScope.$on("logged_in", callback)
     }, 500)
 })
 
