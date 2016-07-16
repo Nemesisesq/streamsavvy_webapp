@@ -2448,11 +2448,11 @@ ul[id^='typeahead-'], .suggestions-list {
         background-color: #3b5998; }
       .modal-dialog .modal-footer .btn-row .instagram {
         background-color: #517fa4; }
-  .modal-dialog .modal-body {
+  .modal-dialog .modal-header {
     margin: 0 auto; }
-    .modal-dialog .modal-body .modal-title {
+    .modal-dialog .modal-header .modal-title {
       font-size: 24px; }
-    .modal-dialog .modal-body .please-social {
+    .modal-dialog .modal-header .please-social {
       font-size: 15px;
       margin-top: 15px;
       padding-bottom: 25px;
@@ -3857,3 +3857,6 @@ body {
 
 .no-scroll {
   overflow: hidden; }
+
+body {
+  -webkit-font-smoothing: subpixel-antialiased; }

@@ -88,3 +88,7 @@ body {
 .no-scroll {
   overflow: hidden;
 }
+
+body {
+    -webkit-font-smoothing: subpixel-antialiased;
+}
