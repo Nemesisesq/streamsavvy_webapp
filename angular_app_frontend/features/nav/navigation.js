@@ -12,18 +12,19 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         $scope.logged_in = false;
 
     })
-
-    authEventService.listen(function(){
+    debugger;
+    authEventService.listen(function () {
         $scope.logged_in = true;
     })
 
 
-    // $scope.logout = function () {
-    //     debugger
-    //     delete $window.sessionStorage['token']
-    //     location.pathname = '/logout/'
-    //
-    // }
+    $scope.logout = function () {
+        debugger
+        delete $window.sessionStorage['token']
+        location.pathname = '/logout/'
+
+    }
+    
     debugger;
     $scope.cp = $location.$$url == "/checkout";
 
