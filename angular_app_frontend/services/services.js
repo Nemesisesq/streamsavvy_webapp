@@ -54,7 +54,7 @@ app.service('authEventService', function($rootScope){
     this.broadcast= _.debounce(function () {
         $rootScope.$broadcast("logged-in")
 
-    })
+    }, 500)
 
     this.listen = _.debounce(function (msg, callback) {
         $rootScope.$on("logged-in", callback)
