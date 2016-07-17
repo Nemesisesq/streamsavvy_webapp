@@ -1,25 +1,66 @@
 <div class="modal-header">
-    <div ng-click="cancel()"><i class="material-icons">close</i></div>
 
+    <div ng-click="cancel()" class=" row"><i class="material-icons">close</i></div>
+    <div class="row">
+        <div class="modal-title col-xs-12">Find and save your favorite shows <br>without cable.</div>
+        <div class="please-social col-xs-12">Welcome to StreamSavvy, take control of your TV.</div>
+    </div>
 </div>
 
 <div class="modal-body">
-    <div class="modal-title">Find and save your favorite shows <br>without cable.</div>
-    <div class="please-social">Welcome to StreamSavvy, take control of your TV.</div>
+
+    <uib-tabset active="active">
+        <uib-tab index="0" heading="Log in">
+
+            <div class="group">
+                <input class="inputMaterial" type="text" ng-model="credentials.username" required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Username</label>
+            </div>
+            <div class="group">
+                <input class="inputMaterial" type="password" ng-model="credentials.password" required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Password</label>
+            </div>
+            <button id="buttonlogintoregister" type="submit" ng-click="login(credentials)">Login</button>
+
+        </uib-tab>
+
+        
+        <uib-tab index="1" heading="Register">
+            <div class="group">
+                <input class="inputMaterial" type="text" ng-model="credentials.username" required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Username</label>
+            </div>
+            <div class="group">
+                <input class="inputMaterial" type="password" ng-model="credentials.password" required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Password</label>
+            </div>
+            <div class="group">
+                <input class="inputMaterial" type="password" ng-model="credentials.confirm_password" required>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Confirm Password</label>
+            </div>
+        </uib-tab>
+
+    </uib-tabset>
 
 </div>
 
 <div class="modal-footer">
-    <div class="modal-buttons">
-        <a class="btn btn-block btn-social btn-sm btn-twitter" ng-href="{{ auth.twitter }}">
-            <span class="fa fa-twitter"></span> Sign in with Twitter
-        </a>
 
 
-        <a class="btn btn-block btn-social btn-facebook" ng-href="{{ auth.facebook }}">
-            <span class="fa fa-facebook"></span> Sign in with Facebook
-        </a>
-    </div>
+    <a class="btn btn-block btn-social btn-facebook" ng-href="{{ auth.facebook }}">
+        <span class="fa fa-facebook"></span> Sign in with Facebook
+    </a>
+</div>
 </div>
 
 

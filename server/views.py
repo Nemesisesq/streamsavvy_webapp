@@ -1,41 +1,28 @@
 import json
-import logging
+import time
 import urllib
-import urllib.request
 import urllib.parse
+import urllib.request
 
+import requests
+from django.db.models import Q
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from social.actions import do_complete
 from social.apps.django_app.utils import strategy
 from social.apps.django_app.views import _do_login
-
-from server.shortcuts import api_json_post, try_catch
-from streamsavvy_webapp.settings import get_env_variable
-import requests
-
-import re
-import time
-
-from django.core.cache import cache
-from django.db.models import Q
-from django.http import JsonResponse, HttpResponse
-from rest_framework import viewsets
-from django.views.generic import View
-from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
-from rest_framework.views import APIView
-from django.contrib.auth.models import Group
 
 from server.apis.guidebox import GuideBox
-from server.apis.netflixable import Netflixable
 from server.models import *
-from server.permissions import IsAdminOrReadOnly, SaveFirstShowThenRequireAuthentication
-from server.serializers import UserSerializer, GroupSerializer, HardwareSerializer, ChannelSerializer, \
-    ContentSerializer, PackagesSerializer, PackageDetailSerializer, ChannelImagesSerializer
-
-from social.actions import do_complete
-from social.apps.django_app.utils import strategy
-from social.apps.django_app.views import _do_login
+from server.permissions import IsAdminOrReadOnly
+from server.permissions import IsAuthenticatedOrCreate
+from server.serializers import HardwareSerializer, ChannelSerializer, \
+    ContentSerializer, PackagesSerializer, SignUpSerializer
+from server.shortcuts import api_json_post, try_catch
+from streamsavvy_webapp.settings import get_env_variable
 
 
 def flatten(l):
@@ -76,6 +63,12 @@ def get_packages(user):
         package = Package.objects.filter(owner=user)
 
     return package
+
+
+class SignUp(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = SignUpSerializer
+    permission_classes = (IsAuthenticatedOrCreate,)
 
 
 class AdminPermMixin(object):
@@ -170,10 +163,9 @@ def eval_string(d):
 
     return d
 
+
 @try_catch
 def call_search_microservice(request):
-    from tornado import escape
-
     if request.GET['q']:
         query_url = "{base}/search/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
                                                      params=urllib.parse.urlencode({'q': request.GET['q']}))
@@ -186,6 +178,7 @@ def call_search_microservice(request):
                 return JsonResponse(x, safe=False)
         except:
             pass
+
 
 @try_catch
 @api_json_post
@@ -212,6 +205,7 @@ def get_service_list(request, the_json, path):
     except Exception as e:
         print(e)
 
+
 @try_catch
 def get_service_description(request, service):
     if request.method == 'GET':
@@ -224,7 +218,7 @@ def get_service_description(request, service):
 
 
 def get_viewing_windows(request, service):
-   if request.method == 'GET':
+    if request.method == 'GET':
         query_url = "{base}/window/?q={service}".format(base=get_env_variable('DATA_MICROSERVICE_URL'), service=service)
         try:
             r = requests.get(query_url)

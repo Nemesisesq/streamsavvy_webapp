@@ -2079,6 +2079,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST, ServiceTotalFactory) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2131,7 +2132,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         $scope.list = PackageFactory.getListOfServices();
     })
 });
-
 
 
 /**

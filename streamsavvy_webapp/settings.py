@@ -88,7 +88,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'corsheaders',
     'oauth2_provider',
-    # 'rest_framework_jwt',
+    'rest_framework_jwt',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -194,7 +194,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.BasicAuthentication',
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
         'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
 
     ),
     'PAGE_SIZE': 20
@@ -246,21 +246,22 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 AUTHENTICATION_BACKENDS = (
-    # 'oauth2_provider.backends.OAuth2Backend',
+    'oauth2_provider.backends.OAuth2Backend',
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.instagram.InstagramOAuth2',
-    'social.backends.twitter.TwitterOAuth',
+    # 'social.backends.twitter.TwitterOAuth',
     'social.backends.username.UsernameAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 
 
 
-SOCIAL_AUTH_TWITTER_KEY = get_env_variable('TWITTER_KEY')
-SOCIAL_AUTH_TWITTER_SECRET = get_env_variable('TWITTER_SECRET')
+# SOCIAL_AUTH_TWITTER_KEY = get_env_variable('TWITTER_KEY')
+# SOCIAL_AUTH_TWITTER_SECRET = get_env_variable('TWITTER_SECRET')
 
 SOCIAL_AUTH_FACEBOOK_KEY = get_env_variable('FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = get_env_variable('FACEBOOK_SECRET')
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_env_variable('SOCIAL_REDIRECT')

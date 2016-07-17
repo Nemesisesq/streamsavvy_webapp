@@ -66,6 +66,8 @@ $mid-grey: #9AA1A1;
 @import "features/mobile/mobile";
 //@import 'sass/feature/default';
 @import "lib/bootstrap-social/bootstrap-social.css";
+@import 'sass/feature/floating_label';
+
 
 html,
 button,
@@ -89,6 +91,3 @@ body {
   overflow: hidden;
 }
 
-body {
-    -webkit-font-smoothing: subpixel-antialiased;
-}

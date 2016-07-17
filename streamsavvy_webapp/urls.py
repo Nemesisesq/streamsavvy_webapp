@@ -18,6 +18,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import TemplateView
 from rest_framework import routers
+from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
+
 from guide.views import RoviChannelGridView
 from server.auth import *
 from server.feedback import FeedbackView
@@ -51,5 +53,8 @@ urlpatterns = [
     url(r'^api/search', call_search_microservice, name='search'),
     url(r'^node-data/(?P<path>\w+)', get_service_list, name='service_list'),
     url(r'^service_description/(?P<service>\w+)', get_service_description, name='service_description'),
-    url(r'^viewing_windows/(?P<service>\w+)', get_viewing_windows, name='viewing_windows')
+    url(r'^viewing_windows/(?P<service>\w+)', get_viewing_windows, name='viewing_windows'),
+    url(r'^sign_up/$', SignUp.as_view(), name="sign_up"),
+    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-verify/', verify_jwt_token),
 ]
