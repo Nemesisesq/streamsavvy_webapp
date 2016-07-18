@@ -267,11 +267,17 @@ SOCIAL_AUTH_FACEBOOK_KEY = get_env_variable('FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = get_env_variable('FACEBOOK_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'locale': 'en_US',
+  'fields': 'id, name, email, age_range'
+}
+
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_env_variable('SOCIAL_REDIRECT')
 # SOCIAL_AUTH_USER_MODEL = 'django.contrib.auth.User'
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
+
 # TEMPLATE_CONTEXT_PROCESSORS = (
 #     'social.apps.django_app.context_processors.backends',
 #     'social.apps.django_app.context_processors.login_redirect',
