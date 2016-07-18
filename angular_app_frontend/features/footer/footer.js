@@ -22,7 +22,6 @@ app.directive('footer', function ($state) {
             var config = {attributes: true, childList: true, characterData: true};
 
             var observer = new MutationObserver(function (mutations) {
-                debugger;
 
 
                 fixFooter();

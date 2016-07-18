@@ -3,7 +3,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
     $scope.package = PackageFactory.getPackage();
 
     $scope.$on('subcribe', function (service) {
-        debugger;
         $scope.package.services.subscribed.push(service)
         service.added = true
     })

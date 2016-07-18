@@ -39,7 +39,7 @@ app.factory('http', function ($http, $log, $q) {
             return deferred.promise;
         },
 
-           putPackage: function (newPackage) {
+        putPackage: function (newPackage) {
 
 
             var deferred = $q.defer();
@@ -77,7 +77,7 @@ app.factory('http', function ($http, $log, $q) {
             $http({
                 method: 'POST',
                 url: "o/token",
-                data:credentials
+                data: credentials
 
             })
                 .success(function (data) {
@@ -89,14 +89,24 @@ app.factory('http', function ($http, $log, $q) {
             return deffered.promise;
         },
 
-        getHardware: function(){
+        register: function (credentials) {
+            debugger
+            return $http({
+                method: 'POST',
+                url: "/sign_up/",
+                data: credentials
+
+            })
+        },
+
+        getHardware: function () {
             var deffered = $q.defer();
             $http.get('/api/hardware')
-                .success(function(data){
+                .success(function (data) {
                     deffered.resolve(data)
                 })
-                .error(function(e){
-                    $log.error(e, code)
+                .error(function (e) {
+                    $log.error(e)
                 });
             return deffered.promise;
 

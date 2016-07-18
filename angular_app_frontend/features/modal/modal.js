@@ -8,7 +8,6 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
-        debugger
         if (modalOpen) {
             return
         }
@@ -88,11 +87,35 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                         window.location.reload()
                     },
-                    ttl : 1000,
+                    ttl: 1000,
                     disableCountDown: true
                 })
 
             })
+    };
+
+    $scope.register = function (credentials) {
+        //credentials.next = "/api/";
+        debugger;
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Register";
+        credentials.username = credentials.email;
+        if (credentials.password == credentials.confirm_password) {
+
+
+            http.register(credentials)
+                .then(function(data){
+                    //TODO handle sucessful registration
+                    console.log(data)
+                }, function(err){
+                    debugger
+                    //TODO handle error of registration
+                    growl.error(err.data.username[0])
+                    console.log(err)
+                })
+        } else {
+            growl.error("passwords don't match")
+        }
     };
 
 

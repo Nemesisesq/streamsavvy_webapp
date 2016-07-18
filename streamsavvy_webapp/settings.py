@@ -67,6 +67,8 @@ DEBUG = False if get_env_variable('ENVIRONMENT') == 'PRODUCTION' else True
 ALLOWED_HOSTS = ['.streamsavvy.tv', '.herokuapp.com'] if get_env_variable("ENVIRONMENT") == "PRODUCTION" else ['*']
 # Application definition
 
+
+# User = get_user_model()
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -206,7 +208,7 @@ import dj_database_url
 
 DATABASES = {}
 
-DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy3')
+DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy4')
 # DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 #############################
@@ -245,12 +247,15 @@ STATICFILES_DIRS = (
 )
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+# AUTH_USER_MODEL = 'server.SavvyUser'
+
 AUTHENTICATION_BACKENDS = (
     'oauth2_provider.backends.OAuth2Backend',
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.instagram.InstagramOAuth2',
     # 'social.backends.twitter.TwitterOAuth',
     'social.backends.username.UsernameAuth',
+    'server.backends.EmailOrUsernameModelBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 

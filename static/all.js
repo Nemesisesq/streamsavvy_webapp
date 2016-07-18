@@ -543,7 +543,6 @@ app.directive('checkoutItem', function () {
             scope.windowWidth = window.innerWidth;
 
             scope.fixWindows = function (key) {
-                debugger
                 if (key == 'misc') {
                     return 'MISC'
                 }
@@ -590,7 +589,6 @@ app.directive('checkoutImageBlock', function ($http) {
 
             $http.get('viewing_windows/'+scope.service.chan.source)
                 .then(function(data){
-                    debugger;
 
                     if (scope.key != 'ppv') {
                         scope.service.windows = JSON.parse(data.data[0].windows)
@@ -661,7 +659,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                         return s += e
                     }).thru(function (sum) {
 
-                        debugger;
 
                         ServiceTotalFactory.setPrice(sum)
 
@@ -1568,7 +1565,7 @@ app.factory('http', function ($http, $log, $q) {
             return deferred.promise;
         },
 
-           putPackage: function (newPackage) {
+        putPackage: function (newPackage) {
 
 
             var deferred = $q.defer();
@@ -1606,7 +1603,7 @@ app.factory('http', function ($http, $log, $q) {
             $http({
                 method: 'POST',
                 url: "o/token",
-                data:credentials
+                data: credentials
 
             })
                 .success(function (data) {
@@ -1618,14 +1615,24 @@ app.factory('http', function ($http, $log, $q) {
             return deffered.promise;
         },
 
-        getHardware: function(){
+        register: function (credentials) {
+            debugger
+            return $http({
+                method: 'POST',
+                url: "/sign_up/",
+                data: credentials
+
+            })
+        },
+
+        getHardware: function () {
             var deffered = $q.defer();
             $http.get('/api/hardware')
-                .success(function(data){
+                .success(function (data) {
                     deffered.resolve(data)
                 })
-                .error(function(e){
-                    $log.error(e, code)
+                .error(function (e) {
+                    $log.error(e)
                 });
             return deffered.promise;
 
@@ -1635,6 +1642,7 @@ app.factory('http', function ($http, $log, $q) {
 
     }
 });
+
 /**
  * Created by Nem on 1/13/16.
  */
@@ -2085,7 +2093,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
     $scope.package = PackageFactory.getPackage();
 
     $scope.$on('subcribe', function (service) {
-        debugger;
         $scope.package.services.subscribed.push(service)
         service.added = true
     })
@@ -2172,7 +2179,6 @@ app.directive('footer', function ($state) {
             var config = {attributes: true, childList: true, characterData: true};
 
             var observer = new MutationObserver(function (mutations) {
-                debugger;
 
 
                 fixFooter();
@@ -2240,7 +2246,6 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
     $scope.items = ['item1', 'item2', 'item3'];
 
     $rootScope.openLogInModal = function () {
-        debugger
         if (modalOpen) {
             return
         }
@@ -2320,11 +2325,35 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                         window.location.reload()
                     },
-                    ttl : 1000,
+                    ttl: 1000,
                     disableCountDown: true
                 })
 
             })
+    };
+
+    $scope.register = function (credentials) {
+        //credentials.next = "/api/";
+        debugger;
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Register";
+        credentials.username = credentials.email;
+        if (credentials.password == credentials.confirm_password) {
+
+
+            http.register(credentials)
+                .then(function(data){
+                    //TODO handle sucessful registration
+                    console.log(data)
+                }, function(err){
+                    debugger
+                    //TODO handle error of registration
+                    growl.error(err.data.username[0])
+                    console.log(err)
+                })
+        } else {
+            growl.error("passwords don't match")
+        }
     };
 
 
@@ -2358,20 +2387,17 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         $scope.logged_in = false;
 
     })
-    debugger;
     authEventService.listen(function () {
         $scope.logged_in = true;
     })
 
 
     $scope.logout = function () {
-        debugger
         delete $window.sessionStorage['token']
         location.pathname = '/logout/'
 
     }
-    
-    debugger;
+
     $scope.cp = $location.$$url == "/checkout";
 
     $scope.menuOpen ? $('#menu-mask').fadeIn() : $('#menu-mask').fadeOut();

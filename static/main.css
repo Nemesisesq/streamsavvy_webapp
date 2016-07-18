@@ -3914,7 +3914,7 @@ mobile-tabs > div {
 .box button {
   background: #cfd8dc;
   border: 0;
-  color: #009688;
+  color: #ed1c24;
   padding: 10px;
   font-size: 16px;
   font-weight: 300;
@@ -3927,11 +3927,11 @@ mobile-tabs > div {
   border-radius: 2px; }
 
 .box button:active {
-  background: #009688;
+  background: #ed1c24;
   color: #263238; }
 
 .box button:hover {
-  background: #009688;
+  background: #ed1c24;
   color: #FFF;
   -webkit-transition: all 0.4s;
   transition: all 0.4s; }
@@ -3943,7 +3943,8 @@ mobile-tabs > div {
 .group {
   position: relative;
   margin-bottom: 35px;
-  margin-left: 40px; }
+  margin-left: 40px;
+  margin-right: 40px; }
 
 div.center > div.group {
   margin-top: 35px; }
@@ -3952,7 +3953,7 @@ div.center > div.group {
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
-  width: 300px;
+  width: 100%;
   border: none;
   border-bottom: 1px solid #757575; }
 
@@ -3976,13 +3977,13 @@ label {
 .inputMaterial:focus ~ label, .inputMaterial:valid ~ label {
   top: -20px;
   font-size: 14px;
-  color: #009688; }
+  color: #ed1c24; }
 
 /* BOTTOM BARS ================================= */
 .bar {
   position: relative;
   display: block;
-  width: 315px; }
+  width: 100%; }
 
 .bar:before, .bar:after {
   content: '';
@@ -3990,7 +3991,7 @@ label {
   width: 0;
   bottom: 1px;
   position: absolute;
-  background: #009688;
+  background: #ed1c24;
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all; }
@@ -4036,7 +4037,7 @@ label {
 #footer-box {
   width: 100%;
   height: 50px;
-  background: #00695c;
+  background: #ed1c24;
   position: absolute;
   bottom: 0; }
 
@@ -4194,6 +4195,9 @@ body {
 a:link, a:visited {
   text-decoration: none; }
 
+.username {
+  margin-top: 30px; }
+
 html,
 button,
 input,
@@ -4210,3 +4214,6 @@ body {
 
 .no-scroll {
   overflow: hidden; }
+
+body {
+  -webkit-font-smoothing: subpixel-antialiased; }

@@ -16,7 +16,6 @@ app.directive('checkoutItem', function () {
             scope.windowWidth = window.innerWidth;
 
             scope.fixWindows = function (key) {
-                debugger
                 if (key == 'misc') {
                     return 'MISC'
                 }
@@ -63,7 +62,6 @@ app.directive('checkoutImageBlock', function ($http) {
 
             $http.get('viewing_windows/'+scope.service.chan.source)
                 .then(function(data){
-                    debugger;
 
                     if (scope.key != 'ppv') {
                         scope.service.windows = JSON.parse(data.data[0].windows)
@@ -134,7 +132,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                         return s += e
                     }).thru(function (sum) {
 
-                        debugger;
 
                         ServiceTotalFactory.setPrice(sum)
 
