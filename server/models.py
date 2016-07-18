@@ -1,8 +1,21 @@
 from django.contrib.auth.models import User, UserManager
 from django.contrib.postgres.fields import JSONField
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils import timezone
 
+
+
+@receiver(pre_save, sender=User)
+def User_pre_save(sender, **kwargs):
+    email = kwargs['instance'].email
+    username = kwargs['instance'].username
+
+    if not email: raise ValidationError("email required")
+    if sender.objects.filter(email=email).exclude(username=username).count():
+        raise ValidationError("email needs to be unique")
 
 class AnonymousUser(User):
     session = models.CharField(max_length=100)
