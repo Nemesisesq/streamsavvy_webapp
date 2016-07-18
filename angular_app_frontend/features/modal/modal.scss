@@ -188,7 +188,7 @@
     }
 
     .btn-social.btn-sm > :first-child, .fa {
-      font-size: 25px;
+      font-size: 27px;
       line-height: 50px;
       width: 10%;
     }
@@ -210,4 +210,6 @@
   }
 }
 
-
+span.fa.fa-facebook {
+  line-height: 45px;
+}
