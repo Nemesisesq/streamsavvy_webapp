@@ -105,6 +105,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'server.middleware.duplicate_email.DuplicateEmail',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

@@ -5,17 +5,25 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils import timezone
+from rest_framework.exceptions import APIException
 
+class EmailRequired(APIException):
+    status_code = 500
+    default_detail = 'Email is required'
 
+class EmailNotUnique(APIException):
+    status_code = 500
+    default_detail = 'A user with this email already exists'
 
 @receiver(pre_save, sender=User)
 def User_pre_save(sender, **kwargs):
     email = kwargs['instance'].email
     username = kwargs['instance'].username
 
-    if not email: raise ValidationError("email required")
+    if not email: raise EmailRequired()
+
     if sender.objects.filter(email=email).exclude(username=username).count():
-        raise ValidationError("email needs to be unique")
+        raise EmailNotUnique()
 
 class AnonymousUser(User):
     session = models.CharField(max_length=100)

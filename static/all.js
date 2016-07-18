@@ -2296,6 +2296,8 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         facebook: $('#facebook_login').attr('href'),
     }
 
+    $scope.credentials = {}
+
 
     //$scope.facebookAuth = function () {
     //
@@ -2335,15 +2337,18 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
             }, function (err) {
                 debugger;
 
-                if(err.data.hasOwnProperty('username')){
+                if (err.data.hasOwnProperty('username')) {
 
-                growl.error('username is required')
+                    growl.error('username is required')
                 }
 
-                if(err.data.hasOwnProperty('non_field_errors')){
-                     growl.error(err.data.non_field_errors[0])
+                if (err.data.hasOwnProperty('non_field_errors')) {
+                    growl.error(err.data.non_field_errors[0])
                 }
+
+                $scope.credentials = {}
             })
+    $scope.credentials = {}
     };
 
     $scope.register = function (credentials) {
@@ -2358,12 +2363,20 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
             http.register(credentials)
                 .then(function (data) {
                     //TODO handle sucessful registration
+                    growl.success('Registration Successful')
+                    $modalInstance.close()
                     console.log(data)
                 }, function (err) {
                     debugger
-                    //TODO handle error of registration
-                    growl.error(err.data.username[0])
-                    console.log(err)
+                    if (err.status == 500) {
+                        growl.error(err.data.detail)
+                    } else if (err.hasOwnProperty('data')) {
+                        growl.error(err.data.username[0])
+
+                    } else if (err.data.hasOwnProperty('non_field_errors')) {
+                        growl.error(err.data.non_field_errors[0])
+                    }
+                    $scope.credentials = {}
                 })
         } else {
             growl.error("passwords don't match")
