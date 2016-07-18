@@ -208,7 +208,7 @@ import dj_database_url
 
 DATABASES = {}
 
-DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy4')
+DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy3')
 # DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 #############################
@@ -247,7 +247,6 @@ STATICFILES_DIRS = (
 )
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-# AUTH_USER_MODEL = 'server.SavvyUser'
 
 AUTHENTICATION_BACKENDS = (
     'oauth2_provider.backends.OAuth2Backend',

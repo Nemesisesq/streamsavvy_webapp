@@ -73,20 +73,14 @@ app.factory('http', function ($http, $log, $q) {
         },
 
         login: function (credentials) {
-            var deffered = $q.defer();
-            $http({
+            debugger;
+            return $http({
                 method: 'POST',
-                url: "o/token",
+                url: "api-token-auth/",
                 data: credentials
 
             })
-                .success(function (data) {
-                    deffered.resolve(data)
-                })
-                .error(function (e, code) {
-                    $log.error(e, code)
-                });
-            return deffered.promise;
+
         },
 
         register: function (credentials) {

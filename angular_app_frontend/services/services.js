@@ -173,6 +173,9 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
             refreshPackageService.broadcast()
 
 
-        })
+        }, function(err){
+            debugger;
+        console.log(err)
+    })
 
 });

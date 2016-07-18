@@ -24,7 +24,7 @@ app.factory('s3FeedbackInterceptor', function ($q) {
 
     .factory('LogoutInterceptor', function ($window) {
         return {
-            response : function(config){
+            response: function (config) {
                 // debugger
 
                 return config
@@ -35,7 +35,7 @@ app.factory('s3FeedbackInterceptor', function ($q) {
     .factory('TokenAuthInterceptor', function ($window, $q) {
         return {
             request: function (config) {
-                // debugger
+                debugger
                 config.headers = config.headers || {}
                 if ($window.sessionStorage.token) {
                     config.headers.Authorization = 'JWT ' + $window.sessionStorage.token;
@@ -43,11 +43,16 @@ app.factory('s3FeedbackInterceptor', function ($q) {
                 return config
             },
             response: function (response) {
+                debugger;
                 if (response.status === 401) {
                     // handle the case where the user is not authenticated
                 }
                 if (response.headers().token) {
                     $window.sessionStorage.token = response.headers().token
+                }
+
+                if (response.data != undefined && response.data.hasOwnProperty('token')) {
+                    $window.sessionStorage.token = response.data.token
                 }
                 return response || $q.when(response);
             }

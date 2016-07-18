@@ -22,7 +22,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     // $scope.payPerShows = [];
     var updateServices = function () {
 
-        if ('data' in ssPackage) {
+        if (ssPackage.hasOwnProperty('data')) {
             $scope.listOfServices = undefined;
             PackageFactory.getServicePanelList(ssPackage)
                 .then(function (data) {

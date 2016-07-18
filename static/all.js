@@ -1599,20 +1599,14 @@ app.factory('http', function ($http, $log, $q) {
         },
 
         login: function (credentials) {
-            var deffered = $q.defer();
-            $http({
+            debugger;
+            return $http({
                 method: 'POST',
-                url: "o/token",
+                url: "api-token-auth/",
                 data: credentials
 
             })
-                .success(function (data) {
-                    deffered.resolve(data)
-                })
-                .error(function (e, code) {
-                    $log.error(e, code)
-                });
-            return deffered.promise;
+
         },
 
         register: function (credentials) {
@@ -1669,7 +1663,7 @@ app.factory('s3FeedbackInterceptor', function ($q) {
 
     .factory('LogoutInterceptor', function ($window) {
         return {
-            response : function(config){
+            response: function (config) {
                 // debugger
 
                 return config
@@ -1680,7 +1674,7 @@ app.factory('s3FeedbackInterceptor', function ($q) {
     .factory('TokenAuthInterceptor', function ($window, $q) {
         return {
             request: function (config) {
-                // debugger
+                debugger
                 config.headers = config.headers || {}
                 if ($window.sessionStorage.token) {
                     config.headers.Authorization = 'JWT ' + $window.sessionStorage.token;
@@ -1688,11 +1682,16 @@ app.factory('s3FeedbackInterceptor', function ($q) {
                 return config
             },
             response: function (response) {
+                debugger;
                 if (response.status === 401) {
                     // handle the case where the user is not authenticated
                 }
                 if (response.headers().token) {
                     $window.sessionStorage.token = response.headers().token
+                }
+
+                if (response.data != undefined && response.data.hasOwnProperty('token')) {
+                    $window.sessionStorage.token = response.data.token
                 }
                 return response || $q.when(response);
             }
@@ -1885,7 +1884,10 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
             refreshPackageService.broadcast()
 
 
-        })
+        }, function(err){
+            debugger;
+        console.log(err)
+    })
 
 });
 
@@ -2315,6 +2317,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         //credentials.next = "/api/";
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
+        credentials.username = credentials.email;
         http.login(credentials)
             .then(function (data) {
                 console.log(data);
@@ -2329,6 +2332,17 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                     disableCountDown: true
                 })
 
+            }, function (err) {
+                debugger;
+
+                if(err.data.hasOwnProperty('username')){
+
+                growl.error('username is required')
+                }
+
+                if(err.data.hasOwnProperty('non_field_errors')){
+                     growl.error(err.data.non_field_errors[0])
+                }
             })
     };
 
@@ -2342,10 +2356,10 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
 
             http.register(credentials)
-                .then(function(data){
+                .then(function (data) {
                     //TODO handle sucessful registration
                     console.log(data)
-                }, function(err){
+                }, function (err) {
                     debugger
                     //TODO handle error of registration
                     growl.error(err.data.username[0])
@@ -2869,7 +2883,7 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     // $scope.payPerShows = [];
     var updateServices = function () {
 
-        if ('data' in ssPackage) {
+        if (ssPackage.hasOwnProperty('data')) {
             $scope.listOfServices = undefined;
             PackageFactory.getServicePanelList(ssPackage)
                 .then(function (data) {

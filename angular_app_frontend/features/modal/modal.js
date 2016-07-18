@@ -77,6 +77,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         //credentials.next = "/api/";
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
+        credentials.username = credentials.email;
         http.login(credentials)
             .then(function (data) {
                 console.log(data);
@@ -91,6 +92,17 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                     disableCountDown: true
                 })
 
+            }, function (err) {
+                debugger;
+
+                if(err.data.hasOwnProperty('username')){
+
+                growl.error('username is required')
+                }
+
+                if(err.data.hasOwnProperty('non_field_errors')){
+                     growl.error(err.data.non_field_errors[0])
+                }
             })
     };
 
@@ -104,10 +116,10 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
 
             http.register(credentials)
-                .then(function(data){
+                .then(function (data) {
                     //TODO handle sucessful registration
                     console.log(data)
-                }, function(err){
+                }, function (err) {
                     debugger
                     //TODO handle error of registration
                     growl.error(err.data.username[0])
