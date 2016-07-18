@@ -1,12 +1,14 @@
 from server.models import Hardware, Channel, Content, Package, ChannelImages
 
+
 __author__ = 'Nem'
 
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
 
 class SignUpSerializer(serializers.ModelSerializer):
+
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
@@ -26,7 +28,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username', 'email', 'password')
+        fields = ('first_name', 'last_name', 'username','email', 'password')
         write_only_fields = ('password',)
 
 
