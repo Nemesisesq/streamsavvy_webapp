@@ -3255,6 +3255,24 @@ footer {
 .hardware-img img {
   width: 100%; }
 
+@media (max-width: 534px) {
+  .modal-body {
+    padding-top: 0; }
+    .modal-body .nav-tabs.nav-justified > li {
+      width: 50%;
+      float: left; }
+  .modal-dialog .modal-header div.modal-title {
+    font-size: 18px; }
+  .modal-dialog .modal-header div.please-social {
+    margin: 1px; } }
+
+@media (max-width: 425px) {
+  .modal-body {
+    padding: 2px; }
+  div.group {
+    margin-left: 2px;
+    margin-right: 2px; } }
+
 show-detail {
   text-transform: none;
   font-family: AvenirNext-Bold;
@@ -3844,7 +3862,7 @@ mobile-tabs > div {
 span.fa.fa-facebook {
   line-height: 45px; }
 
-@media (max-width: 768px) {
+@media (max-width: 788px) {
   .not-ready {
     width: 100%; } }
 

@@ -282,8 +282,8 @@ SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 
 SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_details',
-    # 'server.pipelines.save_additional_info.save_additional_info',
     'social.pipeline.social_auth.social_uid',
+    # 'server.pipelines.save_additional_info.save_additional_info',
     'social.pipeline.social_auth.auth_allowed',
     'social.pipeline.social_auth.social_user',
     'social.pipeline.user.get_username',

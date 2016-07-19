@@ -1,7 +1,7 @@
 from rest_framework_jwt.settings import api_settings
 
 
-def save_additional_info(backend, user, response, *args, **kwargs):
+def save_additional_info(backend, details, response, *args, **kwargs):
 
 
     jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER

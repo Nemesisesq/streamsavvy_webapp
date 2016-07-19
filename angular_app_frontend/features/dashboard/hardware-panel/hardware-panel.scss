@@ -84,10 +84,10 @@
   height: 100vh;
 }
 
-@media (max-width: 1023px){
+@media (max-width: 1023px) {
   .not-ready {
     //height: inherit;
-    width: calc(25vw - 10px) ;
+    width: calc(25vw - 10px);
     min-width: 10vw;
     //margin-left: .5em;
     //margin-right: .5em;
@@ -98,12 +98,49 @@
     padding-right: 1.5em;
   }
 
-
 }
 
-.hardware-img{
+.hardware-img {
   img {
     width: 100%
 
+  }
+}
+
+@media (max-width: 534px) {
+  .modal-body {
+
+    padding-top: 0;
+
+    .nav-tabs.nav-justified > li {
+      width: 50%;
+      float: left;
+    }
+  }
+
+  .modal-dialog {
+    .modal-header {
+
+      div.modal-title {
+        font-size: 18px
+      }
+
+      div.please-social {
+        margin: 1px;
+      }
+    }
+  }
+
+}
+
+
+@media (max-width: 425px){
+  .modal-body {
+    padding: 2px;
+  }
+
+  div.group {
+    margin-left: 2px;
+    margin-right: 2px;
   }
 }
