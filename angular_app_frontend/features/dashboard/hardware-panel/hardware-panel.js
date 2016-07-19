@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 5/24/16.
  */
-app.controller('HardwareController', function ($scope, PackageFactory, $state) {
+app.controller('HardwareController', function ($scope, PackageFactory, $state, $window) {
 
     $scope.devices = [
         {
@@ -17,13 +17,17 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state) {
             price: 39.00
         }
     ]
-    
+
     $scope.state = $state.current.name;
 
     $scope.linkToAffiliate = function (device) {
-                $window.open(device.url);
-                mixpanel.track("Buy Device", {"service name": service.chan.display_name});
-            }
+        $window.open(device.url);
+        mixpanel.track("Buy Device", {
+            "id" : 11,
+            "service name": device.chan.display_name,
+            "user" : $window.sessionStorage.user
+        });
+    }
 
     $scope.pkg = PackageFactory.getPackage();
 
@@ -33,12 +37,29 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state) {
      })
 
      $('.service-panel').on('scroll', function () {
-     debugger
+
      _.debounce(function () {
 
      $('.not-ready').fadeIn()
      }, 100)()
      })*/
+    $scope.go = function () {
+        debugger;
+
+        location.href = '#/checkout';
+        debugger;
+        $scope.pkg = PackageFactory.getPackage();
+        var showList = _.map($scope.pkg.data.content, function (showObject) {
+            return showObject.title;
+        });
+
+        mixpanel.track("Proceeded to Checkout", {
+            "id": 7,
+            "show_List": showList,
+            "user": $window.sessionStorage.user
+        });
+    }
+
     $scope.collapseHardware = true;
     var serviceHeight = $(window).height() - 46;
 
@@ -47,13 +68,13 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state) {
 
     }
 
-    $scope.mixpanelTrackReadyToCutCord = function() {
+    $scope.mixpanelTrackReadyToCutCord = function () {
         var showList = [];
-        _.forEach($scope.pkg.data.content,function (showObject) {
-            showList.push(showObject.title) ;
+        _.forEach($scope.pkg.data.content, function (showObject) {
+            showList.push(showObject.title);
         });
         // console.log(showList);
-        mixpanel.track("Proceeded to Checkout",{"Show List": showList});
+
     }
 
     $scope.toggleHardwarePanel = function () {

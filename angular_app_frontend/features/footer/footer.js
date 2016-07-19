@@ -26,7 +26,6 @@ app.directive('footer', function ($state) {
 
                 fixFooter();
                 mutations.forEach(function (mutation) {
-                    console.log(mutation)
                 })
 
             })
@@ -46,6 +45,6 @@ $(document).ready(function () {
 
 
 
-    // debugger;
+    //  ;
 
 })

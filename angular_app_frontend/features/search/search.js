@@ -24,11 +24,15 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
         return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
     }
 
+    var search_query = ""
+
     $scope.search = function (val) {
+
         if (val) {
+            search_query = val
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
-                    //debugger;
+                    // ;
 
 
                     var sorted = _.chain(data.data)
@@ -110,7 +114,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
             }
 
             // suggestion.url = suggestion.url.replace('http', 'https');
-            // debugger;
+            //  ;
             var parser = document.createElement('a');
             parser.href = suggestion.url
 
@@ -127,12 +131,18 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
                         suggestion.justAdded = true;
 
+
                         ssPackage.data.content.push(suggestion);
 
                         PackageFactory.setPackage(ssPackage);
 
                         $scope.loading = false;
-                        mixpanel.track("Show added", {"Show Title": suggestion.title});
+                        mixpanel.track("Show added", {
+                            "id": 5,
+                            "show_title": suggestion.title,
+                            "search_query": search_query,
+                            "user": $window.sessionStorage.user
+                        });
                     }
 
                 })

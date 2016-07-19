@@ -1,7 +1,7 @@
 from rest_framework_jwt.settings import api_settings
 
 
-def create_token(backend, user, response, *args, **kwargs):
+def save_additional_info(backend, user, response, *args, **kwargs):
 
 
     jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -10,5 +10,5 @@ def create_token(backend, user, response, *args, **kwargs):
     payload = jwt_payload_handler(user)
     token = jwt_encode_handler(payload)
 
-    response.HEADERS
+
 

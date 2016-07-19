@@ -15,7 +15,7 @@ app.factory('classie', function ($window) {
 })
 
 app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
-    //debugger;
+    // ;
 
     var bodyEl = document.body,
         // gridEl = $('#theGrid')[0],
@@ -140,7 +140,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 
         hideContent: function (positionItem, scaleItem, container) {
             //var gridItem = gridItems[current], contentItem = contentItems[current];
-            //debugger;
+            // ;
 
             //classie.remove(contentItem, 'content__item--show');
             //classie.remove(contentItemsContainer, 'server--show');
@@ -148,12 +148,12 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
             classie.remove(bodyEl, 'view-single');
 
             return $timeout(function () {
-                // debugger;
+                //  ;
 
                 var dummy = container.querySelector('.placeholder');
 
                 function firstStep() {
-                    // debugger;
+                    //  ;
                     classie.removeClass(bodyEl, 'noscroll');
                     return 'hello first'
                 }
@@ -178,7 +178,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
                     }, 400)
                 })
 
-                //debugger;
+                // ;
 
 
                 // reset current

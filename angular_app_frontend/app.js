@@ -521,6 +521,6 @@ app.run(function ($window, $state) {
     })
 })
 
-app.controller('HomeController', function () {
-    $('body').attr('id', 'background')
-})
+// app.controller('HomeController', function () {
+//     $('body').attr('id', 'background')
+// })

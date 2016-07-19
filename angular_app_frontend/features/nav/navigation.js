@@ -1,10 +1,34 @@
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout, loginEventService, authEventService) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout, loginEventService, authEventService, PackageFactory) {
+
+    $('#sidebarDashNav').click(function () {
+
+        mixpanel.track('Navigation', {
+            "event_id" : 1,
+            "event": "Sidebar navigation to dash",
+            "user": $window.sessionStorage.user
+        })
+    })
 
     $scope.goBack = function () {
+        mixpanel.track('Navigation', {
+            "event_id" : 12,
+            "event": "Checkout back to dash",
+            "user": $window.sessionStorage.user
+        })
+
         window.history.back();
+    }
+
+    $scope.goToDash = function () {
+
+        mixpanel.track('Navigation', {
+            "event": "Sidebar Navigation to dash",
+            "user": $window.sessionStorage.user
+        })
+        location.href = '#/dashboard'
     }
 
 
@@ -18,9 +42,26 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
 
     $scope.logout = function () {
+        mixpanel.track('Authentication', {
+                        "event" : "logout",
+                        "method": "email",
+                        "user": $window.sessionStorage.user
+                    })
         delete $window.sessionStorage['token']
         location.pathname = '/logout/'
 
+
+    }
+
+    $scope.login = function() {
+        $rootScope.openLogInModal()
+        var pkg_url = PackageFactory.getPackage()
+        debugger;
+        mixpanel.track("Login modal opened", {
+            "from": "nav side bar",
+            "current_page": $location.absUrl(),
+            "package_id":  pkg_url
+        })
     }
 
     $scope.cp = $location.$$url == "/checkout";
@@ -60,7 +101,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         //classie.toggle(this, 'active')
         $scope.menuOpen = !$scope.menuOpen;
 
-        //debugger;
+        // ;
         //classie.toggle(body, 'cbp-spmenu-push-toright');
         //classie.toggle(menuLeft, 'cbp-spmenu-open');
         $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')

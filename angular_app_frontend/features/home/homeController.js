@@ -1,7 +1,18 @@
 /**
  * Created by chirag on 8/3/15.
  */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
+app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
+
+    $('#letsDoThis').click(function () {
+        debugger;
+
+        mixpanel.track('Navigation', {
+            "event_id": 2,
+            "event": "Call to Action",
+            "user": $window.sessionStorage.user
+        })
+
+    })
 
 
     $scope.login = function (credentials) {

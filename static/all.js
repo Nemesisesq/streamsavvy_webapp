@@ -521,9 +521,9 @@ app.run(function ($window, $state) {
     })
 })
 
-app.controller('HomeController', function () {
-    $('body').attr('id', 'background')
-})
+// app.controller('HomeController', function () {
+//     $('body').attr('id', 'background')
+// })
 
 /**
  * Created by Nem on 6/4/16.
@@ -587,8 +587,8 @@ app.directive('checkoutImageBlock', function ($http) {
                 return service + "_sprite"
             }
 
-            $http.get('viewing_windows/'+scope.service.chan.source)
-                .then(function(data){
+            $http.get('viewing_windows/' + scope.service.chan.source)
+                .then(function (data) {
 
                     if (scope.key != 'ppv') {
                         scope.service.windows = JSON.parse(data.data[0].windows)
@@ -625,8 +625,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                     return elem.chan.source == service.chan.source
                 })
             }
-
-         
 
 
             var setPrice = function () {
@@ -668,8 +666,15 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             }
 
 
-
             scope.subscribe = function (service) {
+
+                mixpanel.track('Checkout action buttons', {
+                    "id": 9.1,
+                    "service": service.chan.source,
+                    "user": $window.sessionsStorage.user,
+                    "event": "Already have it"
+
+                })
 
                 if (scope.package.data.services.subscribed == undefined) {
                     scope.package.data.services = {subscribed: []}
@@ -688,12 +693,29 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             }
 
             scope.linkToAffiliate = function (service) {
+
+                mixpanel.track('Checkout action buttons', {
+                    "id": 9.2,
+                    "service": service.chan.source,
+                    "user": $window.sessionsStorage.user,
+                    "event": "Subscribe"
+
+                })
                 $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
                 scope.subscribe(service)
             }
 
             scope.unsubscribe = function (service) {
+
+                mixpanel.track('Checkout action buttons', {
+                    "id": 9.3,
+                    "service": service.chan.source,
+                    "user": $window.sessionsStorage.user,
+                    "event": "unsubscribe"
+
+                })
+
                 scope.package.data.services.subscribed = _.filter(scope.package.data.services.subscribed, function (elem) {
                     return elem.chan.source != service.chan.source
                 })
@@ -703,6 +725,14 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             }
 
             scope.hideService = function (service) {
+
+                mixpanel.track('Checkout action buttons', {
+                    "id": 9.4,
+                    "service": service.chan.source,
+                    "user": $window.sessionsStorage.user,
+                    "event": "hide"
+
+                })
                 if (scope.package.data.services.hidden == undefined) {
                     scope.package.data.services = {hidden: []}
                 }
@@ -768,7 +798,7 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, elem, attrs) {
 
-            // debugger;
+            //  ;
 
             if (_.includes(scope.package.data.services.subscribed, elem)) {
                 scope.service.added = true
@@ -821,6 +851,11 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
             })
 
             scope.linkToAffiliate = function (service) {
+                mixpanel.track('PPV clicked', {
+                    "id": 10,
+                    "service": service.chan.source,
+                    "user": $window.sessionStorage.user
+                })
                 $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
             }
@@ -1005,7 +1040,7 @@ app.directive('servicePanelItem', function sPanelItem() {
         return {
             restrict: 'A',
             link: function (scope, element, attrs, controller) {
-                // debugger;
+                //  ;
 
                 if (checkPrevious(element)) {
                     element.remove()
@@ -1314,7 +1349,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
                 //if (scope.package.chosenProviders !== undefined) {
                 //    if (!_.includes(scope.package.providers, channel.source)) {
-                //        debugger;
+                //         ;
                 //        scope.package.providers.push(channel)
                 //    }
                 //} else {
@@ -1330,6 +1365,7 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
     }
 
 })
+
 /**
  * Created by Nem on 11/17/15.
  */
@@ -1370,7 +1406,7 @@ app.filter('channel', function () {
                 return _.includes(elem.type, 'sub')
             }
             if (type == 'alacarte') {
-                //debugger
+                // 
                 return _.includes(elem.type, 'purchase')
             }
         })
@@ -1496,7 +1532,7 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
 
     .filter('onNetflix', function (_) {
 
-        // debugger;
+        //  ;
         return function (array) {
             return _.filter(array, function(elem){
                 var res = elem.on_netflix || _.some(elem.channel, ['source', 'netflix']) || _.some(elem.channel, ['source', 'netflix'])
@@ -1599,7 +1635,7 @@ app.factory('http', function ($http, $log, $q) {
         },
 
         login: function (credentials) {
-            debugger;
+             ;
             return $http({
                 method: 'POST',
                 url: "api-token-auth/",
@@ -1610,7 +1646,7 @@ app.factory('http', function ($http, $log, $q) {
         },
 
         register: function (credentials) {
-            debugger
+             
             return $http({
                 method: 'POST',
                 url: "/sign_up/",
@@ -1664,7 +1700,7 @@ app.factory('s3FeedbackInterceptor', function ($q) {
     .factory('LogoutInterceptor', function ($window) {
         return {
             response: function (config) {
-                // debugger
+                //  
 
                 return config
             }
@@ -1674,7 +1710,7 @@ app.factory('s3FeedbackInterceptor', function ($q) {
     .factory('TokenAuthInterceptor', function ($window, $q) {
         return {
             request: function (config) {
-                debugger
+                 
                 config.headers = config.headers || {}
                 if ($window.sessionStorage.token) {
                     config.headers.Authorization = 'JWT ' + $window.sessionStorage.token;
@@ -1682,7 +1718,6 @@ app.factory('s3FeedbackInterceptor', function ($q) {
                 return config
             },
             response: function (response) {
-                debugger;
                 if (response.status === 401) {
                     // handle the case where the user is not authenticated
                 }
@@ -1858,7 +1893,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
         },
 
         getCheckoutPanelList: function () {
-            // debugger;
+            //  ;
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 return $http.post('/node-data/checkoutlist', ssPackage)
@@ -1872,7 +1907,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
 }]);
 
 
-app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService) {
+app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPackageService) {
 
     $http.get('/api/package/')
         .then(function (data) {
@@ -1883,9 +1918,11 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
 
             refreshPackageService.broadcast()
 
+            $window.sessionStorage.user = {}
+
 
         }, function(err){
-            debugger;
+
         console.log(err)
     })
 
@@ -1908,7 +1945,7 @@ app.factory('classie', function ($window) {
 })
 
 app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
-    //debugger;
+    // ;
 
     var bodyEl = document.body,
         // gridEl = $('#theGrid')[0],
@@ -2033,7 +2070,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 
         hideContent: function (positionItem, scaleItem, container) {
             //var gridItem = gridItems[current], contentItem = contentItems[current];
-            //debugger;
+            // ;
 
             //classie.remove(contentItem, 'content__item--show');
             //classie.remove(contentItemsContainer, 'server--show');
@@ -2041,12 +2078,12 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
             classie.remove(bodyEl, 'view-single');
 
             return $timeout(function () {
-                // debugger;
+                //  ;
 
                 var dummy = container.querySelector('.placeholder');
 
                 function firstStep() {
-                    // debugger;
+                    //  ;
                     classie.removeClass(bodyEl, 'noscroll');
                     return 'hello first'
                 }
@@ -2071,7 +2108,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
                     }, 400)
                 })
 
-                //debugger;
+                // ;
 
 
                 // reset current
@@ -2089,7 +2126,8 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
-app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST, ServiceTotalFactory) {
+
+app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window) {
 
     $scope.package = PackageFactory.getPackage();
 
@@ -2115,11 +2153,38 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                 .then(function (data) {
                     $scope.list = data.data
                     $scope.package = PackageFactory.getPackage()
+
+                    var only_ppv = data.data['ppv']
+                    var x = _.cloneDeep(data.data)
+                    delete x['ppv']
+                    var non_ppv = x
+                    debugger
+
+
+                    var values = _.chain(non_ppv)
+                        .values()
+                        .flatten()
+                        .map(function(elem){
+                            return elem.chan.source
+                        })
+                        .value()
+                    only_ppv = _.map(only_ppv, function(elem){
+                        return elem.chan.source
+                    })
+
+                    mixpanel.track('Service List', {
+                        "id" : 8, 
+                        "non ppv services": values,
+                        "ppv services" : only_ppv,
+                        "count" : values.length,
+                        "ppv_count" : only_ppv.length,
+                        "user" : $window.sessionStorage.user
+                    })
                     return data
                 })
         }
     }
-    
+
     refreshPackageService.listen(get_service_list);
     $scope.list = {}
     $scope.list.added = [];
@@ -2140,7 +2205,6 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         $scope.list = PackageFactory.getListOfServices();
     })
 });
-
 
 
 /**
@@ -2185,7 +2249,6 @@ app.directive('footer', function ($state) {
 
                 fixFooter();
                 mutations.forEach(function (mutation) {
-                    console.log(mutation)
                 })
 
             })
@@ -2205,14 +2268,25 @@ $(document).ready(function () {
 
 
 
-    // debugger;
+    //  ;
 
 })
 
 /**
  * Created by chirag on 8/3/15.
  */
-app.controller('home', function ($scope, $http, http, $cookies, $location) {
+app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
+
+    $('#letsDoThis').click(function () {
+        debugger;
+
+        mixpanel.track('Navigation', {
+            "event_id": 2,
+            "event": "Call to Action",
+            "user": $window.sessionStorage.user
+        })
+
+    })
 
 
     $scope.login = function (credentials) {
@@ -2239,7 +2313,6 @@ app.controller('home', function ($scope, $http, http, $cookies, $location) {
 });
 
 app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
-
 
     //$scope.login = 'Click Here to Login'
 
@@ -2287,7 +2360,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
     //}
 });
 
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window) {
 
     $scope.socialLogin = true;
 
@@ -2297,6 +2370,17 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
     $scope.credentials = {}
+    debugger;
+
+    $('body').on('click', '#facebook_social_auth', function () {
+        debugger
+        mixpanel.track('Authentication', {
+            "id": 4.1,
+            "event": "facebook_social",
+            "method": "email",
+            "user": $window.sessionStorage.user
+        })
+    })
 
 
     //$scope.facebookAuth = function () {
@@ -2320,8 +2404,16 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
         credentials.username = credentials.email;
+        $window.sessionStorage.user = {"email": credentials.email}
         http.login(credentials)
             .then(function (data) {
+                mixpanel.track('Authentication', {
+                    "id": 4.2,
+                    "event": "login",
+                    "method": "email",
+                    "user": $window.sessionStorage.user
+                })
+                debugger
                 console.log(data);
                 $rootScope.logged_in = true;
                 $modalInstance.close();
@@ -2335,7 +2427,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                 })
 
             }, function (err) {
-                debugger;
+
 
                 if (err.data.hasOwnProperty('username')) {
 
@@ -2348,26 +2440,36 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                 $scope.credentials = {}
             })
-    $scope.credentials = {}
+        $scope.credentials = {}
     };
 
     $scope.register = function (credentials) {
         //credentials.next = "/api/";
-        debugger;
+
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Register";
         credentials.username = credentials.email;
+
+
         if (credentials.password == credentials.confirm_password) {
 
 
             http.register(credentials)
                 .then(function (data) {
-                    //TODO handle sucessful registration
+                    $window.sessionStorage.user = {"email": credentials.email}
+
+                    mixpanel.track('Authentication', {
+                        "id": 4.3,
+                        "event": "register",
+                        "method": "email",
+                        "user": $window.sessionStorage.user
+                    })
+
                     growl.success('Registration Successful')
                     $modalInstance.close()
                     console.log(data)
                 }, function (err) {
-                    debugger
+
                     if (err.status == 500) {
                         growl.error(err.data.detail)
                     } else if (err.hasOwnProperty('data')) {
@@ -2403,10 +2505,34 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout, loginEventService, authEventService) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout, loginEventService, authEventService, PackageFactory) {
+
+    $('#sidebarDashNav').click(function () {
+
+        mixpanel.track('Navigation', {
+            "event_id" : 1,
+            "event": "Sidebar navigation to dash",
+            "user": $window.sessionStorage.user
+        })
+    })
 
     $scope.goBack = function () {
+        mixpanel.track('Navigation', {
+            "event_id" : 12,
+            "event": "Checkout back to dash",
+            "user": $window.sessionStorage.user
+        })
+
         window.history.back();
+    }
+
+    $scope.goToDash = function () {
+
+        mixpanel.track('Navigation', {
+            "event": "Sidebar Navigation to dash",
+            "user": $window.sessionStorage.user
+        })
+        location.href = '#/dashboard'
     }
 
 
@@ -2420,9 +2546,26 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
 
     $scope.logout = function () {
+        mixpanel.track('Authentication', {
+                        "event" : "logout",
+                        "method": "email",
+                        "user": $window.sessionStorage.user
+                    })
         delete $window.sessionStorage['token']
         location.pathname = '/logout/'
 
+
+    }
+
+    $scope.login = function() {
+        $rootScope.openLogInModal()
+        var pkg_url = PackageFactory.getPackage()
+        debugger;
+        mixpanel.track("Login modal opened", {
+            "from": "nav side bar",
+            "current_page": $location.absUrl(),
+            "package_id":  pkg_url
+        })
     }
 
     $scope.cp = $location.$$url == "/checkout";
@@ -2462,7 +2605,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         //classie.toggle(this, 'active')
         $scope.menuOpen = !$scope.menuOpen;
 
-        //debugger;
+        // ;
         //classie.toggle(body, 'cbp-spmenu-push-toright');
         //classie.toggle(menuLeft, 'cbp-spmenu-open');
         $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
@@ -2625,11 +2768,15 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
         return $scope.searchResult[$scope.searchText - 1] === _.last($scope.searchText)
     }
 
+    var search_query = ""
+
     $scope.search = function (val) {
+
         if (val) {
+            search_query = val
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
-                    //debugger;
+                    // ;
 
 
                     var sorted = _.chain(data.data)
@@ -2711,7 +2858,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
             }
 
             // suggestion.url = suggestion.url.replace('http', 'https');
-            // debugger;
+            //  ;
             var parser = document.createElement('a');
             parser.href = suggestion.url
 
@@ -2728,12 +2875,18 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
                         suggestion.justAdded = true;
 
+
                         ssPackage.data.content.push(suggestion);
 
                         PackageFactory.setPackage(ssPackage);
 
                         $scope.loading = false;
-                        mixpanel.track("Show added", {"Show Title": suggestion.title});
+                        mixpanel.track("Show added", {
+                            "id": 5,
+                            "show_title": suggestion.title,
+                            "search_query": search_query,
+                            "user": $window.sessionStorage.user
+                        });
                     }
 
                 })
@@ -2782,7 +2935,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 /**
  * Created by Nem on 5/24/16.
  */
-app.controller('HardwareController', function ($scope, PackageFactory, $state) {
+app.controller('HardwareController', function ($scope, PackageFactory, $state, $window) {
 
     $scope.devices = [
         {
@@ -2798,13 +2951,17 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state) {
             price: 39.00
         }
     ]
-    
+
     $scope.state = $state.current.name;
 
     $scope.linkToAffiliate = function (device) {
-                $window.open(device.url);
-                mixpanel.track("Buy Device", {"service name": service.chan.display_name});
-            }
+        $window.open(device.url);
+        mixpanel.track("Buy Device", {
+            "id" : 11,
+            "service name": device.chan.display_name,
+            "user" : $window.sessionStorage.user
+        });
+    }
 
     $scope.pkg = PackageFactory.getPackage();
 
@@ -2814,12 +2971,29 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state) {
      })
 
      $('.service-panel').on('scroll', function () {
-     debugger
+
      _.debounce(function () {
 
      $('.not-ready').fadeIn()
      }, 100)()
      })*/
+    $scope.go = function () {
+        debugger;
+
+        location.href = '#/checkout';
+        debugger;
+        $scope.pkg = PackageFactory.getPackage();
+        var showList = _.map($scope.pkg.data.content, function (showObject) {
+            return showObject.title;
+        });
+
+        mixpanel.track("Proceeded to Checkout", {
+            "id": 7,
+            "show_List": showList,
+            "user": $window.sessionStorage.user
+        });
+    }
+
     $scope.collapseHardware = true;
     var serviceHeight = $(window).height() - 46;
 
@@ -2828,13 +3002,13 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state) {
 
     }
 
-    $scope.mixpanelTrackReadyToCutCord = function() {
+    $scope.mixpanelTrackReadyToCutCord = function () {
         var showList = [];
-        _.forEach($scope.pkg.data.content,function (showObject) {
-            showList.push(showObject.title) ;
+        _.forEach($scope.pkg.data.content, function (showObject) {
+            showList.push(showObject.title);
         });
         // console.log(showList);
-        mixpanel.track("Proceeded to Checkout",{"Show List": showList});
+
     }
 
     $scope.toggleHardwarePanel = function () {
@@ -3143,7 +3317,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     })
 
-    $scope.hideDetail = function (ev, attrs) {
+    $scope.hideDetail = function (ev, loc) {
+        debugger
+        mixpanel.track('Close overlay',{
+            "id" : 6,
+            "user" : $window.sessionStorage.user,
+            "event" : loc
+
+        })
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
@@ -3156,14 +3337,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             .then(ShowDetailAnimate.hideContent.bind(null, positionItem, scaleItem, container))
             .then(function (v) {
                 return $timeout(function () {
-                    // debugger;
+                    //  ;
 
                     $rootScope.showSearchView = true;
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
             })
             .then(function (v) {
-                //debugger;
+                // ;
                 // $('body').css('overflow', 'scroll');
                 $(scaleItem).removeAttr('id');
                 $(positionItem).removeAttr('id');

@@ -60,8 +60,8 @@ app.directive('checkoutImageBlock', function ($http) {
                 return service + "_sprite"
             }
 
-            $http.get('viewing_windows/'+scope.service.chan.source)
-                .then(function(data){
+            $http.get('viewing_windows/' + scope.service.chan.source)
+                .then(function (data) {
 
                     if (scope.key != 'ppv') {
                         scope.service.windows = JSON.parse(data.data[0].windows)
@@ -98,8 +98,6 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                     return elem.chan.source == service.chan.source
                 })
             }
-
-         
 
 
             var setPrice = function () {
@@ -141,8 +139,15 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             }
 
 
-
             scope.subscribe = function (service) {
+
+                mixpanel.track('Checkout action buttons', {
+                    "id": 9.1,
+                    "service": service.chan.source,
+                    "user": $window.sessionsStorage.user,
+                    "event": "Already have it"
+
+                })
 
                 if (scope.package.data.services.subscribed == undefined) {
                     scope.package.data.services = {subscribed: []}
@@ -161,12 +166,29 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             }
 
             scope.linkToAffiliate = function (service) {
+
+                mixpanel.track('Checkout action buttons', {
+                    "id": 9.2,
+                    "service": service.chan.source,
+                    "user": $window.sessionsStorage.user,
+                    "event": "Subscribe"
+
+                })
                 $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
                 scope.subscribe(service)
             }
 
             scope.unsubscribe = function (service) {
+
+                mixpanel.track('Checkout action buttons', {
+                    "id": 9.3,
+                    "service": service.chan.source,
+                    "user": $window.sessionsStorage.user,
+                    "event": "unsubscribe"
+
+                })
+
                 scope.package.data.services.subscribed = _.filter(scope.package.data.services.subscribed, function (elem) {
                     return elem.chan.source != service.chan.source
                 })
@@ -176,6 +198,14 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
             }
 
             scope.hideService = function (service) {
+
+                mixpanel.track('Checkout action buttons', {
+                    "id": 9.4,
+                    "service": service.chan.source,
+                    "user": $window.sessionsStorage.user,
+                    "event": "hide"
+
+                })
                 if (scope.package.data.services.hidden == undefined) {
                     scope.package.data.services = {hidden: []}
                 }
@@ -241,7 +271,7 @@ app.directive('checkoutService', function ($http, $window) {
         },
         link: function (scope, elem, attrs) {
 
-            // debugger;
+            //  ;
 
             if (_.includes(scope.package.data.services.subscribed, elem)) {
                 scope.service.added = true
@@ -294,6 +324,11 @@ app.directive('ppvCheckoutItem', function ($window, $http) {
             })
 
             scope.linkToAffiliate = function (service) {
+                mixpanel.track('PPV clicked', {
+                    "id": 10,
+                    "service": service.chan.source,
+                    "user": $window.sessionStorage.user
+                })
                 $window.open(service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
             }

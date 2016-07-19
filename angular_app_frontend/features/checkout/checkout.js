@@ -1,4 +1,4 @@
-app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, SERVICE_PRICE_LIST, ServiceTotalFactory) {
+app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window) {
 
     $scope.package = PackageFactory.getPackage();
 
@@ -24,11 +24,38 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                 .then(function (data) {
                     $scope.list = data.data
                     $scope.package = PackageFactory.getPackage()
+
+                    var only_ppv = data.data['ppv']
+                    var x = _.cloneDeep(data.data)
+                    delete x['ppv']
+                    var non_ppv = x
+                    debugger
+
+
+                    var values = _.chain(non_ppv)
+                        .values()
+                        .flatten()
+                        .map(function(elem){
+                            return elem.chan.source
+                        })
+                        .value()
+                    only_ppv = _.map(only_ppv, function(elem){
+                        return elem.chan.source
+                    })
+
+                    mixpanel.track('Service List', {
+                        "id" : 8, 
+                        "non ppv services": values,
+                        "ppv services" : only_ppv,
+                        "count" : values.length,
+                        "ppv_count" : only_ppv.length,
+                        "user" : $window.sessionStorage.user
+                    })
                     return data
                 })
         }
     }
-    
+
     refreshPackageService.listen(get_service_list);
     $scope.list = {}
     $scope.list.added = [];

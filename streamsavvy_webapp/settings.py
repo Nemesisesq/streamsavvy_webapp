@@ -266,7 +266,7 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIAL_AUTH_FACEBOOK_KEY = get_env_variable('FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = get_env_variable('FACEBOOK_SECRET')
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends']
 
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'locale': 'en_US',
@@ -282,6 +282,7 @@ SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 
 SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_details',
+    # 'server.pipelines.save_additional_info.save_additional_info',
     'social.pipeline.social_auth.social_uid',
     'social.pipeline.social_auth.auth_allowed',
     'social.pipeline.social_auth.social_user',

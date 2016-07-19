@@ -2,7 +2,7 @@
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left ss-menu" id="cbp-spmenu-s1">
         <div>
             <a ng-class="{active: isActive('#/') }" href="#">Home</a>
-            <a ng-class="{active: isActive('#/dashboard')}" href="#/dashboard">Search Shows</a>
+            <a id="sidebarDashNav" ng-class="{active: isActive('#/dashboard')}" href="#/dashboard">Search Shows</a>
         </div>
         <!-- <div class="ss-small-menu-options">
             <a href="#/error/coming-soon">Learn More</a>
@@ -12,7 +12,7 @@
 
 
         <div class="ss-menu-auth" ng-controller="ModalController">
-            <a ng-if="!logged_in" id="sign-up" ng-click="openLogInModal()" class="sign-up">Login/Register</a>
+            <a ng-if="!logged_in" id="sign-up" ng-click="login()" class="sign-up">Login/Register</a>
             <a ng-if="logged_in" ng-click="logout()">Logout</a>
         </div>
 

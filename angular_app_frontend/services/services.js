@@ -147,7 +147,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
         },
 
         getCheckoutPanelList: function () {
-            // debugger;
+            //  ;
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 return $http.post('/node-data/checkoutlist', ssPackage)
@@ -161,7 +161,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
 }]);
 
 
-app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService) {
+app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPackageService) {
 
     $http.get('/api/package/')
         .then(function (data) {
@@ -172,9 +172,11 @@ app.run(function (PackageFactory, $http, http, $rootScope, refreshPackageService
 
             refreshPackageService.broadcast()
 
+            $window.sessionStorage.user = {}
+
 
         }, function(err){
-            debugger;
+
         console.log(err)
     })
 

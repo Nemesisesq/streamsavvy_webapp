@@ -1,6 +1,5 @@
 app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
 
-
     //$scope.login = 'Click Here to Login'
 
     var modalOpen = false
@@ -47,7 +46,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
     //}
 });
 
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl) {
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window) {
 
     $scope.socialLogin = true;
 
@@ -57,6 +56,17 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
     $scope.credentials = {}
+    debugger;
+
+    $('body').on('click', '#facebook_social_auth', function () {
+        debugger
+        mixpanel.track('Authentication', {
+            "id": 4.1,
+            "event": "facebook_social",
+            "method": "email",
+            "user": $window.sessionStorage.user
+        })
+    })
 
 
     //$scope.facebookAuth = function () {
@@ -80,8 +90,16 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Log in";
         credentials.username = credentials.email;
+        $window.sessionStorage.user = {"email": credentials.email}
         http.login(credentials)
             .then(function (data) {
+                mixpanel.track('Authentication', {
+                    "id": 4.2,
+                    "event": "login",
+                    "method": "email",
+                    "user": $window.sessionStorage.user
+                })
+                debugger
                 console.log(data);
                 $rootScope.logged_in = true;
                 $modalInstance.close();
@@ -95,7 +113,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                 })
 
             }, function (err) {
-                debugger;
+
 
                 if (err.data.hasOwnProperty('username')) {
 
@@ -108,26 +126,36 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                 $scope.credentials = {}
             })
-    $scope.credentials = {}
+        $scope.credentials = {}
     };
 
     $scope.register = function (credentials) {
         //credentials.next = "/api/";
-        debugger;
+
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Register";
         credentials.username = credentials.email;
+
+
         if (credentials.password == credentials.confirm_password) {
 
 
             http.register(credentials)
                 .then(function (data) {
-                    //TODO handle sucessful registration
+                    $window.sessionStorage.user = {"email": credentials.email}
+
+                    mixpanel.track('Authentication', {
+                        "id": 4.3,
+                        "event": "register",
+                        "method": "email",
+                        "user": $window.sessionStorage.user
+                    })
+
                     growl.success('Registration Successful')
                     $modalInstance.close()
                     console.log(data)
                 }, function (err) {
-                    debugger
+
                     if (err.status == 500) {
                         growl.error(err.data.detail)
                     } else if (err.hasOwnProperty('data')) {

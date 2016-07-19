@@ -201,7 +201,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     })
 
-    $scope.hideDetail = function (ev, attrs) {
+    $scope.hideDetail = function (ev, loc) {
+        debugger
+        mixpanel.track('Close overlay',{
+            "id" : 6,
+            "user" : $window.sessionStorage.user,
+            "event" : loc
+
+        })
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
@@ -214,14 +221,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             .then(ShowDetailAnimate.hideContent.bind(null, positionItem, scaleItem, container))
             .then(function (v) {
                 return $timeout(function () {
-                    // debugger;
+                    //  ;
 
                     $rootScope.showSearchView = true;
                     $('.show-grid').removeClass('blur-and-fill');
                 }, 500)
             })
             .then(function (v) {
-                //debugger;
+                // ;
                 // $('body').css('overflow', 'scroll');
                 $(scaleItem).removeAttr('id');
                 $(positionItem).removeAttr('id');

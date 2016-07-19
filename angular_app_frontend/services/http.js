@@ -73,7 +73,7 @@ app.factory('http', function ($http, $log, $q) {
         },
 
         login: function (credentials) {
-            debugger;
+             ;
             return $http({
                 method: 'POST',
                 url: "api-token-auth/",
@@ -84,7 +84,7 @@ app.factory('http', function ($http, $log, $q) {
         },
 
         register: function (credentials) {
-            debugger
+             
             return $http({
                 method: 'POST',
                 url: "/sign_up/",

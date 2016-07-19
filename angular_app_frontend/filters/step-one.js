@@ -38,7 +38,7 @@ app.filter('channel', function () {
                 return _.includes(elem.type, 'sub')
             }
             if (type == 'alacarte') {
-                //debugger
+                // 
                 return _.includes(elem.type, 'purchase')
             }
         })
@@ -164,7 +164,7 @@ app.filter('onSling', function (Fuse, SLING_CHANNELS) {
 
     .filter('onNetflix', function (_) {
 
-        // debugger;
+        //  ;
         return function (array) {
             return _.filter(array, function(elem){
                 var res = elem.on_netflix || _.some(elem.channel, ['source', 'netflix']) || _.some(elem.channel, ['source', 'netflix'])
