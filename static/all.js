@@ -1862,7 +1862,6 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
                 }, function error (response){
                     auth_denied = [403, 401];
                     if ( _.includes(auth_denied, response.status)) {
-                    console.log(new Date());
                         location.hash != '#/' && loginEventService.broadcast()
                     }
                 })
@@ -1923,7 +1922,6 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
 
         }, function(err){
 
-        console.log(err)
     })
 
 });
@@ -2158,7 +2156,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                     var x = _.cloneDeep(data.data)
                     delete x['ppv']
                     var non_ppv = x
-                    debugger
+                     
 
 
                     var values = _.chain(non_ppv)
@@ -2236,7 +2234,6 @@ app.directive('footer', function ($state) {
 
                 if ($state.current.name == 'nav.home') {
                     $('div[ui-view="home"]').height(window.innerHeight)
-                    console.log('footer fixed')
                 }
             }
 
@@ -2278,7 +2275,7 @@ $(document).ready(function () {
 app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
 
     $('#letsDoThis').click(function () {
-        debugger;
+         ;
 
         mixpanel.track('Navigation', {
             "event_id": 2,
@@ -2370,10 +2367,10 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
     $scope.credentials = {}
-    debugger;
+     ;
 
     $('body').on('click', '#facebook_social_auth', function () {
-        debugger
+         
         mixpanel.track('Authentication', {
             "id": 4.1,
             "event": "facebook_social",
@@ -2413,8 +2410,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                     "method": "email",
                     "user": $window.sessionStorage.user
                 })
-                debugger
-                console.log(data);
+                 
                 $rootScope.logged_in = true;
                 $modalInstance.close();
                 growl.success('Login Successful', {
@@ -2467,7 +2463,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                     growl.success('Registration Successful')
                     $modalInstance.close()
-                    console.log(data)
                 }, function (err) {
 
                     if (err.status == 500) {
@@ -2560,7 +2555,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     $scope.login = function() {
         $rootScope.openLogInModal()
         var pkg_url = PackageFactory.getPackage()
-        debugger;
+         
         mixpanel.track("Login modal opened", {
             "from": "nav side bar",
             "current_page": $location.absUrl(),
@@ -2978,10 +2973,10 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
      }, 100)()
      })*/
     $scope.go = function () {
-        debugger;
+         ;
 
         location.href = '#/checkout';
-        debugger;
+         ;
         $scope.pkg = PackageFactory.getPackage();
         var showList = _.map($scope.pkg.data.content, function (showObject) {
             return showObject.title;
@@ -3115,7 +3110,6 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
 
 function interceptor(obj) {
-    console.log(obj)
     return obj
 }
 
@@ -3318,7 +3312,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     })
 
     $scope.hideDetail = function (ev, loc) {
-        debugger
+         
         mixpanel.track('Close overlay',{
             "id" : 6,
             "user" : $window.sessionStorage.user,

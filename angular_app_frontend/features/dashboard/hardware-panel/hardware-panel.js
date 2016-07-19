@@ -44,10 +44,10 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
      }, 100)()
      })*/
     $scope.go = function () {
-        debugger;
+         ;
 
         location.href = '#/checkout';
-        debugger;
+         ;
         $scope.pkg = PackageFactory.getPackage();
         var showList = _.map($scope.pkg.data.content, function (showObject) {
             return showObject.title;

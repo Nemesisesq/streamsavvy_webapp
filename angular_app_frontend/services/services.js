@@ -116,7 +116,6 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
                 }, function error (response){
                     auth_denied = [403, 401];
                     if ( _.includes(auth_denied, response.status)) {
-                    console.log(new Date());
                         location.hash != '#/' && loginEventService.broadcast()
                     }
                 })
@@ -177,7 +176,6 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
 
         }, function(err){
 
-        console.log(err)
     })
 
 });

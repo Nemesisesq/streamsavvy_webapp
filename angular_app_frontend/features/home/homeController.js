@@ -4,7 +4,7 @@
 app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
 
     $('#letsDoThis').click(function () {
-        debugger;
+         ;
 
         mixpanel.track('Navigation', {
             "event_id": 2,

@@ -161,7 +161,7 @@
   }
 
   .modal-footer {
-    //height: 100%;
+    width: 100%;
     position: absolute;
     bottom: 20px;
 
@@ -212,4 +212,11 @@
 
 span.fa.fa-facebook {
   line-height: 45px;
+}
+
+@media (max-width: 768px) {
+  .not-ready {
+    width :100%;
+  }
+
 }

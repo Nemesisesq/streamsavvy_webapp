@@ -56,10 +56,10 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
     $scope.credentials = {}
-    debugger;
+     ;
 
     $('body').on('click', '#facebook_social_auth', function () {
-        debugger
+         
         mixpanel.track('Authentication', {
             "id": 4.1,
             "event": "facebook_social",
@@ -99,8 +99,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                     "method": "email",
                     "user": $window.sessionStorage.user
                 })
-                debugger
-                console.log(data);
+                 
                 $rootScope.logged_in = true;
                 $modalInstance.close();
                 growl.success('Login Successful', {
@@ -153,7 +152,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                     growl.success('Registration Successful')
                     $modalInstance.close()
-                    console.log(data)
                 }, function (err) {
 
                     if (err.status == 500) {

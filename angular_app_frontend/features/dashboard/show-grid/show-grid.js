@@ -1,5 +1,4 @@
 function interceptor(obj) {
-    console.log(obj)
     return obj
 }
 
@@ -202,7 +201,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     })
 
     $scope.hideDetail = function (ev, loc) {
-        debugger
+         
         mixpanel.track('Close overlay',{
             "id" : 6,
             "user" : $window.sessionStorage.user,

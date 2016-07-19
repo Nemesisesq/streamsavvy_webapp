@@ -29,7 +29,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                     var x = _.cloneDeep(data.data)
                     delete x['ppv']
                     var non_ppv = x
-                    debugger
+                     
 
 
                     var values = _.chain(non_ppv)

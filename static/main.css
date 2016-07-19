@@ -3246,8 +3246,6 @@ footer {
   .not-ready {
     width: calc(25vw - 10px);
     min-width: 10vw;
-    margin-left: .5em;
-    margin-right: .5em;
     font-size: .875em;
     padding-top: .875em;
     padding-bottom: .875em;
@@ -3815,6 +3813,7 @@ mobile-tabs > div {
   .modal-content {
     height: 100%; }
   .modal-footer {
+    width: 100%;
     position: absolute;
     bottom: 20px; } }
 
@@ -3844,6 +3843,10 @@ mobile-tabs > div {
 
 span.fa.fa-facebook {
   line-height: 45px; }
+
+@media (max-width: 768px) {
+  .not-ready {
+    width: 100%; } }
 
 /* BOX LOGIN */
 .box {

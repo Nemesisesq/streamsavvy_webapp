@@ -13,7 +13,6 @@ app.directive('footer', function ($state) {
 
                 if ($state.current.name == 'nav.home') {
                     $('div[ui-view="home"]').height(window.innerHeight)
-                    console.log('footer fixed')
                 }
             }
 

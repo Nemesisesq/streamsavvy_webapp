@@ -56,7 +56,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     $scope.login = function() {
         $rootScope.openLogInModal()
         var pkg_url = PackageFactory.getPackage()
-        debugger;
+         
         mixpanel.track("Login modal opened", {
             "from": "nav side bar",
             "current_page": $location.absUrl(),
