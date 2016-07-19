@@ -6,12 +6,12 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
 
     $scope.items = ['item1', 'item2', 'item3'];
 
-    $rootScope.openLogInModal = function () {
-        if (modalOpen) {
-            return
-        }
+    $rootScope.openLogInModal = _.debounce (function () {
+        if (modalOpen) return;
+
 
         modalOpen = true;
+
 
         var modalInstance = $uibModal.open({
             animation: true,
@@ -38,7 +38,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
             }, 1000)
             // $log.info(modalOpen)
         });
-    }
+    }, 500);
 
     loginEventService.listen($rootScope.openLogInModal)
     //if ($rootScope.currentStep == 3) {
@@ -56,10 +56,10 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     }
 
     $scope.credentials = {}
-     ;
+    ;
 
     $('body').on('click', '#facebook_social_auth', function () {
-         
+
         mixpanel.track('Authentication', {
             "id": 4.1,
             "event": "facebook_social",
@@ -99,7 +99,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                     "method": "email",
                     "user": $window.sessionStorage.user
                 })
-                 
+
                 $rootScope.logged_in = true;
                 $modalInstance.close();
                 growl.success('Login Successful', {
