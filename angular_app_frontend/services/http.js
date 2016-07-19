@@ -75,8 +75,10 @@ app.factory('http', function ($http, $log, $q) {
         login: function (credentials) {
             return $http({
                 method: 'POST',
-                url: "api-token-auth/",
+                // url: "api-token-auth/",
+                url: "login/",
                 data: credentials
+                
 
             })
 
