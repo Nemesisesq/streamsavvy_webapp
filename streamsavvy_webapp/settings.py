@@ -98,6 +98,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'server.middleware.access_management.DisableCSRF'
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -131,6 +132,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CSRF_COOKIE_SECURE = True
 
 WSGI_APPLICATION = 'streamsavvy_webapp.wsgi.application'
 
