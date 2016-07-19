@@ -671,7 +671,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 mixpanel.track('Checkout action buttons', {
                     "id": 9.1,
                     "service": service.chan.source,
-                    "user": $window.sessionsStorage.user,
+                    "user": $window.sessionStorage.user,
                     "event": "Already have it"
 
                 })
@@ -697,7 +697,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 mixpanel.track('Checkout action buttons', {
                     "id": 9.2,
                     "service": service.chan.source,
-                    "user": $window.sessionsStorage.user,
+                    "user": $window.sessionStorage.user,
                     "event": "Subscribe"
 
                 })
@@ -711,7 +711,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 mixpanel.track('Checkout action buttons', {
                     "id": 9.3,
                     "service": service.chan.source,
-                    "user": $window.sessionsStorage.user,
+                    "user": $window.sessionStorage.user,
                     "event": "unsubscribe"
 
                 })
@@ -729,7 +729,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 mixpanel.track('Checkout action buttons', {
                     "id": 9.4,
                     "service": service.chan.source,
-                    "user": $window.sessionsStorage.user,
+                    "user": $window.sessionStorage.user,
                     "event": "hide"
 
                 })
@@ -1916,7 +1916,8 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
 
             refreshPackageService.broadcast()
 
-            $window.sessionStorage.user = {"pkg" : data.url}
+            $window.sessionStorage.user = data.url
+            
 
 
         }, function(err){
@@ -3040,6 +3041,74 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
 
 });
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if (ssPackage.hasOwnProperty('data')) {
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 function interceptor(obj) {
     return obj
 }
@@ -3323,71 +3392,3 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
-
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if (ssPackage.hasOwnProperty('data')) {
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-

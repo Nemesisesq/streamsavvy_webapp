@@ -144,7 +144,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 mixpanel.track('Checkout action buttons', {
                     "id": 9.1,
                     "service": service.chan.source,
-                    "user": $window.sessionsStorage.user,
+                    "user": $window.sessionStorage.user,
                     "event": "Already have it"
 
                 })
@@ -170,7 +170,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 mixpanel.track('Checkout action buttons', {
                     "id": 9.2,
                     "service": service.chan.source,
-                    "user": $window.sessionsStorage.user,
+                    "user": $window.sessionStorage.user,
                     "event": "Subscribe"
 
                 })
@@ -184,7 +184,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 mixpanel.track('Checkout action buttons', {
                     "id": 9.3,
                     "service": service.chan.source,
-                    "user": $window.sessionsStorage.user,
+                    "user": $window.sessionStorage.user,
                     "event": "unsubscribe"
 
                 })
@@ -202,7 +202,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                 mixpanel.track('Checkout action buttons', {
                     "id": 9.4,
                     "service": service.chan.source,
-                    "user": $window.sessionsStorage.user,
+                    "user": $window.sessionStorage.user,
                     "event": "hide"
 
                 })
