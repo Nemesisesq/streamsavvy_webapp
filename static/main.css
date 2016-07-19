@@ -2498,7 +2498,7 @@ mobile-tabs {
   color: #9d9d9d; }
 
 @media (max-width: 767px) {
-  h1.white {
+  .content-wrapper .h1-row .h1-col h1.white {
     font-weight: 300; } }
 
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {

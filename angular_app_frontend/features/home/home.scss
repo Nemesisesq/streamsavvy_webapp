@@ -12,7 +12,6 @@
   margin-top: 73px;
 }
 
-
 .home-imgs {
   padding-top: 20px;
 }
@@ -20,9 +19,9 @@
 .dim-on-open-menu {
   position: fixed;
   height: 100vh;
-  top:0;
+  top: 0;
 
-  width:100vw;
+  width: 100vw;
   background-color: black;
   opacity: .4;
   display: none;
@@ -61,7 +60,7 @@
 
   }
 
-  .row.easy-row{
+  .row.easy-row {
     margin-top: 0;
   }
 
@@ -79,13 +78,13 @@
   }
 }
 
-mobile-tabs{
+mobile-tabs {
   display: none;
   position: fixed;
   bottom: 0;
   z-index: 100;
   width: 100%;
-  background : $dark;
+  background: $dark;
   color: $action_red;
   height: 60px;
   text-align: center;
@@ -99,22 +98,20 @@ mobile-tabs{
   }
 
   div[ui-view="home"] {
-    margin-bottom : 0;
+    margin-bottom: 0;
   }
 
 }
 
-.lets-do-this-row .btn-red:hover{
+.lets-do-this-row .btn-red:hover {
   background-color: #660000;
   color: #9d9d9d;
 }
 
+@media (max-width: 767px) {
 
-@media (max-width: 767px){
-
-
-h1.white{
-  font-weight: 300;
-}
+  .content-wrapper .h1-row .h1-col h1.white {
+    font-weight: 300;
+  }
 }
 
