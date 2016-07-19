@@ -2498,7 +2498,7 @@ mobile-tabs {
   color: #9d9d9d; }
 
 @media (max-width: 767px) {
-  .white {
+  h1.white {
     font-weight: 300; } }
 
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
@@ -3431,7 +3431,7 @@ show-detail {
   height: 30px; }
 
 @media (max-width: 767px) {
-  .synopsis {
+  show-detail .synopsis, show-detail .show-info li {
     font-weight: 300; } }
 
 /* General styles for all menus */
