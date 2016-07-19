@@ -171,7 +171,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
 
             refreshPackageService.broadcast()
 
-            $window.sessionStorage.user = {}
+            $window.sessionStorage.user = {"pkg" : data.url}
 
 
         }, function(err){

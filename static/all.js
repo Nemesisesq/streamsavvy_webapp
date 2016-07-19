@@ -526,200 +526,6 @@ app.run(function ($window, $state) {
 // })
 
 /**
- * Created by Nem on 11/17/15.
- */
-
-function isLive(elem) {
-    if (elem.source != 'hulu_free') {
-        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
-    }
-
-
-}
-
-function isOnDemand(elem) {
-
-    if (elem.source == 'netflix') {
-        return false
-    }
-
-    if (elem.source == 'hulu_free') {
-        return false
-    }
-
-    return _.includes(elem.type, 'sub')
-}
-
-app.filter('channel', function () {
-    return function (input, type) {
-
-
-        var list = _.filter(input, function (elem) {
-            if (type == 'live') {
-                return isLive(elem);
-            }
-            if (type == 'onDemand') {
-                return isOnDemand(elem)
-            }
-            if (type == 'fullseason') {
-                return _.includes(elem.type, 'sub')
-            }
-            if (type == 'alacarte') {
-                // 
-                return _.includes(elem.type, 'purchase')
-            }
-        })
-
-        return list
-    }
-})
-
-app.filter('onDemand', function () {
-    return function (input) {
-
-        var list = _.filter(input, function (elem) {
-            return elem.name != 'Netflix';
-        })
-        // console.log(list)
-        // console.log('list')
-
-        return list
-    }
-
-});
-
-app.filter('fullSeason', function () {
-
-    return function (input) {
-
-
-        var list = _.filter(input, function (elem) {
-            return elem.name == 'Netflix';
-        })
-
-        return list
-    }
-
-});
-
-app.filter('unwantedChannels', function () {
-    var unwantedChannelIDs = [
-        150,//150
-        26,
-        157,
-        171,  //DirecTV
-        169, //Dish
-        234, 70, //Food Network
-         36, //HBO
-        12, 54, //USA
-        32, //FX
-        170, //AT&T U-verse
-        // 281, //Hulu with Showtime
-        69, //Cinemax
-        // 141, ///Showtime Freeview
-        67, //TV Guide
-        // 1, //Hulu_Free
-        235, 16, //Watch HGTV
-        22, 237, 240, //MTV
-        31, //Bravo
-        // 17, //A&E
-        20, 101, //Syfy
-        48, 59, //Comedy Central
-        // 133, //Starz
-        21, 241, 239, //VH1
-         18, 123, //History Channel,
-        795,//channel 4
-        121, 190, //Esquire, Esquire Network
-        // 14, 267 //Showtime
-
-    ];
-    return function (input) {
-        var list = _.filter(input, function (elem) {
-            var res = _.some(unwantedChannelIDs, function (x) {
-                if (elem !== undefined) {
-                    if (elem.chan.id !== undefined) {
-                        return x === elem.chan.id;
-                    } else {
-                        return x === elem.chan.guidebox_data.id
-                    }
-                }
-            })
-            return !res
-        })
-        return list
-    }
-})
-
-app.filter('onSling', function (Fuse, SLING_CHANNELS) {
-    return function (input, bool) {
-        return _.filter(input, function (elem) {
-
-
-            var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
-
-            if (elem.diplay_name != undefined && sling_fuse.search(elem.display_name)) {
-                return true == bool
-            }
-            if (elem.name != undefined && !_.isEmpty(sling_fuse.search(elem.name))) {
-                return true == bool
-            }
-
-            if (elem.is_on_sling) {
-
-                return true == bool
-            }
-            if (elem.on_sling) {
-
-                return true == bool
-            }
-
-            if (elem.guidebox_data) {
-                if (elem.guidebox_data.on_sling) {
-                    return true == bool
-                }
-            }
-
-            if (elem.name == 'Netflix') {
-                return false
-            }
-
-            return false == bool
-
-        })
-    }
-})
-
-    .filter('onNetflix', function (_) {
-
-        //  ;
-        return function (array) {
-            return _.filter(array, function(elem){
-                var res = elem.on_netflix || _.some(elem.channel, ['source', 'netflix']) || _.some(elem.channel, ['source', 'netflix'])
-
-                return res
-            })
-        }
-
-    })
-app.filter('unique', function() {
-    return function (arr, field) {
-        return _.uniq(arr, function(a) { return a[field]; });
-    };
-});
-
-app.filter('customSorter', function(){
-    return function(list){
-        var newPpv = list.ppv;
-
-        delete list['ppv']
-
-        list.ppv = newPpv;
-
-        return list
-    }
-})
-
-/**
  * Created by Nem on 6/4/16.
  */
 
@@ -1560,6 +1366,200 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 
 })
 
+/**
+ * Created by Nem on 11/17/15.
+ */
+
+function isLive(elem) {
+    if (elem.source != 'hulu_free') {
+        return _.includes(elem.type, 'tv') || _.includes(elem.type, 'tele') || elem.type === 'free' || _.includes(elem.display_name.toLowerCase(), 'now');
+    }
+
+
+}
+
+function isOnDemand(elem) {
+
+    if (elem.source == 'netflix') {
+        return false
+    }
+
+    if (elem.source == 'hulu_free') {
+        return false
+    }
+
+    return _.includes(elem.type, 'sub')
+}
+
+app.filter('channel', function () {
+    return function (input, type) {
+
+
+        var list = _.filter(input, function (elem) {
+            if (type == 'live') {
+                return isLive(elem);
+            }
+            if (type == 'onDemand') {
+                return isOnDemand(elem)
+            }
+            if (type == 'fullseason') {
+                return _.includes(elem.type, 'sub')
+            }
+            if (type == 'alacarte') {
+                // 
+                return _.includes(elem.type, 'purchase')
+            }
+        })
+
+        return list
+    }
+})
+
+app.filter('onDemand', function () {
+    return function (input) {
+
+        var list = _.filter(input, function (elem) {
+            return elem.name != 'Netflix';
+        })
+        // console.log(list)
+        // console.log('list')
+
+        return list
+    }
+
+});
+
+app.filter('fullSeason', function () {
+
+    return function (input) {
+
+
+        var list = _.filter(input, function (elem) {
+            return elem.name == 'Netflix';
+        })
+
+        return list
+    }
+
+});
+
+app.filter('unwantedChannels', function () {
+    var unwantedChannelIDs = [
+        150,//150
+        26,
+        157,
+        171,  //DirecTV
+        169, //Dish
+        234, 70, //Food Network
+         36, //HBO
+        12, 54, //USA
+        32, //FX
+        170, //AT&T U-verse
+        // 281, //Hulu with Showtime
+        69, //Cinemax
+        // 141, ///Showtime Freeview
+        67, //TV Guide
+        // 1, //Hulu_Free
+        235, 16, //Watch HGTV
+        22, 237, 240, //MTV
+        31, //Bravo
+        // 17, //A&E
+        20, 101, //Syfy
+        48, 59, //Comedy Central
+        // 133, //Starz
+        21, 241, 239, //VH1
+         18, 123, //History Channel,
+        795,//channel 4
+        121, 190, //Esquire, Esquire Network
+        // 14, 267 //Showtime
+
+    ];
+    return function (input) {
+        var list = _.filter(input, function (elem) {
+            var res = _.some(unwantedChannelIDs, function (x) {
+                if (elem !== undefined) {
+                    if (elem.chan.id !== undefined) {
+                        return x === elem.chan.id;
+                    } else {
+                        return x === elem.chan.guidebox_data.id
+                    }
+                }
+            })
+            return !res
+        })
+        return list
+    }
+})
+
+app.filter('onSling', function (Fuse, SLING_CHANNELS) {
+    return function (input, bool) {
+        return _.filter(input, function (elem) {
+
+
+            var sling_fuse = new Fuse(SLING_CHANNELS, {threshold: .1});
+
+            if (elem.diplay_name != undefined && sling_fuse.search(elem.display_name)) {
+                return true == bool
+            }
+            if (elem.name != undefined && !_.isEmpty(sling_fuse.search(elem.name))) {
+                return true == bool
+            }
+
+            if (elem.is_on_sling) {
+
+                return true == bool
+            }
+            if (elem.on_sling) {
+
+                return true == bool
+            }
+
+            if (elem.guidebox_data) {
+                if (elem.guidebox_data.on_sling) {
+                    return true == bool
+                }
+            }
+
+            if (elem.name == 'Netflix') {
+                return false
+            }
+
+            return false == bool
+
+        })
+    }
+})
+
+    .filter('onNetflix', function (_) {
+
+        //  ;
+        return function (array) {
+            return _.filter(array, function(elem){
+                var res = elem.on_netflix || _.some(elem.channel, ['source', 'netflix']) || _.some(elem.channel, ['source', 'netflix'])
+
+                return res
+            })
+        }
+
+    })
+app.filter('unique', function() {
+    return function (arr, field) {
+        return _.uniq(arr, function(a) { return a[field]; });
+    };
+});
+
+app.filter('customSorter', function(){
+    return function(list){
+        var newPpv = list.ppv;
+
+        delete list['ppv']
+
+        list.ppv = newPpv;
+
+        return list
+    }
+})
+
 app.factory('http', function ($http, $log, $q) {
     return {
         get: function (url) {
@@ -1635,7 +1635,6 @@ app.factory('http', function ($http, $log, $q) {
         },
 
         login: function (credentials) {
-             ;
             return $http({
                 method: 'POST',
                 url: "api-token-auth/",
@@ -1917,7 +1916,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
 
             refreshPackageService.broadcast()
 
-            $window.sessionStorage.user = {}
+            $window.sessionStorage.user = {"pkg" : data.url}
 
 
         }, function(err){
@@ -3041,74 +3040,6 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
 
 });
 
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if (ssPackage.hasOwnProperty('data')) {
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
-
 function interceptor(obj) {
     return obj
 }
@@ -3392,3 +3323,71 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
+
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory, VIEW_WINDOWS) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if (ssPackage.hasOwnProperty('data')) {
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
