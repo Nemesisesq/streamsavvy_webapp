@@ -41,7 +41,7 @@ app.service('loginEventService', function ($rootScope) {
     }, 500)
 })
 
-app.service('refreshPackageService', function($rootScope){
+app.service('refreshPackageService', function ($rootScope) {
     this.broadcast = _.debounce(function () {
         $rootScope.$broadcast("refresh_package")
     }, 500)
@@ -50,8 +50,8 @@ app.service('refreshPackageService', function($rootScope){
     }, 500)
 })
 
-app.service('authEventService', function($rootScope){
-    this.broadcast= _.debounce(function () {
+app.service('authEventService', function ($rootScope) {
+    this.broadcast = _.debounce(function () {
         $rootScope.$broadcast("logged_in")
 
     }, 500)
@@ -61,21 +61,21 @@ app.service('authEventService', function($rootScope){
     }, 500)
 })
 
-app.factory('ServiceTotalFactory', function(){
+app.factory('ServiceTotalFactory', function () {
     var _price = 0
 
     return {
-        setPrice : function(s) {
+        setPrice: function (s) {
             _price += s
         },
 
-        getPrice : function(){
+        getPrice: function () {
             return _price
         }
     }
 })
 
-app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService', 'authEventService', function ($http, $q, _, $window, loginEventService, authEventService) {
+app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService', 'authEventService', function ($http, $q, _, $window, loginEventService, authEventService) {
     // ;
 
     var _package = {};
@@ -101,7 +101,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
             _package = ssPackage;
 
             if (!_.isEmpty(ssPackage)) {
-                    this.postPackage(ssPackage)
+                this.postPackage(ssPackage)
             }
         },
 
@@ -111,15 +111,15 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window','loginEventService'
             //     loginEventService.broadcast()
             // }
             $http.put(ssPackage.url, ssPackage)
-                .then(function success(response){
+                .then(function success(response) {
                     authEventService.broadcast()
-                }, function error (response){
+                }, function error(response) {
                     auth_denied = [403, 401];
-                    if ( _.includes(auth_denied, response.status)) {
+                    if (_.includes(auth_denied, response.status)) {
                         location.hash != '#/' && loginEventService.broadcast()
                     }
                 })
-        },0),
+        }, 0),
 
         getPackage: function () {
             return _package || "";
@@ -172,11 +172,14 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
             refreshPackageService.broadcast()
 
             $window.sessionStorage.user = data.url
-            
 
 
-        }, function(err){
+        }, function (err) {
 
-    })
+            if ($window.sessionStorage.hasOwnProperty('token')){
+                delete $window.sessionStorage['token']
+            }
+
+        })
 
 });
