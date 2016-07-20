@@ -614,16 +614,23 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
 
             var isServiceAdded = function (service) {
 
-                return _.some(scope.package.data.services.subscribed, function (elem) {
-                    return elem.chan.source == service.chan.source
-                })
+
+                if (scope.package.data.services.subscribed) {
+                    return _.some(scope.package.data.services.subscribed, function (elem) {
+                        return elem.chan.source == service.chan.source
+                    })
+                }
             }
 
             var isServiceHidden = function (service) {
 
-                return _.some(scope.package.data.services.hidden, function (elem) {
-                    return elem.chan.source == service.chan.source
-                })
+
+                if (scope.package.data.services.hidden) {
+
+                    return _.some(scope.package.data.services.hidden, function (elem) {
+                        return elem.chan.source == service.chan.source
+                    })
+                }
             }
 
 

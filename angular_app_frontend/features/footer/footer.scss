@@ -145,6 +145,7 @@ footer {
 
 @media (max-width: 456px) {
   footer {
-    display: none;
+    opacity: 0;
+    height: 50px;
   }
 }
