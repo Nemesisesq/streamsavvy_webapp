@@ -25,11 +25,14 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                     $scope.list = data.data
                     $scope.package = PackageFactory.getPackage()
 
+
+
+
                     var only_ppv = data.data['ppv']
                     var x = _.cloneDeep(data.data)
                     delete x['ppv']
                     var non_ppv = x
-                     
+
 
 
                     var values = _.chain(non_ppv)
@@ -39,12 +42,19 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                             return elem.chan.source
                         })
                         .value()
+
+                    $scope.package.data.services.subscribed = _.filter($scope.package.data.services.subscribed, function (elem) {
+                        debugger;
+                        return _.includes(values, elem.chan.source )
+
+                    })
+
                     only_ppv = _.map(only_ppv, function(elem){
                         return elem.chan.source
                     })
 
                     mixpanel.track('Service List', {
-                        "id" : 8, 
+                        "id" : 8,
                         "non ppv services": values,
                         "ppv services" : only_ppv,
                         "count" : values.length,

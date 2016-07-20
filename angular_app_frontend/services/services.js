@@ -160,26 +160,49 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 }]);
 
 
-app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPackageService) {
-
-    $http.get('/api/package/')
-        .then(function (data) {
+app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPackageService, $q) {
 
 
-            data = data.data.results[0];
-            PackageFactory.setPackage(data);
+    var getPackageOnLoad = function () {
+        $http.get('/api/package/')
+            .then(function (data) {
 
-            refreshPackageService.broadcast()
+                
+                data = data.data.results[0];
+                PackageFactory.setPackage(data);
 
-            $window.sessionStorage.user = data.url
+                refreshPackageService.broadcast()
+
+                $window.sessionStorage.user = data.url
 
 
-        }, function (err) {
+            }, function (err) {
 
-            if ($window.sessionStorage.hasOwnProperty('token')){
-                delete $window.sessionStorage['token']
-            }
+                if ($window.sessionStorage.hasOwnProperty('token')) {
+                    delete $window.sessionStorage['token']
+                }
 
-        })
+            })
+    };
+
+    var refreshTokenIfStale = function () {
+        if ($window.sessionStorage.token) {
+            return $http.post('/api-token-verify/', {token: $window.sessionStorage.token})
+                .then(function (data) {
+                    return data
+
+                }, function (err) {
+                    $http.post('/api-refresh-token/', {token: $window.sessionStorage.token})
+                        .then(function (data) {
+                            $window.sessionStorage.token = data.token;
+                        })
+                })
+        } else {
+            return $q.resolve()
+        }
+    }
+
+    refreshTokenIfStale()
+        .then(getPackageOnLoad)
 
 });

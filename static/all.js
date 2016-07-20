@@ -1907,27 +1907,50 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 }]);
 
 
-app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPackageService) {
-
-    $http.get('/api/package/')
-        .then(function (data) {
+app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPackageService, $q) {
 
 
-            data = data.data.results[0];
-            PackageFactory.setPackage(data);
+    var getPackageOnLoad = function () {
+        $http.get('/api/package/')
+            .then(function (data) {
 
-            refreshPackageService.broadcast()
+                
+                data = data.data.results[0];
+                PackageFactory.setPackage(data);
 
-            $window.sessionStorage.user = data.url
+                refreshPackageService.broadcast()
+
+                $window.sessionStorage.user = data.url
 
 
-        }, function (err) {
+            }, function (err) {
 
-            if ($window.sessionStorage.hasOwnProperty('token')){
-                delete $window.sessionStorage['token']
-            }
+                if ($window.sessionStorage.hasOwnProperty('token')) {
+                    delete $window.sessionStorage['token']
+                }
 
-        })
+            })
+    };
+
+    var refreshTokenIfStale = function () {
+        if ($window.sessionStorage.token) {
+            return $http.post('/api-token-verify/', {token: $window.sessionStorage.token})
+                .then(function (data) {
+                    return data
+
+                }, function (err) {
+                    $http.post('/api-refresh-token/', {token: $window.sessionStorage.token})
+                        .then(function (data) {
+                            $window.sessionStorage.token = data.token;
+                        })
+                })
+        } else {
+            return $q.resolve()
+        }
+    }
+
+    refreshTokenIfStale()
+        .then(getPackageOnLoad)
 
 });
 
@@ -2157,11 +2180,14 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                     $scope.list = data.data
                     $scope.package = PackageFactory.getPackage()
 
+
+
+
                     var only_ppv = data.data['ppv']
                     var x = _.cloneDeep(data.data)
                     delete x['ppv']
                     var non_ppv = x
-                     
+
 
 
                     var values = _.chain(non_ppv)
@@ -2171,12 +2197,19 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                             return elem.chan.source
                         })
                         .value()
+
+                    $scope.package.data.services.subscribed = _.filter($scope.package.data.services.subscribed, function (elem) {
+                        debugger;
+                        return _.includes(values, elem.chan.source )
+
+                    })
+
                     only_ppv = _.map(only_ppv, function(elem){
                         return elem.chan.source
                     })
 
                     mixpanel.track('Service List', {
-                        "id" : 8, 
+                        "id" : 8,
                         "non ppv services": values,
                         "ppv services" : only_ppv,
                         "count" : values.length,
@@ -2224,6 +2257,46 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
+/**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
+
+    $('#letsDoThis').click(function () {
+         ;
+
+        mixpanel.track('Navigation', {
+            "event_id": 2,
+            "event": "Call to Action",
+            "user": $window.sessionStorage.user
+        })
+
+    })
+
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        http.login(credentials)
+            .then(function (data) {
+                // console.log(data);
+                $location.url('search');
+                $scope.logged_in = true;
+            })
+    };
+
+    $scope.logout = function () {
+        $http.get('django_auth/logout/')
+            .success(function () {
+                $location.url('/');
+                $scope.logged_in = false;
+            })
+    }
+
+
+});
+
 /**
  * Created by Nem on 10/7/15.
  */
@@ -2273,46 +2346,6 @@ $(document).ready(function () {
     //  ;
 
 })
-
-/**
- * Created by chirag on 8/3/15.
- */
-app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
-
-    $('#letsDoThis').click(function () {
-         ;
-
-        mixpanel.track('Navigation', {
-            "event_id": 2,
-            "event": "Call to Action",
-            "user": $window.sessionStorage.user
-        })
-
-    })
-
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                // console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
-
-
-});
 
 app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
 
