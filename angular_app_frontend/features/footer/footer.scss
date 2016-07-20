@@ -68,9 +68,14 @@ span.pull-right.footer-right {
 footer {
   position: absolute;
   bottom: 0;
+  left:0;
   width: 100vw;
-  padding: 0 15px 15px;
+  padding: 0 15px 5px 15px;
 
+
+  .row{
+    padding-top: 10px;
+  }
 }
 
 .footer-left {
@@ -118,5 +123,28 @@ footer {
     i {
       margin-left: 3px;
     }
+  }
+}
+
+.fa.pull-right {
+  font-size: 28px;
+}
+
+.sub-footer {
+  height: 50px;
+
+  div {
+    height: 100%;
+  }
+  span {
+    position: absolute;
+    bottom:0;
+    right:15px;
+  }
+}
+
+@media (max-width: 456px) {
+  footer {
+    display: none;
   }
 }

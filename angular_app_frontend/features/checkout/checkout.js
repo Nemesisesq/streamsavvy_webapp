@@ -23,17 +23,11 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
             PackageFactory.getCheckoutPanelList()
                 .then(function (data) {
                     $scope.list = data.data
-                    $scope.package = PackageFactory.getPackage()
-
-
-
 
                     var only_ppv = data.data['ppv']
                     var x = _.cloneDeep(data.data)
                     delete x['ppv']
                     var non_ppv = x
-
-
 
                     var values = _.chain(non_ppv)
                         .values()
@@ -43,11 +37,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                         })
                         .value()
 
-                    $scope.package.data.services.subscribed = _.filter($scope.package.data.services.subscribed, function (elem) {
-                        debugger;
-                        return _.includes(values, elem.chan.source )
 
-                    })
 
                     only_ppv = _.map(only_ppv, function(elem){
                         return elem.chan.source
@@ -61,7 +51,14 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
                         "ppv_count" : only_ppv.length,
                         "user" : $window.sessionStorage.user
                     })
-                    return data
+                    return values
+                })
+                .then(function(values){
+                    $scope.package.data.services.subscribed = _.filter($scope.package.data.services.subscribed, function (elem) {
+                        debugger;
+                        return _.includes(values, elem.chan.source )
+
+                    })
                 })
         }
     }
