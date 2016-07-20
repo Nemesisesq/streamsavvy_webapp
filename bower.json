@@ -22,7 +22,9 @@
     "angular-ui-router": "~0.2.15",
     "bootstrap": "~3.3.4",
     "moment": "^2.13.0",
-    "prefixfree": "prefix-free#gh-pages"
+    "prefixfree": "prefix-free#gh-pages",
+    "ngMeta": "^0.3.9",
+    "ui-router-metatags": "^1.0.3"
   },
   "devDependencies": {
     "angular-cookies": "^1.5.7",

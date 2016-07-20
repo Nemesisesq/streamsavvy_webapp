@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, CONFIG, $timeout, loginEventService, authEventService, PackageFactory) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, $timeout, loginEventService, authEventService, PackageFactory) {
 
     $('#sidebarDashNav').click(function () {
 
@@ -56,7 +56,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     $scope.login = function() {
         $rootScope.openLogInModal()
         var pkg_url = PackageFactory.getPackage()
-         
+
         mixpanel.track("Login modal opened", {
             "from": "nav side bar",
             "current_page": $location.absUrl(),
@@ -83,13 +83,6 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
     $scope.hmdc = $state.current.data.hmdcActive;
 
-    // $scope.logout = function () {
-    //     $location.path(CONFIG.URL + '/django_auth/logout/');
-    //     //.success(function () {
-    //     //    $rootScope.logged_in = false;
-    //     //    console.log($rootScope.logged_in)
-    //     //})
-    // }
 
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
         mainPage = document.getElementById('mainPage'),
