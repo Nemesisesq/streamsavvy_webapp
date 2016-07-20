@@ -3,7 +3,6 @@
  */
 
 function runBlock($rootScope, MetaTags) {
-    debugger;
     $rootScope.MetaTags = MetaTags;
 }
 

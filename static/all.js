@@ -3,7 +3,6 @@
  */
 
 function runBlock($rootScope, MetaTags) {
-    debugger;
     $rootScope.MetaTags = MetaTags;
 }
 
@@ -2562,6 +2561,8 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
  */
 app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, SLING_CHANNELS, N, growl, loginEventService) {
 
+    // $scope.noResults = true
+
 
     $scope.modelOptions = {
         debounce: {
@@ -2742,6 +2743,22 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
             $scope.searchText = $scope.suggestions[$scope.selectedIndex].title
         }
     });
+
+    var logEmptySearchResults = _.debounce(function (o, n) {
+        if ($scope.noResults && $scope.searchText && o != n) {
+            mixpanel.track("Empty Search Results", {
+                "id": 15,
+                "search_query": $scope.searchText,
+                "user": $window.sessionStorage.user
+            });
+        }
+    }, 1000);
+
+
+    $scope.$watch('noResults', function (o, n) {
+        console.log('hello world')
+        logEmptySearchResults(o,n);
+    })
 
 
 });

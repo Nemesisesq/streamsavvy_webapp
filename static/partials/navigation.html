@@ -4,11 +4,12 @@
             <a ng-class="{active: isActive('#/') }" href="#">Home</a>
             <a id="sidebarDashNav" ng-class="{active: isActive('#/dashboard')}" href="#/dashboard">Search Shows</a>
         </div>
-        <!-- <div class="ss-small-menu-options">
-            <a href="#/error/coming-soon">Learn More</a>
-            <a href="#/error/coming-soon">About Us</a>
-            <a href="#/error/coming-soon">Blog</a>
-        </div> -->
+
+        <div class="ss-small-menu-options">
+            <a ng-href="mailto:info@streamsavvy.tv?Subject={{ location.url }}">Contact Us</a>
+            <!-- <a href="#/error/coming-soon">About Us</a>
+            <a href="#/error/coming-soon">Blog</a> -->
+        </div>
 
 
         <div class="ss-menu-auth" ng-controller="ModalController">
