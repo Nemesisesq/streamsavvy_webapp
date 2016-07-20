@@ -744,7 +744,7 @@ app.directive('actionBlock', function ($window, PackageFactory, ServiceTotalFact
                     scope.package.data.services = {hidden: []}
                 }
 
-                scope.package.data.services.hidden.push(service.chan.source);
+                scope.package.data.services.hidden.push(service);
                 service.hidden = true;
                 save(scope.package)
             }
