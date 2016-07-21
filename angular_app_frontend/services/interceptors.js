@@ -25,17 +25,30 @@ app.factory('s3FeedbackInterceptor', function ($q) {
     .factory('LogoutInterceptor', function ($window) {
         return {
             response: function (config) {
-                //  
+                //
 
                 return config
             }
         }
     })
 
+    .factory('LoginInterceptor', function () {
+        return {
+            request: function(config) {
+                debugger;
+
+                con
+            }
+        }
+
+    })
+
     .factory('TokenAuthInterceptor', function ($window, $q) {
         return {
             request: function (config) {
-                 
+
+
+
                 config.headers = config.headers || {}
                 if ($window.sessionStorage.token) {
                     config.headers.Authorization = 'JWT ' + $window.sessionStorage.token;
@@ -62,5 +75,6 @@ app.factory('s3FeedbackInterceptor', function ($q) {
         $httpProvider.interceptors.push('s3FeedbackInterceptor');
         $httpProvider.interceptors.push('LogoutInterceptor');
         $httpProvider.interceptors.push('TokenAuthInterceptor')
+        // $httpProvider.interceptors.push('LoginInterceptor')
 
     })

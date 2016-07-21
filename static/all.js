@@ -1492,17 +1492,30 @@ app.factory('s3FeedbackInterceptor', function ($q) {
     .factory('LogoutInterceptor', function ($window) {
         return {
             response: function (config) {
-                //  
+                //
 
                 return config
             }
         }
     })
 
+    .factory('LoginInterceptor', function () {
+        return {
+            request: function(config) {
+                debugger;
+
+                con
+            }
+        }
+
+    })
+
     .factory('TokenAuthInterceptor', function ($window, $q) {
         return {
             request: function (config) {
-                 
+
+
+
                 config.headers = config.headers || {}
                 if ($window.sessionStorage.token) {
                     config.headers.Authorization = 'JWT ' + $window.sessionStorage.token;
@@ -1529,6 +1542,7 @@ app.factory('s3FeedbackInterceptor', function ($q) {
         $httpProvider.interceptors.push('s3FeedbackInterceptor');
         $httpProvider.interceptors.push('LogoutInterceptor');
         $httpProvider.interceptors.push('TokenAuthInterceptor')
+        // $httpProvider.interceptors.push('LoginInterceptor')
 
     })
 
@@ -1700,12 +1714,11 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 
 app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPackageService, $q) {
 
-
     var getPackageOnLoad = function () {
         $http.get('/api/package/')
             .then(function (data) {
 
-                
+
                 data = data.data.results[0];
                 PackageFactory.setPackage(data);
 
@@ -1744,6 +1757,54 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
         .then(getPackageOnLoad)
 
 });
+
+app.factory("transformRequestAsFormPost", function () {
+        // I prepare the request data for the form post.
+        function transformRequest(data, getHeaders) {
+            var headers = getHeaders();
+            headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+            return ( serializeData(data) );
+        }
+
+        // Return the factory value.
+        return ( transformRequest );
+        // ---
+        // PRVIATE METHODS.
+        // ---
+        // I serialize the given Object into a key-value pair string. This
+        // method expects an object and will default to the toString() method.
+        // --
+        // NOTE: This is an atered version of the jQuery.param() method which
+        // will serialize a data collection for Form posting.
+        // --
+        // https://github.com/jquery/jquery/blob/master/src/serialize.js#L45
+        function serializeData(data) {
+            // If this is not an object, defer to native stringification.
+            if (!angular.isObject(data)) {
+                return ( ( data == null ) ? "" : data.toString() );
+            }
+            var buffer = [];
+            // Serialize each key in the object.
+            for (var name in data) {
+                if (!data.hasOwnProperty(name)) {
+                    continue;
+                }
+                var value = data[name];
+                buffer.push(
+                    encodeURIComponent(name) +
+                    "=" +
+                    encodeURIComponent(( value == null ) ? "" : value)
+                );
+            }
+            // Serialize the buffer and clean it up for transportation.
+            var source = buffer
+                    .join("&")
+                    .replace(/%20/g, "+")
+                ;
+            return ( source );
+        }
+    }
+);
 
 app.factory('_', function ($window) {
     return $window._;
@@ -2230,6 +2291,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         $window.sessionStorage.user = {"email": credentials.email}
         http.login(credentials)
             .then(function (data) {
+                debugger;
                 mixpanel.track('Authentication', {
                     "id": 4.2,
                     "event": "login",
@@ -2249,7 +2311,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                 })
 
             }, function (err) {
-
+                debugger;
 
                 if (err.data.hasOwnProperty('username')) {
 

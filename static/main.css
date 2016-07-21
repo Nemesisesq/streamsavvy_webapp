@@ -3079,6 +3079,10 @@ footer {
 .fa.pull-right {
   font-size: 28px; }
 
+footer a.pull-right {
+  line-height: 20px;
+  margin-top: 10px; }
+
 .sub-footer {
   height: 50px; }
   .sub-footer div {

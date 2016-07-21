@@ -33,7 +33,7 @@ router.register(r'services', ChannelViewSet)
 router.register(r'content', ContentViewSet)
 router.register(r'package', PackagesViewSet, 'package')
 router.register(r'popular-shows', PopularShowsViewSet, 'popular_shows')
-# router.register(r'users', UserViewSet)
+router.register(r'users', UserViewSet, 'user')
 # router.register(r'groups', GroupViewSet)
 # router.register(r'search', ContentSearchViewSet, 'search')
 # router.register(r'packageobj', PackageDetailViewSet, 'packageobj')
@@ -57,5 +57,6 @@ urlpatterns = [
     url(r'^sign_up/$', SignUp.as_view(), name="sign_up"),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
-url(r'^api-token-refresh/', refresh_jwt_token),
+    url(r'^api-token-refresh/', refresh_jwt_token),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]

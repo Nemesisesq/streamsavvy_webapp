@@ -93,6 +93,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         $window.sessionStorage.user = {"email": credentials.email}
         http.login(credentials)
             .then(function (data) {
+                debugger;
                 mixpanel.track('Authentication', {
                     "id": 4.2,
                     "event": "login",
@@ -112,7 +113,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                 })
 
             }, function (err) {
-
+                debugger;
 
                 if (err.data.hasOwnProperty('username')) {
 

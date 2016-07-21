@@ -3,7 +3,9 @@ import time
 import urllib
 import urllib.parse
 import urllib.request
+from django.conf import settings
 
+import jwt
 import requests
 from django.db.models import Q
 from django.http import JsonResponse
@@ -11,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework_jwt.utils import jwt_decode_handler
 from social.actions import do_complete
 from social.apps.django_app.utils import strategy
 from social.apps.django_app.views import _do_login
@@ -20,7 +23,7 @@ from server.models import *
 from server.permissions import IsAdminOrReadOnly
 from server.permissions import IsAuthenticatedOrCreate
 from server.serializers import HardwareSerializer, ChannelSerializer, \
-    ContentSerializer, PackagesSerializer, SignUpSerializer
+    ContentSerializer, PackagesSerializer, SignUpSerializer, UserSerializer
 from server.shortcuts import api_json_post, try_catch
 from streamsavvy_webapp.settings import get_env_variable
 
@@ -73,6 +76,7 @@ class SignUp(generics.CreateAPIView):
 
 class AdminPermMixin(object):
     permission_classes = (IsAdminOrReadOnly,)
+
 
 
 class HardwareViewSet(viewsets.ModelViewSet):
@@ -156,6 +160,19 @@ class PackagesViewSet(viewsets.ModelViewSet):
         package = get_packages(user)
 
         return package
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    http_method_name = ['get', 'put']
+
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        user = get_user(self)
+
+        return [user]
+
+
 
 
 def eval_string(d):
