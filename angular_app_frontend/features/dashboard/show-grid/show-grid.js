@@ -73,10 +73,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         var cs = PackageFactory.getChosenShow();
 
+        // debugger;
+        if(!_.isEmpty(cs)){
+
         $http.post('/node-data/detailsources', cs)
             .then(function (data) {
                 $scope.detailSources = data.data
             })
+        }
     })
 
 

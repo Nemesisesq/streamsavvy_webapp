@@ -1705,6 +1705,13 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             }
         },
 
+        getSonyVueList : function () {
+            var ssPackage = this.getPackage();
+            if(ssPackage.hasOwnProperty('data')){
+                return $http.post('/node-data/sonyVue', ssPackage)
+            }
+        }
+
 
     }
 
@@ -1715,7 +1722,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPackageService, $q) {
 
     var getPackageOnLoad = function () {
-        $http.get('/api/package/')
+        return $http.get('/api/package/')
             .then(function (data) {
 
 
@@ -1726,6 +1733,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
 
                 $window.sessionStorage.user = data.url
 
+                return data
 
             }, function (err) {
 
@@ -1755,6 +1763,16 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
 
     refreshTokenIfStale()
         .then(getPackageOnLoad)
+
+    var getEmail = function () {
+
+        $http.get('/api/users')
+            .then(function(data){
+                $window.sessionStorage.user = data.data.results[0].email
+            })
+
+
+    }
 
 });
 
@@ -2965,6 +2983,11 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     var updateServices = function () {
 
         if (ssPackage.hasOwnProperty('data')) {
+
+
+
+
+
             $scope.listOfServices = undefined;
             PackageFactory.getServicePanelList(ssPackage)
                 .then(function (data) {
@@ -2983,6 +3006,12 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                     PackageFactory.setListOfServices($scope.listOfServices);
                 });
+
+            PackageFactory.getSonyVueList(ssPackage)
+                .then(function(data){
+                    //We set Sling and Playstation Services on the scope.
+                    $scope.svs = data.data
+                })
 
             PackageFactory.setListOfServices($scope.listOfServices);
         }
@@ -3083,10 +3112,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         var cs = PackageFactory.getChosenShow();
 
+        // debugger;
+        if(!_.isEmpty(cs)){
+
         $http.post('/node-data/detailsources', cs)
             .then(function (data) {
                 $scope.detailSources = data.data
             })
+        }
     })
 
 

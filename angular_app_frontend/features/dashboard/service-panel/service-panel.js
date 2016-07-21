@@ -23,6 +23,11 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
     var updateServices = function () {
 
         if (ssPackage.hasOwnProperty('data')) {
+
+
+
+
+
             $scope.listOfServices = undefined;
             PackageFactory.getServicePanelList(ssPackage)
                 .then(function (data) {
@@ -41,6 +46,12 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
 
                     PackageFactory.setListOfServices($scope.listOfServices);
                 });
+
+            PackageFactory.getSonyVueList(ssPackage)
+                .then(function(data){
+                    //We set Sling and Playstation Services on the scope.
+                    $scope.svs = data.data
+                })
 
             PackageFactory.setListOfServices($scope.listOfServices);
         }

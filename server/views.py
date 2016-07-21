@@ -203,13 +203,16 @@ def get_service_list(request, the_json, path):
     query_url = ""
 
     if path == 'servicelist':
-        query_url = "{base}/service_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
+        query_url = method_name('service_list')
 
     if path == 'checkoutlist':
-        query_url = "{base}/checkout_list".format(base=get_env_variable('NODE_DATA_SERVICE'))
+        query_url = method_name('checkout_list')
 
     if path == 'detailsources':
-        query_url = "{base}/detail_sources".format(base=get_env_variable('NODE_DATA_SERVICE'))
+        query_url = method_name('detail_sources')
+
+    if path == 'sonyVue':
+        query_url = method_name('sling_vue')
 
     try:
         headers = {'Content-Type': 'application/json'}
@@ -221,6 +224,10 @@ def get_service_list(request, the_json, path):
         return JsonResponse(d, safe=False)
     except Exception as e:
         print(e)
+
+
+def method_name(path):
+    return "{base}/{path}".format(base=get_env_variable('NODE_DATA_SERVICE'), path= path)
 
 
 @try_catch
@@ -242,6 +249,7 @@ def get_viewing_windows(request, service):
             return JsonResponse(r.json(), safe=False)
         except Exception as e:
             print(e)
+
 
 
 @csrf_exempt

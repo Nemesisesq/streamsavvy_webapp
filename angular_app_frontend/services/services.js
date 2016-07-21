@@ -153,6 +153,13 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             }
         },
 
+        getSonyVueList : function () {
+            var ssPackage = this.getPackage();
+            if(ssPackage.hasOwnProperty('data')){
+                return $http.post('/node-data/sonyVue', ssPackage)
+            }
+        }
+
 
     }
 
@@ -163,7 +170,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPackageService, $q) {
 
     var getPackageOnLoad = function () {
-        $http.get('/api/package/')
+        return $http.get('/api/package/')
             .then(function (data) {
 
 
@@ -174,6 +181,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
 
                 $window.sessionStorage.user = data.url
 
+                return data
 
             }, function (err) {
 
@@ -203,6 +211,16 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
 
     refreshTokenIfStale()
         .then(getPackageOnLoad)
+
+    var getEmail = function () {
+
+        $http.get('/api/users')
+            .then(function(data){
+                $window.sessionStorage.user = data.data.results[0].email
+            })
+
+
+    }
 
 });
 
