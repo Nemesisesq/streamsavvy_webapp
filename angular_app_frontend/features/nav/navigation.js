@@ -6,7 +6,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     $('#sidebarDashNav').click(function () {
 
         mixpanel.track('Navigation', {
-            "event_id" : 1,
+            "event_id": 1,
             "event": "Sidebar navigation to dash",
             "user": $window.sessionStorage.user
         })
@@ -14,7 +14,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
     $scope.goBack = function () {
         mixpanel.track('Navigation', {
-            "event_id" : 12,
+            "event_id": 12,
             "event": "Checkout back to dash",
             "user": $window.sessionStorage.user
         })
@@ -43,24 +43,24 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
     $scope.logout = function () {
         mixpanel.track('Authentication', {
-                        "event" : "logout",
-                        "method": "email",
-                        "user": $window.sessionStorage.user
-                    })
+            "event": "logout",
+            "method": "email",
+            "user": $window.sessionStorage.user
+        })
         delete $window.sessionStorage['token']
         location.pathname = '/logout/'
 
 
     }
 
-    $scope.login = function() {
+    $scope.login = function () {
         $rootScope.openLogInModal()
         var pkg_url = PackageFactory.getPackage()
 
         mixpanel.track("Login modal opened", {
             "from": "nav side bar",
             "current_page": $location.absUrl(),
-            "package_id":  pkg_url
+            "package_id": pkg_url
         })
     }
 
@@ -118,8 +118,15 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
 });
 
-app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
+app.run(function ($rootScope, PackageFactory) {
+    PackageFactory.getEmail()
+        .then(function (data) {
+            data.data.results[0].email ? $rootScope.logged_in = true : $rootScope.logged_in = false
+
+        }, function () {
+            
+            $rootScope.logged_in = false
+        });
     // console.log($rootScope.logged_in)
 
 })

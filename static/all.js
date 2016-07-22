@@ -1569,7 +1569,6 @@ function check_if_on_sling(obj) {
 var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
 
-
 app.factory('N', function (envService) {
     var _netflix_shows = []
 
@@ -1646,7 +1645,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
         debugger
 
         $http.get('/api/users')
-            .then(function(data){
+            .then(function (data) {
                 $window.sessionStorage.user = data.data.results[0].email
             })
 
@@ -1654,13 +1653,30 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
     }
 
     return {
+        getEmail: function () {
+            debugger
+
+            return $http.get('/api/users')
+                .then(function (data) {
+                    $window.sessionStorage.user = data.data.results[0].email
+                    return data
+                }, function(err){
+                    return err
+                })
+
+
+        },
+
         setChosenShow: function (show) {
             _chosenShow = show
-        },
+        }
+
+        ,
 
         getChosenShow: function () {
             return _chosenShow;
-        },
+        }
+        ,
 
         setPackage: function (ssPackage) {
             _package = ssPackage;
@@ -1668,7 +1684,8 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             if (!_.isEmpty(ssPackage)) {
                 this.postPackage(ssPackage)
             }
-        },
+        }
+        ,
 
         postPackage: _.debounce(function (ssPackage) {
 
@@ -1691,27 +1708,33 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 
         getPackage: function () {
             return _package || "";
-        },
+        }
+
+        ,
 
         getSSTest: function () {
             // ;
             return _test;
-        },
+        }
+        ,
 
         getListOfServices: function () {
 
             return _listOfServices;
-        },
+        }
+        ,
         setListOfServices: function (listOfServices) {
             _listOfServices = listOfServices;
-        },
+        }
+        ,
 
         getServicePanelList: function () {
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 return $http.post('/node-data/servicelist', ssPackage)
             }
-        },
+        }
+        ,
 
         getCheckoutPanelList: function () {
             //  ;
@@ -1719,11 +1742,12 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             if ('data' in ssPackage) {
                 return $http.post('/node-data/checkoutlist', ssPackage)
             }
-        },
+        }
+        ,
 
-        getSonyVueList : function () {
+        getSonyVueList: function () {
             var ssPackage = this.getPackage();
-            if(ssPackage.hasOwnProperty('data')){
+            if (ssPackage.hasOwnProperty('data')) {
                 return $http.post('/node-data/sonyVue', ssPackage)
             }
         }
@@ -1784,7 +1808,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
         debugger
 
         $http.get('/api/users')
-            .then(function(data){
+            .then(function (data) {
                 $window.sessionStorage.user = data.data.results[0].email
             })
 
@@ -2039,7 +2063,6 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
-
 app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2125,6 +2148,7 @@ app.controller('CheckoutController', function ($scope, $http, $timeout, $filter,
         $scope.list = PackageFactory.getListOfServices();
     })
 });
+
 
 
 /**
@@ -2433,7 +2457,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     $('#sidebarDashNav').click(function () {
 
         mixpanel.track('Navigation', {
-            "event_id" : 1,
+            "event_id": 1,
             "event": "Sidebar navigation to dash",
             "user": $window.sessionStorage.user
         })
@@ -2441,7 +2465,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
     $scope.goBack = function () {
         mixpanel.track('Navigation', {
-            "event_id" : 12,
+            "event_id": 12,
             "event": "Checkout back to dash",
             "user": $window.sessionStorage.user
         })
@@ -2470,24 +2494,24 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
     $scope.logout = function () {
         mixpanel.track('Authentication', {
-                        "event" : "logout",
-                        "method": "email",
-                        "user": $window.sessionStorage.user
-                    })
+            "event": "logout",
+            "method": "email",
+            "user": $window.sessionStorage.user
+        })
         delete $window.sessionStorage['token']
         location.pathname = '/logout/'
 
 
     }
 
-    $scope.login = function() {
+    $scope.login = function () {
         $rootScope.openLogInModal()
         var pkg_url = PackageFactory.getPackage()
 
         mixpanel.track("Login modal opened", {
             "from": "nav side bar",
             "current_page": $location.absUrl(),
-            "package_id":  pkg_url
+            "package_id": pkg_url
         })
     }
 
@@ -2545,8 +2569,15 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
 });
 
-app.run(function ($rootScope) {
-    angular.element('#status').text() === 'True' ? $rootScope.logged_in = true : $rootScope.logged_in = false;
+app.run(function ($rootScope, PackageFactory) {
+    PackageFactory.getEmail()
+        .then(function (data) {
+            data.data.results[0].email ? $rootScope.logged_in = true : $rootScope.logged_in = false
+
+        }, function () {
+            
+            $rootScope.logged_in = false
+        });
     // console.log($rootScope.logged_in)
 
 })
@@ -2914,7 +2945,7 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
     };
 
     $scope.go = function () {
-        if (!$window.sessionStorage.token) {
+        if (!$rootScope.logged_in) {
             loginEventService.broadcast()
         } else {
             $scope.proceedToCheckout();

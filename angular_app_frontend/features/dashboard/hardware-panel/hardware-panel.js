@@ -47,7 +47,7 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
     };
 
     $scope.go = function () {
-        if (!$window.sessionStorage.token) {
+        if (!$rootScope.logged_in) {
             loginEventService.broadcast()
         } else {
             $scope.proceedToCheckout();

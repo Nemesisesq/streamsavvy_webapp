@@ -17,7 +17,6 @@ function check_if_on_sling(obj) {
 var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
 
-
 app.factory('N', function (envService) {
     var _netflix_shows = []
 
@@ -94,7 +93,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
         debugger
 
         $http.get('/api/users')
-            .then(function(data){
+            .then(function (data) {
                 $window.sessionStorage.user = data.data.results[0].email
             })
 
@@ -102,13 +101,30 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
     }
 
     return {
+        getEmail: function () {
+            debugger
+
+            return $http.get('/api/users')
+                .then(function (data) {
+                    $window.sessionStorage.user = data.data.results[0].email
+                    return data
+                }, function(err){
+                    return err
+                })
+
+
+        },
+
         setChosenShow: function (show) {
             _chosenShow = show
-        },
+        }
+
+        ,
 
         getChosenShow: function () {
             return _chosenShow;
-        },
+        }
+        ,
 
         setPackage: function (ssPackage) {
             _package = ssPackage;
@@ -116,7 +132,8 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             if (!_.isEmpty(ssPackage)) {
                 this.postPackage(ssPackage)
             }
-        },
+        }
+        ,
 
         postPackage: _.debounce(function (ssPackage) {
 
@@ -139,27 +156,33 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 
         getPackage: function () {
             return _package || "";
-        },
+        }
+
+        ,
 
         getSSTest: function () {
             // ;
             return _test;
-        },
+        }
+        ,
 
         getListOfServices: function () {
 
             return _listOfServices;
-        },
+        }
+        ,
         setListOfServices: function (listOfServices) {
             _listOfServices = listOfServices;
-        },
+        }
+        ,
 
         getServicePanelList: function () {
             var ssPackage = this.getPackage();
             if ('data' in ssPackage) {
                 return $http.post('/node-data/servicelist', ssPackage)
             }
-        },
+        }
+        ,
 
         getCheckoutPanelList: function () {
             //  ;
@@ -167,11 +190,12 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             if ('data' in ssPackage) {
                 return $http.post('/node-data/checkoutlist', ssPackage)
             }
-        },
+        }
+        ,
 
-        getSonyVueList : function () {
+        getSonyVueList: function () {
             var ssPackage = this.getPackage();
-            if(ssPackage.hasOwnProperty('data')){
+            if (ssPackage.hasOwnProperty('data')) {
                 return $http.post('/node-data/sonyVue', ssPackage)
             }
         }
@@ -232,7 +256,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
         debugger
 
         $http.get('/api/users')
-            .then(function(data){
+            .then(function (data) {
                 $window.sessionStorage.user = data.data.results[0].email
             })
 
