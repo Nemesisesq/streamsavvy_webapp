@@ -1,6 +1,11 @@
-app.controller('CheckoutController', function ($scope, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window) {
+app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window) {
 
     $scope.package = PackageFactory.getPackage();
+    debugger;
+
+    if (_.isEmpty($scope.package.data.content)){
+        $state.go('dash.dashboard')
+    }
 
     $scope.$on('subcribe', function (service) {
         $scope.package.services.subscribed.push(service)

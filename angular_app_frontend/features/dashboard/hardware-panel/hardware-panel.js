@@ -45,9 +45,16 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
             "user": $window.sessionStorage.user
         });
     };
+    debugger;
+    if($window.sessionStorage.redirectToCheckout=='true'){
+        $state.go('check.out')
+        $window.sessionStorage.redirectToCheckout = false
+    }
 
     $scope.go = function () {
+
         if (!$rootScope.logged_in) {
+            $window.sessionStorage.redirectToCheckout = true
             loginEventService.broadcast()
         } else {
             $scope.proceedToCheckout();

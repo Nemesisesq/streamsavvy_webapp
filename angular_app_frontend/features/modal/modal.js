@@ -73,20 +73,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
     })
 
 
-    //$scope.facebookAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#facebook_login').attr('href');
-    //}
-    //
-    //$scope.instagramAuth = function () {
-    //
-    //window.location = CONFIG.URL + $('#instagram_login').attr('href');
-    //}
-    //
-    //$scope.twitterAuth = function () {
-    //
-    // window.location = CONFIG.URL + $('#twitter_login').attr('href');
-    //}
+    
 
 
     $scope.login = function (credentials) {
