@@ -1568,6 +1568,8 @@ function check_if_on_sling(obj) {
 
 var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
 
+
+
 app.factory('N', function (envService) {
     var _netflix_shows = []
 
@@ -1640,6 +1642,17 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 
     var _listOfServices = [];
 
+    var _getEmail = function () {
+        debugger
+
+        $http.get('/api/users')
+            .then(function(data){
+                $window.sessionStorage.user = data.data.results[0].email
+            })
+
+
+    }
+
     return {
         setChosenShow: function (show) {
             _chosenShow = show
@@ -1664,6 +1677,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             // }
             $http.put(ssPackage.url, ssPackage)
                 .then(function success(response) {
+                    _getEmail()
                     authEventService.broadcast()
                 }, function error(response) {
                     auth_denied = [403, 401];
@@ -1767,6 +1781,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
         .then(getPackageOnLoad)
 
     var getEmail = function () {
+        debugger
 
         $http.get('/api/users')
             .then(function(data){
