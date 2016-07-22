@@ -25,18 +25,22 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
             }
         });
 
+
+
         modalInstance.result.then(function (selectedItem) {
-            $scope.selectedItem = selectedItem;
+
 
 
         }, function () {
+            debugger;
             $log.info('Modal dismissed at: ' + new Date());
 
             $timeout(function () {
 
                 modalOpen = false
             }, 1000)
-            // $log.info(modalOpen)
+                    $rootScope.$broadcast('login.modal.closed')
+
         });
     }, 500);
 
@@ -107,6 +111,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                     onclose: function () {
 
                         window.location.reload()
+
                     },
                     ttl: 1000,
                     disableCountDown: true

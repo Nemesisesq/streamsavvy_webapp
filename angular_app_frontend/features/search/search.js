@@ -198,7 +198,6 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
 
     $scope.$watch('noResults', function (o, n) {
-        console.log('hello world')
         logEmptySearchResults(o,n);
     })
 

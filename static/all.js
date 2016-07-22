@@ -1668,7 +1668,9 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
                 }, function error(response) {
                     auth_denied = [403, 401];
                     if (_.includes(auth_denied, response.status)) {
-                        location.hash != '#/' && loginEventService.broadcast()
+                        mixpanel.track('Save package denied')
+                        //TODO remove funcitonality and add logging
+                        // location.hash != '#/' && loginEventService.broadcast()
                     }
                 })
         }, 0),
@@ -2241,18 +2243,22 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
             }
         });
 
+
+
         modalInstance.result.then(function (selectedItem) {
-            $scope.selectedItem = selectedItem;
+
 
 
         }, function () {
+            debugger;
             $log.info('Modal dismissed at: ' + new Date());
 
             $timeout(function () {
 
                 modalOpen = false
             }, 1000)
-            // $log.info(modalOpen)
+                    $rootScope.$broadcast('login.modal.closed')
+
         });
     }, 500);
 
@@ -2323,6 +2329,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                     onclose: function () {
 
                         window.location.reload()
+
                     },
                     ttl: 1000,
                     disableCountDown: true
@@ -2836,7 +2843,6 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
 
     $scope.$watch('noResults', function (o, n) {
-        console.log('hello world')
         logEmptySearchResults(o,n);
     })
 
@@ -2847,7 +2853,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 /**
  * Created by Nem on 5/24/16.
  */
-app.controller('HardwareController', function ($scope, PackageFactory, $state, $window) {
+app.controller('HardwareController', function ($scope, PackageFactory, $state, $window, loginEventService, $rootScope) {
 
     $scope.devices = [
         {
@@ -2869,31 +2875,17 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
     $scope.linkToAffiliate = function (device) {
         $window.open(device.url);
         mixpanel.track("Buy Device", {
-            "id" : 11,
+            "id": 11,
             "service name": device.chan.display_name,
-            "user" : $window.sessionStorage.user
+            "user": $window.sessionStorage.user
         });
     }
 
     $scope.pkg = PackageFactory.getPackage();
 
-
-    /*  $('.service-panel').on('scroll', function () {
-     $('.not-ready').fadeOut()
-     })
-
-     $('.service-panel').on('scroll', function () {
-
-     _.debounce(function () {
-
-     $('.not-ready').fadeIn()
-     }, 100)()
-     })*/
-    $scope.go = function () {
-         ;
-
+    $scope.proceedToCheckout = function () {
         location.href = '#/checkout';
-         ;
+
         $scope.pkg = PackageFactory.getPackage();
         var showList = _.map($scope.pkg.data.content, function (showObject) {
             return showObject.title;
@@ -2904,6 +2896,28 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
             "show_List": showList,
             "user": $window.sessionStorage.user
         });
+    };
+
+    $scope.go = function () {
+        if (!$window.sessionStorage.token) {
+            loginEventService.broadcast()
+        } else {
+            $scope.proceedToCheckout();
+        }
+
+        $rootScope.$on('login.modal.closed', function () {
+            if (!$window.sessionStorage.token) {
+                mixpanel.track("To Checkout w/o login", {
+                    "id": 17,
+                    // "show_List": showList,
+                    "user": $window.sessionStorage.user
+                })
+
+                $scope.proceedToCheckout()
+            }
+        })
+
+
     }
 
     $scope.collapseHardware = true;
@@ -2923,21 +2937,6 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
 
     }
 
-    $scope.toggleHardwarePanel = function () {
-
-
-        if (!$scope.collapseHardware) {
-            $('.service-panel.ng-scope').animate({'height': serviceHeight + 'px'});
-            $('.hardware-panel.ng-scope').animate({'height': '46px'});
-        } else {
-            $('.hardware-body').animate({height: '40vh'});
-            $('.hardware-panel.ng-scope').animate({'height': '40vh'});
-            $('.service-panel.ng-scope').animate({height: '60vh'});
-
-        }
-        $scope.collapseHardware = !$scope.collapseHardware;
-
-    }
     $scope.servicesGT0 = function () {
         return !_.isEmpty(PackageFactory.getListOfServices())
     }

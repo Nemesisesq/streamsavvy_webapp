@@ -116,7 +116,9 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
                 }, function error(response) {
                     auth_denied = [403, 401];
                     if (_.includes(auth_denied, response.status)) {
-                        location.hash != '#/' && loginEventService.broadcast()
+                        mixpanel.track('Save package denied')
+                        //TODO remove funcitonality and add logging
+                        // location.hash != '#/' && loginEventService.broadcast()
                     }
                 })
         }, 0),
