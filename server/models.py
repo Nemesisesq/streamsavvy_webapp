@@ -96,7 +96,7 @@ class Content(models.Model):
 
 
 class Package(models.Model):
-    owner = models.OneToOneField(User, primary_key=True, related_name='packages')
+    owner = models.ForeignKey(User, primary_key=True, related_name='packages')
     data = JSONField(blank=True, null=True, default={'content': [], 'services': [], 'hardware': []})
     modified = models.DateTimeField(auto_now=True, blank=True)
 

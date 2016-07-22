@@ -37,7 +37,13 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
     })
     authEventService.listen(function () {
-        $scope.logged_in = true;
+
+        if($window.sessionStorage.token){
+            $scope.logged_in = true;
+        } else {
+            logged_in = false;
+        }
+
     })
 
 
@@ -49,6 +55,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         })
         delete $window.sessionStorage['token']
         location.pathname = '/logout/'
+        $scope.logged_in = false
 
 
     }

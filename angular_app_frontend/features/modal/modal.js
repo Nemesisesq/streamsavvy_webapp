@@ -6,7 +6,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
 
     $scope.items = ['item1', 'item2', 'item3'];
 
-    $rootScope.openLogInModal = _.debounce (function () {
+    $rootScope.openLogInModal = _.debounce(function () {
         if (modalOpen) return;
 
 
@@ -26,20 +26,17 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
         });
 
 
-
         modalInstance.result.then(function (selectedItem) {
-
 
 
         }, function () {
             debugger;
             $log.info('Modal dismissed at: ' + new Date());
 
-            $timeout(function () {
+            modalOpen = false
+            console.log(modalOpen)
 
-                modalOpen = false
-            }, 1000)
-                    $rootScope.$broadcast('login.modal.closed')
+            $rootScope.$broadcast('login.modal.closed')
 
         });
     }, 500);
@@ -50,7 +47,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
     //}
 });
 
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window) {
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window, PackageFactory) {
 
     $scope.socialLogin = true;
 
@@ -71,9 +68,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
             "user": $window.sessionStorage.user
         })
     })
-
-
-    
 
 
     $scope.login = function (credentials) {
@@ -127,6 +121,8 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Register";
         credentials.username = credentials.email;
+        debugger;
+        credentials.package = PackageFactory.getPackage().url;
 
 
         if (credentials.password == credentials.confirm_password) {
@@ -145,6 +141,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                     growl.success('Registration Successful')
                     $modalInstance.close()
+                    window.location.reload()
                 }, function (err) {
 
                     if (err.status == 500) {

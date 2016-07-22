@@ -28,6 +28,18 @@ from server.shortcuts import api_json_post, try_catch
 from streamsavvy_webapp.settings import get_env_variable
 
 
+from rest_framework_jwt.settings import api_settings
+
+
+def get_sign_up_token(user):
+    jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+    jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+    payload = jwt_payload_handler(user)
+    token = jwt_encode_handler(payload)
+
+    return token
+
 def flatten(l):
     out = []
     for item in l:
@@ -72,6 +84,12 @@ class SignUp(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = SignUpSerializer
     permission_classes = (IsAuthenticatedOrCreate,)
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        response = super().finalize_response(request, response, *args, **kwargs)
+        user = User.objects.get(username = response.data['username'])
+        response['token'] = get_sign_up_token(user)
+        return response
 
 
 class AdminPermMixin(object):
@@ -152,7 +170,7 @@ class PackagesViewSet(viewsets.ModelViewSet):
     serializer_class = PackagesSerializer
     http_method_names = ['get', 'put']
 
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         user = get_user(self)

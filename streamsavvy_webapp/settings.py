@@ -88,7 +88,7 @@ INSTALLED_APPS = [
     'django_filters',
     'social.apps.django_app.default',
     'django_rq',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'corsheaders',
     'oauth2_provider',
     'rest_framework_jwt',
@@ -100,12 +100,13 @@ MIDDLEWARE_CLASSES = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'server.middleware.access_management.DisableCSRF',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'server.middleware.anon_user_middleware.ProcessAnonUser',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     # 'server.middleware.duplicate_email.DuplicateEmail',
 ]
@@ -252,7 +253,6 @@ STATICFILES_DIRS = (
 )
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-
 AUTHENTICATION_BACKENDS = (
     'oauth2_provider.backends.OAuth2Backend',
     'social.backends.facebook.FacebookOAuth2',
@@ -263,7 +263,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 # SOCIAL_AUTH_TWITTER_KEY = get_env_variable('TWITTER_KEY')
 # SOCIAL_AUTH_TWITTER_SECRET = get_env_variable('TWITTER_SECRET')
@@ -273,21 +273,18 @@ SOCIAL_AUTH_FACEBOOK_SECRET = get_env_variable('FACEBOOK_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends']
 
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-  'locale': 'en_US',
-  'fields': 'id, name, email, age_range'
+    'locale': 'en_US',
+    'fields': 'id, name, email, age_range'
 }
-
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_env_variable('SOCIAL_REDIRECT')
 # SOCIAL_AUTH_USER_MODEL = 'django.contrib.auth.User'
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 
-
 SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_details',
     'social.pipeline.social_auth.social_uid',
-    # 'server.pipelines.save_additional_info.save_additional_info',
     'social.pipeline.social_auth.auth_allowed',
     'social.pipeline.social_auth.social_user',
     'social.pipeline.user.get_username',
@@ -296,6 +293,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
+    # 'server.pipelines.save_additional_info.save_additional_info',
 )
 
 # TEMPLATE_CONTEXT_PROCESSORS = (
@@ -375,19 +373,19 @@ RQ_QUEUES = {
 
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_encode_handler',
+        'rest_framework_jwt.utils.jwt_encode_handler',
 
     'JWT_DECODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_decode_handler',
+        'rest_framework_jwt.utils.jwt_decode_handler',
 
     'JWT_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_payload_handler',
+        'rest_framework_jwt.utils.jwt_payload_handler',
 
     'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-    'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+        'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
 
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_response_payload_handler',
+        'rest_framework_jwt.utils.jwt_response_payload_handler',
 
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_ALGORITHM': 'HS256',

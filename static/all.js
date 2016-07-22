@@ -2237,25 +2237,25 @@ app.controller('HomeController', function ($scope, $http, http, $cookies, $locat
     })
 
 
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        http.login(credentials)
-            .then(function (data) {
-                // console.log(data);
-                $location.url('search');
-                $scope.logged_in = true;
-            })
-    };
-
-    $scope.logout = function () {
-        $http.get('django_auth/logout/')
-            .success(function () {
-                $location.url('/');
-                $scope.logged_in = false;
-            })
-    }
+    // $scope.login = function (credentials) {
+    //     //credentials.next = "/api/";
+    //     credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+    //     credentials.submit = "Log in";
+    //     http.login(credentials)
+    //         .then(function (data) {
+    //             // console.log(data);
+    //             $location.url('search');
+    //             $scope.logged_in = true;
+    //         })
+    // };
+    //
+    // $scope.logout = function () {
+    //     $http.get('django_auth/logout/')
+    //         .success(function () {
+    //             $location.url('/');
+    //             $scope.logged_in = false;
+    //         })
+    // }
 
 
 });
@@ -2268,7 +2268,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
 
     $scope.items = ['item1', 'item2', 'item3'];
 
-    $rootScope.openLogInModal = _.debounce (function () {
+    $rootScope.openLogInModal = _.debounce(function () {
         if (modalOpen) return;
 
 
@@ -2288,20 +2288,17 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
         });
 
 
-
         modalInstance.result.then(function (selectedItem) {
-
 
 
         }, function () {
             debugger;
             $log.info('Modal dismissed at: ' + new Date());
 
-            $timeout(function () {
+            modalOpen = false
+            console.log(modalOpen)
 
-                modalOpen = false
-            }, 1000)
-                    $rootScope.$broadcast('login.modal.closed')
+            $rootScope.$broadcast('login.modal.closed')
 
         });
     }, 500);
@@ -2312,7 +2309,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
     //}
 });
 
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window) {
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window, PackageFactory) {
 
     $scope.socialLogin = true;
 
@@ -2333,9 +2330,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
             "user": $window.sessionStorage.user
         })
     })
-
-
-    
 
 
     $scope.login = function (credentials) {
@@ -2389,6 +2383,8 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Register";
         credentials.username = credentials.email;
+        debugger;
+        credentials.package = PackageFactory.getPackage().url;
 
 
         if (credentials.password == credentials.confirm_password) {
@@ -2407,6 +2403,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                     growl.success('Registration Successful')
                     $modalInstance.close()
+                    window.location.reload()
                 }, function (err) {
 
                     if (err.status == 500) {
@@ -2480,7 +2477,13 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
     })
     authEventService.listen(function () {
-        $scope.logged_in = true;
+
+        if($window.sessionStorage.token){
+            $scope.logged_in = true;
+        } else {
+            logged_in = false;
+        }
+
     })
 
 
@@ -2492,6 +2495,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         })
         delete $window.sessionStorage['token']
         location.pathname = '/logout/'
+        $scope.logged_in = false
 
 
     }
@@ -3002,85 +3006,6 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
 
 });
 
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if (ssPackage.hasOwnProperty('data')) {
-
-
-
-
-
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-
-            // PackageFactory.getSonyVueList(ssPackage)
-            //     .then(function(data){
-            //         //We set Sling and Playstation Services on the scope.
-            //         $scope.svs = data.data
-            //     })
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
-
 function interceptor(obj) {
     return obj
 }
@@ -3365,3 +3290,82 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
+
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if (ssPackage.hasOwnProperty('data')) {
+
+
+
+
+
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+
+            // PackageFactory.getSonyVueList(ssPackage)
+            //     .then(function(data){
+            //         //We set Sling and Playstation Services on the scope.
+            //         $scope.svs = data.data
+            //     })
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+

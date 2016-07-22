@@ -1,6 +1,5 @@
 from server.models import Hardware, Channel, Content, Package, ChannelImages
 
-
 __author__ = 'Nem'
 
 from django.contrib.auth.models import User, Group
@@ -8,13 +7,21 @@ from rest_framework import serializers
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
+
+        pkg_url = self._kwargs['data']['package']
+
+        pkg_id = [i for i in pkg_url.split('/') if i][-1]
+        pkg = Package.objects.get(pk=pkg_id)
+        anon_user = pkg.owner
         instance.save()
+        pkg.owner = instance
+        pkg.save()
+        # anon_user.delete()
         return instance
 
     def update(self, instance, validated_data):
@@ -28,7 +35,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username','email', 'password')
+        fields = ('first_name', 'last_name', 'username', 'email', 'password')
         write_only_fields = ('password',)
 
 
