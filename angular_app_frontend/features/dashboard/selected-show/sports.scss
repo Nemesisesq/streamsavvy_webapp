@@ -1,0 +1,50 @@
+.sports-header {
+  width: 105px;
+  height: 16px;
+  font-size: 17px;
+  padding-bottom: 12px;
+  letter-spacing: 0.5px;
+  color: $white;
+}
+
+/*
+.category-header {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+*/
+
+.sports-table {
+  width: 100%;
+}
+
+#block-fixed-size p {
+  height: 75px;
+  font-size: 12px;
+}
+.big-game {
+  height: 75px;
+}
+.core-package {
+  height: 225px;
+}
+#block-fixed-size .btn {
+  background-color: red;
+  color: white;
+  border-radius: 7px;
+  display: inline;
+}
+#block-fixed-size .btn:hover {
+  background-color: #660000;
+  color: #9d9d9d;
+}
+#block-fixed-size img{
+  text-align: center;
+}
+.table-container {
+  width: 97%;
+  margin: 0 auto;
+}
+.right-border {
+  border-right: solid white 1px;
+}

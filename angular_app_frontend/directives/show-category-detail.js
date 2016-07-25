@@ -5,7 +5,7 @@
 app.directive('showSportsDetail', function (PackageFactory, $q, SLING_CHANNELS) {
     return {
         restrict: 'E',
-        templateUrl: '/static/partials/selected-category/sports.html',
+        templateUrl: '/static/partials/selected-show/sports.html',
         controller: 'ShowSportsGridController',
 
         link: function (scope) {
@@ -106,7 +106,7 @@ app.directive('openSportsDetail', function ($timeout) {
     }
 })
 
-app.directive('otaSportsSlingNetflix', function () {
+app.directive('otaSlingNetflixSports', function () {
     return {
         restrict: 'A',
 

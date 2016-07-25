@@ -366,6 +366,8 @@ app.controller('ShowSportsGridController', function ($scope, $rootScope, $q, $ht
     var openingDetail;
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
+        
+        // alert("Debug point");
 
         $('body').css({'overflow': 'hidden'})
 
