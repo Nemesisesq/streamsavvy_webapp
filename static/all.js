@@ -2470,6 +2470,30 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
  */
 app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, $timeout, loginEventService, authEventService, PackageFactory) {
 
+    $scope.menuOpen = false
+
+    angular.element(document).keydown(function (e) {
+        $scope.$apply(function () {
+
+            var keyCode = e.which || e.keyCode;
+
+            if (keyCode == 27 && $scope.menuOpen) { // escape key maps to keycode `27`
+                $scope.showLeftPush()
+
+            }
+        })
+    })
+
+    // $(document).click(function (event) {
+    //     debugger;
+    //
+    //     var target = event.target
+    //
+    //     if ($scope.menuOpen && target ) {
+    //         $scope.hideLeftPush()
+    //     }
+    // })
+
     $('#sidebarDashNav').click(function () {
 
         mixpanel.track('Navigation', {
@@ -2505,11 +2529,13 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     })
     authEventService.listen(function () {
 
-        if($window.sessionStorage.token){
+        if ($window.sessionStorage.token) {
             $scope.logged_in = true;
         } else {
             logged_in = false;
         }
+
+        delete $window.sessionStorage['anon_user']
 
     })
 
@@ -2534,7 +2560,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
         mixpanel.track("Login modal opened", {
             "from": "nav side bar",
             "current_page": $location.absUrl(),
-            "package_id": pkg_url
+            "package_id": pkg_url.url
         })
     }
 
@@ -2565,21 +2591,45 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
 
     $scope.showLeftPush = function () {
-        //classie.toggle(this, 'active')
         $scope.menuOpen = !$scope.menuOpen;
+        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
+        $scope.menuOpen ? $('#menu-mask').fadeIn() : $('#menu-mask').fadeOut()
+        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        // $('nav').focus()
+        //classie.toggle(this, 'active')
 
         // ;
         //classie.toggle(body, 'cbp-spmenu-push-toright');
         //classie.toggle(menuLeft, 'cbp-spmenu-open');
-        $('#cbp-spmenu-s1').toggleClass('cbp-spmenu-open')
         //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
         // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
         // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
 
-        $scope.menuOpen ? $('#menu-mask').fadeIn() : $('#menu-mask').fadeOut()
+
+        //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        // $('#ss-panel-right').toggleClass('fixed-menu-transform');
+        // $('#ss-navigation-view').toggleClass('cbp-spmenu-push-toright');
+
+        //disableOther('showLeftPush');
+    };
+    $scope.hideLeftPush = function () {
+        //classie.toggle(this, 'active')
+        $scope.menuOpen = false;
+
+        // ;
+        //classie.toggle(body, 'cbp-spmenu-push-toright');
+        //classie.toggle(menuLeft, 'cbp-spmenu-open');
+        $('#cbp-spmenu-s1').removeClass('cbp-spmenu-open')
+        //classie.toggle(mainPage, 'cbp-spmenu-push-toright');
+        // $('#mainPage').toggleClass('cbp-spmenu-push-toright');
+        // $('#dashPage').toggleClass('cbp-spmenu-push-toright');
+
+        $('#menu-mask').fadeOut()
 
 
-        $('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
+        $('#showLeftPush').removeClass('cbp-spmenu-push-toright');
+
+        // $('nav').focus()
 
 
         //$('#showLeftPush').toggleClass('cbp-spmenu-push-toright');
@@ -2598,7 +2648,7 @@ app.run(function ($rootScope, PackageFactory) {
             data.data.results[0].email ? $rootScope.logged_in = true : $rootScope.logged_in = false
 
         }, function () {
-            
+
             $rootScope.logged_in = false
         });
     // console.log($rootScope.logged_in)
@@ -3033,6 +3083,85 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
 
 });
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if (ssPackage.hasOwnProperty('data')) {
+
+
+
+
+
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+
+            // PackageFactory.getSonyVueList(ssPackage)
+            //     .then(function(data){
+            //         //We set Sling and Playstation Services on the scope.
+            //         $scope.svs = data.data
+            //     })
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 function interceptor(obj) {
     return obj
 }
@@ -3175,7 +3304,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             return
         }
 
-        openingDetail = true;
+        $scope.openingDetail = true;
 
 
         window.scrollTo(0, 0);
@@ -3223,14 +3352,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         $('.show-grid').addClass('blur-and-fill');
 
-        openingDetail = false
+        $scope.openingDetail = false
 
 
     }, 50);
 
     $(document).keyup(function (event) {
         var keyCode = event.which || event.keyCode;
-        if (keyCode == 27) {
+        if (keyCode == 27 && $scope.opneingDetail) {
             $scope.hideDetail()
         }
 
@@ -3317,82 +3446,3 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
 });
-
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if (ssPackage.hasOwnProperty('data')) {
-
-
-
-
-
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-
-            // PackageFactory.getSonyVueList(ssPackage)
-            //     .then(function(data){
-            //         //We set Sling and Playstation Services on the scope.
-            //         $scope.svs = data.data
-            //     })
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-

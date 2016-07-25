@@ -22,11 +22,11 @@
     <div ui-view="modal"></div>
     <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-click="showLeftPush()" ng-if="!cp">
 
-        <div ng-if="!menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
+        <div ng-if="menuOpen == false"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
             <!-- Menu -->
         </div>
 
-        <div ng-if="menuOpen"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
+        <div ng-if="menuOpen == true"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
             <!-- Close -->
         </div>
 
