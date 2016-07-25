@@ -26,7 +26,7 @@ def User_pre_save(sender, **kwargs):
         raise EmailNotUnique()
 
 class AnonymousUser(User):
-    session = models.CharField(max_length=100)
+    session = models.TextField(blank=True, null=True)
     objects = UserManager()
 
     def is_authenticated(self):
@@ -96,12 +96,15 @@ class Content(models.Model):
 
 
 class Package(models.Model):
-    owner = models.ForeignKey(User, primary_key=True, related_name='packages')
+    owner = models.OneToOneField(User, related_name='packages')
     data = JSONField(blank=True, null=True, default={'content': [], 'services': [], 'hardware': []})
     modified = models.DateTimeField(auto_now=True, blank=True)
 
     def __str__(self):
         return "Package Configuration {0} for {1}".format(self.pk, self.owner.username)
+
+    def is_blank(self):
+        return len(self.data['content']) > 0
 
 
 class Feedback(models.Model):

@@ -51,13 +51,15 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
     $scope.socialLogin = true;
 
+    var pkg = PackageFactory.getPackage()
+
     $scope.auth = {
-        twitter: $('#twitter_login').attr('href'),
-        facebook: $('#facebook_login').attr('href'),
+        twitter: $('#twitter_login').attr('href') + '?pkg=' + pkg.url,
+        facebook: $('#facebook_login').attr('href')+ '?pkg=' + pkg.url + '&anon_user=' + window.sessionStorage.anon_user,
     }
 
     $scope.credentials = {}
-    ;
+
 
     $('body').on('click', '#facebook_social_auth', function () {
 
@@ -66,7 +68,9 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
             "event": "facebook_social",
             "method": "email",
             "user": $window.sessionStorage.user
+
         })
+            window.sessionStorage.pkg = pkg
     })
 
 

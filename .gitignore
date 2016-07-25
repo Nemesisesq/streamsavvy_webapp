@@ -28,3 +28,5 @@ bower_components
 *.rdb
 /Pouring
 /streamsavvy3_backup
+/server_dump.json
+/content.json

@@ -90,11 +90,15 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
     var _listOfServices = [];
 
     var _getEmail = function () {
-        debugger
+        // debugger
 
         $http.get('/api/users')
             .then(function (data) {
-                $window.sessionStorage.user = data.data.results[0].email
+                if (data.data.results[0].email) {
+
+                    $window.sessionStorage.user = data.data.results[0].email
+                    // $window.sessionStorage.anon_user = false
+                }
             })
 
 
@@ -108,7 +112,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
                 .then(function (data) {
                     $window.sessionStorage.user = data.data.results[0].email
                     return data
-                }, function(err){
+                }, function (err) {
                     return err
                 })
 
@@ -123,8 +127,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 
         getChosenShow: function () {
             return _chosenShow;
-        }
-        ,
+        },
 
         setPackage: function (ssPackage) {
             _package = ssPackage;
@@ -132,8 +135,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             if (!_.isEmpty(ssPackage)) {
                 this.postPackage(ssPackage)
             }
-        }
-        ,
+        },
 
         postPackage: _.debounce(function (ssPackage) {
 
@@ -258,6 +260,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
         $http.get('/api/users')
             .then(function (data) {
                 $window.sessionStorage.user = data.data.results[0].email
+
             })
 
 

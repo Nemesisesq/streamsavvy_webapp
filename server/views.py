@@ -7,6 +7,7 @@ from django.conf import settings
 
 import jwt
 import requests
+from django.core.cache import cache
 from django.db.models import Q
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -175,7 +176,37 @@ class PackagesViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = get_user(self)
 
-        package = get_packages(user)
+        try:
+            pkg = user.packages
+        except Exception as e:
+            pkg = False
+
+        if 'anon_user' in self.request.GET and not pkg:
+            anon_user = self.request.GET['anon_user']
+            try:
+
+                if self.request.user.is_authenticated():
+                    id = cache.get(anon_user)
+                    pkg = Package.objects.get(pk=id)
+
+                    package = get_packages(user)
+                    x = package[0]
+                    x.data = pkg.data
+                    x.save()
+                    # pkg.delete()
+                    # anon_user.delete()
+
+                    package = [x]
+
+                else :
+                    package = get_packages(user)
+
+
+            except Exception as e:
+                package = get_packages(user)
+        else:
+            package = get_packages(user)
+
 
         return package
 

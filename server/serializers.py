@@ -21,7 +21,7 @@ class SignUpSerializer(serializers.ModelSerializer):
         instance.save()
         pkg.owner = instance
         pkg.save()
-        # anon_user.delete()
+        anon_user.delete()
         return instance
 
     def update(self, instance, validated_data):

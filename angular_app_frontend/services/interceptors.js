@@ -32,12 +32,32 @@ app.factory('s3FeedbackInterceptor', function ($q) {
         }
     })
 
-    .factory('LoginInterceptor', function () {
+    .factory('IdTokenInterceptor', function () {
         return {
             request: function(config) {
-                debugger;
+                if(window.sessionStorage.anon_user && config.method == 'GET' && config.url == '/api/package/'){
+                    config.url = config.url + '?anon_user=' + window.sessionStorage.anon_user
 
-                con
+                debugger;
+                }
+
+                return config
+            },
+
+            response: function(response) {
+                // debugger
+
+                if(response.config.url == "/api/users" && response.data.results[0].email == ""){
+                    debugger
+                    if(!window.sessionStorage.anon_user){
+                        window.sessionStorage.anon_user = response.data.results[0].username
+                    }
+                // debugger
+                }
+
+                return response
+
+
             }
         }
 
@@ -71,10 +91,10 @@ app.factory('s3FeedbackInterceptor', function ($q) {
         }
     })
 
-    .config(function ($httpProvider, $provide, $windowProvider) {
+    .config(['$httpProvider', '$provide', '$windowProvider' ,function ($httpProvider, $provide, $windowProvider) {
         $httpProvider.interceptors.push('s3FeedbackInterceptor');
         $httpProvider.interceptors.push('LogoutInterceptor');
         $httpProvider.interceptors.push('TokenAuthInterceptor')
-        // $httpProvider.interceptors.push('LoginInterceptor')
+        $httpProvider.interceptors.push('IdTokenInterceptor')
 
-    })
+    }])

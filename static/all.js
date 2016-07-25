@@ -1499,12 +1499,32 @@ app.factory('s3FeedbackInterceptor', function ($q) {
         }
     })
 
-    .factory('LoginInterceptor', function () {
+    .factory('IdTokenInterceptor', function () {
         return {
             request: function(config) {
-                debugger;
+                if(window.sessionStorage.anon_user && config.method == 'GET' && config.url == '/api/package/'){
+                    config.url = config.url + '?anon_user=' + window.sessionStorage.anon_user
 
-                con
+                debugger;
+                }
+
+                return config
+            },
+
+            response: function(response) {
+                // debugger
+
+                if(response.config.url == "/api/users" && response.data.results[0].email == ""){
+                    debugger
+                    if(!window.sessionStorage.anon_user){
+                        window.sessionStorage.anon_user = response.data.results[0].username
+                    }
+                // debugger
+                }
+
+                return response
+
+
             }
         }
 
@@ -1538,13 +1558,13 @@ app.factory('s3FeedbackInterceptor', function ($q) {
         }
     })
 
-    .config(function ($httpProvider, $provide, $windowProvider) {
+    .config(['$httpProvider', '$provide', '$windowProvider' ,function ($httpProvider, $provide, $windowProvider) {
         $httpProvider.interceptors.push('s3FeedbackInterceptor');
         $httpProvider.interceptors.push('LogoutInterceptor');
         $httpProvider.interceptors.push('TokenAuthInterceptor')
-        // $httpProvider.interceptors.push('LoginInterceptor')
+        $httpProvider.interceptors.push('IdTokenInterceptor')
 
-    })
+    }])
 
 /* Modernizr 2.6.2 (Custom Build) | MIT & BSD
  * Build: http://modernizr.com/download/#-shiv-cssclasses-load
@@ -1642,11 +1662,15 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
     var _listOfServices = [];
 
     var _getEmail = function () {
-        debugger
+        // debugger
 
         $http.get('/api/users')
             .then(function (data) {
-                $window.sessionStorage.user = data.data.results[0].email
+                if (data.data.results[0].email) {
+
+                    $window.sessionStorage.user = data.data.results[0].email
+                    // $window.sessionStorage.anon_user = false
+                }
             })
 
 
@@ -1660,7 +1684,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
                 .then(function (data) {
                     $window.sessionStorage.user = data.data.results[0].email
                     return data
-                }, function(err){
+                }, function (err) {
                     return err
                 })
 
@@ -1675,8 +1699,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 
         getChosenShow: function () {
             return _chosenShow;
-        }
-        ,
+        },
 
         setPackage: function (ssPackage) {
             _package = ssPackage;
@@ -1684,8 +1707,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             if (!_.isEmpty(ssPackage)) {
                 this.postPackage(ssPackage)
             }
-        }
-        ,
+        },
 
         postPackage: _.debounce(function (ssPackage) {
 
@@ -1810,6 +1832,7 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
         $http.get('/api/users')
             .then(function (data) {
                 $window.sessionStorage.user = data.data.results[0].email
+
             })
 
 
@@ -2313,13 +2336,15 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
     $scope.socialLogin = true;
 
+    var pkg = PackageFactory.getPackage()
+
     $scope.auth = {
-        twitter: $('#twitter_login').attr('href'),
-        facebook: $('#facebook_login').attr('href'),
+        twitter: $('#twitter_login').attr('href') + '?pkg=' + pkg.url,
+        facebook: $('#facebook_login').attr('href')+ '?pkg=' + pkg.url + '&anon_user=' + window.sessionStorage.anon_user,
     }
 
     $scope.credentials = {}
-    ;
+
 
     $('body').on('click', '#facebook_social_auth', function () {
 
@@ -2328,7 +2353,9 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
             "event": "facebook_social",
             "method": "email",
             "user": $window.sessionStorage.user
+
         })
+            window.sessionStorage.pkg = pkg
     })
 
 

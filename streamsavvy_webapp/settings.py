@@ -107,6 +107,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'server.middleware.anon_user_middleware.ProcessAnonUser',
+    'server.middleware.social.SaveInitialPackage',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     # 'server.middleware.duplicate_email.DuplicateEmail',
 ]
@@ -291,9 +292,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.associate_by_email',  # <--- enable this one
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
+    'server.pipelines.save_additional_info.save_additional_info',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
-    # 'server.pipelines.save_additional_info.save_additional_info',
 )
 
 # TEMPLATE_CONTEXT_PROCESSORS = (
