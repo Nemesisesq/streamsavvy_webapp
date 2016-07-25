@@ -38,7 +38,7 @@ app.factory('s3FeedbackInterceptor', function ($q) {
                 if(window.sessionStorage.anon_user && config.method == 'GET' && config.url == '/api/package/'){
                     config.url = config.url + '?anon_user=' + window.sessionStorage.anon_user
 
-                debugger;
+
                 }
 
                 return config
@@ -48,7 +48,6 @@ app.factory('s3FeedbackInterceptor', function ($q) {
                 // debugger
 
                 if(response.config.url == "/api/users" && response.data.results[0].email == ""){
-                    debugger
                     if(!window.sessionStorage.anon_user){
                         window.sessionStorage.anon_user = response.data.results[0].username
                     }
@@ -71,7 +70,7 @@ app.factory('s3FeedbackInterceptor', function ($q) {
 
                 config.headers = config.headers || {}
                 if ($window.sessionStorage.token) {
-                    config.headers.Authorization = 'JWT ' + $window.sessionStorage.token;
+                    config.headers.Authorization = $window.sessionStorage.token;
                 }
                 return config
             },
@@ -79,8 +78,8 @@ app.factory('s3FeedbackInterceptor', function ($q) {
                 if (response.status === 401) {
                     // handle the case where the user is not authenticated
                 }
-                if (response.headers().token) {
-                    $window.sessionStorage.token = response.headers().token
+                if (response.data.token) {
+                    $window.sessionStorage.token = response.data.token
                 }
 
                 if (response.data != undefined && response.data.hasOwnProperty('token')) {

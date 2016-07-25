@@ -143,6 +143,8 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                         "user": $window.sessionStorage.user
                     })
 
+                    $window.sessionStorage.reg_pkg_id = data.data.pkg
+
                     growl.success('Registration Successful')
                     $modalInstance.close()
                     window.location.reload()

@@ -47,11 +47,11 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
                     PackageFactory.setListOfServices($scope.listOfServices);
                 });
 
-            // PackageFactory.getSonyVueList(ssPackage)
-            //     .then(function(data){
-            //         //We set Sling and Playstation Services on the scope.
-            //         $scope.svs = data.data
-            //     })
+            PackageFactory.getSonyVueList(ssPackage)
+                .then(function(data){
+                    //We set Sling and Playstation Services on the scope.
+                    $scope.svs = data.data
+                })
 
             PackageFactory.setListOfServices($scope.listOfServices);
         }

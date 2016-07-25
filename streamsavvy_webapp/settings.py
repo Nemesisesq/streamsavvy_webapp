@@ -92,6 +92,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'oauth2_provider',
     'rest_framework_jwt',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -200,9 +201,10 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAdminUser'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.BasicAuthentication',
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
 
     ),
@@ -215,7 +217,7 @@ import dj_database_url
 
 DATABASES = {}
 
-DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy')
+DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy3')
 # DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 #############################

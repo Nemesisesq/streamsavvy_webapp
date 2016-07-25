@@ -65,6 +65,11 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
 
                     })
                 })
+            PackageFactory.getSonyVueList(ssPackage)
+                .then(function(data){
+                    //We set Sling and Playstation Services on the scope.
+                    $scope.svs = data.data
+                })
         }
     }
 

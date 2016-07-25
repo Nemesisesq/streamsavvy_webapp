@@ -19,8 +19,9 @@ class SignUpSerializer(serializers.ModelSerializer):
         pkg = Package.objects.get(pk=pkg_id)
         anon_user = pkg.owner
         instance.save()
-        pkg.owner = instance
-        pkg.save()
+        new_pkg = Package.objects.create(owner=instance)
+        new_pkg.data = pkg.data
+        new_pkg.save()
         anon_user.delete()
         return instance
 
@@ -37,7 +38,7 @@ class SignUpSerializer(serializers.ModelSerializer):
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password')
         write_only_fields = ('password',)
-
+        depth = 3
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

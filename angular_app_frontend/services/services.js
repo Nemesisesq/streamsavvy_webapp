@@ -251,8 +251,8 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
         }
     }
 
-    refreshTokenIfStale()
-        .then(getPackageOnLoad)
+
+        getPackageOnLoad()
 
     var getEmail = function () {
         debugger
