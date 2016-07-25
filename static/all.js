@@ -3304,7 +3304,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             return
         }
 
-        $scope.openingDetail = true;
+        openingDetail = true;
 
 
         window.scrollTo(0, 0);
@@ -3352,14 +3352,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         $('.show-grid').addClass('blur-and-fill');
 
-        $scope.openingDetail = false
+        openingDetail = false
 
 
     }, 50);
 
     $(document).keyup(function (event) {
         var keyCode = event.which || event.keyCode;
-        if (keyCode == 27 && $scope.opneingDetail) {
+        if (keyCode == 27) {
             $scope.hideDetail()
         }
 
