@@ -215,7 +215,7 @@ import dj_database_url
 
 DATABASES = {}
 
-DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy3')
+DATABASES['default'] = dj_database_url.config(default='postgres://postgres:streamsavvy@localhost:5432/streamsavvy')
 # DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 #############################
