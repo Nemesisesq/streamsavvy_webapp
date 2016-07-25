@@ -3,7 +3,7 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
     $scope.package = PackageFactory.getPackage();
     debugger;
 
-    if (_.isEmpty($scope.package.data.content)){
+    if (_.isEmpty($scope.package.data.content)) {
         $state.go('dash.dashboard')
     }
 
@@ -37,38 +37,47 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
                     var values = _.chain(non_ppv)
                         .values()
                         .flatten()
-                        .map(function(elem){
+                        .map(function (elem) {
                             return elem.chan.source
                         })
                         .value()
 
 
-
-                    only_ppv = _.map(only_ppv, function(elem){
+                    only_ppv = _.map(only_ppv, function (elem) {
                         return elem.chan.source
                     })
 
                     mixpanel.track('Service List', {
-                        "id" : 8,
+                        "id": 8,
                         "non ppv services": values,
-                        "ppv services" : only_ppv,
-                        "count" : values.length,
-                        "ppv_count" : only_ppv.length,
-                        "user" : $window.sessionStorage.user
+                        "ppv services": only_ppv,
+                        "count": values.length,
+                        "ppv_count": only_ppv.length,
+                        "user": $window.sessionStorage.user
                     })
                     return values
                 })
-                .then(function(values){
+                .then(function (values) {
                     $scope.package.data.services.subscribed = _.filter($scope.package.data.services.subscribed, function (elem) {
                         debugger;
-                        return _.includes(values, elem.chan.source )
+                        return _.includes(values, elem.chan.source)
 
                     })
                 })
-            PackageFactory.getSonyVueList(ssPackage)
-                .then(function(data){
-                    //We set Sling and Playstation Services on the scope.
-                    $scope.svs = data.data
+                .then(function (data) {
+
+                    PackageFactory.getSonyVueList($scope.package)
+                        .then(function (data) {
+                            //We set Sling and Playstation Services on the scope.
+                            $scope.svs = data.data
+
+                            if ($scope.list.hasOwnProperty('live')) {
+                                $scope.list.live = _.concat(data.data, $scope.list.live)
+                            } else {
+                                $scope.list.live = data.data
+                            }
+
+                        })
                 })
         }
     }
