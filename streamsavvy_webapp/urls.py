@@ -18,8 +18,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import TemplateView
 from rest_framework import routers
-from rest_framework.authtoken.views import obtain_auth_token
-from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+# from rest_framework.authtoken.views import obtain_auth_token
+# from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 from guide.views import RoviChannelGridView
 from server.auth import *

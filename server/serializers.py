@@ -19,6 +19,7 @@ class SignUpSerializer(serializers.ModelSerializer):
         pkg = Package.objects.get(pk=pkg_id)
         anon_user = pkg.owner
         instance.save()
+        print(instance)
         new_pkg = Package.objects.create(owner=instance)
         new_pkg.data = pkg.data
         new_pkg.save()

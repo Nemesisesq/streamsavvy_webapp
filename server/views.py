@@ -89,6 +89,7 @@ class SignUp(generics.CreateAPIView):
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
+        print(response.data['username'])
         user = User.objects.get(username = response.data['username'])
 
         # TODO this is a hack and neeeds to be properly fixed
