@@ -806,6 +806,26 @@ app.directive('mobileTabs', function ($location, $anchorScroll) {
 /**
  * Created by Nem on 5/11/16.
  */
+
+app.directive('sourced', function(){
+    return {
+        restrict: 'A',
+        scope: {
+            service: '='
+        },
+        link : function(scope){
+            if(!scope.service.hasOwnProperty('source')) {
+                if(scope.service.hasOwnProperty('guidebox_data')){
+                    scope.service.source = scope.service.guidebox_data.short_name
+                } else {
+                    scope.service.source = _.lowerCase(scope.service.name)
+                }
+
+            }
+        }
+    }
+})
+
 app.directive('servicePanelItem', function sPanelItem() {
     return {
         scope: {
