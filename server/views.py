@@ -27,6 +27,7 @@ from server.serializers import HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, SignUpSerializer, UserSerializer
 from server.shortcuts import api_json_post, try_catch
 from streamsavvy_webapp.settings import get_env_variable
+from django.contrib.auth import login
 
 
 from rest_framework_jwt.settings import api_settings
@@ -89,6 +90,8 @@ class SignUp(generics.CreateAPIView):
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
         user = User.objects.get(username = response.data['username'])
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request,user)
         response['token'] = get_sign_up_token(user)
         return response
 
@@ -307,3 +310,13 @@ def complete(request, backend, *args, **kwargs):
     """Override this method so we can force user to be logged out."""
     return do_complete(request.social_strategy, _do_login, user=None,
                        redirect_name='/', *args, **kwargs)
+
+def get_module_description(request, category=None):
+    if request.method == 'GET':
+        query_url = "{base}/modules/?q={category}".format(base=get_env_variable('DATA_MICROSERVICE_URL'), category=category)
+        try:
+            r = requests.get(query_url)
+            return JsonResponse(r.json(), safe=False)
+        except Exception as e:
+            print(e)
+

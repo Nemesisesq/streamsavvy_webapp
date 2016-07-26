@@ -30,7 +30,6 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
 
 
         }, function () {
-            debugger;
             $log.info('Modal dismissed at: ' + new Date());
 
             modalOpen = false
@@ -82,7 +81,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         $window.sessionStorage.user = {"email": credentials.email}
         http.login(credentials)
             .then(function (data) {
-                debugger;
                 mixpanel.track('Authentication', {
                     "id": 4.2,
                     "event": "login",
@@ -103,7 +101,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
                 })
 
             }, function (err) {
-                debugger;
 
                 if (err.data.hasOwnProperty('username')) {
 
@@ -125,7 +122,6 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
         credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
         credentials.submit = "Register";
         credentials.username = credentials.email;
-        debugger;
         credentials.package = PackageFactory.getPackage().url;
 
 
