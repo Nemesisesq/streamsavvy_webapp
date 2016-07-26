@@ -44,8 +44,7 @@
                     <div class="col-md-4 col-sm-3 col-xs-2 window-service" ng-hide="service.hide"
                          ng-repeat="service in detailSources[key]">
 
-                        {{ detail }}
-                        <img ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ service.source }}"/>
+                        <img ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ service.source || _.lowerCase(service.name) }}"/>
                     </div>
                 </div>
             </div>
