@@ -90,9 +90,9 @@ INSTALLED_APPS = [
     'django_rq',
     # 'debug_toolbar',
     'corsheaders',
-    'oauth2_provider',
-    'rest_framework_jwt',
-    'rest_framework.authtoken',
+    # 'oauth2_provider',
+    # 'rest_framework_jwt',
+    # 'rest_framework.authtoken',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -201,11 +201,11 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAdminUser'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
 
     ),
     'PAGE_SIZE': 20
@@ -260,10 +260,10 @@ AUTHENTICATION_BACKENDS = (
     'oauth2_provider.backends.OAuth2Backend',
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.instagram.InstagramOAuth2',
-    # 'social.backends.twitter.TwitterOAuth',
     'social.backends.username.UsernameAuth',
     'server.backends.EmailOrUsernameModelBackend',
     'django.contrib.auth.backends.ModelBackend',
+    # 'social.backends.twitter.TwitterOAuth',
 )
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
@@ -374,33 +374,33 @@ RQ_QUEUES = {
 #
 # JWT_VERIFY_EXPIRATION = False
 
-JWT_AUTH = {
-    'JWT_ENCODE_HANDLER':
-        'rest_framework_jwt.utils.jwt_encode_handler',
-
-    'JWT_DECODE_HANDLER':
-        'rest_framework_jwt.utils.jwt_decode_handler',
-
-    'JWT_PAYLOAD_HANDLER':
-        'rest_framework_jwt.utils.jwt_payload_handler',
-
-    'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-        'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
-
-    'JWT_RESPONSE_PAYLOAD_HANDLER':
-        'rest_framework_jwt.utils.jwt_response_payload_handler',
-
-    'JWT_SECRET_KEY': SECRET_KEY,
-    'JWT_ALGORITHM': 'HS256',
-    'JWT_VERIFY': True,
-    'JWT_VERIFY_EXPIRATION': True,
-    'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=12),
-    'JWT_AUDIENCE': None,
-    'JWT_ISSUER': None,
-
-    'JWT_ALLOW_REFRESH': False,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=30),
-
-    'JWT_AUTH_HEADER_PREFIX': 'JWT',
-}
+# JWT_AUTH = {
+#     'JWT_ENCODE_HANDLER':
+#         'rest_framework_jwt.utils.jwt_encode_handler',
+#
+#     'JWT_DECODE_HANDLER':
+#         'rest_framework_jwt.utils.jwt_decode_handler',
+#
+#     'JWT_PAYLOAD_HANDLER':
+#         'rest_framework_jwt.utils.jwt_payload_handler',
+#
+#     'JWT_PAYLOAD_GET_USER_ID_HANDLER':
+#         'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+#
+#     'JWT_RESPONSE_PAYLOAD_HANDLER':
+#         'rest_framework_jwt.utils.jwt_response_payload_handler',
+#
+#     'JWT_SECRET_KEY': SECRET_KEY,
+#     'JWT_ALGORITHM': 'HS256',
+#     'JWT_VERIFY': True,
+#     'JWT_VERIFY_EXPIRATION': True,
+#     'JWT_LEEWAY': 0,
+#     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=12),
+#     'JWT_AUDIENCE': None,
+#     'JWT_ISSUER': None,
+#
+#     'JWT_ALLOW_REFRESH': False,
+#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=30),
+#
+#     'JWT_AUTH_HEADER_PREFIX': 'JWT',
+# }

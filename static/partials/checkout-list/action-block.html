@@ -1,0 +1,31 @@
+<div class="col-lg-offset-3 col-md-offset-2 col-sm-offset-1 col-lg-8 col-md-9 col-sm-10 checkout-button-container">
+    <div class="row" ng-if="!service.added">
+
+        <div class="col-sm-4">
+            <button class="btn-purchase" ng-click="linkToAffiliate(service)">
+                <span ng-if="key != 'ota'">Subscribe</span>
+                <span ng-if="key == 'ota'">Purchase</span>
+            </button>
+        </div>
+        <div class="col-sm-4">
+            <button class="btn-already-have" ng-click="subscribe(service)">Have it</button>
+        </div>
+        <div class="col-sm-1">
+            <button class="btn-link hide-service " ng-click="hideService(service)">
+                Hide
+            </button>
+        </div>
+    </div>
+    <div ng-if="service.added" class="col-xs-11 show-added">
+        <div class="pull-right">
+            <div class="row checkout-green">Added Successfully</div>
+            <div class="row checkout-unsub"><a ng-click="unsubscribe(service)">Unsubscribe</a></div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-1 checkout-price">
+    <div ng-if="key != 'ppv' && key != 'ota' " class="checkout-service-price">
+        <div ng-if="service.details.price > 0"> ${{ service.details.price }}*</div>
+        <div ng-if="service.details.price == 0"> FREE</div>
+    </div>
+</div>

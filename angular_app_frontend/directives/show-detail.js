@@ -10,7 +10,6 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 
         link: function (scope) {
 
-            $
 
             // $('.background').scroll(function () {
             //     // console.log($('#sticky').offset().top)

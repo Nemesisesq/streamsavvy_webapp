@@ -1,0 +1,18 @@
+<div class="container mobile-checkout-container">
+    <div class="f-i-n-a-l-i-z-e-y-o-u-r-s-e-r-v-i-c">
+        <div class="row">
+            MANAGE YOUR SERVICES
+        </div>
+        <div class="app-manager-description">
+            Your personal streaming app manager. Subscribe to new apps or track the ones you have by adding them.
+        </div>
+        <checkout-instructions></checkout-instructions>
+    </div>
+    <checkout-item ng-repeat="(key, value) in list | customSorter" key="key" value="value"
+                   package="package"></checkout-item>
+    <div class="checkout-total">
+        Total $ {{ package.data.services.price.toFixed(2) }}
+    </div>
+    <hardware-row></hardware-row>
+</div>
+

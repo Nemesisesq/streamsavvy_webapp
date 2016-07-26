@@ -106,7 +106,6 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
 
     return {
         getEmail: function () {
-            debugger
 
             return $http.get('/api/users')
                 .then(function (data) {
@@ -255,7 +254,6 @@ app.run(function (PackageFactory, $http, http, $rootScope, $window, refreshPacka
         getPackageOnLoad()
 
     var getEmail = function () {
-        debugger
 
         $http.get('/api/users')
             .then(function (data) {

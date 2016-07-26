@@ -1,5 +1,10 @@
 
 show-detail {
+
+  .fade {
+    pointer-events: none;
+  }
+
   text-transform: none;
   font-family: AvenirNext-Bold;
   font-size: 14px;

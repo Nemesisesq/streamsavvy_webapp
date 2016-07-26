@@ -45,7 +45,6 @@ function removeHuluIfShowtimeContent(services) {
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window) {
 
 
-
     var openingDetail = false
 
     $scope.removeShow = function (show, $event) {
@@ -74,12 +73,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         var cs = PackageFactory.getChosenShow();
 
         // debugger;
-        if(!_.isEmpty(cs)){
+        if (!_.isEmpty(cs)) {
 
-        $http.post('/node-data/detailsources', cs)
-            .then(function (data) {
-                $scope.detailSources = data.data
-            })
+            $http.post('/node-data/detailsources', cs)
+                .then(function (data) {
+                    $scope.detailSources = data.data
+                })
         }
     })
 
@@ -104,7 +103,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $('body').addClass('gradient-background');
 
 
-
     $http.get('api/popular-shows')
         .success(function (data) {
             $scope.popularShows = data.results;
@@ -126,6 +124,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
 
+
+
         $('body').css({'overflow': 'hidden'})
 
         if ($window.innerWidth < 768) {
@@ -146,7 +146,11 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         window.scrollTo(0, 0);
         // $('body').css('overflow', 'hidden');
 
-        PackageFactory.setChosenShow(item);
+        if (!item.is_category) {
+            PackageFactory.setChosenShow(item);
+        } else {
+            $scope.$broadcast('category_clicked', item)
+        }
 
         if (item == $scope.cs) {
             $http.post('/node-data/detailsources', $scope.cs)
@@ -177,13 +181,19 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
             })
             .then(function (v) {
-                $('show-detail').addClass('fade-in');
-                var showDetailTop = $('show-detail').offset().top,
+                if (item.is_category) {
+                    $('category-detail').addClass('fade-in')
                     scrolledDistance = $('#search-and-shows').scrollTop()
-                $('show-detail').css({top: 55 + scrolledDistance})
+                    $('category-detail').css({top: 55 + scrolledDistance})
+                } else {
 
-                // $('show-detail').
-                //$('show-detail').removeClass('fade');
+
+                    $('show-detail').addClass('fade-in');
+                    var showDetailTop = $('show-detail').offset().top,
+                        scrolledDistance = $('#search-and-shows').scrollTop()
+                    $('show-detail').css({top: 55 + scrolledDistance})
+
+                }
             })
 
         $('.show-grid').addClass('blur-and-fill');
@@ -203,16 +213,23 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
     $scope.hideDetail = function (ev, loc) {
 
-        mixpanel.track('Close overlay',{
-            "id" : 6,
-            "user" : $window.sessionStorage.user,
-            "event" : loc
+        mixpanel.track('Close overlay', {
+            "id": 6,
+            "user": $window.sessionStorage.user,
+            "event": loc
 
         })
         var positionItem = document.getElementById('is-opened'),
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
-        $q.when($('show-detail').removeClass('fade-in'))
+        $q.when(function () {
+            console.log('here')
+            $('category-detail').removeClass('fade-in')
+
+            $('show-detail').removeClass('fade-in')
+
+
+        }())
             .then(function () {
 
 
@@ -279,6 +296,8 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.$watchCollection('package.data.content', function () {
         PackageFactory.setPackage($scope.package)
     })
+
+
 
 
 });

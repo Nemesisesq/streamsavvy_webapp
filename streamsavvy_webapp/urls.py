@@ -59,5 +59,6 @@ urlpatterns = [
     url(r'^api-token-auth/', obtain_auth_token),
     url(r'^api-token-verify/', verify_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token),
-    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    # url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^module_descriptions/(?P<category>\w+)', get_module_description, name='module_descriptions')
 ]

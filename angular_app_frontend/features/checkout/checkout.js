@@ -1,7 +1,6 @@
 app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window) {
 
     $scope.package = PackageFactory.getPackage();
-    debugger;
 
     if (_.isEmpty($scope.package.data.content)) {
         $state.go('dash.dashboard')
@@ -59,7 +58,6 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
                 })
                 .then(function (values) {
                     $scope.package.data.services.subscribed = _.filter($scope.package.data.services.subscribed, function (elem) {
-                        debugger;
                         return _.includes(values, elem.chan.source)
 
                     })

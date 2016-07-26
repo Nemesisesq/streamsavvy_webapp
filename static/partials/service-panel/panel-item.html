@@ -1,0 +1,11 @@
+<div class="ss_service">
+
+    <div style="color : #337ab7; cursor:pointer" ng-click="open = !open">
+        {{ formatServiceTitle(key) }}
+    </div>
+
+    <div uib-collapse="open">
+        <service-list key="key" value="value"></service-list>
+
+    </div>
+</div>
