@@ -104,22 +104,3 @@ app.directive('openDetail', function ($timeout) {
         }
     }
 })
-
-app.directive('otaSlingNetflix', function () {
-    return {
-        restrict: 'A',
-
-        link: function (scope, element, attrs) {
-
-            if (element.scope().$parent.key == 'binge') {
-                if (scope.cs.on_netflix && !_.some(scope.detailSources.binge, ['source', 'netflix'])) {
-
-                    element.append('<div class="col-sm-4"><img class="" src="https://s3.amazonaws.com/streamsavvy/service_logos/netflix"></div>')
-                }
-
-            }
-
-        }
-    }
-
-})
