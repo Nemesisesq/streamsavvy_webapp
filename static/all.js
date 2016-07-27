@@ -322,10 +322,10 @@ app.directive('categoryDetail', function ($http) {
         templateUrl: '/static/partials/categories/categories.html',
         link: function (scope, event, attrs) {
             scope.get_desc = function (category) {
-                debugger
+
                 return $http.get('module_descriptions/' + category)
                     .then(function (data) {
-                        debugger;
+
                         scope.cat = data.data
                         console.log(scope.cat)
                         return data
@@ -335,7 +335,7 @@ app.directive('categoryDetail', function ($http) {
             scope.get_desc('Sports')
 
             scope.$on('category_clicked', function (event, item) {
-                debugger;
+
                 scope.get_desc(item.title)
                     .then(function (data) {
                         scope.cat = data.data
@@ -1570,13 +1570,13 @@ app.factory('s3FeedbackInterceptor', function ($q) {
             },
 
             response: function(response) {
-                // debugger
+                //
 
                 if(response.config.url == "/api/users" && response.data.results[0].email == ""){
                     if(!window.sessionStorage.anon_user){
                         window.sessionStorage.anon_user = response.data.results[0].username
                     }
-                // debugger
+                //
                 }
 
                 return response
@@ -1719,7 +1719,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
     var _listOfServices = [];
 
     var _getEmail = function () {
-        // debugger
+        //
 
         $http.get('/api/users')
             .then(function (data) {
@@ -2482,7 +2482,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     $scope.$storage = $localStorage;
 
     function getNameOrEmail() {
-        debugger
+
 
         if ($scope.$storage.hasOwnProperty('userInfo')) {
             var s = $scope.$storage.userInfo;
@@ -2501,7 +2501,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     PackageFactory.getEmail()
         .then(function (data) {
             data.data.results[0].email ? $rootScope.logged_in = true : $rootScope.logged_in = false
-            debugger
+
             $localStorage.userInfo = data.data.results[0]
             $scope.nameOrEmail = getNameOrEmail()
         }, function () {
@@ -2525,7 +2525,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     })
 
     // $(document).click(function (event) {
-    //     debugger;
+    //
     //
     //     var target = event.target
     //
@@ -3270,7 +3270,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         var cs = PackageFactory.getChosenShow();
 
-        // debugger;
+        //
         if (!_.isEmpty(cs)) {
 
             $http.post('/node-data/detailsources', cs)
@@ -3421,7 +3421,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
         $q.when(function () {
-            console.log('here')
             $('category-detail').removeClass('fade-in')
 
             $('show-detail').removeClass('fade-in')

@@ -6,7 +6,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     $scope.$storage = $localStorage;
 
     function getNameOrEmail() {
-        debugger
+
 
         if ($scope.$storage.hasOwnProperty('userInfo')) {
             var s = $scope.$storage.userInfo;
@@ -25,7 +25,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     PackageFactory.getEmail()
         .then(function (data) {
             data.data.results[0].email ? $rootScope.logged_in = true : $rootScope.logged_in = false
-            debugger
+
             $localStorage.userInfo = data.data.results[0]
             $scope.nameOrEmail = getNameOrEmail()
         }, function () {
@@ -49,7 +49,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     })
 
     // $(document).click(function (event) {
-    //     debugger;
+    //
     //
     //     var target = event.target
     //

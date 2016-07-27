@@ -72,7 +72,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         var cs = PackageFactory.getChosenShow();
 
-        // debugger;
+        //
         if (!_.isEmpty(cs)) {
 
             $http.post('/node-data/detailsources', cs)
@@ -223,7 +223,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             scaleItem = document.getElementById('scaled-from'),
             container = document.getElementById('search-and-shows');
         $q.when(function () {
-            console.log('here')
             $('category-detail').removeClass('fade-in')
 
             $('show-detail').removeClass('fade-in')

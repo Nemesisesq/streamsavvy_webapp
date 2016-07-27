@@ -90,7 +90,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
     var _listOfServices = [];
 
     var _getEmail = function () {
-        // debugger
+        //
 
         $http.get('/api/users')
             .then(function (data) {

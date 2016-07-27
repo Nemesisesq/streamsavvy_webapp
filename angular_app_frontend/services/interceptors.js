@@ -45,13 +45,13 @@ app.factory('s3FeedbackInterceptor', function ($q) {
             },
 
             response: function(response) {
-                // debugger
+                //
 
                 if(response.config.url == "/api/users" && response.data.results[0].email == ""){
                     if(!window.sessionStorage.anon_user){
                         window.sessionStorage.anon_user = response.data.results[0].username
                     }
-                // debugger
+                //
                 }
 
                 return response

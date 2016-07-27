@@ -10,10 +10,10 @@ app.directive('categoryDetail', function ($http) {
         templateUrl: '/static/partials/categories/categories.html',
         link: function (scope, event, attrs) {
             scope.get_desc = function (category) {
-                debugger
+
                 return $http.get('module_descriptions/' + category)
                     .then(function (data) {
-                        debugger;
+
                         scope.cat = data.data
                         console.log(scope.cat)
                         return data
@@ -23,7 +23,7 @@ app.directive('categoryDetail', function ($http) {
             scope.get_desc('Sports')
 
             scope.$on('category_clicked', function (event, item) {
-                debugger;
+
                 scope.get_desc(item.title)
                     .then(function (data) {
                         scope.cat = data.data
