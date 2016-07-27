@@ -15,14 +15,14 @@
         <div class="col-sm-12 grid-title"> POPULAR SHOW SEARCHES</div>
 
 
-        <!-- TODO un comment for minor release after next -->
-       <!-- <div ng-controller="ModuleController">
 
-            <div class="col-sm-4 col-xs-6 popular-shows" ng-repeat="show in snt" ng-click="showDetail(show, $event)">
-                <img class="pointer" ng-src="{{ show.img_url }}"/>
+     <div ng-controller="ModuleController">
+
+            <div class="col-sm-4 col-xs-6 popular-shows" ng-repeat="show in snt" ng-click="showDetail(show, $event)" coming-soon >
+                <img class="pointer" ng-src="{{ show.img_url }}" imageonload/>
             </div>
 
-        </div> -->
+        </div>
 
         <div class="col-sm-4 col-xs-6 popular-shows" ng-repeat="show in popularShows"
              ng-click="addToSelectedShows(show)">
