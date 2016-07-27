@@ -20,19 +20,26 @@
     </nav>
 
     <div ui-view="modal"></div>
-    <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-click="showLeftPush()" ng-if="!cp">
+    <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-if="!cp">
 
-        <div ng-if="menuOpen == false"><img src="https://s3.amazonaws.com/streamsavvy/menu.png">
+        <div class="pull-left" ng-click="showLeftPush()">
+            <img src="https://s3.amazonaws.com/streamsavvy/menu.png" ng-if="menuOpen == false">
+            <img src="https://s3.amazonaws.com/streamsavvy/Close2x.png" ng-if="menuOpen == true">
+            <div ng-click="goBack()" ng-if="cp">
+                <i class="material-icons checkout-back">chevron_left</i>
+            </div>
             <!-- Menu -->
         </div>
 
-        <div ng-if="menuOpen == true"><img src="https://s3.amazonaws.com/streamsavvy/Close2x.png">
-            <!-- Close -->
+
+        <!--<div class="pull-right bar-buttons">
+             <a ng-if="!logged_in" id="sign-up" ng-click="login()" class="sign-up">Login/Register</a>
+            <a ng-if="logged_in" ng-click="logout()">Logout</a>
+
         </div>
+-->
 
     </div>
-    <div id="showLeftPush" class="menu-buttons cbp-spmenu-push" ng-click="goBack()" ng-if="cp"><i
-            class="material-icons checkout-back">chevron_left</i></div>
 </div>
 <!--  home page-->
 <div ui-view="home" id="mainPage" class="main-page container-fluid content-wrapper cbp-spmenu-push"></div>

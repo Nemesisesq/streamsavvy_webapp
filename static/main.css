@@ -3780,8 +3780,12 @@ span.step {
 .nav-space {
   margin-top: 30px; }
 
-.menu-buttons {
-  color: #ed1c24; }
+#showLeftPush.menu-buttons {
+  color: #ed1c24;
+  width: 100%;
+  margin: 0;
+  padding-left: 10px;
+  padding-right: 20px; }
 
 .ss-menu {
   padding-bottom: 5%;
@@ -3851,6 +3855,9 @@ a.social-icons {
 
 .material-icons.checkout-back {
   font-size: 40px; }
+
+.bar-buttons {
+  color: white; }
 
 @media (max-width: 767px) {
   body.background.container.ng-scope.no-scroll.gradient-background {

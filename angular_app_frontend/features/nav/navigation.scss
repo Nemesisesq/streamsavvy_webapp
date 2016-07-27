@@ -95,8 +95,17 @@
   margin-top: 30px;
 }
 
-.menu-buttons {
-  color: $action_red;
+#showLeftPush {
+
+  &.menu-buttons {
+    color: $action_red;
+    width: 100%;
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 20px;
+
+
+  }
 }
 
 .ss-menu {
@@ -217,4 +226,8 @@ a.social-icons {
 .material-icons.checkout-back {
   font-size: 40px;
   //font-weight: 400;
+}
+
+.bar-buttons {
+  color: white;
 }
