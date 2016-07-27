@@ -3500,6 +3500,21 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 });
 
+app.directive('imageonload', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+
+            element.bind('load', function() {
+                this.classList.add('loaded')
+            });
+            element.bind('error', function(){
+                console.log(this + 'image could not be loaded');
+            });
+        }
+    };
+})
+
 /**
  * Created by Nem on 7/25/16.
  */

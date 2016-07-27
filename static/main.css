@@ -3202,8 +3202,11 @@ footer a.pull-right {
   padding-right: 0; }
 
 .pointer {
+  opacity: 0;
   cursor: pointer;
   transition: all .25s ease-out; }
+  .pointer.loaded {
+    opacity: 1; }
 
 .remove-show {
   opacity: .2;
@@ -3886,6 +3889,11 @@ a.logout {
     display: inline; }
   .show-title, .popular-shows {
     padding-bottom: 5px; }
+  img {
+    opacity: 1;
+    transition: opacity 0.3s; }
+  img[data-src] {
+    opacity: 0; }
   #theGrid img {
     width: 100%;
     object-fit: contain;

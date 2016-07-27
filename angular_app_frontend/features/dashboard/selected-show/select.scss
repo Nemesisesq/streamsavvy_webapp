@@ -241,14 +241,13 @@ show-detail {
 @media (max-width: 767px) {
 
   .window-service {
-min-height: 63px
-}
+    min-height: 63px
+  }
 
   show-detail {
     .synopsis, .show-info li {
       font-weight: 300;
     }
-
 
   }
 }

@@ -4,24 +4,18 @@
             <a ng-class="{active: isActive('#/') }" href="#">Home</a>
             <a id="sidebarDashNav" ng-class="{active: isActive('#/dashboard')}" href="#/dashboard">Search Shows</a>
         </div>
-
         <div class="ss-small-menu-options">
             <a ng-href="mailto:info@streamsavvy.tv?Subject={{ location.url }}">Contact Us</a>
-            <!-- <a href="#/error/coming-soon">About Us</a>
-            <a href="#/error/coming-soon">Blog</a> -->
+            <!-- <a href="#/error/coming-soon">About Us</a> -->
+            <a href="http://blog.streamsavvy.tv">Blog</a>
         </div>
-
-
         <div class="ss-menu-auth" ng-controller="ModalController">
             <a ng-if="!logged_in" id="sign-up" ng-click="login()" class="sign-up">Login/Register</a>
             <a ng-if="logged_in" ng-click="logout()">Logout</a>
         </div>
-
     </nav>
-
     <div ui-view="modal"></div>
     <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push">
-
         <div class="pull-left" ng-click="showLeftPush()" ng-if="!cp">
             <img src="https://s3.amazonaws.com/streamsavvy/menu.png" ng-if="menuOpen == false">
             <img src="https://s3.amazonaws.com/streamsavvy/Close2x.png" ng-if="menuOpen == true">
@@ -30,24 +24,18 @@
             <i class="material-icons checkout-back">chevron_left</i>
         </div>
         <!-- Menu -->
-
     </div>
     <div class="pull-right bar-buttons ">
         <a ng-if="!logged_in" id="sign-up" ng-click="login()" class="sign-up">Login/Register</a>
-<span ng-if="logged_in" >        Welcome {{ nameOrEmail }}, <a class="logout" ng-click="logout()"> Logout</a>
-</span>
+        <div ng-if="logged_in">
+            Welcome {{ nameOrEmail }}, <a class="logout" ng-click="logout()"> Logout</a>
+        </div>
     </div>
 </div>
 <!--  home page-->
 <div ui-view="home" id="mainPage" class="main-page container-fluid content-wrapper cbp-spmenu-push"></div>
 
-<!--  blog-->
-<div ui-view="blog" class=""></div>
 
-<!-- search
-<div ui-view="search"></div>
--->
-<!--step one -->
 
 
 

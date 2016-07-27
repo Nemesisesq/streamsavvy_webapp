@@ -117,10 +117,14 @@
 }
 
 .pointer {
-
+  opacity: 0;
   cursor: pointer;
 
   transition: all .25s ease-out;
+
+  &.loaded {
+    opacity: 1;
+  }
 }
 
 .remove-show {
