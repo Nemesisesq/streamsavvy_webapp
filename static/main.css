@@ -3457,11 +3457,10 @@ show-detail, category-detail {
   height: 30px; }
 
 @media (max-width: 767px) {
+  .window-service {
+    min-height: 63px; }
   show-detail .synopsis, category-detail .synopsis, show-detail .show-info li, category-detail .show-info li {
     font-weight: 300; } }
-
-.window-service {
-  min-height: 63px; }
 
 category-detail {
   opacity: 0; }
