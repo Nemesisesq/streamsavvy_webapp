@@ -54,31 +54,21 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
                     return 'Pay Per Episode or Season'
                 }
             }
-
             scope.hasOwnApp = function (key, item) {
-
                 servicesWithApps = [ 'CBS', 'NBC', 'HBO', 'HBO NOW', 'Showtime', 'Starz', 'History Channel'];
                 if (key == 'live' && item.name != 'Sling' && item.name != 'OTA') {
-
                     if (item.hasOwnProperty('display_name')){
 
                         return _.some(servicesWithApps, function(elem){
                             return elem == item.display_name;
                         })
                     }
-
                     return _.some(servicesWithApps,  function(elem){
                             return elem == item.name;
                         })
-
-
                 }
-
-
                 return true
             }
-
-
         }
     }
 })
@@ -87,7 +77,6 @@ app.directive('showDetail', function (PackageFactory, $q, SLING_CHANNELS) {
 app.directive('openDetail', function ($timeout) {
     return {
         restrict: 'A',
-
         link: function (scope, element, attrs) {
             // alert('Hello World');
             $timeout(function () {
@@ -99,8 +88,6 @@ app.directive('openDetail', function ($timeout) {
                     scope.show.justAdded = false
                 }
             }, 1000)
-
-
         }
     }
 })

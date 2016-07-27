@@ -27,7 +27,7 @@
             </div>
 
             <div id="overlay-icons">
-                <div class="window row live" ota-sling-netflix ng-repeat="key in detailSources.sortedServices"
+                <div class="window row live" ng-repeat="key in detailSources.sortedServices"
                      ng-if="detailSources[key].length > 0 && key !== 'misc'">
                     <div class="window-label">{{ fixTitle(key) }}</div>
                     <div class="col-md-4 col-sm-3 col-xs-2 window-service" ng-hide="service.hide"
