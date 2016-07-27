@@ -104,7 +104,6 @@
     padding-left: 10px;
     padding-right: 20px;
 
-
   }
 }
 
@@ -229,5 +228,32 @@ a.social-icons {
 }
 
 .bar-buttons {
+  position: relative;
   color: white;
+  transition: position 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  top: -15px;
+  right: 10px;
+
+  .cbp-spmenu-push-toright & {
+    right: 240px;
+    position: relative;
+
+  }
+
+  .ss_checkout & {
+    top: -65px;
+    right: 15px;
+  }
 }
+
+a.logout {
+  color: $warm-grey;
+  cursor: pointer;
+
+  &:hover{
+    color: white;
+  }
+}
+

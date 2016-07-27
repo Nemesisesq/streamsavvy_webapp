@@ -11,7 +11,7 @@
     <checkout-item ng-repeat="(key, value) in list | customSorter" key="key" value="value"
                    package="package"></checkout-item>
     <div class="checkout-total">
-        Total $ {{ package.data.services.price.toFixed(2) }}
+        Total $ {{ package.data.services.price.toFixed(2) || '0.00' }}
     </div>
     <hardware-row></hardware-row>
 </div>

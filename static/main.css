@@ -2668,8 +2668,8 @@ show-detail .background, category-detail .background {
 .checkout-total {
   text-align: right;
   position: fixed;
-  top: 10px;
-  right: 10px; }
+  top: 20px;
+  right: 15px; }
 
 .checkoutList {
   margin-top: 30px;
@@ -3857,7 +3857,25 @@ a.social-icons {
   font-size: 40px; }
 
 .bar-buttons {
-  color: white; }
+  position: relative;
+  color: white;
+  transition: position 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  top: -15px;
+  right: 10px; }
+  .cbp-spmenu-push-toright .bar-buttons {
+    right: 240px;
+    position: relative; }
+  .ss_checkout .bar-buttons {
+    top: -65px;
+    right: 15px; }
+
+a.logout {
+  color: #9b9b9b;
+  cursor: pointer; }
+  a.logout:hover {
+    color: white; }
 
 @media (max-width: 767px) {
   body.background.container.ng-scope.no-scroll.gradient-background {

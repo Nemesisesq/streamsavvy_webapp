@@ -30,7 +30,8 @@ var app = angular.module('myApp', [
     'slick',
     'angular-growl',
     'environment',
-    'ui.router.metatags'
+    'ui.router.metatags',
+    'ngStorage',
 ])
 
 

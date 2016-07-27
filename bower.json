@@ -45,6 +45,6 @@
   "private": true,
   "resolutions": {
     "angular": "1.5.7",
-    "angular-cookies": "~1.4.5"
+    "angular-cookies": "^1.5.7"
   }
 }

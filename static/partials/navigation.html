@@ -20,25 +20,22 @@
     </nav>
 
     <div ui-view="modal"></div>
-    <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push" ng-if="!cp">
+    <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push">
 
-        <div class="pull-left" ng-click="showLeftPush()">
+        <div class="pull-left" ng-click="showLeftPush()" ng-if="!cp">
             <img src="https://s3.amazonaws.com/streamsavvy/menu.png" ng-if="menuOpen == false">
             <img src="https://s3.amazonaws.com/streamsavvy/Close2x.png" ng-if="menuOpen == true">
-            <div ng-click="goBack()" ng-if="cp">
-                <i class="material-icons checkout-back">chevron_left</i>
-            </div>
-            <!-- Menu -->
         </div>
-
-
-        <!--<div class="pull-right bar-buttons">
-             <a ng-if="!logged_in" id="sign-up" ng-click="login()" class="sign-up">Login/Register</a>
-            <a ng-if="logged_in" ng-click="logout()">Logout</a>
-
+        <div ng-click="goBack()" ng-if="cp">
+            <i class="material-icons checkout-back">chevron_left</i>
         </div>
--->
+        <!-- Menu -->
 
+    </div>
+    <div class="pull-right bar-buttons ">
+        <a ng-if="!logged_in" id="sign-up" ng-click="login()" class="sign-up">Login/Register</a>
+<span ng-if="logged_in" >        Welcome {{ nameOrEmail }}, <a class="logout" ng-click="logout()"> Logout</a>
+</span>
     </div>
 </div>
 <!--  home page-->

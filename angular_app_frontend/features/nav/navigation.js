@@ -1,7 +1,38 @@
 /**
  * Created by Nem on 6/28/15.
  */
-app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, $timeout, loginEventService, authEventService, PackageFactory) {
+app.controller('navigation', function ($scope, http, $http, $cookies, $window, $location, $state, $rootScope, $timeout, loginEventService, authEventService, PackageFactory, $localStorage) {
+
+    $scope.$storage = $localStorage;
+
+    function getNameOrEmail() {
+        debugger
+
+        if ($scope.$storage.hasOwnProperty('userInfo')) {
+            var s = $scope.$storage.userInfo;
+            if (s.first_name && s.last_name) {
+                return s.first_name + ' ' + s.last_name
+            }
+
+            if (s.first_name) {
+                return s.first_name
+            }
+
+            return s.email
+        }
+    }
+
+    PackageFactory.getEmail()
+        .then(function (data) {
+            data.data.results[0].email ? $rootScope.logged_in = true : $rootScope.logged_in = false
+            debugger
+            $localStorage.userInfo = data.data.results[0]
+            $scope.nameOrEmail = getNameOrEmail()
+        }, function () {
+
+            $rootScope.logged_in = false
+        });
+
 
     $scope.menuOpen = false
 
@@ -79,8 +110,9 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
             "method": "email",
             "user": $window.sessionStorage.user
         })
-        delete $window.sessionStorage['token']
-        location.pathname = '/logout/'
+        delete $window.sessionStorage['token'];
+        delete $scope.$storage['userInfo'];
+        location.pathname = '/logout/';
         $scope.logged_in = false
 
 
@@ -175,15 +207,8 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
 
 });
 
-app.run(function ($rootScope, PackageFactory) {
-    PackageFactory.getEmail()
-        .then(function (data) {
-            data.data.results[0].email ? $rootScope.logged_in = true : $rootScope.logged_in = false
+app.run(function ($rootScope, PackageFactory, $localStorage) {
 
-        }, function () {
-
-            $rootScope.logged_in = false
-        });
     // console.log($rootScope.logged_in)
 
 })
