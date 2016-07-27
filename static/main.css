@@ -3460,6 +3460,9 @@ show-detail, category-detail {
   show-detail .synopsis, category-detail .synopsis, show-detail .show-info li, category-detail .show-info li {
     font-weight: 300; } }
 
+.window-service {
+  min-height: 63px; }
+
 category-detail {
   opacity: 0; }
 
