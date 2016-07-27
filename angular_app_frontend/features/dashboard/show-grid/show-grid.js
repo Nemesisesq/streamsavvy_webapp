@@ -301,21 +301,4 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 });
 
-app.directive('imageonload', function($timeout) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
 
-            element.bind('load', function() {
-                var that = this
-                $timeout(function(){
-
-                that.classList.add('loaded')
-                }, chance.natural({min: 10, max:700}))
-            });
-            element.bind('error', function(){
-                console.log(this + 'image could not be loaded');
-            });
-        }
-    };
-})

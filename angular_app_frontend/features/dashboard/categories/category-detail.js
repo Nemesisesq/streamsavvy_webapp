@@ -47,3 +47,19 @@ app.directive('moduleRow', function ($http) {
         }
     }
 })
+
+app.directive('comingSoon', function (_) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            debugger;
+            scope.isClickable = true
+            var notReady = ['News', 'Live']
+            if (_.includes(notReady, scope.show.title)) {
+                scope.isClickable = false;
+                element.addClass('coming-soon')
+
+            }
+        }
+    }
+})

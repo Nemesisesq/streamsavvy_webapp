@@ -311,56 +311,6 @@ app.run(function ($window, $state) {
 // })
 
 /**
- * Created by Nem on 7/25/16.
- */
-
-
-app.directive('categoryDetail', function ($http) {
-    return {
-        restrict: 'E',
-        controller: 'ShowGridController',
-        templateUrl: '/static/partials/categories/categories.html',
-        link: function (scope, event, attrs) {
-            scope.get_desc = function (category) {
-
-                return $http.get('module_descriptions/' + category)
-                    .then(function (data) {
-
-                        scope.cat = data.data
-                        console.log(scope.cat)
-                        return data
-                    })
-            }
-
-            scope.get_desc('Sports')
-
-            scope.$on('category_clicked', function (event, item) {
-
-                scope.get_desc(item.title)
-                    .then(function (data) {
-                        scope.cat = data.data
-
-                    })
-            })
-
-        }
-    }
-})
-
-app.directive('moduleRow', function ($http) {
-    return {
-        restrict: 'E',
-        templateUrl: '/static/partials/categories/row-template.html',
-        // controller: 'ModuleControler',
-
-        link: function (scope, event, attrs) {
-
-
-        }
-    }
-})
-
-/**
  * Created by Nem on 6/4/16.
  */
 
@@ -730,6 +680,33 @@ $(document).ready(function () {
         return $(this).width
     })
 })
+
+/**
+ * Created by Nem on 7/27/16.
+ */
+/* This is a place for general directives
+* that can be applied site wide
+**/
+
+app.directive('imageonload', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+
+            element.bind('load', function() {
+                var that = this
+                $timeout(function(){
+
+                that.classList.add('loaded')
+                }, chance.natural({min: 10, max:700}))
+            });
+            element.bind('error', function(){
+                console.log(this + 'image could not be loaded');
+            });
+        }
+    };
+})
+
 
 /**
  * Created by Nem on 9/18/15.
@@ -3004,6 +2981,72 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
 
 /**
+ * Created by Nem on 7/25/16.
+ */
+
+
+app.directive('categoryDetail', function ($http) {
+    return {
+        restrict: 'E',
+        controller: 'ShowGridController',
+        templateUrl: '/static/partials/categories/categories.html',
+        link: function (scope, event, attrs) {
+            scope.get_desc = function (category) {
+
+                return $http.get('module_descriptions/' + category)
+                    .then(function (data) {
+
+                        scope.cat = data.data
+                        console.log(scope.cat)
+                        return data
+                    })
+            }
+
+            scope.get_desc('Sports')
+
+            scope.$on('category_clicked', function (event, item) {
+
+                scope.get_desc(item.title)
+                    .then(function (data) {
+                        scope.cat = data.data
+
+                    })
+            })
+
+        }
+    }
+})
+
+app.directive('moduleRow', function ($http) {
+    return {
+        restrict: 'E',
+        templateUrl: '/static/partials/categories/row-template.html',
+        // controller: 'ModuleControler',
+
+        link: function (scope, event, attrs) {
+
+
+        }
+    }
+})
+
+app.directive('comingSoon', function (_) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            debugger;
+            scope.isClickable = true
+            var notReady = ['News', 'Live']
+            if (_.includes(notReady, scope.show.title)) {
+                scope.isClickable = false;
+                element.addClass('coming-soon')
+
+            }
+        }
+    }
+})
+
+/**
  * Created by Nem on 5/24/16.
  */
 app.controller('HardwareController', function ($scope, PackageFactory, $state, $window, loginEventService, $rootScope) {
@@ -3499,24 +3542,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 });
 
-app.directive('imageonload', function($timeout) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
 
-            element.bind('load', function() {
-                var that = this
-                $timeout(function(){
-
-                that.classList.add('loaded')
-                }, chance.natural({min: 10, max:700}))
-            });
-            element.bind('error', function(){
-                console.log(this + 'image could not be loaded');
-            });
-        }
-    };
-})
 
 /**
  * Created by Nem on 7/25/16.
