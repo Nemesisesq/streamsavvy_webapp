@@ -275,6 +275,9 @@ body {
   .sidebar-content {
     width: 100%; } }
 
+.no-padding {
+  padding: 0; }
+
 /*!
  *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -3454,6 +3457,8 @@ show-detail, category-detail {
     font-weight: 300; } }
 
 category-detail {
+  left: 0;
+  z-index: 101;
   opacity: 0; }
 
 .category-description {
@@ -3465,26 +3470,29 @@ category-detail {
     max-height: 100%;
     width: auto;
     height: auto; }
-  .category-description ::before {
+  .category-description:before {
     bottom-padding: 3px;
     position: absolute;
     display: block;
-    height: 50%;
+    height: 80%;
+    content: "";
     border-top: solid #9b9b9b 2px;
     border-left: solid #9b9b9b 2px;
     width: 20px;
     border-top-left-radius: 5px;
-    top: 0; }
-  .category-description ::after {
+    top: -5px;
+    margin-bottom: 10px; }
+  .category-description:after {
     position: absolute;
     border-bottom: solid #9b9b9b 2px;
     border-left: solid #9b9b9b 2px;
     border-bottom-left-radius: 5px;
     width: 20px;
-    bottom: 0;
+    bottom: -5px;
     display: block;
-    height: 50%; }
-    .category-description ::after div {
+    height: 60%;
+    content: ""; }
+    .category-description:after div {
       border: none; }
 
 span.step {
@@ -3492,7 +3500,7 @@ span.step {
   border-radius: 1em;
   -moz-border-radius: 1em;
   -webkit-border-radius: 1em;
-  color: #ffffff;
+  color: white;
   display: inline-block;
   font-weight: bold;
   line-height: 2em;
@@ -3543,18 +3551,10 @@ span.step {
   background-color: #660000;
   color: #9d9d9d; }
 
-.table-container {
-  width: 100%;
-  display: block;
-  margin: 0 auto; }
-
 .table-container .row {
   padding-bottom: 5px;
   padding-right: 10px;
   padding-left: 10px; }
-
-.category-header {
-  height: 30px; }
 
 @media (max-width: 991px) {
   .category-header {
@@ -3578,7 +3578,11 @@ span.step {
   .table-container .btn {
     display: block;
     margin: 0 auto;
-    font-size: 17px; } }
+    font-size: 17px; }
+  .button-block {
+    margin-top: 50px; }
+    .button-block .btn {
+      width: 100%; } }
 
 .price-block {
   text-align: center; }
@@ -3591,6 +3595,72 @@ span.step {
 @media (max-width: 991px) {
   .table-container p {
     font-size: 17px; } }
+
+.coming-soon {
+  transition: all .3s ease-in-out; }
+  .coming-soon .overlay {
+    transition: all .3s ease-in-out;
+    content: "Comming Soon";
+    color: white;
+    position: absolute;
+    font-size: 25px;
+    width: 90%;
+    height: 100%;
+    opacity: 0;
+    padding-top: 22%;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    text-align: center; }
+    .coming-soon .overlay:hover {
+      opacity: 1; }
+  .coming-soon img {
+    transition: all .3s ease-in-out; }
+  .coming-soon:hover {
+    transition: all .3s ease-in-out; }
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn; }
+
+.catgory-row-desc {
+  height: inherit; }
+
+.container-detailer-table {
+  margin-top: 40px;
+  margin-bottom: 30px; }
+
+.overlay-btn {
+  background-color: #ed1c24;
+  min-width: 100px; }
+
+.category-row {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+@media (max-width: 425px) {
+  .category-description .col-xs-6 {
+    height: 50px; }
+  .category-description .price-block {
+    font-size: 20px;
+    color: #9b9b9b;
+    margin-bottom: 10px; } }
+
+.cat-detail-separator {
+  width: 95%;
+  border-top: 2px dotted #9b9b9b;
+  margin: 10px; }
 
 /* General styles for all menus */
 .cbp-spmenu {
@@ -4166,7 +4236,7 @@ span.fa.fa-facebook {
   margin-left: 40px;
   margin-right: 40px; }
 
-div.center > div.group {
+div.center > div.group, .coming-soon div.overlay > div.group {
   margin-top: 35px; }
 
 .inputMaterial {
@@ -4417,6 +4487,212 @@ a:link, a:visited {
 
 .username {
   margin-top: 30px; }
+
+category-detail {
+  left: 0;
+  z-index: 101;
+  opacity: 0; }
+
+.category-description {
+  margin-bottom: 10px;
+  font-size: .8em; }
+  .category-description img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto; }
+  .category-description:before {
+    bottom-padding: 3px;
+    position: absolute;
+    display: block;
+    height: 80%;
+    content: "";
+    border-top: solid #9b9b9b 2px;
+    border-left: solid #9b9b9b 2px;
+    width: 20px;
+    border-top-left-radius: 5px;
+    top: -5px;
+    margin-bottom: 10px; }
+  .category-description:after {
+    position: absolute;
+    border-bottom: solid #9b9b9b 2px;
+    border-left: solid #9b9b9b 2px;
+    border-bottom-left-radius: 5px;
+    width: 20px;
+    bottom: -5px;
+    display: block;
+    height: 60%;
+    content: ""; }
+    .category-description:after div {
+      border: none; }
+
+span.step {
+  background: #ed1c24;
+  border-radius: 1em;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+  color: white;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2em;
+  margin-right: 5px;
+  text-align: center;
+  width: 2em; }
+
+.available {
+  opacity: 1 !important; }
+
+.fixed {
+  position: fixed;
+  z-index: 1000;
+  top: 50px;
+  width: 100%;
+  background: rgba(21, 25, 27, 0.98); }
+  .fixed + div {
+    margin-top: 10px; }
+
+.synopsis-with-info {
+  padding-bottom: 5%; }
+
+@media (max-width: 767px) {
+  .placeholder {
+    background: black; }
+  .black-mobile-bg {
+    background: black; }
+  #sticky {
+    padding: 10px;
+    height: 41px;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    background: rgba(0, 0, 0, 0.4); } }
+
+.col-xs-4.window-service.ng-scope {
+  height: 30px; }
+
+.table-container .btn {
+  background-color: red;
+  color: white;
+  border-radius: 7px;
+  display: inline;
+  transform: translateY(10px); }
+
+.table-container .btn:hover {
+  background-color: #660000;
+  color: #9d9d9d; }
+
+.table-container .row {
+  padding-bottom: 5px;
+  padding-right: 10px;
+  padding-left: 10px; }
+
+@media (max-width: 991px) {
+  .category-header {
+    font-size: 18px; } }
+
+@media (max-width: 991px) {
+  .table-container .col-xs-6 {
+    padding: 15px; } }
+
+@media (max-width: 991px) {
+  .table-container .col-xs-12 {
+    padding: 15px; } }
+
+@media (max-width: 991px) {
+  .table-container .button-block {
+    padding-bottom: 30px;
+    border-bottom: dashed 1px white;
+    transform: translateY(0px); } }
+
+@media (max-width: 991px) {
+  .table-container .btn {
+    display: block;
+    margin: 0 auto;
+    font-size: 17px; }
+  .button-block {
+    margin-top: 50px; }
+    .button-block .btn {
+      width: 100%; } }
+
+.price-block {
+  text-align: center; }
+  .price-block img {
+    height: 30px; }
+
+.table-container p {
+  line-height: 20px; }
+
+@media (max-width: 991px) {
+  .table-container p {
+    font-size: 17px; } }
+
+.coming-soon {
+  transition: all .3s ease-in-out; }
+  .coming-soon .overlay {
+    transition: all .3s ease-in-out;
+    content: "Comming Soon";
+    color: white;
+    position: absolute;
+    font-size: 25px;
+    width: 90%;
+    height: 100%;
+    opacity: 0;
+    padding-top: 22%;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    text-align: center; }
+    .coming-soon .overlay:hover {
+      opacity: 1; }
+  .coming-soon img {
+    transition: all .3s ease-in-out; }
+  .coming-soon:hover {
+    transition: all .3s ease-in-out; }
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn; }
+
+.catgory-row-desc {
+  height: inherit; }
+
+.container-detailer-table {
+  margin-top: 40px;
+  margin-bottom: 30px; }
+
+.overlay-btn {
+  background-color: #ed1c24;
+  min-width: 100px; }
+
+.category-row {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+@media (max-width: 425px) {
+  .category-description .col-xs-6 {
+    height: 50px; }
+  .category-description .price-block {
+    font-size: 20px;
+    color: #9b9b9b;
+    margin-bottom: 10px; } }
+
+.cat-detail-separator {
+  width: 95%;
+  border-top: 2px dotted #9b9b9b;
+  margin: 10px; }
 
 html,
 button,

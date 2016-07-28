@@ -2985,7 +2985,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
  */
 
 
-app.directive('categoryDetail', function ($http) {
+app.directive('categoryDetail', function ($http, _) {
     return {
         restrict: 'E',
         controller: 'ShowGridController',
@@ -2996,7 +2996,16 @@ app.directive('categoryDetail', function ($http) {
                 return $http.get('module_descriptions/' + category)
                     .then(function (data) {
 
-                        scope.cat = data.data
+                        // debugger;
+                        var group = _.groupBy(data.data, function (elem) {
+                            if (elem.img == 'ota') {
+                                return 'ota'
+
+                            }
+
+                            return 'core'
+                        })
+                        scope.cat = group;
                         console.log(scope.cat)
                         return data
                     })
@@ -3008,7 +3017,7 @@ app.directive('categoryDetail', function ($http) {
 
                 scope.get_desc(item.title)
                     .then(function (data) {
-                        scope.cat = data.data
+                        // scope.cat = data.data
 
                     })
             })
@@ -3024,6 +3033,14 @@ app.directive('moduleRow', function ($http) {
         // controller: 'ModuleControler',
 
         link: function (scope, event, attrs) {
+            debugger;
+
+            if(scope.key == 'ota'){
+                scope.rowTitle = 'Big Game'
+
+            } else {
+                scope.rowTitle = 'Core Package'
+            }
 
 
         }
@@ -3045,6 +3062,8 @@ app.directive('comingSoon', function (_) {
         }
     }
 })
+
+
 
 /**
  * Created by Nem on 5/24/16.
@@ -3159,85 +3178,6 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
         })
 
 });
-
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if (ssPackage.hasOwnProperty('data')) {
-
-
-
-
-
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-
-            PackageFactory.getSonyVueList(ssPackage)
-                .then(function(data){
-                    //We set Sling and Playstation Services on the scope.
-                    $scope.svs = data.data
-                })
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
 
 function interceptor(obj) {
     return obj
@@ -3564,3 +3504,82 @@ app.controller('ModuleController', function ($scope, $http) {
         }
     ]
 })
+
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if (ssPackage.hasOwnProperty('data')) {
+
+
+
+
+
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+
+            PackageFactory.getSonyVueList(ssPackage)
+                .then(function(data){
+                    //We set Sling and Playstation Services on the scope.
+                    $scope.svs = data.data
+                })
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        } else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
