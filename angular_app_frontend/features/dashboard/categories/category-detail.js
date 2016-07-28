@@ -44,9 +44,11 @@ app.directive('moduleRow', function ($http, PackageFactory, _) {
 
             if (scope.key == 'ota') {
                 scope.rowTitle = 'Big Game'
+                scope.desc ='(select one)'
 
             } else {
                 scope.rowTitle = 'Core Package'
+                scope.desc ='(select one)'
             }
 
             scope.addCollection = function (row) {

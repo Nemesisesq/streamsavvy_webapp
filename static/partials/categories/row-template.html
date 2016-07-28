@@ -2,7 +2,17 @@
 
 
     <div class="col-sm-2">
-        <span class="step">{{ $index + 1 }}</span> {{ rowTitle }}
+        <div class="col-md-5">
+            <span class="step">{{ $index + 1 }}</span>
+        </div>
+        <div class="col-md-7">
+            <div class="row">
+                {{ rowTitle }}
+            </div>
+            <div class="row cat-subscript">
+                {{ desc }}
+            </div>
+        </div>
     </div>
     <div class="col-sm-10 category-description">
 
@@ -25,7 +35,7 @@
                 {{ row.networks }}
             </div>
             <div class="col-md-2  button-block">
-                <button class=" btn  btn-md overlay-btn" ng-click="addCollection(row)" >add to package</button>
+                <button class=" btn  btn-md overlay-btn" ng-click="addCollection(row)">add to package</button>
 
             </div>
         </div>

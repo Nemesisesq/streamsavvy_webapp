@@ -3665,6 +3665,9 @@ span.step {
   border-top: 2px dotted #9b9b9b;
   margin: 10px; }
 
+.cat-subscript {
+  font-size: 10px; }
+
 /* General styles for all menus */
 .cbp-spmenu {
   background: #47a3da;
@@ -4696,6 +4699,9 @@ span.step {
   width: 95%;
   border-top: 2px dotted #9b9b9b;
   margin: 10px; }
+
+.cat-subscript {
+  font-size: 10px; }
 
 html,
 button,
