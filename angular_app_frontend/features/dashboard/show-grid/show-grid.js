@@ -48,10 +48,18 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     var openingDetail = false
 
     $scope.removeShow = function (show, $event) {
+        debugger
         var pkg = PackageFactory.getPackage()
 
         $q.when($($event.currentTarget).parent().fadeOut)
             .then(function () {
+
+                if(show.category){
+                    // TODO fix this ugly hack
+                    pkg.data.sports = _.filter(pkg.data.sports, function(elem){
+                        return elem != show;
+                    })
+                }
 
                 pkg.data.content = _.filter(pkg.data.content, function (elem) {
                     return elem != show;
@@ -293,6 +301,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     });
 
     $scope.$watchCollection('package.data.content', function () {
+        PackageFactory.setPackage($scope.package)
+    })
+    $scope.$watchCollection('package.data.sports', function () {
         PackageFactory.setPackage($scope.package)
     })
 

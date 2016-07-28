@@ -13,14 +13,10 @@ app.directive('categoryDetail', function ($http, _) {
 
                 return $http.get('module_descriptions/' + category)
                     .then(function (data) {
-
-                        // debugger;
                         var group = _.groupBy(data.data, function (elem) {
                             if (elem.img == 'ota') {
                                 return 'ota'
-
                             }
-
                             return 'core'
                         })
                         scope.cat = group;
@@ -28,40 +24,45 @@ app.directive('categoryDetail', function ($http, _) {
                         return data
                     })
             }
-
             scope.get_desc('Sports')
-
             scope.$on('category_clicked', function (event, item) {
-
                 scope.get_desc(item.title)
                     .then(function (data) {
-                        // scope.cat = data.data
-
                     })
             })
-
         }
     }
 })
 
-app.directive('moduleRow', function ($http) {
+app.directive('moduleRow', function ($http, PackageFactory, _) {
     return {
         restrict: 'E',
         templateUrl: '/static/partials/categories/row-template.html',
         // controller: 'ModuleControler',
 
         link: function (scope, event, attrs) {
-            debugger;
 
-            if(scope.key == 'ota'){
+            if (scope.key == 'ota') {
                 scope.rowTitle = 'Big Game'
 
             } else {
                 scope.rowTitle = 'Core Package'
             }
 
+            scope.addCollection = function (row) {
+                var pkg = PackageFactory.getPackage();
+                if(pkg.data[row.category] == undefined){
+                    pkg.data[row.category] = []
+                }
+                pkg.data[row.category].push(row);
+               pkg.data[row.category] =  _.uniqBy(pkg.data[row.category], 'img');
+
+                PackageFactory.setPackage(pkg);
+            }
 
         }
+
+
     }
 })
 
@@ -69,13 +70,12 @@ app.directive('comingSoon', function (_) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-            debugger;
             scope.isClickable = true
             var notReady = ['News', 'Live']
             if (_.includes(notReady, scope.show.title)) {
                 scope.isClickable = false;
                 element.addClass('coming-soon')
-
+                // this.$parent.$parent.hideDetail()
             }
         }
     }

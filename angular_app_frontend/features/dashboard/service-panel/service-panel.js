@@ -62,12 +62,21 @@ app.controller('ServicePanelController', function ($scope, $http, $timeout, Pack
         var _data = PackageFactory.getPackage().data;
         if (_data != undefined) {
             return _data.content
-        } else {
+        }
+
+        else {
             return []
         }
 
     }, function () {
         ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+     $scope.$watchCollection('package.data.sports', function () {
+       ssPackage = PackageFactory.getPackage();
         $scope.pkg = PackageFactory.getPackage();
 
         updateServices()

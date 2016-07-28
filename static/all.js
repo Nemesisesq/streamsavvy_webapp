@@ -2678,101 +2678,6 @@ $(document).ready(function () {
     //}
 });
 
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
-});
-
-
 /**
  * Created by Nem on 7/18/15.
  */
@@ -2980,6 +2885,101 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 });
 
 
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
+
+    var package = PackageFactory.getPackage();
+
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
+
+    $scope.package = package;
+
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
+        }
+    };
+
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
+
+
+        return 'inactive'
+    }
+
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
+    }
+
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
+    }
+
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
+});
+
+
 /**
  * Created by Nem on 7/25/16.
  */
@@ -2995,14 +2995,10 @@ app.directive('categoryDetail', function ($http, _) {
 
                 return $http.get('module_descriptions/' + category)
                     .then(function (data) {
-
-                        // debugger;
                         var group = _.groupBy(data.data, function (elem) {
                             if (elem.img == 'ota') {
                                 return 'ota'
-
                             }
-
                             return 'core'
                         })
                         scope.cat = group;
@@ -3010,40 +3006,45 @@ app.directive('categoryDetail', function ($http, _) {
                         return data
                     })
             }
-
             scope.get_desc('Sports')
-
             scope.$on('category_clicked', function (event, item) {
-
                 scope.get_desc(item.title)
                     .then(function (data) {
-                        // scope.cat = data.data
-
                     })
             })
-
         }
     }
 })
 
-app.directive('moduleRow', function ($http) {
+app.directive('moduleRow', function ($http, PackageFactory, _) {
     return {
         restrict: 'E',
         templateUrl: '/static/partials/categories/row-template.html',
         // controller: 'ModuleControler',
 
         link: function (scope, event, attrs) {
-            debugger;
 
-            if(scope.key == 'ota'){
+            if (scope.key == 'ota') {
                 scope.rowTitle = 'Big Game'
 
             } else {
                 scope.rowTitle = 'Core Package'
             }
 
+            scope.addCollection = function (row) {
+                var pkg = PackageFactory.getPackage();
+                if(pkg.data[row.category] == undefined){
+                    pkg.data[row.category] = []
+                }
+                pkg.data[row.category].push(row);
+               pkg.data[row.category] =  _.uniqBy(pkg.data[row.category], 'img');
+
+                PackageFactory.setPackage(pkg);
+            }
 
         }
+
+
     }
 })
 
@@ -3051,13 +3052,12 @@ app.directive('comingSoon', function (_) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-            debugger;
             scope.isClickable = true
             var notReady = ['News', 'Live']
             if (_.includes(notReady, scope.show.title)) {
                 scope.isClickable = false;
                 element.addClass('coming-soon')
-
+                // this.$parent.$parent.hideDetail()
             }
         }
     }
@@ -3179,6 +3179,94 @@ app.controller('HardwareController', function ($scope, PackageFactory, $state, $
 
 });
 
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if (ssPackage.hasOwnProperty('data')) {
+
+
+
+
+
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+
+            PackageFactory.getSonyVueList(ssPackage)
+                .then(function(data){
+                    //We set Sling and Playstation Services on the scope.
+                    $scope.svs = data.data
+                })
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        }
+
+        else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+     $scope.$watchCollection('package.data.sports', function () {
+       ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
+
 function interceptor(obj) {
     return obj
 }
@@ -3229,10 +3317,18 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     var openingDetail = false
 
     $scope.removeShow = function (show, $event) {
+        debugger
         var pkg = PackageFactory.getPackage()
 
         $q.when($($event.currentTarget).parent().fadeOut)
             .then(function () {
+
+                if(show.category){
+                    // TODO fix this ugly hack
+                    pkg.data.sports = _.filter(pkg.data.sports, function(elem){
+                        return elem != show;
+                    })
+                }
 
                 pkg.data.content = _.filter(pkg.data.content, function (elem) {
                     return elem != show;
@@ -3476,6 +3572,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.$watchCollection('package.data.content', function () {
         PackageFactory.setPackage($scope.package)
     })
+    $scope.$watchCollection('package.data.sports', function () {
+        PackageFactory.setPackage($scope.package)
+    })
 
 
 
@@ -3504,82 +3603,3 @@ app.controller('ModuleController', function ($scope, $http) {
         }
     ]
 })
-
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if (ssPackage.hasOwnProperty('data')) {
-
-
-
-
-
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-
-            PackageFactory.getSonyVueList(ssPackage)
-                .then(function(data){
-                    //We set Sling and Playstation Services on the scope.
-                    $scope.svs = data.data
-                })
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        } else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-

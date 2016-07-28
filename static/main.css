@@ -3144,7 +3144,7 @@ footer a.pull-right {
     margin-top: 8.5px;
     margin-bottom: 8.5px;
     position: relative; }
-  .show-grid .show-title {
+  .show-grid .show-title, .show-grid .category-title {
     margin-bottom: 15.5px; }
   .show-grid img {
     width: 100%;
@@ -3212,6 +3212,9 @@ footer a.pull-right {
     opacity: .7; }
   .remove-show:active {
     opacity: 1; }
+
+.category-title img {
+  width: 99.449%; }
 
 .ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
   color: #45a7e5; }
@@ -3384,7 +3387,7 @@ show-detail, category-detail {
   show-detail .title-with-ratings, category-detail .title-with-ratings {
     margin-top: 10px;
     margin-bottom: 10px; }
-  show-detail .show-title, category-detail .show-title {
+  show-detail .show-title, category-detail .show-title, show-detail .category-title, category-detail .category-title {
     text-transform: none;
     margin-left: 33px;
     font-family: AvenirNext-Bold;
@@ -3945,7 +3948,7 @@ a.logout {
     overflow: scroll; }
   mobile-tabs {
     display: inline; }
-  .show-title, .popular-shows {
+  .show-title, .category-title, .popular-shows {
     padding-bottom: 5px; }
   img {
     opacity: 1;

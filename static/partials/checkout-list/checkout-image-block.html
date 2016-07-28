@@ -1,5 +1,5 @@
 <div class="image-block" >
-    <img class="service-image" ng-click="linkToAffiliate(service)" ng-class="{'ppv-img': key=='ppv'}"  ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ service.chan.source }}"/>
+    <img class="service-image" ng-click="linkToAffiliate(service)" ng-class="{'ppv-img': key=='ppv'}"  ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ service.chan.source }}" imageonload/>
     <div class="windows">
         <span ng-repeat="pane in service.windows">
            {{ pane }}<span ng-if="$first && service.windows.length > 1"> |</span>

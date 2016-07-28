@@ -146,3 +146,11 @@
     opacity: 1;
   }
 }
+
+.category-title {
+  @extend .show-title;
+
+  img{
+    width: 99.449%
+  }
+}
