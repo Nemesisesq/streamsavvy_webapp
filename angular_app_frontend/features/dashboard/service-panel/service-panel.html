@@ -61,7 +61,7 @@
             <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}
                 <span ng-if="service.chan.on_sling"> Sling TV</span>
             </a>
-            <img ng-src="{{ service.guidebox_data.artwork208x117 }}"/>
+            <img class="opacity0" ng-src="{{ service.guidebox_data.artwork208x117 }}" imageonload/>
 
             <div>
                 <ul class="list-group ss_show-list">

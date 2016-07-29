@@ -20,7 +20,7 @@
             </div>
             <div class="col-md-12 hardware-img" ng-click="linkToAffiliate(device)"
                  ng-class="{selected: itemSelected(item) }">
-                <img class="" ng-src="{{ device.image }}"/>
+                <img class="opacity0" ng-src="{{ device.image }}" imageonload/>
             </div>
             <div class="col-md-12 hardware-cost">
                 Cost: $

@@ -10,9 +10,9 @@
 
 <div class="ss_show-list ss_show row">
             <div class="checkout-show-title col-md-2 col-sm-3 col-xs-6" ng-repeat="show in service.shows">
-                <img class="checkout-show-img" ng-if="show.title" ng-src="{{ show.guidebox_data.artwork_208x117}}" alt="" imageonload/>
+                <img class="opacity0 checkout-show-img" ng-if="show.title" ng-src="{{ show.guidebox_data.artwork_208x117}}" alt="" imageonload/>
                 {{ show.title }}
-                <img class="checkout-show-img" ng-if="show.level" ng-src="https://s3.amazonaws.com/streamsavvy/{{ show.category }}.png"  alt="" imageonload/>
+                <img class="opacity0 checkout-show-img" ng-if="show.level" ng-src="https://s3.amazonaws.com/streamsavvy/{{ show.category }}.png"  alt="" imageonload/>
                 {{ show.level }}
             </div>
             <!--<span class="checkout-remove-show col-sm-2 col-xs-6">REMOVE</span>-->

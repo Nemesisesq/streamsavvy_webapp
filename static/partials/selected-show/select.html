@@ -5,12 +5,12 @@
             <span class="s-e-l-e-c-t-e-d-s-h-o-w">THIS SHOW HAS BEEN ADDED</span>
         </div>
         <div class="col-xs-3" ng-click="hideDetail($event, 'close-X')">
-            <img class="close" src="/static/img/close.png"/>
+            <img class="pointer close" src="/static/img/close.png" imageonload/>
         </div>
     </div>
     <div class="row scrolling-part">
         <div class="col-md-8 ss_pic-column">
-            <img class="show-pic" ng-src="{{ cs.guidebox_data.artwork_608x342 }}">
+            <img class="opacity0 show-pic" ng-src="{{ cs.guidebox_data.artwork_608x342 }}" imageonload/>
         </div>
         <div class="service-options col-md-4">
 
@@ -33,7 +33,7 @@
                     <div class="col-md-4 col-sm-3 col-xs-2 window-service" ng-hide="service.hide"
                          ng-repeat="service in detailSources[key] | unique : 'source' ">
 
-                        <img sourced service="service" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ service.source }}"/>
+                        <img sourced service="service" class="opacity0" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ service.source }}" imageonload/>
                     </div>
                 </div>
             </div>

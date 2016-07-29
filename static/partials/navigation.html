@@ -17,8 +17,8 @@
     <div ui-view="modal"></div>
     <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push">
         <div class="pull-left" ng-click="showLeftPush()" ng-if="!cp">
-            <img src="https://s3.amazonaws.com/streamsavvy/menu.png" ng-if="menuOpen == false">
-            <img src="https://s3.amazonaws.com/streamsavvy/Close2x.png" ng-if="menuOpen == true">
+            <img class="opacity0" src="https://s3.amazonaws.com/streamsavvy/menu.png" ng-if="menuOpen == false" imageonload/>
+            <img class="opacity0" src="https://s3.amazonaws.com/streamsavvy/Close2x.png" ng-if="menuOpen == true" imageonload/>
         </div>
         <div ng-click="goBack()" ng-if="cp">
             <i class="material-icons checkout-back">chevron_left</i>

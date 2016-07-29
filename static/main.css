@@ -278,6 +278,12 @@ body {
 .no-padding {
   padding: 0; }
 
+.opacity0 {
+  opacity: 0;
+  transition: all .25s ease-out; }
+  .opacity0.loaded {
+    opacity: 1; }
+
 /*!
  *  Font Awesome 4.4.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

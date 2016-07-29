@@ -44,20 +44,30 @@ app.directive('moduleRow', function ($http, PackageFactory, _) {
 
             if (scope.key == 'ota') {
                 scope.rowTitle = 'Big Game'
-                scope.desc ='(select one)'
+                scope.desc = '(select one)'
 
             } else {
                 scope.rowTitle = 'Core Package'
-                scope.desc ='(select one)'
+                scope.desc = '(select one)'
             }
 
             scope.addCollection = function (row) {
                 var pkg = PackageFactory.getPackage();
-                if(pkg.data[row.category] == undefined){
+                if (pkg.data[row.category] == undefined) {
                     pkg.data[row.category] = []
                 }
+                debugger;
+
+                if (pkg.data[row.category].length > 1) {
+
+                    pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
+                        return elem.img == 'ota'
+                    })
+                }
+
+
                 pkg.data[row.category].push(row);
-               pkg.data[row.category] =  _.uniqBy(pkg.data[row.category], 'img');
+                pkg.data[row.category] = _.uniqBy(pkg.data[row.category], 'img');
 
                 PackageFactory.setPackage(pkg);
             }
