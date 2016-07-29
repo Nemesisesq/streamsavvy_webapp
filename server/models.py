@@ -38,6 +38,10 @@ class AnonymousUser(User):
         return "{}".format(self.username)
 
 
+class Profile(models.Model):
+    device_id = models.TextField(blank=True, null=True)
+    user = models.OneToOneField(User, null=True)
+
 class Images(models.Model):
     image_url = models.URLField(blank=True, null=True)
     thumbnail_small = models.URLField(blank=True, null=True)
