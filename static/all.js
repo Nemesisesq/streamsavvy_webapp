@@ -2168,20 +2168,6 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
 
 
 /**
- * Created by Nem on 12/29/15.
- */
-
-app.controller('FeedbackCtrl', function ($scope) {
-   
-    $scope.isMobile = window.innerWidth > 540;
-
-    $scope.options = {
-        ajaxURL: 'feedback/',
-        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
-
-    }
-})
-/**
  * Created by Nem on 10/7/15.
  */
 
@@ -2231,6 +2217,20 @@ $(document).ready(function () {
 
 })
 
+/**
+ * Created by Nem on 12/29/15.
+ */
+
+app.controller('FeedbackCtrl', function ($scope) {
+   
+    $scope.isMobile = window.innerWidth > 540;
+
+    $scope.options = {
+        ajaxURL: 'feedback/',
+        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
+
+    }
+})
 /**
  * Created by chirag on 8/3/15.
  */
@@ -3026,7 +3026,8 @@ app.directive('moduleRow', function ($http, PackageFactory, _) {
 
             if (scope.key == 'ota') {
                 scope.rowTitle = 'Big Game'
-                scope.desc = '(select one)'
+                debugger
+                scope.desc = '(must have)'
 
             } else {
                 scope.rowTitle = 'Core Package'

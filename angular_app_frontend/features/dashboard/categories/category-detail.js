@@ -44,7 +44,8 @@ app.directive('moduleRow', function ($http, PackageFactory, _) {
 
             if (scope.key == 'ota') {
                 scope.rowTitle = 'Big Game'
-                scope.desc = '(select one)'
+                debugger
+                scope.desc = '(must have)'
 
             } else {
                 scope.rowTitle = 'Core Package'
