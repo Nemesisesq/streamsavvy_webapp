@@ -14,7 +14,10 @@
         <div ng-repeat="service in listOfServices.ota">
             <!--<img ng-src=""/>-->
             <ul class="list-group ss_show-list">
-                <li class="list-group-item ss_show" ng-repeat="show in service.shows">{{ show.title }}</li>
+                <li class="list-group-item ss_show" ng-repeat="show in service.shows">
+                    {{ show.title }}
+                    {{ show.level }}
+                </li>
             </ul>
         </div>
     </div>
@@ -37,7 +40,7 @@
     </div>
 
 
-   <!-- <div class="ss_service">
+    <!-- <div class="ss_service">
         <div style="color : #337ab7; cursor:pointer" ng-click="sling.open = !sling.open"
              ng-show="listOfServices.sling.length > 0">
             SLING
