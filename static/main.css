@@ -3668,6 +3668,21 @@ span.step {
 .cat-subscript {
   font-size: 10px; }
 
+.cat-level {
+  position: relative;
+  color: white;
+  font-size: 1.3em;
+  align-content: center;
+  display: inline-block;
+  white-space: nowrap;
+  top: 60%;
+  font-weight: 400; }
+
+.centered-axis-x {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0); }
+
 /* General styles for all menus */
 .cbp-spmenu {
   background: #47a3da;
@@ -4702,6 +4717,21 @@ span.step {
 
 .cat-subscript {
   font-size: 10px; }
+
+.cat-level {
+  position: relative;
+  color: white;
+  font-size: 1.3em;
+  align-content: center;
+  display: inline-block;
+  white-space: nowrap;
+  top: 60%;
+  font-weight: 400; }
+
+.centered-axis-x {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0); }
 
 html,
 button,
