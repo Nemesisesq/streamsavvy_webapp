@@ -53,6 +53,10 @@ app.directive('moduleRow', function ($http, PackageFactory, _) {
 
             scope.addCollection = function (row) {
                 var pkg = PackageFactory.getPackage();
+
+                if(_.some(pkg.data[row.category], ['img', row.img])){
+                    return
+                }
                 if (pkg.data[row.category] == undefined) {
                     pkg.data[row.category] = []
                 }
