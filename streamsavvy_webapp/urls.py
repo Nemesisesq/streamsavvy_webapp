@@ -41,6 +41,7 @@ router.register(r'users', UserViewSet, 'user')
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^robots\.txt', TemplateView.as_view(template_name='robots.txt')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
     url(r'^login/', login_view, name='server.auth.login'),

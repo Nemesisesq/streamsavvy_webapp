@@ -57,9 +57,8 @@
     </div> -->
 
     <div combine-showtime>
-        <div class="ss_service" ng-repeat="service in listOfServices.not_ota ">
+        <div class="ss_service" ng-repeat="service in listOfServices.not_ota | unwantedChannels ">
             <a href="" ng-click="service.open = !service.open">{{ (service.chan.name || service.chan.display_name) }}
-                <span ng-if="service.chan.on_sling"> Sling TV</span>
             </a>
             <img class="opacity0" ng-src="{{ service.guidebox_data.artwork208x117 }}" imageonload/>
 

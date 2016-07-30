@@ -19,7 +19,7 @@ var paths = {
     partials: './static/partials',
     images_dest: './static/img',
 
-    index: ['./angular_app_frontend/index.html'],
+    index: ['./angular_app_frontend/index.html', './angular_app_frontend/robots.txt'],
     features_html: [
         './angular_app_frontend/features/footer/*.html',
         './angular_app_frontend/features/home/*.html',
