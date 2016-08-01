@@ -34,54 +34,71 @@ app.directive('categoryDetail', function ($http, _) {
     }
 })
 
-app.directive('moduleRow', function ($http, PackageFactory, _) {
-    return {
-        restrict: 'E',
-        templateUrl: '/static/partials/categories/row-template.html',
-        // controller: 'ModuleControler',
+app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
+        return {
+            restrict: 'E',
+            templateUrl: '/static/partials/categories/row-template.html',
+            // controller: 'ModuleControler',
 
-        link: function (scope, event, attrs) {
+            link: function (scope, event, attrs) {
 
-            if (scope.key == 'ota') {
-                scope.rowTitle = 'Big Game'
-                debugger
-                scope.desc = '(must have)'
+                scope.openAffiliateLink = function (row) {
 
-            } else {
-                scope.rowTitle = 'Core Package'
-                scope.desc = '(select one)'
+
+                    {
+                        mixpanel.track('Checkout action buttons', {
+                            "id": 19,
+                            "service": row.service,
+                            "user": $window.sessionStorage.user,
+                            "event": "Subscribe"
+
+                        })
+                        $window.open(row.affiliate_link);
+                        mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
+                    }
+                }
+
+                if (scope.key == 'ota') {
+                    scope.rowTitle = 'Big Game'
+                    debugger
+                    scope.desc = '(must have)'
+
+                } else {
+                    scope.rowTitle = 'Core Package'
+                    scope.desc = '(select one)'
+                }
+
+                scope.addCollection = function (row) {
+                    var pkg = PackageFactory.getPackage();
+
+                    if (_.some(pkg.data[row.category], ['img', row.img])) {
+                        return
+                    }
+                    if (pkg.data[row.category] == undefined) {
+                        pkg.data[row.category] = []
+                    }
+                    debugger;
+
+                    if (pkg.data[row.category].length > 1) {
+
+                        pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
+                            return elem.img == 'ota'
+                        })
+                    }
+
+
+                    pkg.data[row.category].push(row);
+                    pkg.data[row.category] = _.uniqBy(pkg.data[row.category], 'img');
+
+                    PackageFactory.setPackage(pkg);
+                }
+
             }
 
-            scope.addCollection = function (row) {
-                var pkg = PackageFactory.getPackage();
-
-                if(_.some(pkg.data[row.category], ['img', row.img])){
-                    return
-                }
-                if (pkg.data[row.category] == undefined) {
-                    pkg.data[row.category] = []
-                }
-                debugger;
-
-                if (pkg.data[row.category].length > 1) {
-
-                    pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
-                        return elem.img == 'ota'
-                    })
-                }
-
-
-                pkg.data[row.category].push(row);
-                pkg.data[row.category] = _.uniqBy(pkg.data[row.category], 'img');
-
-                PackageFactory.setPackage(pkg);
-            }
 
         }
-
-
     }
-})
+)
 
 app.directive('comingSoon', function (_) {
     return {

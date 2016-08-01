@@ -107,6 +107,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'server.middleware.anon_user_middleware.ProcessAnonUser',
+    # 'server.middleware.device_id.DeviceIDMiddleWare',
     'server.middleware.social.SaveInitialPackage',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     # 'server.middleware.duplicate_email.DuplicateEmail',

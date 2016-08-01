@@ -39,7 +39,7 @@ class AnonymousUser(User):
 
 
 class Profile(models.Model):
-    device_id = models.TextField(blank=True, null=True)
+    device_id = JSONField(blank=True, null=True)
     user = models.OneToOneField(User, null=True)
 
 class Images(models.Model):

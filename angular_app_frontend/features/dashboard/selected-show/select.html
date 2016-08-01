@@ -1,3 +1,7 @@
+    <script type="text/ng-template" id="toolTipTemplate.html">
+      <img ng-src='https://s3.amazonaws.com/streamsavvy/tool_tip_tiles/{{ service.source }}'/>
+    </script>
+
 <div class="col-sm-12 background">
 
     <div id="sticky" class="row">
@@ -31,7 +35,8 @@
                      ng-if="detailSources[key].length > 0 && key !== 'misc'">
                     <div class="window-label">{{ fixTitle(key) }}</div>
                     <div class="col-md-4 col-sm-3 col-xs-2 window-service" ng-hide="service.hide"
-                         ng-repeat="service in detailSources[key] | unique : 'source' ">
+                         ng-repeat="service in detailSources[key] | unique : 'source' "
+                         uib-tooltip-template="'toolTipTemplate.html'" tooltip-placement="right">
 
                         <img sourced service="service" class="opacity0" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ service.source }}" imageonload/>
                     </div>

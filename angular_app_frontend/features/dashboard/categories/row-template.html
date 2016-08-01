@@ -20,7 +20,7 @@
 
             <hr ng-if="!$first" class="cat-detail-separator" align="center">
             <div class="col-md-2 col-xs-6 logo ">
-                <img class="opacity0" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ row.img }}" imageonload/>
+                <img class="opacity0" ng-click="openAffiliateLink(row)" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ row.img }}" imageonload/>
             </div>
 
             <div class="col-md-2 price-block col-xs-6">
