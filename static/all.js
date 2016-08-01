@@ -2062,6 +2062,7 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
     }
 });
 
+
 app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window) {
 
     $scope.package = PackageFactory.getPackage();
@@ -2164,7 +2165,6 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
         $scope.list = PackageFactory.getListOfServices();
     })
 });
-
 
 
 /**
@@ -2999,6 +2999,10 @@ app.directive('categoryDetail', function ($http, _) {
                             if (elem.img == 'ota') {
                                 return 'ota'
                             }
+
+                            if (elem.img == 'fubotv'){
+                                return 'soccer'
+                            }
                             return 'core'
                         })
                         scope.cat = group;
@@ -3027,24 +3031,36 @@ app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
                 scope.openAffiliateLink = function (row) {
 
 
-                    {
-                        mixpanel.track('Checkout action buttons', {
-                            "id": 19,
-                            "service": row.service,
+                    mixpanel.track('Checkout action buttons', {
+                        "id": 19,
+                        "service": row.service,
+                        "user": $window.sessionStorage.user,
+                        "event": "Subscribe"
+
+                    })
+
+                    if(row.affiliate_link) {
+
+                        $window.open(row.affiliate_link);
+                        mixpanel.track("Sports service clicked", {"service name": row.service});
+                    } else  {
+                        mixpanel.track('Service with No Link Clicked', {
+                            "id": 20,
                             "user": $window.sessionStorage.user,
-                            "event": "Subscribe"
 
                         })
-                        $window.open(row.affiliate_link);
-                        mixpanel.track("Subscribe to Service", {"service name": service.chan.display_name});
                     }
-                }
 
+
+                }
+                    debugger;
                 if (scope.key == 'ota') {
                     scope.rowTitle = 'Big Game'
-                    debugger
                     scope.desc = '(must have)'
 
+                } else if (scope.key =='soccer') {
+
+                    scope.rowTitle = 'Soccer'
                 } else {
                     scope.rowTitle = 'Core Package'
                     scope.desc = '(select one)'
