@@ -3000,7 +3000,7 @@ app.directive('categoryDetail', function ($http, _) {
                                 return 'ota'
                             }
 
-                            if (elem.img == 'fubotv'){
+                            if (elem.img == 'fubotv') {
                                 return 'soccer'
                             }
                             return 'core'
@@ -3039,11 +3039,11 @@ app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
 
                     })
 
-                    if(row.affiliate_link) {
+                    if (row.affiliate_link) {
 
                         $window.open(row.affiliate_link);
                         mixpanel.track("Sports service clicked", {"service name": row.service});
-                    } else  {
+                    } else {
                         mixpanel.track('Service with No Link Clicked', {
                             "id": 20,
                             "user": $window.sessionStorage.user,
@@ -3053,12 +3053,12 @@ app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
 
 
                 }
-                    debugger;
+                debugger;
                 if (scope.key == 'ota') {
                     scope.rowTitle = 'Big Game'
                     scope.desc = '(must have)'
 
-                } else if (scope.key =='soccer') {
+                } else if (scope.key == 'soccer') {
 
                     scope.rowTitle = 'Soccer'
                 } else {
@@ -3077,12 +3077,10 @@ app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
                     }
                     debugger;
 
-                    if (pkg.data[row.category].length > 1) {
 
-                        pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
-                            return elem.img == 'ota'
-                        })
-                    }
+                    pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
+                        return elem.level != 'Core Sports Package' || row.level != "Core Sports Package"
+                    })
 
 
                     pkg.data[row.category].push(row);
