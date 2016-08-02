@@ -3689,7 +3689,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         }
 
-        $http.post('https://edr-go-prod.herokuapp.com/data', data)
+        $http.post('/edr/', data)
             .then(function (data) {
                 console.log('datq')
             }, function (err) {

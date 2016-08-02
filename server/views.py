@@ -323,3 +323,17 @@ def get_module_description(request, category=None):
         except Exception as e:
             print(e)
 
+@api_json_post
+def post_edr_data(request, the_json):
+    if request.method == 'POST':
+        query_url  = "{edr_data_service}".format(edr_data_service=get_env_variable('EDR_DATA_SERVICE'))
+        try:
+            headers = {'Content-Type' : 'application/json'}
+            r = requests.post(query_url, data=json.dumps(the_json), headers=headers)
+            d = r.json()
+
+            d = json.dumps(d)
+            d = json.loads(d)
+            return JsonResponse(d, safe=False)
+        except Exception as e:
+            print(e)
