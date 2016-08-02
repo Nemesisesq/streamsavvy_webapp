@@ -2,6 +2,21 @@
  * Created by Nem on 6/12/15.
  */
 
+function fixMetaTags() {
+
+    // debugger;
+
+    var x = $('body meta')
+    y = $('body title')
+    console.log(x)
+    $('body meta').remove()
+    $('body title').remove()
+    $('head').append(x)
+    $('head').append(y)
+
+
+}
+
 function runBlock($rootScope, MetaTags) {
     $rootScope.MetaTags = MetaTags;
 }
@@ -14,12 +29,11 @@ function configure(UIRouterMetatagsProvider) {
         .setDefaultDescription('StreamSavvy engages people to discover and access the best TV content.')
         .setDefaultKeywords('keywords')
         .setStaticProperties({
-                'fb:app_id': '904023313005052',
-                'og:site_name': 'www.streamsavvy.tv'
-            })
+            'fb:app_id': '904023313005052',
+            'og:site_name': 'www.streamsavvy.tv'
+        })
         .setOGURL(true);
 }
-
 
 
 var app = angular.module('myApp', [
@@ -102,6 +116,11 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 // 'title': 'Homepage',
                 'title': ' Find the Best TV Without Cable',
                 'description': ' StreamSavvy makes it easy to find, access, and stream the TV you want without cable. Visit the site to search, learn, and sign up.'
+            },
+            onEnter: function ($timeout) {
+                $timeout(function () {
+                    fixMetaTags()
+                })
             }
 
         })
@@ -159,8 +178,14 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                     templateUrl: 'static/partials/footer.html'
                 }
             },
-            onEnter: function () {
+            onEnter: function ($timeout) {
                 $('body').addClass('no-scroll');
+
+
+                $timeout(function(){
+
+                fixMetaTags()
+                })
 
             },
             onExit: function () {
@@ -173,6 +198,12 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
         })
         .state('check.out', {
             url: '/checkout',
+            onEnter: function ($timeout) {
+                $timeout(function(){
+
+                fixMetaTags()
+                })
+            },
             data: {
                 checkout: true
             },
@@ -270,7 +301,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
 app.run(function ($window, $state) {
 
 
-
     $($window).resize(function () {
         var curr = $state.current.name
 
@@ -309,6 +339,7 @@ app.run(function ($window, $state) {
 // app.controller('HomeController', function () {
 //     $('body').attr('id', 'background')
 // })
+
 
 /**
  * Created by Nem on 6/4/16.
@@ -1668,6 +1699,17 @@ app.service('authEventService', function ($rootScope) {
     }, 500)
 })
 
+app.service('sInfo', function($rootScope){
+    this.broadcast = _.debounce(function(){
+        $rootScope.$broadcast("send_sInfo")
+    }, 500)
+
+    this.listen = _.debounce(function(callback){
+        debugger;
+        $rootScope.$on("send_sInfo", callback)
+    })
+})
+
 app.factory('ServiceTotalFactory', function () {
     var _price = 0
 
@@ -1682,7 +1724,7 @@ app.factory('ServiceTotalFactory', function () {
     }
 })
 
-app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService', 'authEventService' ,function ($http, $q, _, $window, loginEventService, authEventService) {
+app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService', 'authEventService', 'sInfo' ,function ($http, $q, _, $window, loginEventService, authEventService, sInfo) {
     // ;
 
     var _package = {};
@@ -1718,6 +1760,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             return $http.get('/api/users')
                 .then(function (data) {
                     $window.sessionStorage.user = data.data.results[0].email
+                    sInfo.broadcast()
                     return data
                 }, function (err) {
                     return err
@@ -1753,6 +1796,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
                 .then(function success(response) {
                     _getEmail()
                     authEventService.broadcast()
+                    sInfo.broadcast()
                 }, function error(response) {
                     auth_denied = [403, 401];
                     if (_.includes(auth_denied, response.status)) {
@@ -2319,7 +2363,7 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
     //}
 });
 
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window, PackageFactory) {
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window, PackageFactory, sInfo) {
 
     $scope.socialLogin = true;
 
@@ -2416,6 +2460,7 @@ app.controller('ModalInstanceController', function ($scope, $rootScope, $modalIn
 
                     growl.success('Registration Successful')
                     $modalInstance.close()
+                    sInfo.broadcast()
                     window.location.reload()
                 }, function (err) {
 
@@ -3359,7 +3404,7 @@ function removeHuluIfShowtimeContent(services) {
     });
 }
 
-app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window) {
+app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window, $log, $sessionStorage, sInfo) {
 
 
     var openingDetail = false
@@ -3371,9 +3416,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $q.when($($event.currentTarget).parent().fadeOut)
             .then(function () {
 
-                if(show.category){
+                if (show.category) {
                     // TODO fix this ugly hack
-                    pkg.data.sports = _.filter(pkg.data.sports, function(elem){
+                    pkg.data.sports = _.filter(pkg.data.sports, function (elem) {
                         return elem != show;
                     })
                 }
@@ -3448,7 +3493,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     var openingDetail;
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
-
 
 
         $('body').css({'overflow': 'hidden'})
@@ -3625,6 +3669,40 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     })
 
 
+    var email_device = _.debounce(function () {
+
+        var client = new ClientJS();
+        var data = {
+
+            email: $sessionStorage.user || 'anon',
+            fingerprint: client.getFingerprint(),
+            browser: client.getBrowser(),
+            browserVersion: client.getBrowserVersion(),
+            device: client.getDevice(),
+            deviceType: client.getDeviceType(),
+            deviceVendor: client.getDeviceVendor(),
+            time: moment.now(),
+            timeZone: client.getTimeZone(),
+            platform: clientInformation.platform,
+            appVersion: clientInformation.appVersion,
+            package: PackageFactory.getPackage()
+
+        }
+
+        $http.post('https://edr-go-prod.herokuapp.com/data', data)
+            .then(function (data) {
+                console.log('datq')
+            }, function (err) {
+                // $log(err)
+            })
+    }, 500)
+
+    // $scope.$watch($sessionStorage.user, function () {
+    //     debugger;
+    //     email_device()
+    // })
+
+    sInfo.listen(email_device)
 
 
 });

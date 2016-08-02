@@ -42,7 +42,7 @@ function removeHuluIfShowtimeContent(services) {
     });
 }
 
-app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window) {
+app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window, $log, $sessionStorage, sInfo) {
 
 
     var openingDetail = false
@@ -54,9 +54,9 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $q.when($($event.currentTarget).parent().fadeOut)
             .then(function () {
 
-                if(show.category){
+                if (show.category) {
                     // TODO fix this ugly hack
-                    pkg.data.sports = _.filter(pkg.data.sports, function(elem){
+                    pkg.data.sports = _.filter(pkg.data.sports, function (elem) {
                         return elem != show;
                     })
                 }
@@ -131,7 +131,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     var openingDetail;
 
     $scope.showDetail = _.debounce(function (item, ev, attrs) {
-
 
 
         $('body').css({'overflow': 'hidden'})
@@ -308,6 +307,40 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     })
 
 
+    var email_device = _.debounce(function () {
+
+        var client = new ClientJS();
+        var data = {
+
+            email: $sessionStorage.user || 'anon',
+            fingerprint: client.getFingerprint(),
+            browser: client.getBrowser(),
+            browserVersion: client.getBrowserVersion(),
+            device: client.getDevice(),
+            deviceType: client.getDeviceType(),
+            deviceVendor: client.getDeviceVendor(),
+            time: moment.now(),
+            timeZone: client.getTimeZone(),
+            platform: clientInformation.platform,
+            appVersion: clientInformation.appVersion,
+            package: PackageFactory.getPackage()
+
+        }
+
+        $http.post('https://edr-go-prod.herokuapp.com/data', data)
+            .then(function (data) {
+                console.log('datq')
+            }, function (err) {
+                // $log(err)
+            })
+    }, 500)
+
+    // $scope.$watch($sessionStorage.user, function () {
+    //     debugger;
+    //     email_device()
+    // })
+
+    sInfo.listen(email_device)
 
 
 });

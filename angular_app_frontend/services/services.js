@@ -62,6 +62,17 @@ app.service('authEventService', function ($rootScope) {
     }, 500)
 })
 
+app.service('sInfo', function($rootScope){
+    this.broadcast = _.debounce(function(){
+        $rootScope.$broadcast("send_sInfo")
+    }, 500)
+
+    this.listen = _.debounce(function(callback){
+        debugger;
+        $rootScope.$on("send_sInfo", callback)
+    })
+})
+
 app.factory('ServiceTotalFactory', function () {
     var _price = 0
 
@@ -76,7 +87,7 @@ app.factory('ServiceTotalFactory', function () {
     }
 })
 
-app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService', 'authEventService' ,function ($http, $q, _, $window, loginEventService, authEventService) {
+app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService', 'authEventService', 'sInfo' ,function ($http, $q, _, $window, loginEventService, authEventService, sInfo) {
     // ;
 
     var _package = {};
@@ -112,6 +123,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
             return $http.get('/api/users')
                 .then(function (data) {
                     $window.sessionStorage.user = data.data.results[0].email
+                    sInfo.broadcast()
                     return data
                 }, function (err) {
                     return err
@@ -147,6 +159,7 @@ app.factory('PackageFactory', ['$http', '$q', '_', '$window', 'loginEventService
                 .then(function success(response) {
                     _getEmail()
                     authEventService.broadcast()
+                    sInfo.broadcast()
                 }, function error(response) {
                     auth_denied = [403, 401];
                     if (_.includes(auth_denied, response.status)) {

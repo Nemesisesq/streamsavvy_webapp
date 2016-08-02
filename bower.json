@@ -40,7 +40,8 @@
     "lodash": "^4.13.1",
     "font-awesome": "fontawesome#^4.6.3",
     "angular-environment": "^1.0.4",
-    "bootstrap-social": "^5.0.0"
+    "bootstrap-social": "^5.0.0",
+    "clientjs": "^0.1.5"
   },
   "private": true,
   "resolutions": {

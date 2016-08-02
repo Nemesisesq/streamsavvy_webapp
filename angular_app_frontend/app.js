@@ -2,6 +2,21 @@
  * Created by Nem on 6/12/15.
  */
 
+function fixMetaTags() {
+
+    // debugger;
+
+    var x = $('body meta')
+    y = $('body title')
+    console.log(x)
+    $('body meta').remove()
+    $('body title').remove()
+    $('head').append(x)
+    $('head').append(y)
+
+
+}
+
 function runBlock($rootScope, MetaTags) {
     $rootScope.MetaTags = MetaTags;
 }
@@ -14,12 +29,11 @@ function configure(UIRouterMetatagsProvider) {
         .setDefaultDescription('StreamSavvy engages people to discover and access the best TV content.')
         .setDefaultKeywords('keywords')
         .setStaticProperties({
-                'fb:app_id': '904023313005052',
-                'og:site_name': 'www.streamsavvy.tv'
-            })
+            'fb:app_id': '904023313005052',
+            'og:site_name': 'www.streamsavvy.tv'
+        })
         .setOGURL(true);
 }
-
 
 
 var app = angular.module('myApp', [
@@ -102,6 +116,11 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 // 'title': 'Homepage',
                 'title': ' Find the Best TV Without Cable',
                 'description': ' StreamSavvy makes it easy to find, access, and stream the TV you want without cable. Visit the site to search, learn, and sign up.'
+            },
+            onEnter: function ($timeout) {
+                $timeout(function () {
+                    fixMetaTags()
+                })
             }
 
         })
@@ -159,8 +178,14 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                     templateUrl: 'static/partials/footer.html'
                 }
             },
-            onEnter: function () {
+            onEnter: function ($timeout) {
                 $('body').addClass('no-scroll');
+
+
+                $timeout(function(){
+
+                fixMetaTags()
+                })
 
             },
             onExit: function () {
@@ -173,6 +198,12 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
         })
         .state('check.out', {
             url: '/checkout',
+            onEnter: function ($timeout) {
+                $timeout(function(){
+
+                fixMetaTags()
+                })
+            },
             data: {
                 checkout: true
             },
@@ -270,7 +301,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
 app.run(function ($window, $state) {
 
 
-
     $($window).resize(function () {
         var curr = $state.current.name
 
@@ -309,3 +339,4 @@ app.run(function ($window, $state) {
 // app.controller('HomeController', function () {
 //     $('body').attr('id', 'background')
 // })
+
