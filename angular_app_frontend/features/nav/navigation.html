@@ -34,7 +34,7 @@
         <div ng-if="logged_in" class="pull-right">
             Welcome {{ nameOrEmail }}, <a class="logout" ng-click="logout()"> Logout</a>
         </div>
-        <div class="pull-right nav-btn-fade" ng-class="{'ready-for-checkout': pkgHasContent}" ng-controller="HardwareController">
+        <div ng-if="!isHomePage" class="pull-right nav-btn-fade" ng-class="{'ready-for-checkout': pkgHasContent}" ng-controller="HardwareController">
             <div ng-if="pkgHasContent">
                 <button id="goToCheckout" class="btn btn-green btn-sm nav-mgmt-btn" ng-click="go()">
                     <!-- <span ng-if="!pkgHasContent">Add shows or services</span> -->
