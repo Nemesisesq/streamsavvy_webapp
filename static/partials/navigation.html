@@ -5,9 +5,11 @@
             <a id="sidebarDashNav" ng-class="{active: isActive('#/dashboard')}" href="#/dashboard">Search Shows</a>
         </div>
         <div class="ss-small-menu-options">
+            <a href="#/checkout">Manage My Package</a>
+            <a href="http://blog.streamsavvy.tv">Blog</a>
             <a ng-href="mailto:info@streamsavvy.tv?Subject={{ location.url }}">Contact Us</a>
             <!-- <a href="#/error/coming-soon">About Us</a> -->
-            <a href="http://blog.streamsavvy.tv">Blog</a>
+
         </div>
         <div class="ss-menu-auth" ng-controller="ModalController">
             <a ng-if="!logged_in" id="sign-up" ng-click="login()" class="sign-up">Login/Register</a>
@@ -17,18 +19,29 @@
     <div ui-view="modal"></div>
     <div id="showLeftPush" class=" menu-buttons cbp-spmenu-push">
         <div class="pull-left" ng-click="showLeftPush()" ng-if="!cp">
-            <img class="opacity0" src="https://s3.amazonaws.com/streamsavvy/menu.png" ng-if="menuOpen == false" imageonload/>
-            <img class="opacity0" src="https://s3.amazonaws.com/streamsavvy/Close2x.png" ng-if="menuOpen == true" imageonload/>
+            <img class="opacity0 menu-toggle" src="https://s3.amazonaws.com/streamsavvy/menu.png"
+                 ng-if="menuOpen == false" imageonload/>
+            <img class="opacity0 menu-toggle" src="https://s3.amazonaws.com/streamsavvy/Close2x.png"
+                 ng-if="menuOpen == true" imageonload/>
         </div>
         <div ng-click="goBack()" ng-if="cp">
             <i class="material-icons checkout-back">chevron_left</i>
         </div>
         <!-- Menu -->
     </div>
-    <div class="pull-right bar-buttons ">
-        <a ng-if="!logged_in" id="sign-up" ng-click="login()" class="sign-up">Login/Register</a>
-        <div ng-if="logged_in">
+    <div class="pull-right bar-buttons">
+        <a ng-if="!logged_in" id="sign-up" ng-click="login()" class="sign-up pull-right">Login/Register</a>
+        <div ng-if="logged_in" class="pull-right">
             Welcome {{ nameOrEmail }}, <a class="logout" ng-click="logout()"> Logout</a>
+        </div>
+        <div class="pull-right fade" ng-class="{'ready-for-checkout': pkgHasContent}" ng-controller="HardwareController">
+            <div ng-if="pkgHasContent">
+                <button id="goToCheckout" class="btn btn-green btn-sm nav-mgmt-btn" ng-click="go()">
+                    <!-- <span ng-if="!pkgHasContent">Add shows or services</span> -->
+
+                    <span>Subscribe and watch </span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

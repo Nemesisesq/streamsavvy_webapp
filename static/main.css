@@ -2520,7 +2520,6 @@ mobile-tabs {
 
 .dashboard .ss_nav {
   position: fixed;
-  width: 75%;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease; }
@@ -3250,12 +3249,10 @@ footer a.pull-right {
   transition: height 1s ease; }
 
 .service-center {
-  margin-top: -30px;
-  display: table;
   color: #9b9b9b;
   position: fixed;
   z-index: 100;
-  width: 25vw; }
+  width: 25px; }
 
 .not-ready {
   margin: 0 auto;
@@ -3969,6 +3966,23 @@ a.logout {
   cursor: pointer; }
   a.logout:hover {
     color: white; }
+
+.menu-toggle {
+  position: absolute; }
+
+.nav-mgmt-btn {
+  transition: all 0.3s ease-in-out;
+  padding: 2px;
+  width: 200px;
+  min-width: 1px;
+  margin-right: 10px; }
+
+.fade {
+  transition: all 0.3s ease-in-out;
+  opacity: 0; }
+
+.ready-for-checkout {
+  opacity: 1; }
 
 @media (max-width: 767px) {
   body.background.container.ng-scope.no-scroll.gradient-background {

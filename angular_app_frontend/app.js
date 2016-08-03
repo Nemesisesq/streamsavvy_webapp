@@ -163,14 +163,6 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                     templateUrl: '/static/partials/show-grid/show-grid.html',
                     controller: 'ShowGridController'
                 },
-                'services': {
-                    templateUrl: '/static/partials/service-panel/service-panel.html',
-                    controller: 'ServicePanelController'
-                },
-                'hardware': {
-                    templateUrl: '/static/partials/hardware-panel/hardware-panel.html',
-                    controller: 'HardwareController'
-                },
                 'select': {
                     templateUrl: '/static/partials/selected-show/select.html'
                 },

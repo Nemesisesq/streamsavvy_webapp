@@ -257,3 +257,28 @@ a.logout {
   }
 }
 
+.menu-toggle {
+  position: absolute;
+}
+
+.nav-mgmt-btn {
+  transition: all 0.3s ease-in-out;
+
+  padding: 2px;
+  width: 200px;
+
+  min-width: 1px;
+  margin-right: 10px;
+}
+
+
+.fade{
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+
+
+.ready-for-checkout {
+  opacity: 1;
+
+}
