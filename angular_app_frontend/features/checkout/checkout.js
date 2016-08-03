@@ -1,10 +1,15 @@
-app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window) {
+app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window, $q) {
 
-    $scope.package = PackageFactory.getPackage();
+        $q.when(PackageFactory.getPackage())
+            .then(function (data) {
+                $scope.package = data
 
-    if (_.isEmpty($scope.package.data.content)) {
-        $state.go('dash.dashboard')
-    }
+                if (_.isEmpty(data.data.content)) {
+                    $state.go('dash.dashboard')
+                }
+
+            })
+
 
     $scope.$on('subcribe', function (service) {
         $scope.package.services.subscribed.push(service)
