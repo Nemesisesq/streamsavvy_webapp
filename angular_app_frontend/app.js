@@ -121,6 +121,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 $timeout(function () {
                     fixMetaTags()
                 })
+
+                 $('body').removeClass('gradient-background');
             }
 
         })
@@ -133,6 +135,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 if ($window.innerWidth < 767) {
                     $state.go('mobile.shows')
                 }
+
+                 $('body').addClass('gradient-background');
             }
         })
         .state('dash.dashboard', {

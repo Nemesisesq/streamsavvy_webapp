@@ -108,7 +108,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
 
     $('body').removeAttr('id');
-    $('body').addClass('gradient-background');
+    // $('body').addClass('gradient-background');
 
 
     $http.get('api/popular-shows')
