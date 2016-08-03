@@ -28,7 +28,6 @@
     {% verbatim %}
 
 
-
     {{}}
     <title ng-bind="MetaTags.title">StreamSavvy</title>
     <meta name="description" content="{{MetaTags.description}}">
@@ -39,6 +38,22 @@
 
     {% endverbatim %}
 
+
+    <!-- Begin BlueKai Tag in body-->
+    <script type="text/javascript" src="http://tags.bkrtx.com/js/bk-coretag.js"></script>
+    <script type="text/javascript">
+        bk_addPageCtx('page', 'homepage');
+        BKTAG
+                .doTag(
+                        {
+                            site_id: 37454
+                            , pixel_limit: 1
+                        },
+                        function () {
+
+                        });
+    </script>
+    <!-- End BlueKai Tag -->
 
 </head>
 
