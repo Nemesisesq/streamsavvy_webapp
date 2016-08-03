@@ -134,7 +134,14 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                         suggestion.justAdded = true;
 
 
-                        ssPackage.data.content.push(suggestion);
+                        if (_.includes(ssPackage.data,function(elem){
+                            return elem.url == suggestion.url
+
+                            })) {
+                             growl.warning('You already added ' + suggestion.title + ' to your package!');
+                            return
+                        }
+                            ssPackage.data.content.push(suggestion);
 
                         PackageFactory.setPackage(ssPackage);
 
