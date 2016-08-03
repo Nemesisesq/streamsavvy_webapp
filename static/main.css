@@ -3977,6 +3977,10 @@ a.logout {
   min-width: 1px;
   margin-right: 10px; }
 
+.nav-btn-fade {
+  transition: all 0.3s ease-in-out;
+  opacity: 0; }
+
 .ready-for-checkout {
   opacity: 1; }
 
