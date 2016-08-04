@@ -8,7 +8,7 @@ from django.conf import settings
 import jwt
 import requests
 from django.core.cache import cache
-from django.db.models import Q
+from django.db.models import Q, Max, Count
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
@@ -29,7 +29,6 @@ from server.shortcuts import api_json_post, try_catch
 from streamsavvy_webapp.settings import get_env_variable
 from django.contrib.auth import login
 
-
 from rest_framework_jwt.settings import api_settings
 
 
@@ -41,6 +40,7 @@ def get_sign_up_token(user):
     token = jwt_encode_handler(payload)
 
     return token
+
 
 def flatten(l):
     out = []
@@ -90,18 +90,17 @@ class SignUp(generics.CreateAPIView):
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
         print(response.data['username'])
-        user = User.objects.get(username = response.data['username'])
+        user = User.objects.get(username=response.data['username'])
 
         # TODO this is a hack and neeeds to be properly fixed
         user.backend = 'django.contrib.auth.backends.ModelBackend'
-        login(request,user)
+        login(request, user)
         response['token'] = get_sign_up_token(user)
         return response
 
 
 class AdminPermMixin(object):
     permission_classes = (IsAdminOrReadOnly,)
-
 
 
 class HardwareViewSet(viewsets.ModelViewSet):
@@ -170,7 +169,8 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
         return q
 
     def get_queryset(self):
-        return Content.objects.filter(self.get_popular_shows())
+        return Content.objects.annotate(p=Max('popularity__score')).annotate(p_count=Count('popularity')).exclude(
+            p_count=0).order_by('-p')[:10]
 
 
 class PackagesViewSet(viewsets.ModelViewSet):
@@ -204,7 +204,7 @@ class PackagesViewSet(viewsets.ModelViewSet):
 
                     package = [x]
 
-                else :
+                else:
                     package = get_packages(user)
 
 
@@ -213,8 +213,8 @@ class PackagesViewSet(viewsets.ModelViewSet):
         else:
             package = get_packages(user)
 
-
         return package
+
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -226,8 +226,6 @@ class UserViewSet(viewsets.ModelViewSet):
         user = get_user(self)
 
         return [user]
-
-
 
 
 def eval_string(d):
@@ -282,7 +280,7 @@ def get_service_list(request, the_json, path):
 
 
 def method_name(path):
-    return "{base}/{path}".format(base=get_env_variable('NODE_DATA_SERVICE'), path= path)
+    return "{base}/{path}".format(base=get_env_variable('NODE_DATA_SERVICE'), path=path)
 
 
 @try_catch
@@ -306,7 +304,6 @@ def get_viewing_windows(request, service):
             print(e)
 
 
-
 @csrf_exempt
 @strategy('social:complete')
 def complete(request, backend, *args, **kwargs):
@@ -314,21 +311,24 @@ def complete(request, backend, *args, **kwargs):
     return do_complete(request.social_strategy, _do_login, user=None,
                        redirect_name='/', *args, **kwargs)
 
+
 def get_module_description(request, category=None):
     if request.method == 'GET':
-        query_url = "{base}/modules/?q={category}".format(base=get_env_variable('DATA_MICROSERVICE_URL'), category=category)
+        query_url = "{base}/modules/?q={category}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
+                                                          category=category)
         try:
             r = requests.get(query_url)
             return JsonResponse(r.json(), safe=False)
         except Exception as e:
             print(e)
 
+
 @api_json_post
 def post_edr_data(request, the_json):
     if request.method == 'POST':
-        query_url  = "{edr_data_service}".format(edr_data_service=get_env_variable('EDR_DATA_SERVICE'))
+        query_url = "{edr_data_service}".format(edr_data_service=get_env_variable('EDR_DATA_SERVICE'))
         try:
-            headers = {'Content-Type' : 'application/json'}
+            headers = {'Content-Type': 'application/json'}
             r = requests.post(query_url, data=json.dumps(the_json), headers=headers)
             d = r.json()
 

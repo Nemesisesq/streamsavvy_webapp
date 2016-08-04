@@ -4,7 +4,7 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
             .then(function (data) {
                 $scope.package = data
 
-                if (_.isEmpty(data.data.content)) {
+                if (_.isEmpty(data.data.content) || data.data == undefined) {
                     $state.go('dash.dashboard')
                 }
 

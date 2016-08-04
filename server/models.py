@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.contrib.auth.models import User, UserManager
 from django.contrib.postgres.fields import JSONField
@@ -127,3 +129,13 @@ class ChannelImages(models.Model):
 # def create_auth_token(sender, instance=None, created=False, **kwargs):
 #     if created:
 #         Token.objects.create(user=instance)
+
+class Popularity(models.Model):
+    score = models.FloatField(default=0.1)
+    date_created = models.DateField(default=datetime.now())
+    content = models.ForeignKey(Content)
+
+    class Meta:
+        managed=False
+        db_table='popularity_popularity'
+        get_latest_by = 'date_created'
