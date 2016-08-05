@@ -42,7 +42,70 @@ function removeHuluIfShowtimeContent(services) {
     });
 }
 
-app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window, $log, $sessionStorage, sInfo) {
+app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window, $log, $sessionStorage, sInfo, Utils, unchosenFilter, growl) {
+
+
+    var masterPopShows = []
+
+    $scope.addPopularShow = function (suggestion) {
+
+        var ssPackage = PackageFactory.getPackage();
+
+        if ('hidden' in ssPackage.data.services) {
+            ssPackage.data.services.hidden = [];
+        }
+
+        if (suggestion !== undefined) {
+            if (_.some(ssPackage.data.content, ['url', suggestion.url])) {
+                growl.warning('You already added ' + suggestion.title + ' to your package!');
+                $scope.suggestions = [];
+                return
+            }
+
+            var parser = document.createElement('a');
+            parser.href = suggestion.url
+
+            url = /api/.test(parser.pathname) ? parser.pathname : '/api' + parser.pathname
+            $http.get(url)
+                .then(function (data) {
+
+                    suggestion = Utils.fixGuideboxData(data.data)
+
+                    if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+                        $scope.loading = true;
+
+                        suggestion.justAdded = true;
+
+                        if (_.includes(ssPackage.data, function (elem) {
+                                return elem.url == suggestion.url
+
+                            })) {
+                            growl.warning('You already added ' + suggestion.title + ' to your package!');
+                            return
+                        }
+                        ssPackage.data.content.push(suggestion);
+
+                        PackageFactory.setPackage(ssPackage);
+
+                        $scope.loading = false;
+                        mixpanel.track("Show added", {
+                            "id": 5,
+                            "show_title": suggestion.title,
+                            "user": $window.sessionStorage.user
+                        });
+                    }
+                    return data
+                })
+                .then(function (data) {
+                    $scope.popularShows = unchosenFilter(masterPopShows, $scope)
+                    debugger
+                    console.log("I'm refiltered on adding")
+
+
+                    getNextPopularShows()
+                })
+        }
+    };
 
 
     var openingDetail = false
@@ -52,7 +115,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         var pkg = PackageFactory.getPackage()
 
         $q.when($($event.currentTarget).parent().fadeOut)
-            .then(function () {
+            .then(function (data) {
 
                 if (show.category) {
                     // TODO fix this ugly hack
@@ -67,6 +130,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                 PackageFactory.setPackage(pkg)
 
+                $scope.package = pkg
+                return data
+            })
+            .then(function () {
+                $scope.popularShows = unchosenFilter(masterPopShows, $scope)
+                console.log("I'm refiltered on removal")
             })
 
 
@@ -110,16 +179,30 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $('body').removeAttr('id');
     // $('body').addClass('gradient-background');
 
-
+    var next = ""
     $http.get('api/popular-shows')
         .success(function (data) {
-            $scope.popularShows = data.results;
+            masterPopShows = data.results;
+            next = data.next
+            $scope.popularShows = unchosenFilter(masterPopShows, $scope)
             return data
         })
         .then(function () {
             // ;
             //$('.popular-shows').slick();
         });
+
+    var getNextPopularShows = function () {
+        if ($scope.popularShows.length < 20) {
+            $http.get(next)
+                .then(function (data) {
+                    console.log('adding more shows')
+                    masterPopShows = _.concat(masterPopShows, data.data.results)
+                    $scope.popularShows = unchosenFilter(masterPopShows, $scope)
+                    next = data.data.next
+                })
+        }
+    }
 
 
     $scope.delete = function (content) {
@@ -277,15 +360,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getPackage()
     }, function () {
         $scope.package = PackageFactory.getPackage();
+
+
     });
 
     $scope.$watch(function () {
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        // $scope.getRatings = function () {
-        //     $http.get($scope.cs.url + '/ratings')
-        // }
 
 
     })

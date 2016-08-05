@@ -1202,22 +1202,32 @@ app.directive('viewWindow', function (http, $rootScope, PackageFactory, $q) {
 /**
  * Created by Nem on 7/26/16.
  */
-app.filter('unique', function() {
-   return function(collection, keyname) {
-      var output = [],
-          keys = [];
+app.filter('unique', function () {
+    return function (collection, keyname) {
+        var output = [],
+            keys = [];
 
-      angular.forEach(collection, function(item) {
-          var key = item[keyname];
-          if(keys.indexOf(key) === -1) {
-              keys.push(key);
-              output.push(item);
-          }
-      });
+        angular.forEach(collection, function (item) {
+            var key = item[keyname];
+            if (keys.indexOf(key) === -1) {
+                keys.push(key);
+                output.push(item);
+            }
+        });
 
-      return output;
-   };
+        return output;
+    };
 });
+
+app.filter('unchosen', function () {
+    return function (collection, scope) {
+        var res = _.filter(collection, function (item) {
+            return !_.some(scope.package.data.content, ['title', item.title])
+        })
+
+        return res
+    }
+})
 
 /**
  * Created by Nem on 11/17/15.
@@ -1701,7 +1711,6 @@ app.service('sInfo', function($rootScope){
     }, 500)
 
     this.listen = _.debounce(function(callback){
-        debugger;
         $rootScope.$on("send_sInfo", callback)
     })
 })
@@ -2101,6 +2110,24 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 
     }
 });
+
+app.factory('Utils', function(){
+    return {
+
+        fixGuideboxData : function (c) {
+        if (typeof c.guidebox_data == 'string') {
+            var jsonString = c.guidebox_data.replace(/'/g, '"');
+            jsonString = cleanString(jsonString)
+            c.guidebox_data = JSON.parse(jsonString)
+        }
+
+
+        return c
+
+    }
+
+    }
+})
 
 
 app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window, $q) {
@@ -2822,7 +2849,7 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, SLING_CHANNELS, N, growl, loginEventService) {
+app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, SLING_CHANNELS, N, growl, Utils) {
 
     // $scope.noResults = true
 
@@ -2900,29 +2927,20 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
     }
 
-    var fixGuideboxData = function (c) {
-        if (typeof c.guidebox_data == 'string') {
-            var jsonString = c.guidebox_data.replace(/'/g, '"');
-            jsonString = cleanString(jsonString)
-            c.guidebox_data = JSON.parse(jsonString)
-        }
-
-
-        return c
-
-    }
+    // var fixGuideboxData = function (c) {
+    //     if (typeof c.guidebox_data == 'string') {
+    //         var jsonString = c.guidebox_data.replace(/'/g, '"');
+    //         jsonString = cleanString(jsonString)
+    //         c.guidebox_data = JSON.parse(jsonString)
+    //     }
+    //
+    //
+    //     return c
+    //
+    // }
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
 
-        // if (!$window.sessionStorage.token) {
-        //     growl.info("Please authenticate to use this application.")
-        //         .then(function () {
-        //
-        //             loginEventService.broadcast()
-        //         })
-        //
-        //     return
-        // }
         var ssPackage = PackageFactory.getPackage();
 
         if ('hidden' in ssPackage.data.services) {
@@ -2936,8 +2954,6 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                 return
             }
 
-            // suggestion.url = suggestion.url.replace('http', 'https');
-            //  ;
             var parser = document.createElement('a');
             parser.href = suggestion.url
 
@@ -2945,24 +2961,21 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
             $http.get(url)
                 .then(function (data) {
 
-
-                    suggestion = fixGuideboxData(data.data)
-
+                    suggestion = Utils.fixGuideboxData(data.data)
 
                     if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
                         $scope.loading = true;
 
                         suggestion.justAdded = true;
 
-
-                        if (_.includes(ssPackage.data,function(elem){
-                            return elem.url == suggestion.url
+                        if (_.includes(ssPackage.data, function (elem) {
+                                return elem.url == suggestion.url
 
                             })) {
-                             growl.warning('You already added ' + suggestion.title + ' to your package!');
+                            growl.warning('You already added ' + suggestion.title + ' to your package!');
                             return
                         }
-                            ssPackage.data.content.push(suggestion);
+                        ssPackage.data.content.push(suggestion);
 
                         PackageFactory.setPackage(ssPackage);
 
@@ -2975,11 +2988,14 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                         });
                     }
 
+                    $scope.popularShows = _.filter($scope.popularShows, function (item) {
+                        return item.title != suggestion.title
+                    })
+
                 })
         }
         $scope.searchText = '';
         $scope.suggestions = [];
-
 
     };
 
@@ -3026,7 +3042,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
 
     $scope.$watch('noResults', function (o, n) {
-        logEmptySearchResults(o,n);
+        logEmptySearchResults(o, n);
     })
 
 
@@ -3106,7 +3122,6 @@ app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
 
 
                 }
-                debugger;
                 if (scope.key == 'ota') {
                     scope.rowTitle = 'Big Game'
                     scope.desc = '(must have)'
@@ -3128,7 +3143,6 @@ app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
                     if (pkg.data[row.category] == undefined) {
                         pkg.data[row.category] = []
                     }
-                    debugger;
 
 
                     pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
@@ -3412,7 +3426,70 @@ function removeHuluIfShowtimeContent(services) {
     });
 }
 
-app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window, $log, $sessionStorage, sInfo) {
+app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window, $log, $sessionStorage, sInfo, Utils, unchosenFilter, growl) {
+
+
+    var masterPopShows = []
+
+    $scope.addPopularShow = function (suggestion) {
+
+        var ssPackage = PackageFactory.getPackage();
+
+        if ('hidden' in ssPackage.data.services) {
+            ssPackage.data.services.hidden = [];
+        }
+
+        if (suggestion !== undefined) {
+            if (_.some(ssPackage.data.content, ['url', suggestion.url])) {
+                growl.warning('You already added ' + suggestion.title + ' to your package!');
+                $scope.suggestions = [];
+                return
+            }
+
+            var parser = document.createElement('a');
+            parser.href = suggestion.url
+
+            url = /api/.test(parser.pathname) ? parser.pathname : '/api' + parser.pathname
+            $http.get(url)
+                .then(function (data) {
+
+                    suggestion = Utils.fixGuideboxData(data.data)
+
+                    if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+                        $scope.loading = true;
+
+                        suggestion.justAdded = true;
+
+                        if (_.includes(ssPackage.data, function (elem) {
+                                return elem.url == suggestion.url
+
+                            })) {
+                            growl.warning('You already added ' + suggestion.title + ' to your package!');
+                            return
+                        }
+                        ssPackage.data.content.push(suggestion);
+
+                        PackageFactory.setPackage(ssPackage);
+
+                        $scope.loading = false;
+                        mixpanel.track("Show added", {
+                            "id": 5,
+                            "show_title": suggestion.title,
+                            "user": $window.sessionStorage.user
+                        });
+                    }
+                    return data
+                })
+                .then(function (data) {
+                    $scope.popularShows = unchosenFilter(masterPopShows, $scope)
+                    debugger
+                    console.log("I'm refiltered on adding")
+
+
+                    getNextPopularShows()
+                })
+        }
+    };
 
 
     var openingDetail = false
@@ -3422,7 +3499,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         var pkg = PackageFactory.getPackage()
 
         $q.when($($event.currentTarget).parent().fadeOut)
-            .then(function () {
+            .then(function (data) {
 
                 if (show.category) {
                     // TODO fix this ugly hack
@@ -3437,6 +3514,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
                 PackageFactory.setPackage(pkg)
 
+                $scope.package = pkg
+                return data
+            })
+            .then(function () {
+                $scope.popularShows = unchosenFilter(masterPopShows, $scope)
+                console.log("I'm refiltered on removal")
             })
 
 
@@ -3480,16 +3563,30 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $('body').removeAttr('id');
     // $('body').addClass('gradient-background');
 
-
+    var next = ""
     $http.get('api/popular-shows')
         .success(function (data) {
-            $scope.popularShows = data.results;
+            masterPopShows = data.results;
+            next = data.next
+            $scope.popularShows = unchosenFilter(masterPopShows, $scope)
             return data
         })
         .then(function () {
             // ;
             //$('.popular-shows').slick();
         });
+
+    var getNextPopularShows = function () {
+        if ($scope.popularShows.length < 20) {
+            $http.get(next)
+                .then(function (data) {
+                    console.log('adding more shows')
+                    masterPopShows = _.concat(masterPopShows, data.data.results)
+                    $scope.popularShows = unchosenFilter(masterPopShows, $scope)
+                    next = data.data.next
+                })
+        }
+    }
 
 
     $scope.delete = function (content) {
@@ -3647,15 +3744,14 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         return PackageFactory.getPackage()
     }, function () {
         $scope.package = PackageFactory.getPackage();
+
+
     });
 
     $scope.$watch(function () {
         return PackageFactory.getChosenShow()
     }, function () {
         $scope.cs = PackageFactory.getChosenShow();
-        // $scope.getRatings = function () {
-        //     $http.get($scope.cs.url + '/ratings')
-        // }
 
 
     })

@@ -20,6 +20,7 @@ from social.apps.django_app.utils import strategy
 from social.apps.django_app.views import _do_login
 
 from server.apis.guidebox import GuideBox
+from server.constants import unwanted_show_ids
 from server.models import *
 from server.permissions import IsAdminOrReadOnly
 from server.permissions import IsAuthenticatedOrCreate
@@ -145,33 +146,17 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
     serializer_class = ContentSerializer
     http_method_names = ['get']
 
-    def get_popular_shows(self):
-        shows = ["Community",
-                 "Comedians in Cars Getting Coffee",
-                 "Transparent", "Happy Valley",
-                 "House of Cards",
-                 "Deadbeat",
-                 "Bosch",
-                 "The Mindy Project",
-                 "Orange is the New Black"]
-        q = None
-
-        for show in shows:
-
-            query = Q(title__iexact=show)
-
-            if q is None:
-                q = query
-
-            else:
-                q = q | query
-
-        return q
-
     def get_queryset(self):
-        return Content.objects.annotate(p=Max('popularity__score')).annotate(p_count=Count('popularity')).exclude(
-            p_count=0).order_by('-p')[:10]
+        res = Content.objects.annotate(p=Max('popularity__score')).annotate(p_count=Count('popularity')).exclude(
+            p_count=0).order_by('-p')
 
+        filter_results = [x for x in res if x.guidebox_data['id'] not in unwanted_show_ids]
+
+        # banned server
+
+        filter_results = [show for show in filter_results if show.id != 15296]
+
+        return filter_results
 
 class PackagesViewSet(viewsets.ModelViewSet):
     serializer_class = PackagesSerializer

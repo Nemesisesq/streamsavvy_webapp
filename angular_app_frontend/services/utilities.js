@@ -195,3 +195,21 @@ app.factory('ShowDetailAnimate', function ($timeout, $q, $window) {
 
     }
 });
+
+app.factory('Utils', function(){
+    return {
+
+        fixGuideboxData : function (c) {
+        if (typeof c.guidebox_data == 'string') {
+            var jsonString = c.guidebox_data.replace(/'/g, '"');
+            jsonString = cleanString(jsonString)
+            c.guidebox_data = JSON.parse(jsonString)
+        }
+
+
+        return c
+
+    }
+
+    }
+})

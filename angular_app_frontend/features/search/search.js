@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, SLING_CHANNELS, N, growl, loginEventService) {
+app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, SLING_CHANNELS, N, growl, Utils) {
 
     // $scope.noResults = true
 
@@ -79,29 +79,20 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
     }
 
-    var fixGuideboxData = function (c) {
-        if (typeof c.guidebox_data == 'string') {
-            var jsonString = c.guidebox_data.replace(/'/g, '"');
-            jsonString = cleanString(jsonString)
-            c.guidebox_data = JSON.parse(jsonString)
-        }
-
-
-        return c
-
-    }
+    // var fixGuideboxData = function (c) {
+    //     if (typeof c.guidebox_data == 'string') {
+    //         var jsonString = c.guidebox_data.replace(/'/g, '"');
+    //         jsonString = cleanString(jsonString)
+    //         c.guidebox_data = JSON.parse(jsonString)
+    //     }
+    //
+    //
+    //     return c
+    //
+    // }
 
     $rootScope.addToSelectedShows = function (suggestion, model, label, event) {
 
-        // if (!$window.sessionStorage.token) {
-        //     growl.info("Please authenticate to use this application.")
-        //         .then(function () {
-        //
-        //             loginEventService.broadcast()
-        //         })
-        //
-        //     return
-        // }
         var ssPackage = PackageFactory.getPackage();
 
         if ('hidden' in ssPackage.data.services) {
@@ -115,8 +106,6 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                 return
             }
 
-            // suggestion.url = suggestion.url.replace('http', 'https');
-            //  ;
             var parser = document.createElement('a');
             parser.href = suggestion.url
 
@@ -124,24 +113,21 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
             $http.get(url)
                 .then(function (data) {
 
-
-                    suggestion = fixGuideboxData(data.data)
-
+                    suggestion = Utils.fixGuideboxData(data.data)
 
                     if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
                         $scope.loading = true;
 
                         suggestion.justAdded = true;
 
-
-                        if (_.includes(ssPackage.data,function(elem){
-                            return elem.url == suggestion.url
+                        if (_.includes(ssPackage.data, function (elem) {
+                                return elem.url == suggestion.url
 
                             })) {
-                             growl.warning('You already added ' + suggestion.title + ' to your package!');
+                            growl.warning('You already added ' + suggestion.title + ' to your package!');
                             return
                         }
-                            ssPackage.data.content.push(suggestion);
+                        ssPackage.data.content.push(suggestion);
 
                         PackageFactory.setPackage(ssPackage);
 
@@ -154,11 +140,14 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                         });
                     }
 
+                    $scope.popularShows = _.filter($scope.popularShows, function (item) {
+                        return item.title != suggestion.title
+                    })
+
                 })
         }
         $scope.searchText = '';
         $scope.suggestions = [];
-
 
     };
 
@@ -205,7 +194,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
 
     $scope.$watch('noResults', function (o, n) {
-        logEmptySearchResults(o,n);
+        logEmptySearchResults(o, n);
     })
 
 

@@ -71,7 +71,6 @@ app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
 
 
                 }
-                debugger;
                 if (scope.key == 'ota') {
                     scope.rowTitle = 'Big Game'
                     scope.desc = '(must have)'
@@ -93,7 +92,6 @@ app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
                     if (pkg.data[row.category] == undefined) {
                         pkg.data[row.category] = []
                     }
-                    debugger;
 
 
                     pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {

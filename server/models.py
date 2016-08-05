@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import django
 from django.conf import settings
 from django.contrib.auth.models import User, UserManager
 from django.contrib.postgres.fields import JSONField
@@ -132,7 +133,7 @@ class ChannelImages(models.Model):
 
 class Popularity(models.Model):
     score = models.FloatField(default=0.1)
-    date_created = models.DateField(default=datetime.now())
+    date_created = models.DateField(default=django.utils.timezone.now())
     content = models.ForeignKey(Content)
 
     class Meta:

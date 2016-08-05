@@ -68,7 +68,6 @@ app.service('sInfo', function($rootScope){
     }, 500)
 
     this.listen = _.debounce(function(callback){
-        debugger;
         $rootScope.$on("send_sInfo", callback)
     })
 })
