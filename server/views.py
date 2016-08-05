@@ -150,7 +150,7 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
         res = Content.objects.annotate(p=Max('popularity__score')).annotate(p_count=Count('popularity')).exclude(
             p_count=0).order_by('-p')
 
-        filter_results = [x for x in res if x.guidebox_data['id'] not in unwanted_show_ids]
+        filter_results = [x for x in res if x.guidebox_data and x.guidebox_data['id'] not in unwanted_show_ids]
 
         # banned server
 
