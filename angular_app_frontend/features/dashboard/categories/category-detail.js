@@ -24,7 +24,6 @@ app.directive('categoryDetail', function ($http, _) {
                             return 'core'
                         })
                         scope.cat = group;
-                        console.log(scope.cat)
                         return data
                     })
             }

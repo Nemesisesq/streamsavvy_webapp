@@ -8,7 +8,6 @@ function fixMetaTags() {
 
     var x = $('body meta')
     y = $('body title')
-    console.log(x)
     $('body meta').remove()
     $('body title').remove()
     $('head').append(x)

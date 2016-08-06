@@ -98,7 +98,7 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
             return PackageFactory.getPackage().data.content
         }
         catch (e) {
-            console.log(e)
+            // console.log(e)
         }
     }, function () {
         get_service_list();

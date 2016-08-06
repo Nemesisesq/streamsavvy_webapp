@@ -8,7 +8,6 @@ function fixMetaTags() {
 
     var x = $('body meta')
     y = $('body title')
-    console.log(x)
     $('body meta').remove()
     $('body title').remove()
     $('head').append(x)
@@ -2230,7 +2229,7 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
             return PackageFactory.getPackage().data.content
         }
         catch (e) {
-            console.log(e)
+            // console.log(e)
         }
     }, function () {
         get_service_list();
@@ -2378,7 +2377,6 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
             $log.info('Modal dismissed at: ' + new Date());
 
             modalOpen = false
-            console.log(modalOpen)
 
             $rootScope.$broadcast('login.modal.closed')
 
@@ -3075,7 +3073,6 @@ app.directive('categoryDetail', function ($http, _) {
                             return 'core'
                         })
                         scope.cat = group;
-                        console.log(scope.cat)
                         return data
                     })
             }
@@ -3483,7 +3480,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 .then(function (data) {
                     $scope.popularShows = unchosenFilter(masterPopShows, $scope)
                     debugger
-                    console.log("I'm refiltered on adding")
 
 
                     getNextPopularShows()
@@ -3519,7 +3515,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             })
             .then(function () {
                 $scope.popularShows = unchosenFilter(masterPopShows, $scope)
-                console.log("I'm refiltered on removal")
             })
 
 
@@ -3580,7 +3575,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         if ($scope.popularShows.length < 20) {
             $http.get(next)
                 .then(function (data) {
-                    console.log('adding more shows')
                     masterPopShows = _.concat(masterPopShows, data.data.results)
                     $scope.popularShows = unchosenFilter(masterPopShows, $scope)
                     next = data.data.next
@@ -3795,7 +3789,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         $http.post('/edr/', data)
             .then(function (data) {
-                console.log('datq')
             }, function (err) {
                 // $log(err)
             })

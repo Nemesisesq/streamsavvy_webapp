@@ -99,7 +99,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 .then(function (data) {
                     $scope.popularShows = unchosenFilter(masterPopShows, $scope)
                     debugger
-                    console.log("I'm refiltered on adding")
 
 
                     getNextPopularShows()
@@ -135,7 +134,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
             })
             .then(function () {
                 $scope.popularShows = unchosenFilter(masterPopShows, $scope)
-                console.log("I'm refiltered on removal")
             })
 
 
@@ -196,7 +194,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         if ($scope.popularShows.length < 20) {
             $http.get(next)
                 .then(function (data) {
-                    console.log('adding more shows')
                     masterPopShows = _.concat(masterPopShows, data.data.results)
                     $scope.popularShows = unchosenFilter(masterPopShows, $scope)
                     next = data.data.next
@@ -411,7 +408,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         $http.post('/edr/', data)
             .then(function (data) {
-                console.log('datq')
             }, function (err) {
                 // $log(err)
             })

@@ -33,7 +33,6 @@ app.controller('ModalController', function ($scope, http, $uibModal, $log, $root
             $log.info('Modal dismissed at: ' + new Date());
 
             modalOpen = false
-            console.log(modalOpen)
 
             $rootScope.$broadcast('login.modal.closed')
 
