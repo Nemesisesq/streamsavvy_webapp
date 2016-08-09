@@ -152,6 +152,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
             $http.post('/node-data/detailsources', cs)
                 .then(function (data) {
+                    debugger;
                     $scope.detailSources = data.data
                 })
         }

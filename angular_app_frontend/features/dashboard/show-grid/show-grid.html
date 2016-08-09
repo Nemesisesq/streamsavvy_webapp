@@ -13,7 +13,8 @@
 
         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 show-title" ng-repeat="show in package.data.content" open-detail
              ng-click="showDetail(show, $event)" ng-disabled="true">
-            <img class="pointer" ng-src="{{ show.guidebox_data.artwork_208x117 }} " imageonload>
+            <img ng-if="show.guidebox_data" class="pointer" ng-src="{{ show.guidebox_data.artwork_208x117 }} " imageonload>
+            <img ng-if="show.category" class="pointer" src="https://s3-us-west-2.amazonaws.com/streamsavvy-sports-assets/ohio_state_football_helmet.jpg" imageonload/>
             <i class="fa fa-times-circle remove-show" ng-click="removeShow(show, $event)"></i>
         </div>
     </div>

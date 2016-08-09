@@ -35,11 +35,9 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
                     // ;
-
-
                     var sorted = _.chain(data.data)
                         .filter(function (elem) {
-                            return elem.title !== null
+                            return elem.title !== null || elem.name != null
                         })
                         .sortBy(function (elem) {
 
@@ -108,6 +106,14 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
             var parser = document.createElement('a');
             parser.href = suggestion.url
+
+
+            if (suggestion.category) {
+                debugger;
+                suggestion.justAdded = true;
+                ssPackage.data.content.push(suggestion);
+                return
+            }
 
             url = /api/.test(parser.pathname) ? parser.pathname : '/api' + parser.pathname
             $http.get(url)

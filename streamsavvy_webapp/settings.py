@@ -205,7 +205,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
 
     ),
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 30
 }
 
 TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'

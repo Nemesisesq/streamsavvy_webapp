@@ -9,6 +9,7 @@ import jwt
 import requests
 from django.core.cache import cache
 from django.db.models import Q, Max, Count
+from django.http import HttpResponseServerError
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
@@ -158,6 +159,7 @@ class PopularShowsViewSet(viewsets.ModelViewSet):
 
         return filter_results
 
+
 class PackagesViewSet(viewsets.ModelViewSet):
     serializer_class = PackagesSerializer
     http_method_names = ['get', 'put']
@@ -224,15 +226,31 @@ def call_search_microservice(request):
     if request.GET['q']:
         query_url = "{base}/search/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
                                                      params=urllib.parse.urlencode({'q': request.GET['q']}))
+
+        sports_query = "{base}/search_sports/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
+                                                       params=urllib.parse.urlencode({'q': request.GET['q']}))
+        result_list = []
+
         try:
 
             with urllib.request.urlopen(query_url) as response:
 
                 x = json.loads(response.read().decode())
+
+                result_list += x
                 xx = [eval_string(d) for d in x]
-                return JsonResponse(x, safe=False)
-        except:
+        except Exception as e:
             pass
+        try:
+            with urllib.request.urlopen(sports_query) as response:
+                y = json.loads(response.read().decode())
+
+                result_list += y
+        except Exception as e:
+            return HttpResponseServerError()
+
+
+        return JsonResponse(result_list, safe=False)
 
 
 @try_catch
