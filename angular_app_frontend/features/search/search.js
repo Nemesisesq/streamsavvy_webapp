@@ -112,45 +112,47 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                 debugger;
                 suggestion.justAdded = true;
                 ssPackage.data.content.push(suggestion);
-                return
-            }
 
-            url = /api/.test(parser.pathname) ? parser.pathname : '/api' + parser.pathname
-            $http.get(url)
-                .then(function (data) {
+            } else {
 
-                    suggestion = Utils.fixGuideboxData(data.data)
 
-                    if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
-                        $scope.loading = true;
+                url = /api/.test(parser.pathname) ? parser.pathname : '/api' + parser.pathname
+                $http.get(url)
+                    .then(function (data) {
 
-                        suggestion.justAdded = true;
+                        suggestion = Utils.fixGuideboxData(data.data)
 
-                        if (_.includes(ssPackage.data, function (elem) {
-                                return elem.url == suggestion.url
+                        if (suggestion.guidebox_data.id !== undefined && typeof suggestion.guidebox_data.id === 'number') {
+                            $scope.loading = true;
 
-                            })) {
-                            growl.warning('You already added ' + suggestion.title + ' to your package!');
-                            return
+                            suggestion.justAdded = true;
+
+                            if (_.includes(ssPackage.data, function (elem) {
+                                    return elem.url == suggestion.url
+
+                                })) {
+                                growl.warning('You already added ' + suggestion.title + ' to your package!');
+                                return
+                            }
+                            ssPackage.data.content.push(suggestion);
+
+                            PackageFactory.setPackage(ssPackage);
+
+                            $scope.loading = false;
+                            mixpanel.track("Show added", {
+                                "id": 5,
+                                "show_title": suggestion.title,
+                                "search_query": search_query,
+                                "user": $window.sessionStorage.user
+                            });
                         }
-                        ssPackage.data.content.push(suggestion);
 
-                        PackageFactory.setPackage(ssPackage);
+                        $scope.popularShows = _.filter($scope.popularShows, function (item) {
+                            return item.title != suggestion.title
+                        })
 
-                        $scope.loading = false;
-                        mixpanel.track("Show added", {
-                            "id": 5,
-                            "show_title": suggestion.title,
-                            "search_query": search_query,
-                            "user": $window.sessionStorage.user
-                        });
-                    }
-
-                    $scope.popularShows = _.filter($scope.popularShows, function (item) {
-                        return item.title != suggestion.title
                     })
-
-                })
+            }
         }
         $scope.searchText = '';
         $scope.suggestions = [];
