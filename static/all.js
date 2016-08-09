@@ -2128,6 +2128,7 @@ app.factory('Utils', function(){
     }
 })
 
+
 app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window, $q) {
 
         $q.when(PackageFactory.getPackage())
@@ -2237,7 +2238,6 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
 });
 
 
-
 /**
  * Created by Nem on 12/29/15.
  */
@@ -2252,46 +2252,6 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
-/**
- * Created by chirag on 8/3/15.
- */
-app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
-
-    $('#letsDoThis').click(function () {
-         ;
-
-        mixpanel.track('Navigation', {
-            "event_id": 2,
-            "event": "Call to Action",
-            "user": $window.sessionStorage.user
-        })
-
-    })
-
-
-    // $scope.login = function (credentials) {
-    //     //credentials.next = "/api/";
-    //     credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-    //     credentials.submit = "Log in";
-    //     http.login(credentials)
-    //         .then(function (data) {
-    //             // console.log(data);
-    //             $location.url('search');
-    //             $scope.logged_in = true;
-    //         })
-    // };
-    //
-    // $scope.logout = function () {
-    //     $http.get('django_auth/logout/')
-    //         .success(function () {
-    //             $location.url('/');
-    //             $scope.logged_in = false;
-    //         })
-    // }
-
-
-});
-
 /**
  * Created by Nem on 10/7/15.
  */
@@ -2339,6 +2299,226 @@ $(document).ready(function () {
 
 
     //  ;
+
+})
+
+/**
+ * Created by chirag on 8/3/15.
+ */
+app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
+
+    $('#letsDoThis').click(function () {
+         ;
+
+        mixpanel.track('Navigation', {
+            "event_id": 2,
+            "event": "Call to Action",
+            "user": $window.sessionStorage.user
+        })
+
+    })
+
+
+    // $scope.login = function (credentials) {
+    //     //credentials.next = "/api/";
+    //     credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+    //     credentials.submit = "Log in";
+    //     http.login(credentials)
+    //         .then(function (data) {
+    //             // console.log(data);
+    //             $location.url('search');
+    //             $scope.logged_in = true;
+    //         })
+    // };
+    //
+    // $scope.logout = function () {
+    //     $http.get('django_auth/logout/')
+    //         .success(function () {
+    //             $location.url('/');
+    //             $scope.logged_in = false;
+    //         })
+    // }
+
+
+});
+
+app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
+
+    //$scope.login = 'Click Here to Login'
+
+    var modalOpen = false
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $rootScope.openLogInModal = _.debounce(function () {
+        if (modalOpen) return;
+
+
+        modalOpen = true;
+
+
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal.html',
+            controller: 'ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+
+        modalInstance.result.then(function (selectedItem) {
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+
+            modalOpen = false
+
+            $rootScope.$broadcast('login.modal.closed')
+
+        });
+    }, 500);
+
+    loginEventService.listen($rootScope.openLogInModal)
+    //if ($rootScope.currentStep == 3) {
+    //    $rootScope.openLogInModal()
+    //}
+});
+
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window, PackageFactory, sInfo) {
+
+    $scope.socialLogin = true;
+
+    var pkg = PackageFactory.getPackage()
+
+    $scope.auth = {
+        twitter: $('#twitter_login').attr('href') + '?pkg=' + pkg.url,
+        facebook: $('#facebook_login').attr('href')+ '?pkg=' + pkg.url + '&anon_user=' + window.sessionStorage.anon_user,
+    }
+
+    $scope.credentials = {}
+
+
+    $('body').on('click', '#facebook_social_auth', function () {
+
+        mixpanel.track('Authentication', {
+            "id": 4.1,
+            "event": "facebook_social",
+            "method": "email",
+            "user": $window.sessionStorage.user
+
+        })
+            window.sessionStorage.pkg = pkg
+    })
+
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        credentials.username = credentials.email;
+        $window.sessionStorage.user = {"email": credentials.email}
+        http.login(credentials)
+            .then(function (data) {
+                mixpanel.track('Authentication', {
+                    "id": 4.2,
+                    "event": "login",
+                    "method": "email",
+                    "user": $window.sessionStorage.user
+                })
+
+                $rootScope.logged_in = true;
+                $modalInstance.close();
+                growl.success('Login Successful', {
+                    onclose: function () {
+
+                        window.location.reload()
+
+                    },
+                    ttl: 1000,
+                    disableCountDown: true
+                })
+
+            }, function (err) {
+
+                if (err.data.hasOwnProperty('username')) {
+
+                    growl.error('username is required')
+                }
+
+                if (err.data.hasOwnProperty('non_field_errors')) {
+                    growl.error(err.data.non_field_errors[0])
+                }
+
+                $scope.credentials = {}
+            })
+        $scope.credentials = {}
+    };
+
+    $scope.register = function (credentials) {
+        //credentials.next = "/api/";
+
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Register";
+        credentials.username = credentials.email;
+        credentials.package = PackageFactory.getPackage().url;
+
+
+        if (credentials.password == credentials.confirm_password) {
+
+
+            http.register(credentials)
+                .then(function (data) {
+                    $window.sessionStorage.user = {"email": credentials.email}
+
+                    mixpanel.track('Authentication', {
+                        "id": 4.3,
+                        "event": "register",
+                        "method": "email",
+                        "user": $window.sessionStorage.user
+                    })
+
+                    $window.sessionStorage.reg_pkg_id = data.data.pkg
+
+                    growl.success('Registration Successful')
+                    $modalInstance.close()
+                    sInfo.broadcast()
+                    window.location.reload()
+                }, function (err) {
+
+                    if (err.status == 500) {
+                        growl.error(err.data.detail)
+                    } else if (err.hasOwnProperty('data')) {
+                        growl.error(err.data.username[0])
+
+                    } else if (err.data.hasOwnProperty('non_field_errors')) {
+                        growl.error(err.data.non_field_errors[0])
+                    }
+                    $scope.credentials = {}
+                })
+        } else {
+            growl.error("passwords don't match")
+        }
+    };
+
+
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
 
 })
 
@@ -2569,101 +2749,6 @@ $(document).ready(function () {
     //}
 });
 
-app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
-
-    var package = PackageFactory.getPackage();
-
-    //$interval(function(){
-    //     ;
-    //    //package = PackageFactory.getPackage();
-    //    //$scope.package  = package;
-    //}, 500);
-
-    $scope.package = package;
-
-    var stateStep = $state.current.data.step;
-    $scope.stateStep = stateStep;
-    $rootScope.currentStep = stateStep;
-    $scope.step = {
-        one: {
-            text: 'Step One',
-            show: false,
-            active: false
-        },
-        two: {
-            text: 'Step Two',
-            show: false,
-            active: false
-        },
-        three: {
-            text: 'Step Three',
-            show: false,
-            active: false
-        },
-        four: {
-            text: 'Step Four',
-            show: false,
-            active: false
-        }
-    };
-
-    $scope.isActive = function (step) {
-        if (stateStep == step) {
-            return true
-        } else {
-            return false
-        }
-
-
-        return 'inactive'
-    }
-
-    $scope.navigate = function (stateStep) {
-
-        if ($scope.stateStep > stateStep)
-            $location.path('/getting-started/step/' + stateStep)
-
-    }
-
-    if (stateStep == 1) {
-        $scope.step.one.show = true
-
-    } else if (stateStep == 2) {
-        $scope.step.two.show = true
-
-
-    } else if (stateStep == 3) {
-        $scope.step.three.show = true
-
-    } else if (stateStep == 4) {
-        $scope.step.four.show = true
-
-    }
-
-    $scope.progressBar = function (step) {
-        package = PackageFactory.getPackage();
-        var barValue = 0;
-
-        // ;
-
-        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
-
-            barValue = package.hardware.length/3 *100 || 0;
-        }
-
-         ;
-
-        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
-
-            barValue = package.content.length/5 * 100 || 0;
-        }
-
-
-        return $scope.stateStep > step ? 100 : barValue;
-    }
-});
-
-
 /**
  * Created by Nem on 7/18/15.
  */
@@ -2875,185 +2960,230 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 });
 
 
-app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
+app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
-    //$scope.login = 'Click Here to Login'
+    var package = PackageFactory.getPackage();
 
-    var modalOpen = false
+    //$interval(function(){
+    //     ;
+    //    //package = PackageFactory.getPackage();
+    //    //$scope.package  = package;
+    //}, 500);
 
-    $scope.items = ['item1', 'item2', 'item3'];
+    $scope.package = package;
 
-    $rootScope.openLogInModal = _.debounce(function () {
-        if (modalOpen) return;
-
-
-        modalOpen = true;
-
-
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: '/static/partials/modal.html',
-            controller: 'ModalInstanceController',
-            size: 'sm',
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
-
-
-        modalInstance.result.then(function (selectedItem) {
-
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-
-            modalOpen = false
-
-            $rootScope.$broadcast('login.modal.closed')
-
-        });
-    }, 500);
-
-    loginEventService.listen($rootScope.openLogInModal)
-    //if ($rootScope.currentStep == 3) {
-    //    $rootScope.openLogInModal()
-    //}
-});
-
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window, PackageFactory, sInfo) {
-
-    $scope.socialLogin = true;
-
-    var pkg = PackageFactory.getPackage()
-
-    $scope.auth = {
-        twitter: $('#twitter_login').attr('href') + '?pkg=' + pkg.url,
-        facebook: $('#facebook_login').attr('href')+ '?pkg=' + pkg.url + '&anon_user=' + window.sessionStorage.anon_user,
-    }
-
-    $scope.credentials = {}
-
-
-    $('body').on('click', '#facebook_social_auth', function () {
-
-        mixpanel.track('Authentication', {
-            "id": 4.1,
-            "event": "facebook_social",
-            "method": "email",
-            "user": $window.sessionStorage.user
-
-        })
-            window.sessionStorage.pkg = pkg
-    })
-
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        credentials.username = credentials.email;
-        $window.sessionStorage.user = {"email": credentials.email}
-        http.login(credentials)
-            .then(function (data) {
-                mixpanel.track('Authentication', {
-                    "id": 4.2,
-                    "event": "login",
-                    "method": "email",
-                    "user": $window.sessionStorage.user
-                })
-
-                $rootScope.logged_in = true;
-                $modalInstance.close();
-                growl.success('Login Successful', {
-                    onclose: function () {
-
-                        window.location.reload()
-
-                    },
-                    ttl: 1000,
-                    disableCountDown: true
-                })
-
-            }, function (err) {
-
-                if (err.data.hasOwnProperty('username')) {
-
-                    growl.error('username is required')
-                }
-
-                if (err.data.hasOwnProperty('non_field_errors')) {
-                    growl.error(err.data.non_field_errors[0])
-                }
-
-                $scope.credentials = {}
-            })
-        $scope.credentials = {}
-    };
-
-    $scope.register = function (credentials) {
-        //credentials.next = "/api/";
-
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Register";
-        credentials.username = credentials.email;
-        credentials.package = PackageFactory.getPackage().url;
-
-
-        if (credentials.password == credentials.confirm_password) {
-
-
-            http.register(credentials)
-                .then(function (data) {
-                    $window.sessionStorage.user = {"email": credentials.email}
-
-                    mixpanel.track('Authentication', {
-                        "id": 4.3,
-                        "event": "register",
-                        "method": "email",
-                        "user": $window.sessionStorage.user
-                    })
-
-                    $window.sessionStorage.reg_pkg_id = data.data.pkg
-
-                    growl.success('Registration Successful')
-                    $modalInstance.close()
-                    sInfo.broadcast()
-                    window.location.reload()
-                }, function (err) {
-
-                    if (err.status == 500) {
-                        growl.error(err.data.detail)
-                    } else if (err.hasOwnProperty('data')) {
-                        growl.error(err.data.username[0])
-
-                    } else if (err.data.hasOwnProperty('non_field_errors')) {
-                        growl.error(err.data.non_field_errors[0])
-                    }
-                    $scope.credentials = {}
-                })
-        } else {
-            growl.error("passwords don't match")
+    var stateStep = $state.current.data.step;
+    $scope.stateStep = stateStep;
+    $rootScope.currentStep = stateStep;
+    $scope.step = {
+        one: {
+            text: 'Step One',
+            show: false,
+            active: false
+        },
+        two: {
+            text: 'Step Two',
+            show: false,
+            active: false
+        },
+        three: {
+            text: 'Step Three',
+            show: false,
+            active: false
+        },
+        four: {
+            text: 'Step Four',
+            show: false,
+            active: false
         }
     };
 
+    $scope.isActive = function (step) {
+        if (stateStep == step) {
+            return true
+        } else {
+            return false
+        }
 
-    $scope.items = items;
 
-    $scope.selected = {
-        item: $scope.items[0]
+        return 'inactive'
     }
 
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
+    $scope.navigate = function (stateStep) {
+
+        if ($scope.stateStep > stateStep)
+            $location.path('/getting-started/step/' + stateStep)
+
     }
 
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel')
+    if (stateStep == 1) {
+        $scope.step.one.show = true
+
+    } else if (stateStep == 2) {
+        $scope.step.two.show = true
+
+
+    } else if (stateStep == 3) {
+        $scope.step.three.show = true
+
+    } else if (stateStep == 4) {
+        $scope.step.four.show = true
+
     }
 
+    $scope.progressBar = function (step) {
+        package = PackageFactory.getPackage();
+        var barValue = 0;
+
+        // ;
+
+        if (!_.isEmpty(package) && 2 == $scope.stateStep && 2 == step) {
+
+            barValue = package.hardware.length/3 *100 || 0;
+        }
+
+         ;
+
+        if(!_.isEmpty(package) && 1 == $scope.stateStep && 1 ==step) {
+
+            barValue = package.content.length/5 * 100 || 0;
+        }
+
+
+        return $scope.stateStep > step ? 100 : barValue;
+    }
+});
+
+
+/**
+ * Created by Nem on 7/25/16.
+ */
+
+
+app.directive('categoryDetail', function ($http, _) {
+    return {
+        restrict: 'E',
+        controller: 'ShowGridController',
+        templateUrl: '/static/partials/categories/categories.html',
+        link: function (scope, event, attrs) {
+            scope.get_desc = function (category) {
+
+                return $http.get('module_descriptions/' + category)
+                    .then(function (data) {
+                        var group = _.groupBy(data.data, function (elem) {
+                            if (elem.img == 'ota') {
+                                return 'ota'
+                            }
+
+                            if (elem.img == 'fubotv') {
+                                return 'soccer'
+                            }
+                            return 'core'
+                        })
+                        scope.cat = group;
+                        return data
+                    })
+            }
+            scope.get_desc('Sports')
+            scope.$on('category_clicked', function (event, item) {
+                scope.get_desc(item.title)
+                    .then(function (data) {
+                    })
+            })
+        }
+    }
 })
+
+app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
+        return {
+            restrict: 'E',
+            templateUrl: '/static/partials/categories/row-template.html',
+            // controller: 'ModuleControler',
+
+            link: function (scope, event, attrs) {
+
+                scope.openAffiliateLink = function (row) {
+
+
+                    mixpanel.track('Checkout action buttons', {
+                        "id": 19,
+                        "service": row.service,
+                        "user": $window.sessionStorage.user,
+                        "event": "Subscribe"
+
+                    })
+
+                    if (row.affiliate_link) {
+
+                        $window.open(row.affiliate_link);
+                        mixpanel.track("Sports service clicked", {"service name": row.service});
+                    } else {
+                        mixpanel.track('Service with No Link Clicked', {
+                            "id": 20,
+                            "user": $window.sessionStorage.user,
+
+                        })
+                    }
+
+
+                }
+                if (scope.key == 'ota') {
+                    scope.rowTitle = 'Big Game'
+                    scope.desc = '(must have)'
+
+                } else if (scope.key == 'soccer') {
+
+                    scope.rowTitle = 'Soccer'
+                } else {
+                    scope.rowTitle = 'Core Package'
+                    scope.desc = '(select one)'
+                }
+
+                scope.addCollection = function (row) {
+                    var pkg = PackageFactory.getPackage();
+
+                    if (_.some(pkg.data[row.category], ['img', row.img])) {
+                        return
+                    }
+                    if (pkg.data[row.category] == undefined) {
+                        pkg.data[row.category] = []
+                    }
+
+
+                    pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
+                        return elem.level != 'Core Sports Package' || row.level != "Core Sports Package"
+                    })
+
+
+                    pkg.data[row.category].push(row);
+                    pkg.data[row.category] = _.uniqBy(pkg.data[row.category], 'img');
+
+                    PackageFactory.setPackage(pkg);
+                }
+
+            }
+
+
+        }
+    }
+)
+
+app.directive('comingSoon', function (_) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            scope.isClickable = true
+            var notReady = ['News', 'Live']
+            if (_.includes(notReady, scope.show.title)) {
+                scope.isClickable = false;
+                element.addClass('coming-soon')
+                // this.$parent.$parent.hideDetail()
+            }
+        }
+    }
+})
+
+
 
 /**
  * Created by Nem on 5/24/16.
@@ -3668,6 +3798,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         $http.post('/edr/', data)
             .then(function (data) {
+
             }, function (err) {
                 // $log(err)
             })
@@ -3705,133 +3836,3 @@ app.controller('ModuleController', function ($scope, $http) {
         }
     ]
 })
-
-/**
- * Created by Nem on 7/25/16.
- */
-
-
-app.directive('categoryDetail', function ($http, _) {
-    return {
-        restrict: 'E',
-        controller: 'ShowGridController',
-        templateUrl: '/static/partials/categories/categories.html',
-        link: function (scope, event, attrs) {
-            scope.get_desc = function (category) {
-
-                return $http.get('module_descriptions/' + category)
-                    .then(function (data) {
-                        var group = _.groupBy(data.data, function (elem) {
-                            if (elem.img == 'ota') {
-                                return 'ota'
-                            }
-
-                            if (elem.img == 'fubotv') {
-                                return 'soccer'
-                            }
-                            return 'core'
-                        })
-                        scope.cat = group;
-                        return data
-                    })
-            }
-            scope.get_desc('Sports')
-            scope.$on('category_clicked', function (event, item) {
-                scope.get_desc(item.title)
-                    .then(function (data) {
-                    })
-            })
-        }
-    }
-})
-
-app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
-        return {
-            restrict: 'E',
-            templateUrl: '/static/partials/categories/row-template.html',
-            // controller: 'ModuleControler',
-
-            link: function (scope, event, attrs) {
-
-                scope.openAffiliateLink = function (row) {
-
-
-                    mixpanel.track('Checkout action buttons', {
-                        "id": 19,
-                        "service": row.service,
-                        "user": $window.sessionStorage.user,
-                        "event": "Subscribe"
-
-                    })
-
-                    if (row.affiliate_link) {
-
-                        $window.open(row.affiliate_link);
-                        mixpanel.track("Sports service clicked", {"service name": row.service});
-                    } else {
-                        mixpanel.track('Service with No Link Clicked', {
-                            "id": 20,
-                            "user": $window.sessionStorage.user,
-
-                        })
-                    }
-
-
-                }
-                if (scope.key == 'ota') {
-                    scope.rowTitle = 'Big Game'
-                    scope.desc = '(must have)'
-
-                } else if (scope.key == 'soccer') {
-
-                    scope.rowTitle = 'Soccer'
-                } else {
-                    scope.rowTitle = 'Core Package'
-                    scope.desc = '(select one)'
-                }
-
-                scope.addCollection = function (row) {
-                    var pkg = PackageFactory.getPackage();
-
-                    if (_.some(pkg.data[row.category], ['img', row.img])) {
-                        return
-                    }
-                    if (pkg.data[row.category] == undefined) {
-                        pkg.data[row.category] = []
-                    }
-
-
-                    pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
-                        return elem.level != 'Core Sports Package' || row.level != "Core Sports Package"
-                    })
-
-
-                    pkg.data[row.category].push(row);
-                    pkg.data[row.category] = _.uniqBy(pkg.data[row.category], 'img');
-
-                    PackageFactory.setPackage(pkg);
-                }
-
-            }
-
-
-        }
-    }
-)
-
-app.directive('comingSoon', function (_) {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-            scope.isClickable = true
-            var notReady = ['News', 'Live']
-            if (_.includes(notReady, scope.show.title)) {
-                scope.isClickable = false;
-                element.addClass('coming-soon')
-                // this.$parent.$parent.hideDetail()
-            }
-        }
-    }
-})
-
-

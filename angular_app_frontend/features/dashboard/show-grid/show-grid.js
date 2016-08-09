@@ -409,6 +409,7 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
         $http.post('/edr/', data)
             .then(function (data) {
+
             }, function (err) {
                 // $log(err)
             })

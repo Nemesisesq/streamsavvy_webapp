@@ -94,6 +94,7 @@ class Content(models.Model):
     channel = models.ManyToManyField(Channel, blank=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
     channels_last_checked = models.DateTimeField(blank=True, null=True)
+    curr_pop_score = models.FloatField(default=0.1)
 
 
     def save(self, *args, **kwargs):

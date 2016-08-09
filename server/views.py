@@ -232,6 +232,14 @@ def call_search_microservice(request):
         result_list = []
 
         try:
+            with urllib.request.urlopen(sports_query) as response:
+                y = json.loads(response.read().decode())
+
+                result_list += y
+        except Exception as e:
+            return HttpResponseServerError()
+
+        try:
 
             with urllib.request.urlopen(query_url) as response:
 
@@ -241,13 +249,7 @@ def call_search_microservice(request):
                 xx = [eval_string(d) for d in x]
         except Exception as e:
             pass
-        try:
-            with urllib.request.urlopen(sports_query) as response:
-                y = json.loads(response.read().decode())
 
-                result_list += y
-        except Exception as e:
-            return HttpResponseServerError()
 
 
         return JsonResponse(result_list, safe=False)
