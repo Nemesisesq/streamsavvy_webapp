@@ -236,6 +236,8 @@ def call_search_microservice(request):
 
         pool = Pool(processes=len(urls))
         results = pool.map(requests.get, urls)
+        pool.close()
+        pool.join()
 
         result_list = []
 
@@ -246,7 +248,12 @@ def call_search_microservice(request):
             except Exception as e:
                 print(e)
 
+
+
         return JsonResponse(result_list, safe=False)
+
+
+
 
 
 @try_catch
