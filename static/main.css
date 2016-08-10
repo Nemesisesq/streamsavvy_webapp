@@ -2332,7 +2332,7 @@ ul[id^='typeahead-'], .suggestions-list {
   position: absolute;
   max-height: 20em;
   display: block;
-  overflow: hidden;
+  overflow: scroll;
   z-index: 1;
   background-color: #ffffff;
   border: 1px solid #cccccc;

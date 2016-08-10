@@ -232,7 +232,8 @@ def call_search_microservice(request):
 
         sports_query = "{base}/search_sports/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
                                                                params=urllib.parse.urlencode({'q': request.GET['q']}))
-        urls = [sports_query, query_url]
+        urls = [query_url]
+        # TODO urls = [sports_query, query_url] Uncomment when there is more data to support sports
 
         pool = Pool(processes=len(urls))
         results = pool.map(requests.get, urls)
