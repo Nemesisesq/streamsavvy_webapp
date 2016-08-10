@@ -299,7 +299,7 @@ body {
 
 .fa {
   display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
+  font: normal normal normal 14px / 1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2457,7 +2457,7 @@ ul[id^='typeahead-'], .suggestions-list {
 
 @media (max-width: 456px) {
   .content-wrapper .h1-row .h1-col h1.white {
-    font-size: 25px;
+    font-size: .8em;
     font-weight: 200;
     line-height: 1.1; }
     .content-wrapper .h1-row .h1-col h1.white span {
@@ -2465,7 +2465,12 @@ ul[id^='typeahead-'], .suggestions-list {
   .row.easy-row {
     margin-top: 0; }
   .header-logo {
-    width: calc(100vw - 10%); } }
+    width: calc(100vw - 10%); }
+  .lets-do-this-row {
+    position: absolute;
+    bottom: 75px; }
+    .lets-do-this-row a {
+      width: calc(100vw - 30px); } }
 
 mobile-tabs {
   display: none;
@@ -2491,277 +2496,6 @@ mobile-tabs {
 @media (max-width: 767px) {
   .content-wrapper .h1-row .h1-col h1.white {
     font-weight: 300; } }
-
-.container-fluid {
-  padding-left: 0px;
-  padding-right: 0px; }
-
-#tv-guide-section {
-  background: url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
-  background-size: cover;
-  background-position: center;
-  display: block;
-  background-repeat: no-repeat;
-  width: 100%;
-  font-weight: 300;
-  color: #ffffff; }
-
-#tv-guide-section h1 {
-  font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
-  font-size: 42px;
-  font-weight: 900;
-  padding-top: 20px; }
-
-#tv-guide-section p {
-  font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
-  font-size: 25px;
-  font-weight: 300;
-  padding-top: 20px;
-  padding-bottom: 30px; }
-
-#tv-guide-section img {
-  display: block;
-  margin: auto;
-  max-width: 150px;
-  padding: 20px; }
-
-@media (max-width: 778px) {
-  #tv-guide-section img {
-    max-width: 200px; } }
-
-.tv-guide-section-container {
-  padding-top: 60px;
-  max-width: 700px; }
-
-@media (max-width: 768px) {
-  #tv-guide-section-container {
-    max-width: 300px; } }
-
-#tv-guide-section .col-xs-6 {
-  min-height: 100px; }
-
-#tv-guide-section .black-tint {
-  position: relative;
-  background: rgba(0, 0, 0, 0.8);
-  padding-top: 8%;
-  padding-bottom: 8%; }
-
-.black-tint {
-  position: relative;
-  background: rgba(0, 0, 0, 0.8); }
-
-#sports-category-section {
-  background: url("https://s3.amazonaws.com/streamsavvy/Homepage/sportsSectionBackground.png");
-  background-size: cover;
-  background-position: center;
-  display: block;
-  background-repeat: no-repeat;
-  width: 100%;
-  font-weight: 300;
-  padding-bottom: 30px;
-  padding-top: 30px;
-  color: #ffffff; }
-
-#sports-category-section h1 {
-  font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
-  font-size: 42px;
-  font-weight: 900;
-  padding-top: 20px; }
-
-#sports-category-section p {
-  font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 200;
-  padding-top: 20px;
-  padding-left: 10px;
-  padding-right: 10px; }
-
-#sports-category-section h4 {
-  text-align: center;
-  font-weight: 500;
-  font-size: 24px; }
-
-#sports-category-section img {
-  display: block;
-  margin: auto; }
-
-.sports-section-container {
-  display: block;
-  margin: auto;
-  max-width: 850px;
-  padding-top: 30px;
-  padding-bottom: 30px; }
-
-.well {
-  max-width: 300px;
-  margin-bottom: 25px;
-  display: block;
-  margin: auto; }
-
-.well-one, .well-two, .well-three {
-  border-radius: 10px;
-  border: 0;
-  background: rgba(0, 0, 0, 0.2);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin-bottom: 10px; }
-
-.well-one p {
-  font-weight: 100; }
-
-#carousel-section {
-  background: url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 0; }
-
-#watermark {
-  background: url("https://s3.amazonaws.com/streamsavvy/Homepage/logoWatermark.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1; }
-
-.item {
-  margin-top: 30px;
-  margin-bottom: 75px;
-  background-position: center;
-  background-repeat: no-repeat; }
-
-.item p {
-  display: block;
-  max-width: 500px;
-  margin: auto;
-  text-align: center;
-  color: #ffffff; }
-
-@media (max-width: 760px) {
-  .item p {
-    max-width: 380px; } }
-
-@media (max-width: 450px) {
-  .item p {
-    max-width: 250px; } }
-
-@media (max-width: 350px) {
-  .item p {
-    max-width: 200px; } }
-
-.item h4 {
-  padding-top: 30px;
-  display: block;
-  font-weight: 600;
-  margin: auto;
-  text-align: center;
-  color: #4CA5DC; }
-
-.item h5 {
-  padding-top: 10px;
-  display: block;
-  font-weight: 400;
-  font-style: italic;
-  margin: auto;
-  text-align: center;
-  color: #ffffff; }
-
-.circle-img {
-  border-radius: 50%;
-  display: block;
-  margin: auto;
-  height: 70px;
-  width: 70px;
-  margin-bottom: 20px; }
-
-#about-section {
-  background: url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; }
-
-#about-section p:hover {
-  text-decoration: underline; }
-
-.maroon-tint {
-  position: relative;
-  background: rgba(35, 31, 32, 0.9); }
-
-.footer-logo {
-  display: block;
-  margin: auto;
-  padding: 45px; }
-
-.footer-width {
-  display: block;
-  margin: auto;
-  color: #ffffff;
-  max-width: 700px;
-  text-align: center;
-  padding-bottom: 40px; }
-
-.footer-container {
-  display: block;
-  margin: auto;
-  max-width: 1100px; }
-
-.footer-container img {
-  padding-right: 15px;
-  padding-left: 15px; }
-
-.subscribe-section {
-  display: block;
-  margin: auto; }
-
-.subscribe-section input {
-  color: #ffffff;
-  background-color: #474747;
-  padding: 12px;
-  width: 300px;
-  border: 0;
-  outline: none;
-  border-radius: 5px;
-  margin-right: 8px;
-  display: block;
-  float: left; }
-
-.subscribe-section .btn {
-  background-color: #6f6f6f;
-  color: #ffffff;
-  border-radius: 5px;
-  display: block;
-  float: left; }
-
-.subscribe-section .btn:hover {
-  background-color: #9d9d9d;
-  color: #ffffff; }
-
-@media (max-width: 993px) {
-  .subscribe-buttons {
-    margin-bottom: 25px; } }
-
-@media (max-width: 574px) {
-  .subscribe-section .btn {
-    margin-top: 5px;
-    margin-bottom: 25px; } }
-
-@media (max-width: 993px) {
-  .subscribe-section {
-    margin-left: 15px;
-    overflow: auto; } }
-
-@media (max-width: 993px) {
-  .footer-container p {
-    clear: left; } }
-
-.footer-container p {
-  color: #ffffff;
-  padding-left: 15px; }
-
-@media (max-width: 600px) {
-  .easy-123 {
-    display: none; } }
 
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;
@@ -4095,10 +3829,6 @@ span.step {
     border: none;
     background: none;
     width: 75px; }
-
-@media (max-width: 1014px) {
-  .navbar-fixed-top {
-    background-color: #15191b; } }
 
 .menu-background {
   -webkit-backdrop-filter: blur(9.9px);
