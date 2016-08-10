@@ -3,6 +3,8 @@ import time
 import urllib
 import urllib.parse
 import urllib.request
+from multiprocessing.pool import Pool
+
 from django.conf import settings
 
 import jwt
@@ -224,33 +226,25 @@ def eval_string(d):
 @try_catch
 def call_search_microservice(request):
     if request.GET['q']:
+
         query_url = "{base}/search/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
                                                      params=urllib.parse.urlencode({'q': request.GET['q']}))
 
         sports_query = "{base}/search_sports/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
-                                                       params=urllib.parse.urlencode({'q': request.GET['q']}))
+                                                               params=urllib.parse.urlencode({'q': request.GET['q']}))
+        urls = [sports_query, query_url]
+
+        pool = Pool(processes=len(urls))
+        results = pool.map(requests.get, urls)
+
         result_list = []
 
-        try:
-            with urllib.request.urlopen(sports_query) as response:
-                y = json.loads(response.read().decode())
+        for response in results:
+            try:
+                result_list += response.json()
 
-                result_list += y
-        except Exception as e:
-            return HttpResponseServerError()
-
-        try:
-
-            with urllib.request.urlopen(query_url) as response:
-
-                x = json.loads(response.read().decode())
-
-                result_list += x
-                xx = [eval_string(d) for d in x]
-        except Exception as e:
-            pass
-
-
+            except Exception as e:
+                print(e)
 
         return JsonResponse(result_list, safe=False)
 

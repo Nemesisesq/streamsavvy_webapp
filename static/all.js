@@ -2643,7 +2643,7 @@ app.controller('navigation', function ($scope, http, $http, $cookies, $window, $
     }
 
     $scope.login = function () {
-        $rootScope.openLogInModal()
+        // $rootScope.openLogInModal()
         var pkg_url = PackageFactory.getPackage()
 
         mixpanel.track("Login modal opened", {
