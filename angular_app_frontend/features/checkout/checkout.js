@@ -1,14 +1,14 @@
 app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window, $q) {
 
-        $q.when(PackageFactory.getPackage())
-            .then(function (data) {
-                $scope.package = data
+    $q.when(PackageFactory.getPackage())
+        .then(function (data) {
+            $scope.package = data
 
-                if (_.isEmpty(data.data.content) || data.data == undefined) {
-                    $state.go('dash.dashboard')
-                }
+            if (_.isEmpty(data.data.content) || data.data == undefined) {
+                $state.go('dash.dashboard')
+            }
 
-            })
+        })
 
 
     $scope.$on('subcribe', function (service) {
@@ -63,7 +63,8 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
                 })
                 .then(function (values) {
                     $scope.package.data.services.subscribed = _.filter($scope.package.data.services.subscribed, function (elem) {
-                        return _.includes(values, elem.chan.source)
+                        var res = elem.chan? _.includes(values, elem.chan.source): _.includes(values, elem.source)
+                        return res
 
                     })
                 })
