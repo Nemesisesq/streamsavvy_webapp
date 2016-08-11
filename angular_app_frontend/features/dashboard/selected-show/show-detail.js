@@ -92,7 +92,7 @@ app.directive('openDetail', function ($timeout) {
     }
 })
 
-app.directive('viewingWindow', function (_, $http, PackageFactory, $window) {
+app.directive('viewingWindow', function (_, $http, PackageFactory, $window, $timeout) {
     return {
         restrict: 'E',
         templateUrl: '/static/partials/selected-show/viewingWindows.html',
@@ -125,15 +125,23 @@ app.directive('viewingWindow', function (_, $http, PackageFactory, $window) {
 
                 })
 
-            scope.openTooltip = function () {
+            scope.closeAllTooltips = function () {
                 _.forEach(scope.detail.sortedServices, function (key) {
                     _.forEach(scope.detail[key], function (elem) {
                         elem.isOpen = false
 
                     })
                 })
+            };
+            scope.openTooltip = function () {
+                this.closeAllTooltips();
 
                 scope.service.isOpen = !scope.service.isOpen;
+                var that = this
+                $timeout(function () {
+
+                    that.closeAllTooltips()
+                }, 8000)
 
             }
 
