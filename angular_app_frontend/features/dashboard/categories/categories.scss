@@ -317,6 +317,7 @@ span.step {
   width: 95%;
   border-top: 2px dotted $warm-grey;
   margin: 10px;
+  margin-bottom: 30px;
 }
 
 .cat-subscript {
@@ -345,4 +346,15 @@ display: inline-block;
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
+}
+
+.sport-added {
+
+  @extend .show-added;
+
+  &::before{
+    right: 100px;
+    top: -15px;
+  }
+
 }

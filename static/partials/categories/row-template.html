@@ -20,7 +20,8 @@
 
             <hr ng-if="!$first" class="cat-detail-separator" align="center">
             <div class="col-md-2 col-xs-6 logo ">
-                <img class="opacity0" ng-click="openAffiliateLink(row)" ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ row.img }}" imageonload/>
+                <img class="opacity0" ng-click="openAffiliateLink(row)"
+                     ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ row.img }}" imageonload/>
             </div>
 
             <div class="col-md-2 price-block col-xs-6">
@@ -36,12 +37,19 @@
                 {{ row.networks }}
             </div>
             <div class="col-md-2  button-block">
-                <button class=" btn  btn-md overlay-btn" ng-click="addCollection(row)">add to package</button>
-
+                <button ng-if="!inPkg(row)" class=" btn  btn-md overlay-btn" ng-click="addCollection(row)">add to
+                    package
+                </button>
+                <div class="pull-right" ng-if="inPkg(row)">
+                    <div class="row checkout-green sport-added">Added Successfully</div>
+                    <!--<div class="row checkout-unsub"><a ng-click="unsubscribe(service)">Unsubscribe</a></div> -->
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
+
+</div>
 
 </div>
 

@@ -38,78 +38,83 @@ app.directive('categoryDetail', function ($http, _) {
 })
 
 app.directive('moduleRow', function ($http, PackageFactory, _, $window) {
-        return {
-            restrict: 'E',
-            templateUrl: '/static/partials/categories/row-template.html',
-            // controller: 'ModuleControler',
+    return {
+        restrict: 'E',
+        templateUrl: '/static/partials/categories/row-template.html',
+        // controller: 'ModuleControler',
 
-            link: function (scope, event, attrs) {
+        link: function (scope, event, attrs) {
 
-                scope.openAffiliateLink = function (row) {
-
-
-                    mixpanel.track('Checkout action buttons', {
-                        "id": 19,
-                        "service": row.service,
-                        "user": $window.sessionStorage.user,
-                        "event": "Subscribe"
-
-                    })
-
-                    if (row.affiliate_link) {
-
-                        $window.open(row.affiliate_link);
-                        mixpanel.track("Sports service clicked", {"service name": row.service});
-                    } else {
-                        mixpanel.track('Service with No Link Clicked', {
-                            "id": 20,
-                            "user": $window.sessionStorage.user,
-
-                        })
-                    }
+            scope.openAffiliateLink = function (row) {
 
 
-                }
-                if (scope.key == 'ota') {
-                    scope.rowTitle = 'Big Game'
-                    scope.desc = '(must have)'
+                mixpanel.track('Checkout action buttons', {
+                    "id": 19,
+                    "service": row.service,
+                    "user": $window.sessionStorage.user,
+                    "event": "Subscribe"
 
-                } else if (scope.key == 'soccer') {
+                })
 
-                    scope.rowTitle = 'Soccer'
+                if (row.affiliate_link) {
+
+                    $window.open(row.affiliate_link);
+                    mixpanel.track("Sports service clicked", {"service name": row.service});
                 } else {
-                    scope.rowTitle = 'Core Package'
-                    scope.desc = '(select one)'
-                }
+                    mixpanel.track('Service with No Link Clicked', {
+                        "id": 20,
+                        "user": $window.sessionStorage.user,
 
-                scope.addCollection = function (row) {
-                    var pkg = PackageFactory.getPackage();
-
-                    if (_.some(pkg.data[row.category], ['img', row.img])) {
-                        return
-                    }
-                    if (pkg.data[row.category] == undefined) {
-                        pkg.data[row.category] = []
-                    }
-
-
-                    pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
-                        return elem.level != 'Core Sports Package' || row.level != "Core Sports Package"
                     })
-
-
-                    pkg.data[row.category].push(row);
-                    pkg.data[row.category] = _.uniqBy(pkg.data[row.category], 'img');
-
-                    PackageFactory.setPackage(pkg);
                 }
+
 
             }
+            if (scope.key == 'ota') {
+                scope.rowTitle = 'Big Game'
+                scope.desc = '(must have)'
+
+            } else if (scope.key == 'soccer') {
+
+                scope.rowTitle = 'Soccer'
+            } else {
+                scope.rowTitle = 'Core Package'
+                scope.desc = '(select one)'
+            }
+
+            scope.addCollection = function (row) {
+                debugger;
+                var pkg = PackageFactory.getPackage();
+
+                if (_.some(pkg.data[row.category], ['img', row.img])) {
+                    return
+                }
+                if (pkg.data[row.category] == undefined) {
+                    pkg.data[row.category] = []
+                }
 
 
+                pkg.data[row.category] = _.filter(pkg.data[row.category], function (elem) {
+                    return elem.level != 'Core Sports Package' || row.level != "Core Sports Package"
+                })
+
+
+                pkg.data[row.category].push(row);
+                pkg.data[row.category] = _.uniqBy(pkg.data[row.category], 'img');
+
+                row.added = true;
+
+                PackageFactory.setPackage(pkg);
+            }
+
+            scope.inPkg = function (row) {
+                var pkg = PackageFactory.getPackage()
+
+                return _.some(pkg.data[row.category], ['img', row.img])
+            }
         }
     }
-)
+})
 
 app.directive('comingSoon', function (_) {
     return {

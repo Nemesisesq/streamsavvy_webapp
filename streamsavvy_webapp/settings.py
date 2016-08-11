@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
     'django_rq',
     'corsheaders',
+    # 'django_seo_js',
 
     # 'haystack',
     # 'debug_toolbar',
@@ -111,7 +112,12 @@ MIDDLEWARE_CLASSES = [
     'server.middleware.social.SaveInitialPackage',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     # 'server.middleware.duplicate_email.DuplicateEmail',
+    # 'django_seo_js.middleware.EscapedFragmentMiddleware',  # If you're using #!
+    # 'django_seo_js.middleware.UserAgentMiddleware',
 ]
+
+
+SEO_JS_PRERENDER_TOKEN = 'X3aA9tuDrermHDqxnY5P'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False

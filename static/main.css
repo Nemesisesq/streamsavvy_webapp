@@ -2763,11 +2763,11 @@ show-detail .background, category-detail .background {
 .checkout-blue {
   color: #45a7e5; }
 
-.show-added {
+.show-added, .sport-added {
   position: relative;
   text-align: right;
   z-index: 1; }
-  .show-added::before {
+  .show-added::before, .sport-added::before {
     background: url("https://s3.amazonaws.com/streamsavvy/big-check.svg");
     -webkit-background-size: 42px 42px;
     background-size: 42px 42px;
@@ -3676,7 +3676,8 @@ span.step {
 .cat-detail-separator {
   width: 95%;
   border-top: 2px dotted #9b9b9b;
-  margin: 10px; }
+  margin: 10px;
+  margin-bottom: 30px; }
 
 .cat-subscript {
   font-size: 10px; }
@@ -3695,6 +3696,10 @@ span.step {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0); }
+
+.sport-added::before {
+  right: 100px;
+  top: -15px; }
 
 /* General styles for all menus */
 .cbp-spmenu {
@@ -4743,7 +4748,8 @@ span.step {
 .cat-detail-separator {
   width: 95%;
   border-top: 2px dotted #9b9b9b;
-  margin: 10px; }
+  margin: 10px;
+  margin-bottom: 30px; }
 
 .cat-subscript {
   font-size: 10px; }
@@ -4762,6 +4768,10 @@ span.step {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0); }
+
+.sport-added::before {
+  right: 100px;
+  top: -15px; }
 
 html,
 button,
