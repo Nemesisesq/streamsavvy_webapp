@@ -38,7 +38,7 @@ app.filter('channel', function () {
                 return _.includes(elem.type, 'sub')
             }
             if (type == 'alacarte') {
-                // 
+                //
                 return _.includes(elem.type, 'purchase')
             }
         })
@@ -189,5 +189,17 @@ app.filter('customSorter', function(){
         list.ppv = newPpv;
 
         return list
+    }
+})
+
+app.filter('detailSorter', function() {
+    return function (x, y){
+
+        debugger;
+
+        var order = ["live", "binge", "on_demand", "ppv"]
+        return _.sortBy(x, function (key, value) {
+            return _.indexOf(order, elem.key)
+        })
     }
 })
