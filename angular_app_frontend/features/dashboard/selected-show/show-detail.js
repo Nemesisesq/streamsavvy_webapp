@@ -92,7 +92,7 @@ app.directive('openDetail', function ($timeout) {
     }
 })
 
-app.directive('viewingWindow', function (_, $http, PackageFactory) {
+app.directive('viewingWindow', function (_, $http, PackageFactory, $window) {
     return {
         restrict: 'E',
         templateUrl: '/static/partials/selected-show/viewingWindows.html',
@@ -126,8 +126,11 @@ app.directive('viewingWindow', function (_, $http, PackageFactory) {
                 })
 
             scope.openTooltip = function () {
-                _.forEach(scope.detail, function (elem) {
-                    elem.isOpen = false
+                _.forEach(scope.detail.sortedServices, function (key) {
+                    _.forEach(scope.detail[key], function (elem) {
+                        elem.isOpen = false
+
+                    })
                 })
 
                 scope.service.isOpen = !scope.service.isOpen;
@@ -154,6 +157,12 @@ app.directive('viewingWindow', function (_, $http, PackageFactory) {
                 }
 
                 scope.service.isOpen = false;
+            }
+
+            if($window.innerWidth < 786){
+                scope.ttPlacement = 'top'
+            } else {
+                scope.ttPlacement = 'left'
             }
 
         }

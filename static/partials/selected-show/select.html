@@ -43,7 +43,7 @@
                     <div class="window-label">{{ fixTitle(key) }}</div>
                     <viewing-window
                          ng-repeat="service in detailSources[key] | unique : 'source'" service="service"
-                         detail="detailSources[key]">
+                         detail="detailSources">
                     </viewing-window>
                     <!-- <div class="col-md-4 col-sm-3 col-xs-4 window-service" ng-hide="service.hide"
                          ng-repeat="service in detailSources[key] | unique : 'source' "
