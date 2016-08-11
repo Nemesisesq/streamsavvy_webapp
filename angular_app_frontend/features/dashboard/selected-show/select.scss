@@ -253,3 +253,15 @@ show-detail {
 }
 
 
+.btn.btn-green.btn-tooltip {
+  @extend .nav-mgmt-btn;
+
+  max-width: 100%;
+  margin-top: 10px;
+  //width: 9px;
+}
+
+
+.ng-isolate-scope.left.fade.tooltip.in {
+  pointer-events: auto ;
+}
