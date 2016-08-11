@@ -133,16 +133,15 @@ app.directive('viewingWindow', function (_, $http, PackageFactory, $window, $tim
                     })
                 })
             };
+               var timer;
             scope.openTooltip = function () {
+                if (scope.service.isOpen){
+                    scope.service.isOpen = !scope.service.isOpen;
+                    return
+                }
+
                 this.closeAllTooltips();
-
                 scope.service.isOpen = !scope.service.isOpen;
-                var that = this
-                $timeout(function () {
-
-                    that.closeAllTooltips()
-                }, 8000)
-
             }
 
             scope.linkToAffiliate = function () {
