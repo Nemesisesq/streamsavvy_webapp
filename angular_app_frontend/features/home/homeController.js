@@ -14,26 +14,33 @@ app.controller('HomeController', function ($scope, $http, http, $cookies, $locat
 
     })
 
-
-    // $scope.login = function (credentials) {
-    //     //credentials.next = "/api/";
-    //     credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-    //     credentials.submit = "Log in";
-    //     http.login(credentials)
-    //         .then(function (data) {
-    //             // console.log(data);
-    //             $location.url('search');
-    //             $scope.logged_in = true;
-    //         })
-    // };
-    //
-    // $scope.logout = function () {
-    //     $http.get('django_auth/logout/')
-    //         .success(function () {
-    //             $location.url('/');
-    //             $scope.logged_in = false;
-    //         })
-    // }
-
-
 });
+
+
+app.directive('sectionOne', function(){
+    return {
+        restrict : 'E',
+        templateUrl: '/static/partials/section-one.html'
+    }
+})
+
+app.directive('sectionTwo', function(){
+    return {
+        restrict : 'E',
+        templateUrl: '/static/partials/section-two.html'
+    }
+})
+
+app.directive('sectionThree', function(){
+    return {
+        restrict : 'E',
+        templateUrl: '/static/partials/section-three.html'
+    }
+})
+
+app.directive('sectionFour', function(){
+    return {
+        restrict : 'E',
+        templateUrl: '/static/partials/section-four.html'
+    }
+})

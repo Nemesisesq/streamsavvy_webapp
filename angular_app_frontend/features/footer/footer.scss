@@ -70,7 +70,7 @@ footer {
   bottom: 0;
   left:0;
   width: 100%;
-  padding: 0 15px 5px 15px;
+  padding: 20px 15px 5px 15px;
 
 
   .row{
@@ -153,4 +153,10 @@ footer a.pull-right {
     opacity: 0;
     height: 50px;
   }
+}
+
+
+footer {
+  background-color: rgb(23, 15, 16);
+  height : 15vh;
 }

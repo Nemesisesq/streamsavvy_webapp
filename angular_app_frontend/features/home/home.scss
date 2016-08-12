@@ -234,6 +234,7 @@ mobile-tabs {
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
+  height: 60vh;
 }
 #watermark {
   background: url("https://s3.amazonaws.com/streamsavvy/Homepage/logoWatermark.png");
@@ -241,6 +242,7 @@ mobile-tabs {
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1;
+  height: 60vh;
 }
 .item {
   margin-top: 30px;
@@ -304,6 +306,7 @@ mobile-tabs {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  height:40vh;
 }
 #about-section p:hover {
   text-decoration: underline;
@@ -311,6 +314,7 @@ mobile-tabs {
 .maroon-tint {
   position: relative;
   background: rgba(35, 31, 32, 0.9);
+  height: 30vh
 }
 .footer-logo {
   display: block;
@@ -327,8 +331,8 @@ mobile-tabs {
 }
 .footer-container {
   display: block;
-  margin: auto;
-  max-width: 1100px;
+
+
 }
 .footer-container img {
   padding-right: 15px;
@@ -400,4 +404,8 @@ div[ui-view="home"]{
 
   height: 100vh;
   }
+}
+
+#myCarousel {
+  height: 60vh;
 }
