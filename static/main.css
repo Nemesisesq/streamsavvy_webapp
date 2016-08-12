@@ -2766,7 +2766,8 @@ mobile-tabs {
     display: none; } }
 
 div[ui-view="home"] section {
-  height: 100vh; }
+  height: 100vh;
+  overflow: scroll; }
 
 #myCarousel {
   height: 60vh; }
