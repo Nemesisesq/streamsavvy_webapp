@@ -43,4 +43,9 @@ app.directive('sectionFour', function(){
         restrict : 'E',
         templateUrl: '/static/partials/section-four.html'
     }
+
+})
+
+app.controller('carousel',function () {
+
 })
