@@ -181,3 +181,8 @@ ul[id^='typeahead-'], .suggestions-list {
 .search_transparent {
   opacity: 0;
 }
+
+
+div[ng-show]{
+  color: $action_red;
+}

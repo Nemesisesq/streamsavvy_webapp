@@ -1,7 +1,7 @@
 /**
  * Created by Nem on 7/18/15.
  */
-app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, SLING_CHANNELS, N, growl, Utils) {
+app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, SLING_CHANNELS, N, growl, Utils, $state) {
 
     // $scope.noResults = true
 
@@ -31,6 +31,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
     $scope.search = function (val) {
 
         if (val) {
+
             search_query = val
             return $http.get('/api/search?q=' + val)
                 .then(function (data) {
@@ -53,6 +54,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                 });
         } else {
             $scope.suggestions = [];
+            $scope.typeaheadOpen = false;
             return "hello world"
         }
     };
@@ -136,6 +138,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                             }
                             ssPackage.data.content.push(suggestion);
 
+
                             PackageFactory.setPackage(ssPackage);
 
                             $scope.loading = false;
@@ -156,6 +159,8 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
         }
         $scope.searchText = '';
         $scope.suggestions = [];
+        $state.go('dash.dashboard')
+
 
     };
 
@@ -208,9 +213,9 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
 });
 
-app.directive('search', function(){
+app.directive('search', function () {
     return {
-        restrict : 'E',
+        restrict: 'E',
         templateUrl: '/static/partials/search.html',
         controller: 'search'
     }

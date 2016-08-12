@@ -2420,6 +2420,9 @@ ul[id^='typeahead-'], .suggestions-list {
 .search_transparent {
   opacity: 0; }
 
+div[ng-show] {
+  color: #ed1c24; }
+
 .home-background {
   background-image: #282537;
   background-image: -o-linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), -o-linear-gradient(#15191b, #15191b);

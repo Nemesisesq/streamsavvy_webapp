@@ -11,7 +11,7 @@
                    class="form-control ss-search-input" ng-class="{'has-suggestions' : suggestions.length}"
                    ng-model="searchText" ng-model-options="modelOptions"
                    uib-typeahead="suggestion.title for suggestion in search($viewValue)"
-                   typeahead-loading="loading" typeahead-no-results="noResults"
+                   typeahead-loading="loading" typeahead-no-results="noResults" typeahead-is-open="typeaheadOpen"
                    typeahead-on-select="addToSelectedShows($item, $model, $label, $event)"
                    ng-keydown="checkKeyDown($event)"
             />
