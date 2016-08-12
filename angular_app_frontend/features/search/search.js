@@ -208,3 +208,10 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
 });
 
+app.directive('search', function(){
+    return {
+        restrict : 'E',
+        templateUrl: '/static/partials/search.html',
+        controller: 'search'
+    }
+})

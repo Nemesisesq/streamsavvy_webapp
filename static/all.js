@@ -2046,7 +2046,6 @@ app.factory('Utils', function(){
     }
 })
 
-
 app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window, $q) {
 
     $q.when(PackageFactory.getPackage())
@@ -2155,6 +2154,7 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
         $scope.list = PackageFactory.getListOfServices();
     })
 });
+
 
 
 /**
@@ -2980,6 +2980,13 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
 });
 
+app.directive('search', function(){
+    return {
+        restrict : 'E',
+        templateUrl: '/static/partials/search.html',
+        controller: 'search'
+    }
+})
 
 /**
  * Created by Nem on 7/25/16.

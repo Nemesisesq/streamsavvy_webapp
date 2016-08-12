@@ -105,12 +105,14 @@ mobile-tabs {
     font-weight: 300;
   }
 }
+
 .container-fluid {
   padding-left: 0px;
   padding-right: 0px;
 }
+
 #tv-guide-section {
-  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
   background-size: cover;
   background-position: center;
   display: block;
@@ -119,12 +121,14 @@ mobile-tabs {
   font-weight: 300;
   color: #ffffff;
 }
+
 #tv-guide-section h1 {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
   font-size: 42px;
   font-weight: 900;
   padding-top: 20px;
 }
+
 #tv-guide-section p {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
   font-size: 25px;
@@ -132,41 +136,49 @@ mobile-tabs {
   padding-top: 20px;
   padding-bottom: 30px;
 }
+
 #tv-guide-section img {
   display: block;
   margin: auto;
   max-width: 150px;
   padding: 20px;
 }
+
 @media (max-width: 778px) {
 
   #tv-guide-section img {
     max-width: 200px;
   }
 }
+
 .tv-guide-section-container {
   padding-top: 60px;
   max-width: 700px;
 }
+
 @media (max-width: 768px) {
 
   #tv-guide-section-container {
     max-width: 300px;
   }
 }
+
 #tv-guide-section .col-xs-6 {
   min-height: 100px;
 }
+
 #tv-guide-section .black-tint {
   position: relative;
   background: rgba(0, 0, 0, 0.8);
   padding-top: 8%;
   padding-bottom: 8%;
 }
+
 .black-tint {
   position: relative;
   background: rgba(0, 0, 0, 0.8);
 }
+
 #sports-category-section {
   background: url("https://s3.amazonaws.com/streamsavvy/Homepage/sportsSectionBackground.png");
   background-size: cover;
@@ -179,12 +191,14 @@ mobile-tabs {
   padding-top: 30px;
   color: #ffffff;
 }
+
 #sports-category-section h1 {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
   font-size: 42px;
   font-weight: 900;
   padding-top: 20px;
 }
+
 #sports-category-section p {
   font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
   text-align: center;
@@ -194,15 +208,18 @@ mobile-tabs {
   padding-left: 10px;
   padding-right: 10px;
 }
+
 #sports-category-section h4 {
   text-align: center;
   font-weight: 500;
   font-size: 24px;
 }
+
 #sports-category-section img {
   display: block;
   margin: auto;
 }
+
 .sports-section-container {
   display: block;
   margin: auto;
@@ -210,24 +227,28 @@ mobile-tabs {
   padding-top: 30px;
   padding-bottom: 30px;
 }
+
 .well {
   max-width: 300px;
   margin-bottom: 25px;
   display: block;
   margin: auto;
 }
+
 .well-one, .well-two, .well-three {
   border-radius: 10px;
   border: 0;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   margin-bottom: 10px;
 }
-.well-one p{
+
+.well-one p {
   font-weight: 100;
 }
+
 #carousel-section {
   background: url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
   background-size: cover;
@@ -236,6 +257,7 @@ mobile-tabs {
   z-index: 0;
   height: 60vh;
 }
+
 #watermark {
   background: url("https://s3.amazonaws.com/streamsavvy/Homepage/logoWatermark.png");
   background-size: cover;
@@ -244,6 +266,7 @@ mobile-tabs {
   z-index: 1;
   height: 60vh;
 }
+
 .item {
   margin-top: 30px;
   margin-bottom: 75px;
@@ -251,32 +274,37 @@ mobile-tabs {
   background-repeat: no-repeat;
 
 }
-.item p{
+
+.item p {
   display: block;
   max-width: 500px;
   margin: auto;
   text-align: center;
   color: #ffffff;
 }
+
 @media (max-width: 760px) {
 
   .item p {
     max-width: 380px;
   }
 }
+
 @media (max-width: 450px) {
 
   .item p {
     max-width: 250px;
   }
 }
+
 @media (max-width: 350px) {
 
   .item p {
     max-width: 200px;
   }
 }
-.item h4{
+
+.item h4 {
   padding-top: 30px;
   display: block;
   font-weight: 600;
@@ -284,7 +312,8 @@ mobile-tabs {
   text-align: center;
   color: #4CA5DC;
 }
-.item h5{
+
+.item h5 {
   padding-top: 10px;
   display: block;
   font-weight: 400;
@@ -293,6 +322,7 @@ mobile-tabs {
   text-align: center;
   color: #ffffff;
 }
+
 .circle-img {
   border-radius: 50%;
   display: block;
@@ -301,26 +331,31 @@ mobile-tabs {
   width: 70px;
   margin-bottom: 20px;
 }
-#about-section{
+
+#about-section {
   background: url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height:40vh;
+  height: 40vh;
 }
+
 #about-section p:hover {
   text-decoration: underline;
 }
+
 .maroon-tint {
   position: relative;
   background: rgba(35, 31, 32, 0.9);
   height: 30vh
 }
+
 .footer-logo {
   display: block;
   margin: auto;
   padding: 45px;
 }
+
 .footer-width {
   display: block;
   margin: auto;
@@ -329,19 +364,22 @@ mobile-tabs {
   text-align: center;
   padding-bottom: 40px;
 }
+
 .footer-container {
   display: block;
 
-
 }
+
 .footer-container img {
   padding-right: 15px;
   padding-left: 15px;
 }
+
 .subscribe-section {
   display: block;
   margin: auto;
 }
+
 .subscribe-section input {
   color: #ffffff;
   background-color: #474747;
@@ -354,6 +392,7 @@ mobile-tabs {
   display: block;
   float: left;
 }
+
 .subscribe-section .btn {
   background-color: #6f6f6f;
   color: #ffffff;
@@ -361,52 +400,65 @@ mobile-tabs {
   display: block;
   float: left;
 }
+
 .subscribe-section .btn:hover {
   background-color: #9d9d9d;
   color: #ffffff;
 }
+
 @media (max-width: 993px) {
   .subscribe-buttons {
     margin-bottom: 25px;
   }
 }
+
 @media (max-width: 574px) {
   .subscribe-section .btn {
     margin-top: 5px;
     margin-bottom: 25px;
   }
 }
+
 @media (max-width: 993px) {
   .subscribe-section {
     margin-left: 15px;
     overflow: auto;
   }
 }
+
 @media (max-width: 993px) {
   .footer-container p {
     clear: left;
   }
 }
+
 .footer-container p {
   color: #ffffff;
   padding-left: 15px;
 }
+
 @media (max-width: 600px) {
   .easy-123 {
     display: none;
   }
 }
 
-div[ui-view="home"]{
+div[ui-view="home"] {
 
+  & section {
 
-  & section{
-
-  height: 100vh;
+    height: 100vh;
     overflow: scroll;
   }
 }
 
 #myCarousel {
   height: 60vh;
+}
+
+search {
+  & .row.show-input {
+        margin: 0 auto;
+    width: 50%
+  }
 }

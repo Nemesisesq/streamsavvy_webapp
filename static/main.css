@@ -2772,6 +2772,10 @@ div[ui-view="home"] section {
 #myCarousel {
   height: 60vh; }
 
+search .row.show-input {
+  margin: 0 auto;
+  width: 50%; }
+
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;
   padding-left: 15px;
