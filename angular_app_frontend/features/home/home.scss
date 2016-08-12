@@ -9,7 +9,7 @@
 }
 
 .h1-row {
-  margin-top: 73px;
+  padding-top: 80px;
 }
 
 .home-imgs {
@@ -110,7 +110,7 @@ mobile-tabs {
   padding-right: 0px;
 }
 #tv-guide-section {
-  background: url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
   background-size: cover;
   background-position: center;
   display: block;
@@ -390,5 +390,14 @@ mobile-tabs {
 @media (max-width: 600px) {
   .easy-123 {
     display: none;
+  }
+}
+
+div[ui-view="home"]{
+
+
+  & section{
+
+  height: 100vh;
   }
 }

@@ -299,7 +299,7 @@ body {
 
 .fa {
   display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
+  font: normal normal normal 14px / 1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2429,7 +2429,7 @@ ul[id^='typeahead-'], .suggestions-list {
   background-image: linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), linear-gradient(#15191b, #15191b); }
 
 .h1-row {
-  margin-top: 73px; }
+  padding-top: 80px; }
 
 .home-imgs {
   padding-top: 20px; }
@@ -2497,7 +2497,7 @@ mobile-tabs {
   padding-right: 0px; }
 
 #tv-guide-section {
-  background: url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url("https://s3.amazonaws.com/streamsavvy/Homepage/tvGuideSectionBackground.png");
   background-size: cover;
   background-position: center;
   display: block;
@@ -2762,6 +2762,9 @@ mobile-tabs {
 @media (max-width: 600px) {
   .easy-123 {
     display: none; } }
+
+div[ui-view="home"] section {
+  height: 100vh; }
 
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;
