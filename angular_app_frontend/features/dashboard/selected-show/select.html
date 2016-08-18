@@ -3,9 +3,9 @@
     <button class="btn btn-green btn-tooltip" ng-click="linkToAffiliate()">SUBSCRIBE</button>
 </script>
 
-<sports-overlay cs='cs'></sports-overlay>
+<sports-overlay ng-if="!cs.guidebox_data" cs='cs'></sports-overlay>
 
-<div class="col-sm-12 background" ng-if="!cs.category">
+<div class="col-sm-12 background" ng-if="cs.guidebox_data">
 
     <div id="sticky" class="row">
         <div class="col-xs-9">

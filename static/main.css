@@ -2778,6 +2778,9 @@ search .row.show-input {
   margin: 0 auto;
   width: 50%; }
 
+.carousel-inner .item {
+  margin-top: 20%; }
+
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;
   padding-left: 15px;
