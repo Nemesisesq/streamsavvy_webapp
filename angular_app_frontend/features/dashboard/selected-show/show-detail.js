@@ -133,9 +133,9 @@ app.directive('viewingWindow', function (_, $http, PackageFactory, $window, $tim
                     })
                 })
             };
-               var timer;
+            var timer;
             scope.openTooltip = function () {
-                if (scope.service.isOpen){
+                if (scope.service.isOpen) {
                     scope.service.isOpen = !scope.service.isOpen;
                     return
                 }
@@ -166,7 +166,7 @@ app.directive('viewingWindow', function (_, $http, PackageFactory, $window, $tim
                 scope.service.isOpen = false;
             }
 
-            if($window.innerWidth < 786){
+            if ($window.innerWidth < 786) {
                 scope.ttPlacement = 'top'
             } else {
                 scope.ttPlacement = 'left'
@@ -179,4 +179,34 @@ app.directive('viewingWindow', function (_, $http, PackageFactory, $window, $tim
 
 app.controller('ViewWindowController', function ($scope) {
 
+})
+
+
+app.directive('sportsOverlay', function ($http) {
+    return {
+        restrict: 'E',
+        scope: {
+            cs: '='
+        },
+        templateUrl: '/static/partials/selected-show/sports-overlay.html',
+        controller: 'ShowGridController',
+        link: function (scope, elem, attr) {
+
+            scope.$watchCollection('cs', function () {
+                $http.get('/schedule/' + scope.cs.id)
+                    .then(function (data) {
+                        scope.schedule = data.data
+                    })
+
+            })
+
+            scope.foxNbcSling = function (game, item) {
+                if (_.includes(game.result_time.network, 'FOX')) {
+                    return /sling/i.test(item.source)
+                }
+            }
+
+
+        }
+    }
 })

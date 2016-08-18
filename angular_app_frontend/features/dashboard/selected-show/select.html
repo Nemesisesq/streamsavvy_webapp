@@ -3,7 +3,9 @@
     <button class="btn btn-green btn-tooltip" ng-click="linkToAffiliate()">SUBSCRIBE</button>
 </script>
 
-<div class="col-sm-12 background">
+<sports-overlay cs='cs'></sports-overlay>
+
+<div class="col-sm-12 background" ng-if="!cs.category">
 
     <div id="sticky" class="row">
         <div class="col-xs-9">
@@ -16,9 +18,6 @@
     <div class="row scrolling-part">
         <div class="col-md-8 ss_pic-column">
             <img ng-if="cs.guidebox_data" class="opacity0 show-pic" ng-src="{{ cs.guidebox_data.artwork_608x342 }}"
-                 imageonload/>
-            <img ng-if="cs.category" class="pointer"
-                 src="https://s3-us-west-2.amazonaws.com/streamsavvy-sports-assets/ohio_state_football_helmet.jpg"
                  imageonload/>
         </div>
         <div class="service-options col-md-4">

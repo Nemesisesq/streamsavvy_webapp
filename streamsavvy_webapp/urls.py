@@ -58,5 +58,6 @@ urlpatterns = [
     url(r'^service_description/(?P<service>\w+)', get_service_description, name='service_description'),
     url(r'^viewing_windows/(?P<service>\w+)', get_viewing_windows, name='viewing_windows'),
     url(r'^sign_up/$', SignUp.as_view(), name="sign_up"),
-    url(r'^module_descriptions/(?P<category>\w+)', get_module_description, name='module_descriptions')
+    url(r'^module_descriptions/(?P<category>\w+)', get_module_description, name='module_descriptions'),
+    url(r'^schedule/(?P<sport_id>\d+)', get_sport_schedule, name='sport_schedule')
 ]

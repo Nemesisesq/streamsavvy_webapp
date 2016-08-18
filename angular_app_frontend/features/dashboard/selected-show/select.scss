@@ -252,7 +252,6 @@ show-detail {
   }
 }
 
-
 .btn.btn-green.btn-tooltip {
   @extend .nav-mgmt-btn;
 
@@ -261,7 +260,91 @@ show-detail {
   //width: 9px;
 }
 
-
 .ng-isolate-scope.left.fade.tooltip.in {
-  pointer-events: auto ;
+  pointer-events: auto;
+}
+
+.conf-header {
+
+  padding-bottom: 20px;
+}
+
+.game_divider {
+
+  border-bottom: white 2px dotted;
+}
+
+.sched-left-border {
+  border-left: solid white 2px;
+}
+
+.schedule {
+  //text-align: center;
+  padding-bottom: 100px;
+
+
+  width: 90%;
+
+  //width: 100%;
+
+  & div {
+    height: 100px;
+    line-height: 100px;
+  }
+
+  img {
+    height: 100%;
+  }
+  .opponent-img {
+    height: 75px;
+    text-align: center;
+    line-height: 75px;
+  }
+
+  .opponent-name {
+    text-align: center;
+    height: 25px;
+    line-height: 25px;
+
+  }
+
+
+}
+
+.net-logo img{
+  height: 10px;
+}
+
+.net-name {
+  height: auto;
+  line-height: 10px;
+  width: auto;
+}
+
+.suggestions {
+
+  div {
+    float: left;
+    margin: 5px;
+    margin-left: 10px;
+    height: auto;
+  line-height: initial;
+
+  }
+  img {
+    height : 25px;
+
+  }
+}
+
+.col-sm-12.background.container.schedule {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.caveat {
+
+  font-size: 8px;
+  position: absolute;
+  //bottom: -10px;
 }

@@ -344,3 +344,19 @@ def post_edr_data(request, the_json):
             return JsonResponse(d, safe=False)
         except Exception as e:
             print(e)
+
+def get_sport_schedule(request, sport_id):
+    if request.method == 'GET':
+        query_url = "{base}/sport_schedule/{sport_id}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
+                                                          sport_id=sport_id)
+        try:
+            r = requests.get(query_url)
+
+            url = method_name('sched_suggestion')
+
+            headers = {'Content-Type': 'application/json'}
+            sug_r = requests.post(url, data=json.dumps(r.json()), headers=headers)
+
+            return JsonResponse(sug_r.json(), safe=False)
+        except Exception as e:
+            print(e)

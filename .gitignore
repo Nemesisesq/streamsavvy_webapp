@@ -203,3 +203,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+/freq_serv_by_show.csv
+/freq_shows_in_package.csv
+/latest.dump
