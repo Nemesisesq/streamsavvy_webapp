@@ -1,7 +1,7 @@
 <div class="col-sm-12 background container schedule">
     <div class="row text-center conf-header">
         {{ cs.json_data.conference }}
-        <img class="pointer close" src="/static/img/close.png" imageonload/>
+        <img class="pointer close" src="/static/img/close.png" ng-click="hideDetail($event, 'close-X')" imageonload/>
     </div>
 
     <div class="row">
