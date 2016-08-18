@@ -458,7 +458,7 @@ div[ui-view="home"] {
 
 search {
   & .row.show-input {
-        margin: 0 auto;
+    margin: 0 auto;
     width: 50%
   }
 }
@@ -467,5 +467,21 @@ search {
 
   .item {
     margin-top: 10%;
+  }
+}
+
+section-one {
+
+  .floating-label {
+    position: absolute;
+    top: 88px;
+    left: 45px;
+    transition: all 0.3s ease-in;
+    color: #15191b;
+    pointer-events: none;
+
+    &.float {
+      top: 75px;
+    }
   }
 }
