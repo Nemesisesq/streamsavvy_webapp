@@ -251,7 +251,7 @@ def call_search_microservice(request):
 
 
 
-        return JsonResponse(result_list[:10], safe=False)
+        return JsonResponse(result_list, safe=False)
 
 
 
