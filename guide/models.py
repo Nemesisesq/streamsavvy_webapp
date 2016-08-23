@@ -26,3 +26,8 @@ class CallSigns(models.Model):
     callsign = models.TextField()
     network_affiliation = models.TextField()
     data = JSONField(blank=True, null=True)
+
+
+class RoviProgramImages(models.Model):
+    program_id  = models.TextField(blank=True, null=True)
+    image_list = JSONField(blank=True, null=True)

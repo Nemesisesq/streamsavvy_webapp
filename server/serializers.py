@@ -13,17 +13,19 @@ class SignUpSerializer(serializers.ModelSerializer):
         if password is not None:
             instance.set_password(password)
 
-        pkg_url = self._kwargs['data']['package']
+        if 'package' in self._kwargs['data']:
+            pkg_url = self._kwargs['data']['package']
 
-        pkg_id = [i for i in pkg_url.split('/') if i][-1]
-        pkg = Package.objects.get(pk=pkg_id)
-        anon_user = pkg.owner
+            pkg_id = [i for i in pkg_url.split('/') if i][-1]
+            pkg = Package.objects.get(pk=pkg_id)
+            anon_user = pkg.owner
+            print(instance)
+            new_pkg = Package.objects.create(owner=instance)
+            new_pkg.data = pkg.data
+            new_pkg.save()
+            anon_user.delete()
+
         instance.save()
-        print(instance)
-        new_pkg = Package.objects.create(owner=instance)
-        new_pkg.data = pkg.data
-        new_pkg.save()
-        anon_user.delete()
         return instance
 
     def update(self, instance, validated_data):
@@ -40,6 +42,7 @@ class SignUpSerializer(serializers.ModelSerializer):
         fields = ('first_name', 'last_name', 'username', 'email', 'password')
         write_only_fields = ('password',)
         depth = 3
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
