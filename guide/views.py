@@ -5,6 +5,7 @@ from multiprocessing.dummy import Pool
 import re
 import requests
 from django.core.cache import cache
+from django.http import JsonResponse
 from fuzzywuzzy import fuzz
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,6 +14,8 @@ from guide.models import RoviListings, RoviGridSchedule, RoviProgramImages
 from guide.serializers import RoviGridScheduleSerializers
 from server.constants import sling_channels
 from server.shortcuts import lazy_thunkify
+from server.views import method_name
+from streamsavvy_webapp.settings import get_env_variable
 
 
 class RoviAPI(object):
@@ -101,6 +104,22 @@ def filter_sling_channels(chan):
         if fuzz.token_set_ratio(chan['SourceLongName'], i) > 95 and not re.search("HD", chan['CallLetters']):
             return True
     return False
+
+def get_guide(request, zip):
+    if request.method == 'GET':
+        query_url = "{base}/api/guide/{zip_code}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
+                                                          zip_code=zip)
+        try:
+            r = requests.get(query_url)
+
+            url = method_name('sched_suggestion')
+
+            headers = {'Content-Type': 'application/json'}
+            sug_r = requests.post(url, data=json.dumps(r.json()), headers=headers)
+
+            return JsonResponse(sug_r.json(), safe=False)
+        except Exception as e:
+            print(e)
 
 
 class RoviChannelGridView(APIView):
