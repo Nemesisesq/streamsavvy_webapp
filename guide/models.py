@@ -18,6 +18,7 @@ class RoviGridSchedule(models.Model):
     locale = models.TextField(blank=True, null=True)
     data = JSONField(blank=True, null=True)
     postal_code = models.TextField(blank=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.data['GridScheduleResult']['Name']

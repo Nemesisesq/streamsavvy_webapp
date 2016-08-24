@@ -87,11 +87,10 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
     'django_rq',
     'corsheaders',
+    'oauth2_provider',
     # 'django_seo_js',
-
     # 'haystack',
     # 'debug_toolbar',
-    # 'oauth2_provider',
     # 'rest_framework_jwt',
     # 'rest_framework.authtoken',
 ]
@@ -108,14 +107,14 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'server.middleware.anon_user_middleware.ProcessAnonUser',
-    # 'server.middleware.device_id.DeviceIDMiddleWare',
     'server.middleware.social.SaveInitialPackage',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'server.middleware.access_management.LogUserIfExistsForSignUp',
     # 'server.middleware.duplicate_email.DuplicateEmail',
+    # 'server.middleware.device_id.DeviceIDMiddleWare',
     # 'django_seo_js.middleware.EscapedFragmentMiddleware',  # If you're using #!
     # 'django_seo_js.middleware.UserAgentMiddleware',
 ]
-
 
 SEO_JS_PRERENDER_TOKEN = 'X3aA9tuDrermHDqxnY5P'
 
@@ -209,6 +208,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'server.auth.JWTAuthentication',
 
     ),
     'PAGE_SIZE': 30

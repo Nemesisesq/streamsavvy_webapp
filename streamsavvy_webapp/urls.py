@@ -46,7 +46,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
     url(r'^login/', login_view, name='server.auth.login'),
-    url(r'^register/', register_user, name='register'),
     url(r'^django_auth/', include('django.contrib.auth.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^social/', include('social.apps.django_app.urls', namespace='social')),
@@ -59,5 +58,7 @@ urlpatterns = [
     url(r'^viewing_windows/(?P<service>\w+)', get_viewing_windows, name='viewing_windows'),
     url(r'^sign_up/$', SignUp.as_view(), name="sign_up"),
     url(r'^module_descriptions/(?P<category>\w+)', get_module_description, name='module_descriptions'),
-    url(r'^schedule/(?P<sport_id>\d+)', get_sport_schedule, name='sport_schedule')
+    url(r'^schedule/(?P<sport_id>\d+)', get_sport_schedule, name='sport_schedule'),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^get_token/', create_jwt, name='create_jwt'),
 ]

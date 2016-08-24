@@ -4,10 +4,11 @@ import urllib
 import urllib.parse
 import urllib.request
 from multiprocessing.pool import Pool
+from wsgiref import headers
 
 from django.conf import settings
 
-import jwt
+from server.auth import create_jwt
 import requests
 from django.core.cache import cache
 from django.db.models import Q, Max, Count
@@ -15,8 +16,10 @@ from django.http import HttpResponseServerError
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 from rest_framework_jwt.utils import jwt_decode_handler
 from social.actions import do_complete
 from social.apps.django_app.utils import strategy
@@ -91,15 +94,29 @@ class SignUp(generics.CreateAPIView):
     serializer_class = SignUpSerializer
     permission_classes = (IsAuthenticatedOrCreate,)
 
+
+    def post(self, request, *args, **kwargs):
+        if request.user:
+
+            the_json = json.loads(str(request.body, encoding='utf-8'))
+
+            token = create_jwt(the_json)
+            return Response({"token": str(token)}, status=status.HTTP_200_OK)
+        response = self.create(request, *args, **kwargs)
+
+        return response
+
+
+
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
-        print(response.data['username'])
-        user = User.objects.get(username=response.data['username'])
+        # print(response.data['username'])
+        # user = User.objects.get(username=response.data['username'])
 
         # TODO this is a hack and neeeds to be properly fixed
-        user.backend = 'django.contrib.auth.backends.ModelBackend'
-        login(request, user)
-        response['token'] = get_sign_up_token(user)
+        # user.backend = 'django.contrib.auth.backends.ModelBackend'
+        # login(request, user)
+        # response['token'] = get_sign_up_token(user)
         return response
 
 
