@@ -3,6 +3,10 @@
  */
 app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, SLING_CHANNELS, N, growl, Utils, $state) {
 
+    $scope.hex = true;
+
+    $rootScope.typeaheadOpen = false;
+
     // $scope.noResults = true
 
 
@@ -46,11 +50,11 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                         })
                         .value()
 
-                    if (true) {
-                        $scope.suggestions = sorted;
-                        return sorted
-                    }
                     $scope.selectedIndex = -1
+
+                    $scope.suggestions = sorted;
+                    $('.custom-popup-wrapper').css('display', 'block')
+                    return sorted
                 });
         } else {
             $scope.suggestions = [];
@@ -157,6 +161,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                     })
             }
         }
+        $('.custom-popup-wrapper').css('display', 'none')
         $scope.searchText = '';
         $scope.suggestions = [];
         $state.go('dash.dashboard')

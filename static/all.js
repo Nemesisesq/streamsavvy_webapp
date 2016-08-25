@@ -1134,6 +1134,18 @@ app.filter('unchosen', function () {
     }
 })
 
+
+app.filter('liveFilter', function(){
+    return function (collection, bool) {
+
+        var res = _.filter(collection, function(item){
+            return item.model.hasOwnProperty('category') == bool
+        })
+
+        return res
+
+    }
+})
 /**
  * Created by Nem on 11/17/15.
  */
@@ -2158,20 +2170,6 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
 
 
 /**
- * Created by Nem on 12/29/15.
- */
-
-app.controller('FeedbackCtrl', function ($scope) {
-   
-    $scope.isMobile = window.innerWidth > 540;
-
-    $scope.options = {
-        ajaxURL: 'feedback/',
-        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
-
-    }
-})
-/**
  * Created by Nem on 10/7/15.
  */
 
@@ -2222,12 +2220,26 @@ $(document).ready(function () {
 })
 
 /**
+ * Created by Nem on 12/29/15.
+ */
+
+app.controller('FeedbackCtrl', function ($scope) {
+   
+    $scope.isMobile = window.innerWidth > 540;
+
+    $scope.options = {
+        ajaxURL: 'feedback/',
+        html2canvasURL: 'static/html2Canvas/build/html2canvas.js',
+
+    }
+})
+/**
  * Created by chirag on 8/3/15.
  */
 app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
 
     $('#letsDoThis').click(function () {
-        ;
+
 
         mixpanel.track('Navigation', {
             "event_id": 2,
@@ -2786,6 +2798,10 @@ app.controller('ProgressController', function ($scope, $state, $rootScope, $loca
  */
 app.controller('search', function ($scope, $rootScope, $http, $window, http, PackageFactory, _, Fuse, SLING_CHANNELS, N, growl, Utils, $state) {
 
+    $scope.hex = true;
+
+    $rootScope.typeaheadOpen = false;
+
     // $scope.noResults = true
 
 
@@ -2829,11 +2845,11 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                         })
                         .value()
 
-                    if (true) {
-                        $scope.suggestions = sorted;
-                        return sorted
-                    }
                     $scope.selectedIndex = -1
+
+                    $scope.suggestions = sorted;
+                    $('.custom-popup-wrapper').css('display', 'block')
+                    return sorted
                 });
         } else {
             $scope.suggestions = [];
@@ -2940,6 +2956,7 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
                     })
             }
         }
+        $('.custom-popup-wrapper').css('display', 'none')
         $scope.searchText = '';
         $scope.suggestions = [];
         $state.go('dash.dashboard')

@@ -186,3 +186,18 @@ ul[id^='typeahead-'], .suggestions-list {
 div[ng-show]{
   color: $action_red;
 }
+
+.dropdown-menu{
+  display: block;
+
+  width: 100%;
+}
+
+
+.custom-popup-wrapper {
+  display: none;
+}
+
+.dropdown-tab {
+  background: white;
+}

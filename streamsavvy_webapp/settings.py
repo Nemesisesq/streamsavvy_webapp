@@ -109,7 +109,7 @@ MIDDLEWARE_CLASSES = [
     'server.middleware.anon_user_middleware.ProcessAnonUser',
     'server.middleware.social.SaveInitialPackage',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'server.middleware.access_management.LogUserIfExistsForSignUp',
+    # 'server.middleware.access_management.LogUserIfExistsForSignUp',
     # 'server.middleware.duplicate_email.DuplicateEmail',
     # 'server.middleware.device_id.DeviceIDMiddleWare',
     # 'django_seo_js.middleware.EscapedFragmentMiddleware',  # If you're using #!

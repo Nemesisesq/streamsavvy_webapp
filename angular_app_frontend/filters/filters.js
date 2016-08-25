@@ -27,3 +27,16 @@ app.filter('unchosen', function () {
         return res
     }
 })
+
+
+app.filter('liveFilter', function(){
+    return function (collection, bool) {
+
+        var res = _.filter(collection, function(item){
+            return item.model.hasOwnProperty('category') == bool
+        })
+
+        return res
+
+    }
+})
