@@ -447,7 +447,7 @@ div[ui-view="home"] {
 
   & section {
 
-    height: 100vh;
+    min-height: 100vh;
     overflow: scroll;
   }
 }
