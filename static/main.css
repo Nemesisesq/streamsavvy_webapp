@@ -3406,6 +3406,12 @@ footer {
 :-ms-input-placeholder {
   text-align: center; }
 
+.subscribe-buttons {
+  text-align: center; }
+
+.footer-info {
+  text-align: center; }
+
 .service-panel.ng-scope {
   padding-bottom: 30px;
   min-height: 100%;
