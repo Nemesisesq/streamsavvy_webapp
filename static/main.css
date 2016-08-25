@@ -2423,6 +2423,11 @@ ul[id^='typeahead-'], .suggestions-list {
 div[ng-show] {
   color: #ed1c24; }
 
+search {
+  height: 53px;
+  display: block;
+  margin-top: 40px; }
+
 .home-background {
   background-image: #282537;
   background-image: -o-linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), -o-linear-gradient(#15191b, #15191b);
@@ -2781,16 +2786,6 @@ search .row.show-input {
 
 .carousel-inner .item {
   margin-top: 10%; }
-
-section-one .floating-label {
-  position: absolute;
-  top: 88px;
-  left: 45px;
-  transition: all 0.3s ease-in;
-  color: #15191b;
-  pointer-events: none; }
-  section-one .floating-label.float {
-    top: 75px; }
 
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;

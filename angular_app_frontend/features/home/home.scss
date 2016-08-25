@@ -469,19 +469,3 @@ search {
     margin-top: 10%;
   }
 }
-
-section-one {
-
-  .floating-label {
-    position: absolute;
-    top: 88px;
-    left: 45px;
-    transition: all 0.3s ease-in;
-    color: #15191b;
-    pointer-events: none;
-
-    &.float {
-      top: 75px;
-    }
-  }
-}

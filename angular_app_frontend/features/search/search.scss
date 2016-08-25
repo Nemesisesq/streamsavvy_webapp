@@ -129,7 +129,7 @@ ul[id^='typeahead-'], .suggestions-list {
   text-indent: 31px;
 
   //position: absolute;
-    //padding-left: 34px;
+  //padding-left: 34px;
   background-image: url('https://s3.amazonaws.com/streamsavvy/search-icon.svg');
   background-repeat: no-repeat;
   background-position: 9px;
@@ -182,7 +182,12 @@ ul[id^='typeahead-'], .suggestions-list {
   opacity: 0;
 }
 
-
-div[ng-show]{
+div[ng-show] {
   color: $action_red;
+}
+
+search {
+  height: 53px;
+  display: block;
+  margin-top: 40px;
 }
