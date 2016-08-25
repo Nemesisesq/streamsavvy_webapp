@@ -2781,6 +2781,9 @@ div[ui-view="home"] section {
   min-height: 100vh;
   overflow: scroll; }
 
+div[ui-view="home"] section-four section {
+  min-height: 60vh; }
+
 #myCarousel {
   height: 60vh; }
 

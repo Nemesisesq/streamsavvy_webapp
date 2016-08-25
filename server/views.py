@@ -387,6 +387,7 @@ def get_sport_schedule(request, sport_id):
 
             headers = {'Content-Type': 'application/json'}
             sug_r = requests.post(url, data=json.dumps(r.json()), headers=headers)
+            print(sug_r)
 
             return JsonResponse(sug_r.json(), safe=False)
         except Exception as e:
