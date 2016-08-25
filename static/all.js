@@ -2224,10 +2224,15 @@ $(document).ready(function () {
 /**
  * Created by chirag on 8/3/15.
  */
-app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
+app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window, $state) {
+
+    $state.goToDash = function(){
+        $state.go('dash.dashboard');
+    }
+
+    $('body').attr('id', 'background');
 
     $('#letsDoThis').click(function () {
-        ;
 
         mixpanel.track('Navigation', {
             "event_id": 2,

@@ -14,6 +14,7 @@ from django.db.models import Q, Max, Count
 from django.http import HttpResponseServerError
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from fuzzywuzzy import fuzz
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -223,6 +224,21 @@ def eval_string(d):
     return d
 
 
+def simple_relevance_score(q, show):
+    nick_score = 0
+
+    if 'category' in show:
+        show['curr_pop_score'] = 1.5
+
+        if 'nickname' in show['json_data']:
+            nick_score = fuzz.token_sort_ratio(q, show['json_data']['nickname'])
+
+    raw_score = fuzz.token_sort_ratio(q, show['title']) + nick_score
+
+    weighted_score = raw_score * show['curr_pop_score']
+    return weighted_score
+
+
 @try_catch
 def call_search_microservice(request):
     if request.GET['q']:
@@ -233,7 +249,7 @@ def call_search_microservice(request):
         sports_query = "{base}/search_sports/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
                                                                params=urllib.parse.urlencode({'q': request.GET['q']}))
         urls = [query_url]
-        urls = [sports_query, query_url] # TODO Uncomment when there is more data to support sports
+        urls = [sports_query, query_url]  # TODO Uncomment when there is more data to support sports
 
         pool = Pool(processes=len(urls))
         results = pool.map(requests.get, urls)
@@ -249,12 +265,9 @@ def call_search_microservice(request):
             except Exception as e:
                 print(e)
 
-
+        result_list = sorted(result_list, key=lambda show: simple_relevance_score(request.GET['q'], show), reverse=True)
 
         return JsonResponse(result_list, safe=False)
-
-
-
 
 
 @try_catch
@@ -345,10 +358,11 @@ def post_edr_data(request, the_json):
         except Exception as e:
             print(e)
 
+
 def get_sport_schedule(request, sport_id):
     if request.method == 'GET':
         query_url = "{base}/sport_schedule/{sport_id}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
-                                                          sport_id=sport_id)
+                                                              sport_id=sport_id)
         try:
             r = requests.get(query_url)
 
