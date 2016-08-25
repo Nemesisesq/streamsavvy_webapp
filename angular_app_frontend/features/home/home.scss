@@ -469,3 +469,15 @@ search {
     margin-top: 10%;
   }
 }
+
+@media (max-width: 768px) {
+
+  search.home-search {
+    .show-input {
+      width: 100%;
+    }
+
+
+  }
+
+}
