@@ -265,7 +265,7 @@ def call_search_microservice(request):
             except Exception as e:
                 print(e)
 
-        # result_list = sorted(result_list, key=lambda show: simple_relevance_score(request.GET['q'], show), reverse=True)
+        result_list = sorted(result_list, key=lambda show: simple_relevance_score(request.GET['q'], show), reverse=True)
 
         return JsonResponse(result_list, safe=False)
 
