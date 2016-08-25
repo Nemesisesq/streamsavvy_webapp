@@ -2878,9 +2878,7 @@ mobile-tabs {
       display: none; }
     .dashboard .services-hardware .hardware-panel {
       min-height: 100vh;
-      margin-bottom: 60px; }
-  .footer {
-    display: none; } }
+      margin-bottom: 60px; } }
 
 mobile-tabs .fa {
   font-size: 25px; }
@@ -3350,7 +3348,6 @@ span.pull-right.footer-right {
     font-size: 8px; } }
 
 footer {
-  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -3402,7 +3399,7 @@ footer a.pull-right {
 
 footer {
   background-color: #170f10;
-  height: 15vh; }
+  min-height: 15vh; }
 
 .service-panel.ng-scope {
   padding-bottom: 30px;
