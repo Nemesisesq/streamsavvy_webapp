@@ -472,16 +472,28 @@ search {
 
 section-one {
 
-  .floating-label {
-    position: absolute;
-    top: 88px;
-    left: 45px;
-    transition: all 0.3s ease-in;
-    color: #15191b;
-    pointer-events: none;
+  //.floating-label {
+  //  position: absolute;
+  //  top: 88px;
+  //  left: 45px;
+  //  transition: all 0.3s ease-in;
+  //  color: #15191b;
+  //  pointer-events: none;
+  //
+  //  &.float {
+  //    top: 75px;
+  //  }
+  //}
+}
 
-    &.float {
-      top: 75px;
+@media (max-width: 768px) {
+
+  search.home-search {
+    .show-input {
+      width: 100%;
     }
+
+
   }
+
 }

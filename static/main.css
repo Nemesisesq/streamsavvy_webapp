@@ -2782,15 +2782,9 @@ search .row.show-input {
 .carousel-inner .item {
   margin-top: 10%; }
 
-section-one .floating-label {
-  position: absolute;
-  top: 88px;
-  left: 45px;
-  transition: all 0.3s ease-in;
-  color: #15191b;
-  pointer-events: none; }
-  section-one .floating-label.float {
-    top: 75px; }
+@media (max-width: 768px) {
+  search.home-search .show-input {
+    width: 100%; } }
 
 .dashboard .service-header, .dashboard .ss-hardware-panel .hardware-header, .ss-hardware-panel .dashboard .hardware-header {
   margin-left: 5px;

@@ -2046,7 +2046,6 @@ app.factory('Utils', function(){
     }
 })
 
-
 app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window, $q) {
 
     $q.when(PackageFactory.getPackage())
@@ -2155,6 +2154,7 @@ app.controller('CheckoutController', function ($scope, $state, $http, $timeout, 
         $scope.list = PackageFactory.getListOfServices();
     })
 });
+
 
 
 /**
