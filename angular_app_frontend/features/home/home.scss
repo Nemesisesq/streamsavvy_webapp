@@ -470,18 +470,14 @@ search {
   }
 }
 
-section-one {
+@media (max-width: 768px) {
 
-  .floating-label {
-    position: absolute;
-    top: 88px;
-    left: 45px;
-    transition: all 0.3s ease-in;
-    color: #15191b;
-    pointer-events: none;
-
-    &.float {
-      top: 75px;
+  search.home-search {
+    .show-input {
+      width: 100%;
     }
+
+
   }
+
 }
