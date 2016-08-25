@@ -150,8 +150,8 @@ footer a.pull-right {
 
 @media (max-width: 456px) {
   footer {
-    opacity: 0;
-    height: 50px;
+    //opacity: 0;
+    //height: 50px;
   }
 }
 
@@ -159,4 +159,8 @@ footer a.pull-right {
 footer {
   background-color: rgb(23, 15, 16);
   min-height : 15vh;
+}
+
+.subscribe-btn .btn {
+  width: 100%;
 }

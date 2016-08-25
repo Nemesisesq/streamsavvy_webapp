@@ -2695,7 +2695,7 @@ mobile-tabs {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 40vh; }
+  height: initial; }
 
 #about-section p:hover {
   text-decoration: underline; }
@@ -2733,7 +2733,7 @@ mobile-tabs {
   color: #ffffff;
   background-color: #474747;
   padding: 12px;
-  width: 300px;
+  width: 100%;
   border: 0;
   outline: none;
   border-radius: 5px;
@@ -2763,7 +2763,6 @@ mobile-tabs {
 
 @media (max-width: 993px) {
   .subscribe-section {
-    margin-left: 15px;
     overflow: auto; } }
 
 @media (max-width: 993px) {
@@ -3386,14 +3385,12 @@ footer a.pull-right {
     bottom: 0;
     right: 15px; }
 
-@media (max-width: 456px) {
-  footer {
-    opacity: 0;
-    height: 50px; } }
-
 footer {
   background-color: #170f10;
   min-height: 15vh; }
+
+.subscribe-btn .btn {
+  width: 100%; }
 
 .service-panel.ng-scope {
   padding-bottom: 30px;
