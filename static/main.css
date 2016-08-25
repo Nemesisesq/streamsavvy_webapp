@@ -3392,6 +3392,20 @@ footer {
 .subscribe-btn .btn {
   width: 100%; }
 
+::-webkit-input-placeholder {
+  text-align: center; }
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  text-align: center; }
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  text-align: center; }
+
+:-ms-input-placeholder {
+  text-align: center; }
+
 .service-panel.ng-scope {
   padding-bottom: 30px;
   min-height: 100%;
