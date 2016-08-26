@@ -89,7 +89,7 @@ class SignUp(generics.CreateAPIView):
 
 
     def post(self, request, *args, **kwargs):
-        if request.user:
+        try:
 
             if 'username' in request.POST:
                 credentials = {
@@ -105,7 +105,8 @@ class SignUp(generics.CreateAPIView):
 
             token = create_jwt(credentials)
             return Response({"token": str(token)}, status=status.HTTP_200_OK)
-        response = self.create(request, *args, **kwargs)
+        except Exception as e:
+            response = self.create(request, *args, **kwargs)
 
         return response
 
