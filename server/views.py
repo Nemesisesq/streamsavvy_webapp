@@ -91,9 +91,19 @@ class SignUp(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         if request.user:
 
-            the_json = json.loads(str(request.body, encoding='utf-8'))
+            if 'username' in request.POST:
+                credentials = {
+                    'username': request.POST['username'],
+                    'email': request.POST['email'],
+                    'password': request.POST['password']
+                }
 
-            token = create_jwt(the_json)
+            else:
+
+
+                credentials = json.loads(str(request.body, encoding='utf-8'))
+
+            token = create_jwt(credentials)
             return Response({"token": str(token)}, status=status.HTTP_200_OK)
         response = self.create(request, *args, **kwargs)
 
