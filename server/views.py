@@ -4,29 +4,24 @@ import urllib
 import urllib.parse
 import urllib.request
 from multiprocessing.pool import Pool
-from wsgiref import headers
 
-from django.conf import settings
-
-from server.auth import create_jwt
 import requests
 from django.core.cache import cache
-from django.db.models import Q, Max, Count
-from django.http import HttpResponseServerError
+from django.db.models import Max, Count
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from fuzzywuzzy import fuzz
 from rest_framework import generics
 from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework_jwt.utils import jwt_decode_handler
+from rest_framework_jwt.settings import api_settings
 from social.actions import do_complete
 from social.apps.django_app.utils import strategy
 from social.apps.django_app.views import _do_login
 
 from server.apis.guidebox import GuideBox
+from server.auth import create_jwt
 from server.constants import unwanted_show_ids
 from server.models import *
 from server.permissions import IsAdminOrReadOnly
@@ -35,9 +30,6 @@ from server.serializers import HardwareSerializer, ChannelSerializer, \
     ContentSerializer, PackagesSerializer, SignUpSerializer, UserSerializer
 from server.shortcuts import api_json_post, try_catch
 from streamsavvy_webapp.settings import get_env_variable
-from django.contrib.auth import login
-
-from rest_framework_jwt.settings import api_settings
 
 
 def get_sign_up_token(user):
@@ -387,8 +379,9 @@ def get_sport_schedule(request, sport_id):
 
             headers = {'Content-Type': 'application/json'}
             sug_r = requests.post(url, data=json.dumps(r.json()), headers=headers)
-            print(sug_r)
+            print(sug_r, 'prob')
 
             return JsonResponse(sug_r.json(), safe=False)
         except Exception as e:
             print(e)
+            Response(e)

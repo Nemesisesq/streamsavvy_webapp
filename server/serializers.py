@@ -23,7 +23,6 @@ class SignUpSerializer(serializers.ModelSerializer):
             new_pkg = Package.objects.create(owner=instance)
             new_pkg.data = pkg.data
             new_pkg.save()
-            anon_user.delete()
 
         instance.save()
         return instance

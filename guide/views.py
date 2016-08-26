@@ -112,12 +112,8 @@ def get_guide(request, zip):
         try:
             r = requests.get(query_url)
 
-            url = method_name('sched_suggestion')
 
-            headers = {'Content-Type': 'application/json'}
-            sug_r = requests.post(url, data=json.dumps(r.json()), headers=headers)
-
-            return JsonResponse(sug_r.json(), safe=False)
+            return JsonResponse(r.json(), safe=False)
         except Exception as e:
             print(e)
 
