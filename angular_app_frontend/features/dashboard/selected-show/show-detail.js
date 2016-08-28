@@ -206,6 +206,101 @@ app.directive('sportsOverlay', function ($http) {
                 }
             }
 
+            scope.$on('close_tooltips', function () {
+                scope.$broadcast('children_close_tooltips')
+            })
+
+
+        }
+    }
+})
+
+
+app.directive('sportStreamingSuggestion', function (_, $http, PackageFactory, $window, $timeout) {
+    return {
+        restrict: 'E',
+        templateUrl: '/static/partials/selected-show/viewingWindows.html',
+        controller: 'ViewWindowController',
+        scope: {
+            service: '=',
+            detail: '='
+        },
+
+        link: function (scope, element, attrs) {
+
+            var pkg = PackageFactory.getPackage()
+
+            var isServiceAdded = function (service) {
+
+
+                if (pkg.data.services.subscribed) {
+                    return _.some(pkg.data.services.subscribed, function (elem) {
+                        return elem.source == service.source
+                    })
+                }
+            }
+
+            debugger
+
+            $http.get('/service_description/' + scope.service.source)
+                .then(function (data) {
+                    scope.service.details = data.data
+                    // console.log(data)
+
+                })
+
+            scope.closeAllTooltips = function () {
+
+                    scope.$emit('close_tooltips')
+                // _.forEach(scope.detail.sortedServices, function (key) {
+                //     _.forEach(scope.detail[key], function (elem) {
+                //         elem.isOpen = false
+                //
+                //     })
+                // })
+            };
+            var timer;
+            scope.openTooltip = function () {
+                if (scope.service.isOpen) {
+                    scope.service.isOpen = !scope.service.isOpen;
+                    return
+                }
+
+                this.closeAllTooltips();
+                scope.service.isOpen = !scope.service.isOpen;
+            }
+
+            scope.$on('children_close_tooltips', function(){
+                scope.service.isOpen = false
+            })
+
+            scope.linkToAffiliate = function () {
+
+                debugger;
+
+                $window.open(scope.service.details.subscription_link);
+                mixpanel.track("Subscribe to Service", {"service name": scope.service.display_name});
+
+
+                if (pkg.data.services.subscribed == undefined) {
+                    pkg.data.services = {subscribed: []}
+                }
+
+                if (!isServiceAdded(scope.service)) {
+                    pkg.data.services.subscribed.push(scope.service);
+                    scope.service.added = true;
+                    mixpanel.track("Subscription in overlay clicked", {"service name": scope.service.display_name});
+                    PackageFactory.setPackage(pkg)
+                }
+
+                scope.service.isOpen = false;
+            }
+
+            if ($window.innerWidth < 786) {
+                scope.ttPlacement = 'top'
+            } else {
+                scope.ttPlacement = 'left'
+            }
 
         }
     }

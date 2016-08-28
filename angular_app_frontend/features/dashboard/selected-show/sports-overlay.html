@@ -60,9 +60,10 @@
             </span>
         </div>
         <div class="col-xs-4 sched-left-border suggestions">
-            <div ng-repeat="item in game.suggestion">
-                <img ng-src="https://s3.amazonaws.com/streamsavvy/service_logos/sm_2x/{{ item.source }}"/>
-                <span class='caveat' ng-if="foxNbcSling(game, item)"> available in certain areas </span>
+            <div ng-repeat="item in game.suggestion" >
+                <sport-streaming-suggestion service="item">
+
+                </sport-streaming-suggestion>
             </div>
         </div>
     </div>

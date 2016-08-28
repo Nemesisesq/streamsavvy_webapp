@@ -3855,6 +3855,23 @@ show-detail, category-detail {
   font-size: 8px;
   position: absolute; }
 
+sports-overlay sport-streaming-suggestion {
+  padding-top: 10px;
+  display: table-cell;
+  vertical-align: bottom; }
+  sports-overlay sport-streaming-suggestion .window.row.live {
+    margin-left: 2px; }
+  sports-overlay sport-streaming-suggestion .window-label {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  sports-overlay sport-streaming-suggestion div.tooltip-inner {
+    object-fit: contain;
+    height: auto; }
+    sports-overlay sport-streaming-suggestion div.tooltip-inner img {
+      width: 100%;
+      object-fit: contain;
+      height: auto; }
+
 category-detail {
   left: 0;
   z-index: 101;
