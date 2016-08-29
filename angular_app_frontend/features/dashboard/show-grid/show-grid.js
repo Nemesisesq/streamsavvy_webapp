@@ -44,6 +44,8 @@ function removeHuluIfShowtimeContent(services) {
 
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window, $log, $sessionStorage, sInfo, Utils, unchosenFilter, growl) {
 
+    $('body').addClass('gradient-background')
+
 
     var masterPopShows = []
 

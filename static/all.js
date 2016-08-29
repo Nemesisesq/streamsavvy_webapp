@@ -45,6 +45,7 @@ var app = angular.module('myApp', [
     'environment',
     'ui.router.metatags',
     'ngStorage',
+    'ngFitText',
 ])
 
 
@@ -2238,6 +2239,8 @@ $(document).ready(function () {
  */
 app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
 
+    $('body').attr('id', 'background')
+
     $('#letsDoThis').click(function () {
 
 
@@ -3491,7 +3494,7 @@ app.directive('sportsOverlay', function ($http) {
 app.directive('sportStreamingSuggestion', function (_, $http, PackageFactory, $window, $timeout) {
     return {
         restrict: 'E',
-        templateUrl: '/static/partials/selected-show/viewingWindows.html',
+        templateUrl: '/static/partials/selected-show/sportsWindows.html',
         controller: 'ViewWindowController',
         scope: {
             service: '=',
@@ -3711,6 +3714,8 @@ function removeHuluIfShowtimeContent(services) {
 }
 
 app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $timeout, PackageFactory, $compile, ShowDetailAnimate, $window, $log, $sessionStorage, sInfo, Utils, unchosenFilter, growl) {
+
+    $('body').addClass('gradient-background')
 
 
     var masterPopShows = []

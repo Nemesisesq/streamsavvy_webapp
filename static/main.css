@@ -3804,6 +3804,7 @@ show-detail, category-detail {
   pointer-events: auto; }
 
 .conf-header {
+  white-space: nowrap;
   padding-bottom: 20px; }
 
 .game_divider {
@@ -3821,13 +3822,14 @@ show-detail, category-detail {
   .schedule img {
     height: 100%; }
   .schedule .opponent-img {
-    height: 75px;
+    width: 100%;
+    height: auto;
     text-align: center;
     line-height: 75px; }
   .schedule .opponent-name {
     text-align: center;
     height: 25px;
-    line-height: 25px; }
+    line-height: 20px; }
 
 .net-logo img {
   height: 10px; }
@@ -3839,8 +3841,6 @@ show-detail, category-detail {
 
 .suggestions div {
   float: left;
-  margin: 5px;
-  margin-left: 10px;
   height: auto;
   line-height: initial; }
 
@@ -3871,6 +3871,35 @@ sports-overlay sport-streaming-suggestion {
       width: 100%;
       object-fit: contain;
       height: auto; }
+
+.game-date {
+  white-space: nowrap; }
+
+@media (max-width: 767px) {
+  .schedule div .headline {
+    line-height: 14px; }
+  .schedule div .game-status {
+    width: 25px; }
+  .schedule div .opponent-logo {
+    height: initial;
+    width: initial; }
+  .conf-header {
+    display: none; }
+  .game-divider {
+    border: none; }
+  .row.game_divider {
+    border: none;
+    height: 30%; }
+  .col-xs-12.opponent-img {
+    display: inline-flex;
+    height: 75%; }
+    .col-xs-12.opponent-img img {
+      height: 60%;
+      display: block; }
+    .col-xs-12.opponent-img .game-status {
+      line-height: 60px; }
+  .sched-left-border {
+    border: none; } }
 
 category-detail {
   left: 0;
@@ -4415,10 +4444,8 @@ a.logout {
   #theGrid img {
     width: 100%;
     object-fit: contain;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
     border-radius: 4px;
-    padding-left: 5px;
-    padding-right: 5px; }
+    margin-bottom: 5px; }
   #search-and-shows {
     margin-bottom: 60px;
     margin-top: 60px; }

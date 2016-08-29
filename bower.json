@@ -24,7 +24,8 @@
     "moment": "^2.13.0",
     "prefixfree": "prefix-free#gh-pages",
     "ngMeta": "^0.3.9",
-    "ui-router-metatags": "^1.0.3"
+    "ui-router-metatags": "^1.0.3",
+    "ngFitText": "^4.2.1"
   },
   "devDependencies": {
     "angular-cookies": "^1.5.7",

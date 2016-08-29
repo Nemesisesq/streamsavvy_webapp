@@ -266,6 +266,7 @@ show-detail {
 
 .conf-header {
 
+  white-space: nowrap;
   padding-bottom: 20px;
 }
 
@@ -295,7 +296,9 @@ show-detail {
     height: 100%;
   }
   .opponent-img {
-    height: 75px;
+    //height: 75px;
+    width: 100%;
+    height: auto;
     text-align: center;
     line-height: 75px;
   }
@@ -303,7 +306,7 @@ show-detail {
   .opponent-name {
     text-align: center;
     height: 25px;
-    line-height: 25px;
+    line-height: 20px;
 
   }
 
@@ -323,8 +326,8 @@ show-detail {
 
   div {
     float: left;
-    margin: 5px;
-    margin-left: 10px;
+    //margin: 5px;
+    //margin-left: 10px;
     height: auto;
     line-height: initial;
 
@@ -338,6 +341,7 @@ show-detail {
 .col-sm-12.background.container.schedule {
   padding-left: 5%;
   padding-right: 5%;
+
 }
 
 .caveat {
@@ -371,10 +375,69 @@ sports-overlay {
       img {
         width: 100%;
         object-fit: contain;
-      //margin-bottom: 3%;
-      height: auto;
+        //margin-bottom: 3%;
+        height: auto;
 
       }
     }
   }
 }
+
+.game-date {
+  white-space: nowrap;
+
+}
+
+@media (max-width: 767px) {
+
+  .schedule div {
+    .headline {
+      line-height: 14px;
+    }
+    .game-status {
+      width: 25px;
+    }
+    .opponent-logo {
+      height: initial;
+      width: initial;
+    }
+
+  }
+  .conf-header {
+    display: none;
+  }
+
+  .game-divider {
+    border: none;
+  }
+
+  .col-sm-12.background.container.schedule {
+
+  }
+
+  .row.game_divider {
+    border: none;
+    height: 30%;
+  }
+
+  .col-xs-12.opponent-img {
+    display: inline-flex;
+    height: 75%;
+
+    img {
+      height: 60%;
+      display: block;
+
+    }
+
+    .game-status {
+      line-height: 60px;
+    }
+
+  }
+  .sched-left-border {
+    border: none;
+  }
+
+}
+

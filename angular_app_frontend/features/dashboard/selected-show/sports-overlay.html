@@ -5,21 +5,21 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2 col-xs-4">
             <img ng-src="{{ schedule.team_logo }}"/>
 
         </div>
 
-        <div class="col-sm-10">
+        <div class="col-sm-10 col-xs-8 headline">
             Here's what you need to know about streaming {{ cs.title }}.
         </div>
     </div>
 
-    <div class="row conf-header">
+    <div class="row conf-header" data-fittext data-fittext-max="14">
         <div class="col-xs-1">
             DATE
         </div>
-        <div class="col-xs-2 col-xs-offset-1">
+        <div class="col-xs-3">
             OPPONENT
         </div>
         <div class="col-xs-2">
@@ -33,34 +33,34 @@
         </div>
 
     </div>
-    <div class="row game_divider" ng-repeat="game in schedule.data">
-        <div class="col-xs-1">
+    <div class="row game_divider" ng-repeat="game in schedule.data" data-fittext>
+        <div class="col-sm-1 col-xs-6 game-date" data-fittext data-fittext-max="14">
             {{ game.date }}
         </div>
-        <div class="col-xs-1">
-
-
-        </div>
-        <div class="col-xs-2">
+        <div class="col-sm-3 col-xs-6" data-fittext data-fittext-max="14">
             <div class="col-xs-12 opponent-img">
-                {{ game.game_status }}
-                <img ng-src="{{ game.opponent.logo }}"/>
+                <div class="game-status">
+                    {{ game.game_status }}
+                </div>
+                <div class="col-xs-9">
+                    <img class="opponent-logo" ng-src="{{ game.opponent.logo }}"/>
+                </div>
             </div>
-            <div class="col-xs-12 opponent-name">
+            <div class="col-xs-12 opponent-name" data-fittext data-fittext-max="14">
 
                 {{ game.opponent.name }}
             </div>
         </div>
-        <div class="col-xs-2">
+        <div class="col-sm-2 col-xs-4" data-fittext data-fittext-max="14">
             {{ game.result_time.time }}
         </div>
-        <div class="col-xs-2">
+        <div class="col-sm-2 col-xs-4" data-fittext data-fittext-max="14">
             <span ng-repeat="name in game.result_time.network" class="net-name">
                 {{ name }}
             </span>
         </div>
-        <div class="col-xs-4 sched-left-border suggestions">
-            <div ng-repeat="item in game.suggestion" >
+        <div class="col-sm-4 col-xs-4 sched-left-border suggestions" data-fittext data-fittext-max="14">
+            <div ng-repeat="item in game.suggestion">
                 <sport-streaming-suggestion service="item">
 
                 </sport-streaming-suggestion>

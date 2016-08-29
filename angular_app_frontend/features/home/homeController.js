@@ -3,6 +3,8 @@
  */
 app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
 
+    $('body').attr('id', 'background')
+
     $('#letsDoThis').click(function () {
 
 

@@ -219,7 +219,7 @@ app.directive('sportsOverlay', function ($http) {
 app.directive('sportStreamingSuggestion', function (_, $http, PackageFactory, $window, $timeout) {
     return {
         restrict: 'E',
-        templateUrl: '/static/partials/selected-show/viewingWindows.html',
+        templateUrl: '/static/partials/selected-show/sportsWindows.html',
         controller: 'ViewWindowController',
         scope: {
             service: '=',
