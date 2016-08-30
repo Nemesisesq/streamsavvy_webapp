@@ -92,3 +92,20 @@ mobile-tabs {
   }
 }
 
+.mobile-tab-close {
+  display: none;
+  position: absolute;
+  color: $action_red;
+
+  top: 0%;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+ line-height: 55px;
+    font-size: 40px;
+
+  z-index: 1000;
+
+
+}

@@ -1,26 +1,30 @@
 <div class="row show-service-hardware-tabs">
-    <div class="col-xs-4" onclick="location.href='#/m/shows'">
-        <div class="row">
-            <i class="fa fa-list" aria-hidden="true"></i>
+    <div class="mobile-tab-close" ng-click="mobileCloseOverlay()"> Close {{ hello }} {{ goodbye }}</div>
+    <div id="mobile-nav-buttons">
+
+        <div class="col-xs-4" onclick="location.href='#/m/shows'">
+            <div class="row">
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </div>
+            <div class="row">
+                Shows
+            </div>
         </div>
-        <div class="row">
-            Shows
+        <div class="col-xs-4" onclick="location.href='#/m/services'">
+            <div class="row">
+                <i class="fa fa-bookmark" aria-hidden="true"></i>
+            </div>
+            <div class="row">
+                Services
+            </div>
         </div>
-    </div>
-    <div class="col-xs-4" onclick="location.href='#/m/services'">
-        <div class="row">
-            <i class="fa fa-bookmark" aria-hidden="true"></i>
-        </div>
-        <div class="row">
-            Services
-        </div>
-    </div>
-    <div class="col-xs-4" onclick="location.href='#/m/hardware'">
-        <div class="row">
-            <i class="fa fa-television" aria-hidden="true"></i>
-        </div>
-        <div class="row">
-            Hardware
+        <div class="col-xs-4" onclick="location.href='#/m/hardware'">
+            <div class="row">
+                <i class="fa fa-television" aria-hidden="true"></i>
+            </div>
+            <div class="row">
+                Hardware
+            </div>
         </div>
     </div>
 </div>

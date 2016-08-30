@@ -258,7 +258,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
         $(positionItem).attr('id', 'is-opened')
         $rootScope.showSearchView = false;
         $rootScope.$broadcast('save_package');
-        $('mobile-tabs').fadeOut();
+        $('#mobile-nav-buttons').fadeOut();
+
+        $scope.showCloseButton = true
+
+        $('.mobile-tab-close').fadeIn();
+
         ShowDetailAnimate.loadContent(positionItem, scaleItem, container)
             .then(function (v) {
                 return $timeout(function () {
@@ -302,6 +307,11 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     })
 
     $scope.hideDetail = function (ev, loc) {
+
+
+        $('.mobile-tab-close').fadeOut();
+        $scope.showCloseButton = false;
+        $('#mobile-nav-buttons').fadeIn();
 
         mixpanel.track('Close overlay', {
             "id": 6,
@@ -347,13 +357,17 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                     $('body').removeClass('black-mobile-bg');
                     $('#search-and-shows').fadeIn();
 
-                    $('mobile-tabs').fadeIn();
+
                 }
 
             })
 
 
     };
+
+    $scope.$on('close_overlay', $scope.hideDetail);
+
+    $('div').css('max-width', window.innerWidth)
 
 
     $scope.$watch(function () {

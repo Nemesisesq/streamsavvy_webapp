@@ -224,7 +224,8 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
         })
         .state('mobile', {
             abstract: true,
-            templateUrl: 'static/partials/mobile.html'
+            templateUrl: 'static/partials/mobile.html',
+            controller: 'MobileController'
 
         })
         .state('mobile.shows', {

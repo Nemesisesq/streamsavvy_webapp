@@ -388,6 +388,33 @@ sports-overlay {
 
 }
 
+@media (max-width: 320px){
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .row.show-grid-container {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .show-title {
+    //padding: 0;
+  }
+
+  img.pointer.show-grid-logo.ng-scope.loaded {
+
+    width: initial;
+    height: 95%;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
 @media (max-width: 767px) {
 
   .schedule div {
@@ -440,4 +467,6 @@ sports-overlay {
   }
 
 }
+
+
 

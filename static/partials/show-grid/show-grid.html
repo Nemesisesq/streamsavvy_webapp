@@ -6,7 +6,7 @@
         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 category-title" ng-repeat="show in package.data.sports"
              open-detail
              ng-disabled="true">
-            <img class="pointer" ng-src="https://s3.amazonaws.com/streamsavvy/{{ show.category }}.png" imageonload>
+            <img class="pointer sport-tile" ng-src="https://s3.amazonaws.com/streamsavvy/{{ show.category }}.png" imageonload>
             <span class="cat-level centered-axis-x">{{ show.level }}</span>
             <i class="fa fa-times-circle remove-show" ng-click="removeShow(show, $event)"></i>
         </div>

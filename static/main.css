@@ -2484,7 +2484,7 @@ mobile-tabs {
   display: none;
   position: fixed;
   bottom: 0;
-  z-index: 100;
+  z-index: 102;
   width: 100%;
   background: #15191b;
   color: #ed1c24;
@@ -3555,6 +3555,10 @@ img.pointer.show-grid-logo {
 img.pointer.ncaa-background {
   opacity: .2; }
 
+@media (max-width: 450px) {
+  .remove-show {
+    display: none; } }
+
 .ss-hardware-panel .row .hardware-name, .ss-hardware-panel .row .hardware-cost {
   color: #45a7e5; }
 
@@ -3874,6 +3878,22 @@ sports-overlay sport-streaming-suggestion {
 
 .game-date {
   white-space: nowrap; }
+
+@media (max-width: 320px) {
+  .row {
+    margin-left: 0;
+    margin-right: 0; }
+  .row.show-grid-container {
+    margin-right: 0;
+    margin-left: 0; }
+  img.pointer.show-grid-logo.ng-scope.loaded {
+    width: initial;
+    height: 95%;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; } }
 
 @media (max-width: 767px) {
   .schedule div .headline {
@@ -4477,6 +4497,18 @@ mobile-tabs .fa {
 
 mobile-tabs > div {
   margin-top: 10px; }
+
+.mobile-tab-close {
+  display: none;
+  position: absolute;
+  color: #ed1c24;
+  top: 0%;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  line-height: 55px;
+  font-size: 40px;
+  z-index: 1000; }
 
 .modal-dialog {
   text-align: center;
