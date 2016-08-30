@@ -2656,7 +2656,9 @@ mobile-tabs {
 
 @media (max-width: 760px) {
   .item p {
-    max-width: 380px; } }
+    max-width: 380px; }
+  .ready-for-checkout {
+    display: none; } }
 
 @media (max-width: 450px) {
   .item p {

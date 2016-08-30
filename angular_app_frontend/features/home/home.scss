@@ -289,6 +289,10 @@ mobile-tabs {
   .item p {
     max-width: 380px;
   }
+
+  .ready-for-checkout {
+    display: none;
+  }
 }
 
 @media (max-width: 450px) {
