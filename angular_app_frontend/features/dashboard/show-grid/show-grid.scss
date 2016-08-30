@@ -165,10 +165,14 @@ img.pointer.show-grid-logo  {
   width: 86%;
 }
 
-
 img.pointer.ncaa-background {
+  opacity: 0;
+  -webkit-filter: blur(1.7px);
+}
+
+img.pointer.loaded.ncaa-background {
   opacity: .5;
-  //-webkit-filter: blur(1px);
+  -webkit-filter: blur(1.7px);
 
   &:before{
     background: white;
@@ -194,5 +198,10 @@ img.pointer.ncaa-background {
 
   border-radius: 4px;
 
+  display: none;
+
 }
 
+.translucent {
+  opacity: .5;
+}

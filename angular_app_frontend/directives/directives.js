@@ -15,6 +15,7 @@ app.directive('imageonload', function($timeout) {
                 $timeout(function(){
 
                 that.classList.add('loaded')
+                    $('.img-mask').fadeIn()
                 }, chance.natural({min: 10, max:700}))
             });
             element.bind('error', function(){
