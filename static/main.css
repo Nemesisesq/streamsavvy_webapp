@@ -3814,22 +3814,11 @@ show-detail, category-detail {
 .game_divider {
   border-bottom: white 2px dotted; }
 
-.sched-left-border {
-  border-left: solid white 2px; }
-
 .schedule {
   padding-bottom: 100px;
   width: 90%; }
-  .schedule div {
-    height: 100px;
-    line-height: 100px; }
-  .schedule img {
-    height: 100%; }
   .schedule .opponent-img {
-    width: 100%;
-    height: auto;
-    text-align: center;
-    line-height: 75px; }
+    height: 5vh; }
   .schedule .opponent-name {
     text-align: center;
     height: 25px;
@@ -3837,19 +3826,6 @@ show-detail, category-detail {
 
 .net-logo img {
   height: 10px; }
-
-.net-name {
-  height: auto;
-  line-height: 10px;
-  width: auto; }
-
-.suggestions div {
-  float: left;
-  height: auto;
-  line-height: initial; }
-
-.suggestions img {
-  height: 25px; }
 
 .col-sm-12.background.container.schedule {
   padding-left: 5%;
@@ -3876,9 +3852,6 @@ sports-overlay sport-streaming-suggestion {
       object-fit: contain;
       height: auto; }
 
-.game-date {
-  white-space: nowrap; }
-
 @media (max-width: 320px) {
   .row {
     margin-left: 0;
@@ -3897,10 +3870,9 @@ sports-overlay sport-streaming-suggestion {
 
 @media (max-width: 767px) {
   .schedule div .headline {
+    padding-top: 20px;
+    text-align: center;
     line-height: 14px; }
-  .schedule div .opponent-logo {
-    height: initial;
-    width: initial; }
   .conf-header {
     display: none; }
   .game-divider {
@@ -3915,11 +3887,50 @@ sports-overlay sport-streaming-suggestion {
     height: 75%; }
     .col-xs-12.opponent-img img {
       height: 60%;
-      display: block; }
-    .col-xs-12.opponent-img .game-status {
-      line-height: 60px; }
-  .sched-left-border {
-    border: none; } }
+      display: block; } }
+
+.opponent-logo {
+  height: 100%;
+  vertical-align: top;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+thead th {
+  text-align: center; }
+
+table {
+  margin: 0 auto;
+  max-width: 100%;
+  table-layout: fixed; }
+  table td {
+    text-align: center; }
+
+sport-streaming-suggestion .schedule div {
+  height: 10px; }
+
+sport-streaming-suggestion .schedule div img {
+  max-height: 30%;
+  display: block;
+  height: 20px; }
+
+.game-status {
+  text-align: center; }
+
+.schedule sport-streaming-suggestion img {
+  height: 20px; }
+
+@media (max-width: 425px) {
+  .row {
+    margin: 0; }
+  .col-sm-12.background.container.schedule {
+    padding-left: 30px;
+    padding-right: 0; }
+  table {
+    font-size: 9px; } }
+
+.team-logo {
+  height: 100%; }
 
 category-detail {
   left: 0;
@@ -5255,3 +5266,6 @@ body {
 
 body {
   -webkit-font-smoothing: subpixel-antialiased; }
+
+div {
+  max-width: 100%; }

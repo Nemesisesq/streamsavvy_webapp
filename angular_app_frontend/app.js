@@ -122,7 +122,9 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                     fixMetaTags()
                 })
 
-                 $('body').removeClass('gradient-background');
+                $('div').css('max-width', window.innerWidth)
+
+                $('body').removeClass('gradient-background');
             }
 
         })
@@ -136,7 +138,9 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                     $state.go('mobile.shows')
                 }
 
-                 $('body').addClass('gradient-background');
+                $('body').addClass('gradient-background');
+
+                $('div').css('max-width', window.innerWidth)
             }
         })
         .state('dash.dashboard', {
@@ -178,9 +182,9 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
                 $('body').addClass('no-scroll');
 
 
-                $timeout(function(){
+                $timeout(function () {
 
-                fixMetaTags()
+                    fixMetaTags()
                 })
 
             },
@@ -195,10 +199,12 @@ app.config(function ($httpProvider, $stateProvider, $urlRouterProvider, $windowP
         .state('check.out', {
             url: '/checkout',
             onEnter: function ($timeout) {
-                $timeout(function(){
+                $timeout(function () {
 
-                fixMetaTags()
+                    fixMetaTags()
                 })
+
+                $('div').css('max-width', window.innerWidth)
             },
             data: {
                 checkout: true

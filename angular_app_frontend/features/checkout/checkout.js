@@ -1,5 +1,7 @@
 app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window, $q) {
 
+    $('div').css('max-width', window.innerWidth)
+
     $q.when(PackageFactory.getPackage())
         .then(function (data) {
             $scope.package = data
