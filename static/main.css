@@ -3898,15 +3898,15 @@ sports-overlay sport-streaming-suggestion {
 @media (max-width: 767px) {
   .schedule div .headline {
     line-height: 14px; }
-  .schedule div .game-status {
-    width: 25px; }
   .schedule div .opponent-logo {
     height: initial;
     width: initial; }
   .conf-header {
     display: none; }
   .game-divider {
-    border: none; }
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 10px; }
   .row.game_divider {
     border: none;
     height: 30%; }
