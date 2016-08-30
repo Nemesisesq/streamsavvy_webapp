@@ -460,6 +460,7 @@ table {
   margin: 0 auto;
   max-width: 100%;
   table-layout: fixed;
+  width: 95%;
 
   td {
     text-align: center;
@@ -498,7 +499,6 @@ sport-streaming-suggestion {
 
 @media(max-width: 425px) {
 
-
   .row {
     margin-left: 0;
     margin-right: 0;
@@ -511,10 +511,12 @@ sport-streaming-suggestion {
 
   table {
     font-size: 9px;
+    width: 100%;
+
   }
 
 }
 
 .team-logo {
-height: 100%;
+  height: 100%;
 }

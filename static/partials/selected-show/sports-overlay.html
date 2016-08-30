@@ -10,7 +10,7 @@
 
         </div>
 
-        <div class="col-sm-10 col-xs-6 headline" data-fittext data-fittext-max="14">
+        <div class="col-sm-10 col-xs-6 headline">
             Here's what you need to know about streaming {{ cs.title }}.
         </div>
     </div>
@@ -18,7 +18,7 @@
     <table>
         <thead>
 
-        <tr data-fittext>
+        <tr>
 
             <th>
                 DATE
@@ -41,7 +41,7 @@
 
         </tr>
         </thead>
-        <tbody data-fittext>
+        <tbody>
 
         <tr class="" ng-repeat="game in schedule.data" >
             <td class="game-date">
@@ -59,7 +59,7 @@
                 </div>
             </td>
             <td class="">
-                {{ game.result_time.time }}
+                {{ game.result_time.time || "played" }}
             </td>
             <td class="">
             <span ng-repeat="name in game.result_time.network" class="net-name">

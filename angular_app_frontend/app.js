@@ -45,7 +45,6 @@ var app = angular.module('myApp', [
     'environment',
     'ui.router.metatags',
     'ngStorage',
-    'ngFitText',
 ])
 
 

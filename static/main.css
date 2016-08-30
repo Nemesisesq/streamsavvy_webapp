@@ -3916,7 +3916,8 @@ thead th {
 table {
   margin: 0 auto;
   max-width: 100%;
-  table-layout: fixed; }
+  table-layout: fixed;
+  width: 95%; }
   table td {
     text-align: center; }
 
@@ -3942,7 +3943,8 @@ sport-streaming-suggestion .schedule div img {
     padding-left: 30px;
     padding-right: 0; }
   table {
-    font-size: 9px; } }
+    font-size: 9px;
+    width: 100%; } }
 
 .team-logo {
   height: 100%; }

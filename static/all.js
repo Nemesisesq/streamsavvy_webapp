@@ -45,7 +45,6 @@ var app = angular.module('myApp', [
     'environment',
     'ui.router.metatags',
     'ngStorage',
-    'ngFitText',
 ])
 
 
@@ -2073,6 +2072,7 @@ app.factory('Utils', function(){
     }
 })
 
+
 app.controller('CheckoutController', function ($scope, $state, $http, $timeout, $filter, PackageFactory, refreshPackageService, $window, $q) {
 
     $('div').css('max-width', window.innerWidth)
@@ -2199,7 +2199,6 @@ app.controller('FeedbackCtrl', function ($scope) {
 
     }
 })
-
 /**
  * Created by Nem on 10/7/15.
  */
@@ -2555,6 +2554,186 @@ $(document).ready(function () {
     //}
 });
 
+app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
+
+    //$scope.login = 'Click Here to Login'
+
+    var modalOpen = false
+
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $rootScope.openLogInModal = _.debounce(function () {
+        if (modalOpen) return;
+
+
+        modalOpen = true;
+
+
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '/static/partials/modal.html',
+            controller: 'ModalInstanceController',
+            size: 'sm',
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+
+
+        modalInstance.result.then(function (selectedItem) {
+
+
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+
+            modalOpen = false
+
+            $rootScope.$broadcast('login.modal.closed')
+
+        });
+    }, 500);
+
+    loginEventService.listen($rootScope.openLogInModal)
+    //if ($rootScope.currentStep == 3) {
+    //    $rootScope.openLogInModal()
+    //}
+});
+
+app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window, PackageFactory, sInfo) {
+
+    $scope.socialLogin = true;
+
+    var pkg = PackageFactory.getPackage()
+
+    $scope.auth = {
+        twitter: $('#twitter_login').attr('href') + '?pkg=' + pkg.url,
+        facebook: $('#facebook_login').attr('href')+ '?pkg=' + pkg.url + '&anon_user=' + window.sessionStorage.anon_user,
+    }
+
+    $scope.credentials = {}
+
+
+    $('body').on('click', '#facebook_social_auth', function () {
+
+        mixpanel.track('Authentication', {
+            "id": 4.1,
+            "event": "facebook_social",
+            "method": "email",
+            "user": $window.sessionStorage.user
+
+        })
+            window.sessionStorage.pkg = pkg
+    })
+
+
+    $scope.login = function (credentials) {
+        //credentials.next = "/api/";
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Log in";
+        credentials.username = credentials.email;
+        $window.sessionStorage.user = {"email": credentials.email}
+        http.login(credentials)
+            .then(function (data) {
+                mixpanel.track('Authentication', {
+                    "id": 4.2,
+                    "event": "login",
+                    "method": "email",
+                    "user": $window.sessionStorage.user
+                })
+
+                $rootScope.logged_in = true;
+                $modalInstance.close();
+                growl.success('Login Successful', {
+                    onclose: function () {
+
+                        window.location.reload()
+
+                    },
+                    ttl: 1000,
+                    disableCountDown: true
+                })
+
+            }, function (err) {
+
+                if (err.data.hasOwnProperty('username')) {
+
+                    growl.error('username is required')
+                }
+
+                if (err.data.hasOwnProperty('non_field_errors')) {
+                    growl.error(err.data.non_field_errors[0])
+                }
+
+                $scope.credentials = {}
+            })
+        $scope.credentials = {}
+    };
+
+    $scope.register = function (credentials) {
+        //credentials.next = "/api/";
+
+        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
+        credentials.submit = "Register";
+        credentials.username = credentials.email;
+        credentials.package = PackageFactory.getPackage().url;
+
+
+        if (credentials.password == credentials.confirm_password) {
+
+
+            http.register(credentials)
+                .then(function (data) {
+                    $window.sessionStorage.user = {"email": credentials.email}
+
+                    mixpanel.track('Authentication', {
+                        "id": 4.3,
+                        "event": "register",
+                        "method": "email",
+                        "user": $window.sessionStorage.user
+                    })
+
+                    $window.sessionStorage.reg_pkg_id = data.data.pkg
+
+                    growl.success('Registration Successful')
+                    $modalInstance.close()
+                    sInfo.broadcast()
+                    window.location.reload()
+                }, function (err) {
+
+                    if (err.status == 500) {
+                        growl.error(err.data.detail)
+                    } else if (err.hasOwnProperty('data')) {
+                        growl.error(err.data.username[0])
+
+                    } else if (err.data.hasOwnProperty('non_field_errors')) {
+                        growl.error(err.data.non_field_errors[0])
+                    }
+                    $scope.credentials = {}
+                })
+        } else {
+            growl.error("passwords don't match")
+        }
+    };
+
+
+    $scope.items = items;
+
+    $scope.selected = {
+        item: $scope.items[0]
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel')
+    }
+
+})
+
 app.controller('ProgressController', function ($scope, $state, $rootScope, $location, PackageFactory, $interval) {
 
     var package = PackageFactory.getPackage();
@@ -2875,186 +3054,6 @@ app.directive('search', function () {
         templateUrl: '/static/partials/search.html',
         controller: 'search'
     }
-})
-
-app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
-
-    //$scope.login = 'Click Here to Login'
-
-    var modalOpen = false
-
-    $scope.items = ['item1', 'item2', 'item3'];
-
-    $rootScope.openLogInModal = _.debounce(function () {
-        if (modalOpen) return;
-
-
-        modalOpen = true;
-
-
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: '/static/partials/modal.html',
-            controller: 'ModalInstanceController',
-            size: 'sm',
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
-
-
-        modalInstance.result.then(function (selectedItem) {
-
-
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-
-            modalOpen = false
-
-            $rootScope.$broadcast('login.modal.closed')
-
-        });
-    }, 500);
-
-    loginEventService.listen($rootScope.openLogInModal)
-    //if ($rootScope.currentStep == 3) {
-    //    $rootScope.openLogInModal()
-    //}
-});
-
-app.controller('ModalInstanceController', function ($scope, $rootScope, $modalInstance, items, $location, $cookies, http, growl, $window, PackageFactory, sInfo) {
-
-    $scope.socialLogin = true;
-
-    var pkg = PackageFactory.getPackage()
-
-    $scope.auth = {
-        twitter: $('#twitter_login').attr('href') + '?pkg=' + pkg.url,
-        facebook: $('#facebook_login').attr('href')+ '?pkg=' + pkg.url + '&anon_user=' + window.sessionStorage.anon_user,
-    }
-
-    $scope.credentials = {}
-
-
-    $('body').on('click', '#facebook_social_auth', function () {
-
-        mixpanel.track('Authentication', {
-            "id": 4.1,
-            "event": "facebook_social",
-            "method": "email",
-            "user": $window.sessionStorage.user
-
-        })
-            window.sessionStorage.pkg = pkg
-    })
-
-
-    $scope.login = function (credentials) {
-        //credentials.next = "/api/";
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Log in";
-        credentials.username = credentials.email;
-        $window.sessionStorage.user = {"email": credentials.email}
-        http.login(credentials)
-            .then(function (data) {
-                mixpanel.track('Authentication', {
-                    "id": 4.2,
-                    "event": "login",
-                    "method": "email",
-                    "user": $window.sessionStorage.user
-                })
-
-                $rootScope.logged_in = true;
-                $modalInstance.close();
-                growl.success('Login Successful', {
-                    onclose: function () {
-
-                        window.location.reload()
-
-                    },
-                    ttl: 1000,
-                    disableCountDown: true
-                })
-
-            }, function (err) {
-
-                if (err.data.hasOwnProperty('username')) {
-
-                    growl.error('username is required')
-                }
-
-                if (err.data.hasOwnProperty('non_field_errors')) {
-                    growl.error(err.data.non_field_errors[0])
-                }
-
-                $scope.credentials = {}
-            })
-        $scope.credentials = {}
-    };
-
-    $scope.register = function (credentials) {
-        //credentials.next = "/api/";
-
-        credentials.csrfmiddlewaretoken = $cookies.get('csrftoken');
-        credentials.submit = "Register";
-        credentials.username = credentials.email;
-        credentials.package = PackageFactory.getPackage().url;
-
-
-        if (credentials.password == credentials.confirm_password) {
-
-
-            http.register(credentials)
-                .then(function (data) {
-                    $window.sessionStorage.user = {"email": credentials.email}
-
-                    mixpanel.track('Authentication', {
-                        "id": 4.3,
-                        "event": "register",
-                        "method": "email",
-                        "user": $window.sessionStorage.user
-                    })
-
-                    $window.sessionStorage.reg_pkg_id = data.data.pkg
-
-                    growl.success('Registration Successful')
-                    $modalInstance.close()
-                    sInfo.broadcast()
-                    window.location.reload()
-                }, function (err) {
-
-                    if (err.status == 500) {
-                        growl.error(err.data.detail)
-                    } else if (err.hasOwnProperty('data')) {
-                        growl.error(err.data.username[0])
-
-                    } else if (err.data.hasOwnProperty('non_field_errors')) {
-                        growl.error(err.data.non_field_errors[0])
-                    }
-                    $scope.credentials = {}
-                })
-        } else {
-            growl.error("passwords don't match")
-        }
-    };
-
-
-    $scope.items = items;
-
-    $scope.selected = {
-        item: $scope.items[0]
-    }
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-    }
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel')
-    }
-
 })
 
 /**
@@ -3609,94 +3608,6 @@ app.directive('sportStreamingSuggestion', function (_, $http, PackageFactory, $w
     }
 })
 
-app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
-
-    $scope.hello = 'world';
-
-    var ssPackage = PackageFactory.getPackage();
-    $scope.pkg = PackageFactory.getPackage();
-    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
-
-
-    function check_if_on_sling(obj) {
-
-        if (obj.chan.on_sling) {
-            return true
-        } else if (obj.chan.is_on_sling) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
-    // $scope.payPerShows = [];
-    var updateServices = function () {
-
-        if (ssPackage.hasOwnProperty('data')) {
-
-
-
-
-
-            $scope.listOfServices = undefined;
-            PackageFactory.getServicePanelList(ssPackage)
-                .then(function (data) {
-                    $scope.listOfServices = data.data
-                    return data
-                })
-                .then(function (data) {
-                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
-                        $scope.listOfServices[key].open = true
-                    })
-
-                    return data
-
-                })
-                .then(function (data) {
-
-                    PackageFactory.setListOfServices($scope.listOfServices);
-                });
-
-            PackageFactory.getSonyVueList(ssPackage)
-                .then(function(data){
-                    //We set Sling and Playstation Services on the scope.
-                    $scope.svs = data.data
-                })
-
-            PackageFactory.setListOfServices($scope.listOfServices);
-        }
-    }
-
-    updateServices()
-    $scope.$watchCollection(function () {
-        var _data = PackageFactory.getPackage().data;
-        if (_data != undefined) {
-            return _data.content
-        }
-
-        else {
-            return []
-        }
-
-    }, function () {
-        ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-     $scope.$watchCollection('package.data.sports', function () {
-       ssPackage = PackageFactory.getPackage();
-        $scope.pkg = PackageFactory.getPackage();
-
-        updateServices()
-    })
-
-
-});
-
-
 function interceptor(obj) {
     return obj
 }
@@ -4165,3 +4076,91 @@ app.controller('ModuleController', function ($scope, $http) {
         }
     ]
 })
+
+app.controller('ServicePanelController', function ($scope, $http, $timeout, PackageFactory) {
+
+    $scope.hello = 'world';
+
+    var ssPackage = PackageFactory.getPackage();
+    $scope.pkg = PackageFactory.getPackage();
+    var payPerServices = ['vudu', 'amazon_buy', 'google_play', 'itunes', 'youtube_purchase'];
+
+
+    function check_if_on_sling(obj) {
+
+        if (obj.chan.on_sling) {
+            return true
+        } else if (obj.chan.is_on_sling) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    // $scope.payPerShows = [];
+    var updateServices = function () {
+
+        if (ssPackage.hasOwnProperty('data')) {
+
+
+
+
+
+            $scope.listOfServices = undefined;
+            PackageFactory.getServicePanelList(ssPackage)
+                .then(function (data) {
+                    $scope.listOfServices = data.data
+                    return data
+                })
+                .then(function (data) {
+                    $scope.listOfServices = _.forEach($scope.listOfServices, function (val, key) {
+                        $scope.listOfServices[key].open = true
+                    })
+
+                    return data
+
+                })
+                .then(function (data) {
+
+                    PackageFactory.setListOfServices($scope.listOfServices);
+                });
+
+            PackageFactory.getSonyVueList(ssPackage)
+                .then(function(data){
+                    //We set Sling and Playstation Services on the scope.
+                    $scope.svs = data.data
+                })
+
+            PackageFactory.setListOfServices($scope.listOfServices);
+        }
+    }
+
+    updateServices()
+    $scope.$watchCollection(function () {
+        var _data = PackageFactory.getPackage().data;
+        if (_data != undefined) {
+            return _data.content
+        }
+
+        else {
+            return []
+        }
+
+    }, function () {
+        ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+     $scope.$watchCollection('package.data.sports', function () {
+       ssPackage = PackageFactory.getPackage();
+        $scope.pkg = PackageFactory.getPackage();
+
+        updateServices()
+    })
+
+
+});
+
