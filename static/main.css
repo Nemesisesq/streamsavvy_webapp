@@ -3551,6 +3551,7 @@ img.pointer.show-grid-logo {
   box-shadow: none;
   position: absolute;
   top: 0;
+  left: 0;
   height: 100%;
   margin: 0 auto;
   width: 86%; }
@@ -3925,7 +3926,8 @@ sport-streaming-suggestion .schedule div img {
 
 @media (max-width: 425px) {
   .row {
-    margin: 0; }
+    margin-left: 0;
+    margin-right: 0; }
   .col-sm-12.background.container.schedule {
     padding-left: 30px;
     padding-right: 0; }
@@ -4516,7 +4518,7 @@ mobile-tabs > div {
   display: none;
   position: absolute;
   color: #ed1c24;
-  top: 0%;
+  top: 0;
   right: 0;
   left: 0;
   bottom: 0;
