@@ -195,7 +195,6 @@ app.filter('customSorter', function(){
 app.filter('detailSorter', function() {
     return function (x, y){
 
-        debugger;
 
         var order = ["live", "binge", "on_demand", "ppv"]
         return _.sortBy(x, function (key, value) {

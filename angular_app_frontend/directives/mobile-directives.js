@@ -10,7 +10,6 @@ app.directive('mobileTabs', function ($location, $anchorScroll, $rootScope) {
         link: function (scope) {
 
             scope.mobileCloseOverlay = function () {
-                debugger
 
 
                 $rootScope.$broadcast('close_overlay')

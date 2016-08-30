@@ -116,7 +116,6 @@ app.directive('viewingWindow', function (_, $http, PackageFactory, $window, $tim
                 }
             }
 
-            debugger
 
             $http.get('/service_description/' + scope.service.source)
                 .then(function (data) {
@@ -146,7 +145,6 @@ app.directive('viewingWindow', function (_, $http, PackageFactory, $window, $tim
 
             scope.linkToAffiliate = function () {
 
-                debugger;
 
                 $window.open(scope.service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": scope.service.display_name});
@@ -240,7 +238,6 @@ app.directive('sportStreamingSuggestion', function (_, $http, PackageFactory, $w
                 }
             }
 
-            debugger
 
             $http.get('/service_description/' + scope.service.source)
                 .then(function (data) {
@@ -276,7 +273,6 @@ app.directive('sportStreamingSuggestion', function (_, $http, PackageFactory, $w
 
             scope.linkToAffiliate = function () {
 
-                debugger;
 
                 $window.open(scope.service.details.subscription_link);
                 mixpanel.track("Subscribe to Service", {"service name": scope.service.display_name});

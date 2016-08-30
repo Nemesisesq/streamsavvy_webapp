@@ -8,7 +8,6 @@ app.controller('MobileController', function ($scope) {
     $scope.goodbye = 'nurse'
     $scope.mobileCloseOverlay = function () {
 
-        debugger
 
 
         $scope.$broadcast('close_overlay')

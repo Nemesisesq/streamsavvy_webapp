@@ -1,4 +1,8 @@
 @media(max-width: 767px) {
+
+  .sport-cat {
+    margin-bottom: 5px;
+  }
   body.background.container.ng-scope.no-scroll.gradient-background {
     overflow: scroll;
   }
@@ -28,7 +32,7 @@
     border-radius: 4px;
     //padding-left: 5px;
     //padding-right: 5px;
-    margin-bottom: 5px;
+    //margin-bottom: 5px;
   }
 
   #search-and-shows {
@@ -103,11 +107,10 @@ mobile-tabs {
   left: 0;
   bottom: 0;
 
- line-height: 55px;
-    font-size: 40px;
+  line-height: 55px;
+  font-size: 40px;
 
   z-index: 1000;
-
 
 }
 

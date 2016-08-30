@@ -100,7 +100,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
                 })
                 .then(function (data) {
                     $scope.popularShows = unchosenFilter(masterPopShows, $scope)
-                    debugger
 
 
                     getNextPopularShows()
@@ -112,7 +111,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     var openingDetail = false
 
     $scope.removeShow = function (show, $event) {
-        debugger
         var pkg = PackageFactory.getPackage()
 
         $q.when($($event.currentTarget).parent().fadeOut)
@@ -154,7 +152,6 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
 
             $http.post('/node-data/detailsources', cs)
                 .then(function (data) {
-                    debugger;
                     $scope.detailSources = data.data
                 })
         }
@@ -368,6 +365,12 @@ app.controller('ShowGridController', function ($scope, $rootScope, $q, $http, $t
     $scope.$on('close_overlay', $scope.hideDetail);
 
     $('div').css('max-width', window.innerWidth)
+
+    var bgh =$('#bg-img').height()
+    var bgw =$('#bg-img').width()
+
+    $('#bg-img + img').height(bgh)
+    $('#bg-img + img').width(bgw)
 
 
     $scope.$watch(function () {

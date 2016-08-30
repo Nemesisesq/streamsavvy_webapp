@@ -115,7 +115,6 @@ app.controller('search', function ($scope, $rootScope, $http, $window, http, Pac
 
 
             if (suggestion.category) {
-                debugger;
                 suggestion.justAdded = true;
                 ssPackage.data.content.push(suggestion);
 

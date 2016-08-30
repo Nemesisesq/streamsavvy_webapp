@@ -159,7 +159,7 @@ img.pointer.show-grid-logo  {
   box-shadow: none;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 15px;
   height: 100%;
   margin: 0 auto;
   width: 86%;
@@ -167,7 +167,15 @@ img.pointer.show-grid-logo  {
 
 
 img.pointer.ncaa-background {
-  opacity: .2;
+  opacity: .5;
+  //-webkit-filter: blur(1px);
+
+  &:before{
+    background: white;
+    content: ' ';
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .sport-tile {
@@ -179,3 +187,12 @@ img.pointer.ncaa-background {
     display: none
   }
 }
+
+
+.img-mask {
+  background: white;
+
+  border-radius: 4px;
+
+}
+
