@@ -9,7 +9,6 @@
 }
 
 .h1-row {
-  display: table;
   padding-top: 80px;
 }
 
@@ -46,6 +45,10 @@
   div#mainPage {
     margin-left: 0;
     //min-height: 100vh;
+  }
+
+  .h1-row {
+    display: table;
   }
 }
 
@@ -456,9 +459,9 @@ div[ui-view="home"] {
     overflow: scroll;
   }
 
- section-four section{
-   min-height: 60vh;
- }
+  section-four section {
+    min-height: 60vh;
+  }
 }
 
 #myCarousel {
@@ -485,7 +488,6 @@ search {
     .show-input {
       width: 100%;
     }
-
 
   }
 

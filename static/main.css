@@ -2442,7 +2442,6 @@ div[ng-show] {
   background-image: linear-gradient(to bottom, rgba(69, 167, 229, 0.1), rgba(208, 2, 27, 0.1)), linear-gradient(#15191b, #15191b); }
 
 .h1-row {
-  display: table;
   padding-top: 80px; }
 
 .home-imgs {
@@ -2467,7 +2466,9 @@ div[ng-show] {
 
 @media (max-width: 768px) {
   div#mainPage {
-    margin-left: 0; } }
+    margin-left: 0; }
+  .h1-row {
+    display: table; } }
 
 @media (max-width: 456px) {
   .content-wrapper .h1-row .h1-col h1.white {
