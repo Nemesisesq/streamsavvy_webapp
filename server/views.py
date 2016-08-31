@@ -1,4 +1,5 @@
 import json
+import logging
 import time
 import urllib
 import urllib.parse
@@ -31,6 +32,8 @@ from server.serializers import HardwareSerializer, ChannelSerializer, \
 from server.shortcuts import api_json_post, try_catch
 from streamsavvy_webapp.settings import get_env_variable
 
+
+logger = logging.getLogger(__name__)
 
 def get_sign_up_token(user):
     jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -105,15 +108,14 @@ class SignUp(generics.CreateAPIView):
 
             if not token:
                 response = self.create(request, *args, **kwargs)
-                return response
+                token = create_jwt(credentials)
+                return Response({"token": str(token)}, status=status.HTTP_201_CREATED)
 
 
 
             return Response({"token": str(token)}, status=status.HTTP_200_OK)
         except Exception as e:
-            response = self.create(request, *args, **kwargs)
-
-        return response
+            logger.error(e)
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)

@@ -36,7 +36,7 @@ def login_view(request, the_json):
         return JsonResponse({'error': 'this user does not exsist'})
 
 
-def create_jwt(the_json):
+def create_jwt(the_json, *args, **kwargs):
     username = the_json['username']
     password = the_json['password']
 

@@ -27,7 +27,7 @@ def User_pre_save(sender, **kwargs):
 
     if not email: raise EmailRequired()
 
-    if sender.objects.filter(email=email).exclude(username=username).count():
+    if sender.objects.filter(email=email).exclude(username=username).count() > 1:
         raise EmailNotUnique()
 
 class AnonymousUser(User):
