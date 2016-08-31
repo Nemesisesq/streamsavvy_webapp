@@ -99,6 +99,12 @@ class SignUp(generics.CreateAPIView):
                     'email': request.POST['email'],
                     'password': request.POST['password']
                 }
+            elif 'username' in request._data:
+                credentials = {
+                    'username': request._data['username'],
+                    'email': request._data['email'],
+                    'password': request._data['password']
+                }
 
             else:
 
