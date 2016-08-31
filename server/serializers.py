@@ -32,7 +32,7 @@ class SignUpSerializer(serializers.ModelSerializer):
         credentials = model_to_dict(instance)
         token = create_jwt(credentials)
 
-        return credentials
+        return token
 
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():

@@ -42,6 +42,8 @@ def create_jwt(the_json):
 
     user = authenticate(username=username, password=password)
 
+    if not user:
+        return False
     user_dict = model_to_dict(user,
                               fields=['created', 'email', 'username', 'password'])
 

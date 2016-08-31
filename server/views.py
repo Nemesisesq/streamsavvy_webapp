@@ -87,7 +87,6 @@ class SignUp(generics.CreateAPIView):
     serializer_class = SignUpSerializer
     permission_classes = (IsAuthenticatedOrCreate,)
 
-
     def post(self, request, *args, **kwargs):
         try:
 
@@ -100,17 +99,21 @@ class SignUp(generics.CreateAPIView):
 
             else:
 
-
                 credentials = json.loads(str(request.body, encoding='utf-8'))
 
             token = create_jwt(credentials)
+
+            if not token:
+                response = self.create(request, *args, **kwargs)
+                return response
+
+
+
             return Response({"token": str(token)}, status=status.HTTP_200_OK)
         except Exception as e:
             response = self.create(request, *args, **kwargs)
 
         return response
-
-
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
