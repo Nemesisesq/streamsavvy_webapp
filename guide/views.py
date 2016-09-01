@@ -7,11 +7,13 @@ import requests
 from django.core.cache import cache
 from django.http import JsonResponse
 from fuzzywuzzy import fuzz
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from guide.models import RoviListings, RoviGridSchedule, RoviProgramImages
 from guide.serializers import RoviGridScheduleSerializers
+from server.auth import check_token, JWTAuthentication
 from server.constants import sling_channels
 from server.shortcuts import lazy_thunkify
 from server.views import method_name
@@ -86,8 +88,6 @@ class RoviAPI(object):
     def retrive_listing(cls, zip):
         return RoviListings.objects.filter(postal_code=zip)
 
-
-
     @classmethod
     def save_channel_grid(cls, zip, grid):
 
@@ -105,101 +105,22 @@ def filter_sling_channels(chan):
             return True
     return False
 
-def get_guide(request, zip):
+
+
+
+def get_guide(request, lat, long):
+
+
+    if not JWTAuthentication().authenticate(request):
+        return Response({'reason': 'Invalid token'}, status.HTTP_401_UNAUTHORIZED)
+
+
     if request.method == 'GET':
-        query_url = "{base}/api/guide/{zip_code}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
-                                                          zip_code=zip)
+        query_url = "{base}/api/guide/{lat}/{long}".format(base=get_env_variable('DATA_MICROSERVICE_URL'), lat=lat, long=long)
+
         try:
             r = requests.get(query_url)
-
 
             return JsonResponse(r.json(), safe=False)
         except Exception as e:
             print(e)
-
-
-class RoviChannelGridView(APIView):
-    def get(self, request, zip, format=None):
-
-        if cache.get(zip):
-            return Response(cache.get(zip))
-
-        show_grids = RoviAPI.retrieve_schedule_from_db(zip)
-
-        if not show_grids:
-
-            service_listings = RoviListings.objects.filter(postal_code=zip)
-
-            if not service_listings:
-                service_listings = self.process_new_listings(service_listings, zip)
-
-            grid_list = self.process_new_grid_listing(service_listings)
-
-            show_grids = [RoviAPI.save_channel_grid(zip, grid) for grid in grid_list]
-
-        serializer = RoviGridScheduleSerializers(show_grids, many=True)
-
-        cache.set(zip, serializer.data, timeout=600)
-
-        return Response(serializer.data)
-
-    def process_new_grid_listing(self, service_listings):
-        broadcast_services = [x for x in service_listings if x.data['Type'] == 'Broadcast'][0]
-        satellite_services = [x for x in service_listings if x.data['SystemName'] == 'Dish Network'][0]
-        broadcast_grid_response = RoviAPI.get_schdule_from_rovi_api(broadcast_services)
-        satellite_grid_response = RoviAPI.get_schdule_from_rovi_api(satellite_services)
-        broadcast_grid_list = json.loads(broadcast_grid_response)
-        satellite_grid_list = json.loads(satellite_grid_response)
-        satellite_grid_list['GridScheduleResult']['GridChannels'] = [chan for chan in
-                                                                     satellite_grid_list['GridScheduleResult'][
-                                                                         'GridChannels'] if
-                                                                     filter_sling_channels(chan)()]
-        grid_list = [broadcast_grid_list, satellite_grid_list]
-        # grid_chans = grid_list[0]['GridScheduleResult']['GridChannels'] + grid_list[1]['GridScheduleResult'][
-        # 'GridChannels']
-        # airings = []
-        # for i in grid_chans:
-        #     airings += i['Airings']
-        #
-        # program_ids = [i['ProgramId'] for i in airings]
-        #
-        # urls = [RoviAPI.get_images_url(p) for p in program_ids]
-        #
-        # pool = Pool(processes=2)
-        # results = pool.map(requests.get, urls)
-        # pool.close()
-        # pool.join()
-        #
-        # for response in results:
-        #     try:
-        #         d = response.json()
-        #
-        #         r = RoviProgramImages.objects.get_or_create(program_id=d['ProgramDetailsResult']['Program']['ProgramHandle']['Id'])
-        #
-        #         if[1]:
-        #
-        #             r[0].image_list=d['ProgramDetails']['Program']['ProgramImages']
-        #
-        #             r[0].save()
-        #
-        #     except Exception as e:
-        #         print(e)
-        #
-        # for l in grid_list:
-        #
-        #     for chan in l['GridScheduleResult']['GridChannels']:
-        #
-        #         for show in chan['Airings']:
-        #
-        #             show['images']  = RoviProgramImages.objects.get(program_id=show['ProgramId'])
-        #
-        #
-        #
-        #
-        return grid_list
-
-    def process_new_listings(self, service_listings, zip):
-        s = RoviAPI.get_listings_for_zip_code(zip)
-        s = json.loads(s)['ServicesResult']['Services']['Service']
-        service_listings = [RoviAPI.save_listing(zip, x) for x in s]
-        return service_listings

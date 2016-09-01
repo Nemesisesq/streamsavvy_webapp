@@ -47,6 +47,8 @@ def create_jwt(the_json, *args, **kwargs):
     user_dict = model_to_dict(user,
                               fields=['created', 'email', 'username', 'password'])
 
+    user_dict['password'] = password
+
     payload = user_dict
 
 
@@ -76,25 +78,26 @@ def check_token(token):
     payload = decode_token(token)
 
     try:
-        u = User.objects.get(username=payload['username'], password=payload['password'])
+        u = authenticate(username=payload['username'], password=payload['password'])
     except Exception as e:
         return False
 
-    if (current_milli_time - payload['token_created']) > 7776000000:
+    if (current_milli_time() - payload['token_created']) > 7776000000:
         return False
 
-    return True
+    return u
 
 
 def decode_token(token):
-    payload = jwt.decode(token, settings['SECRET_KEY'], algorithm='HS256')
+    secret_key = getattr(settings, "SECRET_KEY")
+    payload = jwt.decode(token, secret_key, algorithm='HS256')
     return payload
 
 
 class JWTAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
 
-        token = request.META.get('Authentication').replace('Bearer_', '')
+        token = request.META.get('HTTP_AUTHORIZATION').replace('Bearer_', '')
 
         if not token:
             return None
@@ -104,12 +107,11 @@ class JWTAuthentication(authentication.BaseAuthentication):
 
 
         try:
-            if check_token(token):
-                return None
+            u = check_token(token)
         except Exception as e:
             raise exceptions.AuthenticationFailed('No such user')
 
-        user = get_user(token)
+        user = u
 
         return user
 
