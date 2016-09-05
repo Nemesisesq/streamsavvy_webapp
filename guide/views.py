@@ -110,9 +110,9 @@ def filter_sling_channels(chan):
 
 def get_guide(request, lat, long):
 
-    #  TODO re-enable JWT Checking
-    # if not JWTAuthentication().authenticate(request):
-    #     return Response({'reason': 'Invalid token'}, status.HTTP_401_UNAUTHORIZED)
+
+    if not JWTAuthentication().authenticate(request):
+        return Response({'reason': 'Invalid token'}, status.HTTP_401_UNAUTHORIZED)
 
 
     if request.method == 'GET':
