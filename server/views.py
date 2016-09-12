@@ -122,6 +122,7 @@ class SignUp(generics.CreateAPIView):
             return Response({"token": str(token)}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(e)
+            return Response({"error": "User alread Exists or Password Invalid "}, status=status.HTTP_403_UNAUTHORIZED)
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
