@@ -6,10 +6,34 @@ from django.http import JsonResponse
 from rest_framework import authentication, exceptions
 
 from django.conf import settings
+from social.apps.django_app.default.models import UserSocialAuth
 
 __author__ = 'Nem'
 from django.contrib.auth import authenticate, login
 from server.shortcuts import api_json_post
+from social.apps.django_app.utils import psa
+
+
+@psa('social:complete')
+def register_by_access_token(request, backend):
+    # This view expects an access_token GET parameter, if it's needed,
+    # request.backend and request.strategy will be loaded with the current
+    # backend and strategy.
+    token = request.GET.get('access_token')
+    user = request.backend.do_auth(token)
+    if user:
+        login(request, user)
+
+        social = user.social_auth
+
+        jwt_token = create_token('', user, social=social)
+
+        return jwt_token
+    else:
+        return 'ERROR'
+
+
+
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
@@ -31,7 +55,7 @@ def login_view(request, the_json):
                                       "severity": "success"}
                                  ]})
         else:
-            return JsonResponse({'error': 'there seemes to be a problem with your username or password'})
+            return JsonResponse({'error': 'there seems to be a problem with your username or password'})
     else:
         return JsonResponse({'error': 'this user does not exsist'})
 
@@ -44,21 +68,21 @@ def create_jwt(the_json, *args, **kwargs):
 
     if not user:
         return False
+    return create_token(password, user)
+
+
+def create_token(password, user, *args, **kwargs):
     user_dict = model_to_dict(user,
                               fields=['created', 'email', 'username', 'password'])
-
     user_dict['password'] = password
 
+    if kwargs:
+        user_dict['social'] = kwargs['social']
     payload = user_dict
-
-
     time = current_milli_time()
     payload['token_created'] = time
-
     secret_key = getattr(settings, "SECRET_KEY")
-
-    token = jwt.encode(payload, secret_key , algorithm='HS256').decode('utf-8')
-
+    token = jwt.encode(payload, secret_key, algorithm='HS256').decode('utf-8')
     return token
 
 
@@ -73,13 +97,16 @@ def get_user(token):
     return u
 
 
-
 def check_token(token):
     payload = decode_token(token)
 
     try:
-        u = authenticate(username=payload['username'], password=payload['password'])
+        if 'social' in payload:
+            u = UserSocialAuth.objects.get(uid=payload['social']['uid'])
+        else:
+            u = authenticate(username=payload['username'], password=payload['password'])
     except Exception as e:
+
         return False
 
     if (current_milli_time() - payload['token_created']) > 7776000000:
@@ -102,7 +129,6 @@ class JWTAuthentication(authentication.BaseAuthentication):
         if not token:
             return None
 
-
         # TODO some duplication in here but it's acceptable.
 
 
@@ -114,4 +140,3 @@ class JWTAuthentication(authentication.BaseAuthentication):
         user = u
 
         return user
-

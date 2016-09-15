@@ -51,7 +51,8 @@ urlpatterns = [
     url(r'^social/', include('social.apps.django_app.urls', namespace='social')),
     url(r'^django-rq', include('django_rq.urls')),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-    url(r'^api/guide/(?P<lat>\d{1,2}\.\d{1,20})/(?P<long>-?\d{1,3}\.\d{1,20})', get_guide, name='rovi_channel_grid_view'),
+    url(r'^api/guide/(?P<lat>\d{1,2}\.\d{1,20})/(?P<long>-?\d{1,3}\.\d{1,20})', get_guide,
+        name='rovi_channel_grid_view'),
     url(r'^api/search', call_search_microservice, name='search'),
     url(r'^node-data/(?P<path>\w+)', get_service_list, name='service_list'),
     url(r'^service_description/(?P<service>\w+)', get_service_description, name='service_description'),
@@ -61,4 +62,6 @@ urlpatterns = [
     url(r'^schedule/(?P<sport_id>\d+)', get_sport_schedule, name='sport_schedule'),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^get_token/', create_jwt, name='create_jwt'),
+    url(r'^check_token/', check_token, name='check_token'),
+    url(r'^register-by-token/(?P<backend>[^/]+)/$', register_by_access_token)
 ]
