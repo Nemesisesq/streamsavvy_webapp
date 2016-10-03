@@ -23,11 +23,12 @@ class SignUpSerializer(serializers.ModelSerializer):
             pkg = Package.objects.get(pk=pkg_id)
             anon_user = pkg.owner
             print(instance)
+            instance.save()
             new_pkg = Package.objects.create(owner=instance)
             new_pkg.data = pkg.data
             new_pkg.save()
 
-        instance.save()
+
 
         credentials = model_to_dict(instance)
         credentials['password'] = password

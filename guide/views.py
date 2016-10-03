@@ -21,7 +21,7 @@ from streamsavvy_webapp.settings import get_env_variable
 
 
 class RoviAPI(object):
-    api_key = 'p3nh3333exq3umj9ka8uqhee'
+    api_key = '9d4zzdxbzvguqgykwjnz2g7n'
     BASE_URL = 'http://api.rovicorp.com/TVlistings/v9/listings/'
 
     @classmethod
@@ -111,8 +111,8 @@ def filter_sling_channels(chan):
 def get_guide(request, lat, long):
 
 
-    if not JWTAuthentication().authenticate(request):
-        return Response({'reason': 'Invalid token'}, status.HTTP_401_UNAUTHORIZED)
+    # if not JWTAuthentication().authenticate(request):
+    #     return Response({'reason': 'Invalid token'}, status.HTTP_401_UNAUTHORIZED)
 
 
     if request.method == 'GET':
