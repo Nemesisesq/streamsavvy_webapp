@@ -2251,23 +2251,6 @@ $(document).ready(function () {
 })
 
 /**
- * Created by Nem on 8/29/16.
- */
-
-
-app.controller('MobileController', function ($scope) {
-
-    $scope.goodbye = 'nurse'
-    $scope.mobileCloseOverlay = function () {
-
-
-
-        $scope.$broadcast('close_overlay')
-
-    }
-})
-
-/**
  * Created by chirag on 8/3/15.
  */
 app.controller('HomeController', function ($scope, $http, http, $cookies, $location, $window) {
@@ -2327,6 +2310,23 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
     }]).directive('carousel', [function () {
     return {}
 }]);
+
+/**
+ * Created by Nem on 8/29/16.
+ */
+
+
+app.controller('MobileController', function ($scope) {
+
+    $scope.goodbye = 'nurse'
+    $scope.mobileCloseOverlay = function () {
+
+
+
+        $scope.$broadcast('close_overlay')
+
+    }
+})
 
 app.controller('ModalController', function ($scope, http, $uibModal, $log, $rootScope, $timeout, loginEventService) {
 
