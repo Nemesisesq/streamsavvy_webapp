@@ -32,8 +32,8 @@ from server.serializers import HardwareSerializer, ChannelSerializer, \
 from server.shortcuts import api_json_post, try_catch
 from streamsavvy_webapp.settings import get_env_variable
 
-
 logger = logging.getLogger(__name__)
+
 
 def get_sign_up_token(user):
     jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -84,6 +84,7 @@ def get_packages(user):
 
     return package
 
+
 def check_token_is_valid():
     pass
 
@@ -119,8 +120,6 @@ class SignUp(generics.CreateAPIView):
                 response = self.create(request, *args, **kwargs)
                 token = create_jwt(credentials)
                 return Response({"token": str(token)}, status=status.HTTP_201_CREATED)
-
-
 
             return Response({"token": str(token)}, status=status.HTTP_200_OK)
         except Exception as e:
@@ -284,7 +283,7 @@ def call_search_microservice(request):
         sports_query = "{base}/search_sports/?{params}".format(base=get_env_variable('DATA_MICROSERVICE_URL'),
                                                                params=urllib.parse.urlencode({'q': request.GET['q']}))
         urls = [query_url]
-        urls = [sports_query, query_url]  # TODO Uncomment when there is more data to support sports
+        # urls = [sports_query, query_url]  # TODO Uncomment when there is more data to support sports
 
         pool = Pool(processes=len(urls))
         results = pool.map(requests.get, urls)
