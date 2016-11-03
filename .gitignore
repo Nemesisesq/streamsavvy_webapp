@@ -205,3 +205,7 @@ fabric.properties
 /freq_serv_by_show.csv
 /freq_shows_in_package.csv
 /latest.dump
+/db.json
+/dbtransaction.log
+/Data Processing Aug,15, 2016.ipynb
+/mysite.log
