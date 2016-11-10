@@ -209,3 +209,8 @@ fabric.properties
 /dbtransaction.log
 /Data Processing Aug,15, 2016.ipynb
 /mysite.log
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
