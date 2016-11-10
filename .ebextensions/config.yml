@@ -1,0 +1,7 @@
+---
+option_settings:
+  ? "aws:elasticbeanstalk:container:python"
+  : "WSGIPath:streamsavvy_webapp/wsgi.py"
+packages:
+  yum:
+    postgresql94-devel: []
