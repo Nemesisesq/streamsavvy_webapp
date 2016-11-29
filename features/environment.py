@@ -31,18 +31,18 @@ def before_feature(context, feature):
     if 'guidebox' in feature.tags:
         context.guidebox = GuideBox()
 
-
-def before_scenario(context, scenario):
-    if 'real_db' not in scenario.tags:
-        context.runner.setup_test_environment()
-
-        context.old_db_config = context.runner.setup_databases()
-
-def after_scenario(context, scenario):
-    if 'real_db' not in scenario.tags:
-        context.runner.teardown_databases(context.old_db_config)
-
-        context.runner.teardown_test_environment()
+#
+# def before_scenario(context, scenario):
+#     if 'real_db' not in scenario.tags:
+#         # context.runner.setup_test_environment()
+#
+#         context.old_db_config = context.runner.setup_databases()
+#
+# def after_scenario(context, scenario):
+#     if 'real_db' not in scenario.tags:
+#         context.runner.teardown_databases(context.old_db_config)
+#
+#         context.runner.teardown_test_environment()
 
 def after_tag(context, tag):
     if tag == 'browser':

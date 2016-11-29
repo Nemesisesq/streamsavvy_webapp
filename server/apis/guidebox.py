@@ -50,6 +50,17 @@ class GuideBox(object):
 
     # def __init__(self):
 
+    def get_new_shows(self, time):
+        new_show_url = "{BASE_URL}/updates/shows/new/{last_process_time}?limit=1&page={page}".format(BASE_URL=self.BASE_URL,
+                                                                                                   last_process_time=time,
+                                                                                                   page=1)
+        try:
+            with urllib.request.urlopen(new_show_url) as exact_response:
+                the_json = json.loads(exact_response.read().decode('utf-8'))
+            return the_json
+        except:
+            pass
+
     def get_total_number_of_shows(self, **kwargs):
         response = self.get_content_list(0, **kwargs)
         dict = json.loads(response)

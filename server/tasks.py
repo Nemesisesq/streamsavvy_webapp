@@ -1,3 +1,4 @@
+import datetime
 import json
 
 import django_rq
@@ -23,6 +24,16 @@ def inital_database_population_of_content():
             result.append(show)
 
     return result
+
+def refresh_database(d):
+    g = GuideBox()
+    q = django_rq.get_queue('high')
+
+    last = datetime.date(2016,1,1)
+    milis = time.mktime(last.timetuple())
+    milis = int(milis)
+    new_shows = g.get_new_shows(milis)
+    # for i in range
 
 
 def inital_database_population_of_channels():
