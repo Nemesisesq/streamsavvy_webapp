@@ -1,3 +1,5 @@
+import string
+
 import pandas as pd
 import time
 import redis
@@ -7,13 +9,28 @@ import logging
 from server.models import Content
 
 logger = logging.getLogger('cutthecord')
+class StringTemplate(object):
+    orig = ''
+    def __init__(self, template):
+        self.template = string.Template(template)
+        self.partial_substituted_str = None
+
+    def __repr__(self):
+        return self.orig.safe_substitute()
+
+    def format(self, *args, **kws):
+        self.partial_substituted_str = self.template.safe_substitute(*args, **kws)
+        self.orig = string.Template(self.partial_substituted_str)
+        return self.__repr__()
+
 
 
 class ContentEngine(object):
-    SIMKEY = 'p:smlr:{}'
+    SIMKEY = StringTemplate('p:${cat}:${id}')
 
     def __init__(self):
         self._r = redis.StrictRedis.from_url('redis://localhost:6379')
+
 
 
     def train(self):
@@ -66,39 +83,56 @@ class ContentEngine(object):
         """
         The dataset for the content needs to be split up in to
         """
-        genres = []
-        for x in ds.detail:
-            self.genre_dict_to_string(genres, x)
 
 
-        ds.genres = pd.Series(genres)
 
 
-        tfid_matrix = tf.fit_transform(ds.genres)
+        collection = [self.category_dicts_to_string(x) for x in ds.detail]
 
+        """
+        Unwind the collection object in to attributes on the ds object
+        """
+
+        collection_data_frame  = pd.DataFrame(collection)
+        # ds.genres = pd.Series(attr_list)
+
+
+        for i in ['genres', 'tags', 'cast']:
+            series = collection_data_frame[i]
+            self.find_and_save_recomendations(series, ds, tf, i)
+
+    def find_and_save_recomendations(self, series, ds, tf, category):
+        tfid_matrix = tf.fit_transform(series)
         cosine_similarities = linear_kernel(tfid_matrix, tfid_matrix)
-
         for idx, row in ds.iterrows():
-            # print(idx, row['title'])
-            self.process_dataset_row(cosine_similarities, ds, idx, row)
+            print(idx, row['title'], row['id'])
+            self.process_dataset_row(cosine_similarities, ds, idx, row, category)
 
-    def process_dataset_row(self, cosine_similarities, ds, idx, row):
+    def process_dataset_row(self, cosine_similarities, ds, idx, row, category):
         similar_indices = cosine_similarities[idx].argsort()[:-100:-1]
         smilar_items = [(cosine_similarities[idx][i], ds['id'][i]) for i in similar_indices]
         flattened = sum(smilar_items[1:], ())
-        self._r.zadd(self.SIMKEY.format(row['id']), *flattened)
+        self._r.zadd(self.SIMKEY.format(cat=category,id=row['id']), *flattened)
 
-    def genre_dict_to_string(self, genres, x):
-        y = []
+    def category_dicts_to_string(self, x):
+        y = {'genres': '', 'tags': '', 'cast': ''}
         if 'genres' in x:
+            z = [c['title'] for c in x['genres']]
+            y['genres'] = " ".join(z)
 
-            for c in x['genres']:
-                y.append(c['title'])
-            genres.append(" ".join(y))
-        else:
-            genres.append("random")
 
-    def predict(self, item_id, num):
+        if 'tags' in x:
+            z = [c['tag'] for c in x['tags']]
+            y['tags'] = " ".join(z)
+
+        if 'cast' in x:
+            z = [c['name'] for c in x['cast']]
+            y['cast'] = " ".join(z)
+
+
+        return y
+
+    def predict(self, category, item_id, num):
         """
         Couldn't be simpler! Just retrieves the similar items and
         their 'score' from redis.
@@ -111,7 +145,7 @@ class ContentEngine(object):
         by similarity score, descending.
         """
 
-        return self._r.zrange(self.SIMKEY.format(item_id),
+        return self._r.zrange(self.SIMKEY.format(cat=category, id=item_id),
                               0,
                               num - 1,
                               withscores=True,
