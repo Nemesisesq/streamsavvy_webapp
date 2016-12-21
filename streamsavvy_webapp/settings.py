@@ -218,12 +218,24 @@ TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'
 
 import dj_database_url
 
-DATABASES = {}
-
-os.environ['DATABASE_URL'] = os.environ['MINEMINE']
-
-DATABASES['default'] = dj_database_url.config(default='postgres://fgroihyrodfasi:LH4ZgcpeinzZnKn9T2B8I2GRyO@ec2-54-221-229-37.compute-1.amazonaws.com:5432/d4v9vao91951pj')
+# DATABASES = {}
+#
+# os.environ['DATABASE_URL'] = os.environ['MINEMINE']
+#
+# DATABASES['default'] = dj_database_url.config(default='postgres://fgroihyrodfasi:LH4ZgcpeinzZnKn9T2B8I2GRyO@ec2-54-221-229-37.compute-1.amazonaws.com:5432/d4v9vao91951pj')
 # DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': get_env_variable('RDS_NAME'),
+        'USER': get_env_variable('RDS_USER'),
+        'PASSWORD': get_env_variable('RDS_PASSWORD'),
+        'HOST': get_env_variable('RDS_HOST'),
+        'PORT': get_env_variable('RDS_PORT')
+    }
+}
+
 
 #############################
 #  CACHES                   #
