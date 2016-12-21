@@ -29,14 +29,14 @@ from server.views import *
 # from titan.views import GuideTestView, guide_reciever
 
 router = routers.DefaultRouter()
-router.register(r'hardware', HardwareViewSet)
+# router.register(r'hardware', HardwareViewSet)
 router.register(r'services', ChannelViewSet)
 router.register(r'content', ContentViewSet)
-router.register(r'package', PackagesViewSet, 'package')
+# router.register(r'package', PackagesViewSet, 'package')
 router.register(r'popular-shows', PopularShowsViewSet, 'popular_shows')
-router.register(r'users', UserViewSet, 'user')
+# router.register(r'users', UserViewSet, 'user')
 # router.register(r'groups', GroupViewSet)
-router.register(r'search', ContentSearchViewSet, 'search')
+# router.register(r'search', ContentSearchViewSet, 'search')
 # router.register(r'packageobj', PackageDetailViewSet, 'packageobj')
 
 urlpatterns = [
