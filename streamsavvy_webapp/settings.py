@@ -219,8 +219,10 @@ TEST_RUNNER = 'django_behave.runner.DjangoBehaveTestSuiteRunner'
 import dj_database_url
 
 DATABASES = {}
+#
+os.environ['DATABASE_URL'] = os.environ['MINEMINE']
 
-DATABASES['default'] = dj_database_url.config(default='postgres://fgroihyrodfasi:LH4ZgcpeinzZnKn9T2B8I2GRyO@ec2-54-221-229-37.compute-1.amazonaws.com:5432/d4v9vao91951pj')
+DATABASES['default'] = dj_database_url.config(default='postgres://nemesisesq:plude007@streamsavvy.cgeyprdcsip8.us-east-1.rds.amazonaws.com:5432/streamsavvy3')
 # DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 #############################
